@@ -1,5 +1,6 @@
 """Physical resolution and execution primitives."""
 
+from infra_joint.runtime.executor import ExecutionResult, RuntimeExecutor
 from infra_joint.runtime.resolver import (
     BindingResolutionError,
     DeterministicResolver,
@@ -7,3 +8,4 @@ from infra_joint.runtime.resolver import (
 )
 
 __all__ = ["BindingResolutionError", "DeterministicResolver", "ResolvedBinding"]
+__all__ += ["ExecutionResult", "RuntimeExecutor"]

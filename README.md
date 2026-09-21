@@ -3,13 +3,17 @@
 Greenfield implementation of an online joint semantic-physical planner for dynamic,
 heterogeneous agent networks.
 
-The repository currently implements the M0 foundation:
+The repository currently implements the M0 contracts and the first M1 execution slice:
 
 - benchmark-facing task and output contracts;
 - static environment and dynamic infrastructure state contracts;
 - typed semantic actions, physical decisions, and finish decisions;
 - a single-source operator registry for planner schemas and runtime handlers;
 - deterministic physical binding with explicit infeasibility errors;
+- a Blind Planner control graph with a mandatory finalization node;
+- HTTP runtime-to-worker execution through FastAPI and httpx;
+- a pluggable model backend with no credential access in the worker;
+- an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
 - contract and runtime invariant tests.
 
