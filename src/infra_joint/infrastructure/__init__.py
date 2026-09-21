@@ -1,5 +1,9 @@
 """Infrastructure observation interfaces."""
 
-from infra_joint.infrastructure.observer import InfrastructureObserver, StaticObserver
+from infra_joint.infrastructure.observer import (
+    InfrastructureObserver,
+    LiveWorkerObserver,
+    StaticObserver,
+)
 
-__all__ = ["InfrastructureObserver", "StaticObserver"]
+__all__ = ["InfrastructureObserver", "LiveWorkerObserver", "StaticObserver"]

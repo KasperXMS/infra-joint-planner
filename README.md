@@ -12,7 +12,9 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - deterministic physical binding with explicit infeasibility errors;
 - a Blind Planner control graph with a mandatory finalization node;
 - HTTP runtime-to-worker execution through FastAPI and httpx;
-- a pluggable model backend with no credential access in the worker;
+- a pluggable OpenAI-compatible model backend with explicit credential injection;
+- worker-local artifact storage and checksum-verified worker-to-worker pulls;
+- live infrastructure snapshots assembled from worker-reported state;
 - an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
 - contract and runtime invariant tests.

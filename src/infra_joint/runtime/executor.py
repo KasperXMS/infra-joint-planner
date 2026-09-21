@@ -54,6 +54,7 @@ class RuntimeExecutor:
             worker = self._worker_clients[agent_id]
         except KeyError as exc:
             raise RuntimeError(f"no worker client configured for agent: {agent_id}") from exc
+        await self._localize_inputs(action, infrastructure, worker)
         response = await worker.execute_operator(action.semantic, resolved.deployment_id)
         return ExecutionResult(
             operator=response.operator,
@@ -61,3 +62,26 @@ class RuntimeExecutor:
             deployment_id=resolved.deployment_id,
             output=response.output,
         )
+
+    async def _localize_inputs(
+        self,
+        action: JointAction,
+        infrastructure: InfrastructureState,
+        target: WorkerClient,
+    ) -> None:
+        locations = {
+            artifact.artifact_id: set(artifact.locations)
+            for artifact in infrastructure.artifacts
+        }
+        for artifact_id in action.semantic.inputs:
+            current_locations = locations[artifact_id]
+            if target.agent_id in current_locations:
+                continue
+            source_candidates = sorted(current_locations & self._worker_clients.keys())
+            if not source_candidates:
+                raise RuntimeError(f"no reachable source for artifact: {artifact_id}")
+            source = self._worker_clients[source_candidates[0]]
+            await target.pull_artifact(
+                artifact_id=artifact_id,
+                source_url=source.artifact_url(artifact_id),
+            )

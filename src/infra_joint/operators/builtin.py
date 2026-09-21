@@ -25,6 +25,30 @@ def invoke_model_spec() -> OperatorSpec:
     )
 
 
+def read_artifact_spec() -> OperatorSpec:
+    return OperatorSpec(
+        operator_id="read_artifact",
+        description="Read a UTF-8 text artifact from the executing worker's local store.",
+        input_schema={
+            "type": "array",
+            "items": {"type": "string"},
+            "minItems": 1,
+            "maxItems": 1,
+        },
+        argument_schema={
+            "type": "object",
+            "properties": {},
+            "additionalProperties": False,
+        },
+        output_schema={
+            "type": "object",
+            "properties": {"text": {"type": "string"}},
+            "required": ["text"],
+            "additionalProperties": False,
+        },
+    )
+
+
 def unavailable_handler(*_: Any, **__: Any) -> None:
     """Marker binding: execution is delegated to a remote worker."""
 
