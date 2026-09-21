@@ -7,8 +7,9 @@ substrate:
   architecture_refactored: false
   m5_started: false
 harness:
-  commit: c6c83334536998dfac98ab622d50d4f6c6190894
-  runner_sha256: 6d47f33b2a0116e377e1ead954da40400666db73a463d59c7070e837ffb37546
+  base_commit: c6c83334536998dfac98ab622d50d4f6c6190894
+  pre_run_fix_commit: a4594637ab5e7022c6a61166f2ca065a736b207e
+  runner_sha256: 39a4af467b7296c512480ce03a5bfe54ec07f90f42db497aa59178d09dcdf51b
   worker_sha256: 1bf200640f1938548c773a5bda94c5886c1d71ed5044bad1aecc0e2604eea724
   aware_extension_sha256: 9c29224edb1003ecbba76aa063b0330a33fcc93891668a612252588b0ba0a16f
   config_sha256: eeca97b173a067577dfc1c95176750f1428ed459d7a433fd3462fd0489ed8504
@@ -168,6 +169,12 @@ primary_run_order:
 
 preflight:
   formal_runs_started: false
+  incidents:
+    - id: regime-key-spelling
+      stage: before run directory, materialization, Worker action, or model call
+      symptom: case used hyphenated regime while registry used underscored key
+      disposition: not a benchmark attempt; fixed and all 14 case mappings validated
+      fix_commit: a4594637ab5e7022c6a61166f2ca065a736b207e
   edge_video_sample_frames: {count: 62, latency_seconds: 4.935}
   gpu_video_sample_frames: {count: 62, latency_seconds: 1.907}
   edge_contact_sheet: {bytes: 756836, latency_seconds: 0.961}
