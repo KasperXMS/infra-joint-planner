@@ -34,8 +34,8 @@ def read_artifact_spec() -> OperatorSpec:
     return OperatorSpec(
         operator_id="read_artifact",
         description=(
-            "Read a small UTF-8 text artifact for semantic inspection. Never use this for "
-            "large artifacts; reduce JSON records with structured operators instead."
+            "Read only small control or metadata text into planner context. Do not use this "
+            "for benchmark evidence intended for model reasoning or for large artifacts."
         ),
         input_schema={
             "type": "array",

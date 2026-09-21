@@ -191,8 +191,11 @@ class LLMBlindPlanner:
                 "Physical placement is applied separately as AUTO; do not name agents, hosts, "
                 "deployments, devices, networks, or physical policies.",
                 "Use only an available operator and satisfy its inputs and arguments schema.",
-                "Do not read a large artifact into context. Use bounded structured, retrieval, "
-                "or media reduction operators before model invocation.",
+                "Use invoke_model with relevant text/image artifacts for semantic reasoning. "
+                "Use read_artifact only for tiny control or metadata text, never benchmark "
+                "evidence. Reduce large structured or media artifacts before model invocation.",
+                "When video sampling yields many frames, make a contact sheet before invoking "
+                "the model so the image set remains bounded.",
                 "Return exactly one JSON object with no Markdown or surrounding text.",
                 f"Action form: {json.dumps(action_shape, separators=(',', ':'))}",
                 f"Finish form: {json.dumps(finish_shape, separators=(',', ':'))}",
