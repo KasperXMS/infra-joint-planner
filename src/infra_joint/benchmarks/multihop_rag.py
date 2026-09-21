@@ -279,13 +279,14 @@ class MultiHopRAGAdapter:
                 "document": candidate.document.model_dump(),
                 "rank": candidate.rank,
                 "score": candidate.score,
+                "text": candidate.document.body,
             }
             for candidate in setting.candidates
         ]
         artifact = self._json_artifact(
             sample.task_id,
             setting.artifact_id,
-            "ranked_candidate_bundle",
+            "ranked_candidate_bundle;text_field=text",
             _canonical_json(records),
         )
         record = TransformationRecord(

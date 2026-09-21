@@ -132,6 +132,13 @@ def test_fixed_candidates_are_always_labeled_derived() -> None:
     records = json.loads(bundle.prepared_artifacts[0].content)
     assert [record["rank"] for record in records] == [1, 2]
     assert [record["score"] for record in records] == [4.5, 3.0]
+    assert [record["text"] for record in records] == [
+        corpus_document(1).body,
+        corpus_document(2).body,
+    ]
+    assert bundle.prepared_artifacts[0].spec.logical_type == (
+        "ranked_candidate_bundle;text_field=text"
+    )
 
 
 def test_fixed_candidates_reject_gold_dependent_selection() -> None:
