@@ -401,18 +401,18 @@ def _case(case_id: str, video_path: Path, run_id: str) -> tuple[AdaptationBundle
     parts = case_id.split("-")
     if case_id.startswith("a-video-"):
         workflow = parts[2]
-        regime = "h-constrained" if case_id.endswith("h-constrained") else "h-fast"
+        regime = "h_constrained" if case_id.endswith("h-constrained") else "h_fast"
         return video_bundle(video_path), regime, workflow
     if case_id.startswith("a-longbench-"):
         workflow = parts[2]
-        regime = "h-constrained" if case_id.endswith("h-constrained") else "h-fast"
+        regime = "h_constrained" if case_id.endswith("h-constrained") else "h_fast"
         return longbench_bundle(), regime, workflow
     if case_id.startswith("b-video-"):
-        return video_bundle(video_path), "h-constrained", parts[-1]
+        return video_bundle(video_path), "h_constrained", parts[-1]
     if case_id.startswith("b-longbench-"):
-        return longbench_bundle(), "h-constrained", parts[-1]
+        return longbench_bundle(), "h_constrained", parts[-1]
     if case_id.startswith("b-multihop-"):
-        return multihop_bundle(), "h-constrained", parts[-1]
+        return multihop_bundle(), "h_constrained", parts[-1]
     raise ValueError(f"unknown case: {case_id}")
 
 
