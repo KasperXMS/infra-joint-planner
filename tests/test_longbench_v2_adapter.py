@@ -167,6 +167,38 @@ def test_fixed_width_conversion_rejects_numeric_precision_loss() -> None:
         )
 
 
+def test_fixed_width_conversion_preserves_declared_nullable_numeric_values() -> None:
+    representation = FixedWidthStructuredContext(
+        columns=(
+            FixedWidthColumn(name="NAME", start_char=0, end_char=10),
+            FixedWidthColumn(
+                name="VALUE",
+                start_char=10,
+                end_char=18,
+                value_type=FixedWidthType.NUMBER,
+                nullable=True,
+            ),
+        )
+    )
+    context = "\n".join(
+        (
+            f"{'NAME':<10}{'VALUE':>8}",
+            f"{'missing':<10}{'':>8}",
+            f"{'present':<10}{'2.5':>8}",
+        )
+    )
+
+    bundle = LongBenchV2Adapter("revision").adapt(
+        official_sample(context),
+        representation,
+    )
+
+    assert json.loads(bundle.prepared_artifacts[0].content) == [
+        {"NAME": "missing", "VALUE": None},
+        {"NAME": "present", "VALUE": 2.5},
+    ]
+
+
 @pytest.mark.asyncio
 async def test_longbench_private_evaluator_requires_canonical_choice() -> None:
     bundle = LongBenchV2Adapter("revision").adapt(official_sample("context"))

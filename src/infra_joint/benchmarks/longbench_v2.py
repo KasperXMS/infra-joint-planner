@@ -74,6 +74,7 @@ class FixedWidthColumn(ContractModel):
     start_char: int = Field(ge=0)
     end_char: int = Field(gt=0)
     value_type: FixedWidthType = FixedWidthType.STRING
+    nullable: bool = False
 
     @model_validator(mode="after")
     def interval_is_positive(self) -> "FixedWidthColumn":
@@ -296,10 +297,12 @@ class LongBenchV2Adapter:
         raw: str,
         column: FixedWidthColumn,
         line_number: int,
-    ) -> str | int | float:
+    ) -> str | int | float | None:
         if column.value_type == FixedWidthType.STRING:
             return raw
         if not raw:
+            if column.nullable:
+                return None
             raise ValueError(f"empty numeric value for {column.name} on line {line_number}")
         if column.value_type == FixedWidthType.INTEGER:
             if re.fullmatch(r"[+-]?\d+", raw) is None:
