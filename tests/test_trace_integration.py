@@ -72,6 +72,8 @@ async def test_planning_graph_writes_reconstructable_trace(tmp_path) -> None:
     assert events[-1]["event_type"] == "run.end"
     assert {event["event_type"] for event in events} >= {
         "infra.snapshot",
+        "planner.start",
+        "planner.end",
         "joint_action.proposed",
         "operator.start",
         "operator.end",

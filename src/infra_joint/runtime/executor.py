@@ -39,6 +39,7 @@ class RuntimeExecutor:
     async def execute(
         self, action: JointAction, infrastructure: InfrastructureState
     ) -> ExecutionResult:
+        self._registry.validate_action(action.semantic)
         operator = self._registry.binding(action.semantic.operator).spec
         resolved = self._resolver.resolve(
             action.physical,

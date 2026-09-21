@@ -13,7 +13,11 @@ from infra_joint.evaluation.evaluator import EvaluationResult, Evaluator
 from infra_joint.evaluation.trace import TraceEvent, TraceSink
 from infra_joint.infrastructure.observer import InfrastructureObserver
 from infra_joint.planning.finalize import Finalizer
-from infra_joint.planning.planner import BlindPlanner, BlindPlannerContext
+from infra_joint.planning.planner import (
+    BlindPlanner,
+    BlindPlannerContext,
+    PlannerObservation,
+)
 from infra_joint.runtime.executor import ActionExecutor, ExecutionResult
 
 
@@ -100,14 +104,24 @@ class PlanningGraph:
         context = BlindPlannerContext(
             task=state["task"],
             decisions=tuple(state["decisions"]),
-            observations=tuple(state["observations"]),
+            observations=tuple(
+                PlannerObservation.from_execution(observation)
+                for observation in state["observations"]
+            ),
             remaining_steps=state["remaining_steps"],
         )
-        decision = await self._planner.decide(context)
         trace_state = self._emit(
             state,
-            "planner.end",
-            {"decision": decision.model_dump(mode="json")},
+            "planner.start",
+            {"remaining_steps": state["remaining_steps"]},
+        )
+        decision = await self._planner.decide(context)
+        trace_state = self._emit_from_values(
+            run_id=state["run_id"],
+            event_index=cast(int, trace_state["event_index"]),
+            parent_event_id=cast(str, trace_state["parent_event_id"]),
+            event_type="planner.end",
+            payload={"decision": decision.model_dump(mode="json")},
         )
         proposed_type = (
             "joint_action.proposed" if isinstance(decision, JointAction) else "finish.proposed"

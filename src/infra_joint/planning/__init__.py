@@ -1,6 +1,13 @@
 """Planner protocols and the M1 control graph."""
 
+from infra_joint.planning.finalize import ContractAwareFinalizer
 from infra_joint.planning.graph import PlanningGraph, RunResult
-from infra_joint.planning.planner import ScriptedBlindPlanner
+from infra_joint.planning.planner import LLMBlindPlanner, ScriptedBlindPlanner
 
-__all__ = ["PlanningGraph", "RunResult", "ScriptedBlindPlanner"]
+__all__ = [
+    "ContractAwareFinalizer",
+    "LLMBlindPlanner",
+    "PlanningGraph",
+    "RunResult",
+    "ScriptedBlindPlanner",
+]

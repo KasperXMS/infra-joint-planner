@@ -7,6 +7,10 @@ def invoke_model_spec() -> OperatorSpec:
     return OperatorSpec(
         operator_id="invoke_model",
         description="Invoke a model deployment with a text prompt.",
+        input_schema={
+            "type": "array",
+            "maxItems": 0,
+        },
         argument_schema={
             "type": "object",
             "properties": {

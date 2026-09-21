@@ -1,9 +1,12 @@
 from collections.abc import Callable, Iterator, Mapping
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, cast
 
+from jsonschema import Draft202012Validator
+from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
 from pydantic import Field
 
+from infra_joint.core.action import SemanticAction
 from infra_joint.core.base import ContractModel
 
 OperatorHandler = Callable[..., Any]
@@ -22,6 +25,10 @@ class OperatorSpec(ContractModel):
 class OperatorBinding:
     spec: OperatorSpec
     handler: OperatorHandler
+
+
+class OperatorInputValidationError(ValueError):
+    pass
 
 
 class OperatorRegistry:
@@ -71,6 +78,50 @@ class OperatorRegistry:
                 }
             )
         return tools
+
+    def validate_action(self, action: SemanticAction) -> None:
+        spec = self.binding(action.operator).spec
+        input_schema = spec.input_schema or {
+            "type": "array",
+            "items": {"type": "string"},
+        }
+        self._validate_instance(
+            list(action.inputs),
+            input_schema,
+            operator_id=action.operator,
+            field="inputs",
+        )
+        self._validate_instance(
+            action.arguments,
+            spec.argument_schema or {"type": "object"},
+            operator_id=action.operator,
+            field="arguments",
+        )
+
+    @staticmethod
+    def _validate_instance(
+        instance: Any,
+        schema: dict[str, Any],
+        *,
+        operator_id: str,
+        field: str,
+    ) -> None:
+        validator = Draft202012Validator(schema)
+        errors = cast(
+            Iterator[JsonSchemaValidationError],
+            validator.iter_errors(instance),  # pyright: ignore[reportUnknownMemberType]
+        )
+        error = next(errors, None)
+        if error is None:
+            return
+        suffix = (
+            ""
+            if not error.absolute_path
+            else "." + ".".join(str(part) for part in error.absolute_path)
+        )
+        raise OperatorInputValidationError(
+            f"{operator_id} action violates {field}{suffix}: {error.message}"
+        )
 
     def __contains__(self, operator_id: object) -> bool:
         return operator_id in self._bindings

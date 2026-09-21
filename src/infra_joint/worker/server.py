@@ -152,6 +152,7 @@ def create_worker_app(
 
         in_flight += 1
         try:
+            registry.validate_action(request.action)
             result = binding.handler(request.action)
             if inspect.isawaitable(result):
                 result = await result

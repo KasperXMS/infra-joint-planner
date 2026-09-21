@@ -43,10 +43,20 @@ class WorkerConfig(ContractModel):
     model: BackendConfig
 
 
+class PlannerConfig(ContractModel):
+    model: BackendConfig
+
+
 def load_worker_config(path: Path) -> WorkerConfig:
     with path.open(encoding="utf-8") as stream:
         raw = yaml.safe_load(stream)
     return WorkerConfig.model_validate(raw)
+
+
+def load_planner_config(path: Path) -> PlannerConfig:
+    with path.open(encoding="utf-8") as stream:
+        raw = yaml.safe_load(stream)
+    return PlannerConfig.model_validate(raw)
 
 
 def build_model_backend(config: BackendConfig) -> tuple[ModelBackend, AsyncOpenAI | None]:

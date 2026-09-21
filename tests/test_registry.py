@@ -1,5 +1,7 @@
 import pytest
 
+from infra_joint.core.action import SemanticAction
+from infra_joint.operators.builtin import invoke_model_spec
 from infra_joint.operators.registry import OperatorRegistry, OperatorSpec
 
 
@@ -28,3 +30,22 @@ def test_registry_drives_planner_schema_and_runtime_binding() -> None:
 
     with pytest.raises(ValueError, match="already registered"):
         registry.register(spec, handler)
+
+
+def test_registry_validates_planner_action_against_operator_schema() -> None:
+    registry = OperatorRegistry()
+    registry.register(invoke_model_spec(), lambda: None)
+
+    registry.validate_action(SemanticAction(operator="invoke_model", arguments={"prompt": "hello"}))
+
+    with pytest.raises(ValueError, match="required property"):
+        registry.validate_action(SemanticAction(operator="invoke_model"))
+
+    with pytest.raises(ValueError, match="inputs"):
+        registry.validate_action(
+            SemanticAction(
+                operator="invoke_model",
+                inputs=("unexpected",),
+                arguments={"prompt": "hello"},
+            )
+        )

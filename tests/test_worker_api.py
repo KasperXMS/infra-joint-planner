@@ -50,3 +50,24 @@ async def test_worker_reports_missing_local_artifact() -> None:
 
     assert response.status_code == 404
     assert response.json()["detail"] == "input artifact not found"
+
+
+@pytest.mark.asyncio
+async def test_worker_rejects_action_that_violates_registry_schema() -> None:
+    app = create_worker_app("worker", StaticModelBackend("unused"))
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as client:
+        response = await client.post(
+            "/execute/operator",
+            json={
+                "action": {
+                    "operator": "invoke_model",
+                    "inputs": [],
+                    "arguments": {},
+                }
+            },
+        )
+
+    assert response.status_code == 422
+    assert "required property" in response.json()["detail"]

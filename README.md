@@ -20,6 +20,8 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - benchmark execution/evaluation isolation and a full-video Video-MME identity adapter;
 - LongBench-v2 identity, multi-document, and audited fixed-width structured adapters;
 - MultiHop-RAG full-corpus and explicitly derived fixed-candidate adapters;
+- a strict JSON LLM Blind Planner with AUTO-only physical placement;
+- tool-free contract-aware finalization over logical evidence only;
 - an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
 - a persistent checksum-verifying artifact store and YAML-driven worker CLI;
@@ -41,6 +43,17 @@ Start the example worker (the checked-in example uses a deterministic backend an
 ```bash
 uv run infra-joint worker --config configs/example-worker.yaml
 ```
+
+Request one real Blind Planner decision through an OpenAI-compatible cloud model:
+
+```bash
+uv run infra-joint blind-plan-once \
+  --config configs/example-planner.yaml \
+  --objective "Choose the next logical action for this task"
+```
+
+Set the environment variable named by `api_key_env` before running the command. The secret
+itself must not be placed in YAML, command-line arguments, traces, or Git.
 
 For an OpenAI-compatible deployment, set `model.backend` to `openai_compatible` and put only
 the environment-variable name in `api_key_env`. The key value must remain outside YAML and Git.
