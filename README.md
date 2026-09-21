@@ -19,6 +19,7 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - capability-gated FFmpeg sampling/clip extraction and deterministic contact sheets;
 - benchmark execution/evaluation isolation and a full-video Video-MME identity adapter;
 - LongBench-v2 identity, multi-document, and audited fixed-width structured adapters;
+- MultiHop-RAG full-corpus and explicitly derived fixed-candidate adapters;
 - an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
 - a persistent checksum-verifying artifact store and YAML-driven worker CLI;
