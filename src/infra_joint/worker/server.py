@@ -9,6 +9,7 @@ from starlette.responses import Response
 from infra_joint.core.action import SemanticAction
 from infra_joint.core.base import ContractModel
 from infra_joint.operators.builtin import invoke_model_spec, read_artifact_spec
+from infra_joint.operators.media import MediaBackend, MediaExecutionError, register_media_operators
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.operators.retrieval import register_retrieval_operators
 from infra_joint.operators.structured import register_structured_operators
@@ -60,6 +61,7 @@ def create_worker_app(
     artifact_store: ArtifactStore | None = None,
     artifact_fetcher: ArtifactFetcher | None = None,
     deployment_ids: tuple[str, ...] = (),
+    media_backend: MediaBackend | None = None,
 ) -> FastAPI:
     registry = OperatorRegistry()
     store = artifact_store or InMemoryArtifactStore()
@@ -85,6 +87,7 @@ def create_worker_app(
     registry.register(read_artifact_spec(), read_artifact)
     register_structured_operators(registry, store)
     register_retrieval_operators(registry, store)
+    register_media_operators(registry, store, media_backend)
     app = FastAPI(title=f"Infra Joint Worker: {agent_id}", version="0.1.0")
 
     @app.get("/health")
@@ -161,6 +164,8 @@ def create_worker_app(
             return ExecuteOperatorResponse(operator=request.action.operator, output=output)
         except ArtifactNotFoundError as exc:
             raise HTTPException(status_code=404, detail="input artifact not found") from exc
+        except MediaExecutionError as exc:
+            raise HTTPException(status_code=502, detail=str(exc)) from exc
         except ValueError as exc:
             raise HTTPException(status_code=422, detail=str(exc)) from exc
         finally:

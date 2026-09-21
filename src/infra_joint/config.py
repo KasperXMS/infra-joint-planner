@@ -39,6 +39,7 @@ class WorkerConfig(ContractModel):
     artifact_root: Path
     deployment_ids: tuple[str, ...] = ()
     allowed_artifact_hosts: frozenset[str] = frozenset()
+    ffmpeg_executable: str | None = None
     model: BackendConfig
 
 

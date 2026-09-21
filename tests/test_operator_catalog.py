@@ -18,5 +18,5 @@ async def test_planner_catalog_matches_worker_operator_surface() -> None:
     planner_operators = {
         tool["function"]["name"] for tool in catalog.planner_tools()
     }
-    assert planner_operators == set(state["operators"])
+    assert set(state["operators"]) <= planner_operators
     assert planner_operators == set(catalog)

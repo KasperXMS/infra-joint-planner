@@ -13,6 +13,7 @@ dependencies = [
   "httpx>=0.28,<1",
   "langgraph>=1.0,<2",
   "openai>=2.0,<3",
+  "pillow>=11.0,<13",
   "pydantic>=2.9,<3",
   "pyyaml>=6.0,<7",
   "typer>=0.15,<1",
@@ -29,6 +30,7 @@ dev = [
   "pytest-asyncio>=0.24",
   "ruff>=0.8",
   "types-pyyaml>=6.0",
+  "types-pillow>=10.2.0.20240822",
 ]
 
 [tool.hatch.build.targets.wheel]
