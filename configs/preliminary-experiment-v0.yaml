@@ -1,0 +1,45 @@
+environment:
+  agents:
+    - agent_id: EDGE
+      device: NVIDIA Jetson AGX Orin (A4)
+      capabilities: [model, structured, retrieval, media.image, media.ffmpeg]
+    - agent_id: GPU
+      device: Workstation (2x NVIDIA RTX 4090)
+      capabilities: [model, structured, retrieval, media.image, media.ffmpeg]
+  deployments:
+    - deployment_id: gpu-deepseek-chat
+      agent_id: GPU
+      model_id: deepseek-chat
+      modalities: [text]
+      context_window: 64000
+      reserved_output_tokens: 1024
+      image_token_cost: 2048
+    - deployment_id: gpu-qwen3-vl-m4-32k
+      agent_id: GPU
+      model_id: qwen3-vl-m4-32k
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 1024
+      image_token_cost: 2048
+  initial_placements: []
+  links:
+    - source_agent_id: EDGE
+      target_agent_id: GPU
+      bandwidth_mbps: 3
+      rtt_ms: 50
+    - source_agent_id: GPU
+      target_agent_id: EDGE
+      bandwidth_mbps: 3
+      rtt_ms: 50
+worker_urls:
+  EDGE: http://192.168.0.104:9204
+  GPU: http://192.168.0.12:9212
+planner:
+  model:
+    backend: openai_compatible
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+    api_key_env: DEEPSEEK_API_KEY
+output_root: runs/preliminary-experiment-v0
+max_planning_steps: 8
+http_timeout_seconds: 900
