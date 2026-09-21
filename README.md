@@ -15,6 +15,7 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - a pluggable OpenAI-compatible model backend with explicit credential injection;
 - worker-local artifact storage and checksum-verified worker-to-worker pulls;
 - live infrastructure snapshots assembled from worker-reported state;
+- deterministic BM25 retrieval and typed structured-data operators;
 - an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
 - a persistent checksum-verifying artifact store and YAML-driven worker CLI;

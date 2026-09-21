@@ -10,7 +10,6 @@ from infra_joint.worker.model_backend import (
     OpenAICompatibleModelBackend,
     StaticModelBackend,
 )
-from infra_joint.worker.server import create_worker_app
 
 __all__ = [
     "InMemoryArtifactStore",
@@ -19,5 +18,4 @@ __all__ = [
     "OpenAICompatibleModelBackend",
     "StaticModelBackend",
     "StoredArtifact",
-    "create_worker_app",
 ]

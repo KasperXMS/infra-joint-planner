@@ -10,6 +10,8 @@ from infra_joint.core.action import SemanticAction
 from infra_joint.core.base import ContractModel
 from infra_joint.operators.builtin import invoke_model_spec, read_artifact_spec
 from infra_joint.operators.registry import OperatorRegistry
+from infra_joint.operators.retrieval import register_retrieval_operators
+from infra_joint.operators.structured import register_structured_operators
 from infra_joint.worker.artifact_fetcher import ArtifactFetcher
 from infra_joint.worker.artifact_store import (
     ArtifactNotFoundError,
@@ -81,6 +83,8 @@ def create_worker_app(
 
     registry.register(invoke_model_spec(), invoke_model)
     registry.register(read_artifact_spec(), read_artifact)
+    register_structured_operators(registry, store)
+    register_retrieval_operators(registry, store)
     app = FastAPI(title=f"Infra Joint Worker: {agent_id}", version="0.1.0")
 
     @app.get("/health")

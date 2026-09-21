@@ -16,6 +16,10 @@ class ArtifactCorruptionError(RuntimeError):
     pass
 
 
+class ArtifactConflictError(ValueError):
+    pass
+
+
 @dataclass(frozen=True, slots=True)
 class StoredArtifact:
     artifact_id: str
@@ -53,6 +57,13 @@ class InMemoryArtifactStore:
         self._artifacts = {artifact.artifact_id: artifact for artifact in artifacts}
 
     def put(self, artifact: StoredArtifact) -> None:
+        existing = self._artifacts.get(artifact.artifact_id)
+        if existing is not None:
+            if existing == artifact:
+                return
+            raise ArtifactConflictError(
+                f"artifact ID already contains different content: {artifact.artifact_id}"
+            )
         self._artifacts[artifact.artifact_id] = artifact
 
     def get(self, artifact_id: str) -> StoredArtifact:
@@ -81,6 +92,18 @@ class FileArtifactStore:
 
     def put(self, artifact: StoredArtifact) -> None:
         blob_path, metadata_path = self._paths(artifact.artifact_id)
+        if blob_path.exists() or metadata_path.exists():
+            try:
+                existing = self.get(artifact.artifact_id)
+            except ArtifactNotFoundError as exc:
+                raise ArtifactCorruptionError(
+                    f"partial artifact exists: {artifact.artifact_id}"
+                ) from exc
+            if existing == artifact:
+                return
+            raise ArtifactConflictError(
+                f"artifact ID already contains different content: {artifact.artifact_id}"
+            )
         metadata = ArtifactMetadata(
             artifact_id=artifact.artifact_id,
             media_type=artifact.media_type,

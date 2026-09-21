@@ -23,6 +23,8 @@ def test_registry_drives_planner_schema_and_runtime_binding() -> None:
 
     assert registry.binding("read_artifact").handler() == "ok"
     assert registry.planner_tools()[0]["function"]["name"] == "read_artifact"
+    parameters = registry.planner_tools()[0]["function"]["parameters"]
+    assert set(parameters["properties"]) == {"inputs", "arguments"}
 
     with pytest.raises(ValueError, match="already registered"):
         registry.register(spec, handler)

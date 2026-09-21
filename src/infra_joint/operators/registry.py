@@ -54,7 +54,19 @@ class OperatorRegistry:
                     "function": {
                         "name": spec.operator_id,
                         "description": spec.description,
-                        "parameters": spec.argument_schema,
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "inputs": spec.input_schema
+                                or {
+                                    "type": "array",
+                                    "items": {"type": "string"},
+                                },
+                                "arguments": spec.argument_schema,
+                            },
+                            "required": ["inputs", "arguments"],
+                            "additionalProperties": False,
+                        },
                     },
                 }
             )
