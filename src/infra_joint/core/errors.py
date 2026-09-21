@@ -10,6 +10,7 @@ class ExecutionErrorCode(StrEnum):
     CONTEXT_LIMIT_EXCEEDED = "context_limit_exceeded"
     DEPLOYMENT_REQUIRED = "deployment_required"
     MISSING_ARTIFACT = "missing_artifact"
+    OPERATOR_FAILED = "operator_failed"
     SURFACE_MISMATCH = "surface_mismatch"
     UNSUPPORTED_MODALITY = "unsupported_modality"
     VALIDATION_FAILED = "validation_failed"

@@ -33,7 +33,10 @@ def invoke_model_spec() -> OperatorSpec:
 def read_artifact_spec() -> OperatorSpec:
     return OperatorSpec(
         operator_id="read_artifact",
-        description="Read a UTF-8 text artifact from the executing worker's local store.",
+        description=(
+            "Read a small UTF-8 text artifact for semantic inspection. Never use this for "
+            "large artifacts; reduce JSON records with structured operators instead."
+        ),
         input_schema={
             "type": "array",
             "items": {"type": "string"},

@@ -97,7 +97,10 @@ class ContractAwareFinalizer:
             choices = json.dumps(contract.choices, ensure_ascii=False, separators=(",", ":"))
             return f"Output exactly one of these canonical choice labels: {choices}."
         if contract.format == OutputFormat.SHORT_TEXT:
-            return "Output one concise plain-text answer."
+            return (
+                "Output only the shortest answer span that directly answers the question; "
+                "omit explanation and trailing punctuation."
+            )
         schema = json.dumps(
             contract.schema_definition,
             ensure_ascii=False,

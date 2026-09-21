@@ -191,6 +191,8 @@ class LLMBlindPlanner:
                 "Physical placement is applied separately as AUTO; do not name agents, hosts, "
                 "deployments, devices, networks, or physical policies.",
                 "Use only an available operator and satisfy its inputs and arguments schema.",
+                "Do not read a large artifact into context. Use bounded structured, retrieval, "
+                "or media reduction operators before model invocation.",
                 "Return exactly one JSON object with no Markdown or surrounding text.",
                 f"Action form: {json.dumps(action_shape, separators=(',', ':'))}",
                 f"Finish form: {json.dumps(finish_shape, separators=(',', ':'))}",

@@ -187,3 +187,14 @@ async def test_contract_finalizer_does_not_repair_noncanonical_output() -> None:
     outcome = await finalizer.finalize(task(), (), ())
 
     assert outcome.answer == "The answer is A"
+
+
+def test_short_text_finalizer_requests_minimal_unpunctuated_answer() -> None:
+    short_text_task = task().model_copy(
+        update={"output_contract": OutputContract(format=OutputFormat.SHORT_TEXT)}
+    )
+
+    instruction = ContractAwareFinalizer._contract_instruction(short_text_task)
+
+    assert "shortest answer span" in instruction
+    assert "trailing punctuation" in instruction

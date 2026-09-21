@@ -1,6 +1,7 @@
 import httpx
 import pytest
 
+from infra_joint.operators.media import MediaExecutionError
 from infra_joint.worker.artifact_store import InMemoryArtifactStore, StoredArtifact
 from infra_joint.worker.model_backend import ModelDeployment, StaticModelBackend
 from infra_joint.worker.server import create_worker_app
@@ -111,3 +112,44 @@ async def test_read_artifact_fails_closed_above_explicit_limit() -> None:
 
     assert response.status_code == 413
     assert response.json()["detail"]["code"] == "artifact_too_large"
+
+
+@pytest.mark.asyncio
+async def test_media_failure_returns_typed_operator_reason() -> None:
+    class FailingMediaBackend:
+        async def sample_frames(self, *_args, **_kwargs) -> None:
+            raise MediaExecutionError("decoder unavailable")
+
+        async def extract_clip(self, *_args, **_kwargs) -> None:
+            raise MediaExecutionError("decoder unavailable")
+
+    store = InMemoryArtifactStore((StoredArtifact.create("video", "video/mp4", b"x"),))
+    app = create_worker_app(
+        "worker",
+        {},
+        artifact_store=store,
+        media_backend=FailingMediaBackend(),
+    )
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as client:
+        response = await client.post(
+            "/execute/operator",
+            json={
+                "action": {
+                    "operator": "sample_frames",
+                    "inputs": ["video"],
+                    "arguments": {
+                        "every_seconds": 1,
+                        "max_frames": 1,
+                        "output_prefix": "frames",
+                    },
+                }
+            },
+        )
+
+    assert response.status_code == 502
+    assert response.json()["detail"] == {
+        "code": "operator_failed",
+        "message": "decoder unavailable",
+    }

@@ -307,7 +307,11 @@ def create_worker_app(
                 404,
             ) from exc
         except MediaExecutionError as exc:
-            raise HTTPException(status_code=502, detail=str(exc)) from exc
+            raise _failure(
+                ExecutionErrorCode.OPERATOR_FAILED,
+                str(exc),
+                502,
+            ) from exc
         except ValueError as exc:
             raise _failure(ExecutionErrorCode.VALIDATION_FAILED, str(exc)) from exc
         finally:
