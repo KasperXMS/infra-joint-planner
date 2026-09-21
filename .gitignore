@@ -1,0 +1,32 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Runtime and experiment outputs
+artifacts/
+runs/
+traces/
+*.jsonl
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+api_key.txt
+device_info.txt
+configs/local/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
