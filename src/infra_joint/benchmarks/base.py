@@ -57,14 +57,10 @@ class ValidityAssessment(ContractModel):
     @model_validator(mode="after")
     def kind_matches_evidence(self) -> "ValidityAssessment":
         equivalent = (
-            self.information_equivalent
-            and self.query_equivalent
-            and self.evaluator_equivalent
+            self.information_equivalent and self.query_equivalent and self.evaluator_equivalent
         )
         expected = (
-            BenchmarkSettingKind.OFFICIAL_EQUIVALENT
-            if equivalent
-            else BenchmarkSettingKind.DERIVED
+            BenchmarkSettingKind.OFFICIAL_EQUIVALENT if equivalent else BenchmarkSettingKind.DERIVED
         )
         if self.setting_kind != expected:
             raise ValueError("setting_kind does not match equivalence evidence")
@@ -79,8 +75,7 @@ def assess_validity(
 ) -> ValidityAssessment:
     reasons: list[str] = []
     information_equivalent = all(
-        record.information_preserved and record.gold_independent
-        for record in transformations
+        record.information_preserved and record.gold_independent for record in transformations
     )
     if not information_equivalent:
         reasons.append("one or more transformations are lossy or gold-dependent")
@@ -94,9 +89,7 @@ def assess_validity(
         query_equivalent=query_equivalent,
         evaluator_equivalent=evaluator_equivalent,
         setting_kind=(
-            BenchmarkSettingKind.OFFICIAL_EQUIVALENT
-            if equivalent
-            else BenchmarkSettingKind.DERIVED
+            BenchmarkSettingKind.OFFICIAL_EQUIVALENT if equivalent else BenchmarkSettingKind.DERIVED
         ),
         reasons=tuple(reasons),
     )

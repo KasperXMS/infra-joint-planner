@@ -66,9 +66,9 @@ def test_multi_document_split_reconstructs_original_context_exactly() -> None:
         "report-0002",
         "report-0003",
     ]
-    reconstructed = b"".join(
-        artifact.content for artifact in bundle.prepared_artifacts
-    ).decode("utf-8")
+    reconstructed = b"".join(artifact.content for artifact in bundle.prepared_artifacts).decode(
+        "utf-8"
+    )
     assert reconstructed == context
     audit = bundle.execution.transformations[0].audit
     assert audit["source_sha256"] == audit["reconstructed_sha256"]

@@ -21,9 +21,7 @@ class FakeFfmpegRunner:
     def __init__(self) -> None:
         self.commands: list[tuple[str, ...]] = []
 
-    async def run(
-        self, arguments: Sequence[str], cwd: Path | None = None
-    ) -> CommandResult:
+    async def run(self, arguments: Sequence[str], cwd: Path | None = None) -> CommandResult:
         del cwd
         command = tuple(arguments)
         self.commands.append(command)
@@ -52,9 +50,7 @@ async def test_ffmpeg_probe_executes_version_command() -> None:
 async def test_sample_frames_and_extract_clip_register_artifacts() -> None:
     runner = FakeFfmpegRunner()
     backend = FfmpegMediaBackend("ffmpeg-test", runner)
-    store = InMemoryArtifactStore(
-        (StoredArtifact.create("video", "video/mp4", b"fake-video"),)
-    )
+    store = InMemoryArtifactStore((StoredArtifact.create("video", "video/mp4", b"fake-video"),))
     registry = OperatorRegistry()
     register_media_operators(registry, store, backend)
 

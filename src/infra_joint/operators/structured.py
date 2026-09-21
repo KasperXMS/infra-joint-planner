@@ -223,18 +223,10 @@ def register_structured_operators(registry: OperatorRegistry, store: ArtifactSto
     def select_fields(action: SemanticAction) -> dict[str, Any]:
         arguments = SelectFieldsArguments.model_validate(action.arguments)
         records = load_records(store, _single_input(action))
-        missing = {
-            field
-            for record in records
-            for field in arguments.fields
-            if field not in record
-        }
+        missing = {field for record in records for field in arguments.fields if field not in record}
         if missing:
             raise ValueError(f"selected fields are missing: {sorted(missing)}")
-        selected = [
-            {field: record[field] for field in arguments.fields}
-            for record in records
-        ]
+        selected = [{field: record[field] for field in arguments.fields} for record in records]
         return store_json(store, arguments.output_artifact_id, selected).model_dump()
 
     def derive_fields(action: SemanticAction) -> dict[str, Any]:
@@ -289,8 +281,7 @@ def register_structured_operators(registry: OperatorRegistry, store: ArtifactSto
             raise ValueError(f"top-k field is missing: {arguments.field}")
         values = [record[arguments.field] for record in records]
         numbers = all(
-            isinstance(value, (int, float)) and not isinstance(value, bool)
-            for value in values
+            isinstance(value, (int, float)) and not isinstance(value, bool) for value in values
         )
         strings = all(isinstance(value, str) for value in values)
         if values and not (numbers or strings):
@@ -300,18 +291,14 @@ def register_structured_operators(registry: OperatorRegistry, store: ArtifactSto
             key=lambda record: record[arguments.field],
             reverse=arguments.descending,
         )
-        return store_json(
-            store, arguments.output_artifact_id, ranked[: arguments.k]
-        ).model_dump()
+        return store_json(store, arguments.output_artifact_id, ranked[: arguments.k]).model_dump()
 
     def aggregate_artifacts(action: SemanticAction) -> dict[str, Any]:
         arguments = AggregateArtifactsArguments.model_validate(action.arguments)
         if not action.inputs:
             raise ValueError("aggregate_artifacts requires at least one input")
         records = [
-            record
-            for artifact_id in action.inputs
-            for record in load_records(store, artifact_id)
+            record for artifact_id in action.inputs for record in load_records(store, artifact_id)
         ]
         return store_json(store, arguments.output_artifact_id, records).model_dump()
 

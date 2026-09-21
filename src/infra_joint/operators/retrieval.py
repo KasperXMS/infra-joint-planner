@@ -34,9 +34,7 @@ def _bm25_scores(
         return []
     average_length = sum(len(document) for document in documents) / len(documents)
     average_length = average_length or 1.0
-    document_frequency = Counter(
-        token for document in documents for token in set(document)
-    )
+    document_frequency = Counter(token for document in documents for token in set(document))
     term_frequencies = [Counter(document) for document in documents]
     scores: list[float] = []
     for document, frequencies in zip(documents, term_frequencies, strict=True):
@@ -49,9 +47,7 @@ def _bm25_scores(
             inverse_document_frequency = math.log(
                 1 + (len(documents) - containing + 0.5) / (containing + 0.5)
             )
-            denominator = frequency + k1 * (
-                1 - b + b * len(document) / average_length
-            )
+            denominator = frequency + k1 * (1 - b + b * len(document) / average_length)
             score += inverse_document_frequency * frequency * (k1 + 1) / denominator
         scores.append(score)
     return scores
@@ -95,10 +91,7 @@ def register_retrieval_operators(registry: OperatorRegistry, store: ArtifactStor
             range(len(records)),
             key=lambda index: (-scores[index], index),
         )[: arguments.top_k]
-        output = [
-            {**records[index], "_bm25_score": scores[index]}
-            for index in ranked_indices
-        ]
+        output = [{**records[index], "_bm25_score": scores[index]} for index in ranked_indices]
         return store_json(store, arguments.output_artifact_id, output).model_dump()
 
     registry.register(bm25_retrieve_spec(), bm25_retrieve)

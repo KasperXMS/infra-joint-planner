@@ -234,9 +234,7 @@ class LongBenchV2Adapter:
             for column in representation.columns:
                 actual = header[column.start_char : column.end_char].strip()
                 if actual != column.name:
-                    raise ValueError(
-                        f"fixed-width header does not match column: {column.name}"
-                    )
+                    raise ValueError(f"fixed-width header does not match column: {column.name}")
         records: list[dict[str, Any]] = []
         for line_number, line in enumerate(
             lines[representation.header_lines :],
@@ -289,9 +287,7 @@ class LongBenchV2Adapter:
         for column in columns:
             for index in range(column.start_char, min(column.end_char, len(line))):
                 covered[index] = True
-        remainder = "".join(
-            character for index, character in enumerate(line) if not covered[index]
-        )
+        remainder = "".join(character for index, character in enumerate(line) if not covered[index])
         if remainder.strip():
             raise ValueError(f"unmapped fixed-width data on line {line_number}")
 
@@ -304,30 +300,20 @@ class LongBenchV2Adapter:
         if column.value_type == FixedWidthType.STRING:
             return raw
         if not raw:
-            raise ValueError(
-                f"empty numeric value for {column.name} on line {line_number}"
-            )
+            raise ValueError(f"empty numeric value for {column.name} on line {line_number}")
         if column.value_type == FixedWidthType.INTEGER:
             if re.fullmatch(r"[+-]?\d+", raw) is None:
-                raise ValueError(
-                    f"invalid integer for {column.name} on line {line_number}"
-                )
+                raise ValueError(f"invalid integer for {column.name} on line {line_number}")
             return int(raw)
         try:
             decimal = Decimal(raw)
         except InvalidOperation as exc:
-            raise ValueError(
-                f"invalid number for {column.name} on line {line_number}"
-            ) from exc
+            raise ValueError(f"invalid number for {column.name} on line {line_number}") from exc
         if not decimal.is_finite():
-            raise ValueError(
-                f"non-finite number for {column.name} on line {line_number}"
-            )
+            raise ValueError(f"non-finite number for {column.name} on line {line_number}")
         converted = float(decimal)
         if not math.isfinite(converted) or Decimal(str(converted)) != decimal:
-            raise ValueError(
-                f"number loses precision for {column.name} on line {line_number}"
-            )
+            raise ValueError(f"number loses precision for {column.name} on line {line_number}")
         return converted
 
     def _record(

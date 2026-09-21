@@ -70,8 +70,7 @@ class RuntimeExecutor:
         target: WorkerClient,
     ) -> None:
         locations = {
-            artifact.artifact_id: set(artifact.locations)
-            for artifact in infrastructure.artifacts
+            artifact.artifact_id: set(artifact.locations) for artifact in infrastructure.artifacts
         }
         for artifact_id in action.semantic.inputs:
             current_locations = locations[artifact_id]

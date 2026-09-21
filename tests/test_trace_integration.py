@@ -55,9 +55,7 @@ async def test_planning_graph_writes_reconstructable_trace(tmp_path) -> None:
     )
     writer = JsonlTraceWriter(tmp_path / "run.jsonl")
     graph = PlanningGraph(
-        planner=ScriptedBlindPlanner(
-            (action, FinishDecision(reason="sufficient evidence"))
-        ),
+        planner=ScriptedBlindPlanner((action, FinishDecision(reason="sufficient evidence"))),
         observer=StaticObserver(infrastructure),
         executor=StubExecutor(),
         finalizer=LastModelOutputFinalizer(),

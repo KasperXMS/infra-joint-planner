@@ -104,9 +104,7 @@ async def test_runtime_triggers_worker_to_worker_artifact_pull() -> None:
                     AgentRuntimeState(agent_id="target", available=True),
                 ),
                 deployments=(),
-                artifacts=(
-                    ArtifactRuntimeState(artifact_id="doc-1", locations=("source",)),
-                ),
+                artifacts=(ArtifactRuntimeState(artifact_id="doc-1", locations=("source",)),),
                 links=(),
                 observed_at=datetime.now(UTC),
             )
@@ -138,9 +136,7 @@ async def test_runtime_triggers_worker_to_worker_artifact_pull() -> None:
 
 @pytest.mark.asyncio
 async def test_pull_rejects_checksum_mismatch() -> None:
-    source_store = InMemoryArtifactStore(
-        (StoredArtifact.create("doc", "text/plain", b"actual"),)
-    )
+    source_store = InMemoryArtifactStore((StoredArtifact.create("doc", "text/plain", b"actual"),))
     source_app = create_worker_app(
         "source", StaticModelBackend("unused"), artifact_store=source_store
     )

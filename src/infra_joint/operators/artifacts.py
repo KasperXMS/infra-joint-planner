@@ -31,9 +31,7 @@ def load_records(store: ArtifactStore, artifact_id: str) -> list[dict[str, Any]]
     try:
         return RECORDS_ADAPTER.validate_python(value)
     except ValidationError as exc:
-        raise ValueError(
-            f"artifact must contain a JSON array of objects: {artifact_id}"
-        ) from exc
+        raise ValueError(f"artifact must contain a JSON array of objects: {artifact_id}") from exc
 
 
 def store_json(store: ArtifactStore, artifact_id: str, value: Any) -> ProducedArtifact:

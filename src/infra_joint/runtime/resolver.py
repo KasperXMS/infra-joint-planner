@@ -37,16 +37,10 @@ class DeterministicResolver:
         available_agents = {item.agent_id for item in state.agents if item.available}
         agent_specs = {item.agent_id: item for item in environment.agents}
         deployments = {item.deployment_id: item for item in environment.deployments}
-        available_deployments = {
-            item.deployment_id for item in state.deployments if item.available
-        }
-        artifact_locations = {
-            item.artifact_id: set(item.locations) for item in state.artifacts
-        }
+        available_deployments = {item.deployment_id for item in state.deployments if item.available}
+        artifact_locations = {item.artifact_id: set(item.locations) for item in state.artifacts}
         missing = [
-            artifact_id
-            for artifact_id in action.inputs
-            if artifact_id not in artifact_locations
+            artifact_id for artifact_id in action.inputs if artifact_id not in artifact_locations
         ]
         if missing:
             raise BindingResolutionError(
@@ -89,10 +83,14 @@ class DeterministicResolver:
             data_local_agents &= artifact_locations[artifact_id]
 
         if decision.policy == PhysicalPolicy.PARALLEL_DATA_LOCAL:
-            parallel_agents = sorted(
-                feasible_agents
-                & set().union(*(artifact_locations[item] for item in action.inputs))
-            ) if action.inputs else sorted(feasible_agents)
+            parallel_agents = (
+                sorted(
+                    feasible_agents
+                    & set().union(*(artifact_locations[item] for item in action.inputs))
+                )
+                if action.inputs
+                else sorted(feasible_agents)
+            )
             if not parallel_agents:
                 self._raise_no_feasible_agent()
             return ResolvedBinding(tuple(parallel_agents))

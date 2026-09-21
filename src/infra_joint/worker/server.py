@@ -143,10 +143,7 @@ def create_worker_app(
     @app.post("/execute/operator", response_model=ExecuteOperatorResponse)
     async def execute(request: ExecuteOperatorRequest) -> ExecuteOperatorResponse:
         nonlocal in_flight
-        if (
-            request.deployment_id is not None
-            and request.deployment_id not in deployment_ids
-        ):
+        if request.deployment_id is not None and request.deployment_id not in deployment_ids:
             raise HTTPException(status_code=409, detail="deployment is not available")
         try:
             binding = registry.binding(request.action.operator)

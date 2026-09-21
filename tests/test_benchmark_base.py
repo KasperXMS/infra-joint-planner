@@ -20,9 +20,7 @@ def test_validity_gate_marks_lossy_adaptation_as_derived() -> None:
         gold_independent=True,
     )
 
-    assessment = assess_validity(
-        (record,), query_equivalent=True, evaluator_equivalent=True
-    )
+    assessment = assess_validity((record,), query_equivalent=True, evaluator_equivalent=True)
 
     assert assessment.setting_kind == BenchmarkSettingKind.DERIVED
     assert not assessment.information_equivalent
