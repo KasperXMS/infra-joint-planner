@@ -268,6 +268,12 @@ def create_worker_app(
             raise _failure(ExecutionErrorCode.CONTEXT_LIMIT_EXCEEDED, str(exc)) from exc
         except UnsupportedModelArtifactError as exc:
             raise _failure(ExecutionErrorCode.UNSUPPORTED_MODALITY, str(exc)) from exc
+        except Exception as exc:  # noqa: BLE001 - backend failures cross an API boundary
+            raise _failure(
+                ExecutionErrorCode.MODEL_SERVICE_ERROR,
+                f"model backend request failed: {type(exc).__name__}",
+                502,
+            ) from exc
         return {"text": completion.text}, completion.telemetry
 
     @app.post("/execute/operator", response_model=ExecuteOperatorResponse)

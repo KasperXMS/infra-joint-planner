@@ -153,3 +153,37 @@ async def test_media_failure_returns_typed_operator_reason() -> None:
         "code": "operator_failed",
         "message": "decoder unavailable",
     }
+
+
+@pytest.mark.asyncio
+async def test_model_backend_failure_returns_typed_reason_without_backend_detail() -> None:
+    class FailingModelBackend:
+        async def invoke(self, _request):
+            raise RuntimeError("secret backend detail")
+
+        async def complete(self, _prompt):
+            raise RuntimeError("secret backend detail")
+
+    failing_deployment = deployment()
+    object.__setattr__(failing_deployment, "backend", FailingModelBackend())
+    app = create_worker_app("worker", {"known": failing_deployment})
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as client:
+        response = await client.post(
+            "/execute/operator",
+            json={
+                "action": {
+                    "operator": "invoke_model",
+                    "inputs": [],
+                    "arguments": {"prompt": "hello"},
+                },
+                "deployment_id": "known",
+            },
+        )
+
+    assert response.status_code == 502
+    assert response.json()["detail"] == {
+        "code": "model_service_error",
+        "message": "model backend request failed: RuntimeError",
+    }
