@@ -109,3 +109,74 @@ def test_auto_accounts_for_capability_before_locality(
         state,
     )
     assert binding.agent_ids == ("gpu",)
+
+
+def test_model_auto_resolves_concrete_modality_compatible_deployment(
+    environment: EnvironmentSpec, state: InfrastructureState
+) -> None:
+    image = state.artifacts[0].model_copy(update={"media_type": "image/png", "size_bytes": 1024})
+    enriched = state.model_copy(update={"artifacts": (image,)})
+
+    binding = DeterministicResolver().resolve(
+        PhysicalDecision(policy=PhysicalPolicy.AUTO),
+        SemanticAction(
+            operator="invoke_model",
+            inputs=("image",),
+            arguments={"prompt": "inspect"},
+        ),
+        OperatorSpec(
+            operator_id="invoke_model",
+            description="model",
+            capability_requirements=frozenset({"model"}),
+        ),
+        environment.model_copy(
+            update={
+                "agents": (
+                    environment.agents[0],
+                    environment.agents[1].model_copy(
+                        update={"capabilities": frozenset({"text", "vision", "model"})}
+                    ),
+                )
+            }
+        ),
+        enriched,
+    )
+
+    assert binding.agent_ids == ("gpu",)
+    assert binding.deployment_id == "vlm"
+
+
+def test_model_auto_rejects_context_overflow_before_transfer(
+    environment: EnvironmentSpec, state: InfrastructureState
+) -> None:
+    document = state.artifacts[0].model_copy(
+        update={"media_type": "text/plain", "size_bytes": 40_000}
+    )
+    enriched = state.model_copy(update={"artifacts": (document,)})
+    model_environment = environment.model_copy(
+        update={
+            "agents": (
+                environment.agents[0],
+                environment.agents[1].model_copy(update={"capabilities": frozenset({"model"})}),
+            )
+        }
+    )
+
+    with pytest.raises(BindingResolutionError) as error:
+        DeterministicResolver().resolve(
+            PhysicalDecision(policy=PhysicalPolicy.AUTO),
+            SemanticAction(
+                operator="invoke_model",
+                inputs=("image",),
+                arguments={"prompt": "answer"},
+            ),
+            OperatorSpec(
+                operator_id="invoke_model",
+                description="model",
+                capability_requirements=frozenset({"model"}),
+            ),
+            model_environment,
+            enriched,
+        )
+
+    assert error.value.code == ResolutionErrorCode.CONTEXT_LIMIT_EXCEEDED

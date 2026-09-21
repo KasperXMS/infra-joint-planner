@@ -18,10 +18,20 @@ from infra_joint.core.base import ContractModel
 from infra_joint.core.task import TaskContract
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.runtime.executor import ExecutionResult
+from infra_joint.worker.model_backend import (
+    ModelCallTelemetry,
+    ModelCompletion,
+    ModelRequest,
+)
 
 
 class CompletionBackend(Protocol):
-    async def complete(self, prompt: str) -> str: ...
+    async def invoke(self, request: ModelRequest) -> ModelCompletion: ...
+
+
+class PlannerOutcome(ContractModel):
+    decision: JointDecision
+    model_telemetry: ModelCallTelemetry | None = None
 
 
 class PlannerObservation(ContractModel):
@@ -46,7 +56,7 @@ class BlindPlannerContext:
 
 
 class BlindPlanner(Protocol):
-    async def decide(self, context: BlindPlannerContext) -> JointDecision: ...
+    async def decide(self, context: BlindPlannerContext) -> PlannerOutcome: ...
 
 
 class ScriptedBlindPlanner:
@@ -55,11 +65,11 @@ class ScriptedBlindPlanner:
     def __init__(self, decisions: Iterable[JointDecision]) -> None:
         self._decisions = deque(decisions)
 
-    async def decide(self, context: BlindPlannerContext) -> JointDecision:
+    async def decide(self, context: BlindPlannerContext) -> PlannerOutcome:
         del context
         if not self._decisions:
             raise RuntimeError("scripted planner has no decision remaining")
-        return self._decisions.popleft()
+        return PlannerOutcome(decision=self._decisions.popleft())
 
 
 class BlindActionProposal(ContractModel):
@@ -121,17 +131,20 @@ class LLMBlindPlanner:
         self._backend = backend
         self._registry = registry
 
-    async def decide(self, context: BlindPlannerContext) -> JointDecision:
-        response = await self._backend.complete(self.render_prompt(context))
+    async def decide(self, context: BlindPlannerContext) -> PlannerOutcome:
+        completion = await self._backend.invoke(ModelRequest(prompt=self.render_prompt(context)))
         try:
-            raw = json.loads(response)
+            raw = json.loads(completion.text)
             proposal = BLIND_PROPOSAL_ADAPTER.validate_python(raw)
         except (json.JSONDecodeError, ValidationError) as exc:
             raise PlannerDecisionError(
                 "blind planner must return exactly one valid JSON decision object"
             ) from exc
         if isinstance(proposal, BlindFinishProposal):
-            return FinishDecision(reason=proposal.reason)
+            return PlannerOutcome(
+                decision=FinishDecision(reason=proposal.reason),
+                model_telemetry=completion.telemetry,
+            )
         action = SemanticAction(
             operator=proposal.operator,
             inputs=proposal.inputs,
@@ -141,9 +154,12 @@ class LLMBlindPlanner:
             self._registry.validate_action(action)
         except (KeyError, ValueError) as exc:
             raise PlannerDecisionError(str(exc)) from exc
-        return JointAction(
-            semantic=action,
-            physical=PhysicalDecision(policy=PhysicalPolicy.AUTO),
+        return PlannerOutcome(
+            decision=JointAction(
+                semantic=action,
+                physical=PhysicalDecision(policy=PhysicalPolicy.AUTO),
+            ),
+            model_telemetry=completion.telemetry,
         )
 
     def render_prompt(self, context: BlindPlannerContext) -> str:

@@ -2,11 +2,16 @@ agent_id: local-worker
 host: 127.0.0.1
 port: 8000
 artifact_root: ./artifacts/local-worker
-deployment_ids:
-  - local-model
+deployments:
+  local-model:
+    model_id: static-test-model
+    modalities: [text]
+    context_window: 8192
+    reserved_output_tokens: 512
+    model:
+      backend: static
+      response: A
 allowed_artifact_hosts:
   - 127.0.0.1
 # ffmpeg_executable: C:/ffmpeg/bin/ffmpeg.exe
-model:
-  backend: static
-  response: A
+max_read_artifact_bytes: 65536

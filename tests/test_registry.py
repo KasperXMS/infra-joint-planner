@@ -45,7 +45,7 @@ def test_registry_validates_planner_action_against_operator_schema() -> None:
         registry.validate_action(
             SemanticAction(
                 operator="invoke_model",
-                inputs=("unexpected",),
+                inputs=tuple(f"artifact-{index}" for index in range(65)),
                 arguments={"prompt": "hello"},
             )
         )

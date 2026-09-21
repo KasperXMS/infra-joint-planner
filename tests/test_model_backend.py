@@ -50,7 +50,12 @@ async def test_openai_compatible_backend_uses_injected_client() -> None:
     assert len(requests) == 1
     body = json.loads(requests[0].content)
     assert body["model"] == "local-model"
-    assert body["messages"] == [{"role": "user", "content": "Choose one"}]
+    assert body["messages"] == [
+        {
+            "role": "user",
+            "content": [{"type": "text", "text": "Choose one"}],
+        }
+    ]
 
 
 @pytest.mark.asyncio

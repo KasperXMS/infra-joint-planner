@@ -26,7 +26,7 @@ from infra_joint.runtime.client import HttpWorkerClient
 from infra_joint.runtime.executor import RuntimeExecutor
 from infra_joint.worker.artifact_fetcher import FetchedArtifact
 from infra_joint.worker.artifact_store import InMemoryArtifactStore, StoredArtifact
-from infra_joint.worker.model_backend import StaticModelBackend
+from infra_joint.worker.model_backend import ModelDeployment, StaticModelBackend
 from infra_joint.worker.server import create_worker_app
 
 
@@ -53,7 +53,7 @@ async def test_runtime_triggers_worker_to_worker_artifact_pull() -> None:
     target_store = InMemoryArtifactStore()
     source_app = create_worker_app(
         "source",
-        StaticModelBackend("unused"),
+        {},
         artifact_store=source_store,
     )
 
@@ -63,10 +63,19 @@ async def test_runtime_triggers_worker_to_worker_artifact_pull() -> None:
     ) as source_http:
         target_app = create_worker_app(
             "target",
-            StaticModelBackend("unused"),
+            {
+                "reader-v1": ModelDeployment(
+                    deployment_id="reader-v1",
+                    model_id="reader",
+                    backend=StaticModelBackend("unused"),
+                    modalities=frozenset({"text"}),
+                    context_window=4096,
+                    reserved_output_tokens=512,
+                    image_token_cost=4096,
+                )
+            },
             artifact_store=target_store,
             artifact_fetcher=SourceClientFetcher(source_http),
-            deployment_ids=("reader-v1",),
         )
         async with httpx.AsyncClient(
             transport=httpx.ASGITransport(app=target_app),
@@ -137,15 +146,13 @@ async def test_runtime_triggers_worker_to_worker_artifact_pull() -> None:
 @pytest.mark.asyncio
 async def test_pull_rejects_checksum_mismatch() -> None:
     source_store = InMemoryArtifactStore((StoredArtifact.create("doc", "text/plain", b"actual"),))
-    source_app = create_worker_app(
-        "source", StaticModelBackend("unused"), artifact_store=source_store
-    )
+    source_app = create_worker_app("source", {}, artifact_store=source_store)
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=source_app), base_url="http://source"
     ) as source_http:
         target_app = create_worker_app(
             "target",
-            StaticModelBackend("unused"),
+            {},
             artifact_fetcher=SourceClientFetcher(source_http),
         )
         async with httpx.AsyncClient(

@@ -2,6 +2,7 @@ import json
 from typing import Protocol
 
 from infra_joint.core.action import JointDecision
+from infra_joint.core.base import ContractModel
 from infra_joint.core.task import OutputFormat, TaskContract
 from infra_joint.planning.planner import (
     CompletionBackend,
@@ -10,6 +11,12 @@ from infra_joint.planning.planner import (
     logical_task_payload,
 )
 from infra_joint.runtime.executor import ExecutionResult
+from infra_joint.worker.model_backend import ModelCallTelemetry, ModelRequest
+
+
+class FinalizationOutcome(ContractModel):
+    answer: str
+    model_telemetry: ModelCallTelemetry | None = None
 
 
 class Finalizer(Protocol):
@@ -18,7 +25,7 @@ class Finalizer(Protocol):
         task: TaskContract,
         decisions: tuple[JointDecision, ...],
         observations: tuple[ExecutionResult, ...],
-    ) -> str: ...
+    ) -> FinalizationOutcome: ...
 
 
 class LastModelOutputFinalizer:
@@ -29,12 +36,12 @@ class LastModelOutputFinalizer:
         task: TaskContract,
         decisions: tuple[JointDecision, ...],
         observations: tuple[ExecutionResult, ...],
-    ) -> str:
+    ) -> FinalizationOutcome:
         del task, decisions
         if not observations:
-            return ""
+            return FinalizationOutcome(answer="")
         text = observations[-1].output.get("text")
-        return text if isinstance(text, str) else ""
+        return FinalizationOutcome(answer=text if isinstance(text, str) else "")
 
 
 class ContractAwareFinalizer:
@@ -48,9 +55,13 @@ class ContractAwareFinalizer:
         task: TaskContract,
         decisions: tuple[JointDecision, ...],
         observations: tuple[ExecutionResult, ...],
-    ) -> str:
+    ) -> FinalizationOutcome:
         prompt = self.render_prompt(task, decisions, observations)
-        return await self._backend.complete(prompt)
+        completion = await self._backend.invoke(ModelRequest(prompt=prompt))
+        return FinalizationOutcome(
+            answer=completion.text,
+            model_telemetry=completion.telemetry,
+        )
 
     @staticmethod
     def render_prompt(

@@ -22,6 +22,10 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - MultiHop-RAG full-corpus and explicitly derived fixed-candidate adapters;
 - a strict JSON LLM Blind Planner with AUTO-only physical placement;
 - tool-free contract-aware finalization over logical evidence only;
+- artifact-aware text/image model invocation with fail-closed context preflight;
+- concrete per-worker deployment-to-backend mappings and startup surface validation;
+- paper-facing latency, token, operator, model-service, and transfer telemetry;
+- a YAML-configured benchmark runner with persisted result and JSONL trace;
 - an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
 - a persistent checksum-verifying artifact store and YAML-driven worker CLI;
@@ -57,6 +61,12 @@ itself must not be placed in YAML, command-line arguments, traces, or Git.
 
 For an OpenAI-compatible deployment, set `model.backend` to `openai_compatible` and put only
 the environment-variable name in `api_key_env`. The key value must remain outside YAML and Git.
+
+Worker YAML maps every deployment ID to its own backend, modalities, and context/output budgets.
+Experiment YAML keeps `EnvironmentSpec`, worker URLs, initial artifact placements, Planner
+configuration, and local materialization sources outside `TaskContract`. Pass the loaded
+`RunnerConfig` and an adapter-produced `AdaptationBundle` to `BenchmarkRunner.run()`; the runner
+validates each live worker surface before materializing or executing a task.
 
 ## Architectural invariants
 

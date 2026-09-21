@@ -18,6 +18,11 @@ from infra_joint.planning.planner import (
     PlannerObservation,
 )
 from infra_joint.runtime.executor import ExecutionResult
+from infra_joint.worker.model_backend import (
+    ModelCallTelemetry,
+    ModelCompletion,
+    ModelRequest,
+)
 
 
 class CapturingBackend:
@@ -25,9 +30,17 @@ class CapturingBackend:
         self.response = response
         self.prompts: list[str] = []
 
-    async def complete(self, prompt: str) -> str:
-        self.prompts.append(prompt)
-        return self.response
+    async def invoke(self, request: ModelRequest) -> ModelCompletion:
+        self.prompts.append(request.prompt)
+        return ModelCompletion(
+            text=self.response,
+            telemetry=ModelCallTelemetry(
+                service_latency_ms=1,
+                input_tokens=10,
+                output_tokens=2,
+                finish_reason="stop",
+            ),
+        )
 
 
 def task() -> TaskContract:
@@ -88,7 +101,8 @@ async def test_llm_blind_planner_emits_validated_auto_action_without_physical_le
     )
     planner = LLMBlindPlanner(backend, build_operator_catalog())
 
-    decision = await planner.decide(context())
+    outcome = await planner.decide(context())
+    decision = outcome.decision
 
     assert isinstance(decision, JointAction)
     assert decision.semantic.operator == "invoke_model"
@@ -109,7 +123,7 @@ async def test_llm_blind_planner_accepts_finish_decision() -> None:
     backend = CapturingBackend('{"decision_type":"finish","reason":"evidence is sufficient"}')
     planner = LLMBlindPlanner(backend, build_operator_catalog())
 
-    decision = await planner.decide(context())
+    decision = (await planner.decide(context())).decision
 
     assert decision.decision_type == "finish"
 
@@ -153,9 +167,9 @@ async def test_contract_finalizer_is_tool_free_and_preserves_exact_model_text() 
         output={"text": "Evidence supports A."},
     )
 
-    answer = await finalizer.finalize(task(), (decision,), (observation,))
+    outcome = await finalizer.finalize(task(), (decision,), (observation,))
 
-    assert answer == "A"
+    assert outcome.answer == "A"
     prompt = backend.prompts[0]
     assert 'exactly one of these canonical choice labels: ["A","B"]' in prompt
     assert "Evidence supports A." in prompt
@@ -170,6 +184,6 @@ async def test_contract_finalizer_does_not_repair_noncanonical_output() -> None:
     backend = CapturingBackend("The answer is A")
     finalizer = ContractAwareFinalizer(backend)
 
-    answer = await finalizer.finalize(task(), (), ())
+    outcome = await finalizer.finalize(task(), (), ())
 
-    assert answer == "The answer is A"
+    assert outcome.answer == "The answer is A"

@@ -6,10 +6,11 @@ from infra_joint.operators.registry import OperatorSpec
 def invoke_model_spec() -> OperatorSpec:
     return OperatorSpec(
         operator_id="invoke_model",
-        description="Invoke a model deployment with a text prompt.",
+        description="Invoke a model deployment with a prompt and optional text/image artifacts.",
         input_schema={
             "type": "array",
-            "maxItems": 0,
+            "items": {"type": "string"},
+            "maxItems": 64,
         },
         argument_schema={
             "type": "object",

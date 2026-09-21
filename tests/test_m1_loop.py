@@ -13,6 +13,8 @@ from infra_joint.core.action import (
 from infra_joint.core.state import (
     AgentRuntimeState,
     AgentSpec,
+    DeploymentRuntimeState,
+    DeploymentSpec,
     EnvironmentSpec,
     InfrastructureState,
 )
@@ -26,8 +28,30 @@ from infra_joint.planning.graph import PlanningGraph
 from infra_joint.planning.planner import ScriptedBlindPlanner
 from infra_joint.runtime.client import HttpWorkerClient
 from infra_joint.runtime.executor import RuntimeExecutor
-from infra_joint.worker.model_backend import StaticModelBackend
+from infra_joint.worker.model_backend import ModelDeployment, StaticModelBackend
 from infra_joint.worker.server import create_worker_app
+
+
+def static_deployment() -> ModelDeployment:
+    return ModelDeployment(
+        deployment_id="model-1",
+        model_id="static-model",
+        backend=StaticModelBackend("A"),
+        modalities=frozenset({"text"}),
+        context_window=4096,
+        reserved_output_tokens=512,
+        image_token_cost=4096,
+    )
+
+
+def deployment_spec() -> DeploymentSpec:
+    return DeploymentSpec(
+        deployment_id="model-1",
+        agent_id="worker-1",
+        model_id="static-model",
+        context_window=4096,
+        reserved_output_tokens=512,
+    )
 
 
 @pytest.mark.asyncio
@@ -51,11 +75,11 @@ async def test_blind_planner_worker_finalize_evaluate_loop() -> None:
                 capabilities=frozenset({"model"}),
             ),
         ),
-        deployments=(),
+        deployments=(deployment_spec(),),
     )
     infrastructure = InfrastructureState(
         agents=(AgentRuntimeState(agent_id="worker-1", available=True),),
-        deployments=(),
+        deployments=(DeploymentRuntimeState(deployment_id="model-1", available=True),),
         artifacts=(),
         links=(),
         observed_at=datetime.now(UTC),
@@ -75,7 +99,7 @@ async def test_blind_planner_worker_finalize_evaluate_loop() -> None:
         )
     )
 
-    app = create_worker_app("worker-1", StaticModelBackend("A"))
+    app = create_worker_app("worker-1", {"model-1": static_deployment()})
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://worker-1") as client:
         executor = RuntimeExecutor(
@@ -115,11 +139,11 @@ async def test_planning_budget_still_runs_finalization() -> None:
     )
     environment = EnvironmentSpec(
         agents=(AgentSpec(agent_id="worker-1", device="cpu", capabilities={"model"}),),
-        deployments=(),
+        deployments=(deployment_spec(),),
     )
     infrastructure = InfrastructureState(
         agents=(AgentRuntimeState(agent_id="worker-1", available=True),),
-        deployments=(),
+        deployments=(DeploymentRuntimeState(deployment_id="model-1", available=True),),
         artifacts=(),
         links=(),
         observed_at=datetime.now(UTC),
@@ -130,7 +154,7 @@ async def test_planning_budget_still_runs_finalization() -> None:
         semantic=SemanticAction(operator="invoke_model", arguments={"prompt": "Return A"}),
         physical=PhysicalDecision(policy=PhysicalPolicy.AUTO),
     )
-    app = create_worker_app("worker-1", StaticModelBackend("A"))
+    app = create_worker_app("worker-1", {"model-1": static_deployment()})
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://worker-1") as client:
         graph = PlanningGraph(

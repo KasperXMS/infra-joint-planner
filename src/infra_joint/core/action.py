@@ -11,7 +11,6 @@ class PhysicalPolicy(StrEnum):
     DATA_LOCAL = "data_local"
     TARGET_AGENT = "target_agent"
     TARGET_DEPLOYMENT = "target_deployment"
-    PARALLEL_DATA_LOCAL = "parallel_data_local"
 
 
 class SemanticAction(ContractModel):

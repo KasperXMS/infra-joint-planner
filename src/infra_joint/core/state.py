@@ -17,6 +17,16 @@ class DeploymentSpec(ContractModel):
     model_id: str = Field(min_length=1)
     modalities: frozenset[str] = frozenset({"text"})
     context_window: int = Field(gt=0)
+    reserved_output_tokens: int = Field(default=1024, gt=0)
+    image_token_cost: int = Field(default=4096, gt=0)
+
+    @model_validator(mode="after")
+    def output_budget_fits_context(self) -> "DeploymentSpec":
+        if self.reserved_output_tokens >= self.context_window:
+            raise ValueError("reserved output tokens must be smaller than context window")
+        if "text" not in self.modalities:
+            raise ValueError("model deployment must support text prompts")
+        return self
 
 
 class ArtifactPlacement(ContractModel):
@@ -78,6 +88,9 @@ class DeploymentRuntimeState(ContractModel):
 class ArtifactRuntimeState(ContractModel):
     artifact_id: str = Field(min_length=1)
     locations: tuple[str, ...]
+    media_type: str | None = None
+    size_bytes: int | None = Field(default=None, ge=0)
+    sha256_hex: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
 
     @field_validator("locations")
     @classmethod

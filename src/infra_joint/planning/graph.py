@@ -1,12 +1,15 @@
 # pyright: reportMissingTypeStubs=false, reportUnknownMemberType=false
 
 from datetime import UTC, datetime
+from time import perf_counter
 from typing import Any, Literal, TypedDict, cast
 from uuid import uuid4
 
 from langgraph.graph import END, START, StateGraph
+from pydantic import Field
 
 from infra_joint.core.action import FinishDecision, JointAction, JointDecision
+from infra_joint.core.base import ContractModel
 from infra_joint.core.state import InfrastructureState
 from infra_joint.core.task import TaskContract
 from infra_joint.evaluation.evaluator import EvaluationResult, Evaluator
@@ -18,7 +21,31 @@ from infra_joint.planning.planner import (
     BlindPlannerContext,
     PlannerObservation,
 )
-from infra_joint.runtime.executor import ActionExecutor, ExecutionResult
+from infra_joint.runtime.executor import (
+    ActionExecutor,
+    ArtifactTransferTelemetry,
+    ExecutionResult,
+)
+from infra_joint.worker.model_backend import ModelCallTelemetry
+
+
+class PlannerCallTelemetry(ContractModel):
+    latency_ms: float = Field(ge=0)
+    model: ModelCallTelemetry | None = None
+
+
+class FinalizerCallTelemetry(ContractModel):
+    latency_ms: float = Field(ge=0)
+    model: ModelCallTelemetry | None = None
+
+
+class RunTelemetry(ContractModel):
+    e2e_latency_ms: float = Field(ge=0)
+    planner_calls: tuple[PlannerCallTelemetry, ...]
+    finalizer: FinalizerCallTelemetry
+    total_operator_latency_ms: float = Field(ge=0)
+    total_transfer_bytes: int = Field(ge=0)
+    total_transfer_duration_ms: float = Field(ge=0)
 
 
 class PlanningState(TypedDict):
@@ -33,6 +60,8 @@ class PlanningState(TypedDict):
     pending_decision: JointDecision | None
     final_answer: str | None
     evaluation: EvaluationResult | None
+    planner_telemetry: list[PlannerCallTelemetry]
+    finalizer_telemetry: FinalizerCallTelemetry | None
 
 
 class RunResult(TypedDict):
@@ -40,6 +69,8 @@ class RunResult(TypedDict):
     evaluation: EvaluationResult
     decisions: tuple[JointDecision, ...]
     observations: tuple[ExecutionResult, ...]
+    initial_transfers: tuple[ArtifactTransferTelemetry, ...]
+    telemetry: RunTelemetry
 
 
 class PlanningGraph:
@@ -115,13 +146,22 @@ class PlanningGraph:
             "planner.start",
             {"remaining_steps": state["remaining_steps"]},
         )
-        decision = await self._planner.decide(context)
+        started = perf_counter()
+        outcome = await self._planner.decide(context)
+        planner_telemetry = PlannerCallTelemetry(
+            latency_ms=(perf_counter() - started) * 1000,
+            model=outcome.model_telemetry,
+        )
+        decision = outcome.decision
         trace_state = self._emit_from_values(
             run_id=state["run_id"],
             event_index=cast(int, trace_state["event_index"]),
             parent_event_id=cast(str, trace_state["parent_event_id"]),
             event_type="planner.end",
-            payload={"decision": decision.model_dump(mode="json")},
+            payload={
+                "decision": decision.model_dump(mode="json"),
+                "telemetry": planner_telemetry.model_dump(mode="json"),
+            },
         )
         proposed_type = (
             "joint_action.proposed" if isinstance(decision, JointAction) else "finish.proposed"
@@ -137,6 +177,10 @@ class PlanningGraph:
             "pending_decision": decision,
             "decisions": [*state["decisions"], decision],
             "remaining_steps": state["remaining_steps"] - 1,
+            "planner_telemetry": [
+                *state["planner_telemetry"],
+                planner_telemetry,
+            ],
             **trace_state,
         }
 
@@ -160,6 +204,14 @@ class PlanningGraph:
             {"operator": decision.semantic.operator},
         )
         observation = await self._executor.execute(decision, infrastructure)
+        for transfer in observation.transfers:
+            trace_state = self._emit_from_values(
+                run_id=state["run_id"],
+                event_index=cast(int, trace_state["event_index"]),
+                parent_event_id=cast(str, trace_state["parent_event_id"]),
+                event_type="artifact.transfer.end",
+                payload=transfer.model_dump(mode="json"),
+            )
         trace_state = self._emit_from_values(
             run_id=state["run_id"],
             event_index=cast(int, trace_state["event_index"]),
@@ -171,19 +223,31 @@ class PlanningGraph:
 
     async def _finalize(self, state: PlanningState) -> dict[str, object]:
         trace_state = self._emit(state, "finalize.start", {})
-        answer = await self._finalizer.finalize(
+        started = perf_counter()
+        outcome = await self._finalizer.finalize(
             state["task"],
             tuple(state["decisions"]),
             tuple(state["observations"]),
+        )
+        telemetry = FinalizerCallTelemetry(
+            latency_ms=(perf_counter() - started) * 1000,
+            model=outcome.model_telemetry,
         )
         trace_state = self._emit_from_values(
             run_id=state["run_id"],
             event_index=cast(int, trace_state["event_index"]),
             parent_event_id=cast(str, trace_state["parent_event_id"]),
             event_type="finalize.end",
-            payload={"answer": answer},
+            payload={
+                "answer": outcome.answer,
+                "telemetry": telemetry.model_dump(mode="json"),
+            },
         )
-        return {"final_answer": answer, **trace_state}
+        return {
+            "final_answer": outcome.answer,
+            "finalizer_telemetry": telemetry,
+            **trace_state,
+        }
 
     async def _evaluate(self, state: PlanningState) -> dict[str, object]:
         answer = state["final_answer"]
@@ -197,7 +261,14 @@ class PlanningGraph:
         )
         return {"evaluation": result, **trace_state}
 
-    async def run(self, task: TaskContract, *, run_id: str | None = None) -> RunResult:
+    async def run(
+        self,
+        task: TaskContract,
+        *,
+        run_id: str | None = None,
+        initial_transfers: tuple[ArtifactTransferTelemetry, ...] = (),
+    ) -> RunResult:
+        run_started = perf_counter()
         resolved_run_id = run_id or str(uuid4())
         first_event_id = "000000-task.start"
         self._append_trace(
@@ -213,10 +284,22 @@ class PlanningGraph:
                 },
             )
         )
+        event_index = 1
+        parent_event_id = first_event_id
+        for transfer in initial_transfers:
+            trace_state = self._emit_from_values(
+                run_id=resolved_run_id,
+                event_index=event_index,
+                parent_event_id=parent_event_id,
+                event_type="artifact.materialize.end",
+                payload=transfer.model_dump(mode="json"),
+            )
+            event_index = cast(int, trace_state["event_index"])
+            parent_event_id = cast(str, trace_state["parent_event_id"])
         initial: PlanningState = {
             "run_id": resolved_run_id,
-            "event_index": 1,
-            "parent_event_id": first_event_id,
+            "event_index": event_index,
+            "parent_event_id": parent_event_id,
             "task": task,
             "remaining_steps": self._max_planning_steps,
             "decisions": [],
@@ -225,24 +308,64 @@ class PlanningGraph:
             "pending_decision": None,
             "final_answer": None,
             "evaluation": None,
+            "planner_telemetry": [],
+            "finalizer_telemetry": None,
         }
         state = cast(PlanningState, await self._graph.ainvoke(initial))
         final_answer = state["final_answer"]
         evaluation = state["evaluation"]
         if final_answer is None or evaluation is None:
             raise RuntimeError("planning graph ended without finalization and evaluation")
+        finalizer_telemetry = state["finalizer_telemetry"]
+        if finalizer_telemetry is None:
+            raise RuntimeError("planning graph ended without finalizer telemetry")
+        telemetry = RunTelemetry(
+            e2e_latency_ms=(perf_counter() - run_started) * 1000,
+            planner_calls=tuple(state["planner_telemetry"]),
+            finalizer=finalizer_telemetry,
+            total_operator_latency_ms=sum(
+                observation.operator_latency_ms for observation in state["observations"]
+            ),
+            total_transfer_bytes=sum(
+                transfer.bytes_transferred
+                for transfer in (
+                    *initial_transfers,
+                    *(
+                        transfer
+                        for observation in state["observations"]
+                        for transfer in observation.transfers
+                    ),
+                )
+            ),
+            total_transfer_duration_ms=sum(
+                transfer.duration_ms
+                for transfer in (
+                    *initial_transfers,
+                    *(
+                        transfer
+                        for observation in state["observations"]
+                        for transfer in observation.transfers
+                    ),
+                )
+            ),
+        )
         self._emit_from_values(
             run_id=resolved_run_id,
             event_index=state["event_index"],
             parent_event_id=state["parent_event_id"],
             event_type="run.end",
-            payload={"execution_completed": True},
+            payload={
+                "execution_completed": True,
+                "telemetry": telemetry.model_dump(mode="json"),
+            },
         )
         return RunResult(
             final_answer=final_answer,
             evaluation=evaluation,
             decisions=tuple(state["decisions"]),
             observations=tuple(state["observations"]),
+            initial_transfers=initial_transfers,
+            telemetry=telemetry,
         )
 
     def _emit(

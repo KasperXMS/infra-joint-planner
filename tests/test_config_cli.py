@@ -20,15 +20,19 @@ def test_load_static_worker_config(tmp_path: Path) -> None:
         """
 agent_id: edge-a4
 artifact_root: ./artifacts/a4
-model:
-  backend: static
-  response: A
+deployments:
+  edge-model:
+    model_id: static-model
+    context_window: 4096
+    model:
+      backend: static
+      response: A
 """.strip(),
         encoding="utf-8",
     )
 
     config = load_worker_config(config_path)
-    backend, client = build_model_backend(config.model)
+    backend, client = build_model_backend(config.deployments["edge-model"].model)
 
     assert config.agent_id == "edge-a4"
     assert isinstance(backend, StaticModelBackend)

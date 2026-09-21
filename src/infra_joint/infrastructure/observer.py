@@ -75,19 +75,36 @@ class LiveWorkerObserver:
                 available=(
                     deployment.agent_id in worker_states
                     and deployment.deployment_id
-                    in worker_states[deployment.agent_id].deployment_ids
+                    in {
+                        item.deployment_id
+                        for item in worker_states[deployment.agent_id].deployments
+                    }
                 ),
             )
             for deployment in self._environment.deployments
         )
         artifact_locations: dict[str, list[str]] = {}
+        artifact_metadata: dict[str, tuple[str, int, str]] = {}
         for agent_id, worker_state in worker_states.items():
-            for artifact_id in worker_state.artifact_ids:
-                artifact_locations.setdefault(artifact_id, []).append(agent_id)
+            for artifact in worker_state.artifacts:
+                metadata = (
+                    artifact.media_type,
+                    artifact.size_bytes,
+                    artifact.sha256_hex,
+                )
+                existing = artifact_metadata.setdefault(artifact.artifact_id, metadata)
+                if existing != metadata:
+                    raise RuntimeError(
+                        f"workers report inconsistent artifact metadata: {artifact.artifact_id}"
+                    )
+                artifact_locations.setdefault(artifact.artifact_id, []).append(agent_id)
         artifacts = tuple(
             ArtifactRuntimeState(
                 artifact_id=artifact_id,
                 locations=tuple(sorted(locations)),
+                media_type=artifact_metadata[artifact_id][0],
+                size_bytes=artifact_metadata[artifact_id][1],
+                sha256_hex=artifact_metadata[artifact_id][2],
             )
             for artifact_id, locations in sorted(artifact_locations.items())
         )

@@ -5,6 +5,7 @@ from typing import Annotated
 import httpx
 import typer
 import uvicorn
+from openai import AsyncOpenAI
 
 from infra_joint.config import build_model_backend, load_planner_config, load_worker_config
 from infra_joint.core.task import OutputContract, OutputFormat, TaskContract
@@ -13,6 +14,7 @@ from infra_joint.operators.media import FfmpegMediaBackend, probe_ffmpeg
 from infra_joint.planning.planner import BlindPlannerContext, LLMBlindPlanner
 from infra_joint.worker.artifact_fetcher import HttpArtifactFetcher
 from infra_joint.worker.artifact_store import FileArtifactStore
+from infra_joint.worker.model_backend import ModelDeployment
 from infra_joint.worker.server import create_worker_app
 
 app = typer.Typer(no_args_is_help=True, help="Infra-Aware Joint Planner utilities.")
@@ -30,7 +32,21 @@ def worker(
     """Start a worker from a YAML configuration file."""
 
     settings = load_worker_config(config)
-    backend, openai_client = build_model_backend(settings.model)
+    openai_clients: list[AsyncOpenAI] = []
+    deployments: dict[str, ModelDeployment] = {}
+    for deployment_id, deployment_config in settings.deployments.items():
+        backend, openai_client = build_model_backend(deployment_config.model)
+        if openai_client is not None:
+            openai_clients.append(openai_client)
+        deployments[deployment_id] = ModelDeployment(
+            deployment_id=deployment_id,
+            model_id=deployment_config.model_id,
+            backend=backend,
+            modalities=deployment_config.modalities,
+            context_window=deployment_config.context_window,
+            reserved_output_tokens=deployment_config.reserved_output_tokens,
+            image_token_cost=deployment_config.image_token_cost,
+        )
     fetch_client: httpx.AsyncClient | None = None
     fetcher = None
     if settings.allowed_artifact_hosts:
@@ -46,18 +62,18 @@ def worker(
         typer.echo(f"FFmpeg media operators disabled: {ffmpeg.reason}", err=True)
     worker_app = create_worker_app(
         settings.agent_id,
-        backend,
+        deployments,
         artifact_store=FileArtifactStore(settings.artifact_root),
         artifact_fetcher=fetcher,
-        deployment_ids=settings.deployment_ids,
         media_backend=media_backend,
+        max_read_artifact_bytes=settings.max_read_artifact_bytes,
     )
     try:
         uvicorn.run(worker_app, host=settings.host, port=settings.port)
     finally:
         if fetch_client is not None:
             asyncio.run(fetch_client.aclose())
-        if openai_client is not None:
+        for openai_client in openai_clients:
             asyncio.run(openai_client.close())
 
 
@@ -74,7 +90,7 @@ async def _plan_once(config: Path, objective: str) -> str:
         evaluator_id="manual",
     )
     try:
-        decision = await planner.decide(
+        outcome = await planner.decide(
             BlindPlannerContext(
                 task=task,
                 decisions=(),
@@ -82,7 +98,7 @@ async def _plan_once(config: Path, objective: str) -> str:
                 remaining_steps=1,
             )
         )
-        return decision.model_dump_json()
+        return outcome.decision.model_dump_json()
     finally:
         if openai_client is not None:
             await openai_client.close()

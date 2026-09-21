@@ -4,11 +4,13 @@ from urllib.parse import quote
 import httpx
 
 from infra_joint.core.action import SemanticAction
+from infra_joint.core.errors import FailureDetail, TypedExecutionError
 from infra_joint.worker.server import (
     ExecuteOperatorRequest,
     ExecuteOperatorResponse,
     PullArtifactRequest,
     PullArtifactResponse,
+    PutArtifactResponse,
     WorkerStateResponse,
 )
 
@@ -30,6 +32,14 @@ class WorkerClient(Protocol):
         source_url: str,
         expected_sha256: str | None = None,
     ) -> PullArtifactResponse: ...
+
+    async def put_artifact(
+        self,
+        artifact_id: str,
+        media_type: str,
+        content: bytes,
+        expected_sha256: str,
+    ) -> PutArtifactResponse: ...
 
 
 class HttpWorkerClient:
@@ -65,6 +75,24 @@ class HttpWorkerClient:
         response.raise_for_status()
         return PullArtifactResponse.model_validate(response.json())
 
+    async def put_artifact(
+        self,
+        artifact_id: str,
+        media_type: str,
+        content: bytes,
+        expected_sha256: str,
+    ) -> PutArtifactResponse:
+        response = await self._client.put(
+            f"/artifact/{quote(artifact_id, safe='')}",
+            content=content,
+            headers={
+                "content-type": media_type,
+                "x-artifact-sha256": expected_sha256,
+            },
+        )
+        response.raise_for_status()
+        return PutArtifactResponse.model_validate(response.json())
+
     async def execute_operator(
         self, action: SemanticAction, deployment_id: str | None
     ) -> ExecuteOperatorResponse:
@@ -74,5 +102,15 @@ class HttpWorkerClient:
             content=request.model_dump_json(),
             headers={"content-type": "application/json"},
         )
+        if response.is_error:
+            self._raise_typed_error(response)
         response.raise_for_status()
         return ExecuteOperatorResponse.model_validate(response.json())
+
+    @staticmethod
+    def _raise_typed_error(response: httpx.Response) -> None:
+        try:
+            detail = FailureDetail.model_validate(response.json().get("detail"))
+        except (ValueError, AttributeError):
+            return
+        raise TypedExecutionError(detail.code, detail.message)
