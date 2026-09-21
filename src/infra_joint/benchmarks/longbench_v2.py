@@ -263,6 +263,14 @@ class LongBenchV2Adapter:
             sample.sample_id,
             representation.artifact_id,
             content,
+            logical_type=(
+                "structured_records;fields="
+                + ",".join(
+                    f"{column.name}:{column.value_type.value}"
+                    f"{'?' if column.nullable else ''}"
+                    for column in representation.columns
+                )
+            ),
         )
         return (artifact,), self._record(
             sample,
@@ -360,10 +368,12 @@ class LongBenchV2Adapter:
         sample_id: str,
         artifact_id: str,
         content: bytes,
+        *,
+        logical_type: str = "structured_records",
     ) -> PreparedArtifact:
         spec = ArtifactSpec(
             artifact_id=artifact_id,
-            logical_type="structured_records",
+            logical_type=logical_type,
             media_type="application/json",
             size_bytes=len(content),
             source_ref=f"prepared://longbench-v2/{sample_id}/{artifact_id}",

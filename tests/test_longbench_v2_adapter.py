@@ -114,6 +114,9 @@ def test_fixed_width_conversion_produces_typed_json_and_audit() -> None:
 
     prepared = bundle.prepared_artifacts[0]
     assert prepared.spec.media_type == "application/json"
+    assert prepared.spec.logical_type == (
+        "structured_records;fields=NAME:string,COUNT:integer,PRICE:number"
+    )
     assert json.loads(prepared.content) == [
         {"COUNT": 12, "NAME": "Alpha", "PRICE": 10.5},
         {"COUNT": 25, "NAME": "Beta", "PRICE": 7.0},
