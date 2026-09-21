@@ -6,6 +6,7 @@ from infra_joint.benchmarks.base import (
     BenchmarkSettingKind,
     TransformationRecord,
 )
+from infra_joint.benchmarks.longbench_v2 import LongBenchV2Adapter, LongBenchV2Sample
 from infra_joint.benchmarks.video_mme import (
     FixedIntervalSegmentation,
     VideoMMEAdapter,
@@ -17,6 +18,8 @@ __all__ = [
     "AdaptedExecutionCase",
     "BenchmarkSettingKind",
     "FixedIntervalSegmentation",
+    "LongBenchV2Adapter",
+    "LongBenchV2Sample",
     "TransformationRecord",
     "VideoMMEAdapter",
     "VideoMMESample",

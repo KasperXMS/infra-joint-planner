@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import Protocol
+from hashlib import sha256
+from typing import Any, Protocol
 
 from pydantic import Field, model_validator
 
 from infra_joint.core.base import ContractModel
-from infra_joint.core.task import TaskContract
+from infra_joint.core.task import ArtifactSpec, TaskContract
 from infra_joint.evaluation.evaluator import Evaluator, ExactChoiceEvaluator
 
 
@@ -23,6 +24,27 @@ class TransformationRecord(ContractModel):
     order_preserved: bool | None
     gold_independent: bool
     notes: str = ""
+    audit: dict[str, Any] = Field(default_factory=dict)
+
+
+class PreparedArtifact(ContractModel):
+    """Adapter-produced bytes kept outside the Planner-visible TaskContract."""
+
+    spec: ArtifactSpec
+    content: bytes
+    sha256_hex: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+    @model_validator(mode="after")
+    def metadata_matches_content(self) -> "PreparedArtifact":
+        if self.spec.size_bytes != len(self.content):
+            raise ValueError("prepared artifact size does not match content")
+        if self.sha256_hex != sha256(self.content).hexdigest():
+            raise ValueError("prepared artifact checksum does not match content")
+        return self
+
+    @classmethod
+    def create(cls, spec: ArtifactSpec, content: bytes) -> "PreparedArtifact":
+        return cls(spec=spec, content=content, sha256_hex=sha256(content).hexdigest())
 
 
 class ValidityAssessment(ContractModel):
@@ -108,6 +130,7 @@ class AdaptationBundle:
 
     execution: AdaptedExecutionCase
     private_evaluation: PrivateEvaluationSpec
+    prepared_artifacts: tuple[PreparedArtifact, ...] = ()
 
 
 class BenchmarkAdapter[SampleT](Protocol):
