@@ -110,6 +110,7 @@ async def test_llm_blind_planner_emits_validated_auto_action_without_physical_le
     prompt = backend.prompts[0]
     assert "filter_records" in prompt
     assert "bm25_retrieve" in prompt
+    assert '"name":"read_artifact"' not in prompt
     assert "logical evidence" in prompt
     assert "SECRET-SOURCE-HOST" not in prompt
     assert "SECRET-PRIOR-WORKER" not in prompt

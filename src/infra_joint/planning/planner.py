@@ -163,9 +163,14 @@ class LLMBlindPlanner:
         )
 
     def render_prompt(self, context: BlindPlannerContext) -> str:
+        planner_tools = [
+            tool
+            for tool in self._registry.planner_tools()
+            if tool["function"]["name"] != "read_artifact"
+        ]
         payload = {
             "task": logical_task_payload(context.task),
-            "available_operators": self._registry.planner_tools(),
+            "available_operators": planner_tools,
             "decision_history": [
                 logical_decision_payload(decision) for decision in context.decisions
             ],
