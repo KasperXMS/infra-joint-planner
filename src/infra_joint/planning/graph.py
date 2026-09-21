@@ -1,6 +1,8 @@
 # pyright: reportMissingTypeStubs=false, reportUnknownMemberType=false
 
+from datetime import UTC, datetime
 from typing import Any, Literal, TypedDict, cast
+from uuid import uuid4
 
 from langgraph.graph import END, START, StateGraph
 
@@ -8,6 +10,7 @@ from infra_joint.core.action import FinishDecision, JointAction, JointDecision
 from infra_joint.core.state import InfrastructureState
 from infra_joint.core.task import TaskContract
 from infra_joint.evaluation.evaluator import EvaluationResult, Evaluator
+from infra_joint.evaluation.trace import TraceEvent, TraceSink
 from infra_joint.infrastructure.observer import InfrastructureObserver
 from infra_joint.planning.finalize import Finalizer
 from infra_joint.planning.planner import BlindPlanner, BlindPlannerContext
@@ -15,6 +18,9 @@ from infra_joint.runtime.executor import ActionExecutor, ExecutionResult
 
 
 class PlanningState(TypedDict):
+    run_id: str
+    event_index: int
+    parent_event_id: str | None
     task: TaskContract
     remaining_steps: int
     decisions: list[JointDecision]
@@ -41,6 +47,7 @@ class PlanningGraph:
         finalizer: Finalizer,
         evaluator: Evaluator,
         max_planning_steps: int,
+        trace_sink: TraceSink | None = None,
     ) -> None:
         if max_planning_steps < 1:
             raise ValueError("max_planning_steps must be positive")
@@ -50,6 +57,7 @@ class PlanningGraph:
         self._finalizer = finalizer
         self._evaluator = evaluator
         self._max_planning_steps = max_planning_steps
+        self._trace_sink = trace_sink
         self._graph = self._build_graph()
 
     def _build_graph(self) -> Any:
@@ -75,9 +83,14 @@ class PlanningGraph:
         graph.add_edge("evaluate", END)
         return graph.compile()
 
-    async def _observe(self, state: PlanningState) -> dict[str, InfrastructureState]:
-        del state
-        return {"infrastructure": await self._observer.observe()}
+    async def _observe(self, state: PlanningState) -> dict[str, object]:
+        infrastructure = await self._observer.observe()
+        trace_state = self._emit(
+            state,
+            "infra.snapshot",
+            infrastructure.model_dump(mode="json"),
+        )
+        return {"infrastructure": infrastructure, **trace_state}
 
     @staticmethod
     def _route_after_observe(state: PlanningState) -> Literal["plan", "finalize"]:
@@ -91,10 +104,26 @@ class PlanningGraph:
             remaining_steps=state["remaining_steps"],
         )
         decision = await self._planner.decide(context)
+        trace_state = self._emit(
+            state,
+            "planner.end",
+            {"decision": decision.model_dump(mode="json")},
+        )
+        proposed_type = (
+            "joint_action.proposed" if isinstance(decision, JointAction) else "finish.proposed"
+        )
+        trace_state = self._emit_from_values(
+            run_id=state["run_id"],
+            event_index=cast(int, trace_state["event_index"]),
+            parent_event_id=cast(str, trace_state["parent_event_id"]),
+            event_type=proposed_type,
+            payload=decision.model_dump(mode="json"),
+        )
         return {
             "pending_decision": decision,
             "decisions": [*state["decisions"], decision],
             "remaining_steps": state["remaining_steps"] - 1,
+            **trace_state,
         }
 
     @staticmethod
@@ -111,26 +140,69 @@ class PlanningGraph:
         infrastructure = state["infrastructure"]
         if infrastructure is None:
             raise RuntimeError("execute node requires an infrastructure snapshot")
+        trace_state = self._emit(
+            state,
+            "operator.start",
+            {"operator": decision.semantic.operator},
+        )
         observation = await self._executor.execute(decision, infrastructure)
-        return {"observations": [*state["observations"], observation]}
+        trace_state = self._emit_from_values(
+            run_id=state["run_id"],
+            event_index=cast(int, trace_state["event_index"]),
+            parent_event_id=cast(str, trace_state["parent_event_id"]),
+            event_type="operator.end",
+            payload=observation.model_dump(mode="json"),
+        )
+        return {"observations": [*state["observations"], observation], **trace_state}
 
-    async def _finalize(self, state: PlanningState) -> dict[str, str]:
+    async def _finalize(self, state: PlanningState) -> dict[str, object]:
+        trace_state = self._emit(state, "finalize.start", {})
         answer = await self._finalizer.finalize(
             state["task"],
             tuple(state["decisions"]),
             tuple(state["observations"]),
         )
-        return {"final_answer": answer}
+        trace_state = self._emit_from_values(
+            run_id=state["run_id"],
+            event_index=cast(int, trace_state["event_index"]),
+            parent_event_id=cast(str, trace_state["parent_event_id"]),
+            event_type="finalize.end",
+            payload={"answer": answer},
+        )
+        return {"final_answer": answer, **trace_state}
 
-    async def _evaluate(self, state: PlanningState) -> dict[str, EvaluationResult]:
+    async def _evaluate(self, state: PlanningState) -> dict[str, object]:
         answer = state["final_answer"]
         if answer is None:
             raise RuntimeError("evaluate node requires a final answer")
         result = await self._evaluator.evaluate(state["task"], answer)
-        return {"evaluation": result}
+        trace_state = self._emit(
+            state,
+            "evaluation.result",
+            result.model_dump(mode="json"),
+        )
+        return {"evaluation": result, **trace_state}
 
-    async def run(self, task: TaskContract) -> RunResult:
+    async def run(self, task: TaskContract, *, run_id: str | None = None) -> RunResult:
+        resolved_run_id = run_id or str(uuid4())
+        first_event_id = "000000-task.start"
+        self._append_trace(
+            TraceEvent(
+                run_id=resolved_run_id,
+                step_id=first_event_id,
+                parent_id=None,
+                event_type="task.start",
+                timestamp=datetime.now(UTC),
+                payload={
+                    "task_id": task.task_id,
+                    "benchmark_id": task.benchmark_id,
+                },
+            )
+        )
         initial: PlanningState = {
+            "run_id": resolved_run_id,
+            "event_index": 1,
+            "parent_event_id": first_event_id,
             "task": task,
             "remaining_steps": self._max_planning_steps,
             "decisions": [],
@@ -145,9 +217,56 @@ class PlanningGraph:
         evaluation = state["evaluation"]
         if final_answer is None or evaluation is None:
             raise RuntimeError("planning graph ended without finalization and evaluation")
+        self._emit_from_values(
+            run_id=resolved_run_id,
+            event_index=state["event_index"],
+            parent_event_id=state["parent_event_id"],
+            event_type="run.end",
+            payload={"execution_completed": True},
+        )
         return RunResult(
             final_answer=final_answer,
             evaluation=evaluation,
             decisions=tuple(state["decisions"]),
             observations=tuple(state["observations"]),
         )
+
+    def _emit(
+        self,
+        state: PlanningState,
+        event_type: str,
+        payload: dict[str, Any],
+    ) -> dict[str, object]:
+        return self._emit_from_values(
+            run_id=state["run_id"],
+            event_index=state["event_index"],
+            parent_event_id=state["parent_event_id"],
+            event_type=event_type,
+            payload=payload,
+        )
+
+    def _emit_from_values(
+        self,
+        *,
+        run_id: str,
+        event_index: int,
+        parent_event_id: str | None,
+        event_type: str,
+        payload: dict[str, Any],
+    ) -> dict[str, object]:
+        step_id = f"{event_index:06d}-{event_type}"
+        self._append_trace(
+            TraceEvent(
+                run_id=run_id,
+                step_id=step_id,
+                parent_id=parent_event_id,
+                event_type=event_type,
+                timestamp=datetime.now(UTC),
+                payload=payload,
+            )
+        )
+        return {"event_index": event_index + 1, "parent_event_id": step_id}
+
+    def _append_trace(self, event: TraceEvent) -> None:
+        if self._trace_sink is not None:
+            self._trace_sink.append(event)

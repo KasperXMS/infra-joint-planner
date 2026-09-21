@@ -1,9 +1,9 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol
 
-from pydantic import Field
+from pydantic import Field, field_validator
 
 from infra_joint.core.base import ContractModel
 
@@ -15,6 +15,17 @@ class TraceEvent(ContractModel):
     event_type: str = Field(min_length=1)
     timestamp: datetime
     payload: dict[str, Any] = Field(default_factory=dict)
+
+    @field_validator("timestamp")
+    @classmethod
+    def timestamp_is_timezone_aware(cls, value: datetime) -> datetime:
+        if value.tzinfo is None or value.utcoffset() is None:
+            raise ValueError("trace timestamp must include a timezone")
+        return value
+
+
+class TraceSink(Protocol):
+    def append(self, event: TraceEvent) -> None: ...
 
 
 class JsonlTraceWriter:

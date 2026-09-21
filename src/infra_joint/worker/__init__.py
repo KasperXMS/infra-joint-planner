@@ -1,6 +1,10 @@
 """Worker service and model backend interfaces."""
 
-from infra_joint.worker.artifact_store import InMemoryArtifactStore, StoredArtifact
+from infra_joint.worker.artifact_store import (
+    FileArtifactStore,
+    InMemoryArtifactStore,
+    StoredArtifact,
+)
 from infra_joint.worker.model_backend import (
     ModelBackend,
     OpenAICompatibleModelBackend,
@@ -10,6 +14,7 @@ from infra_joint.worker.server import create_worker_app
 
 __all__ = [
     "InMemoryArtifactStore",
+    "FileArtifactStore",
     "ModelBackend",
     "OpenAICompatibleModelBackend",
     "StaticModelBackend",

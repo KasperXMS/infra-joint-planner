@@ -17,6 +17,7 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - live infrastructure snapshots assembled from worker-reported state;
 - an evaluator kept outside the planning/execution loop;
 - an append-only JSONL trace writer;
+- a persistent checksum-verifying artifact store and YAML-driven worker CLI;
 - contract and runtime invariant tests.
 
 ## Development
@@ -29,6 +30,15 @@ uv run pytest
 uv run ruff check .
 uv run pyright
 ```
+
+Start the example worker (the checked-in example uses a deterministic backend and no secret):
+
+```bash
+uv run infra-joint worker --config configs/example-worker.yaml
+```
+
+For an OpenAI-compatible deployment, set `model.backend` to `openai_compatible` and put only
+the environment-variable name in `api_key_env`. The key value must remain outside YAML and Git.
 
 ## Architectural invariants
 

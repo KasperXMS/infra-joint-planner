@@ -1,0 +1,11 @@
+agent_id: local-worker
+host: 127.0.0.1
+port: 8000
+artifact_root: ./artifacts/local-worker
+deployment_ids:
+  - local-model
+allowed_artifact_hosts:
+  - 127.0.0.1
+model:
+  backend: static
+  response: A

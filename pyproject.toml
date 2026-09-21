@@ -14,9 +14,13 @@ dependencies = [
   "langgraph>=1.0,<2",
   "openai>=2.0,<3",
   "pydantic>=2.9,<3",
+  "pyyaml>=6.0,<7",
   "typer>=0.15,<1",
   "uvicorn>=0.34,<1",
 ]
+
+[project.scripts]
+infra-joint = "infra_joint.cli:app"
 
 [project.optional-dependencies]
 dev = [
@@ -24,6 +28,7 @@ dev = [
   "pytest>=8.3",
   "pytest-asyncio>=0.24",
   "ruff>=0.8",
+  "types-pyyaml>=6.0",
 ]
 
 [tool.hatch.build.targets.wheel]
