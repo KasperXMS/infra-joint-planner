@@ -1,0 +1,177 @@
+schema_version: preliminary-experiment-v0-freeze-v1
+frozen_at: 2026-09-22
+substrate:
+  branch: main
+  commit: bccef0744bf9270f6d689401ad91885c7c130a28
+  tag: m4-clean-blind-substrate-bccef07
+  architecture_refactored: false
+  m5_started: false
+harness:
+  commit: c6c83334536998dfac98ab622d50d4f6c6190894
+  runner_sha256: 6d47f33b2a0116e377e1ead954da40400666db73a463d59c7070e837ffb37546
+  worker_sha256: 1bf200640f1938548c773a5bda94c5886c1d71ed5044bad1aecc0e2604eea724
+  aware_extension_sha256: 9c29224edb1003ecbba76aa063b0330a33fcc93891668a612252588b0ba0a16f
+  config_sha256: eeca97b173a067577dfc1c95176750f1428ed459d7a433fd3462fd0489ed8504
+  task_attempts_per_cell: 1
+  task_retry: false
+  openai_sdk_max_retries: 0
+  max_planning_steps: 8
+  http_timeout_seconds: 900
+
+network_regimes:
+  H_fast:
+    bandwidth_mbps: 100
+    added_rtt_ms: 0
+  H_constrained:
+    bandwidth_mbps: 3
+    added_rtt_ms: 50
+  enforcement: >-
+    Each worker-to-worker artifact pull is held to at least
+    added_rtt_ms/1000 + bytes*8/(bandwidth_mbps*1000000) wall-clock seconds.
+    Initial controller materialization is pre-run setup and excluded from task E2E.
+
+physical_environment:
+  agents:
+    EDGE:
+      device: NVIDIA Jetson AGX Orin A4
+      address: 192.168.0.104
+      worker_port: 9204
+    GPU:
+      device: Workstation with 2x NVIDIA RTX 4090 24GB
+      address: 192.168.0.12
+      worker_port: 9212
+  operator_surface:
+    - aggregate_artifacts
+    - aggregate_records
+    - bm25_retrieve
+    - derive_fields
+    - extract_clip
+    - filter_records
+    - invoke_model
+    - make_contact_sheet
+    - read_artifact
+    - sample_frames
+    - select_fields
+    - top_k_records
+  deployments:
+    gpu-deepseek-chat:
+      agent: GPU
+      backend_model: deepseek-chat
+      modalities: [text]
+      context_window: 64000
+      reserved_output_tokens: 1024
+    gpu-qwen3-vl-m4-32k:
+      agent: GPU
+      backend_model: qwen3-vl-prelim-32k
+      base_model: qwen3-vl:4b-instruct
+      ollama_model_id: 64e4e00e4eb6
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 1024
+      temperature: 0
+
+representations:
+  video_mme_795_3:
+    task_id: video_mme:795:question:3
+    setting_kind: derived
+    claim_scope: preliminary execution setting only; not benchmark quality
+    source:
+      video_id: D97vMwfWxvI
+      sha256: 78c7158b4ea8a29a418f84cabe77caf0a35fb0f5416c8c1592fe781b5783a4b9
+      bytes: 282442048
+      codec: av1
+      resolution: 1280x720
+      frame_rate: 30
+      duration_seconds: 2495.121
+    derived_artifact:
+      artifact_id: video-mme-795-complete-mjpeg-1fps-q3
+      sha256: cbb636cefae82ab3ddad727d93a8f727bbd57f2e2af814e59a9ce486e1c9d1f4
+      bytes: 107430156
+      media_type: video/x-msvideo
+      codec: mjpeg
+      resolution: 960x540
+      frame_rate: 1
+      duration_seconds: 2495
+      ffmpeg_version: 4.4.2-0ubuntu0.22.04.1
+      transform: >-
+        ffmpeg -i SOURCE -an -vf fps=1,scale=960:-2 -c:v mjpeg -q:v 3
+        -pix_fmt yuvj420p OUTPUT.avi
+      gold_independent: true
+      complete_timeline: true
+    initial_placement: EDGE
+    fixed_sampling:
+      every_seconds: 40
+      max_frames: 62
+      observed_frame_count: 62
+      contact_sheet: {columns: 8, cell_width: 320, cell_height: 180}
+  longbench_structured:
+    task_id: longbench-v2-66f3ac0b821e116aacb2e203
+    source_revision: 2b48e494f2c7a2f0af81aae178e05c7e1dde0fe9
+    artifact_id: longbench-structured-records
+    sha256: 008803f5ed94d33164162a198c2ecf19fd467a2a3bd9df2d83e677915cf102b6
+    bytes: 5310800
+    records: 17071
+    transformation: fixed_width_text_to_typed_json_records
+    setting_kind: official_equivalent
+    initial_placement: EDGE
+  multihop_rag:
+    task_id: multihop-rag-train-9bae0079038050a37a1ae583
+    source_revision: 71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82
+    artifact_id: multihop-fixed-candidates-v2
+    sha256: 6749ef222cff09dff2ab27b2f46629fc672d540688d53c17c5465578cbe3f542
+    bytes: 41221
+    setting: gold-independent BM25 top-2 from the frozen top-30 ranking
+    setting_kind: derived
+    initial_placement: EDGE
+
+phase_a_workflows:
+  V1: EDGE video -> GPU sample_frames -> GPU make_contact_sheet -> GPU Qwen3-VL
+  V2: EDGE video -> EDGE sample_frames -> EDGE make_contact_sheet -> GPU Qwen3-VL
+  L1: >-
+    EDGE records -> GPU filter_records -> GPU derive_fields -> GPU top_k_records
+    -> GPU select_fields -> GPU DeepSeek
+  L2: >-
+    EDGE records -> EDGE filter_records -> EDGE derive_fields -> EDGE top_k_records
+    -> EDGE select_fields -> GPU DeepSeek
+
+phase_b_planners:
+  blind:
+    model: deepseek-chat
+    visibility: logical task, logical history, logical observations, operator schemas
+    physical_policy: AUTO only
+  naive_aware:
+    model: deepseek-chat
+    added_visibility_only: current agents, devices, capabilities, deployments, artifact locations, links
+    output: semantic action plus physical decision
+    cost_estimator: false
+    heuristic_routing: false
+    search: false
+    reinforcement_learning: false
+    dataset_specific_logic: false
+    strategy_hint: false
+
+primary_run_order:
+  - {run_id: prelim-v0-a01-video-v1-h-fast, case: a-video-v1-h-fast}
+  - {run_id: prelim-v0-a02-video-v1-h-constrained, case: a-video-v1-h-constrained}
+  - {run_id: prelim-v0-a03-video-v2-h-fast, case: a-video-v2-h-fast}
+  - {run_id: prelim-v0-a04-video-v2-h-constrained, case: a-video-v2-h-constrained}
+  - {run_id: prelim-v0-a05-longbench-l1-h-fast, case: a-longbench-l1-h-fast}
+  - {run_id: prelim-v0-a06-longbench-l1-h-constrained, case: a-longbench-l1-h-constrained}
+  - {run_id: prelim-v0-a07-longbench-l2-h-fast, case: a-longbench-l2-h-fast}
+  - {run_id: prelim-v0-a08-longbench-l2-h-constrained, case: a-longbench-l2-h-constrained}
+  - {run_id: prelim-v0-b01-video-blind, case: b-video-blind}
+  - {run_id: prelim-v0-b02-video-aware, case: b-video-aware}
+  - {run_id: prelim-v0-b03-longbench-blind, case: b-longbench-blind}
+  - {run_id: prelim-v0-b04-longbench-aware, case: b-longbench-aware}
+  - {run_id: prelim-v0-b05-multihop-blind, case: b-multihop-blind}
+  - {run_id: prelim-v0-b06-multihop-aware, case: b-multihop-aware}
+
+preflight:
+  formal_runs_started: false
+  edge_video_sample_frames: {count: 62, latency_seconds: 4.935}
+  gpu_video_sample_frames: {count: 62, latency_seconds: 1.907}
+  edge_contact_sheet: {bytes: 756836, latency_seconds: 0.961}
+  gpu_contact_sheet: {bytes: 756819, latency_seconds: 0.287}
+  gpu_qwen3_vl_image_call: pass
+  gpu_deepseek_text_call: pass
+  worker_surface_validation: pass
