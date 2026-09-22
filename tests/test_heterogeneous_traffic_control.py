@@ -38,6 +38,8 @@ def test_tc_plan_shapes_only_filtered_experiment_traffic() -> None:
     assert "htb default 10" in flattened[0]
     assert "classid 1:10 htb rate 1000mbit" in flattened[1]
     assert "classid 1:20 htb rate 30mbit ceil 30mbit" in flattened[2]
+    assert "burst 1250kb" in flattened[1]
+    assert "burst 64kb" in flattened[2]
     assert any("netem delay 20ms" in command for command in flattened)
     assert any("dport 9100" in command for command in flattened)
     assert any("sport 9212" in command for command in flattened)

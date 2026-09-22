@@ -3,6 +3,7 @@ import ipaddress
 import shlex
 from collections.abc import Sequence
 from dataclasses import dataclass
+from math import ceil
 from typing import Protocol
 
 from pydantic import Field, field_validator
@@ -72,6 +73,11 @@ def build_tc_command_plan(endpoint: TcEndpoint, regime: TcRegime) -> TcCommandPl
     """
 
     device = endpoint.interface
+    # Bound HTB's initial token credit to roughly 10 ms of configured traffic
+    # (with a 64 KiB floor for low rates). A fixed multi-megabyte burst makes
+    # the 8 MiB calibration point largely bypass low-bandwidth regimes.
+    default_burst_kib = max(64, ceil(1000 * 1.25))
+    shaped_burst_kib = max(64, ceil(regime.bandwidth_mbps * 1.25))
     apply: list[tuple[str, ...]] = [
         (
             "sudo",
@@ -106,7 +112,7 @@ def build_tc_command_plan(endpoint: TcEndpoint, regime: TcRegime) -> TcCommandPl
             "ceil",
             "1000mbit",
             "burst",
-            "4mb",
+            f"{default_burst_kib}kb",
         ),
         (
             "sudo",
@@ -126,7 +132,7 @@ def build_tc_command_plan(endpoint: TcEndpoint, regime: TcRegime) -> TcCommandPl
             "ceil",
             f"{regime.bandwidth_mbps:g}mbit",
             "burst",
-            "4mb",
+            f"{shaped_burst_kib}kb",
         ),
     ]
     if endpoint.supports_netem and regime.added_rtt_ms > 0:
