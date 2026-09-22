@@ -22,7 +22,7 @@ from infra_joint.benchmarks.multihop_rag import (
 from infra_joint.config import RunnerConfig, load_runner_config
 from infra_joint.core.state import ArtifactPlacement, LinkSpec
 from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
-from infra_joint.core.workflow import WorkflowPlan
+from infra_joint.core.workflow import WorkflowEdge, WorkflowNode, WorkflowPlan
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.workflow.network import NetworkRegime, RegimeWorkerClient
 from infra_joint.workflow.planner import ScriptedWorkflowPlanner
@@ -220,6 +220,39 @@ def profiles_for(config: RunnerConfig) -> tuple[OperatorDeviceProfile, ...]:
     )
 
 
+def namespace_plan_artifacts(plan: WorkflowPlan, namespace: str) -> WorkflowPlan:
+    """Give every produced artifact a run-local ID without changing DAG semantics."""
+
+    mapping = {
+        artifact_id: f"{namespace}/{artifact_id}"
+        for node in plan.nodes
+        for artifact_id in node.outputs
+    }
+    nodes = tuple(
+        WorkflowNode(
+            node_id=node.node_id,
+            agent_id=node.agent_id,
+            operator=node.operator,
+            inputs=tuple(mapping.get(item, item) for item in node.inputs),
+            arguments={
+                key: mapping.get(value, value) if isinstance(value, str) else value
+                for key, value in node.arguments.items()
+            },
+            outputs=tuple(mapping[item] for item in node.outputs),
+        )
+        for node in plan.nodes
+    )
+    edges = tuple(
+        WorkflowEdge(
+            producer_node=edge.producer_node,
+            consumer_node=edge.consumer_node,
+            artifact_id=mapping[edge.artifact_id],
+        )
+        for edge in plan.edges
+    )
+    return WorkflowPlan(agents=plan.agents, nodes=nodes, edges=edges)
+
+
 async def worker_clients(
     stack: AsyncExitStack,
     config: RunnerConfig,
@@ -310,6 +343,7 @@ async def main() -> None:
         ("b1", CONSTRAINED),
     ):
         run_id = f"mas-v0-{scheduler_mode}-{regime.regime_id.lower()}"
+        isolated_plan = namespace_plan_artifacts(plan, run_id)
         result = await run_one(
             base,
             bundle,
@@ -318,7 +352,7 @@ async def main() -> None:
             run_id,
             regime,
             scheduler_mode,
-            plan,
+            isolated_plan,
         )
         results.append(result)
         if not result.execution_completed:
