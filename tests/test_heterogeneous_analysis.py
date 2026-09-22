@@ -13,6 +13,10 @@ from infra_joint.heterogeneous.analysis import (
     routing_regrets,
     validate_trace_reconstruction,
 )
+from scripts.heterogeneous_analyze_v1 import (
+    load_observations,
+    validate_formal_matrix,
+)
 
 
 def observation(
@@ -22,10 +26,11 @@ def observation(
     cost: float,
     *,
     calibration: str = "netcal",
+    payload: str = "S",
 ) -> PlacementRunObservation:
     return PlacementRunObservation(
         run_id=run_id,
-        payload_class="S",
+        payload_class=payload,
         placement_policy=policy,
         network_calibration_id=calibration,
         selected_agent_id=agent,
@@ -135,3 +140,39 @@ def test_trace_reconstruction_requires_linear_chain_and_terminal_event(
     )
     with pytest.raises(ValueError, match="parent chain"):
         validate_trace_reconstruction(path, "run")
+
+
+def test_analyzer_rejects_artifact_cleanup_failure(tmp_path: Path) -> None:
+    run_root = tmp_path / "failed-run"
+    run_root.mkdir()
+    (run_root / "experiment-metadata.json").write_text(
+        '{"artifact_cleanup_error": "ssh timeout"}'
+    )
+
+    with pytest.raises(RuntimeError, match="artifact cleanup failure: failed-run"):
+        load_observations(tmp_path)
+
+
+def test_formal_audit_requires_exactly_36_cells_of_10() -> None:
+    values = tuple(
+        observation(
+            f"{calibration}-{payload}-{policy}-{repetition}",
+            policy,
+            "A28" if policy in {"b0", "forced-a28"} else "strong-4090",
+            100,
+            calibration=calibration,
+            payload=payload,
+        )
+        for calibration in ("low", "mid", "high")
+        for payload in ("S", "M", "L")
+        for policy in ("b0", "b1", "forced-a28", "forced-rtx")
+        for repetition in range(10)
+    )
+
+    validate_formal_matrix(values)
+    with pytest.raises(ValueError, match="exactly 360 valid runs"):
+        validate_formal_matrix(values[:-1])
+
+    duplicated = (*values[:-1], values[0])
+    with pytest.raises(ValueError, match="duplicate run IDs"):
+        validate_formal_matrix(duplicated)

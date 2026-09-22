@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 from statistics import fmean, median
 from typing import Any, cast
@@ -25,6 +25,11 @@ def load_observations(root: Path) -> tuple[PlacementRunObservation, ...]:
     values: list[PlacementRunObservation] = []
     for metadata_path in sorted(root.glob("*/experiment-metadata.json")):
         raw = cast(dict[str, Any], json.loads(metadata_path.read_text(encoding="utf-8")))
+        if raw.get("artifact_cleanup_error") is not None:
+            raise RuntimeError(
+                "refusing to analyze run with artifact cleanup failure: "
+                f"{metadata_path.parent.name}"
+            )
         if raw.get("tc_cleanup_error") is not None or raw.get("validation_error") is not None:
             continue
         metadata = ExperimentMetadata.model_validate(raw["metadata"])
@@ -94,6 +99,7 @@ def pilot_summary(
 
 
 def formal_summary(observations: tuple[PlacementRunObservation, ...]) -> dict[str, Any]:
+    validate_formal_matrix(observations)
     cells = oracle_cells(observations)
     regrets = routing_regrets(observations, cells)
     grouped: dict[str, list[float]] = defaultdict(list)
@@ -121,6 +127,48 @@ def formal_summary(observations: tuple[PlacementRunObservation, ...]) -> dict[st
         "scheduler_summaries": summaries,
         "run_observations": [item.model_dump(mode="json") for item in observations],
     }
+
+
+def validate_formal_matrix(
+    observations: tuple[PlacementRunObservation, ...],
+) -> None:
+    """Require the frozen 3 x 3 x 4 x 10 formal design with no substitutions."""
+
+    if len(observations) != 360:
+        raise ValueError(
+            f"formal analysis requires exactly 360 valid runs; got {len(observations)}"
+        )
+    run_ids = [item.run_id for item in observations]
+    if len(set(run_ids)) != len(run_ids):
+        raise ValueError("formal analysis contains duplicate run IDs")
+    payloads = {item.payload_class for item in observations}
+    policies = {item.placement_policy for item in observations}
+    calibrations = {item.network_calibration_id for item in observations}
+    expected_payloads = {"S", "M", "L"}
+    expected_policies = {"b0", "b1", "forced-a28", "forced-rtx"}
+    if payloads != expected_payloads:
+        raise ValueError(f"formal analysis payload classes differ: {sorted(payloads)}")
+    if policies != expected_policies:
+        raise ValueError(f"formal analysis policies differ: {sorted(policies)}")
+    if len(calibrations) != 3:
+        raise ValueError(
+            "formal analysis requires exactly three network calibration IDs; "
+            f"got {len(calibrations)}"
+        )
+    counts = Counter(
+        (item.network_calibration_id, item.payload_class, item.placement_policy)
+        for item in observations
+    )
+    if len(counts) != 36 or set(counts.values()) != {10}:
+        malformed = {
+            "|".join(key): count
+            for key, count in sorted(counts.items())
+            if count != 10
+        }
+        raise ValueError(
+            "formal analysis requires exactly 36 cells with 10 valid runs each; "
+            f"observed_cells={len(counts)}, malformed={malformed}"
+        )
 
 
 def main() -> None:

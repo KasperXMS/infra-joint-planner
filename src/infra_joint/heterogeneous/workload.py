@@ -17,7 +17,13 @@ DEFAULT_PAYLOAD_TARGETS: dict[str, int] = {
     "M": 32 * MIB,
     "L": 128 * MIB,
 }
-DERIVED_LABEL = "derived_deterministic_semantic_replication_v1"
+DEFAULT_EVIDENCE_EXCERPT_BYTES_PER_SOURCE = 6_000
+DERIVED_LABEL_V1 = "derived_deterministic_semantic_replication_v1"
+DERIVED_LABEL_V2 = "derived_deterministic_semantic_replication_v2"
+DERIVED_LABEL = DERIVED_LABEL_V2
+WORKLOAD_SCHEMA_V1 = "heterogeneous-semantic-workload-freeze-v1"
+WORKLOAD_SCHEMA_V2 = "heterogeneous-semantic-workload-freeze-v2"
+CONTEXT_FIELDS = ("source_document_id", "title", "evidence_excerpt")
 
 
 def _canonical_json(value: object) -> bytes:
@@ -96,7 +102,10 @@ class FrozenPayload(ContractModel):
     target_bytes: int = Field(gt=0)
     actual_bytes: int = Field(gt=0)
     record_count: int = Field(gt=0)
-    derived_label: Literal["derived_deterministic_semantic_replication_v1"] = DERIVED_LABEL
+    derived_label: Literal[
+        "derived_deterministic_semantic_replication_v1",
+        "derived_deterministic_semantic_replication_v2",
+    ] = DERIVED_LABEL
     shards: tuple[FrozenShard, FrozenShard]
 
     @model_validator(mode="after")
@@ -125,6 +134,7 @@ class ContextPreflightConstraint(ContractModel):
     reserved_output_tokens: int = Field(gt=0)
     prompt_token_upper_bound: int = Field(gt=0)
     max_reduced_artifact_bytes: int = Field(gt=0)
+    projected_reduced_artifact_upper_bound_bytes: int | None = Field(default=None, gt=0)
     final_bm25_top_k: int = Field(gt=0)
     fail_closed: Literal[True] = True
     silent_truncation: Literal[False] = False
@@ -140,7 +150,18 @@ class ContextPreflightConstraint(ContractModel):
             raise ValueError("model context budget leaves no room for reduced artifacts")
         if self.max_reduced_artifact_bytes != expected:
             raise ValueError("max_reduced_artifact_bytes must equal the conservative budget")
+        projected = self.projected_reduced_artifact_upper_bound_bytes
+        if projected is not None and projected > self.max_reduced_artifact_bytes:
+            raise ValueError(
+                "projected reduced artifact exceeds the fail-closed context byte budget"
+            )
         return self
+
+
+class EvidenceExcerptPolicy(ContractModel):
+    algorithm: Literal["utf8_prefix_word_boundary_v2"] = "utf8_prefix_word_boundary_v2"
+    max_utf8_bytes_per_source: int = Field(gt=0)
+    context_fields: tuple[str, ...] = CONTEXT_FIELDS
 
 
 class ScriptedWorkflowNode(ContractModel):
@@ -177,9 +198,10 @@ class ScriptedWorkflowTemplate(ContractModel):
 
 
 class SemanticWorkloadManifest(ContractModel):
-    schema_version: Literal["heterogeneous-semantic-workload-freeze-v1"] = (
-        "heterogeneous-semantic-workload-freeze-v1"
-    )
+    schema_version: Literal[
+        "heterogeneous-semantic-workload-freeze-v1",
+        "heterogeneous-semantic-workload-freeze-v2",
+    ] = WORKLOAD_SCHEMA_V2
     task: FrozenTaskIdentity
     representation: Literal["derived_semantic_replication_json"] = (
         "derived_semantic_replication_json"
@@ -191,7 +213,28 @@ class SemanticWorkloadManifest(ContractModel):
     payloads: tuple[FrozenPayload, ...]
     private_evaluation: PrivateEvaluationReference
     workflow_template: ScriptedWorkflowTemplate
+    evidence_excerpt_policy: EvidenceExcerptPolicy | None = None
     planner_visible: Literal[False] = False
+
+    @model_validator(mode="after")
+    def representation_version_is_consistent(self) -> SemanticWorkloadManifest:
+        labels = {payload.derived_label for payload in self.payloads}
+        projected = (
+            self.workflow_template.context_preflight
+            .projected_reduced_artifact_upper_bound_bytes
+        )
+        if self.schema_version == WORKLOAD_SCHEMA_V2:
+            if self.evidence_excerpt_policy is None or projected is None:
+                raise ValueError(
+                    "v2 workload freezes require an excerpt policy and projected context bound"
+                )
+            if labels != {DERIVED_LABEL_V2}:
+                raise ValueError("v2 workload freezes require v2 derived payload labels")
+        elif self.evidence_excerpt_policy is not None or projected is not None:
+            raise ValueError("v1 workload freezes must not contain v2 excerpt constraints")
+        elif labels != {DERIVED_LABEL_V1}:
+            raise ValueError("v1 workload freezes require v1 derived payload labels")
+        return self
 
 
 class _SourceDocument(ContractModel):
@@ -231,11 +274,70 @@ def _source_documents(
     return tuple(documents)
 
 
+def _utf8_prefix_at_word_boundary(text: str, max_bytes: int) -> str:
+    if max_bytes <= 0:
+        raise ValueError("evidence excerpt byte limit must be positive")
+    encoded = text.encode("utf-8")
+    if len(encoded) <= max_bytes:
+        return text
+    prefix = encoded[:max_bytes].decode("utf-8", errors="ignore")
+    boundary = max(prefix.rfind(" "), prefix.rfind("\n"), prefix.rfind("\t"))
+    if boundary >= len(prefix) // 2:
+        prefix = prefix[:boundary]
+    excerpt = prefix.rstrip()
+    if not excerpt:
+        raise ValueError("evidence excerpt is empty after deterministic UTF-8 clipping")
+    return excerpt
+
+
+def _projected_context_upper_bound_bytes(
+    documents: Sequence[_SourceDocument],
+    *,
+    evidence_excerpt_bytes_per_source: int,
+    final_top_k: int,
+) -> int:
+    if final_top_k <= 0:
+        raise ValueError("final_top_k must be positive")
+    projected = [
+        {
+            "source_document_id": document.source_document_id,
+            "title": _required_string(
+                document.record,
+                "title",
+                source=Path(document.source_document_id),
+            ),
+            "evidence_excerpt": _utf8_prefix_at_word_boundary(
+                _required_string(
+                    document.record,
+                    "body",
+                    source=Path(document.source_document_id),
+                ),
+                evidence_excerpt_bytes_per_source,
+            ),
+        }
+        for document in documents
+    ]
+    largest = max(projected, key=lambda record: len(_canonical_json(record)))
+    # Retrieval can legally return repeated replicas from the same source. Repeating
+    # the largest exact projection therefore bounds every possible top-k output.
+    return len(_canonical_json([largest] * final_top_k))
+
+
+def _synthesis_prompt(query: str) -> str:
+    return (
+        f"{query}\nUse only the context artifact. Compare both sources in 120 to "
+        "180 words, then end with exactly ANSWER: Yes or ANSWER: No. "
+        "Do not reveal chain-of-thought. Context admission is governed by the "
+        "frozen fail-closed preflight."
+    )
+
+
 def _derived_record(
     payload_label: str,
     ordinal: int,
     replica_index: int,
     document: _SourceDocument,
+    evidence_excerpt_bytes_per_source: int,
 ) -> dict[str, Any]:
     identity = _canonical_json(
         {
@@ -248,8 +350,10 @@ def _derived_record(
     )
     derived_id = f"mhr-derived-{_sha256_bytes(identity)[:32]}"
     body = _required_string(document.record, "body", source=Path(document.source_document_id))
-    introductory_paragraphs = [item.strip() for item in body.split("\n\n") if item.strip()]
-    evidence_excerpt = "\n\n".join(introductory_paragraphs[:3])
+    evidence_excerpt = _utf8_prefix_at_word_boundary(
+        body,
+        evidence_excerpt_bytes_per_source,
+    )
     # Only one canonical replica per source participates in the final retrieval.
     # The remaining records still carry real document content and account for the
     # controlled payload bytes, but their neutral retrieval field prevents repeated
@@ -278,6 +382,7 @@ def _record_bytes(
     payload_label: str,
     ordinal: int,
     documents: Sequence[_SourceDocument],
+    evidence_excerpt_bytes_per_source: int,
 ) -> bytes:
     document = documents[ordinal % len(documents)]
     record = _derived_record(
@@ -285,6 +390,7 @@ def _record_bytes(
         ordinal,
         ordinal // len(documents),
         document,
+        evidence_excerpt_bytes_per_source,
     )
     return _canonical_json(record)
 
@@ -293,6 +399,7 @@ def _nearest_record_count(
     payload_label: str,
     target_bytes: int,
     documents: Sequence[_SourceDocument],
+    evidence_excerpt_bytes_per_source: int,
 ) -> tuple[int, int]:
     if target_bytes <= 0:
         raise ValueError("payload targets must be positive")
@@ -301,7 +408,14 @@ def _nearest_record_count(
     shard_counts = [0, 0]
     while total < target_bytes or count < 2:
         shard_index = count % 2
-        record_size = len(_record_bytes(payload_label, count, documents))
+        record_size = len(
+            _record_bytes(
+                payload_label,
+                count,
+                documents,
+                evidence_excerpt_bytes_per_source,
+            )
+        )
         separator_size = 1 if shard_counts[shard_index] else 0
         candidate_total = total + record_size + separator_size
         if count >= 2 and abs(total - target_bytes) <= abs(candidate_total - target_bytes):
@@ -317,8 +431,14 @@ def _write_payload(
     label: str,
     target_bytes: int,
     documents: Sequence[_SourceDocument],
+    evidence_excerpt_bytes_per_source: int,
 ) -> FrozenPayload:
-    record_count, expected_bytes = _nearest_record_count(label, target_bytes, documents)
+    record_count, expected_bytes = _nearest_record_count(
+        label,
+        target_bytes,
+        documents,
+        evidence_excerpt_bytes_per_source,
+    )
     paths = {
         "A4": output_dir / f"payload-{label.lower()}-a4.json",
         "A5": output_dir / f"payload-{label.lower()}-a5.json",
@@ -332,7 +452,14 @@ def _write_payload(
             agent = "A4" if ordinal % 2 == 0 else "A5"
             if shard_counts[agent]:
                 streams[agent].write(b",")
-            streams[agent].write(_record_bytes(label, ordinal, documents))
+            streams[agent].write(
+                _record_bytes(
+                    label,
+                    ordinal,
+                    documents,
+                    evidence_excerpt_bytes_per_source,
+                )
+            )
             shard_counts[agent] += 1
         for stream in streams.values():
             stream.write(b"]")
@@ -343,7 +470,7 @@ def _write_payload(
     shards = tuple(
         FrozenShard(
             artifact_id=(
-                f"heterogeneous-{label.lower()}-shard-"
+                f"heterogeneous-v2-{label.lower()}-shard-"
                 f"{'a' if agent == 'A4' else 'b'}"
             ),
             path=path.name,
@@ -374,6 +501,7 @@ def _workflow_template(
     prompt_token_upper_bound: int,
     local_top_k: int,
     final_top_k: int,
+    projected_reduced_artifact_upper_bound_bytes: int,
 ) -> ScriptedWorkflowTemplate:
     preflight = ContextPreflightConstraint(
         context_window_tokens=context_window_tokens,
@@ -381,6 +509,9 @@ def _workflow_template(
         prompt_token_upper_bound=prompt_token_upper_bound,
         max_reduced_artifact_bytes=(
             context_window_tokens - reserved_output_tokens - prompt_token_upper_bound
+        ),
+        projected_reduced_artifact_upper_bound_bytes=(
+            projected_reduced_artifact_upper_bound_bytes
         ),
         final_bm25_top_k=final_top_k,
     )
@@ -439,7 +570,7 @@ def _workflow_template(
             inputs=("{payload}.ranked-evidence",),
             outputs=("{payload}.context-ready",),
             arguments={
-                "fields": ["source_document_id", "title", "evidence_excerpt"],
+                "fields": list(CONTEXT_FIELDS),
                 "output_artifact_id": "{payload}.context-ready",
             },
         ),
@@ -450,12 +581,7 @@ def _workflow_template(
             inputs=("{payload}.context-ready",),
             outputs=(),
             arguments={
-                "prompt": (
-                    "{task.query}\nUse only the context artifact. Compare both sources in "
-                    "120 to 180 words, then end with exactly ANSWER: Yes or ANSWER: No. "
-                    "Do not reveal chain-of-thought. Context admission is governed by the "
-                    "frozen fail-closed preflight."
-                ),
+                "prompt": _synthesis_prompt("{task.query}"),
             },
         ),
     )
@@ -505,6 +631,7 @@ def freeze_semantic_workload(
     prompt_token_upper_bound: int = 2_048,
     local_top_k: int = 100_000,
     final_top_k: int = 2,
+    evidence_excerpt_bytes_per_source: int = DEFAULT_EVIDENCE_EXCERPT_BYTES_PER_SOURCE,
     overwrite: bool = False,
 ) -> SemanticWorkloadManifest:
     """Freeze deterministic semantic payloads without exposing private evaluation data."""
@@ -551,6 +678,27 @@ def freeze_semantic_workload(
     gold_answer = _required_string(evaluator, "answer", source=candidates_path)
     documents = _source_documents(data_dir, candidate_ids, supporting_ids)
 
+    projected_context_bytes = _projected_context_upper_bound_bytes(
+        documents,
+        evidence_excerpt_bytes_per_source=evidence_excerpt_bytes_per_source,
+        final_top_k=final_top_k,
+    )
+    prompt_bytes = len(_synthesis_prompt(query).encode("utf-8"))
+    if prompt_bytes > prompt_token_upper_bound:
+        raise ValueError(
+            "synthesis prompt exceeds the frozen fail-closed prompt byte budget: "
+            f"actual={prompt_bytes}, budget={prompt_token_upper_bound}"
+        )
+    workflow_template = _workflow_template(
+        model_instance_id=model_instance_id,
+        context_window_tokens=context_window_tokens,
+        reserved_output_tokens=reserved_output_tokens,
+        prompt_token_upper_bound=prompt_token_upper_bound,
+        local_top_k=local_top_k,
+        final_top_k=final_top_k,
+        projected_reduced_artifact_upper_bound_bytes=projected_context_bytes,
+    )
+
     if output_dir.exists() and any(output_dir.iterdir()) and not overwrite:
         raise FileExistsError(f"output directory is not empty: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -568,7 +716,13 @@ def freeze_semantic_workload(
     private_path.write_bytes(private_content)
 
     payloads = tuple(
-        _write_payload(output_dir, label, target, documents)
+        _write_payload(
+            output_dir,
+            label,
+            target,
+            documents,
+            evidence_excerpt_bytes_per_source,
+        )
         for label, target in payload_targets.items()
     )
     source_paths = (task_path, candidates_path) + tuple(
@@ -597,8 +751,9 @@ def freeze_semantic_workload(
             "contains the supporting evidence but may be a subset of the 30-candidate task. "
             "One canonical record per real source retains full retrieval text; repeated records "
             "use a neutral provenance-only retrieval field so duplicate copies cannot displace "
-            "the other source. Model context uses deterministic introductory excerpts from both "
-            "sources after a fixed field projection. "
+            "the other source. Model context uses a deterministic, word-boundary UTF-8 prefix "
+            "from each source after a fixed field projection; generation fails closed if the "
+            "worst-case projected JSON exceeds the conservative byte-token context budget. "
             "Physical placement is harness-only and must not enter TaskContract or planner input."
         ),
         source_candidate_document_count=len(candidate_ids),
@@ -610,13 +765,9 @@ def freeze_semantic_workload(
             bytes=len(private_content),
             sha256=_sha256_bytes(private_content),
         ),
-        workflow_template=_workflow_template(
-            model_instance_id=model_instance_id,
-            context_window_tokens=context_window_tokens,
-            reserved_output_tokens=reserved_output_tokens,
-            prompt_token_upper_bound=prompt_token_upper_bound,
-            local_top_k=local_top_k,
-            final_top_k=final_top_k,
+        workflow_template=workflow_template,
+        evidence_excerpt_policy=EvidenceExcerptPolicy(
+            max_utf8_bytes_per_source=evidence_excerpt_bytes_per_source,
         ),
     )
     manifest_path = output_dir / "manifest.json"

@@ -9,12 +9,14 @@ import random
 import sys
 from argparse import Namespace
 from dataclasses import asdict, dataclass, replace
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal, cast
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from infra_joint.heterogeneous.analysis import validate_trace_reconstruction
 from scripts.heterogeneous_experiment_v1 import run_one
 
 
@@ -157,7 +159,7 @@ def _write_schedule(
     seed: int,
     replacements: dict[str, str],
 ) -> None:
-    payload = {
+    payload: dict[str, object] = {
         "schema_version": "heterogeneous-v1-run-schedule-v1",
         "seed": seed,
         "run_count": len(schedule),
@@ -179,10 +181,18 @@ def existing_run_is_valid(result_path: Path, metadata_path: Path) -> bool:
     silently retried under the same run ID or skipped as if it were valid.
     """
 
-    present = (result_path.is_file(), metadata_path.is_file())
-    if present == (False, False):
+    run_root = result_path.parent
+    failure_marker_path = run_root / "matrix-failure.json"
+    trace_path = run_root / "trace.jsonl"
+    if failure_marker_path.exists():
+        raise RuntimeError(
+            f"refusing to resume matrix-failed run: {result_path.parent.name}; "
+            "use an explicit replacement run ID and a new schedule"
+        )
+    present = (result_path.is_file(), metadata_path.is_file(), trace_path.is_file())
+    if present == (False, False, False):
         return False
-    if present != (True, True):
+    if present != (True, True, True):
         raise RuntimeError(
             f"refusing to resume partial run: {result_path.parent.name}"
         )
@@ -205,7 +215,42 @@ def existing_run_is_valid(result_path: Path, metadata_path: Path) -> bool:
             f"refusing to resume after artifact cleanup failure: "
             f"{result_path.parent.name}"
         )
+    try:
+        validate_trace_reconstruction(trace_path, result_path.parent.name)
+    except (OSError, ValueError) as exc:
+        raise RuntimeError(
+            f"refusing to resume unreconstructable trace: {result_path.parent.name}: "
+            f"{exc}"
+        ) from exc
     return True
+
+
+def _persist_matrix_failure(
+    output_root: Path,
+    item: ScheduledRun,
+    schedule_index: int,
+    exc: Exception,
+) -> Path:
+    """Atomically retain a run-level tombstone for failures before sidecar creation."""
+
+    run_root = output_root / item.run_id
+    run_root.mkdir(parents=True, exist_ok=True)
+    path = run_root / "matrix-failure.json"
+    temporary = path.with_suffix(".json.tmp")
+    payload = {
+        "schema_version": "heterogeneous-v1-matrix-failure-v1",
+        "run_id": item.run_id,
+        "schedule_index": schedule_index,
+        "recorded_at": datetime.now(UTC).isoformat(),
+        "exception_type": type(exc).__name__,
+        "exception_message": str(exc),
+        "resume_policy": "explicit-replacement-run-id-and-new-schedule-required",
+    }
+    temporary.write_text(
+        json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    temporary.replace(path)
+    return path
 
 
 async def execute(args: argparse.Namespace, schedule: tuple[ScheduledRun, ...]) -> None:
@@ -232,7 +277,11 @@ async def execute(args: argparse.Namespace, schedule: tuple[ScheduledRun, ...]) 
             api_key_file=args.api_key_file,
             output_root=args.output_root,
         )
-        await run_one(invocation)
+        try:
+            await run_one(invocation)
+        except Exception as exc:
+            _persist_matrix_failure(args.output_root, item, index, exc)
+            raise
         completed.append(item.run_id)
         progress_path.write_text(
             json.dumps(

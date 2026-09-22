@@ -1,16 +1,43 @@
+import asyncio
 import json
 import subprocess
 import sys
+from argparse import Namespace
+from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
 
+import scripts.heterogeneous_matrix_v1 as matrix_module
+from infra_joint.evaluation.trace import TraceEvent
 from scripts.heterogeneous_matrix_v1 import (
+    ScheduledRun,
+    execute,
     existing_run_is_valid,
     formal_schedule,
     pilot_schedule,
     replace_run_ids,
 )
+
+
+def write_valid_trace(path: Path, run_id: str) -> None:
+    previous: str | None = None
+    events: list[TraceEvent] = []
+    for index, event_type in enumerate(
+        ("task.start", "workflow.planner.end", "infra.snapshot", "run.end")
+    ):
+        step_id = f"{index:06d}-{event_type}"
+        events.append(
+            TraceEvent(
+                run_id=run_id,
+                step_id=step_id,
+                parent_id=previous,
+                event_type=event_type,
+                timestamp=datetime.now(UTC),
+            )
+        )
+        previous = step_id
+    path.write_text("\n".join(item.model_dump_json() for item in events) + "\n")
 
 
 def write_calibrations(root: Path) -> None:
@@ -82,6 +109,8 @@ def test_matrix_resume_only_accepts_complete_valid_run(tmp_path: Path) -> None:
     result.write_text(json.dumps({"execution_completed": True, "failure": None}))
     with pytest.raises(RuntimeError, match="partial run"):
         existing_run_is_valid(result, metadata)
+    trace = result.with_name("trace.jsonl")
+    write_valid_trace(trace, "run")
 
     metadata.write_text(
         json.dumps({"validation_error": "bad finish", "tc_cleanup_error": None})
@@ -98,7 +127,17 @@ def test_matrix_resume_only_accepts_complete_valid_run(tmp_path: Path) -> None:
             }
         )
     )
+    trace.unlink()
+    with pytest.raises(RuntimeError, match="partial run"):
+        existing_run_is_valid(result, metadata)
+
+    write_valid_trace(trace, "run")
     assert existing_run_is_valid(result, metadata)
+
+    trace.write_text("{}\n")
+    with pytest.raises(RuntimeError, match="unreconstructable trace"):
+        existing_run_is_valid(result, metadata)
+    write_valid_trace(trace, "run")
 
     metadata.write_text(
         json.dumps(
@@ -111,6 +150,50 @@ def test_matrix_resume_only_accepts_complete_valid_run(tmp_path: Path) -> None:
     )
     with pytest.raises(RuntimeError, match="artifact cleanup failure"):
         existing_run_is_valid(result, metadata)
+
+
+def test_matrix_persists_early_failure_marker_and_refuses_same_id_resume(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    run = ScheduledRun(
+        phase="pilot",
+        run_id="early-failure",
+        condition_label="pilot-bw3",
+        bandwidth_mbps=3,
+        calibration="calibration.json",
+        payload="S",
+        policy="forced-a28",
+        repetition=1,
+        stage_estimates=None,
+    )
+
+    async def fail_before_output(_: Namespace) -> None:
+        raise RuntimeError("preflight failed")
+
+    monkeypatch.setattr(matrix_module, "run_one", fail_before_output)
+    args = Namespace(
+        schedule=tmp_path / "schedule.json",
+        output_root=tmp_path / "runs",
+        manifest=tmp_path / "manifest.json",
+        compute_profile_id="profile",
+        preflight_config=tmp_path / "preflight.json",
+        tc_config=tmp_path / "tc.json",
+        planner_config=tmp_path / "planner.yaml",
+        api_key_file=None,
+    )
+
+    with pytest.raises(RuntimeError, match="preflight failed"):
+        asyncio.run(execute(args, (run,)))
+
+    marker = args.output_root / run.run_id / "matrix-failure.json"
+    saved = json.loads(marker.read_text())
+    assert saved["exception_type"] == "RuntimeError"
+    assert saved["resume_policy"].startswith("explicit-replacement")
+    with pytest.raises(RuntimeError, match="explicit replacement run ID"):
+        existing_run_is_valid(
+            marker.with_name("result.json"),
+            marker.with_name("experiment-metadata.json"),
+        )
 
 
 def test_matrix_script_entrypoint_exposes_help() -> None:

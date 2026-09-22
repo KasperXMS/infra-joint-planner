@@ -4,7 +4,11 @@ import argparse
 import json
 from pathlib import Path
 
-from infra_joint.heterogeneous.workload import MIB, freeze_semantic_workload
+from infra_joint.heterogeneous.workload import (
+    DEFAULT_EVIDENCE_EXCERPT_BYTES_PER_SOURCE,
+    MIB,
+    freeze_semantic_workload,
+)
 
 
 def _arguments() -> argparse.Namespace:
@@ -26,6 +30,15 @@ def _arguments() -> argparse.Namespace:
     parser.add_argument("--prompt-token-upper-bound", type=int, default=2_048)
     parser.add_argument("--local-top-k", type=int, default=100_000)
     parser.add_argument("--final-top-k", type=int, default=2)
+    parser.add_argument(
+        "--evidence-excerpt-bytes-per-source",
+        type=int,
+        default=DEFAULT_EVIDENCE_EXCERPT_BYTES_PER_SOURCE,
+        help=(
+            "Maximum deterministic UTF-8 prefix bytes retained per real source; "
+            "the freeze fails if the projected context exceeds its byte-token budget."
+        ),
+    )
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
 
@@ -47,6 +60,7 @@ def main() -> None:
         prompt_token_upper_bound=args.prompt_token_upper_bound,
         local_top_k=args.local_top_k,
         final_top_k=args.final_top_k,
+        evidence_excerpt_bytes_per_source=args.evidence_excerpt_bytes_per_source,
         overwrite=args.overwrite,
     )
     print(json.dumps(manifest.model_dump(mode="json"), indent=2, ensure_ascii=False))
