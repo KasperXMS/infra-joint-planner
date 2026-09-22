@@ -26,6 +26,251 @@ class ReplicaComputeEstimate(ContractModel):
     median_service_latency_ms: float = Field(ge=0)
 
 
+class SynthesisStageEstimate(ContractModel):
+    """Measured cost of the fixed reduction + equivalent-model stage."""
+
+    compute_profile_id: str = Field(min_length=1)
+    replica_id: str = Field(min_length=1)
+    median_reduction_latency_ms: float = Field(ge=0)
+    median_model_service_latency_ms: float = Field(ge=0)
+
+    @property
+    def total_compute_latency_ms(self) -> float:
+        return self.median_reduction_latency_ms + self.median_model_service_latency_ms
+
+
+class SynthesisStageScheduler:
+    """Select one site for a fixed reduction -> synthesis placement group.
+
+    The large semantic package cannot be passed directly to the model context.  The
+    fixed workflow therefore reduces it with BM25 before invoking an equivalent model
+    replica.  This scheduler makes one physical choice at the reduction leader and
+    reuses it for the model follower; it never changes the semantic DAG.
+    """
+
+    def __init__(
+        self,
+        kind: Literal["b0", "b1", "forced"],
+        replica_set: EquivalentModelReplicaSet,
+        *,
+        leader_node_id: str,
+        follower_node_id: str,
+        stage_estimates: tuple[SynthesisStageEstimate, ...] = (),
+        forced_agent_id: str | None = None,
+        ordinary_profiles: tuple[OperatorDeviceProfile, ...] = (),
+    ) -> None:
+        self._kind = kind
+        self._replica_set = replica_set
+        self._leader_node_id = leader_node_id
+        self._follower_node_id = follower_node_id
+        estimates = {item.replica_id: item for item in stage_estimates}
+        if len(estimates) != len(stage_estimates):
+            raise ValueError("synthesis stage estimates must have unique replica IDs")
+        if kind == "b1" and set(estimates) != {
+            item.replica_id for item in replica_set.replicas
+        }:
+            raise ValueError("B1 requires one calibrated stage estimate per replica")
+        self._stage_estimates = estimates
+        if kind == "forced":
+            if forced_agent_id is None:
+                raise ValueError("forced stage placement requires an agent ID")
+            if forced_agent_id not in {item.agent_id for item in replica_set.replicas}:
+                raise ValueError("forced agent is not an equivalent model replica")
+        elif forced_agent_id is not None:
+            raise ValueError("only forced stage placement accepts forced_agent_id")
+        self._forced_agent_id = forced_agent_id
+        self._selected: ModelReplica | None = None
+        self._ordinary = (
+            LocalityAwareMyopicScheduler()
+            if kind == "b0"
+            else MyopicCostAwareScheduler(ordinary_profiles)
+        )
+
+    def schedule(
+        self,
+        node: WorkflowNode,
+        logical_agent: LogicalAgent,
+        environment: EnvironmentSpec,
+        infrastructure: InfrastructureState,
+        registry: OperatorRegistry,
+    ) -> SchedulerDecision:
+        if node.node_id not in {self._leader_node_id, self._follower_node_id}:
+            return self._ordinary.schedule(
+                node, logical_agent, environment, infrastructure, registry
+            )
+        registry.validate_action(node.semantic_action())
+        if node.node_id == self._leader_node_id:
+            if self._selected is not None:
+                raise SchedulingError("synthesis stage leader was scheduled more than once")
+            candidates = self._available_replicas(environment, infrastructure)
+            if not candidates:
+                raise SchedulingError("no equivalent model replica is available")
+            costs: tuple[CandidateCostEstimate, ...] = ()
+            if self._kind == "forced":
+                selected = next(
+                    item for item in candidates if item.agent_id == self._forced_agent_id
+                )
+                rationale = "v1 empirical-oracle run forces the complete synthesis stage"
+            elif self._kind == "b0":
+                selected = min(
+                    candidates,
+                    key=lambda replica: (
+                        ReplicaAwareScheduler._missing_input_count(
+                            node, replica.agent_id, infrastructure
+                        ),
+                        replica.agent_id,
+                    ),
+                )
+                rationale = (
+                    "v1 B0 selected the synthesis stage site by input locality only; "
+                    "no bandwidth or calibrated compute input was consumed"
+                )
+            else:
+                costs = tuple(
+                    self._estimate_stage(node, replica, infrastructure)
+                    for replica in candidates
+                )
+                feasible = [item for item in costs if item.feasible]
+                if not feasible:
+                    raise SchedulingError(
+                        "no equivalent synthesis stage has a complete calibrated cost",
+                        candidate_costs=costs,
+                    )
+                selected_cost = min(
+                    feasible,
+                    key=lambda item: (
+                        item.total_latency_ms
+                        if item.total_latency_ms is not None
+                        else float("inf"),
+                        item.agent_id,
+                    ),
+                )
+                selected = next(
+                    item for item in candidates if item.agent_id == selected_cost.agent_id
+                )
+                rationale = (
+                    "v1 B1 selected one fixed reduction+synthesis site using measured "
+                    "transfer and compute with queue fixed to zero"
+                )
+            self._selected = selected
+            return SchedulerDecision(
+                scheduler=(
+                    SchedulerKind.B0_LOCALITY_AWARE_MYOPIC
+                    if self._kind == "b0"
+                    else SchedulerKind.B1_MYOPIC_COST_AWARE
+                ),
+                node_id=node.node_id,
+                logical_agent_id=logical_agent.agent_id,
+                physical=PhysicalDecision(
+                    policy=PhysicalPolicy.TARGET_AGENT,
+                    target_agent_id=selected.agent_id,
+                ),
+                selected_agent_id=selected.agent_id,
+                candidate_costs=costs,
+                rationale=rationale,
+            )
+
+        if self._selected is None:
+            raise SchedulingError("synthesis stage follower scheduled before its leader")
+        if node.operator != "invoke_model":
+            raise SchedulingError("synthesis stage follower must invoke the model")
+        if logical_agent.model_instance_id != self._replica_set.canonical_deployment_id:
+            raise SchedulingError("synthesis stage follower changed logical model identity")
+        return ReplicaAwareScheduler._decision(
+            node,
+            logical_agent,
+            self._selected,
+            (
+                SchedulerKind.B0_LOCALITY_AWARE_MYOPIC
+                if self._kind == "b0"
+                else SchedulerKind.B1_MYOPIC_COST_AWARE
+            ),
+            (),
+            "v1 synthesis follower reuses the leader's frozen equivalent-replica site",
+        )
+
+    def _available_replicas(
+        self,
+        environment: EnvironmentSpec,
+        infrastructure: InfrastructureState,
+    ) -> tuple[ModelReplica, ...]:
+        deployments = {item.deployment_id: item for item in environment.deployments}
+        available_agents = {item.agent_id for item in infrastructure.agents if item.available}
+        available_deployments = {
+            item.deployment_id for item in infrastructure.deployments if item.available
+        }
+        return tuple(
+            replica
+            for replica in self._replica_set.replicas
+            if replica.agent_id in available_agents
+            and replica.deployment_id in available_deployments
+            and deployments.get(replica.deployment_id) is not None
+            and deployments[replica.deployment_id].agent_id == replica.agent_id
+        )
+
+    def _estimate_stage(
+        self,
+        node: WorkflowNode,
+        replica: ModelReplica,
+        infrastructure: InfrastructureState,
+    ) -> CandidateCostEstimate:
+        artifacts = {item.artifact_id: item for item in infrastructure.artifacts}
+        links = {
+            (item.source_agent_id, item.target_agent_id): item
+            for item in infrastructure.links
+        }
+        total_bytes = 0
+        transfer_ms = 0.0
+        for artifact_id in node.inputs:
+            artifact = artifacts.get(artifact_id)
+            if artifact is None or artifact.size_bytes is None:
+                return _infeasible(
+                    replica.agent_id, total_bytes, f"missing artifact metadata: {artifact_id}"
+                )
+            if replica.agent_id in artifact.locations:
+                continue
+            if not artifact.locations:
+                return _infeasible(
+                    replica.agent_id, total_bytes, f"artifact has no location: {artifact_id}"
+                )
+            source = sorted(artifact.locations)[0]
+            link = links.get((source, replica.agent_id))
+            if (
+                link is None
+                or not link.available
+                or link.bandwidth_mbps is None
+                or link.rtt_ms is None
+            ):
+                return _infeasible(
+                    replica.agent_id,
+                    total_bytes,
+                    f"no measured directed link for artifact: {artifact_id}",
+                )
+            total_bytes += artifact.size_bytes
+            transfer_ms += link.rtt_ms + artifact.size_bytes * 8 / (
+                link.bandwidth_mbps * 1000
+            )
+        runtime = next(item for item in infrastructure.agents if item.agent_id == replica.agent_id)
+        if runtime.queue_depth not in {None, 0} or runtime.in_flight != 0:
+            return _infeasible(
+                replica.agent_id,
+                total_bytes,
+                "v1 idle-state experiment rejects nonzero queue/load",
+            )
+        compute_ms = self._stage_estimates[replica.replica_id].total_compute_latency_ms
+        return CandidateCostEstimate(
+            agent_id=replica.agent_id,
+            feasible=True,
+            input_bytes=total_bytes,
+            transfer_latency_ms=transfer_ms,
+            compute_latency_ms=compute_ms,
+            queue_latency_ms=0,
+            total_latency_ms=transfer_ms + compute_ms,
+            queue_signal=QueueSignal.IN_FLIGHT,
+            queue_units=0,
+        )
+
+
 class ReplicaAwareScheduler:
     """v1 model-replica placement without changing the semantic workflow DAG."""
 

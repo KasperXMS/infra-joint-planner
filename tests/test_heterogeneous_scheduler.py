@@ -24,6 +24,8 @@ from infra_joint.heterogeneous.metrics import (
 from infra_joint.heterogeneous.scheduler import (
     ReplicaAwareScheduler,
     ReplicaComputeEstimate,
+    SynthesisStageEstimate,
+    SynthesisStageScheduler,
 )
 from infra_joint.operators.registry import OperatorRegistry, OperatorSpec
 from infra_joint.workflow.scheduler import SchedulerKind
@@ -47,6 +49,19 @@ def registry() -> OperatorRegistry:
             operator_id="invoke_model",
             description="model",
             capability_requirements=frozenset({"model"}),
+        ),
+        lambda _: {},
+    )
+    return result
+
+
+def stage_registry() -> OperatorRegistry:
+    result = registry()
+    result.register(
+        OperatorSpec(
+            operator_id="bm25_retrieve",
+            description="reduction",
+            capability_requirements=frozenset({"retrieval"}),
         ),
         lambda _: {},
     )
@@ -201,6 +216,92 @@ def test_b1_rejects_uncontrolled_queue_load() -> None:
     costs = {item.agent_id: item for item in decision.candidate_costs}
     assert not costs["G4090"].feasible
     assert "rejects nonzero queue" in str(costs["G4090"].reason)
+
+
+def test_stage_scheduler_co_locates_reduction_and_model_replica() -> None:
+    stage_estimates = (
+        SynthesisStageEstimate(
+            compute_profile_id="agx-profile",
+            replica_id="agx",
+            median_reduction_latency_ms=100,
+            median_model_service_latency_ms=5000,
+        ),
+        SynthesisStageEstimate(
+            compute_profile_id="gpu-profile",
+            replica_id="gpu",
+            median_reduction_latency_ms=20,
+            median_model_service_latency_ms=500,
+        ),
+    )
+    scheduler = SynthesisStageScheduler(
+        "b1",
+        replica_set(),
+        leader_node_id="reduce",
+        follower_node_id="synthesize",
+        stage_estimates=stage_estimates,
+    )
+    leader = WorkflowNode(
+        node_id="reduce",
+        agent_id="synthesizer",
+        operator="bm25_retrieve",
+        inputs=("evidence",),
+    )
+    leader_decision = scheduler.schedule(
+        leader,
+        logical_agent(),
+        environment(),
+        infrastructure(1000),
+        stage_registry(),
+    )
+    follower_decision = scheduler.schedule(
+        node(), logical_agent(), environment(), infrastructure(1000), stage_registry()
+    )
+
+    assert leader_decision.selected_agent_id == "G4090"
+    assert leader_decision.physical == PhysicalDecision(
+        policy=PhysicalPolicy.TARGET_AGENT,
+        target_agent_id="G4090",
+    )
+    assert follower_decision.selected_agent_id == "G4090"
+    assert follower_decision.selected_deployment_id == "gpu-qwen"
+
+
+def test_stage_b0_has_no_cost_inputs_and_forced_placement_is_explicit() -> None:
+    leader = WorkflowNode(
+        node_id="reduce",
+        agent_id="synthesizer",
+        operator="bm25_retrieve",
+        inputs=("evidence",),
+    )
+    b0 = SynthesisStageScheduler(
+        "b0",
+        replica_set(),
+        leader_node_id="reduce",
+        follower_node_id="synthesize",
+    ).schedule(
+        leader,
+        logical_agent(),
+        environment(),
+        infrastructure(1000),
+        stage_registry(),
+    )
+    forced = SynthesisStageScheduler(
+        "forced",
+        replica_set(),
+        leader_node_id="reduce",
+        follower_node_id="synthesize",
+        forced_agent_id="G4090",
+    ).schedule(
+        leader,
+        logical_agent(),
+        environment(),
+        infrastructure(10),
+        stage_registry(),
+    )
+
+    assert b0.selected_agent_id == "A28"
+    assert b0.candidate_costs == ()
+    assert forced.selected_agent_id == "G4090"
 
 
 def test_empirical_oracle_and_routing_regret_use_forced_measurements() -> None:
