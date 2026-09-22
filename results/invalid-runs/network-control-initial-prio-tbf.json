@@ -1,0 +1,10 @@
+{
+  "attempt_id": "tc-preflight-initial-prio-tbf",
+  "classification": "system_harness_confounder",
+  "counted_as_calibration_or_experiment_run": false,
+  "phase": "E2 tc preflight before network calibration",
+  "root_cause": "The initial PRIO/TBF qdisc hierarchy was not executable on the target kernel; tc rejected the unsupported qdisc command path before a calibration or workflow run began.",
+  "response": "The transactional cleanup path restored the original root qdisc. The data-plane-only classifier design was retained, but the shaping hierarchy was changed to supported HTB classes, with NETEM only on the RTX egress endpoint.",
+  "fix_commit": "d5f9934",
+  "evidence_limit": "The original interactive tc stderr was not persisted. The pre-fix PRIO/TBF command plan and the HTB replacement are reconstructable from commits 786b34a and d5f9934; no performance sample from the failed attempt is used."
+}
