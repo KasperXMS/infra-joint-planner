@@ -8,7 +8,7 @@ import json
 import random
 import sys
 from argparse import Namespace
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Literal, cast
 
@@ -131,13 +131,40 @@ def formal_schedule(
     return tuple(runs)
 
 
-def _write_schedule(path: Path, schedule: tuple[ScheduledRun, ...], seed: int) -> None:
+def replace_run_ids(
+    schedule: tuple[ScheduledRun, ...], replacements: dict[str, str]
+) -> tuple[ScheduledRun, ...]:
+    if not replacements:
+        return schedule
+    existing = {item.run_id for item in schedule}
+    missing = set(replacements) - existing
+    if missing:
+        raise ValueError(f"replacement source run IDs are absent: {sorted(missing)}")
+    targets = tuple(replacements.values())
+    if any(not item for item in targets) or len(set(targets)) != len(targets):
+        raise ValueError("replacement run IDs must be non-empty and unique")
+    if set(targets) & (existing - set(replacements)):
+        raise ValueError("replacement run ID collides with an existing schedule run")
+    return tuple(
+        replace(item, run_id=replacements.get(item.run_id, item.run_id))
+        for item in schedule
+    )
+
+
+def _write_schedule(
+    path: Path,
+    schedule: tuple[ScheduledRun, ...],
+    seed: int,
+    replacements: dict[str, str],
+) -> None:
     payload = {
         "schema_version": "heterogeneous-v1-run-schedule-v1",
         "seed": seed,
         "run_count": len(schedule),
         "runs": [asdict(item) for item in schedule],
     }
+    if replacements:
+        payload["replacement_run_ids"] = replacements
     serialized = json.dumps(payload, indent=2, sort_keys=True) + "\n"
     if path.exists() and path.read_text(encoding="utf-8") != serialized:
         raise RuntimeError("refusing to change an already frozen run schedule")
@@ -172,6 +199,11 @@ def existing_run_is_valid(result_path: Path, metadata_path: Path) -> bool:
     if metadata.get("tc_cleanup_error") is not None:
         raise RuntimeError(
             f"refusing to resume after tc cleanup failure: {result_path.parent.name}"
+        )
+    if metadata.get("artifact_cleanup_error") is not None:
+        raise RuntimeError(
+            f"refusing to resume after artifact cleanup failure: "
+            f"{result_path.parent.name}"
         )
     return True
 
@@ -234,11 +266,30 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--planner-config", type=Path, required=True)
     parser.add_argument("--api-key-file", type=Path)
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument(
+        "--replacement",
+        action="append",
+        default=[],
+        metavar="OLD_RUN_ID=NEW_RUN_ID",
+    )
     return parser
+
+
+def _parse_replacements(values: list[str]) -> dict[str, str]:
+    replacements: dict[str, str] = {}
+    for value in values:
+        old, separator, new = value.partition("=")
+        if not separator or not old or not new:
+            raise ValueError("replacement must be OLD_RUN_ID=NEW_RUN_ID")
+        if old in replacements:
+            raise ValueError(f"duplicate replacement source run ID: {old}")
+        replacements[old] = new
+    return replacements
 
 
 def main() -> None:
     args = _parser().parse_args()
+    replacements = _parse_replacements(args.replacement)
     if args.mode == "pilot":
         schedule = pilot_schedule(
             args.calibration_root,
@@ -254,7 +305,8 @@ def main() -> None:
             repetitions=args.repetitions,
             seed=args.seed,
         )
-    _write_schedule(args.schedule, schedule, args.seed)
+    schedule = replace_run_ids(schedule, replacements)
+    _write_schedule(args.schedule, schedule, args.seed, replacements)
     asyncio.run(execute(args, schedule))
 
 

@@ -1,0 +1,23 @@
+{
+  "attempt_id": "hetero-v1-pilot-bw10-l-forced-a28-r03",
+  "classification": "system_harness_confounder",
+  "counted_as_pilot_or_experiment_run": false,
+  "pilot_valid_before_stop": 74,
+  "persisted_result": "results/heterogeneous_v1_pilot/hetero-v1-pilot-bw10-l-forced-a28-r03/result.json",
+  "persisted_trace": "results/heterogeneous_v1_pilot/hetero-v1-pilot-bw10-l-forced-a28-r03/trace.jsonl",
+  "persisted_metadata": null,
+  "workflow_observation": {
+    "execution_completed": true,
+    "model_finish_reason": "stop",
+    "benchmark_score": 1.0,
+    "format_valid": true,
+    "trace_event_count": 34,
+    "trace_reconstructable": true
+  },
+  "error": "RuntimeError: remote command failed on edge@192.168.0.105 (255): ssh: connect to host 192.168.0.105 port 22: Connection timed out",
+  "failure_point": "post-run generated-artifact cleanup on A5",
+  "network_cleanup": "A28 and strong-4090 qdiscs were restored before artifact cleanup began",
+  "post_failure_state": "A5 immediately passed SSH and Worker /state checks and was idle",
+  "response": "Stopped the matrix, retained the completed result/trace, excluded the run, patched artifact-cleanup error persistence, removed only the exact generated artifact IDs, and reserved a new replacement run ID.",
+  "replacement_run_id": "hetero-v1-pilot-bw10-l-forced-a28-r03-replacement-audit1"
+}

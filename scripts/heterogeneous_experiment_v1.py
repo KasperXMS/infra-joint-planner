@@ -699,6 +699,7 @@ async def run_one(args: argparse.Namespace) -> None:
     result: PersistedWorkflowRunResult | None = None
     validation_error: str | None = None
     cleanup_error: str | None = None
+    artifact_cleanup_error: str | None = None
     tc_class_statistics: dict[str, str] = {}
     states = await controller.apply(
         tuple(build_tc_command_plan(endpoint, tc_regime) for endpoint in endpoints)
@@ -744,7 +745,10 @@ async def run_one(args: argparse.Namespace) -> None:
             await controller.cleanup()
         except Exception as exc:  # noqa: BLE001 - persist cleanup invalidity
             cleanup_error = f"{type(exc).__name__}: {exc}"
-        await _cleanup_artifacts(_produced_artifact_ids(plan))
+        try:
+            await _cleanup_artifacts(_produced_artifact_ids(plan))
+        except Exception as exc:  # noqa: BLE001 - persist cleanup invalidity
+            artifact_cleanup_error = f"{type(exc).__name__}: {exc}"
     if result.workflow is None:
         actual_replica_id = "not-executed"
     else:
@@ -787,6 +791,7 @@ async def run_one(args: argparse.Namespace) -> None:
             for state in states
         ],
         "tc_cleanup_error": cleanup_error,
+        "artifact_cleanup_error": artifact_cleanup_error,
         "tc_class_statistics": tc_class_statistics,
         "validation_error": validation_error,
         "scheduler_overhead": {
@@ -801,6 +806,8 @@ async def run_one(args: argparse.Namespace) -> None:
     sidecar_path.write_text(json.dumps(sidecar, indent=2, sort_keys=True), encoding="utf-8")
     if cleanup_error is not None:
         raise RuntimeError(f"tc cleanup failed: {cleanup_error}")
+    if artifact_cleanup_error is not None:
+        raise RuntimeError(f"artifact cleanup failed: {artifact_cleanup_error}")
     if validation_error is not None:
         raise RuntimeError(validation_error)
     if not result.execution_completed:

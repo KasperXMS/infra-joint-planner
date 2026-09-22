@@ -9,6 +9,7 @@ from scripts.heterogeneous_matrix_v1 import (
     existing_run_is_valid,
     formal_schedule,
     pilot_schedule,
+    replace_run_ids,
 )
 
 
@@ -89,9 +90,27 @@ def test_matrix_resume_only_accepts_complete_valid_run(tmp_path: Path) -> None:
         existing_run_is_valid(result, metadata)
 
     metadata.write_text(
-        json.dumps({"validation_error": None, "tc_cleanup_error": None})
+        json.dumps(
+            {
+                "validation_error": None,
+                "tc_cleanup_error": None,
+                "artifact_cleanup_error": None,
+            }
+        )
     )
     assert existing_run_is_valid(result, metadata)
+
+    metadata.write_text(
+        json.dumps(
+            {
+                "validation_error": None,
+                "tc_cleanup_error": None,
+                "artifact_cleanup_error": "ssh timeout",
+            }
+        )
+    )
+    with pytest.raises(RuntimeError, match="artifact cleanup failure"):
+        existing_run_is_valid(result, metadata)
 
 
 def test_matrix_script_entrypoint_exposes_help() -> None:
@@ -105,3 +124,18 @@ def test_matrix_script_entrypoint_exposes_help() -> None:
     assert result.returncode == 0, result.stderr
     assert "pilot" in result.stdout
     assert "formal" in result.stdout
+
+
+def test_replacement_run_id_is_explicit_and_collision_safe(tmp_path: Path) -> None:
+    root = tmp_path / "calibrations"
+    write_calibrations(root)
+    schedule = pilot_schedule(root, repetitions=3, seed=42)
+    old = schedule[0].run_id
+    replacement = f"{old}-replacement-audit1"
+
+    updated = replace_run_ids(schedule, {old: replacement})
+
+    assert updated[0].run_id == replacement
+    assert updated[1:] == schedule[1:]
+    with pytest.raises(ValueError, match="collides"):
+        replace_run_ids(schedule, {old: schedule[1].run_id})
