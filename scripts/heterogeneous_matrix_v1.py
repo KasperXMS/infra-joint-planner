@@ -141,13 +141,44 @@ def _write_schedule(path: Path, schedule: tuple[ScheduledRun, ...], seed: int) -
     path.write_text(serialized, encoding="utf-8")
 
 
+def existing_run_is_valid(result_path: Path, metadata_path: Path) -> bool:
+    """Accept only a fully persisted, explicitly valid prior run.
+
+    A partial or invalid run must stop a resumed matrix.  It must never be
+    silently retried under the same run ID or skipped as if it were valid.
+    """
+
+    present = (result_path.is_file(), metadata_path.is_file())
+    if present == (False, False):
+        return False
+    if present != (True, True):
+        raise RuntimeError(
+            f"refusing to resume partial run: {result_path.parent.name}"
+        )
+    loaded_result: object = json.loads(result_path.read_text(encoding="utf-8"))
+    loaded_metadata: object = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if not isinstance(loaded_result, dict) or not isinstance(loaded_metadata, dict):
+        raise RuntimeError(f"invalid persisted run documents: {result_path.parent.name}")
+    result = cast(dict[str, object], loaded_result)
+    metadata = cast(dict[str, object], loaded_metadata)
+    if result.get("execution_completed") is not True or result.get("failure") is not None:
+        raise RuntimeError(f"refusing to resume after failed run: {result_path.parent.name}")
+    if metadata.get("validation_error") is not None:
+        raise RuntimeError(f"refusing to resume after invalid run: {result_path.parent.name}")
+    if metadata.get("tc_cleanup_error") is not None:
+        raise RuntimeError(
+            f"refusing to resume after tc cleanup failure: {result_path.parent.name}"
+        )
+    return True
+
+
 async def execute(args: argparse.Namespace, schedule: tuple[ScheduledRun, ...]) -> None:
     progress_path = args.schedule.with_name(f"{args.schedule.stem}-progress.json")
     completed: list[str] = []
     for index, item in enumerate(schedule):
         result_path = args.output_root / item.run_id / "result.json"
         metadata_path = args.output_root / item.run_id / "experiment-metadata.json"
-        if result_path.is_file() and metadata_path.is_file():
+        if existing_run_is_valid(result_path, metadata_path):
             completed.append(item.run_id)
             continue
         invocation = Namespace(

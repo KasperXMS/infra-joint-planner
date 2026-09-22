@@ -3,7 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from scripts.heterogeneous_matrix_v1 import formal_schedule, pilot_schedule
+from scripts.heterogeneous_matrix_v1 import (
+    existing_run_is_valid,
+    formal_schedule,
+    pilot_schedule,
+)
 
 
 def write_calibrations(root: Path) -> None:
@@ -63,3 +67,26 @@ def test_formal_and_pilot_repetition_floors_fail_closed(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="at least 10"):
         formal_schedule(tmp_path / "missing.json", tmp_path, repetitions=9, seed=1)
+
+
+def test_matrix_resume_only_accepts_complete_valid_run(tmp_path: Path) -> None:
+    result = tmp_path / "run" / "result.json"
+    metadata = result.with_name("experiment-metadata.json")
+    result.parent.mkdir()
+
+    assert not existing_run_is_valid(result, metadata)
+
+    result.write_text(json.dumps({"execution_completed": True, "failure": None}))
+    with pytest.raises(RuntimeError, match="partial run"):
+        existing_run_is_valid(result, metadata)
+
+    metadata.write_text(
+        json.dumps({"validation_error": "bad finish", "tc_cleanup_error": None})
+    )
+    with pytest.raises(RuntimeError, match="invalid run"):
+        existing_run_is_valid(result, metadata)
+
+    metadata.write_text(
+        json.dumps({"validation_error": None, "tc_cleanup_error": None})
+    )
+    assert existing_run_is_valid(result, metadata)
