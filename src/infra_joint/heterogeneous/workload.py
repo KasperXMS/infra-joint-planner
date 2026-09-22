@@ -342,7 +342,10 @@ def _write_payload(
 
     shards = tuple(
         FrozenShard(
-            artifact_id=f"heterogeneous-{label.lower()}-{agent.lower()}",
+            artifact_id=(
+                f"heterogeneous-{label.lower()}-shard-"
+                f"{'a' if agent == 'A4' else 'b'}"
+            ),
             path=path.name,
             placement_agent=cast(Literal["A4", "A5"], agent),
             bytes=path.stat().st_size,
@@ -383,7 +386,7 @@ def _workflow_template(
     )
     nodes = (
         ScriptedWorkflowNode(
-            node_id="a4-local-retrieve-reduce",
+            node_id="source-a-local-retrieve-reduce",
             placement_agent="A4",
             operator="bm25_retrieve",
             inputs=("{payload}.A4",),
@@ -396,7 +399,7 @@ def _workflow_template(
             },
         ),
         ScriptedWorkflowNode(
-            node_id="a5-local-retrieve-reduce",
+            node_id="source-b-local-retrieve-reduce",
             placement_agent="A5",
             operator="bm25_retrieve",
             inputs=("{payload}.A5",),
@@ -409,7 +412,7 @@ def _workflow_template(
             },
         ),
         ScriptedWorkflowNode(
-            node_id="a28-merge-package",
+            node_id="merge-package",
             placement_agent="A28",
             operator="aggregate_artifacts",
             inputs=("{payload}.A4.local-top-k", "{payload}.A5.local-top-k"),
@@ -417,7 +420,7 @@ def _workflow_template(
             arguments={"output_artifact_id": "{payload}.placement-group-package"},
         ),
         ScriptedWorkflowNode(
-            node_id="a28-placement-group-bm25-reduce",
+            node_id="placement-group-bm25-reduce",
             placement_agent="A28",
             operator="bm25_retrieve",
             inputs=("{payload}.placement-group-package",),
@@ -430,7 +433,7 @@ def _workflow_template(
             },
         ),
         ScriptedWorkflowNode(
-            node_id="a28-placement-group-project-context",
+            node_id="placement-group-project-context",
             placement_agent="A28",
             operator="select_fields",
             inputs=("{payload}.ranked-evidence",),
@@ -441,7 +444,7 @@ def _workflow_template(
             },
         ),
         ScriptedWorkflowNode(
-            node_id="a28-same-model-synthesis",
+            node_id="same-model-synthesis",
             placement_agent="A28",
             operator="invoke_model",
             inputs=("{payload}.context-ready",),
@@ -458,28 +461,28 @@ def _workflow_template(
     )
     edges = (
         ScriptedWorkflowEdge(
-            producer_node="a4-local-retrieve-reduce",
-            consumer_node="a28-merge-package",
+            producer_node="source-a-local-retrieve-reduce",
+            consumer_node="merge-package",
             artifact_id="{payload}.A4.local-top-k",
         ),
         ScriptedWorkflowEdge(
-            producer_node="a5-local-retrieve-reduce",
-            consumer_node="a28-merge-package",
+            producer_node="source-b-local-retrieve-reduce",
+            consumer_node="merge-package",
             artifact_id="{payload}.A5.local-top-k",
         ),
         ScriptedWorkflowEdge(
-            producer_node="a28-merge-package",
-            consumer_node="a28-placement-group-bm25-reduce",
+            producer_node="merge-package",
+            consumer_node="placement-group-bm25-reduce",
             artifact_id="{payload}.placement-group-package",
         ),
         ScriptedWorkflowEdge(
-            producer_node="a28-placement-group-bm25-reduce",
-            consumer_node="a28-placement-group-project-context",
+            producer_node="placement-group-bm25-reduce",
+            consumer_node="placement-group-project-context",
             artifact_id="{payload}.ranked-evidence",
         ),
         ScriptedWorkflowEdge(
-            producer_node="a28-placement-group-project-context",
-            consumer_node="a28-same-model-synthesis",
+            producer_node="placement-group-project-context",
+            consumer_node="same-model-synthesis",
             artifact_id="{payload}.context-ready",
         ),
     )

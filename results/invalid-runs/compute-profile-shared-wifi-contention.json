@@ -1,0 +1,12 @@
+{
+  "attempt_id": "compute-profile-audit1-overlapped-preload",
+  "classification": "system_harness_confounder",
+  "counted_as_profile_sample": false,
+  "affected_outputs": [
+    "results/compute_profiles/strong-4090-qwen3.8-27b-v1-audit1.json",
+    "incomplete A28 audit1 process (interrupted before output commit)"
+  ],
+  "root_cause": "One-time S/M/L artifact preload overlapped the compute profile on the shared experiment Wi-Fi, which could inflate controller-observed TTFT and wall service latency even though Ollama internal prefill/decode telemetry remained available.",
+  "response": "Stopped the incomplete A28 profile, retained the completed RTX audit1 file as invalid evidence, completed all preload traffic, and reserved a new isolated audit2 window for both replicas.",
+  "semantic_or_model_failure": false
+}

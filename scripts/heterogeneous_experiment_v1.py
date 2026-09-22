@@ -210,7 +210,7 @@ def _artifact_specs(
             size_bytes=shard.bytes,
             source_ref=(
                 f"local-derived://{manifest.task.task_id}/heterogeneous-v1/{label}/"
-                f"{shard.placement_agent}"
+                f"{shard.artifact_id}"
             ),
         )
         specs.append(spec)
@@ -218,7 +218,7 @@ def _artifact_specs(
     return tuple(specs), tuple(prepared)
 
 
-def _bundle(
+def build_bundle(
     manifest_path: Path,
     manifest: SemanticWorkloadManifest,
     label: str,
@@ -397,7 +397,7 @@ def _plan(
     query = bundle.execution.task.objective
     nodes = (
         WorkflowNode(
-            node_id="a4-local-retrieve-reduce",
+            node_id="source-a-local-retrieve-reduce",
             agent_id="edge-a",
             operator="bm25_retrieve",
             inputs=(by_agent["A4"],),
@@ -410,7 +410,7 @@ def _plan(
             },
         ),
         WorkflowNode(
-            node_id="a5-local-retrieve-reduce",
+            node_id="source-b-local-retrieve-reduce",
             agent_id="edge-b",
             operator="bm25_retrieve",
             inputs=(by_agent["A5"],),
@@ -423,7 +423,7 @@ def _plan(
             },
         ),
         WorkflowNode(
-            node_id="a28-merge-package",
+            node_id="merge-package",
             agent_id="packager",
             operator="aggregate_artifacts",
             inputs=(outputs["a4"], outputs["a5"]),
@@ -431,7 +431,7 @@ def _plan(
             arguments={"output_artifact_id": outputs["package"]},
         ),
         WorkflowNode(
-            node_id="a28-placement-group-bm25-reduce",
+            node_id="placement-group-bm25-reduce",
             agent_id="synthesizer",
             operator="bm25_retrieve",
             inputs=(outputs["package"],),
@@ -444,7 +444,7 @@ def _plan(
             },
         ),
         WorkflowNode(
-            node_id="a28-placement-group-project-context",
+            node_id="placement-group-project-context",
             agent_id="synthesizer",
             operator="select_fields",
             inputs=(outputs["ranked"],),
@@ -455,7 +455,7 @@ def _plan(
             },
         ),
         WorkflowNode(
-            node_id="a28-same-model-synthesis",
+            node_id="same-model-synthesis",
             agent_id="synthesizer",
             operator="invoke_model",
             inputs=(outputs["context"],),
@@ -470,28 +470,28 @@ def _plan(
     )
     edges = (
         WorkflowEdge(
-            producer_node="a4-local-retrieve-reduce",
-            consumer_node="a28-merge-package",
+            producer_node="source-a-local-retrieve-reduce",
+            consumer_node="merge-package",
             artifact_id=outputs["a4"],
         ),
         WorkflowEdge(
-            producer_node="a5-local-retrieve-reduce",
-            consumer_node="a28-merge-package",
+            producer_node="source-b-local-retrieve-reduce",
+            consumer_node="merge-package",
             artifact_id=outputs["a5"],
         ),
         WorkflowEdge(
-            producer_node="a28-merge-package",
-            consumer_node="a28-placement-group-bm25-reduce",
+            producer_node="merge-package",
+            consumer_node="placement-group-bm25-reduce",
             artifact_id=outputs["package"],
         ),
         WorkflowEdge(
-            producer_node="a28-placement-group-bm25-reduce",
-            consumer_node="a28-placement-group-project-context",
+            producer_node="placement-group-bm25-reduce",
+            consumer_node="placement-group-project-context",
             artifact_id=outputs["ranked"],
         ),
         WorkflowEdge(
-            producer_node="a28-placement-group-project-context",
-            consumer_node="a28-same-model-synthesis",
+            producer_node="placement-group-project-context",
+            consumer_node="same-model-synthesis",
             artifact_id=outputs["context"],
         ),
     )
@@ -546,18 +546,18 @@ def _scheduler(
     stage = SynthesisStageScheduler(
         kind,
         replica_set,
-        leader_node_id="a28-placement-group-bm25-reduce",
-        intermediate_node_ids=("a28-placement-group-project-context",),
-        follower_node_id="a28-same-model-synthesis",
+        leader_node_id="placement-group-bm25-reduce",
+        intermediate_node_ids=("placement-group-project-context",),
+        follower_node_id="same-model-synthesis",
         stage_estimates=estimates,
         forced_agent_id=forced,
     )
     return FixedPrefixScheduler(
         stage,
         {
-            "a4-local-retrieve-reduce": "A4",
-            "a5-local-retrieve-reduce": "A5",
-            "a28-merge-package": "A28",
+            "source-a-local-retrieve-reduce": "A4",
+            "source-b-local-retrieve-reduce": "A5",
+            "merge-package": "A28",
         },
         scheduler_kind=scheduler_kind,
     )
@@ -586,7 +586,7 @@ async def _assert_workers_idle(clients: dict[str, WorkerClient]) -> None:
 
 async def preload(manifest_path: Path, label: str) -> None:
     manifest = _manifest(manifest_path)
-    bundle = _bundle(manifest_path, manifest, label)
+    bundle = build_bundle(manifest_path, manifest, label)
     payload = _payload(manifest, label)
     placement = {item.artifact_id: item.placement_agent for item in payload.shards}
     async with AsyncExitStack() as stack:
@@ -659,7 +659,7 @@ def _model_finish_reasons(result: PersistedWorkflowRunResult) -> tuple[str, ...]
 async def run_one(args: argparse.Namespace) -> None:
     _load_deepseek_key(args.api_key_file)
     manifest = _manifest(args.manifest)
-    bundle = _bundle(args.manifest, manifest, args.payload)
+    bundle = build_bundle(args.manifest, manifest, args.payload)
     calibration = _load_calibration(args.calibration)
     if calibration.regime.control_method != NetworkControlMethod.TC:
         raise RuntimeError("primary v1 run requires network_control=tc")
@@ -751,7 +751,7 @@ async def run_one(args: argparse.Namespace) -> None:
         model_records = [
             item
             for item in result.workflow.records
-            if item.node_id == "a28-same-model-synthesis"
+            if item.node_id == "same-model-synthesis"
         ]
         actual_replica_id = (
             model_records[0].scheduler_decision.selected_deployment_id

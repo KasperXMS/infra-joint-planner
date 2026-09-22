@@ -11,6 +11,7 @@ from infra_joint.heterogeneous.workload import (
     freeze_semantic_workload,
 )
 from infra_joint.operators.catalog import build_operator_catalog
+from scripts.heterogeneous_experiment_v1 import build_bundle
 
 
 def canonical(value: object) -> bytes:
@@ -110,6 +111,12 @@ def test_freeze_is_deterministic_derived_and_keeps_private_evaluation_separate(
     assert first.workflow_template.nodes[4].operator == "select_fields"
     assert first.workflow_template.context_preflight.max_reduced_artifact_bytes == 13_000
     assert first.workflow_template.context_preflight.silent_truncation is False
+    task = build_bundle(tmp_path / "first" / "manifest.json", first, "S").execution.task
+    task_json = task.model_dump_json()
+    assert "A4" not in task_json
+    assert "A5" not in task_json
+    assert "A28" not in task_json
+    assert "strong-4090" not in task_json
 
     source_bodies = {document["body"] for document in source}
     for payload in first.payloads:

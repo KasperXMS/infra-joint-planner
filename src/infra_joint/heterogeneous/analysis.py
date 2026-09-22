@@ -15,9 +15,9 @@ from infra_joint.heterogeneous.scheduler import SynthesisStageEstimate
 from infra_joint.workflow.runner import PersistedWorkflowRunResult
 
 STAGE_NODE_IDS = (
-    "a28-placement-group-bm25-reduce",
-    "a28-placement-group-project-context",
-    "a28-same-model-synthesis",
+    "placement-group-bm25-reduce",
+    "placement-group-project-context",
+    "same-model-synthesis",
 )
 
 
