@@ -15,6 +15,7 @@ from infra_joint.heterogeneous.analysis import (
     oracle_cells,
     predicted_break_even_mbps,
     routing_regrets,
+    validate_trace_reconstruction,
 )
 from infra_joint.heterogeneous.contracts import ExperimentMetadata
 from infra_joint.workflow.runner import PersistedWorkflowRunResult
@@ -31,6 +32,7 @@ def load_observations(root: Path) -> tuple[PlacementRunObservation, ...]:
         result = PersistedWorkflowRunResult.model_validate_json(
             result_path.read_text(encoding="utf-8")
         )
+        validate_trace_reconstruction(metadata_path.parent / "trace.jsonl", result.run_id)
         overhead = cast(dict[str, Any], raw["scheduler_overhead"])
         values.append(
             PlacementRunObservation.model_validate(

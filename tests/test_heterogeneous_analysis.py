@@ -1,11 +1,17 @@
+from datetime import UTC, datetime
+from math import isclose
+from pathlib import Path
+
 import pytest
 
+from infra_joint.evaluation.trace import TraceEvent
 from infra_joint.heterogeneous.analysis import (
     PlacementRunObservation,
     build_stage_estimates,
     oracle_cells,
     predicted_break_even_mbps,
     routing_regrets,
+    validate_trace_reconstruction,
 )
 
 
@@ -82,5 +88,50 @@ def test_break_even_uses_bytes_compute_gap_and_rtt() -> None:
         rtx_compute_ms=500,
         rtt_ms=20,
     )
-    assert value == pytest.approx(14.979, rel=1e-3)
+    assert value is not None and isclose(value, 14.979, rel_tol=1e-3)
     assert predicted_break_even_mbps(1, 500, 500, 20) is None
+
+
+def test_trace_reconstruction_requires_linear_chain_and_terminal_event(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "trace.jsonl"
+    events = (
+        TraceEvent(
+            run_id="run",
+            step_id="000000-task.start",
+            event_type="task.start",
+            timestamp=datetime.now(UTC),
+        ),
+        TraceEvent(
+            run_id="run",
+            step_id="000001-workflow.planner.end",
+            parent_id="000000-task.start",
+            event_type="workflow.planner.end",
+            timestamp=datetime.now(UTC),
+        ),
+        TraceEvent(
+            run_id="run",
+            step_id="000002-infra.snapshot",
+            parent_id="000001-workflow.planner.end",
+            event_type="infra.snapshot",
+            timestamp=datetime.now(UTC),
+        ),
+        TraceEvent(
+            run_id="run",
+            step_id="000003-run.end",
+            parent_id="000002-infra.snapshot",
+            event_type="run.end",
+            timestamp=datetime.now(UTC),
+        ),
+    )
+    path.write_text("\n".join(item.model_dump_json() for item in events) + "\n")
+
+    assert validate_trace_reconstruction(path, "run") == 4
+
+    broken = events[-1].model_copy(update={"parent_id": "wrong"})
+    path.write_text(
+        "\n".join(item.model_dump_json() for item in (*events[:-1], broken)) + "\n"
+    )
+    with pytest.raises(ValueError, match="parent chain"):
+        validate_trace_reconstruction(path, "run")

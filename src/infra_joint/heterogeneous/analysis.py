@@ -2,11 +2,13 @@ from __future__ import annotations
 
 from collections import defaultdict
 from collections.abc import Iterable
+from pathlib import Path
 from statistics import median
 
 from pydantic import Field
 
 from infra_joint.core.base import ContractModel
+from infra_joint.evaluation.trace import TraceEvent
 from infra_joint.heterogeneous.calibration import summarize
 from infra_joint.heterogeneous.contracts import DistributionSummary, ExperimentMetadata
 from infra_joint.heterogeneous.scheduler import SynthesisStageEstimate
@@ -17,6 +19,31 @@ STAGE_NODE_IDS = (
     "a28-placement-group-project-context",
     "a28-same-model-synthesis",
 )
+
+
+def validate_trace_reconstruction(path: Path, run_id: str) -> int:
+    lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    if not lines:
+        raise ValueError(f"trace is empty: {run_id}")
+    events = [TraceEvent.model_validate_json(line) for line in lines]
+    previous: str | None = None
+    step_ids: set[str] = set()
+    for event in events:
+        if event.run_id != run_id:
+            raise ValueError(f"trace run ID mismatch: {run_id}")
+        if event.step_id in step_ids:
+            raise ValueError(f"trace step ID is duplicated: {event.step_id}")
+        if event.parent_id != previous:
+            raise ValueError(f"trace parent chain is broken: {event.step_id}")
+        step_ids.add(event.step_id)
+        previous = event.step_id
+    if events[-1].event_type not in {"run.end", "run.failed"}:
+        raise ValueError(f"trace lacks a terminal run event: {run_id}")
+    required = {"task.start", "workflow.planner.end", "infra.snapshot"}
+    observed = {item.event_type for item in events}
+    if required - observed:
+        raise ValueError(f"trace lacks required reconstruction events: {run_id}")
+    return len(events)
 
 
 class PlacementRunObservation(ContractModel):
