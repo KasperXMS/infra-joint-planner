@@ -238,6 +238,7 @@ def test_stage_scheduler_co_locates_reduction_and_model_replica() -> None:
         replica_set(),
         leader_node_id="reduce",
         follower_node_id="synthesize",
+        intermediate_node_ids=("project",),
         stage_estimates=stage_estimates,
     )
     leader = WorkflowNode(
@@ -248,6 +249,18 @@ def test_stage_scheduler_co_locates_reduction_and_model_replica() -> None:
     )
     leader_decision = scheduler.schedule(
         leader,
+        logical_agent(),
+        environment(),
+        infrastructure(1000),
+        stage_registry(),
+    )
+    project_decision = scheduler.schedule(
+        WorkflowNode(
+            node_id="project",
+            agent_id="synthesizer",
+            operator="bm25_retrieve",
+            inputs=("evidence",),
+        ),
         logical_agent(),
         environment(),
         infrastructure(1000),
@@ -264,6 +277,7 @@ def test_stage_scheduler_co_locates_reduction_and_model_replica() -> None:
     )
     assert follower_decision.selected_agent_id == "G4090"
     assert follower_decision.selected_deployment_id == "gpu-qwen"
+    assert project_decision.selected_agent_id == "G4090"
 
 
 def test_stage_b0_has_no_cost_inputs_and_forced_placement_is_explicit() -> None:

@@ -103,8 +103,11 @@ def test_freeze_is_deterministic_derived_and_keeps_private_evaluation_separate(
     assert first.materialized_source_document_count == 2
     assert first.private_evaluation.planner_visible is False
     assert first.workflow_template.same_synthesis_model_for_all_payloads is True
-    assert first.workflow_template.nodes[0].arguments["top_k"] == 1
-    assert first.workflow_template.nodes[1].arguments["top_k"] == 1
+    assert first.workflow_template.nodes[0].arguments["top_k"] == 100_000
+    assert first.workflow_template.nodes[1].arguments["top_k"] == 100_000
+    assert first.workflow_template.nodes[3].arguments["top_k"] == 2
+    assert first.workflow_template.nodes[3].outputs == ("{payload}.ranked-evidence",)
+    assert first.workflow_template.nodes[4].operator == "select_fields"
     assert first.workflow_template.context_preflight.max_reduced_artifact_bytes == 13_000
     assert first.workflow_template.context_preflight.silent_truncation is False
 
@@ -123,6 +126,13 @@ def test_freeze_is_deterministic_derived_and_keeps_private_evaluation_separate(
         assert {record["derived_label"] for record in records} == {
             "derived_deterministic_semantic_replication_v1"
         }
+        canonical = [record for record in records if record["replica_index"] == 0]
+        assert {record["source_document_id"] for record in canonical} == {
+            "mhr-doc-one",
+            "mhr-doc-two",
+        }
+        assert all(record["retrieval_text"] == record["body"] for record in canonical)
+        assert all(record["evidence_excerpt"] for record in records)
         for shard in payload.shards:
             first_bytes = (tmp_path / "first" / shard.path).read_bytes()
             second_bytes = (tmp_path / "second" / shard.path).read_bytes()

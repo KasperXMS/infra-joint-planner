@@ -247,11 +247,28 @@ def _derived_record(
         }
     )
     derived_id = f"mhr-derived-{_sha256_bytes(identity)[:32]}"
+    body = _required_string(document.record, "body", source=Path(document.source_document_id))
+    introductory_paragraphs = [item.strip() for item in body.split("\n\n") if item.strip()]
+    evidence_excerpt = "\n\n".join(introductory_paragraphs[:3])
+    # Only one canonical replica per source participates in the final retrieval.
+    # The remaining records still carry real document content and account for the
+    # controlled payload bytes, but their neutral retrieval field prevents repeated
+    # copies of one source from crowding the other source out of top-k.
+    retrieval_text = (
+        body
+        if replica_index == 0
+        else (
+            "archival semantic replica; source title: "
+            f"{document.record['title']}; category: {document.record['category']}"
+        )
+    )
     return {
         **document.record,
         "derived_document_id": derived_id,
         "derived_label": DERIVED_LABEL,
+        "evidence_excerpt": evidence_excerpt,
         "replica_index": replica_index,
+        "retrieval_text": retrieval_text,
         "source_document_id": document.source_document_id,
         "source_document_sha256": document.source_sha256,
     }
@@ -404,11 +421,22 @@ def _workflow_template(
             placement_agent="A28",
             operator="bm25_retrieve",
             inputs=("{payload}.placement-group-package",),
-            outputs=("{payload}.context-ready",),
+            outputs=("{payload}.ranked-evidence",),
             arguments={
                 "query": "{task.query}",
-                "text_field": "body",
+                "text_field": "retrieval_text",
                 "top_k": final_top_k,
+                "output_artifact_id": "{payload}.ranked-evidence",
+            },
+        ),
+        ScriptedWorkflowNode(
+            node_id="a28-placement-group-project-context",
+            placement_agent="A28",
+            operator="select_fields",
+            inputs=("{payload}.ranked-evidence",),
+            outputs=("{payload}.context-ready",),
+            arguments={
+                "fields": ["source_document_id", "title", "evidence_excerpt"],
                 "output_artifact_id": "{payload}.context-ready",
             },
         ),
@@ -420,8 +448,10 @@ def _workflow_template(
             outputs=(),
             arguments={
                 "prompt": (
-                    "{task.query}\nUse only the context artifact. Return a concise answer. "
-                    "Context admission is governed by the frozen fail-closed preflight."
+                    "{task.query}\nUse only the context artifact. Compare both sources in "
+                    "120 to 180 words, then end with exactly ANSWER: Yes or ANSWER: No. "
+                    "Do not reveal chain-of-thought. Context admission is governed by the "
+                    "frozen fail-closed preflight."
                 ),
             },
         ),
@@ -444,6 +474,11 @@ def _workflow_template(
         ),
         ScriptedWorkflowEdge(
             producer_node="a28-placement-group-bm25-reduce",
+            consumer_node="a28-placement-group-project-context",
+            artifact_id="{payload}.ranked-evidence",
+        ),
+        ScriptedWorkflowEdge(
+            producer_node="a28-placement-group-project-context",
             consumer_node="a28-same-model-synthesis",
             artifact_id="{payload}.context-ready",
         ),
@@ -465,8 +500,8 @@ def freeze_semantic_workload(
     context_window_tokens: int = 64_000,
     reserved_output_tokens: int = 1_024,
     prompt_token_upper_bound: int = 2_048,
-    local_top_k: int = 1,
-    final_top_k: int = 4,
+    local_top_k: int = 100_000,
+    final_top_k: int = 2,
     overwrite: bool = False,
 ) -> SemanticWorkloadManifest:
     """Freeze deterministic semantic payloads without exposing private evaluation data."""
@@ -557,6 +592,10 @@ def freeze_semantic_workload(
             "in the pre-existing local M4 materialization. No random or synthetic padding is used; "
             "replicas receive unique IDs and retain source hashes. The local materialization "
             "contains the supporting evidence but may be a subset of the 30-candidate task. "
+            "One canonical record per real source retains full retrieval text; repeated records "
+            "use a neutral provenance-only retrieval field so duplicate copies cannot displace "
+            "the other source. Model context uses deterministic introductory excerpts from both "
+            "sources after a fixed field projection. "
             "Physical placement is harness-only and must not enter TaskContract or planner input."
         ),
         source_candidate_document_count=len(candidate_ids),

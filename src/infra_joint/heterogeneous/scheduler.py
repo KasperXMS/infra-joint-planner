@@ -55,6 +55,7 @@ class SynthesisStageScheduler:
         *,
         leader_node_id: str,
         follower_node_id: str,
+        intermediate_node_ids: tuple[str, ...] = (),
         stage_estimates: tuple[SynthesisStageEstimate, ...] = (),
         forced_agent_id: str | None = None,
         ordinary_profiles: tuple[OperatorDeviceProfile, ...] = (),
@@ -63,6 +64,11 @@ class SynthesisStageScheduler:
         self._replica_set = replica_set
         self._leader_node_id = leader_node_id
         self._follower_node_id = follower_node_id
+        if len(intermediate_node_ids) != len(set(intermediate_node_ids)):
+            raise ValueError("synthesis stage intermediate node IDs must be unique")
+        if {leader_node_id, follower_node_id}.intersection(intermediate_node_ids):
+            raise ValueError("synthesis stage node roles must be disjoint")
+        self._intermediate_node_ids = frozenset(intermediate_node_ids)
         estimates = {item.replica_id: item for item in stage_estimates}
         if len(estimates) != len(stage_estimates):
             raise ValueError("synthesis stage estimates must have unique replica IDs")
@@ -94,7 +100,12 @@ class SynthesisStageScheduler:
         infrastructure: InfrastructureState,
         registry: OperatorRegistry,
     ) -> SchedulerDecision:
-        if node.node_id not in {self._leader_node_id, self._follower_node_id}:
+        stage_node_ids = {
+            self._leader_node_id,
+            self._follower_node_id,
+            *self._intermediate_node_ids,
+        }
+        if node.node_id not in stage_node_ids:
             return self._ordinary.schedule(
                 node, logical_agent, environment, infrastructure, registry
             )
@@ -172,6 +183,22 @@ class SynthesisStageScheduler:
 
         if self._selected is None:
             raise SchedulingError("synthesis stage follower scheduled before its leader")
+        if node.node_id in self._intermediate_node_ids:
+            return SchedulerDecision(
+                scheduler=(
+                    SchedulerKind.B0_LOCALITY_AWARE_MYOPIC
+                    if self._kind == "b0"
+                    else SchedulerKind.B1_MYOPIC_COST_AWARE
+                ),
+                node_id=node.node_id,
+                logical_agent_id=logical_agent.agent_id,
+                physical=PhysicalDecision(
+                    policy=PhysicalPolicy.TARGET_AGENT,
+                    target_agent_id=self._selected.agent_id,
+                ),
+                selected_agent_id=self._selected.agent_id,
+                rationale="v1 synthesis-stage intermediate reuses the leader's frozen site",
+            )
         if node.operator != "invoke_model":
             raise SchedulingError("synthesis stage follower must invoke the model")
         if logical_agent.model_instance_id != self._replica_set.canonical_deployment_id:

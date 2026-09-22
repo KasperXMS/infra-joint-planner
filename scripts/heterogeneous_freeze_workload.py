@@ -24,8 +24,8 @@ def _arguments() -> argparse.Namespace:
     parser.add_argument("--context-window-tokens", type=int, default=64_000)
     parser.add_argument("--reserved-output-tokens", type=int, default=1_024)
     parser.add_argument("--prompt-token-upper-bound", type=int, default=2_048)
-    parser.add_argument("--local-top-k", type=int, default=1)
-    parser.add_argument("--final-top-k", type=int, default=4)
+    parser.add_argument("--local-top-k", type=int, default=100_000)
+    parser.add_argument("--final-top-k", type=int, default=2)
     parser.add_argument("--overwrite", action="store_true")
     return parser.parse_args()
 
