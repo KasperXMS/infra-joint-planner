@@ -56,6 +56,50 @@ async def test_openai_compatible_backend_uses_injected_client() -> None:
             "content": [{"type": "text", "text": "Choose one"}],
         }
     ]
+    assert "reasoning_effort" not in body
+
+
+@pytest.mark.asyncio
+async def test_openai_compatible_backend_sends_explicit_reasoning_effort() -> None:
+    requests: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return httpx.Response(
+            200,
+            json={
+                "id": "chatcmpl-test",
+                "object": "chat.completion",
+                "created": 1,
+                "model": "local-model",
+                "choices": [
+                    {
+                        "index": 0,
+                        "message": {"role": "assistant", "content": "A"},
+                        "finish_reason": "stop",
+                    }
+                ],
+                "usage": {"prompt_tokens": 2, "completion_tokens": 1, "total_tokens": 3},
+            },
+        )
+
+    http_client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    openai_client = AsyncOpenAI(
+        api_key="injected-test-key",
+        base_url="http://local-llm/v1",
+        http_client=http_client,
+    )
+    backend = OpenAICompatibleModelBackend(
+        openai_client,
+        "local-model",
+        reasoning_effort="none",
+    )
+    try:
+        await backend.complete("Choose one")
+    finally:
+        await openai_client.close()
+
+    assert json.loads(requests[0].content)["reasoning_effort"] == "none"
 
 
 @pytest.mark.asyncio

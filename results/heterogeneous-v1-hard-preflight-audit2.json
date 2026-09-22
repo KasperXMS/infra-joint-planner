@@ -1,0 +1,219 @@
+{
+  "artifact_endpoints": [
+    {
+      "agent_id": "A28",
+      "artifact_id": "__infra_joint_preflight__--86d0b0c4633fc5a8",
+      "media_type": "text/plain",
+      "probe_mode": "deterministic_namespaced",
+      "sha256_hex": "86d0b0c4633fc5a85620420c98b9dd3d11ffa6232533f8616d959bba5f26494e",
+      "size_bytes": 53
+    },
+    {
+      "agent_id": "A4",
+      "artifact_id": "__infra_joint_preflight__--86d0b0c4633fc5a8",
+      "media_type": "text/plain",
+      "probe_mode": "deterministic_namespaced",
+      "sha256_hex": "86d0b0c4633fc5a85620420c98b9dd3d11ffa6232533f8616d959bba5f26494e",
+      "size_bytes": 53
+    },
+    {
+      "agent_id": "A5",
+      "artifact_id": "__infra_joint_preflight__--86d0b0c4633fc5a8",
+      "media_type": "text/plain",
+      "probe_mode": "deterministic_namespaced",
+      "sha256_hex": "86d0b0c4633fc5a85620420c98b9dd3d11ffa6232533f8616d959bba5f26494e",
+      "size_bytes": 53
+    },
+    {
+      "agent_id": "strong-4090",
+      "artifact_id": "__infra_joint_preflight__--86d0b0c4633fc5a8",
+      "media_type": "text/plain",
+      "probe_mode": "deterministic_namespaced",
+      "sha256_hex": "86d0b0c4633fc5a85620420c98b9dd3d11ffa6232533f8616d959bba5f26494e",
+      "size_bytes": 53
+    }
+  ],
+  "artifact_probe_isolated": true,
+  "equivalent_replicas": {
+    "canonical_deployment_id": "a28-qwen3.8-27b-q4km-v1",
+    "logical_model_id": "qwen3.8-27b-q4km-v1",
+    "replicas": [
+      {
+        "agent_id": "A28",
+        "checkpoint_fingerprint": "sha256:b69fef4451445b2d5433388b20b9c03883521ca3f949b656e50d494cb29c2350",
+        "checkpoint_id": "qwen3.8-27b",
+        "context_window": 16384,
+        "deployment_id": "a28-qwen3.8-27b-q4km-v1",
+        "generation_config_id": "deterministic-nonthinking-temp0-seed42-topk1-topp1-v1",
+        "max_output_tokens": 256,
+        "prompt_template_id": "qwen3.8-ollama-template-b69fef-v1",
+        "quantization": "Q4_K_M",
+        "replica_id": "a28-qwen3.8-27b-q4km-v1",
+        "runtime": "ollama",
+        "runtime_version": "0.34.0"
+      },
+      {
+        "agent_id": "strong-4090",
+        "checkpoint_fingerprint": "sha256:b69fef4451445b2d5433388b20b9c03883521ca3f949b656e50d494cb29c2350",
+        "checkpoint_id": "qwen3.8-27b",
+        "context_window": 16384,
+        "deployment_id": "strong-4090-qwen3.8-27b-q4km-v1",
+        "generation_config_id": "deterministic-nonthinking-temp0-seed42-topk1-topp1-v1",
+        "max_output_tokens": 256,
+        "prompt_template_id": "qwen3.8-ollama-template-b69fef-v1",
+        "quantization": "Q4_K_M",
+        "replica_id": "strong-4090-qwen3.8-27b-q4km-v1",
+        "runtime": "ollama",
+        "runtime_version": "0.34.0"
+      }
+    ]
+  },
+  "hardware": {
+    "gpus": [
+      {
+        "driver_version": "580.178.04",
+        "name": "NVIDIA GeForce RTX 4090",
+        "uuid": "GPU-eba0a381-9ae1-4752-9171-6616ee9a0880"
+      },
+      {
+        "driver_version": "580.178.04",
+        "name": "NVIDIA GeForce RTX 4090",
+        "uuid": "GPU-bf1b70c4-b2d7-ed3b-54d5-95685863f06d"
+      }
+    ],
+    "rtx_agent_id": "strong-4090",
+    "tc_read": [
+      {
+        "agent_id": "A28",
+        "interface": "wlP1p1s0",
+        "qdisc": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64"
+      },
+      {
+        "agent_id": "A4",
+        "interface": "wlP1p1s0",
+        "qdisc": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64"
+      },
+      {
+        "agent_id": "A5",
+        "interface": "wlP1p1s0",
+        "qdisc": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64"
+      },
+      {
+        "agent_id": "strong-4090",
+        "interface": "wlp6s0",
+        "qdisc": "qdisc noqueue 0: root refcnt 2"
+      }
+    ]
+  },
+  "required_agent_ids": [
+    "A28",
+    "A4",
+    "A5",
+    "strong-4090"
+  ],
+  "rtx_agent_id": "strong-4090",
+  "schema_version": "heterogeneous-v1-hard-preflight-v1",
+  "status": "ok",
+  "workers": {
+    "A28": {
+      "available": true,
+      "deployments": [
+        {
+          "context_window": 16384,
+          "deployment_id": "a28-qwen3.8-27b-q4km-v1",
+          "image_token_cost": 2048,
+          "modalities": [
+            "text",
+            "image"
+          ],
+          "model_id": "qwen3.8-27b-q4km-v1",
+          "reserved_output_tokens": 256
+        }
+      ],
+      "identity": "A28",
+      "operators": [
+        "aggregate_artifacts",
+        "aggregate_records",
+        "bm25_retrieve",
+        "derive_fields",
+        "extract_clip",
+        "filter_records",
+        "invoke_model",
+        "make_contact_sheet",
+        "read_artifact",
+        "sample_frames",
+        "select_fields",
+        "top_k_records"
+      ]
+    },
+    "A4": {
+      "available": true,
+      "deployments": [],
+      "identity": "A4",
+      "operators": [
+        "aggregate_artifacts",
+        "aggregate_records",
+        "bm25_retrieve",
+        "derive_fields",
+        "extract_clip",
+        "filter_records",
+        "invoke_model",
+        "make_contact_sheet",
+        "read_artifact",
+        "sample_frames",
+        "select_fields",
+        "top_k_records"
+      ]
+    },
+    "A5": {
+      "available": true,
+      "deployments": [],
+      "identity": "A5",
+      "operators": [
+        "aggregate_artifacts",
+        "aggregate_records",
+        "bm25_retrieve",
+        "derive_fields",
+        "extract_clip",
+        "filter_records",
+        "invoke_model",
+        "make_contact_sheet",
+        "read_artifact",
+        "sample_frames",
+        "select_fields",
+        "top_k_records"
+      ]
+    },
+    "strong-4090": {
+      "available": true,
+      "deployments": [
+        {
+          "context_window": 16384,
+          "deployment_id": "strong-4090-qwen3.8-27b-q4km-v1",
+          "image_token_cost": 2048,
+          "modalities": [
+            "text",
+            "image"
+          ],
+          "model_id": "qwen3.8-27b-q4km-v1",
+          "reserved_output_tokens": 256
+        }
+      ],
+      "identity": "strong-4090",
+      "operators": [
+        "aggregate_artifacts",
+        "aggregate_records",
+        "bm25_retrieve",
+        "derive_fields",
+        "extract_clip",
+        "filter_records",
+        "invoke_model",
+        "make_contact_sheet",
+        "read_artifact",
+        "sample_frames",
+        "select_fields",
+        "top_k_records"
+      ]
+    }
+  }
+}

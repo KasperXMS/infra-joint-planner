@@ -26,8 +26,8 @@
 | `A28` | `192.168.0.128:9128` | Jetson AGX Orin 64 GB | merge and AGX synthesis replica |
 | `strong-4090` | `192.168.0.12:9212` | 2 × NVIDIA GeForce RTX 4090, 24 GB each | RTX synthesis replica |
 
-The final unshaped hard preflight is
-`results/heterogeneous-v1-hard-preflight-audit1.json`. It verifies all four
+The final post-fix unshaped hard preflight is
+`results/heterogeneous-v1-hard-preflight-audit2.json`. It verifies all four
 Worker identities, their exact twelve-operator surfaces, artifact endpoints,
 deployments, replica metadata, both RTX 4090 UUIDs, and unshaped root qdiscs.
 
@@ -53,6 +53,10 @@ change was made. Non-interactive `sudo tc` was available on the required hosts.
 Preflight requires equality of checkpoint, fingerprint, quantization, runtime
 version, context, output limit, prompt-template ID, and generation-config ID.
 Mismatch is fail-closed; there is no deployment substitution or model downgrade.
+The OpenAI-compatible backend keeps `reasoning_effort` optional and defaults it
+to null, preserving frozen M4 behavior. Only the two v1 replica configurations
+bind `reasoning_effort=none`. Post-fix forced RTX and A28 smokes both returned
+visible content with `finish_reason=stop`.
 
 ## `tc` setup and safety
 
@@ -173,6 +177,7 @@ and idle-state condition.
 | initial PRIO/TBF tc preflight | system/harness confounder | no | target qdisc path unsupported; transactional cleanup, then supported HTB |
 | initial repeated-token compute prompt | system/harness confounder | no | Ollama stream lacked final telemetry on both replicas; deterministic integer-sequence prompt fixed telemetry collection |
 | compute profile audit1 overlap | system/harness confounder | no | one-time artifact preload overlapped shared Wi-Fi; incomplete A28 stopped and RTX audit1 retained but excluded; isolated audit2 started |
+| runner smoke audit1 | system/harness confounder | no | v1 Worker config declared non-thinking semantically but did not bind `reasoning_effort=none` into the OpenAI-compatible request; hidden reasoning consumed all 256 tokens and returned empty visible content; optional deployment-scoped binding added and verified on both replicas |
 
 No failed attempt above is used as calibration, compute-profile, pilot, oracle,
 or scheduler evidence. Detailed machine-readable records are under

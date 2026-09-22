@@ -25,6 +25,7 @@ class OpenAIBackendConfig(ContractModel):
     base_url: str = Field(min_length=1)
     model: str = Field(min_length=1)
     api_key_env: str = Field(default="OPENAI_API_KEY", min_length=1)
+    reasoning_effort: Literal["none", "low", "medium", "high"] | None = None
 
 
 BackendConfig = Annotated[
@@ -102,4 +103,11 @@ def build_model_backend(config: BackendConfig) -> tuple[ModelBackend, AsyncOpenA
             f"required API key environment variable is not set: {config.api_key_env}"
         ) from exc
     client = AsyncOpenAI(api_key=api_key, base_url=config.base_url)
-    return OpenAICompatibleModelBackend(client, config.model), client
+    return (
+        OpenAICompatibleModelBackend(
+            client,
+            config.model,
+            reasoning_effort=config.reasoning_effort,
+        ),
+        client,
+    )

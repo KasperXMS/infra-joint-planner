@@ -74,6 +74,16 @@ def test_load_planner_config_keeps_only_environment_variable_name(tmp_path: Path
     assert "secret" not in config.model.model_dump_json()
 
 
+def test_openai_backend_config_preserves_explicit_non_thinking_mode() -> None:
+    config = OpenAIBackendConfig(
+        base_url="http://localhost:11434/v1",
+        model="local-model",
+        reasoning_effort="none",
+    )
+
+    assert config.reasoning_effort == "none"
+
+
 def test_cli_help_exposes_worker_command() -> None:
     result = CliRunner().invoke(app, ["--help"])
     assert result.exit_code == 0

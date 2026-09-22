@@ -4,7 +4,7 @@ import base64
 from collections.abc import Callable
 from dataclasses import dataclass
 from time import perf_counter
-from typing import Any, Protocol, cast
+from typing import Any, Literal, Protocol, cast
 
 from openai import AsyncOpenAI
 from pydantic import Field
@@ -177,6 +177,7 @@ class OpenAICompatibleModelBackend:
         *,
         max_input_tokens: int | None = None,
         token_counter: Callable[[str], int] | None = None,
+        reasoning_effort: Literal["none", "low", "medium", "high"] | None = None,
     ) -> None:
         if not model:
             raise ValueError("model must not be empty")
@@ -188,6 +189,7 @@ class OpenAICompatibleModelBackend:
         self._model = model
         self._max_input_tokens = max_input_tokens
         self._token_counter = token_counter
+        self._reasoning_effort = reasoning_effort
 
     async def invoke(self, request: ModelRequest) -> ModelCompletion:
         if self._token_counter is not None and self._max_input_tokens is not None:
@@ -229,6 +231,8 @@ class OpenAICompatibleModelBackend:
         }
         if request.max_output_tokens is not None:
             arguments["max_tokens"] = request.max_output_tokens
+        if self._reasoning_effort is not None:
+            arguments["reasoning_effort"] = self._reasoning_effort
         started = perf_counter()
         completion = await self._client.chat.completions.create(**cast(Any, arguments))
         latency_ms = (perf_counter() - started) * 1000

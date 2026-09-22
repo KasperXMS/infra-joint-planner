@@ -1,0 +1,22 @@
+{
+  "attempt_id": "hetero-v1-runner-smoke-audit1",
+  "classification": "system_harness_confounder",
+  "counted_as_pilot_or_experiment_run": false,
+  "persisted_result": "results/runner_smoke/hetero-v1-runner-smoke-audit1/result.json",
+  "persisted_trace": "results/runner_smoke/hetero-v1-runner-smoke-audit1/trace.jsonl",
+  "persisted_metadata": "results/runner_smoke/hetero-v1-runner-smoke-audit1/experiment-metadata.json",
+  "observed": {
+    "execution_completed": true,
+    "selected_replica": "strong-4090-qwen3.8-27b-q4km-v1",
+    "model_input_tokens": 600,
+    "model_output_tokens": 256,
+    "model_service_latency_ms": 16454.78651195299,
+    "model_finish_reason": "length",
+    "visible_model_text": "",
+    "tc_cleanup_verified": true
+  },
+  "root_cause": "The v1 replica contract declared deterministic non-thinking execution, but the OpenAI-compatible Worker backend had no deployment-scoped reasoning_effort binding. Ollama therefore spent the 256-token limit in hidden reasoning and returned empty visible content with finish_reason=length.",
+  "diagnostic_evidence": "A direct request with /no_think reproduced hidden reasoning and finish_reason=length. The same endpoint and model with reasoning_effort=none returned visible content and finish_reason=stop.",
+  "fix_scope": "Add optional reasoning_effort to openai_compatible backend configuration, defaulting to null to preserve frozen M4 behavior; set reasoning_effort=none only on the two v1 equivalent deployments.",
+  "replacement_run_id": "hetero-v1-runner-smoke-audit2"
+}
