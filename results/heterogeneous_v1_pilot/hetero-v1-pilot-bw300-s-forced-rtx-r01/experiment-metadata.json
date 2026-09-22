@@ -1,0 +1,178 @@
+{
+  "calibration": {
+    "achieved_throughput_mbps": {
+      "count": 3,
+      "mean": 122.5048358457285,
+      "median": 128.30541449984705,
+      "p90": 132.70714914655377,
+      "p95": 132.70714914655377,
+      "std": 11.457551517557016
+    },
+    "artifact_transfers": [
+      {
+        "artifact_bytes": 1048576,
+        "duration_ms": {
+          "count": 3,
+          "mean": 330.78720000048634,
+          "median": 249.48980000044685,
+          "p90": 503.7555000017164,
+          "p95": 503.7555000017164,
+          "std": 122.38035512165919
+        },
+        "effective_throughput_mbps": {
+          "count": 3,
+          "mean": 28.452299595279992,
+          "median": 33.623049920217085,
+          "p90": 35.08170710246314,
+          "p95": 35.08170710246314,
+          "std": 8.365194312986842
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      },
+      {
+        "artifact_bytes": 8388608,
+        "duration_ms": {
+          "count": 3,
+          "mean": 861.0032666668607,
+          "median": 804.460300001665,
+          "p90": 1039.191000003484,
+          "p95": 1039.191000003484,
+          "std": 128.77037010312992
+        },
+        "effective_throughput_mbps": {
+          "count": 3,
+          "mean": 79.58843449948722,
+          "median": 83.42097677145921,
+          "p90": 90.7663386576533,
+          "p95": 90.7663386576533,
+          "std": 11.029466950970379
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      },
+      {
+        "artifact_bytes": 33554432,
+        "duration_ms": {
+          "count": 3,
+          "mean": 2753.174666664563,
+          "median": 2729.214299994055,
+          "p90": 3174.266700007138,
+          "p95": 3174.266700007138,
+          "std": 334.46781628397014
+        },
+        "effective_throughput_mbps": {
+          "count": 3,
+          "mean": 98.95243869793275,
+          "median": 98.35631302407609,
+          "p90": 113.93487130788994,
+          "p95": 113.93487130788994,
+          "std": 11.997145215850779
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      },
+      {
+        "artifact_bytes": 134217728,
+        "duration_ms": {
+          "count": 3,
+          "mean": 8588.886266666426,
+          "median": 8696.644600000582,
+          "p90": 8779.869099991629,
+          "p95": 8779.869099991629,
+          "std": 213.95683808101145
+        },
+        "effective_throughput_mbps": {
+          "count": 3,
+          "mean": 125.09412281814775,
+          "median": 123.46621868391955,
+          "p90": 129.52026907214022,
+          "p95": 129.52026907214022,
+          "std": 3.166017555899504
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      }
+    ],
+    "calibration_id": "netcal-bw300-rtt20-v1-audit1",
+    "median_rtt_ms": 23.05,
+    "p95_rtt_ms": 29.8,
+    "regime": {
+      "added_rtt_ms": 20.0,
+      "bandwidth_mbps": 300.0,
+      "control_method": "tc",
+      "regime_id": "pilot-bw300-rtt20-audit1",
+      "tc_configuration_id": "tc-bw300-rtt20-v1-audit1"
+    },
+    "source_agent_id": "A28",
+    "target_agent_id": "strong-4090"
+  },
+  "configured_added_rtt_ms": 20.0,
+  "configured_bandwidth_mbps": 300.0,
+  "driver_wall_ms": 87934.49650000548,
+  "metadata": {
+    "compute_profile_id": "heterogeneous-v1-compute-audit2",
+    "experiment_version": "heterogeneous-infrastructure-v1",
+    "hardware_topology_id": "a4-a5-a28-strong4090-wifi-v1",
+    "model_checkpoint_id": "qwen3.8-27b-b69fef445144",
+    "model_quantization": "Q4_K_M",
+    "model_replica_id": "strong-4090-qwen3.8-27b-q4km-v1",
+    "network_calibration_id": "netcal-bw300-rtt20-v1-audit1",
+    "network_control_method": "tc",
+    "payload_class": "S",
+    "placement_policy": "forced-rtx",
+    "tc_configuration_id": "tc-bw300-rtt20-v1-audit1",
+    "workflow_hash": "e013b9215d523faa606cb4e4c7265066c3673aa403120b705e891d74c13cce1d"
+  },
+  "result_path": "results\\heterogeneous_v1_pilot\\hetero-v1-pilot-bw300-s-forced-rtx-r01\\result.json",
+  "scheduler_overhead": {
+    "samples": [
+      {
+        "duration_ms": 0.30079999123699963,
+        "node_id": "source-a-local-retrieve-reduce"
+      },
+      {
+        "duration_ms": 0.09259999205823988,
+        "node_id": "source-b-local-retrieve-reduce"
+      },
+      {
+        "duration_ms": 0.2015999925788492,
+        "node_id": "merge-package"
+      },
+      {
+        "duration_ms": 0.1706000039121136,
+        "node_id": "placement-group-bm25-reduce"
+      },
+      {
+        "duration_ms": 0.1576999929966405,
+        "node_id": "placement-group-project-context"
+      },
+      {
+        "duration_ms": 0.13100000796839595,
+        "node_id": "same-model-synthesis"
+      }
+    ],
+    "total_ms": 1.0542999807512388
+  },
+  "tc_applied": [
+    {
+      "agent_id": "A28",
+      "interface": "wlP1p1s0",
+      "original_qdisc": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \n",
+      "shaped_qdisc": "qdisc htb 1: root refcnt 6 r2q 10 default 0x10 direct_packets_stat 19 direct_qlen 1000\n Sent 57078 bytes 244 pkt (dropped 0, overlimits 0 requeues 0) \n backlog 0b 0p requeues 0\n"
+    },
+    {
+      "agent_id": "strong-4090",
+      "interface": "wlp6s0",
+      "original_qdisc": "qdisc noqueue 0: root refcnt 2 \n",
+      "shaped_qdisc": "qdisc htb 1: root refcnt 2 r2q 10 default 0x10 direct_packets_stat 22 direct_qlen 1000\n Sent 67852 bytes 306 pkt (dropped 0, overlimits 0 requeues 0) \n backlog 0b 0p requeues 0\nqdisc netem 20: parent 1:20 limit 1000 delay 20ms\n Sent 0 bytes 0 pkt (dropped 0, overlimits 0 requeues 0) \n backlog 0b 0p requeues 0\n"
+    }
+  ],
+  "tc_class_statistics": {
+    "A28": "class htb 1:10 root prio 0 rate 1Gbit ceil 1Gbit burst 1250Kb cburst 1600b \n Sent 247016 bytes 1094 pkt (dropped 0, overlimits 36 requeues 0) \n backlog 0b 0p requeues 0\n lended: 1034 borrowed: 0 giants: 0\n tokens: 159984 ctokens: 184\n\nclass htb 1:20 root prio 0 rate 300Mbit ceil 300Mbit burst 375Kb cburst 1600b \n Sent 8794272 bytes 5813 pkt (dropped 0, overlimits 2596 requeues 0) \n backlog 0b 0p requeues 0\n lended: 2625 borrowed: 0 giants: 0\n tokens: 159972 ctokens: 639\n\n",
+    "strong-4090": "class htb 1:10 root prio 0 rate 1Gbit ceil 1Gbit burst 1250Kb cburst 1600b \n Sent 297207 bytes 1322 pkt (dropped 0, overlimits 24 requeues 0) \n backlog 0b 0p requeues 0\n lended: 1250 borrowed: 0 giants: 0\n tokens: 159984 ctokens: 184\n\nclass htb 1:20 root leaf 20: prio 0 rate 300Mbit ceil 300Mbit burst 375Kb cburst 1600b \n Sent 50578 bytes 762 pkt (dropped 0, overlimits 0 requeues 0) \n backlog 0b 0p requeues 0\n lended: 762 borrowed: 0 giants: 0\n tokens: 159972 ctokens: 639\n\n"
+  },
+  "tc_cleanup_error": null,
+  "trace_path": "results\\heterogeneous_v1_pilot\\hetero-v1-pilot-bw300-s-forced-rtx-r01\\trace.jsonl",
+  "validation_error": null
+}

@@ -1,0 +1,433 @@
+{
+  "oracle_cells": [
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 76899.57323334723,
+        "median": 76996.19030000758,
+        "p90": 77859.1908000235,
+        "p95": 77859.1908000235,
+        "std": 825.7990741303187
+      },
+      "network_calibration_id": "netcal-bw10-rtt20-v1-audit1",
+      "oracle_agent_id": "A28",
+      "payload_class": "L",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 116750.0652000017,
+        "median": 116793.73100001249,
+        "p90": 116815.90580000193,
+        "p95": 116815.90580000193,
+        "std": 77.96011446533473
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 75752.78909998208,
+        "median": 76884.91469997098,
+        "p90": 80059.74309999146,
+        "p95": 80059.74309999146,
+        "std": 4058.5361904453657
+      },
+      "network_calibration_id": "netcal-bw100-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "L",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 16466.75136665969,
+        "median": 16416.639900009613,
+        "p90": 17073.452599986922,
+        "p95": 17073.452599986922,
+        "std": 476.23163620950316
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 77618.60486665682,
+        "median": 77949.38140000158,
+        "p90": 78155.52229998866,
+        "p95": 78155.52229998866,
+        "std": 619.2969845004881
+      },
+      "network_calibration_id": "netcal-bw1000-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "L",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 13661.996433331902,
+        "median": 13239.596600004006,
+        "p90": 14813.922700006515,
+        "p95": 14813.922700006515,
+        "std": 824.1287439880422
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 79342.01166666269,
+        "median": 77261.85179999447,
+        "p90": 83554.43899999955,
+        "p95": 83554.43899999955,
+        "std": 2978.7118949278633
+      },
+      "network_calibration_id": "netcal-bw3-rtt20-v1-audit1",
+      "oracle_agent_id": "A28",
+      "payload_class": "L",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 379574.8814333444,
+        "median": 379613.3966000052,
+        "p90": 379773.9941000182,
+        "p95": 379773.9941000182,
+        "std": 180.3665335441388
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 75721.34909999052,
+        "median": 77957.07649999531,
+        "p90": 80110.3741999832,
+        "p95": 80110.3741999832,
+        "std": 4766.178204170174
+      },
+      "network_calibration_id": "netcal-bw30-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "L",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 42080.93663332693,
+        "median": 42071.60720000684,
+        "p90": 42117.961199983256,
+        "p95": 42117.961199983256,
+        "std": 27.232806641223807
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 81668.69790000783,
+        "median": 82250.48929997138,
+        "p90": 82431.63790003746,
+        "p95": 82431.63790003746,
+        "std": 953.7402187955192
+      },
+      "network_calibration_id": "netcal-bw300-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "L",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 12944.98189999043,
+        "median": 12976.607500007958,
+        "p90": 13509.035299997777,
+        "p95": 13509.035299997777,
+        "std": 473.9865988636376
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 76613.12763332778,
+        "median": 75887.5979000004,
+        "p90": 79142.10429998639,
+        "p95": 79142.10429998639,
+        "std": 1841.6059310456592
+      },
+      "network_calibration_id": "netcal-bw10-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "M",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 31769.96436668075,
+        "median": 31777.734599992982,
+        "p90": 31902.528300037375,
+        "p95": 31902.528300037375,
+        "std": 111.54558304022315
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 76632.786999995,
+        "median": 76886.85080000141,
+        "p90": 76921.89729999518,
+        "p95": 76921.89729999518,
+        "std": 384.3484889861656
+      },
+      "network_calibration_id": "netcal-bw100-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "M",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 6981.11153333836,
+        "median": 6858.152800006792,
+        "p90": 7454.274300020188,
+        "p95": 7454.274300020188,
+        "std": 347.20057548497687
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 77846.22996667167,
+        "median": 77204.05950001441,
+        "p90": 79146.04099999997,
+        "p95": 79146.04099999997,
+        "std": 919.1268946741757
+      },
+      "network_calibration_id": "netcal-bw1000-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "M",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 7692.012466684294,
+        "median": 6478.2584000058705,
+        "p90": 10562.393600019277,
+        "p95": 10562.393600019277,
+        "std": 2037.7029570051786
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 77079.78396666779,
+        "median": 75996.15279998397,
+        "p90": 80277.88530001999,
+        "p95": 80277.88530001999,
+        "std": 2300.224099917817
+      },
+      "network_calibration_id": "netcal-bw3-rtt20-v1-audit1",
+      "oracle_agent_id": "A28",
+      "payload_class": "M",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 97191.69713335093,
+        "median": 97248.70470000315,
+        "p90": 97360.13290003757,
+        "p95": 97360.13290003757,
+        "std": 165.77612081948166
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 80764.5459666722,
+        "median": 78277.190599998,
+        "p90": 87023.25320000818,
+        "p95": 87023.25320000818,
+        "std": 4456.510138920674
+      },
+      "network_calibration_id": "netcal-bw30-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "M",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 13168.733733337527,
+        "median": 13279.273599968292,
+        "p90": 13323.764400032815,
+        "p95": 13323.764400032815,
+        "std": 188.66308409597545
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 76298.50929999277,
+        "median": 75758.91189998947,
+        "p90": 78287.86399999808,
+        "p95": 78287.86399999808,
+        "std": 1454.9334126152296
+      },
+      "network_calibration_id": "netcal-bw300-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "M",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 6725.082833334454,
+        "median": 6407.7924999874085,
+        "p90": 7832.0910000184085,
+        "p95": 7832.0910000184085,
+        "std": 806.1832903731818
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 76380.47606665835,
+        "median": 75706.53609999863,
+        "p90": 77946.97010000527,
+        "p95": 77946.97010000527,
+        "std": 1111.268254013206
+      },
+      "network_calibration_id": "netcal-bw10-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "S",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 10341.191066652149,
+        "median": 10327.875599992694,
+        "p90": 10368.342899979325,
+        "p95": 10368.342899979325,
+        "std": 19.200423154620662
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 78571.40973333055,
+        "median": 77819.96429999708,
+        "p90": 83322.58720000391,
+        "p95": 83322.58720000391,
+        "std": 3611.8422768086757
+      },
+      "network_calibration_id": "netcal-bw100-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "S",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 5059.791999990314,
+        "median": 5363.431100005982,
+        "p90": 5705.362699984107,
+        "p95": 5705.362699984107,
+        "std": 685.5551220684349
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 77476.9512333393,
+        "median": 77869.7613000113,
+        "p90": 78924.95570000028,
+        "p95": 78924.95570000028,
+        "std": 1371.0841002747843
+      },
+      "network_calibration_id": "netcal-bw1000-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "S",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 5575.017933336009,
+        "median": 5877.244900009828,
+        "p90": 6842.398500011768,
+        "p95": 6842.398500011768,
+        "std": 1177.7467821961238
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 77537.75253334122,
+        "median": 76861.65330000222,
+        "p90": 80116.0574000096,
+        "p95": 80116.0574000096,
+        "std": 1890.6041741797314
+      },
+      "network_calibration_id": "netcal-bw3-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "S",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 26785.895300005603,
+        "median": 26842.579900025157,
+        "p90": 26843.0212999956,
+        "p95": 26843.0212999956,
+        "std": 80.47644878838486
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 74483.54486665146,
+        "median": 75609.27639999136,
+        "p90": 75642.44549999421,
+        "p95": 75642.44549999421,
+        "std": 1615.5356490608299
+      },
+      "network_calibration_id": "netcal-bw30-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "S",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 6139.450266666245,
+        "median": 6104.178600013256,
+        "p90": 6621.37179999263,
+        "p95": 6621.37179999263,
+        "std": 379.90725102823774
+      }
+    },
+    {
+      "a28_cost_ms": {
+        "count": 3,
+        "mean": 78198.81283333234,
+        "median": 77860.65200000303,
+        "p90": 79000.76160000754,
+        "p95": 79000.76160000754,
+        "std": 569.3779707385619
+      },
+      "network_calibration_id": "netcal-bw300-rtt20-v1-audit1",
+      "oracle_agent_id": "strong-4090",
+      "payload_class": "S",
+      "rtx_cost_ms": {
+        "count": 3,
+        "mean": 5022.834133313154,
+        "median": 4708.035199961159,
+        "p90": 6377.885400012019,
+        "p95": 6377.885400012019,
+        "std": 1002.893683440633
+      }
+    }
+  ],
+  "predicted_break_even_mbps": {
+    "L": 14.42987054878929,
+    "M": 3.6360079515090424,
+    "S": 0.9055224018235243
+  },
+  "schema_version": "heterogeneous-v1-pilot-analysis-v1",
+  "stage_estimates": {
+    "L": [
+      {
+        "compute_profile_id": "forced-pilot-stage-l-v1",
+        "median_model_service_latency_ms": 76520.69628261961,
+        "median_reduction_latency_ms": 1398.0887000070652,
+        "replica_id": "a28-qwen3.8-27b-q4km-v1"
+      },
+      {
+        "compute_profile_id": "forced-pilot-stage-l-v1",
+        "median_model_service_latency_ms": 2984.196169534698,
+        "median_reduction_latency_ms": 505.70174999302253,
+        "replica_id": "strong-4090-qwen3.8-27b-q4km-v1"
+      }
+    ],
+    "M": [
+      {
+        "compute_profile_id": "forced-pilot-stage-m-v1",
+        "median_model_service_latency_ms": 76566.92334939726,
+        "median_reduction_latency_ms": 432.7492499942309,
+        "replica_id": "a28-qwen3.8-27b-q4km-v1"
+      },
+      {
+        "compute_profile_id": "forced-pilot-stage-m-v1",
+        "median_model_service_latency_ms": 3010.856519569643,
+        "median_reduction_latency_ms": 146.7773000113084,
+        "replica_id": "strong-4090-qwen3.8-27b-q4km-v1"
+      }
+    ],
+    "S": [
+      {
+        "compute_profile_id": "forced-pilot-stage-s-v1",
+        "median_model_service_latency_ms": 77063.79653292242,
+        "median_reduction_latency_ms": 121.263099994394,
+        "replica_id": "a28-qwen3.8-27b-q4km-v1"
+      },
+      {
+        "compute_profile_id": "forced-pilot-stage-s-v1",
+        "median_model_service_latency_ms": 3008.7874829769135,
+        "median_reduction_latency_ms": 76.96515000861837,
+        "replica_id": "strong-4090-qwen3.8-27b-q4km-v1"
+      }
+    ]
+  },
+  "valid_run_count": 108
+}

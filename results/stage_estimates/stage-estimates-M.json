@@ -1,0 +1,14 @@
+[
+  {
+    "compute_profile_id": "forced-pilot-stage-m-v1",
+    "median_model_service_latency_ms": 76566.92334939726,
+    "median_reduction_latency_ms": 432.7492499942309,
+    "replica_id": "a28-qwen3.8-27b-q4km-v1"
+  },
+  {
+    "compute_profile_id": "forced-pilot-stage-m-v1",
+    "median_model_service_latency_ms": 3010.856519569643,
+    "median_reduction_latency_ms": 146.7773000113084,
+    "replica_id": "strong-4090-qwen3.8-27b-q4km-v1"
+  }
+]
