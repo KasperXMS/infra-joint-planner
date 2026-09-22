@@ -1,4 +1,6 @@
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -90,3 +92,16 @@ def test_matrix_resume_only_accepts_complete_valid_run(tmp_path: Path) -> None:
         json.dumps({"validation_error": None, "tc_cleanup_error": None})
     )
     assert existing_run_is_valid(result, metadata)
+
+
+def test_matrix_script_entrypoint_exposes_help() -> None:
+    result = subprocess.run(
+        [sys.executable, "scripts/heterogeneous_matrix_v1.py", "--help"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert "pilot" in result.stdout
+    assert "formal" in result.stdout

@@ -1,0 +1,12 @@
+{
+  "attempt_id": "heterogeneous-v1-pilot-entrypoint-import",
+  "classification": "system_harness_confounder",
+  "counted_as_pilot_or_experiment_run": false,
+  "experimental_runs_started": 0,
+  "tc_applied": false,
+  "schedule_written": false,
+  "error": "ModuleNotFoundError: No module named 'scripts'",
+  "root_cause": "Direct file execution placed the scripts directory rather than the repository root on sys.path, so the package-qualified sibling import failed before argument parsing.",
+  "fix_scope": "When and only when the matrix file is executed as a script, prepend its repository root to sys.path before importing the sibling driver. Module-import behavior is unchanged.",
+  "run_id_reuse": "No run ID was materialized or attempted, so the frozen pilot IDs remain unused."
+}

@@ -6,10 +6,14 @@ import argparse
 import asyncio
 import json
 import random
+import sys
 from argparse import Namespace
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Literal, cast
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.heterogeneous_experiment_v1 import run_one
 
