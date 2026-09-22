@@ -36,6 +36,7 @@ from infra_joint.core.state import (
     ArtifactPlacement,
     DeploymentSpec,
     EnvironmentSpec,
+    InfrastructureState,
     LinkSpec,
 )
 from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
@@ -60,11 +61,12 @@ from infra_joint.heterogeneous.traffic_control import (
     build_tc_command_plan,
 )
 from infra_joint.heterogeneous.workload import FrozenPayload, SemanticWorkloadManifest
+from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.runtime.executor import ArtifactTransferTelemetry
 from infra_joint.workflow.planner import ScriptedWorkflowPlanner
 from infra_joint.workflow.runner import PersistedWorkflowRunResult, WorkflowBenchmarkRunner
-from infra_joint.workflow.scheduler import SchedulerKind
+from infra_joint.workflow.scheduler import SchedulerDecision, SchedulerKind, WorkflowScheduler
 from infra_joint.workflow.workload import AvailableModelInstance, WorkloadArtifact, WorkloadSpec
 
 WORKER_URLS = {
@@ -122,6 +124,34 @@ class PrepositionedWorkflowRunner(WorkflowBenchmarkRunner):
                     f"{placement.artifact_id}"
                 )
         return ()
+
+
+class TimedScheduler:
+    """Measure v1 scheduler wall time without changing scheduler decisions."""
+
+    def __init__(self, delegate: WorkflowScheduler) -> None:
+        self._delegate = delegate
+        self.samples: list[dict[str, float | str]] = []
+
+    def schedule(
+        self,
+        node: WorkflowNode,
+        logical_agent: LogicalAgent,
+        environment: EnvironmentSpec,
+        infrastructure: InfrastructureState,
+        registry: OperatorRegistry,
+    ) -> SchedulerDecision:
+        started = perf_counter()
+        decision: SchedulerDecision = self._delegate.schedule(
+            node, logical_agent, environment, infrastructure, registry
+        )
+        self.samples.append(
+            {
+                "node_id": node.node_id,
+                "duration_ms": (perf_counter() - started) * 1000,
+            }
+        )
+        return decision
 
 
 def _read_yaml(path: Path) -> dict[str, Any]:
@@ -634,7 +664,7 @@ async def run_one(args: argparse.Namespace) -> None:
     ).hexdigest()
     replica_set = _load_replica_set(args.preflight_config)
     estimates = _load_stage_estimates(args.stage_estimates)
-    scheduler = _scheduler(args.policy, replica_set, estimates)
+    scheduler = TimedScheduler(_scheduler(args.policy, replica_set, estimates))
     planner_config: PlannerConfig = load_planner_config(args.planner_config)
     config = RunnerConfig(
         environment=environment,
@@ -722,6 +752,10 @@ async def run_one(args: argparse.Namespace) -> None:
         ],
         "tc_cleanup_error": cleanup_error,
         "validation_error": validation_error,
+        "scheduler_overhead": {
+            "samples": scheduler.samples,
+            "total_ms": sum(float(item["duration_ms"]) for item in scheduler.samples),
+        },
         "driver_wall_ms": (perf_counter() - started) * 1000,
         "result_path": str(args.output_root / args.run_id / "result.json"),
         "trace_path": str(args.output_root / args.run_id / "trace.jsonl"),
