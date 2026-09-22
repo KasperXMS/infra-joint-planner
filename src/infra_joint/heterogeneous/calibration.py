@@ -143,8 +143,11 @@ class NetworkCalibrator:
         sizes: Sequence[int],
         *,
         calibration_id: str,
+        repetitions: int = 3,
         timeout_seconds: float = 900,
     ) -> tuple[ArtifactTransferCalibration, ...]:
+        if repetitions < 1:
+            raise ValueError("artifact calibration repetitions must be positive")
         results: list[ArtifactTransferCalibration] = []
         async with (
             httpx.AsyncClient(base_url=source_url, timeout=timeout_seconds) as source,
@@ -170,28 +173,35 @@ class NetworkCalibrator:
                     headers={"content-type": "application/octet-stream"},
                 )
                 put.raise_for_status()
-                started = perf_counter()
-                pulled = await target.post(
-                    "/artifact/pull",
-                    json={
-                        "artifact_id": artifact_id,
-                        "source_url": f"{source_url}/artifact/{artifact_id}",
-                        "expected_sha256": digest,
-                    },
-                )
-                duration_ms = (perf_counter() - started) * 1000
-                pulled.raise_for_status()
-                response = pulled.json()
-                if response.get("size_bytes") != size or response.get("sha256_hex") != digest:
-                    raise RuntimeError("artifact calibration transfer integrity mismatch")
-                throughput = size * 8 / (duration_ms * 1000)
+                durations: list[float] = []
+                throughputs: list[float] = []
+                for _ in range(repetitions):
+                    started = perf_counter()
+                    pulled = await target.post(
+                        "/artifact/pull",
+                        json={
+                            "artifact_id": artifact_id,
+                            "source_url": f"{source_url}/artifact/{artifact_id}",
+                            "expected_sha256": digest,
+                        },
+                    )
+                    duration_ms = (perf_counter() - started) * 1000
+                    pulled.raise_for_status()
+                    response = pulled.json()
+                    if (
+                        response.get("size_bytes") != size
+                        or response.get("sha256_hex") != digest
+                    ):
+                        raise RuntimeError("artifact calibration transfer integrity mismatch")
+                    durations.append(duration_ms)
+                    throughputs.append(size * 8 / (duration_ms * 1000))
                 results.append(
                     ArtifactTransferCalibration(
                         source_agent_id=source_agent_id,
                         target_agent_id=target_agent_id,
                         artifact_bytes=size,
-                        duration_ms=summarize((duration_ms,)),
-                        effective_throughput_mbps=summarize((throughput,)),
+                        duration_ms=summarize(durations),
+                        effective_throughput_mbps=summarize(throughputs),
                     )
                 )
         return tuple(results)

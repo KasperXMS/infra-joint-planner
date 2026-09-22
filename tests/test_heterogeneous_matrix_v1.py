@@ -9,7 +9,7 @@ from scripts.heterogeneous_matrix_v1 import formal_schedule, pilot_schedule
 def write_calibrations(root: Path) -> None:
     root.mkdir()
     for bandwidth in (3, 10, 30, 100, 300, 1000):
-        (root / f"netcal-bw{bandwidth}-rtt20-v1.json").write_text("{}")
+        (root / f"netcal-bw{bandwidth}-rtt20-v1-audit1.json").write_text("{}")
 
 
 def test_pilot_schedule_is_frozen_randomized_and_complete(tmp_path: Path) -> None:

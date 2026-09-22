@@ -29,7 +29,7 @@ class ScheduledRun:
 
 def _calibrations(root: Path, bandwidths: tuple[int, ...]) -> dict[int, Path]:
     values = {
-        bandwidth: root / f"netcal-bw{bandwidth}-rtt20-v1.json"
+        bandwidth: root / f"netcal-bw{bandwidth}-rtt20-v1-audit1.json"
         for bandwidth in bandwidths
     }
     missing = [str(path) for path in values.values() if not path.is_file()]

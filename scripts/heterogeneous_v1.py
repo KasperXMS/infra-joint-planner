@@ -425,6 +425,7 @@ async def _network_calibrate(args: argparse.Namespace) -> None:
             args.target_worker_url,
             tuple(size * 1024 * 1024 for size in args.artifact_mib),
             calibration_id=args.calibration_id,
+            repetitions=args.artifact_repetitions,
         )
         tc_statistics = {
             state.endpoint.agent_id: await runner.run(
@@ -520,6 +521,7 @@ def _parser() -> argparse.ArgumentParser:
     calibration.add_argument("--iperf-repetitions", type=int, default=3)
     calibration.add_argument("--iperf-duration-seconds", type=int, default=5)
     calibration.add_argument("--artifact-mib", type=int, nargs="+", default=[1, 8, 32, 128])
+    calibration.add_argument("--artifact-repetitions", type=int, default=3)
     calibration.add_argument("--output-root", type=Path, default=Path("results"))
     return parser
 
