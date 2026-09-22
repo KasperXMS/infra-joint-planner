@@ -20,6 +20,55 @@ from infra_joint.workflow.scheduler import (
 )
 
 
+class FixedPrefixScheduler:
+    """Keep scripted upstream data preparation fixed and delegate the study node."""
+
+    def __init__(
+        self,
+        delegate: "SynthesisStageScheduler",
+        fixed_node_agents: dict[str, str],
+        *,
+        scheduler_kind: SchedulerKind,
+    ) -> None:
+        invalid = any(
+            not key or not value for key, value in fixed_node_agents.items()
+        )
+        if not fixed_node_agents or invalid:
+            raise ValueError("fixed prefix placements require non-empty node and agent IDs")
+        self._delegate = delegate
+        self._fixed_node_agents = dict(fixed_node_agents)
+        self._scheduler_kind = scheduler_kind
+
+    def schedule(
+        self,
+        node: WorkflowNode,
+        logical_agent: LogicalAgent,
+        environment: EnvironmentSpec,
+        infrastructure: InfrastructureState,
+        registry: OperatorRegistry,
+    ) -> SchedulerDecision:
+        target = self._fixed_node_agents.get(node.node_id)
+        if target is None:
+            return self._delegate.schedule(
+                node, logical_agent, environment, infrastructure, registry
+            )
+        registry.validate_action(node.semantic_action())
+        available = {item.agent_id for item in infrastructure.agents if item.available}
+        if target not in available:
+            raise SchedulingError(f"fixed upstream Worker is unavailable: {target}")
+        return SchedulerDecision(
+            scheduler=self._scheduler_kind,
+            node_id=node.node_id,
+            logical_agent_id=logical_agent.agent_id,
+            physical=PhysicalDecision(
+                policy=PhysicalPolicy.TARGET_AGENT,
+                target_agent_id=target,
+            ),
+            selected_agent_id=target,
+            rationale="v1 scripted upstream DAG placement is frozen outside the study node",
+        )
+
+
 class ReplicaComputeEstimate(ContractModel):
     compute_profile_id: str = Field(min_length=1)
     replica_id: str = Field(min_length=1)
@@ -126,7 +175,7 @@ class SynthesisStageScheduler:
                 selected = min(
                     candidates,
                     key=lambda replica: (
-                        ReplicaAwareScheduler._missing_input_count(
+                        ReplicaAwareScheduler.missing_input_count(
                             node, replica.agent_id, infrastructure
                         ),
                         replica.agent_id,
@@ -203,7 +252,7 @@ class SynthesisStageScheduler:
             raise SchedulingError("synthesis stage follower must invoke the model")
         if logical_agent.model_instance_id != self._replica_set.canonical_deployment_id:
             raise SchedulingError("synthesis stage follower changed logical model identity")
-        return ReplicaAwareScheduler._decision(
+        return ReplicaAwareScheduler.decision(
             node,
             logical_agent,
             self._selected,
@@ -346,11 +395,11 @@ class ReplicaAwareScheduler:
             selected = min(
                 candidates,
                 key=lambda replica: (
-                    self._missing_input_count(node, replica.agent_id, infrastructure),
+                    self.missing_input_count(node, replica.agent_id, infrastructure),
                     replica.agent_id,
                 ),
             )
-            return self._decision(
+            return self.decision(
                 node,
                 logical_agent,
                 selected,
@@ -377,7 +426,7 @@ class ReplicaAwareScheduler:
             ),
         )
         selected = next(item for item in candidates if item.agent_id == selected_cost.agent_id)
-        return self._decision(
+        return self.decision(
             node,
             logical_agent,
             selected,
@@ -409,7 +458,7 @@ class ReplicaAwareScheduler:
         return tuple(result)
 
     @staticmethod
-    def _missing_input_count(
+    def missing_input_count(
         node: WorkflowNode,
         target_agent_id: str,
         infrastructure: InfrastructureState,
@@ -490,7 +539,7 @@ class ReplicaAwareScheduler:
         )
 
     @staticmethod
-    def _decision(
+    def decision(
         node: WorkflowNode,
         logical_agent: LogicalAgent,
         replica: ModelReplica,

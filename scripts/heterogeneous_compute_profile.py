@@ -233,12 +233,17 @@ def build_profile_prompt(input_tokens: int, output_tokens: int) -> str:
 
     prefix = (
         "Deterministic inference throughput measurement. Respond directly without analysis "
-        "or reasoning. Emit only the word profile separated by spaces until the configured "
-        f"generation limit of {output_tokens} tokens stops you. Input payload follows."
+        "or reasoning. Emit only consecutive decimal integers starting at zero, separated "
+        f"by one space, until the configured generation limit of {output_tokens} tokens "
+        "stops you. "
+        "Input payload follows."
     )
     prefix_tokens = prefix.split()
     if input_tokens <= len(prefix_tokens):
         raise ValueError("input token target is too small for the frozen prompt template")
+    # ``profile`` is one token in the frozen Qwen tokenizer. Avoid requesting a
+    # repeated-token completion: the Qwen3.8 response renderer may terminate such
+    # streams before emitting Ollama's final telemetry chunk.
     padding = ("profile",) * (input_tokens - len(prefix_tokens))
     return " ".join((*prefix_tokens, *padding))
 

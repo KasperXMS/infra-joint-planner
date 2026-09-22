@@ -1,0 +1,14 @@
+{
+  "attempt_id": "compute-profile-initial-repeated-token-prompt",
+  "classification": "system_harness_confounder",
+  "counted_as_profile_sample": false,
+  "devices": [
+    "A28",
+    "strong-4090"
+  ],
+  "exception": "RuntimeError: Ollama profiling response lacks token/final telemetry",
+  "root_cause": "The repeated-token completion prompt caused the Qwen3.8 Ollama response renderer to close the stream before emitting its final telemetry chunk.",
+  "audit_evidence": "Raw follow-up requests reproduced an incomplete stream on both replicas. A distinct-token integer-sequence prompt returned done=true, done_reason=length, and complete token/timing telemetry.",
+  "fix_scope": "Changed only the compute-profiling prompt from repeated identical output tokens to deterministic consecutive integers. Model identity, runtime, context, generation limits, repetition counts, and experiment workflow were unchanged.",
+  "replacement_profile_suffix": "audit1"
+}
