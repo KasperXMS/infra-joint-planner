@@ -133,6 +133,8 @@ class ComputeProfilePoint(ContractModel):
     decode_ms: DistributionSummary | None = None
     total_service_ms: DistributionSummary
     output_tokens_per_second: DistributionSummary | None = None
+    actual_input_tokens: DistributionSummary
+    actual_output_tokens: DistributionSummary
     peak_memory_bytes: int | None = Field(default=None, gt=0)
 
 
