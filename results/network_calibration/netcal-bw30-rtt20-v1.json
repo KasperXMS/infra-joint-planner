@@ -1,0 +1,118 @@
+{
+  "calibration": {
+    "achieved_throughput_mbps": {
+      "count": 3,
+      "mean": 30.39922127484348,
+      "median": 30.399371392982356,
+      "p90": 31.027933072590002,
+      "p95": 31.027933072590002,
+      "std": 0.5134023296961079
+    },
+    "artifact_transfers": [
+      {
+        "artifact_bytes": 1048576,
+        "duration_ms": {
+          "count": 1,
+          "mean": 497.4618999985978,
+          "median": 497.4618999985978,
+          "p90": 497.4618999985978,
+          "p95": 497.4618999985978,
+          "std": 0.0
+        },
+        "effective_throughput_mbps": {
+          "count": 1,
+          "mean": 16.862815021660243,
+          "median": 16.862815021660243,
+          "p90": 16.862815021660243,
+          "p95": 16.862815021660243,
+          "std": 0.0
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      },
+      {
+        "artifact_bytes": 8388608,
+        "duration_ms": {
+          "count": 1,
+          "mean": 2561.2089000060223,
+          "median": 2561.2089000060223,
+          "p90": 2561.2089000060223,
+          "p95": 2561.2089000060223,
+          "std": 0.0
+        },
+        "effective_throughput_mbps": {
+          "count": 1,
+          "mean": 26.20202670693601,
+          "median": 26.20202670693601,
+          "p90": 26.20202670693601,
+          "p95": 26.20202670693601,
+          "std": 0.0
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      },
+      {
+        "artifact_bytes": 33554432,
+        "duration_ms": {
+          "count": 1,
+          "mean": 9652.660899999319,
+          "median": 9652.660899999319,
+          "p90": 9652.660899999319,
+          "p95": 9652.660899999319,
+          "std": 0.0
+        },
+        "effective_throughput_mbps": {
+          "count": 1,
+          "mean": 27.809477488224925,
+          "median": 27.809477488224925,
+          "p90": 27.809477488224925,
+          "p95": 27.809477488224925,
+          "std": 0.0
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      },
+      {
+        "artifact_bytes": 134217728,
+        "duration_ms": {
+          "count": 1,
+          "mean": 38153.501100008725,
+          "median": 38153.501100008725,
+          "p90": 38153.501100008725,
+          "p95": 38153.501100008725,
+          "std": 0.0
+        },
+        "effective_throughput_mbps": {
+          "count": 1,
+          "mean": 28.142681354077737,
+          "median": 28.142681354077737,
+          "p90": 28.142681354077737,
+          "p95": 28.142681354077737,
+          "std": 0.0
+        },
+        "source_agent_id": "A28",
+        "target_agent_id": "strong-4090"
+      }
+    ],
+    "calibration_id": "netcal-bw30-rtt20-v1",
+    "median_rtt_ms": 22.5,
+    "p95_rtt_ms": 28.4,
+    "regime": {
+      "added_rtt_ms": 20.0,
+      "bandwidth_mbps": 30.0,
+      "control_method": "tc",
+      "regime_id": "pilot-bw30-rtt20",
+      "tc_configuration_id": "tc-bw30-rtt20-v1"
+    },
+    "source_agent_id": "A28",
+    "target_agent_id": "strong-4090"
+  },
+  "restored_qdisc": {
+    "A28": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \n",
+    "strong-4090": "qdisc noqueue 0: root refcnt 2 \n"
+  },
+  "tc_statistics": {
+    "A28": "qdisc htb 1: root refcnt 6 r2q 10 default 0x10 direct_packets_stat 18 direct_qlen 1000\n Sent 242021640 bytes 178704 pkt (dropped 0, overlimits 21346 requeues 0) \n backlog 0b 0p requeues 0\n",
+    "strong-4090": "qdisc htb 1: root refcnt 2 r2q 10 default 0x10 direct_packets_stat 19 direct_qlen 1000\n Sent 1339996 bytes 18300 pkt (dropped 0, overlimits 5 requeues 0) \n backlog 0b 0p requeues 0\nqdisc netem 20: parent 1:20 limit 1000 delay 20ms\n Sent 1120341 bytes 16905 pkt (dropped 0, overlimits 0 requeues 0) \n backlog 0b 0p requeues 0\n"
+  }
+}
