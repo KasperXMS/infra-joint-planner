@@ -65,8 +65,9 @@ class TcCommandPlan(ContractModel):
 def build_tc_command_plan(endpoint: TcEndpoint, regime: TcRegime) -> TcCommandPlan:
     """Build narrowly filtered data-plane shaping commands.
 
-    Every unmatched packet remains on the unshaped first PRIO band. NETEM is
-    installed only on the designated endpoint; the v1 topology uses the 4090
+    Every unmatched packet remains on a 1 Gbps default HTB class, above the
+    physical Wi-Fi capacity. NETEM is installed only on the designated endpoint;
+    the v1 topology uses the 4090
     egress to add one full round-trip delay because the Orin kernel lacks NETEM.
     """
 
@@ -83,31 +84,49 @@ def build_tc_command_plan(endpoint: TcEndpoint, regime: TcRegime) -> TcCommandPl
             "root",
             "handle",
             "1:",
-            "prio",
-            "bands",
-            "2",
-            "priomap",
-            *("0" for _ in range(16)),
+            "htb",
+            "default",
+            "10",
         ),
         (
             "sudo",
             "-n",
             "tc",
-            "qdisc",
+            "class",
             "replace",
             "dev",
             device,
             "parent",
-            "1:2",
-            "handle",
-            "20:",
-            "tbf",
+            "1:",
+            "classid",
+            "1:10",
+            "htb",
             "rate",
+            "1000mbit",
+            "ceil",
+            "1000mbit",
+            "burst",
+            "4mb",
+        ),
+        (
+            "sudo",
+            "-n",
+            "tc",
+            "class",
+            "replace",
+            "dev",
+            device,
+            "parent",
+            "1:",
+            "classid",
+            "1:20",
+            "htb",
+            "rate",
+            f"{regime.bandwidth_mbps:g}mbit",
+            "ceil",
             f"{regime.bandwidth_mbps:g}mbit",
             "burst",
             "4mb",
-            "latency",
-            "1000ms",
         ),
     ]
     if endpoint.supports_netem and regime.added_rtt_ms > 0:
@@ -121,9 +140,9 @@ def build_tc_command_plan(endpoint: TcEndpoint, regime: TcRegime) -> TcCommandPl
                 "dev",
                 device,
                 "parent",
-                "20:1",
+                "1:20",
                 "handle",
-                "21:",
+                "20:",
                 "netem",
                 "delay",
                 f"{regime.added_rtt_ms:g}ms",
@@ -186,7 +205,7 @@ def _u32_filter(
     ]
     for field, value, mask in matches:
         command.extend(("match", "ip", field, value, mask))
-    command.extend(("flowid", "1:2"))
+    command.extend(("flowid", "1:20"))
     return tuple(command)
 
 
@@ -218,13 +237,14 @@ class TcController:
                     ("sudo", "-n", "tc", "qdisc", "show", "dev", plan.endpoint.interface),
                 )
                 _validate_restorable_root(original)
-                # Register the endpoint before the first mutation so a partial
-                # command sequence is still restored on failure.
+                # Root replacement is atomic. Track it only after that first
+                # mutation succeeds; all later partial failures are restored.
+                await self._runner.run(plan.endpoint.ssh_target, plan.apply[0])
                 self._applied.append((plan, AppliedTcState(plan.endpoint, original, "")))
-                for command in plan.apply:
+                for command in plan.apply[1:]:
                     await self._runner.run(plan.endpoint.ssh_target, command)
                 shaped = await self._runner.run(plan.endpoint.ssh_target, plan.inspect)
-                if "qdisc prio 1: root" not in shaped:
+                if "qdisc htb 1: root" not in shaped:
                     raise RuntimeError(f"tc root verification failed on {plan.endpoint.agent_id}")
                 state = AppliedTcState(plan.endpoint, original, shaped)
                 self._applied[-1] = (plan, state)
@@ -284,7 +304,7 @@ def _validate_restorable_root(qdisc: str) -> None:
     kind = _root_kind(qdisc)
     if kind not in {"mq", "noqueue"}:
         raise RuntimeError(f"unsupported original root qdisc: {kind}")
-    if "netem" in qdisc or "tbf" in qdisc or "prio 1:" in qdisc:
+    if "netem" in qdisc or "tbf" in qdisc or "htb 1:" in qdisc:
         raise RuntimeError("refusing to overwrite an existing shaped tc configuration")
 
 
