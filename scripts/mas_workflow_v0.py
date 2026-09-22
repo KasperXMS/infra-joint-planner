@@ -224,7 +224,7 @@ def namespace_plan_artifacts(plan: WorkflowPlan, namespace: str) -> WorkflowPlan
     """Give every produced artifact a run-local ID without changing DAG semantics."""
 
     mapping = {
-        artifact_id: f"{namespace}/{artifact_id}"
+        artifact_id: f"{namespace}--{artifact_id}"
         for node in plan.nodes
         for artifact_id in node.outputs
     }
@@ -303,6 +303,7 @@ async def main() -> None:
     parser.add_argument("--case", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--plan", type=Path)
+    parser.add_argument("--run-prefix", default="mas-v0")
     arguments = parser.parse_args()
 
     base = load_runner_config(arguments.runner_config)
@@ -342,7 +343,7 @@ async def main() -> None:
         ("b1", FAST),
         ("b1", CONSTRAINED),
     ):
-        run_id = f"mas-v0-{scheduler_mode}-{regime.regime_id.lower()}"
+        run_id = f"{arguments.run_prefix}-{scheduler_mode}-{regime.regime_id.lower()}"
         isolated_plan = namespace_plan_artifacts(plan, run_id)
         result = await run_one(
             base,
