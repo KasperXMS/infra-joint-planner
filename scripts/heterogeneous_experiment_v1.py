@@ -571,6 +571,19 @@ async def _clients(stack: AsyncExitStack) -> dict[str, WorkerClient]:
     return result
 
 
+async def _assert_workers_idle(clients: dict[str, WorkerClient]) -> None:
+    states = await asyncio.gather(
+        *(clients[agent_id].get_state() for agent_id in sorted(clients))
+    )
+    busy = [
+        f"{state.agent_id}:in_flight={state.in_flight}"
+        for state in states
+        if not state.available or state.in_flight != 0
+    ]
+    if busy:
+        raise RuntimeError(f"idle-state preflight failed: {busy}")
+
+
 async def preload(manifest_path: Path, label: str) -> None:
     manifest = _manifest(manifest_path)
     bundle = _bundle(manifest_path, manifest, label)
@@ -686,12 +699,14 @@ async def run_one(args: argparse.Namespace) -> None:
     result: PersistedWorkflowRunResult | None = None
     validation_error: str | None = None
     cleanup_error: str | None = None
+    tc_class_statistics: dict[str, str] = {}
     states = await controller.apply(
         tuple(build_tc_command_plan(endpoint, tc_regime) for endpoint in endpoints)
     )
     try:
         async with AsyncExitStack() as stack:
             clients = await _clients(stack)
+            await _assert_workers_idle(clients)
             runner = PrepositionedWorkflowRunner(
                 config,
                 _workload(bundle),
@@ -704,6 +719,27 @@ async def run_one(args: argparse.Namespace) -> None:
         if reasons != ("stop",):
             validation_error = f"formal model finish reason is not stop: {reasons}"
     finally:
+        try:
+            tc_class_statistics = {
+                endpoint.agent_id: await command_runner.run(
+                    endpoint.ssh_target,
+                    (
+                        "sudo",
+                        "-n",
+                        "tc",
+                        "-s",
+                        "class",
+                        "show",
+                        "dev",
+                        endpoint.interface,
+                    ),
+                )
+                for endpoint in endpoints
+            }
+            if any("class htb 1:20" not in value for value in tc_class_statistics.values()):
+                validation_error = "tc shaped class 1:20 was absent after the run"
+        except Exception as exc:  # noqa: BLE001 - cleanup must still run
+            validation_error = f"tc class verification failed: {type(exc).__name__}: {exc}"
         try:
             await controller.cleanup()
         except Exception as exc:  # noqa: BLE001 - persist cleanup invalidity
@@ -751,6 +787,7 @@ async def run_one(args: argparse.Namespace) -> None:
             for state in states
         ],
         "tc_cleanup_error": cleanup_error,
+        "tc_class_statistics": tc_class_statistics,
         "validation_error": validation_error,
         "scheduler_overhead": {
             "samples": scheduler.samples,
