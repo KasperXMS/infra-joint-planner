@@ -1,0 +1,53 @@
+{
+  "benchmark_id": "multihop_rag_heterogeneous_controlled_v1",
+  "evaluation": null,
+  "execution_completed": false,
+  "failure": {
+    "code": "internal_error",
+    "exception_type": "RuntimeError",
+    "message": "prepositioned artifact mismatch: A4/heterogeneous-v2-s-shard-a",
+    "node_id": null
+  },
+  "final_answer": null,
+  "initial_transfers": [],
+  "plan": null,
+  "run_id": "hetero-v1-context-v2-smoke-rtx-audit1",
+  "runner_e2e_latency_ms": 4834.484199993312,
+  "setting_kind": "derived",
+  "task_id": "heterogeneous-v1-multihop-rag-train-9bae0079038050a37a1ae583-s",
+  "telemetry": null,
+  "trace_path": "results\\heterogeneous_v1_context_v2_smoke\\hetero-v1-context-v2-smoke-rtx-audit1\\trace.jsonl",
+  "workflow": null,
+  "workload": {
+    "artifacts": [
+      {
+        "artifact_id": "heterogeneous-v2-s-shard-a",
+        "logical_type": "derived_semantic_document_corpus;question_independent_payload_axis;text_field=body",
+        "media_type": "application/json"
+      },
+      {
+        "artifact_id": "heterogeneous-v2-s-shard-b",
+        "logical_type": "derived_semantic_document_corpus;question_independent_payload_axis;text_field=body",
+        "media_type": "application/json"
+      }
+    ],
+    "available_model_instances": [
+      {
+        "modalities": [
+          "image",
+          "text"
+        ],
+        "model_id": "qwen3.8-27b-q4km-v1",
+        "model_instance_id": "a28-qwen3.8-27b-q4km-v1"
+      }
+    ],
+    "available_operations": [
+      "bm25_retrieve",
+      "aggregate_artifacts",
+      "select_fields",
+      "invoke_model"
+    ],
+    "max_agents": 4,
+    "min_agents": 4
+  }
+}

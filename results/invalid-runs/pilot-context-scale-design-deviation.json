@@ -1,0 +1,21 @@
+{
+  "attempt_group": "heterogeneous-v1-pilot-schedule-audit2",
+  "classification": "experimental_design_confounder",
+  "counted_as_formal_or_regime_freeze_evidence": false,
+  "retained_as_exploratory_pilot": true,
+  "affected_valid_execution_runs": 108,
+  "excluded_runtime_failure_runs": 1,
+  "observed_model_input_tokens": {
+    "minimum": 610,
+    "maximum": 616
+  },
+  "declared_target_model_input_tokens": "approximately 2000-8000",
+  "failure_point": "controlled-workload evidence projection",
+  "reason": "The frozen evidence projection produced a 2018-byte context artifact and only 610-616 model input tokens. Execution, telemetry, and crossover observations are reconstructable, but the workload does not meet the declared meaningful synthesis-input target for the formal experiment.",
+  "response": "Retain every result and trace, do not count this pilot as the E5 regime-freeze basis, version the workload representation and artifact IDs, then rerun the pilot under new run IDs before E6/E7.",
+  "evidence": [
+    "results/heterogeneous-v1-pilot-analysis.json",
+    "results/heterogeneous-v1-pilot-schedule-audit2.json",
+    "results/heterogeneous_v1_pilot"
+  ]
+}

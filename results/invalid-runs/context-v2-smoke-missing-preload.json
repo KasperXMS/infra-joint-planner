@@ -1,0 +1,14 @@
+{
+  "attempt_id": "hetero-v1-context-v2-smoke-rtx-audit1",
+  "classification": "system_harness_confounder",
+  "counted_as_pilot_or_experiment_run": false,
+  "persisted_result": "results/heterogeneous_v1_context_v2_smoke/hetero-v1-context-v2-smoke-rtx-audit1/result.json",
+  "persisted_trace": "results/heterogeneous_v1_context_v2_smoke/hetero-v1-context-v2-smoke-rtx-audit1/trace.jsonl",
+  "persisted_metadata": "results/heterogeneous_v1_context_v2_smoke/hetero-v1-context-v2-smoke-rtx-audit1/experiment-metadata.json",
+  "primary_failure": "prepositioned artifact mismatch: A4/heterogeneous-v2-s-shard-a",
+  "secondary_harness_defect": "The post-run finish-reason validator reported an empty finish-reason tuple and masked the primary materialization failure in the raised exception.",
+  "failure_point": "v2 workload smoke before required explicit input preload",
+  "network_cleanup": "A28 and strong-4090 qdiscs restored to mq and noqueue respectively",
+  "response": "Stopped before pilot, retained the failed run, patched finish-reason validation so it only runs after successful execution, added a regression test, then required explicit v2 preload and a new smoke run ID.",
+  "replacement_run_id": "hetero-v1-context-v2-smoke-rtx-audit2"
+}

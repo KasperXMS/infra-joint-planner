@@ -656,6 +656,19 @@ def _model_finish_reasons(result: PersistedWorkflowRunResult) -> tuple[str, ...]
     )
 
 
+def finish_reason_validation_error(
+    result: PersistedWorkflowRunResult,
+) -> str | None:
+    """Validate model termination only after an otherwise successful workflow."""
+
+    if not result.execution_completed or result.failure is not None:
+        return None
+    reasons = _model_finish_reasons(result)
+    if reasons != ("stop",):
+        return f"formal model finish reason is not stop: {reasons}"
+    return None
+
+
 async def run_one(args: argparse.Namespace) -> None:
     _load_deepseek_key(args.api_key_file)
     manifest = _manifest(args.manifest)
@@ -716,9 +729,7 @@ async def run_one(args: argparse.Namespace) -> None:
                 planner=ScriptedWorkflowPlanner((plan,)),
             )
             result = await runner.run(bundle, run_id=args.run_id)
-        reasons = _model_finish_reasons(result)
-        if reasons != ("stop",):
-            validation_error = f"formal model finish reason is not stop: {reasons}"
+        validation_error = finish_reason_validation_error(result)
     finally:
         try:
             tc_class_statistics = {
