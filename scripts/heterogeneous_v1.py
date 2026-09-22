@@ -320,7 +320,17 @@ async def run_hard_preflight(
 
 async def _hard_preflight(args: argparse.Namespace) -> None:
     result = await run_hard_preflight(_operational_preflight_config(args.config))
-    print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+    serialized = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True)
+    if args.output is not None:
+        write_text_atomic(args.output, serialized + "\n")
+    print(serialized)
+
+
+def write_text_atomic(output: Path, content: str) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output.with_suffix(f"{output.suffix}.tmp")
+    temporary.write_text(content, encoding="utf-8")
+    temporary.replace(output)
 
 
 def _tc_inputs(
@@ -482,12 +492,7 @@ async def _network_calibrate(args: argparse.Namespace) -> None:
     }
     output = args.output_root / "network_calibration" / f"{args.calibration_id}.json"
     output.parent.mkdir(parents=True, exist_ok=True)
-    temporary = output.with_suffix(".json.tmp")
-    temporary.write_text(
-        json.dumps(record, indent=2, sort_keys=True),
-        encoding="utf-8",
-    )
-    temporary.replace(output)
+    write_text_atomic(output, json.dumps(record, indent=2, sort_keys=True) + "\n")
     print(output)
 
 
@@ -496,6 +501,7 @@ def _parser() -> argparse.ArgumentParser:
     subcommands = parser.add_subparsers(dest="command", required=True)
     hard = subcommands.add_parser("hard-preflight")
     hard.add_argument("--config", type=Path, required=True)
+    hard.add_argument("--output", type=Path)
 
     tc = subcommands.add_parser("tc-preflight")
     tc.add_argument("--config", type=Path, required=True)

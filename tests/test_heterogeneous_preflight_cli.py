@@ -2,6 +2,7 @@ import argparse
 import json
 from collections.abc import Sequence
 from hashlib import sha256
+from pathlib import Path
 
 import httpx
 import pytest
@@ -127,6 +128,15 @@ def test_hard_preflight_config_parses_frozen_v1_surface(tmp_path) -> None:
     assert set(parsed.worker_urls) == {"A28", "strong-4090"}
     assert parsed.equivalent_replicas.canonical_deployment_id == "orin-replica"
     assert parsed.artifact_probe.mode == cli.ArtifactProbeMode.EXISTING
+
+
+def test_machine_readable_output_is_written_atomically(tmp_path: Path) -> None:
+    output = tmp_path / "preflight.json"
+
+    cli.write_text_atomic(output, '{"status":"ok"}\n')
+
+    assert output.read_text(encoding="utf-8") == '{"status":"ok"}\n'
+    assert not output.with_suffix(".json.tmp").exists()
 
 
 def test_hard_preflight_config_requires_explicit_namespaced_write_ack() -> None:
