@@ -75,6 +75,7 @@ class PersistedWorkflowRunResult(ContractModel):
     evaluation: EvaluationResult | None = None
     initial_transfers: tuple[ArtifactTransferTelemetry, ...] = ()
     telemetry: WorkflowRunTelemetry | None = None
+    runner_e2e_latency_ms: float = Field(ge=0)
     failure: WorkflowRunFailure | None = None
     trace_path: str = Field(min_length=1)
 
@@ -189,14 +190,24 @@ class WorkflowBenchmarkRunner:
                 if not workflow_result.completed:
                     if workflow_result.failure is None:
                         raise RuntimeError("incomplete workflow is missing a typed failure")
+                    elapsed = (perf_counter() - started) * 1000
+                    run_failure = self._workflow_failure(workflow_result.failure)
+                    trace.emit(
+                        "run.failed",
+                        {
+                            "failure": run_failure.model_dump(mode="json"),
+                            "runner_e2e_latency_ms": elapsed,
+                        },
+                    )
                     persisted = self._failed_result(
                         bundle,
                         resolved_run_id,
                         trace_path,
+                        elapsed,
                         plan=plan,
                         workflow=workflow_result,
                         initial_transfers=initial_transfers,
-                        failure=self._workflow_failure(workflow_result.failure),
+                        failure=run_failure,
                     )
                     self._write_result(result_path, persisted)
                     return persisted
@@ -268,6 +279,7 @@ class WorkflowBenchmarkRunner:
                     evaluation=evaluation,
                     initial_transfers=initial_transfers,
                     telemetry=telemetry,
+                    runner_e2e_latency_ms=elapsed,
                     trace_path=str(trace_path),
                 )
         except Exception as exc:  # noqa: BLE001 - all run failures must be persisted
@@ -283,6 +295,7 @@ class WorkflowBenchmarkRunner:
                 bundle,
                 resolved_run_id,
                 trace_path,
+                (perf_counter() - started) * 1000,
                 plan=plan,
                 workflow=workflow_result,
                 initial_transfers=initial_transfers,
@@ -351,6 +364,7 @@ class WorkflowBenchmarkRunner:
         bundle: AdaptationBundle,
         run_id: str,
         trace_path: Path,
+        elapsed_ms: float,
         *,
         plan: WorkflowPlan | None,
         workflow: WorkflowExecutionResult | None,
@@ -367,6 +381,7 @@ class WorkflowBenchmarkRunner:
             plan=plan,
             workflow=workflow,
             initial_transfers=initial_transfers,
+            runner_e2e_latency_ms=elapsed_ms,
             failure=failure,
             trace_path=str(trace_path),
         )
