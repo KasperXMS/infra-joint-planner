@@ -202,6 +202,16 @@ class LLMWorkflowPlanner:
                 "and context_window is 16384, top_k=3 is safe while top_k=12 or 20 is not. "
                 "Retrieve separately from shards if useful, but keep the total records entering "
                 "the final model within the same bound.",
+                "The task objective and output contract are prompt context, not artifact IDs; "
+                "never put names such as task, objective, question, or output_contract in a "
+                "node.inputs list unless that exact ID appears in initial_artifacts or is produced "
+                "by an upstream node.",
+                "For several large shards, if the union of retrieved records would exceed the "
+                "final model context, do not aggregate those records directly into the final call. "
+                "Use explicit invoke_model nodes on separately bounded retrieval results to "
+                "materialize concise evidence notes, then pass those bounded text outputs to the "
+                "terminal model. This is an explicit planned semantic action, never an implicit "
+                "runtime summary.",
                 "The system defines each model instance's feasible operators. Select node "
                 "operators only from system_feasible_operations_by_model_instance for the "
                 "owning agent's binding. Do not declare agent capabilities or action spaces.",

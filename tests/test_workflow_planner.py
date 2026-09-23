@@ -185,6 +185,8 @@ async def test_llm_workflow_planner_generates_explicit_fanout_fanin_without_leak
     assert '"context_window":8192' in prompt
     assert "will not lower top_k or repair the workflow" in prompt
     assert "top_k=3 is safe while top_k=12 or 20 is not" in prompt
+    assert "The task objective and output contract are prompt context, not artifact IDs" in prompt
+    assert "materialize concise evidence notes" in prompt
     assert '"text_field":"text"' in prompt
 
 
