@@ -852,9 +852,22 @@ async def _preload(
     label: str,
     bundle: AdaptationBundle,
     clients: dict[str, Any],
+    *,
+    remove_existing: bool,
 ) -> None:
     artifact_ids = tuple(item.spec.artifact_id for item in bundle.prepared_artifacts)
-    await _remove_artifacts(("A4", "A5", "A28", "strong-4090"), artifact_ids)
+    if remove_existing:
+        await _remove_artifacts(("A4", "A5", "A28", "strong-4090"), artifact_ids)
+    else:
+        states = {key: await value.get_state() for key, value in clients.items()}
+        stale = sorted(
+            (agent_id, item.artifact_id)
+            for agent_id, state in states.items()
+            for item in state.artifacts
+            if item.artifact_id in artifact_ids
+        )
+        if stale:
+            raise RuntimeError(f"experiment artifact IDs are not clean before preload: {stale}")
     placements = _placement_map(config, label, bundle)
     for item in bundle.prepared_artifacts:
         response = await clients[placements[item.spec.artifact_id]].put_artifact(
@@ -1043,27 +1056,49 @@ async def run(
     config: dict[str, Any],
     bundles: dict[str, AdaptationBundle],
     output: Path,
+    *,
+    task_label: str | None,
+    defer_artifact_cleanup: bool,
 ) -> None:
     if not (output / "preflight.json").exists():
         raise RuntimeError("preflight evidence is missing")
     manifest_path = output / "freeze/manifest.json"
     freeze = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if (output / "baseline-manifest.json").exists():
-        raise RuntimeError("baseline manifest exists; retry or overwrite forbidden")
+    baseline_path = output / "baseline-manifest.json"
     operations = tuple(str(item) for item in config["planner"]["available_operations"])
     max_agents = int(config["planner"]["max_agents"])
     planner_config = load_planner_config(REPO / str(config["planner"]["config"]))
-    baseline: dict[str, Any] = {
-        "experiment_id": config["experiment_id"],
-        "network": "native_unshaped",
-        "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
-        "n": 1,
-        "retry": False,
-        "replacement": False,
-        "tasks": [],
+    if baseline_path.exists():
+        baseline = cast(
+            dict[str, Any],
+            json.loads(baseline_path.read_text(encoding="utf-8")),
+        )
+    else:
+        baseline = {
+            "experiment_id": config["experiment_id"],
+            "network": "native_unshaped",
+            "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
+            "n": 1,
+            "retry": False,
+            "replacement": False,
+            "tasks": [],
+        }
+        _write_json(baseline_path, baseline)
+    completed_labels = {str(item["task"]) for item in baseline["tasks"]}
+    labels = list(bundles)
+    if task_label is not None:
+        if task_label not in bundles:
+            raise ValueError(f"unknown task label: {task_label}")
+        labels = [task_label]
+    task_order = {
+        str(row["label"]): index
+        for index, row in enumerate(config["dataset"]["tasks"], start=1)
     }
-    _write_json(output / "baseline-manifest.json", baseline)
-    for index, (label, bundle) in enumerate(bundles.items(), start=1):
+    for label in labels:
+        if label in completed_labels:
+            raise RuntimeError(f"task outcome exists; retry forbidden: {label}")
+        bundle = bundles[label]
+        index = task_order[label]
         frozen = freeze["tasks"][label]
         if frozen["planning_status"] != "valid":
             row = {
@@ -1103,7 +1138,13 @@ async def run(
             async with AsyncExitStack() as stack:
                 clients = await _clients(stack)
                 await validate_worker_surfaces(environment, build_operator_catalog(), clients)
-                await _preload(config, label, bundle, clients)
+                await _preload(
+                    config,
+                    label,
+                    bundle,
+                    clients,
+                    remove_existing=not defer_artifact_cleanup,
+                )
                 await _assert_placement(config, label, bundle, clients)
                 result = await PrepositionedWorkflowRunner(
                     runner_config,
@@ -1115,16 +1156,17 @@ async def run(
         except Exception as exc:  # driver errors are harness confounders
             driver_error = exc
         finally:
-            try:
-                await _remove_artifacts(
-                    ("A4", "A5", "A28", "strong-4090"),
-                    (
-                        *_generated_ids(plan),
-                        *(item.spec.artifact_id for item in bundle.prepared_artifacts),
-                    ),
-                )
-            except Exception as exc:
-                cleanup_error = exc
+            if not defer_artifact_cleanup:
+                try:
+                    await _remove_artifacts(
+                        ("A4", "A5", "A28", "strong-4090"),
+                        (
+                            *_generated_ids(plan),
+                            *(item.spec.artifact_id for item in bundle.prepared_artifacts),
+                        ),
+                    )
+                except Exception as exc:
+                    cleanup_error = exc
         if driver_error is not None or cleanup_error is not None or result is None:
             failure = {
                 "task": label,
@@ -1158,9 +1200,10 @@ async def run(
                 "benchmark_score": audit["benchmark_score"],
                 "format_valid": audit["format_valid"],
                 "failure": audit["failure"],
+                "artifact_cleanup_deferred": defer_artifact_cleanup,
             }
         )
-        _write_json(output / "baseline-manifest.json", baseline)
+        _write_json(baseline_path, baseline)
 
 
 def report(config: dict[str, Any], bundles: dict[str, AdaptationBundle], output: Path) -> None:
@@ -1307,14 +1350,26 @@ async def main_async(args: argparse.Namespace) -> None:
     elif args.command == "preflight":
         await preflight(config, bundles, args.output, args.native_network_snapshot)
     elif args.command == "run":
-        await run(config, bundles, args.output)
+        await run(
+            config,
+            bundles,
+            args.output,
+            task_label=args.task_label,
+            defer_artifact_cleanup=args.defer_artifact_cleanup,
+        )
     elif args.command == "report":
         report(config, bundles, args.output)
     elif args.command == "all":
         prepare(config, bundles, args)
         await freeze_plans(config, bundles, args)
         await preflight(config, bundles, args.output, args.native_network_snapshot)
-        await run(config, bundles, args.output)
+        await run(
+            config,
+            bundles,
+            args.output,
+            task_label=args.task_label,
+            defer_artifact_cleanup=args.defer_artifact_cleanup,
+        )
         report(config, bundles, args.output)
 
 
@@ -1334,6 +1389,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--multihop-corpus", type=Path, required=True)
     parser.add_argument("--multihop-queries", type=Path, required=True)
     parser.add_argument("--native-network-snapshot", type=Path)
+    parser.add_argument("--task-label")
+    parser.add_argument("--defer-artifact-cleanup", action="store_true")
     return parser.parse_args()
 
 
