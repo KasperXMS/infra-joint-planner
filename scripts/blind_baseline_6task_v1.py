@@ -660,6 +660,8 @@ async def freeze_plans(
 ) -> None:
     manifest_path = args.output / "freeze/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["planner_execution_revision"] = _code_revision()
+    _write_json(manifest_path, manifest)
     _load_key(args.api_key_file)
     aliases = {
         str(key): str(value)
@@ -831,6 +833,7 @@ async def preflight(
     _write_json(
         output / "preflight.json",
         {
+            "code_revision": _code_revision(),
             "network": "native_unshaped",
             "qdisc_snapshot": network,
             "worker_states": states,
