@@ -1,0 +1,38 @@
+experiment_id: open-ended-mas-preliminary-v1
+dataset:
+  source_revision: 4dd14328c6d02a4daa357cc6032915a0b14602e3
+  selection_rule: exact modalities; rephrasing accuracy 1.0; minimum image+text candidates; qid tie-break
+  tasks:
+    - label: image-table
+      qid: 09e997f80f700a93c2094af964de65e6
+      exact_modalities: [image, table]
+    - label: image-text
+      qid: 1e288b881eea53a6e3e3e56bd79f40e5
+      exact_modalities: [image, text]
+planner:
+  config: configs/local/heterogeneous-v1-planner.yaml
+  model_instance_aliases:
+    vision-reasoner-alpha: a28-qwen3.8-27b-q4km-v1
+    vision-reasoner-beta: strong-4090-qwen3.8-27b-q4km-v1
+  available_operations: [bm25_retrieve, filter_records, select_fields, aggregate_artifacts, make_contact_sheet, invoke_model]
+  max_agents: 6
+initial_placement_agent: A28
+network:
+  added_rtt_ms: 20
+  regimes:
+    - {id: H_low, bandwidth_mbps: 3}
+    - {id: H_mid, bandwidth_mbps: 10}
+    - {id: H_high, bandwidth_mbps: 30}
+schedule:
+  - {task: image-table, regime: H_low}
+  - {task: image-text, regime: H_low}
+  - {task: image-table, regime: H_mid}
+  - {task: image-text, regime: H_mid}
+  - {task: image-table, regime: H_high}
+  - {task: image-text, regime: H_high}
+execution:
+  scheduler: B0_LOCALITY_AWARE_MYOPIC
+  repetitions: 1
+  retry: false
+  replacement: false
+
