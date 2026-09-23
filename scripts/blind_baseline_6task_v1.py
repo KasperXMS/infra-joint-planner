@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 from contextlib import AsyncExitStack
+from itertools import pairwise
 from pathlib import Path
 from time import perf_counter
 from typing import Any, cast
@@ -154,10 +155,7 @@ def _longbench_multidoc_bundle(
     prepared: list[PreparedArtifact] = []
     reconstructed: list[str] = []
     chunk_count = 0
-    for document_index, (start, end) in enumerate(
-        zip(boundaries, boundaries[1:], strict=True),
-        start=1,
-    ):
+    for document_index, (start, end) in enumerate(pairwise(boundaries), start=1):
         document = "".join(lines[start:end])
         records = []
         for chunk_index, text in enumerate(
