@@ -507,6 +507,9 @@ def _workload(bundle: AdaptationBundle) -> WorkloadSpec:
                 model_instance_id=CANONICAL_DEPLOYMENT,
                 model_id="qwen3.8-27b-q4km-v1",
                 modalities=frozenset({"text", "image"}),
+                context_window=16_384,
+                reserved_output_tokens=256,
+                image_token_cost=4_096,
             ),
         ),
         artifacts=tuple(
@@ -514,6 +517,8 @@ def _workload(bundle: AdaptationBundle) -> WorkloadSpec:
                 artifact_id=item.artifact_id,
                 logical_type=item.logical_type,
                 media_type=item.media_type,
+                size_bytes=item.size_bytes,
+                content_schema=item.content_schema,
             )
             for item in bundle.execution.task.artifacts
         ),

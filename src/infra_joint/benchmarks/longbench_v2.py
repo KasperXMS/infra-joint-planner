@@ -18,11 +18,26 @@ from infra_joint.benchmarks.base import (
     assess_validity,
 )
 from infra_joint.core.base import ContractModel
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactContentSchema,
+    ArtifactSpec,
+    OutputContract,
+    OutputFormat,
+    TaskContract,
+)
 
 LONGBENCH_V2_BENCHMARK_ID = "longbench_v2"
 LONGBENCH_V2_EVALUATOR_ID = "longbench_v2_exact_choice_v1"
 CHOICE_LABELS = ("A", "B", "C", "D")
+
+
+def _canonical_record(record: dict[str, Any]) -> bytes:
+    return json.dumps(
+        record,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
 
 
 class LongBenchV2Sample(ContractModel):
@@ -271,6 +286,21 @@ class LongBenchV2Adapter:
                     for column in representation.columns
                 )
             ),
+            content_schema=ArtifactContentSchema(
+                kind="record_array",
+                fields={
+                    column.name: (
+                        column.value_type.value
+                        + ("|null" if column.nullable else "")
+                    )
+                    for column in representation.columns
+                },
+                record_count=len(records),
+                max_record_bytes=max(
+                    (len(_canonical_record(record)) for record in records),
+                    default=0,
+                ),
+            ),
         )
         return (artifact,), self._record(
             sample,
@@ -359,6 +389,7 @@ class LongBenchV2Adapter:
             logical_type=logical_type,
             media_type="text/plain",
             size_bytes=len(content),
+            content_schema=ArtifactContentSchema(kind="text"),
             source_ref=f"prepared://longbench-v2/{sample_id}/{artifact_id}",
         )
         return PreparedArtifact.create(spec, content)
@@ -370,12 +401,14 @@ class LongBenchV2Adapter:
         content: bytes,
         *,
         logical_type: str = "structured_records",
+        content_schema: ArtifactContentSchema | None = None,
     ) -> PreparedArtifact:
         spec = ArtifactSpec(
             artifact_id=artifact_id,
             logical_type=logical_type,
             media_type="application/json",
             size_bytes=len(content),
+            content_schema=content_schema,
             source_ref=f"prepared://longbench-v2/{sample_id}/{artifact_id}",
         )
         return PreparedArtifact.create(spec, content)

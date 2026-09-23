@@ -3,7 +3,7 @@ from pydantic import Field
 from infra_joint.agents.information import InformationObjectRef
 from infra_joint.agents.state import AgentState
 from infra_joint.core.base import ContractModel
-from infra_joint.core.task import OutputContract, TaskContract
+from infra_joint.core.task import ArtifactContentSchema, OutputContract, TaskContract
 from infra_joint.core.workflow import LogicalAgent, WorkflowNode
 
 
@@ -12,6 +12,7 @@ class AgentArtifactView(ContractModel):
     logical_type: str = Field(min_length=1)
     media_type: str = Field(min_length=1)
     size_bytes: int = Field(ge=0)
+    content_schema: ArtifactContentSchema | None = None
 
 
 class AgentTaskView(ContractModel):
@@ -35,6 +36,7 @@ class AgentTaskView(ContractModel):
                     logical_type=item.logical_type,
                     media_type=item.media_type,
                     size_bytes=item.size_bytes,
+                    content_schema=item.content_schema,
                 )
                 for item in task.artifacts
             ),

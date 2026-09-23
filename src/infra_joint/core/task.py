@@ -36,11 +36,34 @@ class OutputContract(ContractModel):
         return self
 
 
+class ArtifactContentSchema(ContractModel):
+    """Planner-safe semantic shape and bounded-size facts for one artifact.
+
+    This is intentionally about content rather than storage. It must not contain a
+    source URI, physical placement, or evaluator-private evidence.
+    """
+
+    kind: str = Field(min_length=1)
+    fields: dict[str, str] = Field(default_factory=dict)
+    text_field: str | None = Field(default=None, min_length=1)
+    record_count: int | None = Field(default=None, ge=0)
+    max_record_bytes: int | None = Field(default=None, ge=0)
+    codec: str | None = Field(default=None, min_length=1)
+    duration_seconds: float | None = Field(default=None, gt=0)
+
+    @model_validator(mode="after")
+    def text_field_is_declared(self) -> "ArtifactContentSchema":
+        if self.text_field is not None and self.text_field not in self.fields:
+            raise ValueError("artifact text_field must name a declared field")
+        return self
+
+
 class ArtifactSpec(ContractModel):
     artifact_id: str = Field(min_length=1)
     logical_type: str = Field(min_length=1)
     media_type: str = Field(min_length=1)
     size_bytes: int = Field(ge=0)
+    content_schema: ArtifactContentSchema | None = None
     source_ref: str | None = None
 
 

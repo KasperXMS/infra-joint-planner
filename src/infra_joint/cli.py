@@ -52,7 +52,9 @@ def worker(
     if settings.allowed_artifact_hosts:
         fetch_client = httpx.AsyncClient(timeout=60.0)
         fetcher = HttpArtifactFetcher(fetch_client, settings.allowed_artifact_hosts)
-    ffmpeg = asyncio.run(probe_ffmpeg(settings.ffmpeg_executable))
+    ffmpeg = asyncio.run(
+        probe_ffmpeg(settings.ffmpeg_executable, probe_input=settings.ffmpeg_probe_input)
+    )
     media_backend = (
         FfmpegMediaBackend(ffmpeg.executable)
         if ffmpeg.available and ffmpeg.executable is not None

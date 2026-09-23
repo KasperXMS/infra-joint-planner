@@ -181,7 +181,7 @@ def structured_operator_specs() -> tuple[OperatorSpec, ...]:
         ),
         _operator_spec(
             "select_fields",
-            "Project selected fields from JSON records.",
+            "Project declared fields from JSON records without shortening field values.",
             SelectFieldsArguments,
         ),
         _operator_spec(
@@ -201,7 +201,10 @@ def structured_operator_specs() -> tuple[OperatorSpec, ...]:
         ),
         _operator_spec(
             "aggregate_artifacts",
-            "Concatenate arrays from JSON artifacts.",
+            (
+                "Concatenate complete record arrays from JSON artifacts. This preserves all "
+                "records and does not summarize, truncate, group, or reduce their size."
+            ),
             AggregateArtifactsArguments,
         ),
     )

@@ -10,7 +10,13 @@ from infra_joint.benchmarks.base import (
     assess_validity,
 )
 from infra_joint.core.base import ContractModel
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactContentSchema,
+    ArtifactSpec,
+    OutputContract,
+    OutputFormat,
+    TaskContract,
+)
 
 VIDEO_MME_BENCHMARK_ID = "video_mme"
 VIDEO_MME_EVALUATOR_ID = "video_mme_exact_choice_v1"
@@ -22,6 +28,7 @@ class SourceArtifact(ContractModel):
     media_type: str = Field(min_length=1)
     size_bytes: int = Field(ge=0)
     source_ref: str = Field(min_length=1)
+    content_schema: ArtifactContentSchema | None = None
 
 
 class VideoMMEOption(ContractModel):
@@ -128,6 +135,7 @@ class VideoMMEAdapter:
                     logical_type=artifact.logical_type,
                     media_type=artifact.media_type,
                     size_bytes=artifact.size_bytes,
+                    content_schema=artifact.content_schema,
                     source_ref=artifact.source_ref,
                 )
                 for artifact in artifacts

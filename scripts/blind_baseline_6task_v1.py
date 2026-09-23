@@ -57,7 +57,7 @@ from infra_joint.benchmarks.video_mme import (
 )
 from infra_joint.config import RunnerConfig, build_model_backend, load_planner_config
 from infra_joint.core.state import ArtifactPlacement, EnvironmentSpec
-from infra_joint.core.task import ArtifactSpec
+from infra_joint.core.task import ArtifactContentSchema, ArtifactSpec
 from infra_joint.core.workflow import WorkflowPlan
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
@@ -72,7 +72,8 @@ DEFAULT_CONFIG = REPO / "configs/experiments/blind-baseline-6task-v1.yaml"
 DEFAULT_OUTPUT = REPO / "results/blind-baseline-6task-v1"
 DEFAULT_KEY = REPO.parent / "api_key.txt"
 LONGBENCH_BOUNDARY_LINES = (0, 3277, 9091, 17721)
-LONGBENCH_CHUNK_CHARS = 32_000
+LONGBENCH_CHUNK_CHARS = 3_000
+MULTIHOP_CHUNK_CHARS = 2_500
 
 
 def _yaml(path: Path) -> dict[str, Any]:
@@ -129,19 +130,10 @@ def _load_longbench_samples(path: Path, wanted: set[str]) -> dict[str, LongBench
     return found
 
 
-def _line_chunks(value: str, limit: int) -> list[str]:
-    chunks: list[str] = []
-    current: list[str] = []
-    length = 0
-    for line in value.splitlines(keepends=True):
-        if current and length + len(line) > limit:
-            chunks.append("".join(current))
-            current, length = [], 0
-        current.append(line)
-        length += len(line)
-    if current:
-        chunks.append("".join(current))
-    return chunks
+def _text_chunks(value: str, limit: int) -> list[str]:
+    """Split losslessly with a hard per-record character bound."""
+
+    return [value[start : start + limit] for start in range(0, len(value), limit)]
 
 
 def _longbench_multidoc_bundle(
@@ -159,7 +151,7 @@ def _longbench_multidoc_bundle(
         document = "".join(lines[start:end])
         records = []
         for chunk_index, text in enumerate(
-            _line_chunks(document, LONGBENCH_CHUNK_CHARS),
+            _text_chunks(document, LONGBENCH_CHUNK_CHARS),
             start=1,
         ):
             records.append(
@@ -180,6 +172,20 @@ def _longbench_multidoc_bundle(
             ),
             media_type="application/json",
             size_bytes=len(content),
+            content_schema=ArtifactContentSchema(
+                kind="record_array",
+                fields={
+                    "document_index": "integer",
+                    "chunk_index": "integer",
+                    "text": "string",
+                },
+                text_field="text",
+                record_count=len(records),
+                max_record_bytes=max(
+                    (len(_canonical_bytes(record)) for record in records),
+                    default=0,
+                ),
+            ),
             source_ref=f"prepared://longbench-v2/{sample.sample_id}/{artifact_id}",
         )
         prepared.append(PreparedArtifact.create(spec, content))
@@ -278,6 +284,24 @@ def _longbench_structured_bundle(
         ),
         media_type="application/json",
         size_bytes=len(content),
+        content_schema=ArtifactContentSchema(
+            kind="record_array",
+            fields={
+                name: (
+                    "string"
+                    if index < 2
+                    else "string|null"
+                    if index == 2
+                    else "number|null"
+                )
+                for index, name in enumerate(names)
+            },
+            record_count=len(records),
+            max_record_bytes=max(
+                (len(_canonical_bytes(record)) for record in records),
+                default=0,
+            ),
+        ),
         source_ref=f"prepared://longbench-v2/{sample.sample_id}/{artifact_id}",
     )
     prepared = PreparedArtifact.create(spec, content)
@@ -347,6 +371,11 @@ def _load_video_bundles(
             media_type="video/mp4",
             size_bytes=len(content),
             source_ref=f"dataset://video-mme/{source_task_id}/complete-video",
+            content_schema=ArtifactContentSchema(
+                kind="video",
+                codec="av1",
+                duration_seconds=float(source_task["duration_s"]),
+            ),
         )
         options = tuple(
             VideoMMEOption(label=str(label), text=str(text))
@@ -397,7 +426,12 @@ def _multihop_bundle(
     corpus = tuple(MultiHopCorpusDocument.model_validate(item) for item in corpus_rows)
     adapted = MultiHopRAGAdapter(source_revision).adapt(
         sample,
-        FullCorpusSetting(corpus=corpus, shard_count=3, artifact_prefix="full-corpus-shard"),
+        FullCorpusSetting(
+            corpus=corpus,
+            shard_count=3,
+            artifact_prefix="full-corpus-shard",
+            max_chunk_chars=MULTIHOP_CHUNK_CHARS,
+        ),
     )
     prepared: list[PreparedArtifact] = []
     specs: list[ArtifactSpec] = []

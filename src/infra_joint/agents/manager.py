@@ -9,7 +9,7 @@ from infra_joint.agents.information import InformationObject, InformationObjectR
 from infra_joint.agents.state import AgentState, AgentStatus, AgentStepRecord
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import InfrastructureState
-from infra_joint.core.task import TaskContract
+from infra_joint.core.task import OutputFormat, TaskContract
 from infra_joint.core.workflow import WorkflowNode, WorkflowPlan
 from infra_joint.operators.artifacts import ProducedArtifact
 from infra_joint.runtime.executor import ExecutionResult
@@ -39,6 +39,12 @@ class AgentManager:
             raise ValueError("feasible action spaces must exactly cover logical agents")
         self._feasible_operations = dict(feasible_operations)
         self._nodes = {item.node_id: item for item in plan.nodes}
+        try:
+            self._terminal_node_id: str | None = plan.terminal_model_node().node_id
+        except ValueError:
+            # Unit-level AgentManager uses may exercise partial/non-terminal graphs.
+            # Production workflow validation still requires one terminal model node.
+            self._terminal_node_id = None
         self._owned_nodes = {
             agent_id: frozenset(node.node_id for node in plan.nodes if node.agent_id == agent_id)
             for agent_id in self._agents
@@ -278,8 +284,7 @@ class AgentManager:
             )
             or "none"
         )
-        effective_prompt = "\n".join(
-            (
+        prompt_lines = (
                 f"Agent identity: {context.agent.agent_id}",
                 f"Role: {context.agent.role}",
                 f"Objective: {context.agent.objective}",
@@ -289,7 +294,15 @@ class AgentManager:
                 "Available incoming information:",
                 incoming,
             )
-        )
+        if context.node.node_id == self._terminal_node_id:
+            prompt_lines = (
+                *prompt_lines,
+                (
+                    "Benchmark output contract for this terminal step: "
+                    + self._output_contract_instruction(context)
+                ),
+            )
+        effective_prompt = "\n".join(prompt_lines)
         arguments = dict(context.node.arguments)
         arguments["prompt"] = effective_prompt
         if context.node.outputs:
@@ -303,6 +316,23 @@ class AgentManager:
             arguments.setdefault("output_semantic_type", "model_reasoning")
             arguments.setdefault("output_media_type", "text/plain")
         return arguments
+
+    @staticmethod
+    def _output_contract_instruction(context: AgentExecutionContext) -> str:
+        contract = context.task.output_contract
+        if contract.format == OutputFormat.CHOICE:
+            choices = ", ".join(contract.choices or ())
+            return (
+                f"return exactly one label from [{choices}] and no other text, "
+                "punctuation, explanation, or answer value"
+            )
+        if contract.format == OutputFormat.SHORT_TEXT:
+            return "return only the concise answer text with no preamble or explanation"
+        schema = contract.schema_definition or {}
+        return (
+            f"return only valid {contract.format.value} matching this schema: "
+            f"{schema}"
+        )
 
     def _produced_information(
         self,

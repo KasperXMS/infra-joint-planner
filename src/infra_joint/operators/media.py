@@ -60,6 +60,8 @@ class FfmpegCapability:
 async def probe_ffmpeg(
     executable: str | None = None,
     runner: AsyncCommandRunner | None = None,
+    *,
+    probe_input: Path | None = None,
 ) -> FfmpegCapability:
     resolved = executable or shutil.which("ffmpeg")
     if resolved is None:
@@ -74,6 +76,42 @@ async def probe_ffmpeg(
     first_line = result.stdout.splitlines()[0] if result.stdout.splitlines() else ""
     if not first_line.casefold().startswith("ffmpeg version"):
         return FfmpegCapability(False, resolved, None, "unexpected ffmpeg version output")
+    if probe_input is not None:
+        if not probe_input.is_file():
+            return FfmpegCapability(
+                False,
+                resolved,
+                first_line,
+                f"ffmpeg probe input does not exist: {probe_input}",
+            )
+        with tempfile.TemporaryDirectory(prefix="infra-joint-ffmpeg-probe-") as temp:
+            output_pattern = Path(temp) / "frame-%06d.jpg"
+            probe_result = await command_runner.run(
+                (
+                    resolved,
+                    "-nostdin",
+                    "-hide_banner",
+                    "-loglevel",
+                    "error",
+                    "-i",
+                    str(probe_input),
+                    "-frames:v",
+                    "1",
+                    "-q:v",
+                    "2",
+                    "-y",
+                    str(output_pattern),
+                )
+            )
+            frame = Path(temp) / "frame-000001.jpg"
+            if probe_result.return_code != 0 or not frame.is_file() or frame.stat().st_size == 0:
+                detail = probe_result.stderr.strip()[-1000:]
+                return FfmpegCapability(
+                    False,
+                    resolved,
+                    first_line,
+                    f"ffmpeg media decode probe failed: {detail or 'no frame produced'}",
+                )
     return FfmpegCapability(True, resolved, first_line)
 
 
@@ -202,7 +240,11 @@ def media_operator_specs() -> tuple[OperatorSpec, ...]:
     return (
         OperatorSpec(
             operator_id="sample_frames",
-            description="Sample video frames at a question-independent fixed interval.",
+            description=(
+                "Sample up to max_frames video frames at a fixed interval. This does not "
+                "summarize the video. The plan must declare exactly max_frames outputs named "
+                "output_prefix/frame-000001.jpg through output_prefix/frame-NNNNNN.jpg."
+            ),
             input_schema=one_video,
             argument_schema=SampleFramesArguments.model_json_schema(),
             output_schema={"type": "array", "items": {"$ref": "ProducedArtifact"}},
@@ -218,7 +260,10 @@ def media_operator_specs() -> tuple[OperatorSpec, ...]:
         ),
         OperatorSpec(
             operator_id="make_contact_sheet",
-            description="Arrange image artifacts into a deterministic JPEG contact sheet.",
+            description=(
+                "Arrange every supplied image artifact into one deterministic JPEG contact "
+                "sheet; inputs must be the concrete frame artifact IDs, not a frame-set alias."
+            ),
             input_schema={
                 "type": "array",
                 "items": {"type": "string"},

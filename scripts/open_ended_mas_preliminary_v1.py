@@ -270,6 +270,9 @@ def _alias_workload(
                 model_instance_id=alias,
                 model_id=deployments[real].model_id,
                 modalities=deployments[real].modalities,
+                context_window=deployments[real].context_window,
+                reserved_output_tokens=deployments[real].reserved_output_tokens,
+                image_token_cost=deployments[real].image_token_cost,
             )
             for alias, real in aliases.items()
         ),
@@ -278,6 +281,8 @@ def _alias_workload(
                 artifact_id=item.artifact_id,
                 logical_type=item.logical_type,
                 media_type=item.media_type,
+                size_bytes=item.size_bytes,
+                content_schema=item.content_schema,
             )
             for item in bundle.execution.task.artifacts
         ),

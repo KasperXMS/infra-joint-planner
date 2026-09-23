@@ -14,4 +14,7 @@ deployments:
 allowed_artifact_hosts:
   - 127.0.0.1
 # ffmpeg_executable: C:/ffmpeg/bin/ffmpeg.exe
+# Optional benchmark-representative media used to verify decode support before
+# sample_frames/extract_clip are exposed in /state.
+# ffmpeg_probe_input: C:/datasets/capability-probes/video-mme-av1-probe.mp4
 max_read_artifact_bytes: 65536

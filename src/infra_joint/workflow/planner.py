@@ -182,6 +182,18 @@ class LLMWorkflowPlanner:
                 "a single logical agent is valid.",
                 "Do not output next-action decisions or request replanning.",
                 "Do not invent operators, model instances, task artifacts, or schemas.",
+                "Artifact content_schema fields are authoritative. Operator field arguments "
+                "such as text_field, field, fields, group_by, and derivation sources must name "
+                "fields declared by the relevant input artifact schema.",
+                "Model modalities and context limits are semantic capability contracts, not "
+                "infrastructure state. Before every invoke_model node, keep the prompt plus all "
+                "text/JSON input artifact upper bounds and image_token_cost values within that "
+                "agent's context_window after reserved_output_tokens. UTF-8 artifact bytes are "
+                "the conservative text-token upper bound used by runtime.",
+                "No operator implicitly summarizes or truncates. BM25 returns complete top-k "
+                "records, aggregate_artifacts concatenates complete record arrays, and "
+                "select_fields projects fields without shortening their values. Use their "
+                "declared schemas and bounded-size facts accordingly.",
                 "The system defines each model instance's feasible operators. Select node "
                 "operators only from system_feasible_operations_by_model_instance for the "
                 "owning agent's binding. Do not declare agent capabilities or action spaces.",
@@ -192,6 +204,11 @@ class LLMWorkflowPlanner:
                 "Create exactly one terminal sink node. It must use invoke_model and produce "
                 "the benchmark answer inline. Every other branch must feed that terminal "
                 "synthesis node.",
+                "The terminal node prompt must require exactly the task output_contract. For a "
+                "choice contract, return only one declared label with no explanation.",
+                "For sample_frames, node.outputs must enumerate every deterministic generated "
+                "ID from output_prefix/frame-000001.jpg through max_frames, and downstream "
+                "nodes must consume those exact IDs.",
                 "invoke_model may declare zero outputs for a terminal observation or exactly one "
                 "text output for downstream agents. For a materialized model output, set "
                 "arguments.output_artifact_id equal to that output ID, set "

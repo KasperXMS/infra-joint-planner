@@ -51,6 +51,7 @@ class WorkerConfig(ContractModel):
     deployments: dict[str, WorkerDeploymentConfig] = Field(default_factory=dict)
     allowed_artifact_hosts: frozenset[str] = frozenset()
     ffmpeg_executable: str | None = None
+    ffmpeg_probe_input: Path | None = None
     max_read_artifact_bytes: int = Field(default=65_536, gt=0)
 
 

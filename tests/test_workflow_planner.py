@@ -3,7 +3,13 @@ import json
 import pytest
 
 from infra_joint.core.state import AgentSpec, DeploymentSpec, EnvironmentSpec
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactContentSchema,
+    ArtifactSpec,
+    OutputContract,
+    OutputFormat,
+    TaskContract,
+)
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.worker.model_backend import (
     ModelCallTelemetry,
@@ -38,6 +44,13 @@ def task() -> TaskContract:
                 logical_type="corpus_shard",
                 media_type="application/json",
                 size_bytes=10,
+                content_schema=ArtifactContentSchema(
+                    kind="record_array",
+                    fields={"text": "string", "title": "string"},
+                    text_field="text",
+                    record_count=2,
+                    max_record_bytes=10,
+                ),
                 source_ref="private://must-not-leak",
             ),
             ArtifactSpec(
@@ -45,6 +58,13 @@ def task() -> TaskContract:
                 logical_type="corpus_shard",
                 media_type="application/json",
                 size_bytes=10,
+                content_schema=ArtifactContentSchema(
+                    kind="record_array",
+                    fields={"text": "string", "title": "string"},
+                    text_field="text",
+                    record_count=2,
+                    max_record_bytes=10,
+                ),
             ),
         ),
         output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
@@ -162,6 +182,8 @@ async def test_llm_workflow_planner_generates_explicit_fanout_fanin_without_leak
     assert "device-secret" not in prompt
     assert "Use multiple logical agents only" in prompt
     assert "a single logical agent is valid" in prompt
+    assert '"context_window":8192' in prompt
+    assert '"text_field":"text"' in prompt
 
 
 @pytest.mark.asyncio
@@ -184,6 +206,27 @@ async def test_llm_workflow_planner_rejects_invalid_model_output_before_executio
     )
 
     with pytest.raises(WorkflowPlanningError, match="output_media_type"):
+        await planner.plan(current_task, workload)
+
+
+@pytest.mark.asyncio
+async def test_llm_workflow_planner_rejects_schema_inconsistent_field_before_execution() -> None:
+    current_task = task()
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("bm25_retrieve", "invoke_model"),
+    )
+    raw = json.loads(workflow_json())
+    raw["nodes"][0]["arguments"]["text_field"] = "invented"
+    planner = LLMWorkflowPlanner(
+        CapturingBackend(json.dumps(raw)),
+        build_operator_catalog(),
+        current_environment,
+    )
+
+    with pytest.raises(WorkflowPlanningError, match="schema field"):
         await planner.plan(current_task, workload)
 
 

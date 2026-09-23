@@ -117,6 +117,11 @@ def logical_task_payload(task: TaskContract) -> dict[str, Any]:
                 "logical_type": artifact.logical_type,
                 "media_type": artifact.media_type,
                 "size_bytes": artifact.size_bytes,
+                "content_schema": (
+                    artifact.content_schema.model_dump(mode="json")
+                    if artifact.content_schema is not None
+                    else None
+                ),
             }
             for artifact in task.artifacts
         ],

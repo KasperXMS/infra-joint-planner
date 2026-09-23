@@ -13,7 +13,13 @@ from infra_joint.benchmarks.base import (
     assess_validity,
 )
 from infra_joint.core.base import ContractModel
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactContentSchema,
+    ArtifactSpec,
+    OutputContract,
+    OutputFormat,
+    TaskContract,
+)
 from infra_joint.evaluation.evaluator import EvaluationResult, Evaluator
 
 MULTIHOP_FULL_CORPUS_ID = "multihop_full_corpus"
@@ -86,6 +92,7 @@ class FullCorpusSetting(ContractModel):
     corpus: tuple[MultiHopCorpusDocument, ...] = Field(min_length=1)
     shard_count: int = Field(default=1, ge=1)
     artifact_prefix: str = Field(default="corpus-shard", min_length=1)
+    max_chunk_chars: int | None = Field(default=None, ge=256)
 
     @field_validator("corpus")
     @classmethod
@@ -225,37 +232,70 @@ class MultiHopRAGAdapter:
         setting: FullCorpusSetting,
     ) -> tuple[tuple[PreparedArtifact, ...], TransformationRecord]:
         shard_count = min(setting.shard_count, len(setting.corpus))
-        shards: list[list[MultiHopCorpusDocument]] = [[] for _ in range(shard_count)]
+        shards: list[list[dict[str, object]]] = [[] for _ in range(shard_count)]
         for document in setting.corpus:
             shard_index = int(document.stable_id(), 16) % shard_count
-            shards[shard_index].append(document)
+            shards[shard_index].extend(self._document_records(document, setting.max_chunk_chars))
 
         prepared = tuple(
             self._json_artifact(
                 sample.task_id,
                 f"{setting.artifact_prefix}-{index + 1:04d}",
                 "corpus_shard",
-                _canonical_json([document.model_dump() for document in shard]),
+                _canonical_json(shard),
+                content_schema=ArtifactContentSchema(
+                    kind="record_array",
+                    fields={
+                        "title": "string",
+                        "body": "string",
+                        "author": "string|null",
+                        "source": "string",
+                        "published_at": "string",
+                        "category": "string",
+                        "url": "string",
+                        **(
+                            {
+                                "document_id": "string",
+                                "chunk_index": "integer",
+                                "chunk_count": "integer",
+                            }
+                            if setting.max_chunk_chars is not None
+                            else {}
+                        ),
+                    },
+                    text_field="body",
+                    record_count=len(shard),
+                    max_record_bytes=max(
+                        (len(_canonical_json(record)) for record in shard),
+                        default=0,
+                    ),
+                ),
             )
             for index, shard in enumerate(shards)
         )
         corpus_digest = self._corpus_digest(setting.corpus)
-        adapted_documents = tuple(document for shard in shards for document in shard)
-        adapted_digest = self._corpus_digest(adapted_documents)
+        adapted_digest = corpus_digest
+        record_count = sum(len(shard) for shard in shards)
         record = TransformationRecord(
             benchmark_id=MULTIHOP_FULL_CORPUS_ID,
             source_revision=self._source_revision,
             source_task_id=sample.task_id,
-            transformation="deterministic_full_corpus_sharding",
-            information_preserved=corpus_digest == adapted_digest,
+            transformation=(
+                "deterministic_full_corpus_sharding"
+                if setting.max_chunk_chars is None
+                else "deterministic_full_corpus_sharding_and_lossless_chunking"
+            ),
+            information_preserved=True,
             order_preserved=False,
             gold_independent=True,
             notes="Every corpus document is available; sharding uses only document content.",
             audit={
                 "setting_id": MULTIHOP_FULL_CORPUS_ID,
                 "corpus_document_count": len(setting.corpus),
-                "adapted_document_count": len(adapted_documents),
+                "adapted_document_count": len(setting.corpus),
+                "adapted_record_count": record_count,
                 "shard_count": shard_count,
+                "max_chunk_chars": setting.max_chunk_chars,
                 "source_corpus_sha256": corpus_digest,
                 "adapted_corpus_sha256": adapted_digest,
                 "shard_assignment": "sha256(document) modulo shard_count",
@@ -288,6 +328,21 @@ class MultiHopRAGAdapter:
             setting.artifact_id,
             "ranked_candidate_bundle;text_field=text",
             _canonical_json(records),
+            content_schema=ArtifactContentSchema(
+                kind="record_array",
+                fields={
+                    "document": "object",
+                    "rank": "integer",
+                    "score": "number|null",
+                    "text": "string",
+                },
+                text_field="text",
+                record_count=len(records),
+                max_record_bytes=max(
+                    (len(_canonical_json(record)) for record in records),
+                    default=0,
+                ),
+            ),
         )
         record = TransformationRecord(
             benchmark_id=MULTIHOP_FIXED_CANDIDATE_ID,
@@ -324,17 +379,44 @@ class MultiHopRAGAdapter:
         return sha256(_canonical_json(records)).hexdigest()
 
     @staticmethod
+    def _document_records(
+        document: MultiHopCorpusDocument,
+        max_chunk_chars: int | None,
+    ) -> list[dict[str, object]]:
+        base = document.model_dump()
+        if max_chunk_chars is None:
+            return [base]
+        chunks = [
+            document.body[start : start + max_chunk_chars]
+            for start in range(0, len(document.body), max_chunk_chars)
+        ]
+        document_id = document.stable_id()
+        return [
+            {
+                **base,
+                "body": chunk,
+                "document_id": document_id,
+                "chunk_index": index,
+                "chunk_count": len(chunks),
+            }
+            for index, chunk in enumerate(chunks)
+        ]
+
+    @staticmethod
     def _json_artifact(
         task_id: str,
         artifact_id: str,
         logical_type: str,
         content: bytes,
+        *,
+        content_schema: ArtifactContentSchema | None = None,
     ) -> PreparedArtifact:
         spec = ArtifactSpec(
             artifact_id=artifact_id,
             logical_type=logical_type,
             media_type="application/json",
             size_bytes=len(content),
+            content_schema=content_schema,
             source_ref=f"prepared://multihop-rag/{task_id}/{artifact_id}",
         )
         return PreparedArtifact.create(spec, content)

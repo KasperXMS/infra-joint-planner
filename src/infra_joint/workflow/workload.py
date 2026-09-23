@@ -2,7 +2,7 @@ from pydantic import Field, field_validator, model_validator
 
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import EnvironmentSpec
-from infra_joint.core.task import TaskContract
+from infra_joint.core.task import ArtifactContentSchema, TaskContract
 from infra_joint.operators.registry import OperatorRegistry
 
 
@@ -12,6 +12,8 @@ class WorkloadArtifact(ContractModel):
     artifact_id: str = Field(min_length=1)
     logical_type: str = Field(min_length=1)
     media_type: str = Field(min_length=1)
+    size_bytes: int = Field(ge=0)
+    content_schema: ArtifactContentSchema | None = None
 
 
 class AvailableModelInstance(ContractModel):
@@ -20,6 +22,9 @@ class AvailableModelInstance(ContractModel):
     model_instance_id: str = Field(min_length=1)
     model_id: str = Field(min_length=1)
     modalities: frozenset[str] = frozenset({"text"})
+    context_window: int = Field(gt=0)
+    reserved_output_tokens: int = Field(gt=0)
+    image_token_cost: int = Field(gt=0)
 
 
 class WorkloadSpec(ContractModel):
@@ -99,12 +104,33 @@ class WorkloadSpec(ContractModel):
                 raise ValueError(
                     f"model modalities mismatch for instance: {instance.model_instance_id}"
                 )
+            if (
+                deployment.context_window != instance.context_window
+                or deployment.reserved_output_tokens != instance.reserved_output_tokens
+                or deployment.image_token_cost != instance.image_token_cost
+            ):
+                raise ValueError(
+                    f"model context contract mismatch for instance: "
+                    f"{instance.model_instance_id}"
+                )
 
         expected_artifacts = {
-            (item.artifact_id, item.logical_type, item.media_type) for item in task.artifacts
+            item.artifact_id: {
+                "logical_type": item.logical_type,
+                "media_type": item.media_type,
+                "size_bytes": item.size_bytes,
+                "content_schema": item.content_schema,
+            }
+            for item in task.artifacts
         }
         actual_artifacts = {
-            (item.artifact_id, item.logical_type, item.media_type) for item in self.artifacts
+            item.artifact_id: {
+                "logical_type": item.logical_type,
+                "media_type": item.media_type,
+                "size_bytes": item.size_bytes,
+                "content_schema": item.content_schema,
+            }
+            for item in self.artifacts
         }
         if actual_artifacts != expected_artifacts:
             raise ValueError("WorkloadSpec artifacts must exactly describe TaskContract artifacts")
@@ -126,6 +152,9 @@ class WorkloadSpec(ContractModel):
                     model_instance_id=item.deployment_id,
                     model_id=item.model_id,
                     modalities=item.modalities,
+                    context_window=item.context_window,
+                    reserved_output_tokens=item.reserved_output_tokens,
+                    image_token_cost=item.image_token_cost,
                 )
                 for item in environment.deployments
             ),
@@ -134,6 +163,8 @@ class WorkloadSpec(ContractModel):
                     artifact_id=item.artifact_id,
                     logical_type=item.logical_type,
                     media_type=item.media_type,
+                    size_bytes=item.size_bytes,
+                    content_schema=item.content_schema,
                 )
                 for item in task.artifacts
             ),

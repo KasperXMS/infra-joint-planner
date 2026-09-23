@@ -196,6 +196,41 @@ def test_agent_context_prompt_and_trace_exclude_private_task_fields() -> None:
     assert "supporting_evidence" not in serialized
 
 
+def test_terminal_agent_prompt_contains_exact_benchmark_output_contract() -> None:
+    current_task = task("source").model_copy(
+        update={
+            "output_contract": OutputContract(
+                format=OutputFormat.CHOICE,
+                choices=("A", "B", "C", "D"),
+            )
+        }
+    )
+    plan = WorkflowPlan(
+        agents=(logical_agent("answerer", "answerer"),),
+        nodes=(
+            WorkflowNode(
+                node_id="answer",
+                agent_id="answerer",
+                operator="invoke_model",
+                inputs=("source",),
+                arguments={"prompt": "Answer the task."},
+            ),
+        ),
+    )
+    manager = AgentManager(
+        current_task,
+        plan,
+        {"answerer": frozenset({"invoke_model"})},
+    )
+
+    prepared = manager.prepare(plan.nodes[0], infrastructure("source"))
+    prompt = str(prepared.action.arguments["prompt"])
+
+    assert "Benchmark output contract for this terminal step" in prompt
+    assert "return exactly one label from [A, B, C, D]" in prompt
+    assert "no other text" in prompt
+
+
 class SourceClientFetcher:
     def __init__(self, client: httpx.AsyncClient) -> None:
         self._client = client

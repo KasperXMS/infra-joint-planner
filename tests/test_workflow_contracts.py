@@ -432,6 +432,121 @@ def test_invoke_model_accepts_one_declared_text_output_without_redundant_id() ->
     assert plan.terminal_model_node() == plan.nodes[0]
 
 
+def test_sample_frames_requires_concrete_deterministic_frame_outputs() -> None:
+    video_task = TaskContract(
+        task_id="video",
+        benchmark_id="video",
+        objective="Answer from sampled frames",
+        artifacts=(
+            ArtifactSpec(
+                artifact_id="video",
+                logical_type="complete_video",
+                media_type="video/mp4",
+                size_bytes=100,
+            ),
+        ),
+        output_contract=OutputContract(
+            format=OutputFormat.CHOICE,
+            choices=("A", "B"),
+        ),
+        evaluator_id="private",
+    )
+    media_environment = EnvironmentSpec(
+        agents=(
+            AgentSpec(
+                agent_id="worker",
+                device="opaque",
+                capabilities=frozenset({"model", "media.ffmpeg", "media.image"}),
+            ),
+        ),
+        deployments=(
+            DeploymentSpec(
+                deployment_id="shared-model",
+                agent_id="worker",
+                model_id="reader-model",
+                modalities=frozenset({"text", "image"}),
+                context_window=8192,
+            ),
+        ),
+    )
+    invalid = WorkflowPlan(
+        agents=(logical_agent("viewer"),),
+        nodes=(
+            WorkflowNode(
+                node_id="sample",
+                agent_id="viewer",
+                operator="sample_frames",
+                inputs=("video",),
+                arguments={
+                    "every_seconds": 10,
+                    "max_frames": 2,
+                    "output_prefix": "frames",
+                },
+                outputs=("frames",),
+            ),
+        ),
+    )
+
+    with pytest.raises(ValueError, match="enumerate every deterministic frame"):
+        invalid.validate_against(
+            video_task,
+            media_environment,
+            build_operator_catalog(),
+            ("sample_frames",),
+        )
+
+    valid = invalid.model_copy(
+        update={
+            "nodes": (
+                invalid.nodes[0].model_copy(
+                    update={
+                        "outputs": (
+                            "frames/frame-000001.jpg",
+                            "frames/frame-000002.jpg",
+                        )
+                    }
+                ),
+            )
+        }
+    )
+    assert valid.validate_against(
+        video_task,
+        media_environment,
+        build_operator_catalog(),
+        ("sample_frames",),
+    ) is valid
+
+
+def test_invoke_model_rejects_known_oversized_context_before_execution() -> None:
+    oversized_task = task().model_copy(
+        update={
+            "artifacts": (
+                task().artifacts[0].model_copy(update={"size_bytes": 9_000}),
+            )
+        }
+    )
+    plan = WorkflowPlan(
+        agents=(logical_agent("reader"),),
+        nodes=(
+            WorkflowNode(
+                node_id="answer",
+                agent_id="reader",
+                operator="invoke_model",
+                inputs=("source",),
+                arguments={"prompt": "Answer from the complete source."},
+            ),
+        ),
+    )
+
+    with pytest.raises(ValueError, match="context upper bound exceeds model contract"):
+        plan.validate_against(
+            oversized_task,
+            environment(),
+            build_operator_catalog(),
+            ("invoke_model",),
+        )
+
+
 def test_external_validation_rejects_unknown_or_overwritten_artifacts() -> None:
     unknown = WorkflowPlan(
         agents=(logical_agent("researcher"),),

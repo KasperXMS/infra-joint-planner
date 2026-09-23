@@ -143,6 +143,9 @@ def workload_for(config: RunnerConfig, bundle: AdaptationBundle) -> WorkloadSpec
                 model_instance_id=deployment.deployment_id,
                 model_id=deployment.model_id,
                 modalities=deployment.modalities,
+                context_window=deployment.context_window,
+                reserved_output_tokens=deployment.reserved_output_tokens,
+                image_token_cost=deployment.image_token_cost,
             ),
         ),
         artifacts=tuple(
@@ -150,6 +153,8 @@ def workload_for(config: RunnerConfig, bundle: AdaptationBundle) -> WorkloadSpec
                 artifact_id=item.artifact_id,
                 logical_type=item.logical_type,
                 media_type=item.media_type,
+                size_bytes=item.size_bytes,
+                content_schema=item.content_schema,
             )
             for item in bundle.execution.task.artifacts
         ),

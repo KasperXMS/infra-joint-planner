@@ -47,6 +47,33 @@ async def test_ffmpeg_probe_executes_version_command() -> None:
 
 
 @pytest.mark.asyncio
+async def test_ffmpeg_probe_decodes_configured_media_before_exposing_operators(
+    tmp_path: Path,
+) -> None:
+    probe_input = tmp_path / "probe.mp4"
+    probe_input.write_bytes(b"benchmark-codec-probe")
+    runner = FakeFfmpegRunner()
+
+    capability = await probe_ffmpeg("ffmpeg-test", runner, probe_input=probe_input)
+
+    assert capability.available
+    assert runner.commands[0] == ("ffmpeg-test", "-version")
+    assert str(probe_input) in runner.commands[1]
+
+
+@pytest.mark.asyncio
+async def test_ffmpeg_probe_fails_closed_when_media_probe_is_missing(tmp_path: Path) -> None:
+    capability = await probe_ffmpeg(
+        "ffmpeg-test",
+        FakeFfmpegRunner(),
+        probe_input=tmp_path / "missing.mp4",
+    )
+
+    assert not capability.available
+    assert "does not exist" in (capability.reason or "")
+
+
+@pytest.mark.asyncio
 async def test_sample_frames_and_extract_clip_register_artifacts() -> None:
     runner = FakeFfmpegRunner()
     backend = FfmpegMediaBackend("ffmpeg-test", runner)

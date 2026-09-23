@@ -56,7 +56,13 @@ def _bm25_scores(
 def bm25_retrieve_spec() -> OperatorSpec:
     return OperatorSpec(
         operator_id="bm25_retrieve",
-        description="Retrieve top-k documents with deterministic local BM25.",
+        description=(
+            "Retrieve complete top-k records with deterministic local BM25. The input must be "
+            "a JSON array of objects and text_field must exactly name a declared string field "
+            "in its artifact content_schema. Records are returned whole: this operator never "
+            "summarizes or truncates long field values, so size top_k for the target model's "
+            "context contract."
+        ),
         input_schema={
             "type": "array",
             "items": {"type": "string"},

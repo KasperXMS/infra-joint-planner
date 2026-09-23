@@ -133,6 +133,30 @@ def test_full_corpus_sharding_is_deterministic() -> None:
     ]
 
 
+def test_full_corpus_chunking_is_lossless_and_exposes_bounded_record_schema() -> None:
+    sample = official_sample()
+    long_document = corpus_document(1).model_copy(update={"body": "abcde" * 200})
+    bundle = MultiHopRAGAdapter("revision").adapt(
+        sample,
+        FullCorpusSetting(
+            corpus=(long_document,),
+            shard_count=1,
+            max_chunk_chars=256,
+        ),
+    )
+
+    records = json.loads(bundle.prepared_artifacts[0].content)
+    assert "".join(record["body"] for record in records) == long_document.body
+    assert [record["chunk_index"] for record in records] == list(range(len(records)))
+    schema = bundle.prepared_artifacts[0].spec.content_schema
+    assert schema is not None
+    assert schema.text_field == "body"
+    assert schema.record_count == len(records)
+    assert schema.max_record_bytes is not None
+    assert schema.max_record_bytes < 1024
+    assert bundle.execution.validity.setting_kind == BenchmarkSettingKind.OFFICIAL_EQUIVALENT
+
+
 def test_fixed_candidates_are_always_labeled_derived() -> None:
     sample = official_sample()
     setting = FixedCandidateSetting(
