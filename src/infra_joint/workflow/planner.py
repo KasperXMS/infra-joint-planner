@@ -8,7 +8,10 @@ from pydantic import ValidationError
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import EnvironmentSpec
 from infra_joint.core.task import TaskContract
-from infra_joint.core.workflow import WorkflowPlan
+from infra_joint.core.workflow import (
+    WorkflowPlan,
+    feasible_operations_for_model_instance,
+)
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.planning.planner import CompletionBackend, logical_task_payload
 from infra_joint.worker.model_backend import ModelCallTelemetry, ModelRequest
@@ -96,9 +99,13 @@ class LLMWorkflowPlanner:
         task: TaskContract,
         workload: WorkloadSpec,
     ) -> None:
-        plan.validate_against(task, self._environment, self._registry)
+        plan.validate_against(
+            task,
+            self._environment,
+            self._registry,
+            workload.available_operations,
+        )
         plan.terminal_model_node()
-        available_operations = set(workload.available_operations)
         available_instances = {
             item.model_instance_id for item in workload.available_model_instances
         }
@@ -106,10 +113,6 @@ class LLMWorkflowPlanner:
             if agent.model_instance_id not in available_instances:
                 raise ValueError(
                     f"logical agent uses unavailable model instance: {agent.model_instance_id}"
-                )
-            if not set(agent.allowed_operations) <= available_operations:
-                raise ValueError(
-                    f"logical agent uses operations outside WorkloadSpec: {agent.agent_id}"
                 )
         agent_count = len(plan.agents)
         if workload.min_agents is not None and agent_count < workload.min_agents:
@@ -130,6 +133,17 @@ class LLMWorkflowPlanner:
         payload = {
             "task": logical_task_payload(task),
             "workload": workload_payload,
+            "system_feasible_operations_by_model_instance": {
+                instance.model_instance_id: sorted(
+                    feasible_operations_for_model_instance(
+                        instance.model_instance_id,
+                        self._environment,
+                        self._registry,
+                        workload.available_operations,
+                    )
+                )
+                for instance in workload.available_model_instances
+            },
             "available_operator_schemas": tools,
         }
         shape: dict[str, Any] = {
@@ -139,7 +153,6 @@ class LLMWorkflowPlanner:
                     "role": "semantic role",
                     "objective": "role objective",
                     "model_instance_id": "one available fixed model instance",
-                    "allowed_operations": ["subset of available operations"],
                 }
             ],
             "nodes": [
@@ -169,6 +182,9 @@ class LLMWorkflowPlanner:
                 "a single logical agent is valid.",
                 "Do not output next-action decisions or request replanning.",
                 "Do not invent operators, model instances, task artifacts, or schemas.",
+                "The system defines each model instance's feasible operators. Select node "
+                "operators only from system_feasible_operations_by_model_instance for the "
+                "owning agent's binding. Do not declare agent capabilities or action spaces.",
                 "The fixed model instances may be shared by multiple logical agents.",
                 "Do not decide hosts, devices, artifact placement, transfers, network routes, "
                 "deployment migration, or generic-operator placement.",

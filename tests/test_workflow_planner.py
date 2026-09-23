@@ -80,7 +80,6 @@ def workflow_json() -> str:
             "role": "retrieve" if value != "synth" else "synthesize",
             "objective": "work on an independent logical context",
             "model_instance_id": "text-instance",
-            "allowed_operations": ["bm25_retrieve", "invoke_model"],
         }
         for value in ("retriever-a", "retriever-b", "synth")
     ]
@@ -205,7 +204,6 @@ async def test_llm_workflow_planner_allows_natural_single_agent_plan() -> None:
                 "role": "answerer",
                 "objective": "Answer directly when decomposition is unnecessary.",
                 "model_instance_id": "text-instance",
-                "allowed_operations": ["invoke_model"],
             }
         ],
         "nodes": [
@@ -263,3 +261,7 @@ def test_workflow_prompt_sorts_model_modalities_deterministically() -> None:
         "image",
         "text",
     ]
+    assert planning_input["system_feasible_operations_by_model_instance"] == {
+        "text-instance": ["invoke_model"]
+    }
+    assert "allowed_operations" not in prompt

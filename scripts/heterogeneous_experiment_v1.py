@@ -370,28 +370,24 @@ def _plan(
             role="fixed source-A retrieval",
             objective="rank and retain the frozen source-A corpus",
             model_instance_id=CANONICAL_DEPLOYMENT,
-            allowed_operations=("bm25_retrieve",),
         ),
         LogicalAgent(
             agent_id="edge-b",
             role="fixed source-B retrieval",
             objective="rank and retain the frozen source-B corpus",
             model_instance_id=CANONICAL_DEPLOYMENT,
-            allowed_operations=("bm25_retrieve",),
         ),
         LogicalAgent(
             agent_id="packager",
             role="fixed fan-in packager",
             objective="merge both ranked semantic corpora",
             model_instance_id=CANONICAL_DEPLOYMENT,
-            allowed_operations=("aggregate_artifacts",),
         ),
         LogicalAgent(
             agent_id="synthesizer",
             role="equivalent-replica semantic synthesis stage",
             objective="retrieve both sources and synthesize a structured comparison",
             model_instance_id=CANONICAL_DEPLOYMENT,
-            allowed_operations=("bm25_retrieve", "select_fields", "invoke_model"),
         ),
     )
     query = bundle.execution.task.objective

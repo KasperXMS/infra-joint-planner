@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from typing import Any, cast
 
 from infra_joint.agents.action import AgentAction, AgentActionType
@@ -29,11 +29,15 @@ class AgentManager:
         self,
         task: TaskContract,
         plan: WorkflowPlan,
+        feasible_operations: Mapping[str, frozenset[str]],
         *,
         emit: TraceEmitter | None = None,
     ) -> None:
         self._task = AgentTaskView.from_contract(task)
         self._agents = {item.agent_id: item for item in plan.agents}
+        if set(feasible_operations) != set(self._agents):
+            raise ValueError("feasible action spaces must exactly cover logical agents")
+        self._feasible_operations = dict(feasible_operations)
         self._nodes = {item.node_id: item for item in plan.nodes}
         self._owned_nodes = {
             agent_id: frozenset(node.node_id for node in plan.nodes if node.agent_id == agent_id)
@@ -59,7 +63,15 @@ class AgentManager:
         }
         self._emit = emit
         for agent in plan.agents:
-            self._trace("agent.created", {"agent": agent.model_dump(mode="json")})
+            self._trace(
+                "agent.created",
+                {
+                    "agent": agent.model_dump(mode="json"),
+                    "system_feasible_operations": sorted(
+                        self._feasible_operations[agent.agent_id]
+                    ),
+                },
+            )
             self._trace_state(agent.agent_id, None, AgentStatus.IDLE)
 
     @property
@@ -80,9 +92,9 @@ class AgentManager:
         state = self._states[agent.agent_id]
         if state.status not in {AgentStatus.IDLE, AgentStatus.READY, AgentStatus.WAITING}:
             raise RuntimeError(f"logical agent is not available: {agent.agent_id}/{state.status}")
-        if node.operator not in agent.allowed_operations:
+        if node.operator not in self._feasible_operations[agent.agent_id]:
             raise ValueError(
-                f"operator {node.operator} is not allowed for logical agent {agent.agent_id}"
+                f"operator {node.operator} is not feasible for logical agent {agent.agent_id}"
             )
         observed = {item.artifact_id: item for item in infrastructure.artifacts}
         references: list[InformationObjectRef] = []

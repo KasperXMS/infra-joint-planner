@@ -231,6 +231,7 @@ def _workload(
 def _alias_environment(aliases: dict[str, str]) -> EnvironmentSpec:
     base = _base_environment()
     deployments = {item.deployment_id: item for item in base.deployments}
+    physical_agents = {item.agent_id: item for item in base.agents}
     alias_deployments = tuple(
         DeploymentSpec(
             deployment_id=alias,
@@ -244,14 +245,13 @@ def _alias_environment(aliases: dict[str, str]) -> EnvironmentSpec:
         for index, (alias, real) in enumerate(aliases.items())
     )
     agents = tuple(
-        base.agents[0].model_copy(
+        physical_agents[deployments[real].agent_id].model_copy(
             update={
-                "agent_id": deployment.agent_id,
+                "agent_id": f"opaque-compute-{index + 1}",
                 "device": "opaque model service",
-                "capabilities": frozenset({"model"}),
             }
         )
-        for deployment in alias_deployments
+        for index, real in enumerate(aliases.values())
     )
     return EnvironmentSpec(agents=agents, deployments=alias_deployments)
 
@@ -518,7 +518,12 @@ async def freeze(
             latency_ms = (perf_counter() - started) * 1000
             execution_plan = _translate_plan(outcome.plan, aliases)
             execution_environment = _execution_environment(bundle)
-            execution_plan.validate_against(bundle.execution.task, execution_environment, registry)
+            execution_plan.validate_against(
+                bundle.execution.task,
+                execution_environment,
+                registry,
+                operations,
+            )
             execution_workload = _workload(
                 bundle, execution_environment, operations, max_agents=max_agents
             )

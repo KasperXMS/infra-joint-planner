@@ -161,7 +161,6 @@ def plan() -> WorkflowPlan:
             role="retriever" if value != "synth" else "synthesis",
             objective="use an independent logical context",
             model_instance_id="text",
-            allowed_operations=("bm25_retrieve", "invoke_model"),
         )
         for value in ("retriever-a", "retriever-b", "synth")
     )

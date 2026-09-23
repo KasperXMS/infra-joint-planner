@@ -33,7 +33,6 @@ def logical_agent(model_instance_id: str = "edge-model") -> LogicalAgent:
         role="research",
         objective="process the current workflow node",
         model_instance_id=model_instance_id,
-        allowed_operations=("filter_records", "invoke_model"),
     )
 
 

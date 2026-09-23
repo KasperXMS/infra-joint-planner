@@ -26,16 +26,6 @@ class LogicalAgent(ContractModel):
     role: str = Field(min_length=1)
     objective: str = Field(min_length=1)
     model_instance_id: str = Field(min_length=1)
-    allowed_operations: tuple[str, ...] = Field(min_length=1)
-
-    @field_validator("allowed_operations")
-    @classmethod
-    def operations_are_unique(cls, operations: tuple[str, ...]) -> tuple[str, ...]:
-        if any(not operation for operation in operations):
-            raise ValueError("allowed operation IDs must be non-empty")
-        if len(operations) != len(set(operations)):
-            raise ValueError("allowed_operations values must be unique")
-        return operations
 
 
 class WorkflowNode(ContractModel):
@@ -170,9 +160,18 @@ class WorkflowPlan(ContractModel):
         task: TaskContract,
         environment: EnvironmentSpec,
         registry: "OperatorRegistry",
+        available_operations: Iterable[str],
     ) -> Self:
         """Validate external model/operator refs and all artifact dependencies."""
 
+        system_operations = frozenset(available_operations)
+        unknown_system_operations = sorted(
+            operation for operation in system_operations if operation not in registry
+        )
+        if unknown_system_operations:
+            raise ValueError(
+                f"system action space references unknown operators: {unknown_system_operations}"
+            )
         deployments = {
             deployment.deployment_id: deployment for deployment in environment.deployments
         }
@@ -191,22 +190,27 @@ class WorkflowPlan(ContractModel):
                     "logical agent references unknown model_instance_id deployment: "
                     f"{agent.model_instance_id}"
                 )
-            unknown_operations = sorted(
-                operation for operation in agent.allowed_operations if operation not in registry
-            )
-            if unknown_operations:
-                raise ValueError(
-                    f"logical agent references unknown operators: {unknown_operations}"
-                )
+
+        feasible_operations = derive_agent_feasible_operations(
+            self,
+            environment,
+            registry,
+            system_operations,
+        )
+        artifact_media_types = self._artifact_media_types(task)
 
         available_artifacts = task_artifacts | produced_artifacts
         for node in self.nodes:
             agent = agents[node.agent_id]
             if node.operator not in registry:
                 raise ValueError(f"workflow node references unknown operator: {node.operator}")
-            if node.operator not in agent.allowed_operations:
+            if node.operator not in system_operations:
                 raise ValueError(
-                    f"operator {node.operator} is not allowed for logical agent "
+                    f"operator {node.operator} is outside the system action space"
+                )
+            if node.operator not in feasible_operations[agent.agent_id]:
+                raise ValueError(
+                    f"operator {node.operator} is not feasible for logical agent "
                     f"{agent.agent_id}"
                 )
             missing_artifacts = sorted(set(node.inputs) - available_artifacts)
@@ -215,6 +219,11 @@ class WorkflowPlan(ContractModel):
                     f"workflow node references unknown input artifacts: {missing_artifacts}"
                 )
             if node.operator == "invoke_model":
+                self._validate_model_modalities(
+                    node,
+                    deployments[agent.model_instance_id].modalities,
+                    artifact_media_types,
+                )
                 if len(node.outputs) > 1:
                     raise ValueError("invoke_model supports at most one materialized output")
                 configured_output = node.arguments.get("output_artifact_id")
@@ -240,6 +249,69 @@ class WorkflowPlan(ContractModel):
                     )
             registry.validate_action(node.semantic_action())
         return self
+
+    def _artifact_media_types(self, task: TaskContract) -> dict[str, str | None]:
+        media_types: dict[str, str | None] = {
+            item.artifact_id: item.media_type for item in task.artifacts
+        }
+        json_operators = {
+            "aggregate_artifacts",
+            "aggregate_records",
+            "bm25_retrieve",
+            "derive_fields",
+            "filter_records",
+            "select_fields",
+            "top_k_records",
+        }
+        for node in self.nodes:
+            if node.operator == "invoke_model":
+                media_type = str(node.arguments.get("output_media_type", "text/plain"))
+            elif node.operator in {"make_contact_sheet", "sample_frames"}:
+                media_type = "image/jpeg"
+            elif node.operator == "extract_clip":
+                media_type = "video/mp4"
+            elif node.operator in json_operators:
+                media_type = "application/json"
+            elif node.outputs:
+                media_type = None
+            else:
+                continue
+            media_types.update(dict.fromkeys(node.outputs, media_type))
+        return media_types
+
+    @staticmethod
+    def _validate_model_modalities(
+        node: WorkflowNode,
+        deployment_modalities: frozenset[str],
+        artifact_media_types: dict[str, str | None],
+    ) -> None:
+        required = {"text"}
+        for artifact_id in node.inputs:
+            media_type = artifact_media_types[artifact_id]
+            if media_type is None:
+                raise ValueError(
+                    "invoke_model input media type cannot be derived: "
+                    f"{artifact_id}"
+                )
+            if media_type.startswith("image/"):
+                required.add("image")
+            elif media_type.startswith("text/") or media_type in {
+                "application/json",
+                "application/jsonl",
+                "application/x-ndjson",
+            }:
+                required.add("text")
+            else:
+                raise ValueError(
+                    "invoke_model input has unsupported media type: "
+                    f"{artifact_id}/{media_type}"
+                )
+        unsupported = required - deployment_modalities
+        if unsupported:
+            raise ValueError(
+                f"model instance for node {node.node_id} does not support modalities: "
+                f"{sorted(unsupported)}"
+            )
 
     def terminal_model_node(self) -> WorkflowNode:
         """Return the unique terminal model node that owns the benchmark answer."""
@@ -282,6 +354,59 @@ class WorkflowPlan(ContractModel):
                     ready.append(successor)
         if visited != len(nodes):
             raise ValueError("workflow graph must be acyclic")
+
+
+def feasible_operations_for_model_instance(
+    model_instance_id: str,
+    environment: EnvironmentSpec,
+    registry: "OperatorRegistry",
+    available_operations: Iterable[str],
+) -> frozenset[str]:
+    """Derive the finite system-owned action space for one model-bound agent."""
+
+    deployments = {
+        deployment.deployment_id: deployment for deployment in environment.deployments
+    }
+    agents = {agent.agent_id: agent for agent in environment.agents}
+    try:
+        deployment = deployments[model_instance_id]
+    except KeyError as exc:
+        raise ValueError(f"unknown model instance: {model_instance_id}") from exc
+    host = agents[deployment.agent_id]
+    feasible: set[str] = set()
+    for operator_id in available_operations:
+        if operator_id not in registry:
+            continue
+        requirements = registry.binding(operator_id).spec.capability_requirements
+        if "model" in requirements:
+            if requirements <= host.capabilities and "text" in deployment.modalities:
+                feasible.add(operator_id)
+        elif any(
+            requirements <= physical_agent.capabilities
+            for physical_agent in environment.agents
+        ):
+            feasible.add(operator_id)
+    return frozenset(feasible)
+
+
+def derive_agent_feasible_operations(
+    plan: WorkflowPlan,
+    environment: EnvironmentSpec,
+    registry: "OperatorRegistry",
+    available_operations: Iterable[str],
+) -> dict[str, frozenset[str]]:
+    """Derive each logical agent's action space from system-owned contracts."""
+
+    system_operations = tuple(available_operations)
+    return {
+        agent.agent_id: feasible_operations_for_model_instance(
+            agent.model_instance_id,
+            environment,
+            registry,
+            system_operations,
+        )
+        for agent in plan.agents
+    }
 
 
 class NodeStatus(StrEnum):

@@ -66,7 +66,6 @@ def logical_agent(agent_id: str, role: str, deployment: str = "shared") -> Logic
         role=role,
         objective=f"Act as {role}.",
         model_instance_id=deployment,
-        allowed_operations=("invoke_model", "bm25_retrieve"),
     )
 
 
@@ -113,7 +112,11 @@ def test_role_conditioning_and_agent_state_are_logically_isolated() -> None:
             ),
         ),
     )
-    manager = AgentManager(current_task, plan)
+    manager = AgentManager(
+        current_task,
+        plan,
+        {"analyst": frozenset({"invoke_model"}), "critic": frozenset({"invoke_model"})},
+    )
 
     analyst = manager.prepare(plan.nodes[0], infrastructure("source"))
     critic = manager.prepare(plan.nodes[1], infrastructure("source"))
@@ -164,6 +167,7 @@ def test_agent_context_prompt_and_trace_exclude_private_task_fields() -> None:
     manager = AgentManager(
         current_task,
         plan,
+        {"analyst": frozenset({"invoke_model"})},
         emit=lambda event_type, payload: events.append((event_type, payload)),
     )
 
@@ -341,6 +345,7 @@ async def test_model_output_is_materialized_transferred_and_consumed_by_next_age
             LiveWorkerObserver(environment, clients),
             RuntimeExecutor(build_operator_catalog(), environment, clients),
             LocalityAwareMyopicScheduler(),
+            available_operations=("invoke_model",),
             trace=WorkflowTraceRecorder("agent-runtime", sink),
         ).execute(current_task, plan)
 
@@ -483,6 +488,7 @@ async def test_two_ready_nodes_owned_by_same_logical_agent_are_serialized() -> N
         observer,
         executor,
         LocalityAwareMyopicScheduler(),
+        available_operations=("bm25_retrieve",),
     ).execute(current_task, plan)
 
     assert result.completed

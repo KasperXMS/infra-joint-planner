@@ -74,7 +74,6 @@ def logical_agent() -> LogicalAgent:
         role="synthesis",
         objective="synthesize evidence",
         model_instance_id="agx-qwen",
-        allowed_operations=("invoke_model",),
     )
 
 

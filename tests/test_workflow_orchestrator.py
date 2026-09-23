@@ -158,7 +158,6 @@ def plan() -> WorkflowPlan:
             role="retriever" if value != "synth" else "synthesis",
             objective="independent context",
             model_instance_id="text",
-            allowed_operations=("bm25_retrieve", "invoke_model"),
         )
         for value in ("retriever-a", "retriever-b", "synth")
     )
@@ -209,6 +208,7 @@ async def test_orchestrator_really_overlaps_ready_nodes_and_fans_in() -> None:
         observer,
         executor,
         LocalityAwareMyopicScheduler(),
+        available_operations=("bm25_retrieve", "invoke_model"),
     ).execute(task(), plan())
 
     assert result.completed

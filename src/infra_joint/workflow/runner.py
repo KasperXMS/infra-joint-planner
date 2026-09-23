@@ -179,6 +179,7 @@ class WorkflowBenchmarkRunner:
                         bundle.execution.task,
                         self._config.environment,
                         registry,
+                        self._workload.available_operations,
                     )
                     terminal_node = plan.terminal_model_node()
                 except (KeyError, ValueError) as exc:
@@ -196,6 +197,7 @@ class WorkflowBenchmarkRunner:
                     LiveWorkerObserver(self._config.environment, worker_clients),
                     RuntimeExecutor(registry, self._config.environment, worker_clients),
                     self._scheduler,
+                    available_operations=self._workload.available_operations,
                     trace=trace,
                 ).execute(bundle.execution.task, plan)
                 if not workflow_result.completed:

@@ -1,4 +1,5 @@
 import asyncio
+from collections.abc import Iterable
 from datetime import UTC, datetime
 from time import perf_counter
 from typing import Any, cast
@@ -18,6 +19,7 @@ from infra_joint.core.workflow import (
     WorkflowNode,
     WorkflowPlan,
     WorkflowState,
+    derive_agent_feasible_operations,
 )
 from infra_joint.infrastructure.observer import InfrastructureObserver
 from infra_joint.operators.artifacts import ProducedArtifact
@@ -94,6 +96,7 @@ class WorkflowOrchestrator:
         executor: ActionExecutor,
         scheduler: WorkflowScheduler,
         *,
+        available_operations: Iterable[str],
         trace: WorkflowTraceRecorder | None = None,
         resolver: DeterministicResolver | None = None,
     ) -> None:
@@ -102,6 +105,7 @@ class WorkflowOrchestrator:
         self._observer = observer
         self._executor = executor
         self._scheduler = scheduler
+        self._available_operations = tuple(available_operations)
         self._trace = trace
         self._resolver = resolver or DeterministicResolver()
 
@@ -110,12 +114,27 @@ class WorkflowOrchestrator:
         task: TaskContract,
         plan: WorkflowPlan,
     ) -> WorkflowExecutionResult:
-        plan.validate_against(task, self._environment, self._registry)
+        plan.validate_against(
+            task,
+            self._environment,
+            self._registry,
+            self._available_operations,
+        )
         started = perf_counter()
         statuses = WorkflowState.initialize(plan).node_status.copy()
         nodes = {node.node_id: node for node in plan.nodes}
         agents = {agent.agent_id: agent for agent in plan.agents}
-        manager = AgentManager(task, plan, emit=self._emit)
+        manager = AgentManager(
+            task,
+            plan,
+            derive_agent_feasible_operations(
+                plan,
+                self._environment,
+                self._registry,
+                self._available_operations,
+            ),
+            emit=self._emit,
+        )
         predecessors = self._predecessors(plan)
         records: list[WorkflowNodeRecord] = []
         batch_index = 0
