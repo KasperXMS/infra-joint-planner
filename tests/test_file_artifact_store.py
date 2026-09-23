@@ -18,6 +18,16 @@ def test_file_artifact_store_persists_across_instances(tmp_path) -> None:
     assert not (tmp_path.parent / "logical").exists()
 
 
+def test_file_artifact_store_delete_is_idempotent_and_root_confined(tmp_path) -> None:
+    store = FileArtifactStore(tmp_path)
+    store.put(StoredArtifact.create("../../logical/id", "text/plain", b"evidence"))
+
+    assert store.delete("../../logical/id") is True
+    assert store.delete("../../logical/id") is False
+    assert store.ids() == ()
+    assert not (tmp_path.parent / "logical").exists()
+
+
 def test_file_artifact_store_detects_tampering(tmp_path) -> None:
     store = FileArtifactStore(tmp_path)
     store.put(StoredArtifact.create("doc", "text/plain", b"original"))

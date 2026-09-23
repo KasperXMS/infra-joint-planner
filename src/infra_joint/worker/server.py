@@ -203,6 +203,10 @@ def create_worker_app(
             sha256_hex=artifact.sha256_hex,
         )
 
+    @app.delete("/artifact/{artifact_id}")
+    async def delete_artifact(artifact_id: str) -> dict[str, bool | str]:
+        return {"artifact_id": artifact_id, "deleted": store.delete(artifact_id)}
+
     @app.post("/artifact/pull", response_model=PullArtifactResponse)
     async def pull_artifact(request: PullArtifactRequest) -> PullArtifactResponse:
         if artifact_fetcher is None:

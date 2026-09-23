@@ -41,6 +41,8 @@ class WorkerClient(Protocol):
         expected_sha256: str,
     ) -> PutArtifactResponse: ...
 
+    async def delete_artifact(self, artifact_id: str) -> bool: ...
+
 
 class HttpWorkerClient:
     def __init__(self, agent_id: str, client: httpx.AsyncClient) -> None:
@@ -92,6 +94,12 @@ class HttpWorkerClient:
         )
         response.raise_for_status()
         return PutArtifactResponse.model_validate(response.json())
+
+    async def delete_artifact(self, artifact_id: str) -> bool:
+        response = await self._client.delete(f"/artifact/{quote(artifact_id, safe='')}")
+        response.raise_for_status()
+        payload = response.json()
+        return bool(payload["deleted"])
 
     async def execute_operator(
         self, action: SemanticAction, deployment_id: str | None

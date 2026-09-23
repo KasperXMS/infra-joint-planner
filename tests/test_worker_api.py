@@ -2,6 +2,7 @@ import httpx
 import pytest
 
 from infra_joint.operators.media import MediaExecutionError
+from infra_joint.runtime.client import HttpWorkerClient
 from infra_joint.worker.artifact_store import InMemoryArtifactStore, StoredArtifact
 from infra_joint.worker.model_backend import ModelDeployment, StaticModelBackend
 from infra_joint.worker.server import create_worker_app
@@ -17,6 +18,22 @@ def deployment(deployment_id: str = "known") -> ModelDeployment:
         reserved_output_tokens=512,
         image_token_cost=4096,
     )
+
+
+@pytest.mark.asyncio
+async def test_worker_artifact_delete_is_idempotent() -> None:
+    store = InMemoryArtifactStore(
+        (StoredArtifact.create("temporary", "text/plain", b"payload"),)
+    )
+    app = create_worker_app("worker", {}, artifact_store=store)
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as http_client:
+        client = HttpWorkerClient("worker", http_client)
+        assert await client.delete_artifact("temporary") is True
+        assert await client.delete_artifact("temporary") is False
+
+    assert store.ids() == ()
 
 
 @pytest.mark.asyncio

@@ -49,6 +49,8 @@ class ArtifactStore(Protocol):
 
     def get(self, artifact_id: str) -> StoredArtifact: ...
 
+    def delete(self, artifact_id: str) -> bool: ...
+
     def ids(self) -> tuple[str, ...]: ...
 
 
@@ -71,6 +73,9 @@ class InMemoryArtifactStore:
             return self._artifacts[artifact_id]
         except KeyError as exc:
             raise ArtifactNotFoundError(artifact_id) from exc
+
+    def delete(self, artifact_id: str) -> bool:
+        return self._artifacts.pop(artifact_id, None) is not None
 
     def ids(self) -> tuple[str, ...]:
         return tuple(sorted(self._artifacts))
@@ -156,6 +161,13 @@ class FileArtifactStore:
                 ) from exc
             artifact_ids.append(metadata.artifact_id)
         return tuple(sorted(artifact_ids))
+
+    def delete(self, artifact_id: str) -> bool:
+        blob_path, metadata_path = self._paths(artifact_id)
+        existed = blob_path.exists() or metadata_path.exists()
+        blob_path.unlink(missing_ok=True)
+        metadata_path.unlink(missing_ok=True)
+        return existed
 
     def _paths(self, artifact_id: str) -> tuple[Path, Path]:
         if not artifact_id:

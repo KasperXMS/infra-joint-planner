@@ -25,7 +25,6 @@ from open_ended_mas_preliminary_v1 import (
     _generated_ids,
     _load_key,
     _native_network_snapshot,
-    _remove_artifacts,
     _translate_plan,
     _workflow_shape,
     _write_json,
@@ -922,7 +921,7 @@ async def _preload(
 ) -> None:
     artifact_ids = tuple(item.spec.artifact_id for item in bundle.prepared_artifacts)
     if remove_existing:
-        await _remove_artifacts(("A4", "A5", "A28", "strong-4090"), artifact_ids)
+        await _delete_artifacts(clients, artifact_ids)
     else:
         states = {key: await value.get_state() for key, value in clients.items()}
         stale = sorted(
@@ -943,6 +942,14 @@ async def _preload(
         )
         if response.sha256_hex != item.sha256_hex:
             raise RuntimeError(f"preload checksum mismatch: {item.spec.artifact_id}")
+
+
+async def _delete_artifacts(
+    clients: dict[str, Any], artifact_ids: tuple[str, ...]
+) -> None:
+    for client in clients.values():
+        for artifact_id in artifact_ids:
+            await client.delete_artifact(artifact_id)
 
 
 async def _assert_placement(
@@ -1253,13 +1260,15 @@ async def run(
         finally:
             if not defer_artifact_cleanup:
                 try:
-                    await _remove_artifacts(
-                        ("A4", "A5", "A28", "strong-4090"),
-                        (
-                            *_generated_ids(plan),
-                            *(item.spec.artifact_id for item in bundle.prepared_artifacts),
-                        ),
-                    )
+                    async with AsyncExitStack() as cleanup_stack:
+                        cleanup_clients = await _configured_clients(cleanup_stack, config)
+                        await _delete_artifacts(
+                            cleanup_clients,
+                            (
+                                *_generated_ids(plan),
+                                *(item.spec.artifact_id for item in bundle.prepared_artifacts),
+                            ),
+                        )
                 except Exception as exc:
                     cleanup_error = exc
         if driver_error is not None or cleanup_error is not None or result is None:
