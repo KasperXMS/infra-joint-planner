@@ -798,8 +798,24 @@ async def preflight(
     config: dict[str, Any],
     bundles: dict[str, AdaptationBundle],
     output: Path,
+    native_network_snapshot: Path | None,
 ) -> None:
-    network = await _native_network_snapshot()
+    if native_network_snapshot is None:
+        network = await _native_network_snapshot()
+    else:
+        network = cast(
+            dict[str, str],
+            json.loads(native_network_snapshot.read_text(encoding="utf-8")),
+        )
+        shaped = {
+            agent_id: value
+            for agent_id, value in network.items()
+            if "qdisc htb 1:" in value or "netem" in value
+        }
+        if shaped:
+            raise RuntimeError(
+                f"provided native snapshot contains active shaping: {sorted(shaped)}"
+            )
     base = EnvironmentSpec.model_validate(
         _yaml(REPO / "configs/local/heterogeneous-v1-preflight.yaml")["environment"]
     )
@@ -1286,7 +1302,7 @@ async def main_async(args: argparse.Namespace) -> None:
     elif args.command == "freeze":
         await freeze_plans(config, bundles, args)
     elif args.command == "preflight":
-        await preflight(config, bundles, args.output)
+        await preflight(config, bundles, args.output, args.native_network_snapshot)
     elif args.command == "run":
         await run(config, bundles, args.output)
     elif args.command == "report":
@@ -1294,7 +1310,7 @@ async def main_async(args: argparse.Namespace) -> None:
     elif args.command == "all":
         prepare(config, bundles, args)
         await freeze_plans(config, bundles, args)
-        await preflight(config, bundles, args.output)
+        await preflight(config, bundles, args.output, args.native_network_snapshot)
         await run(config, bundles, args.output)
         report(config, bundles, args.output)
 
@@ -1314,6 +1330,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--longbench-samples", type=Path, required=True)
     parser.add_argument("--multihop-corpus", type=Path, required=True)
     parser.add_argument("--multihop-queries", type=Path, required=True)
+    parser.add_argument("--native-network-snapshot", type=Path)
     return parser.parse_args()
 
 
