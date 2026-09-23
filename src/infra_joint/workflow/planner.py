@@ -226,7 +226,9 @@ class LLMWorkflowPlanner:
                 "choice contract, return only one declared label with no explanation.",
                 "For sample_frames, node.outputs must enumerate every deterministic generated "
                 "ID from output_prefix/frame-000001.jpg through max_frames, and downstream "
-                "nodes must consume those exact IDs.",
+                "nodes must consume those exact IDs. The filename component is always the literal "
+                "frame-NNNNNN.jpg; for output_prefix=clipframe the first output is exactly "
+                "clipframe/frame-000001.jpg, never clipframe/clipframe-000001.jpg.",
                 "invoke_model may declare zero outputs for a terminal observation or exactly one "
                 "text output for downstream agents. For a materialized model output, set "
                 "arguments.output_artifact_id equal to that output ID, set "
