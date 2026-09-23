@@ -59,6 +59,7 @@ class WorkerStateResponse(ContractModel):
     available: bool
     in_flight: int = Field(ge=0)
     operators: tuple[str, ...]
+    operator_contract_digests: dict[str, str] = Field(default_factory=dict)
     deployments: tuple[WorkerDeploymentState, ...]
     artifacts: tuple[ArtifactMetadata, ...]
 
@@ -155,6 +156,7 @@ def create_worker_app(
             available=True,
             in_flight=in_flight,
             operators=tuple(sorted(registry)),
+            operator_contract_digests=registry.contract_digests(),
             deployments=tuple(
                 WorkerDeploymentState(
                     deployment_id=item.deployment_id,

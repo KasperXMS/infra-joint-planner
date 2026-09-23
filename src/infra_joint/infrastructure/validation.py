@@ -44,6 +44,16 @@ async def validate_worker_surfaces(
                 ExecutionErrorCode.SURFACE_MISMATCH,
                 f"operator surface mismatch on worker: {agent_id}",
             )
+        expected_digests = {
+            operator_id: digest
+            for operator_id, digest in registry.contract_digests().items()
+            if operator_id in expected_operators
+        }
+        if state.operator_contract_digests != expected_digests:
+            raise TypedExecutionError(
+                ExecutionErrorCode.SURFACE_MISMATCH,
+                f"operator contract mismatch on worker: {agent_id}",
+            )
         expected = deployments_by_agent[agent_id]
         actual = {deployment.deployment_id: deployment for deployment in state.deployments}
         if set(actual) != set(expected):

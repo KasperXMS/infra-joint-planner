@@ -7,7 +7,7 @@ from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.runtime.client import HttpWorkerClient
 from infra_joint.worker.model_backend import ModelDeployment, StaticModelBackend
-from infra_joint.worker.server import create_worker_app
+from infra_joint.worker.server import WorkerStateResponse, create_worker_app
 
 
 def model_deployment() -> ModelDeployment:
@@ -69,6 +69,37 @@ async def test_surface_validation_rejects_deployment_contract_mismatch() -> None
                 environment(model_id="another-model"),
                 build_operator_catalog(),
                 {"worker": HttpWorkerClient("worker", client)},
+            )
+
+    assert error.value.code == ExecutionErrorCode.SURFACE_MISMATCH
+
+
+@pytest.mark.asyncio
+async def test_surface_validation_rejects_operator_contract_drift() -> None:
+    app = create_worker_app("worker", {"reader": model_deployment()})
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as client:
+        worker = HttpWorkerClient("worker", client)
+        state = await worker.get_state()
+        drifted = state.model_copy(
+            update={
+                "operator_contract_digests": {
+                    **state.operator_contract_digests,
+                    "invoke_model": "0" * 64,
+                }
+            }
+        )
+
+        class DriftedWorkerClient(HttpWorkerClient):
+            async def get_state(self) -> WorkerStateResponse:
+                return drifted
+
+        with pytest.raises(TypedExecutionError, match="operator contract mismatch") as error:
+            await validate_worker_surfaces(
+                environment(),
+                build_operator_catalog(),
+                {"worker": DriftedWorkerClient("worker", client)},
             )
 
     assert error.value.code == ExecutionErrorCode.SURFACE_MISMATCH

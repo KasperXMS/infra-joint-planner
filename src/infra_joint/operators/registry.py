@@ -1,3 +1,5 @@
+import hashlib
+import json
 from collections.abc import Callable, Iterator, Mapping
 from dataclasses import dataclass
 from typing import Any, cast
@@ -78,6 +80,20 @@ class OperatorRegistry:
                 }
             )
         return tools
+
+    def contract_digests(self) -> dict[str, str]:
+        """Return deterministic hashes of every registered operator contract."""
+
+        return {
+            operator_id: hashlib.sha256(
+                json.dumps(
+                    binding.spec.model_dump(mode="json"),
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ).encode("utf-8")
+            ).hexdigest()
+            for operator_id, binding in sorted(self._bindings.items())
+        }
 
     def validate_action(self, action: SemanticAction) -> None:
         spec = self.binding(action.operator).spec
