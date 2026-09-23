@@ -107,5 +107,6 @@ movement or competing local/model placements. This audit does not authorize or s
 
 Because task 6 required one explicitly recorded harness-confounder recovery, this combined set
 is suitable for substrate and failure-mode validation but is not claimed as a pristine
-publication one-shot matrix. A future publication run should start from the frozen post-fix
-runtime and a new untouched evidence directory.
+publication one-shot matrix. In particular, the first five E2E measurements include the old
+full-blob `/state` scan overhead and must not support latency or cost claims. A future publication
+run should start from the frozen post-fix runtime and a new untouched evidence directory.
