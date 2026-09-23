@@ -96,6 +96,10 @@ class WorkflowPlan(ContractModel):
         for node in self.nodes:
             if node.agent_id not in agents:
                 raise ValueError(f"workflow node references unknown agent: {node.agent_id}")
+        active_agents = {node.agent_id for node in self.nodes}
+        unused_agents = sorted(set(agents) - active_agents)
+        if unused_agents:
+            raise ValueError(f"every logical agent must own a workflow node: {unused_agents}")
 
         output_counts = Counter(output for node in self.nodes for output in node.outputs)
         duplicate_outputs = sorted(
@@ -210,6 +214,14 @@ class WorkflowPlan(ContractModel):
                 raise ValueError(
                     f"workflow node references unknown input artifacts: {missing_artifacts}"
                 )
+            if node.operator == "invoke_model":
+                if len(node.outputs) > 1:
+                    raise ValueError("invoke_model supports at most one materialized output")
+                configured_output = node.arguments.get("output_artifact_id")
+                if configured_output is not None and tuple(node.outputs) != (configured_output,):
+                    raise ValueError(
+                        "invoke_model output_artifact_id must exactly match node outputs"
+                    )
             registry.validate_action(node.semantic_action())
         return self
 

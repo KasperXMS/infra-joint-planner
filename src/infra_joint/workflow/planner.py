@@ -167,8 +167,10 @@ class LLMWorkflowPlanner:
                 "Do not decide hosts, devices, artifact placement, transfers, network routes, "
                 "deployment migration, or generic-operator placement.",
                 "Every non-task input produced by a node must have an exact WorkflowEdge.",
-                "Only artifact-producing operators may declare outputs. invoke_model returns "
-                "inline text and must not declare an artifact output in this substrate.",
+                "invoke_model may declare zero outputs for a terminal observation or exactly one "
+                "text output for downstream agents. For a materialized model output, set "
+                "arguments.output_artifact_id equal to that output ID, set "
+                "output_semantic_type, and use output_media_type text/plain or application/json.",
                 "Return exactly one JSON object with no Markdown or surrounding text.",
                 f"WorkflowPlan form: {json.dumps(shape, separators=(',', ':'))}",
                 "Planning input:",

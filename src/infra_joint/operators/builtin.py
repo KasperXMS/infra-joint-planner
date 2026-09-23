@@ -16,13 +16,26 @@ def invoke_model_spec() -> OperatorSpec:
             "type": "object",
             "properties": {
                 "prompt": {"type": "string", "minLength": 1},
+                "output_artifact_id": {"type": "string", "minLength": 1},
+                "output_semantic_type": {"type": "string", "minLength": 1},
+                "output_media_type": {
+                    "type": "string",
+                    "enum": ["text/plain", "application/json"],
+                },
             },
             "required": ["prompt"],
             "additionalProperties": False,
         },
         output_schema={
             "type": "object",
-            "properties": {"text": {"type": "string"}},
+            "properties": {
+                "text": {"type": "string"},
+                "artifacts": {
+                    "type": "array",
+                    "items": {"$ref": "ProducedArtifact"},
+                    "maxItems": 1,
+                },
+            },
             "required": ["text"],
             "additionalProperties": False,
         },

@@ -5,6 +5,8 @@ from typing import Any, cast
 
 from pydantic import Field, ValidationError
 
+from infra_joint.agents.manager import AgentManager, PreparedAgentAction
+from infra_joint.agents.state import AgentState
 from infra_joint.core.action import JointAction
 from infra_joint.core.base import ContractModel
 from infra_joint.core.errors import TypedExecutionError
@@ -65,6 +67,7 @@ class WorkflowExecutionResult(ContractModel):
     state: WorkflowState
     records: tuple[WorkflowNodeRecord, ...]
     telemetry: WorkflowExecutionTelemetry
+    agent_states: tuple[AgentState, ...] = ()
     failure: WorkflowFailure | None = None
 
 
@@ -74,6 +77,7 @@ class WorkflowOutputContractError(RuntimeError):
 
 class _ScheduledNode(ContractModel):
     node: WorkflowNode
+    prepared: PreparedAgentAction
     decision: SchedulerDecision
     action: JointAction
     resolved_agent_id: str = Field(min_length=1)
@@ -111,6 +115,7 @@ class WorkflowOrchestrator:
         statuses = WorkflowState.initialize(plan).node_status.copy()
         nodes = {node.node_id: node for node in plan.nodes}
         agents = {agent.agent_id: agent for agent in plan.agents}
+        manager = AgentManager(task, plan, emit=self._emit)
         predecessors = self._predecessors(plan)
         records: list[WorkflowNodeRecord] = []
         batch_index = 0
@@ -128,6 +133,7 @@ class WorkflowOrchestrator:
             )
             for node_id in ready:
                 statuses[node_id] = NodeStatus.READY
+                manager.mark_ready(nodes[node_id].agent_id)
             ready = sorted(
                 node_id for node_id, status in statuses.items() if status == NodeStatus.READY
             )
@@ -159,10 +165,12 @@ class WorkflowOrchestrator:
                     nodes,
                     agents,
                     infrastructure,
+                    manager,
                 )
                 if scheduling_failure is not None:
                     failure = scheduling_failure
                     statuses[failure.node_id] = NodeStatus.FAILED
+                    manager.fail_unprepared(failure.node_id, failure.code)
                     self._emit(
                         "workflow.node.failed",
                         {"failure": failure.model_dump(mode="json")},
@@ -172,6 +180,7 @@ class WorkflowOrchestrator:
                 remaining = [node_id for node_id in remaining if node_id not in selected_ids]
                 for item in scheduled:
                     statuses[item.node.node_id] = NodeStatus.RUNNING
+                    manager.start(item.prepared)
                     self._emit(
                         "scheduler.decision",
                         item.decision.model_dump(mode="json"),
@@ -193,6 +202,9 @@ class WorkflowOrchestrator:
                     ),
                 )
                 after = await self._observer.observe()
+                prepared_by_node = {
+                    item.node.node_id: item.prepared for item in scheduled
+                }
                 for record in sorted(completed, key=lambda item: item.node_id):
                     if record.failure is None and record.execution is not None:
                         try:
@@ -201,10 +213,20 @@ class WorkflowOrchestrator:
                                 record.execution,
                                 after,
                             )
+                            manager.succeed(
+                                prepared_by_node[record.node_id],
+                                record.execution,
+                                after,
+                            )
                         except Exception as exc:  # noqa: BLE001 - persisted typed boundary
                             record = record.model_copy(
                                 update={"failure": self._failure(record.node_id, exc)}
                             )
+                    if record.failure is not None:
+                        manager.fail(
+                            prepared_by_node[record.node_id],
+                            record.failure.code,
+                        )
                     records.append(record)
                     if record.failure is None:
                         statuses[record.node_id] = NodeStatus.DONE
@@ -244,6 +266,7 @@ class WorkflowOrchestrator:
                 "state": state.model_dump(mode="json"),
                 "failure": failure.model_dump(mode="json") if failure else None,
                 "telemetry": telemetry.model_dump(mode="json"),
+                "agent_states": [item.model_dump(mode="json") for item in manager.states],
             },
         )
         return WorkflowExecutionResult(
@@ -251,6 +274,7 @@ class WorkflowOrchestrator:
             state=state,
             records=tuple(records),
             telemetry=telemetry,
+            agent_states=manager.states,
             failure=failure,
         )
 
@@ -260,12 +284,18 @@ class WorkflowOrchestrator:
         nodes: dict[str, WorkflowNode],
         agents: dict[str, LogicalAgent],
         infrastructure: InfrastructureState,
+        manager: AgentManager,
     ) -> tuple[list[_ScheduledNode], WorkflowFailure | None]:
         scheduled: list[_ScheduledNode] = []
-        occupied_agents: set[str] = set()
+        occupied_physical_agents: set[str] = set()
+        occupied_logical_agents: set[str] = set()
         for node_id in node_ids:
             node = nodes[node_id]
+            if node.agent_id in occupied_logical_agents:
+                continue
             try:
+                manager.mark_ready(node.agent_id)
+                prepared = manager.prepare(node, infrastructure)
                 decision = self._scheduler.schedule(
                     node,
                     agents[node.agent_id],
@@ -274,7 +304,7 @@ class WorkflowOrchestrator:
                     self._registry,
                 )
                 action = JointAction(
-                    semantic=node.semantic_action(),
+                    semantic=prepared.action.semantic_action(),
                     physical=decision.physical,
                 )
                 operator = self._registry.binding(node.operator).spec
@@ -290,12 +320,14 @@ class WorkflowOrchestrator:
                 resolved_agent = binding.agent_ids[0]
             except Exception as exc:  # noqa: BLE001 - typed scheduling boundary
                 return [], self._failure(node_id, exc)
-            if resolved_agent in occupied_agents:
+            if resolved_agent in occupied_physical_agents:
                 continue
-            occupied_agents.add(resolved_agent)
+            occupied_physical_agents.add(resolved_agent)
+            occupied_logical_agents.add(node.agent_id)
             scheduled.append(
                 _ScheduledNode(
                     node=node,
+                    prepared=prepared,
                     decision=decision,
                     action=action,
                     resolved_agent_id=resolved_agent,

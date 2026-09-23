@@ -1,4 +1,5 @@
 import inspect
+import json
 from typing import Any, cast
 
 import httpx
@@ -226,7 +227,7 @@ def create_worker_app(
     async def invoke_model(
         action: SemanticAction,
         deployment_id: str | None,
-    ) -> tuple[dict[str, str], ModelCallTelemetry]:
+    ) -> tuple[dict[str, Any], ModelCallTelemetry]:
         if deployment_id is None:
             raise _failure(
                 ExecutionErrorCode.DEPLOYMENT_REQUIRED,
@@ -274,7 +275,34 @@ def create_worker_app(
                 f"model backend request failed: {type(exc).__name__}",
                 502,
             ) from exc
-        return {"text": completion.text}, completion.telemetry
+        output: dict[str, Any] = {"text": completion.text}
+        output_artifact_id = action.arguments.get("output_artifact_id")
+        if output_artifact_id is not None:
+            if not isinstance(output_artifact_id, str) or not output_artifact_id:
+                raise ValueError("output_artifact_id must be a non-empty string")
+            output_media_type = action.arguments.get("output_media_type", "text/plain")
+            if output_media_type not in {"text/plain", "application/json"}:
+                raise ValueError("model output supports only text/plain or application/json")
+            if output_media_type == "application/json":
+                try:
+                    json.loads(completion.text)
+                except json.JSONDecodeError as exc:
+                    raise ValueError("model output is not valid JSON") from exc
+            materialized = StoredArtifact.create(
+                output_artifact_id,
+                output_media_type,
+                completion.text.encode("utf-8"),
+            )
+            store.put(materialized)
+            output["artifacts"] = [
+                {
+                    "artifact_id": materialized.artifact_id,
+                    "media_type": materialized.media_type,
+                    "size_bytes": len(materialized.content),
+                    "sha256_hex": materialized.sha256_hex,
+                }
+            ]
+        return output, completion.telemetry
 
     @app.post("/execute/operator", response_model=ExecuteOperatorResponse)
     async def execute(request: ExecuteOperatorRequest) -> ExecuteOperatorResponse:

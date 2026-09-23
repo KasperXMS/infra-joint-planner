@@ -138,6 +138,23 @@ def test_plan_rejects_unknown_logical_agent_reference() -> None:
         )
 
 
+def test_plan_rejects_declared_agent_without_owned_node() -> None:
+    with pytest.raises(ValidationError, match="every logical agent must own"):
+        WorkflowPlan(
+            agents=(
+                logical_agent("active", "transform"),
+                logical_agent("unused", "transform"),
+            ),
+            nodes=(
+                WorkflowNode(
+                    node_id="node",
+                    agent_id="active",
+                    operator="transform",
+                ),
+            ),
+        )
+
+
 def test_plan_rejects_cycles() -> None:
     with pytest.raises(ValidationError, match="must be acyclic"):
         WorkflowPlan(

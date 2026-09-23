@@ -20,13 +20,14 @@ from infra_joint.worker.server import create_worker_app
 
 
 class RecordingBackend:
-    def __init__(self) -> None:
+    def __init__(self, response: str = "artifact answer") -> None:
         self.requests: list[ModelRequest] = []
+        self.response = response
 
     async def invoke(self, request: ModelRequest) -> ModelCompletion:
         self.requests.append(request)
         return ModelCompletion(
-            text="artifact answer",
+            text=self.response,
             telemetry=ModelCallTelemetry(
                 service_latency_ms=2,
                 input_tokens=12,
@@ -88,6 +89,40 @@ async def test_worker_model_consumes_local_text_and_image_artifacts() -> None:
         "notes",
         "frame",
     ]
+
+
+@pytest.mark.asyncio
+async def test_worker_materializes_typed_json_model_output() -> None:
+    backend = RecordingBackend('{"fact":"value"}')
+    store = InMemoryArtifactStore()
+    app = create_worker_app(
+        "worker",
+        {"vision-reader": deployment(backend)},
+        artifact_store=store,
+    )
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as client:
+        response = await client.post(
+            "/execute/operator",
+            json={
+                "action": {
+                    "operator": "invoke_model",
+                    "inputs": [],
+                    "arguments": {
+                        "prompt": "Return JSON.",
+                        "output_artifact_id": "reasoning-json",
+                        "output_semantic_type": "model_reasoning",
+                        "output_media_type": "application/json",
+                    },
+                },
+                "deployment_id": "vision-reader",
+            },
+        )
+
+    assert response.status_code == 200
+    assert response.json()["output"]["artifacts"][0]["artifact_id"] == "reasoning-json"
+    assert store.get("reasoning-json").content == b'{"fact":"value"}'
 
 
 def test_context_preflight_fails_before_model_request() -> None:
