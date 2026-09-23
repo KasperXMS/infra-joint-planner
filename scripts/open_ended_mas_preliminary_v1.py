@@ -40,9 +40,10 @@ from infra_joint.heterogeneous.traffic_control import (
 )
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
-from infra_joint.planning.planner import logical_task_payload
+from infra_joint.planning.planner import CompletionBackend, logical_task_payload
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.runtime.executor import ArtifactTransferTelemetry
+from infra_joint.worker.model_backend import ModelCompletion, ModelRequest
 from infra_joint.workflow.planner import LLMWorkflowPlanner, ScriptedWorkflowPlanner
 from infra_joint.workflow.runner import PersistedWorkflowRunResult, WorkflowBenchmarkRunner
 from infra_joint.workflow.scheduler import LocalityAwareMyopicScheduler
@@ -76,6 +77,19 @@ ARTIFACT_ROOTS = {
         "/home/super/heterogeneous-v1/artifacts/strong-4090",
     ),
 }
+
+
+class CapturingCompletionBackend:
+    """Record the single Planner completion even when plan validation rejects it."""
+
+    def __init__(self, backend: CompletionBackend) -> None:
+        self._backend = backend
+        self.completion: ModelCompletion | None = None
+
+    async def invoke(self, request: ModelRequest) -> ModelCompletion:
+        completion = await self._backend.invoke(request)
+        self.completion = completion
+        return completion
 
 
 class PrepositionedWorkflowRunner(WorkflowBenchmarkRunner):
@@ -469,11 +483,38 @@ async def freeze(
     try:
         for label, bundle in bundles.items():
             task_root = freeze_root / label
+            attempt_root = output / "planner-attempts" / label
+            if attempt_root.exists():
+                raise RuntimeError(f"Planner attempt already exists; refusing retry: {label}")
             planner_workload = _alias_workload(bundle, aliases, operations, max_agents)
-            planner = LLMWorkflowPlanner(backend, registry, alias_environment)
+            capturing_backend = CapturingCompletionBackend(backend)
+            planner = LLMWorkflowPlanner(capturing_backend, registry, alias_environment)
             prompt = planner.render_prompt(bundle.execution.task, planner_workload)
+            (attempt_root / "planner-prompt.txt").parent.mkdir(parents=True, exist_ok=False)
+            (attempt_root / "planner-prompt.txt").write_text(prompt, encoding="utf-8")
             started = perf_counter()
-            outcome = await planner.plan(bundle.execution.task, planner_workload)
+            try:
+                outcome = await planner.plan(bundle.execution.task, planner_workload)
+            except Exception as exc:
+                completion = capturing_backend.completion
+                _write_json(
+                    attempt_root / "planner-attempt.json",
+                    {
+                        "call_count": 1,
+                        "status": "invalid",
+                        "latency_ms": (perf_counter() - started) * 1000,
+                        "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
+                        "raw_response": completion.text if completion else None,
+                        "model_telemetry": (
+                            completion.telemetry.model_dump(mode="json")
+                            if completion
+                            else None
+                        ),
+                        "error_type": type(exc).__name__,
+                        "error": str(exc),
+                    },
+                )
+                raise
             latency_ms = (perf_counter() - started) * 1000
             execution_plan = _translate_plan(outcome.plan, aliases)
             execution_environment = _execution_environment(bundle)
@@ -516,6 +557,21 @@ async def freeze(
                     "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
                     "planner_plan_sha256": planner_hash,
                     "workflow_plan_sha256": execution_hash,
+                },
+            )
+            _write_json(
+                attempt_root / "planner-attempt.json",
+                {
+                    "call_count": 1,
+                    "status": "valid",
+                    "latency_ms": latency_ms,
+                    "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest(),
+                    "raw_response": capturing_backend.completion.text,
+                    "model_telemetry": (
+                        outcome.model_telemetry.model_dump(mode="json")
+                        if outcome.model_telemetry
+                        else None
+                    ),
                 },
             )
             private_evaluation = cast(PrivateMultiModalQAEvaluation, bundle.private_evaluation)
@@ -966,8 +1022,8 @@ async def run_native_smoke(
     planner_config = load_planner_config(REPO / str(config["planner"]["config"]))
     network_snapshot = await _native_network_snapshot()
     task_labels = [str(item["label"]) for item in config["dataset"]["tasks"]]
-    if len(task_labels) != 2 or set(task_labels) != set(bundles):
-        raise RuntimeError("Blind Baseline Smoke requires exactly the two frozen tasks")
+    if not task_labels or len(task_labels) > 2 or set(task_labels) != set(bundles):
+        raise RuntimeError("Blind Baseline Smoke requires one or both selected frozen tasks")
     manifest: dict[str, Any] = {
         "experiment": "blind-baseline-smoke",
         "code_revision": _code_revision(),
@@ -1328,6 +1384,13 @@ def report(config: dict[str, Any], output: Path) -> None:
 async def main_async(args: argparse.Namespace) -> None:
     config = _yaml(args.config)
     bundles = _load_bundles(config, args.dataset, args.images)
+    if args.task_label is not None:
+        if args.task_label not in bundles:
+            raise ValueError(f"unknown selected task label: {args.task_label}")
+        bundles = {args.task_label: bundles[args.task_label]}
+        config["dataset"]["tasks"] = [
+            item for item in config["dataset"]["tasks"] if item["label"] == args.task_label
+        ]
     if args.command == "freeze":
         await freeze(config, bundles, args.output)
     elif args.command == "preflight":
@@ -1357,6 +1420,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--images", type=Path, default=DEFAULT_IMAGES)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--api-key-file", type=Path, default=DEFAULT_KEY)
+    parser.add_argument("--task-label", choices=("image-table", "image-text"))
     return parser.parse_args()
 
 
