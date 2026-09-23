@@ -1,4 +1,4 @@
-experiment_id: blind-baseline-6task-v1
+experiment_id: blind-baseline-6task-competent-v1
 dataset:
   tasks:
     - label: video-long-payload
@@ -38,9 +38,9 @@ dataset:
     multihop_rag: 71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82
   representations:
     video_mme: complete original video bytes; no temporal or lossy conversion
-    longbench_multidoc: four audited natural reports represented as lossless ordered text chunks
+    longbench_multidoc: four audited natural reports represented as lossless ordered bounded text chunks
     longbench_structured: deterministic lossless fixed-width to typed JSON records
-    multihop_rag: complete 609-document corpus in three deterministic content-hash shards
+    multihop_rag: complete 609-document corpus in three content-hash shards with lossless bounded body chunks
 planner:
   config: configs/local/heterogeneous-v1-planner.yaml
   model_instance_aliases:

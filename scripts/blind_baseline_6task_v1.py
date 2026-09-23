@@ -71,7 +71,6 @@ REPO = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = REPO / "configs/experiments/blind-baseline-6task-v1.yaml"
 DEFAULT_OUTPUT = REPO / "results/blind-baseline-6task-v1"
 DEFAULT_KEY = REPO.parent / "api_key.txt"
-LONGBENCH_BOUNDARY_LINES = (0, 3277, 9091, 17721)
 LONGBENCH_CHUNK_CHARS = 3_000
 MULTIHOP_CHUNK_CHARS = 2_500
 
@@ -139,9 +138,14 @@ def _text_chunks(value: str, limit: int) -> list[str]:
 def _longbench_multidoc_bundle(
     sample: LongBenchV2Sample,
     source_revision: str,
+    boundary_lines: tuple[int, ...],
 ) -> AdaptationBundle:
     lines = sample.context.splitlines(keepends=True)
-    boundaries = (*LONGBENCH_BOUNDARY_LINES, len(lines))
+    if not boundary_lines or boundary_lines[0] != 0:
+        raise RuntimeError("LongBench document boundary list must begin at line zero")
+    if tuple(sorted(set(boundary_lines))) != boundary_lines:
+        raise RuntimeError("LongBench document boundaries must be unique and ordered")
+    boundaries = (*boundary_lines, len(lines))
     if boundaries[-2] >= len(lines):
         raise RuntimeError("LongBench natural-document boundary is outside the source context")
     prepared: list[PreparedArtifact] = []
@@ -202,10 +206,10 @@ def _longbench_multidoc_bundle(
         information_preserved=True,
         order_preserved=True,
         gold_independent=True,
-        notes="Four natural report boundaries and every source character are preserved.",
+        notes="Declared document boundaries and every source character are preserved.",
         audit={
-            "boundary_lines": list(LONGBENCH_BOUNDARY_LINES),
-            "document_count": 4,
+            "boundary_lines": list(boundary_lines),
+            "document_count": len(boundary_lines),
             "chunk_count": chunk_count,
             "chunk_character_limit": LONGBENCH_CHUNK_CHARS,
             "source_sha256": hashlib.sha256(source).hexdigest(),
@@ -470,29 +474,29 @@ def load_bundles(config: dict[str, Any], args: argparse.Namespace) -> dict[str, 
     longbench_ids = {
         str(row["source_task_id"])
         for family in ("longbench_multidoc", "longbench_structured")
-        for row in by_family[family]
+        for row in by_family.get(family, [])
     }
     samples = _load_longbench_samples(args.longbench_samples, longbench_ids)
-    multidoc_row = by_family["longbench_multidoc"][0]
-    multidoc_id = str(multidoc_row["source_task_id"])
-    bundles[str(multidoc_row["label"])] = _longbench_multidoc_bundle(
-        samples[multidoc_id],
-        revisions["longbench_v2"],
-    )
-    structured_row = by_family["longbench_structured"][0]
-    structured_id = str(structured_row["source_task_id"])
-    structured_sample = samples[structured_id]
-    bundles[str(structured_row["label"])] = _longbench_structured_bundle(
-        structured_sample,
-        revisions["longbench_v2"],
-    )
+    for multidoc_row in by_family.get("longbench_multidoc", []):
+        multidoc_id = str(multidoc_row["source_task_id"])
+        bundles[str(multidoc_row["label"])] = _longbench_multidoc_bundle(
+            samples[multidoc_id],
+            revisions["longbench_v2"],
+            tuple(int(value) for value in multidoc_row["boundary_lines"]),
+        )
+    for structured_row in by_family.get("longbench_structured", []):
+        structured_id = str(structured_row["source_task_id"])
+        bundles[str(structured_row["label"])] = _longbench_structured_bundle(
+            samples[structured_id],
+            revisions["longbench_v2"],
+        )
     corpus_rows = cast(list[dict[str, Any]], json.loads(args.multihop_corpus.read_text("utf-8")))
     query_rows = cast(list[dict[str, Any]], json.loads(args.multihop_queries.read_text("utf-8")))
     if len(corpus_rows) != 609:
         raise RuntimeError(
             f"expected complete 609-document MultiHop corpus, got {len(corpus_rows)}"
         )
-    for row in by_family["multihop_rag"]:
+    for row in by_family.get("multihop_rag", []):
         bundles[str(row["label"])] = _multihop_bundle(
             row,
             corpus_rows,
@@ -550,14 +554,19 @@ def _workload(
     )
 
 
-def _source_manifest(args: argparse.Namespace) -> dict[str, Any]:
+def _source_manifest(args: argparse.Namespace, config: dict[str, Any]) -> dict[str, Any]:
+    video_filenames = {
+        str(row["source_filename"])
+        for row in config["dataset"]["tasks"]
+        if row["family"] == "video_mme"
+    }
     return {
         "video_tasks_sha256": _sha256(args.video_tasks),
         "video_answers_sha256": _sha256(args.video_answers),
         "video_sources": {
             path.name: {"size_bytes": path.stat().st_size, "sha256": _sha256(path)}
             for path in sorted(args.video_sources.glob("*.mp4"))
-            if path.name in {"D97vMwfWxvI.mp4", "gHXaUDx7P0Y.mp4"}
+            if path.name in video_filenames
         },
         "longbench_samples": {
             "size_bytes": args.longbench_samples.stat().st_size,
@@ -610,14 +619,14 @@ def prepare(
         },
         "source_files": {
             key: value
-            for key, value in _source_manifest(args).items()
+            for key, value in _source_manifest(args, config).items()
             if key != "video_answers_sha256"
         },
         "tasks": {},
     }
     _write_json(
         args.output / "private/source-manifest.json",
-        _source_manifest(args),
+        _source_manifest(args, config),
     )
     task_rows = cast(list[dict[str, Any]], config["dataset"]["tasks"])
     for row in task_rows:
