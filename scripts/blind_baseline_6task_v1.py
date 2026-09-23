@@ -952,6 +952,7 @@ def _run_audit(
     workflow = result.workflow
     shape = _workflow_shape(plan)
     records = workflow.records if workflow else ()
+    operators = {item.node_id: item.operator for item in plan.nodes}
     model_calls = [
         {
             "node_id": item.node_id,
@@ -966,12 +967,12 @@ def _run_audit(
             ),
         }
         for item in records
-        if item.operator == "invoke_model"
+        if operators[item.node_id] == "invoke_model"
     ]
     tool_calls = [
         {
             "node_id": item.node_id,
-            "operator": item.operator,
+            "operator": operators[item.node_id],
             "agent_id": item.scheduler_decision.logical_agent_id,
             "physical_agent_ids": (
                 list(item.execution.agent_ids) if item.execution is not None else []
@@ -981,7 +982,7 @@ def _run_audit(
             ),
         }
         for item in records
-        if item.operator != "invoke_model"
+        if operators[item.node_id] != "invoke_model"
     ]
     transfers = [
         {"node_id": item.node_id, **transfer.model_dump(mode="json")}
@@ -1059,6 +1060,7 @@ async def run(
     *,
     task_label: str | None,
     defer_artifact_cleanup: bool,
+    recover_existing_run: bool,
 ) -> None:
     if not (output / "preflight.json").exists():
         raise RuntimeError("preflight evidence is missing")
@@ -1114,12 +1116,44 @@ async def run(
             _write_json(output / "baseline-manifest.json", baseline)
             continue
         run_id = f"{index:02d}-{label}-native"
-        if (output / "runs" / run_id).exists():
-            raise RuntimeError(f"run exists; retry forbidden: {run_id}")
         plan = _load_plan(output, label)
         if frozen["workflow_plan_sha256"] != _canonical_hash(plan.model_dump(mode="json")):
             raise RuntimeError(f"frozen workflow hash drift: {label}")
         environment = _environment(config, label, bundle)
+        run_root = output / "runs" / run_id
+        if run_root.exists():
+            if not recover_existing_run:
+                raise RuntimeError(f"run exists; retry forbidden: {run_id}")
+            result = PersistedWorkflowRunResult.model_validate_json(
+                (run_root / "result.json").read_text(encoding="utf-8")
+            )
+            planner_call = json.loads(
+                (output / "freeze" / label / "planner-call.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            audit = _run_audit(label, bundle, plan, result, planner_call)
+            _write_json(run_root / "audit.json", audit)
+            baseline["tasks"].append(
+                {
+                    "task": label,
+                    "task_id": bundle.execution.task.task_id,
+                    "run_id": run_id,
+                    "plan_valid": True,
+                    "execution_attempted": True,
+                    "execution_valid": audit["execution_valid"],
+                    "retained_valid_blind_sample": audit[
+                        "retained_valid_blind_sample"
+                    ],
+                    "benchmark_score": audit["benchmark_score"],
+                    "format_valid": audit["format_valid"],
+                    "failure": audit["failure"],
+                    "artifact_cleanup_deferred": True,
+                    "audit_recovered_without_reexecution": True,
+                }
+            )
+            _write_json(baseline_path, baseline)
+            continue
         runner_config = RunnerConfig(
             environment=environment,
             worker_urls={
@@ -1357,6 +1391,7 @@ async def main_async(args: argparse.Namespace) -> None:
             args.output,
             task_label=args.task_label,
             defer_artifact_cleanup=args.defer_artifact_cleanup,
+            recover_existing_run=args.recover_existing_run,
         )
     elif args.command == "report":
         report(config, bundles, args.output)
@@ -1370,6 +1405,7 @@ async def main_async(args: argparse.Namespace) -> None:
             args.output,
             task_label=args.task_label,
             defer_artifact_cleanup=args.defer_artifact_cleanup,
+            recover_existing_run=args.recover_existing_run,
         )
         report(config, bundles, args.output)
 
@@ -1392,6 +1428,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--native-network-snapshot", type=Path)
     parser.add_argument("--task-label")
     parser.add_argument("--defer-artifact-cleanup", action="store_true")
+    parser.add_argument("--recover-existing-run", action="store_true")
     return parser.parse_args()
 
 
