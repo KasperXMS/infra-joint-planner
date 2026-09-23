@@ -194,6 +194,14 @@ class LLMWorkflowPlanner:
                 "records, aggregate_artifacts concatenates complete record arrays, and "
                 "select_fields projects fields without shortening their values. Use their "
                 "declared schemas and bounded-size facts accordingly.",
+                "Plan validation will reject an oversized model input and will not lower top_k "
+                "or repair the workflow. For a BM25 result sent to a model, conservatively bound "
+                "its bytes as 2 + top_k * (input max_record_bytes + 129), then add the model "
+                "prompt bytes, task objective bytes, the 2048-byte safety margin, and reserved "
+                "output. As a concrete capability example, when max_record_bytes is about 3200 "
+                "and context_window is 16384, top_k=3 is safe while top_k=12 or 20 is not. "
+                "Retrieve separately from shards if useful, but keep the total records entering "
+                "the final model within the same bound.",
                 "The system defines each model instance's feasible operators. Select node "
                 "operators only from system_feasible_operations_by_model_instance for the "
                 "owning agent's binding. Do not declare agent capabilities or action spaces.",

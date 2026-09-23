@@ -1,4 +1,4 @@
-experiment_id: blind-baseline-development-smoke-v1
+experiment_id: blind-baseline-development-smoke-v2
 environment_config: configs/experiments/blind-baseline-environment-v1.yaml
 dataset:
   tasks:
@@ -31,19 +31,7 @@ planner:
   model_instance_aliases:
     reasoner-alpha: a28-qwen3.8-27b-q4km-v1
     reasoner-beta: strong-4090-qwen3.8-27b-q4km-v1
-  available_operations:
-    - aggregate_artifacts
-    - aggregate_records
-    - bm25_retrieve
-    - derive_fields
-    - extract_clip
-    - filter_records
-    - invoke_model
-    - make_contact_sheet
-    - read_artifact
-    - sample_frames
-    - select_fields
-    - top_k_records
+  available_operations: [aggregate_artifacts, aggregate_records, bm25_retrieve, derive_fields, extract_clip, filter_records, invoke_model, make_contact_sheet, read_artifact, sample_frames, select_fields, top_k_records]
   max_agents: 6
 execution:
   network: native_unshaped

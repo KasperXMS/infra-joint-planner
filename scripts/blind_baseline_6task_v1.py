@@ -13,6 +13,7 @@ from pathlib import Path
 from time import perf_counter
 from typing import Any, cast
 
+import httpx
 import yaml
 from open_ended_mas_preliminary_v1 import (
     CapturingCompletionBackend,
@@ -20,7 +21,6 @@ from open_ended_mas_preliminary_v1 import (
     _alias_environment,
     _alias_workload,
     _canonical_hash,
-    _clients,
     _code_revision,
     _generated_ids,
     _load_key,
@@ -62,6 +62,7 @@ from infra_joint.core.workflow import WorkflowPlan
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.planning.planner import logical_task_payload
+from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.workflow.planner import LLMWorkflowPlanner, ScriptedWorkflowPlanner
 from infra_joint.workflow.runner import PersistedWorkflowRunResult
 from infra_joint.workflow.scheduler import LocalityAwareMyopicScheduler
@@ -80,6 +81,24 @@ def _yaml(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"YAML root must be a mapping: {path}")
     return cast(dict[str, Any], value)
+
+
+def _infrastructure(config: dict[str, Any]) -> dict[str, Any]:
+    return _yaml(REPO / str(config["environment_config"]))
+
+
+async def _configured_clients(
+    stack: AsyncExitStack,
+    config: dict[str, Any],
+) -> dict[str, WorkerClient]:
+    raw_urls = cast(dict[str, str], _infrastructure(config)["worker_urls"])
+    clients: dict[str, WorkerClient] = {}
+    for agent_id, url in raw_urls.items():
+        client = await stack.enter_async_context(
+            httpx.AsyncClient(base_url=url, timeout=900)
+        )
+        clients[agent_id] = HttpWorkerClient(agent_id, client)
+    return clients
 
 
 def _sha256(path: Path) -> str:
@@ -526,9 +545,7 @@ def _environment(
     label: str,
     bundle: AdaptationBundle,
 ) -> EnvironmentSpec:
-    base = EnvironmentSpec.model_validate(
-        _yaml(REPO / "configs/local/heterogeneous-v1-preflight.yaml")["environment"]
-    )
+    base = EnvironmentSpec.model_validate(_infrastructure(config)["environment"])
     placements = _placement_map(config, label, bundle)
     return base.model_copy(
         update={
@@ -591,9 +608,15 @@ def prepare(
     freeze_root = args.output / "freeze"
     if freeze_root.exists():
         raise RuntimeError("freeze already exists; refusing overwrite")
+    environment_path = REPO / str(config["environment_config"])
+    infrastructure = _infrastructure(config)
     manifest: dict[str, Any] = {
         "experiment_id": config["experiment_id"],
         "code_revision": _code_revision(),
+        "environment_config": {
+            "path": str(config["environment_config"]),
+            "sha256": _sha256(environment_path),
+        },
         "network": "native_unshaped",
         "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
         "planner_calls_per_task": 1,
@@ -624,6 +647,7 @@ def prepare(
         },
         "tasks": {},
     }
+    _write_json(freeze_root / "runtime-environment.json", infrastructure)
     _write_json(
         args.output / "private/source-manifest.json",
         _source_manifest(args, config),
@@ -861,11 +885,9 @@ async def preflight(
             raise RuntimeError(
                 f"provided native snapshot contains active shaping: {sorted(shaped)}"
             )
-    base = EnvironmentSpec.model_validate(
-        _yaml(REPO / "configs/local/heterogeneous-v1-preflight.yaml")["environment"]
-    )
+    base = EnvironmentSpec.model_validate(_infrastructure(config)["environment"])
     async with AsyncExitStack() as stack:
-        clients = await _clients(stack)
+        clients = await _configured_clients(stack, config)
         await validate_worker_surfaces(base, build_operator_catalog(), clients)
         states = {
             key: (await value.get_state()).model_dump(mode="json")
@@ -1199,12 +1221,7 @@ async def run(
             continue
         runner_config = RunnerConfig(
             environment=environment,
-            worker_urls={
-                "A4": "http://192.168.0.104:9104",
-                "A5": "http://192.168.0.105:9105",
-                "A28": "http://192.168.0.128:9128",
-                "strong-4090": "http://192.168.0.12:9212",
-            },
+            worker_urls=cast(dict[str, str], _infrastructure(config)["worker_urls"]),
             planner=planner_config,
             output_root=output / "runs",
             http_timeout_seconds=1800,
@@ -1214,7 +1231,7 @@ async def run(
         cleanup_error: Exception | None = None
         try:
             async with AsyncExitStack() as stack:
-                clients = await _clients(stack)
+                clients = await _configured_clients(stack, config)
                 await validate_worker_surfaces(environment, build_operator_catalog(), clients)
                 await _preload(
                     config,

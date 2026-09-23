@@ -1,4 +1,5 @@
 experiment_id: blind-baseline-6task-v1
+environment_config: configs/experiments/blind-baseline-environment-v1.yaml
 dataset:
   tasks:
     - label: video-long-payload
