@@ -279,10 +279,18 @@ class TcController:
 
 
 class SshCommandRunner:
-    def __init__(self, *, connect_timeout_seconds: int = 5) -> None:
+    def __init__(
+        self,
+        *,
+        connect_timeout_seconds: int = 5,
+        command_timeout_seconds: int = 60,
+    ) -> None:
         if connect_timeout_seconds < 1:
             raise ValueError("SSH connect timeout must be positive")
+        if command_timeout_seconds < 1:
+            raise ValueError("SSH command timeout must be positive")
         self._connect_timeout_seconds = connect_timeout_seconds
+        self._command_timeout_seconds = command_timeout_seconds
 
     async def run(self, ssh_target: str, command: Sequence[str]) -> str:
         remote_command = shlex.join(command)
@@ -297,7 +305,17 @@ class SshCommandRunner:
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
-        stdout, stderr = await process.communicate()
+        try:
+            stdout, stderr = await asyncio.wait_for(
+                process.communicate(), timeout=self._command_timeout_seconds
+            )
+        except TimeoutError as exc:
+            process.kill()
+            await process.wait()
+            raise RuntimeError(
+                f"remote command timed out on {ssh_target} after "
+                f"{self._command_timeout_seconds}s"
+            ) from exc
         if process.returncode != 0:
             message = stderr.decode("utf-8", errors="replace").strip()
             raise RuntimeError(

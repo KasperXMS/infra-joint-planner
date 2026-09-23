@@ -1,0 +1,23 @@
+{
+  "attempt_id": "hetero-v1-pilot-bw30-s-forced-a28-r03-v2-audit1",
+  "classification": "system_harness_confounder",
+  "counted_as_pilot_or_experiment_run": false,
+  "pilot_v2_valid_before_stop": 51,
+  "persisted_result": "results/heterogeneous_v1_pilot_v2/hetero-v1-pilot-bw30-s-forced-a28-r03-v2-audit1/result.json",
+  "persisted_trace": "results/heterogeneous_v1_pilot_v2/hetero-v1-pilot-bw30-s-forced-a28-r03-v2-audit1/trace.jsonl",
+  "persisted_metadata": null,
+  "workflow_observation": {
+    "execution_completed": true,
+    "failure": null,
+    "format_valid": true,
+    "trace_event_count": 34,
+    "trace_reconstructable": true
+  },
+  "failure_point": "post-run generated-artifact cleanup on A5",
+  "observed_stuck_command": "ssh edge@192.168.0.105 rm -f -- <the five exact run-generated artifact blob/metadata paths>",
+  "root_cause": "SshCommandRunner enforced only ConnectTimeout and had no total command execution timeout; process.communicate could wait indefinitely after a connection was established.",
+  "network_cleanup": "tc cleanup completed before artifact cleanup; A28 and strong-4090 were verified restored to mq and noqueue",
+  "post_failure_state": "All four Workers reachable, available, and in_flight=0; exact generated artifact IDs were cleaned and verified absent from all four stores.",
+  "response": "Stopped the matrix, retained the partial run, added a 60-second total SSH command timeout that kills the local SSH process and raises a typed RuntimeError, added regression coverage, and reserved an explicit new replacement run ID and schedule.",
+  "replacement_run_id": "hetero-v1-pilot-bw30-s-forced-a28-r03-v2-replacement-audit2"
+}

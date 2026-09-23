@@ -1,7 +1,9 @@
+import asyncio
 from collections.abc import Sequence
 
 import pytest
 
+import infra_joint.heterogeneous.traffic_control as traffic_control_module
 from infra_joint.heterogeneous.traffic_control import (
     SshCommandRunner,
     TcController,
@@ -105,3 +107,42 @@ async def test_tc_controller_cleans_up_after_apply_failure() -> None:
 def test_ssh_runner_rejects_nonpositive_timeout() -> None:
     with pytest.raises(ValueError, match="positive"):
         SshCommandRunner(connect_timeout_seconds=0)
+    with pytest.raises(ValueError, match="command timeout"):
+        SshCommandRunner(command_timeout_seconds=0)
+
+
+@pytest.mark.asyncio
+async def test_ssh_runner_kills_a_command_that_exceeds_total_timeout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class HangingProcess:
+        returncode: int | None = None
+        killed = False
+
+        async def communicate(self) -> tuple[bytes, bytes]:
+            await asyncio.sleep(60)
+            return b"", b""
+
+        def kill(self) -> None:
+            self.killed = True
+            self.returncode = -9
+
+        async def wait(self) -> int:
+            return -9
+
+    process = HangingProcess()
+
+    async def create_hanging_process(*args: object, **kwargs: object) -> HangingProcess:
+        del args, kwargs
+        return process
+
+    monkeypatch.setattr(
+        traffic_control_module.asyncio,
+        "create_subprocess_exec",
+        create_hanging_process,
+    )
+    runner = SshCommandRunner(command_timeout_seconds=1)
+
+    with pytest.raises(RuntimeError, match="timed out.*after 1s"):
+        await runner.run("edge@192.168.0.105", ("rm", "-f", "safe-file"))
+    assert process.killed

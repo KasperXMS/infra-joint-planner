@@ -1,0 +1,1011 @@
+{
+  "benchmark_id": "multihop_rag_heterogeneous_controlled_v1",
+  "evaluation": {
+    "benchmark_score": 1.0,
+    "details": "official lowercase whitespace-token intersection",
+    "format_valid": true
+  },
+  "execution_completed": true,
+  "failure": null,
+  "final_answer": "Yes",
+  "initial_transfers": [],
+  "plan": {
+    "agents": [
+      {
+        "agent_id": "edge-a",
+        "allowed_operations": [
+          "bm25_retrieve"
+        ],
+        "model_instance_id": "a28-qwen3.8-27b-q4km-v1",
+        "objective": "rank and retain the frozen source-A corpus",
+        "role": "fixed source-A retrieval"
+      },
+      {
+        "agent_id": "edge-b",
+        "allowed_operations": [
+          "bm25_retrieve"
+        ],
+        "model_instance_id": "a28-qwen3.8-27b-q4km-v1",
+        "objective": "rank and retain the frozen source-B corpus",
+        "role": "fixed source-B retrieval"
+      },
+      {
+        "agent_id": "packager",
+        "allowed_operations": [
+          "aggregate_artifacts"
+        ],
+        "model_instance_id": "a28-qwen3.8-27b-q4km-v1",
+        "objective": "merge both ranked semantic corpora",
+        "role": "fixed fan-in packager"
+      },
+      {
+        "agent_id": "synthesizer",
+        "allowed_operations": [
+          "bm25_retrieve",
+          "select_fields",
+          "invoke_model"
+        ],
+        "model_instance_id": "a28-qwen3.8-27b-q4km-v1",
+        "objective": "retrieve both sources and synthesize a structured comparison",
+        "role": "equivalent-replica semantic synthesis stage"
+      }
+    ],
+    "edges": [
+      {
+        "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+        "consumer_node": "merge-package",
+        "producer_node": "source-a-local-retrieve-reduce"
+      },
+      {
+        "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+        "consumer_node": "merge-package",
+        "producer_node": "source-b-local-retrieve-reduce"
+      },
+      {
+        "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package",
+        "consumer_node": "placement-group-bm25-reduce",
+        "producer_node": "merge-package"
+      },
+      {
+        "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence",
+        "consumer_node": "placement-group-project-context",
+        "producer_node": "placement-group-bm25-reduce"
+      },
+      {
+        "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready",
+        "consumer_node": "same-model-synthesis",
+        "producer_node": "placement-group-project-context"
+      }
+    ],
+    "nodes": [
+      {
+        "agent_id": "edge-a",
+        "arguments": {
+          "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+          "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+          "text_field": "body",
+          "top_k": 100000
+        },
+        "inputs": [
+          "heterogeneous-v2-s-shard-a"
+        ],
+        "node_id": "source-a-local-retrieve-reduce",
+        "operator": "bm25_retrieve",
+        "outputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked"
+        ]
+      },
+      {
+        "agent_id": "edge-b",
+        "arguments": {
+          "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+          "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+          "text_field": "body",
+          "top_k": 100000
+        },
+        "inputs": [
+          "heterogeneous-v2-s-shard-b"
+        ],
+        "node_id": "source-b-local-retrieve-reduce",
+        "operator": "bm25_retrieve",
+        "outputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked"
+        ]
+      },
+      {
+        "agent_id": "packager",
+        "arguments": {
+          "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+        },
+        "inputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked"
+        ],
+        "node_id": "merge-package",
+        "operator": "aggregate_artifacts",
+        "outputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+        ]
+      },
+      {
+        "agent_id": "synthesizer",
+        "arguments": {
+          "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence",
+          "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+          "text_field": "retrieval_text",
+          "top_k": 2
+        },
+        "inputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+        ],
+        "node_id": "placement-group-bm25-reduce",
+        "operator": "bm25_retrieve",
+        "outputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence"
+        ]
+      },
+      {
+        "agent_id": "synthesizer",
+        "arguments": {
+          "fields": [
+            "source_document_id",
+            "title",
+            "evidence_excerpt"
+          ],
+          "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+        },
+        "inputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence"
+        ],
+        "node_id": "placement-group-project-context",
+        "operator": "select_fields",
+        "outputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+        ]
+      },
+      {
+        "agent_id": "synthesizer",
+        "arguments": {
+          "prompt": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?\nUse only the context artifact. Compare both sources in 120 to 180 words, then end with exactly ANSWER: Yes or ANSWER: No. Do not reveal chain-of-thought."
+        },
+        "inputs": [
+          "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+        ],
+        "node_id": "same-model-synthesis",
+        "operator": "invoke_model",
+        "outputs": []
+      }
+    ]
+  },
+  "run_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1",
+  "runner_e2e_latency_ms": 181235.18139999942,
+  "setting_kind": "derived",
+  "task_id": "heterogeneous-v1-multihop-rag-train-9bae0079038050a37a1ae583-s",
+  "telemetry": {
+    "finalizer": {
+      "latency_ms": 918.9074999885634,
+      "model": {
+        "finish_reason": "stop",
+        "input_tokens": 1761,
+        "output_tokens": 1,
+        "service_latency_ms": 918.7489000032656
+      }
+    },
+    "planner": {
+      "latency_ms": 0.06340001709759235,
+      "model": null
+    },
+    "runner_e2e_latency_ms": 181235.18139999942,
+    "total_transfer_bytes": 8406732,
+    "total_transfer_duration_ms": 2112.1003000007477,
+    "workflow": {
+      "completed": true,
+      "failure": null,
+      "records": [
+        {
+          "action": {
+            "decision_type": "action",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A4",
+              "target_deployment_id": null
+            },
+            "semantic": {
+              "arguments": {
+                "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+                "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+                "text_field": "body",
+                "top_k": 100000
+              },
+              "inputs": [
+                "heterogeneous-v2-s-shard-a"
+              ],
+              "operator": "bm25_retrieve"
+            }
+          },
+          "duration_ms": 407.20869999495335,
+          "ended_at": "2026-09-23T00:21:23.863292Z",
+          "execution": {
+            "agent_ids": [
+              "A4"
+            ],
+            "deployment_id": null,
+            "model_telemetry": null,
+            "operator": "bm25_retrieve",
+            "operator_latency_ms": 407.04879999975674,
+            "output": {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+              "media_type": "application/json",
+              "sha256_hex": "932a99af4653059aaf67ea725afb3d1e1d1c6f20ec4e1893409da7b8dd554b75",
+              "size_bytes": 4191847
+            },
+            "transfers": []
+          },
+          "failure": null,
+          "node_id": "source-a-local-retrieve-reduce",
+          "scheduler_decision": {
+            "candidate_costs": [],
+            "logical_agent_id": "edge-a",
+            "node_id": "source-a-local-retrieve-reduce",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A4",
+              "target_deployment_id": null
+            },
+            "rationale": "v1 scripted upstream DAG placement is frozen outside the study node",
+            "scheduler": "b1_myopic_cost_aware",
+            "selected_agent_id": "A4",
+            "selected_deployment_id": null
+          },
+          "scheduling_batch": 0,
+          "started_at": "2026-09-23T00:21:23.455371Z"
+        },
+        {
+          "action": {
+            "decision_type": "action",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A5",
+              "target_deployment_id": null
+            },
+            "semantic": {
+              "arguments": {
+                "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+                "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+                "text_field": "body",
+                "top_k": 100000
+              },
+              "inputs": [
+                "heterogeneous-v2-s-shard-b"
+              ],
+              "operator": "bm25_retrieve"
+            }
+          },
+          "duration_ms": 406.21570000075735,
+          "ended_at": "2026-09-23T00:21:23.862501Z",
+          "execution": {
+            "agent_ids": [
+              "A5"
+            ],
+            "deployment_id": null,
+            "model_telemetry": null,
+            "operator": "bm25_retrieve",
+            "operator_latency_ms": 406.10239998204634,
+            "output": {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+              "media_type": "application/json",
+              "sha256_hex": "b03c602b08db54820bd7afed47583d35acf1cea1a9474a633458563f1d442049",
+              "size_bytes": 4214885
+            },
+            "transfers": []
+          },
+          "failure": null,
+          "node_id": "source-b-local-retrieve-reduce",
+          "scheduler_decision": {
+            "candidate_costs": [],
+            "logical_agent_id": "edge-b",
+            "node_id": "source-b-local-retrieve-reduce",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A5",
+              "target_deployment_id": null
+            },
+            "rationale": "v1 scripted upstream DAG placement is frozen outside the study node",
+            "scheduler": "b1_myopic_cost_aware",
+            "selected_agent_id": "A5",
+            "selected_deployment_id": null
+          },
+          "scheduling_batch": 0,
+          "started_at": "2026-09-23T00:21:23.456378Z"
+        },
+        {
+          "action": {
+            "decision_type": "action",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A28",
+              "target_deployment_id": null
+            },
+            "semantic": {
+              "arguments": {
+                "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+              },
+              "inputs": [
+                "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+                "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked"
+              ],
+              "operator": "aggregate_artifacts"
+            }
+          },
+          "duration_ms": 2314.1732000221964,
+          "ended_at": "2026-09-23T00:21:35.152696Z",
+          "execution": {
+            "agent_ids": [
+              "A28"
+            ],
+            "deployment_id": null,
+            "model_telemetry": null,
+            "operator": "aggregate_artifacts",
+            "operator_latency_ms": 201.89039999968372,
+            "output": {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package",
+              "media_type": "application/json",
+              "sha256_hex": "499cca281d79735c67eca6fee3f4052152474b939d1b9bf3b30b35e956ff37cb",
+              "size_bytes": 8406731
+            },
+            "transfers": [
+              {
+                "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+                "bytes_transferred": 4191847,
+                "duration_ms": 1581.8786000018008,
+                "source_agent_id": "A4",
+                "target_agent_id": "A28"
+              },
+              {
+                "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+                "bytes_transferred": 4214885,
+                "duration_ms": 530.2216999989469,
+                "source_agent_id": "A5",
+                "target_agent_id": "A28"
+              }
+            ]
+          },
+          "failure": null,
+          "node_id": "merge-package",
+          "scheduler_decision": {
+            "candidate_costs": [],
+            "logical_agent_id": "packager",
+            "node_id": "merge-package",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A28",
+              "target_deployment_id": null
+            },
+            "rationale": "v1 scripted upstream DAG placement is frozen outside the study node",
+            "scheduler": "b1_myopic_cost_aware",
+            "selected_agent_id": "A28",
+            "selected_deployment_id": null
+          },
+          "scheduling_batch": 1,
+          "started_at": "2026-09-23T00:21:32.838786Z"
+        },
+        {
+          "action": {
+            "decision_type": "action",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A28",
+              "target_deployment_id": null
+            },
+            "semantic": {
+              "arguments": {
+                "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence",
+                "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+                "text_field": "retrieval_text",
+                "top_k": 2
+              },
+              "inputs": [
+                "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+              ],
+              "operator": "bm25_retrieve"
+            }
+          },
+          "duration_ms": 87.73830000427552,
+          "ended_at": "2026-09-23T00:21:44.096065Z",
+          "execution": {
+            "agent_ids": [
+              "A28"
+            ],
+            "deployment_id": null,
+            "model_telemetry": null,
+            "operator": "bm25_retrieve",
+            "operator_latency_ms": 87.46529999189079,
+            "output": {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence",
+              "media_type": "application/json",
+              "sha256_hex": "bb2ff729c5e915a686222fa42da3ea7e314081b137a93b07e4ff2e19b542f7c0",
+              "size_bytes": 54015
+            },
+            "transfers": []
+          },
+          "failure": null,
+          "node_id": "placement-group-bm25-reduce",
+          "scheduler_decision": {
+            "candidate_costs": [],
+            "logical_agent_id": "synthesizer",
+            "node_id": "placement-group-bm25-reduce",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A28",
+              "target_deployment_id": null
+            },
+            "rationale": "v1 empirical-oracle run forces the complete synthesis stage",
+            "scheduler": "b1_myopic_cost_aware",
+            "selected_agent_id": "A28",
+            "selected_deployment_id": null
+          },
+          "scheduling_batch": 2,
+          "started_at": "2026-09-23T00:21:44.007933Z"
+        },
+        {
+          "action": {
+            "decision_type": "action",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A28",
+              "target_deployment_id": null
+            },
+            "semantic": {
+              "arguments": {
+                "fields": [
+                  "source_document_id",
+                  "title",
+                  "evidence_excerpt"
+                ],
+                "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+              },
+              "inputs": [
+                "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence"
+              ],
+              "operator": "select_fields"
+            }
+          },
+          "duration_ms": 18.522300000768155,
+          "ended_at": "2026-09-23T00:21:53.195408Z",
+          "execution": {
+            "agent_ids": [
+              "A28"
+            ],
+            "deployment_id": null,
+            "model_telemetry": null,
+            "operator": "select_fields",
+            "operator_latency_ms": 18.393500009551644,
+            "output": {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready",
+              "media_type": "application/json",
+              "sha256_hex": "00df41bcb6c0447ca4c92582e39086c10ecf6e43481f5c809877d9e72df7dfbe",
+              "size_bytes": 12441
+            },
+            "transfers": []
+          },
+          "failure": null,
+          "node_id": "placement-group-project-context",
+          "scheduler_decision": {
+            "candidate_costs": [],
+            "logical_agent_id": "synthesizer",
+            "node_id": "placement-group-project-context",
+            "physical": {
+              "policy": "target_agent",
+              "target_agent_id": "A28",
+              "target_deployment_id": null
+            },
+            "rationale": "v1 synthesis-stage intermediate reuses the leader's frozen site",
+            "scheduler": "b1_myopic_cost_aware",
+            "selected_agent_id": "A28",
+            "selected_deployment_id": null
+          },
+          "scheduling_batch": 3,
+          "started_at": "2026-09-23T00:21:53.176488Z"
+        },
+        {
+          "action": {
+            "decision_type": "action",
+            "physical": {
+              "policy": "target_deployment",
+              "target_agent_id": null,
+              "target_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+            },
+            "semantic": {
+              "arguments": {
+                "prompt": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?\nUse only the context artifact. Compare both sources in 120 to 180 words, then end with exactly ANSWER: Yes or ANSWER: No. Do not reveal chain-of-thought."
+              },
+              "inputs": [
+                "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+              ],
+              "operator": "invoke_model"
+            }
+          },
+          "duration_ms": 127532.71830000449,
+          "ended_at": "2026-09-23T00:24:09.594431Z",
+          "execution": {
+            "agent_ids": [
+              "A28"
+            ],
+            "deployment_id": "a28-qwen3.8-27b-q4km-v1",
+            "model_telemetry": {
+              "finish_reason": "stop",
+              "input_tokens": 3211,
+              "output_tokens": 208,
+              "service_latency_ms": 127396.94011304528
+            },
+            "operator": "invoke_model",
+            "operator_latency_ms": 127532.55730000092,
+            "output": {
+              "text": "Both the Polygon Diablo 4 guide for Barbarian builds and the guide for Sorcerer builds in Season 2 explicitly state their intent to simplify complex class mechanics for players. The Barbarian guide notes that while the class is simple, the underlying math is complex, and it aims to gather and simplify the best builds, linking to more detailed resources for those needing deeper information on item affixes. Similarly, the Sorcerer guide acknowledges that harnessing multiple elements can be overwhelming and states that it has gathered and simplified the best builds for Season 2. Both guides follow an identical structural approach: they provide a streamlined leveling build and an endgame build, list specific skill point allocations, and recommend particular Legendary Aspects and Vampiric Powers. In both cases, the guides serve as accessible entry points that summarize key strategies while directing readers to original creators like IcyVeins or MaxRoll for comprehensive details. Therefore, the Sorcerer guide provides simplified versions of builds in the same manner as the Barbarian guide.\n\nANSWER: Yes"
+            },
+            "transfers": []
+          },
+          "failure": null,
+          "node_id": "same-model-synthesis",
+          "scheduler_decision": {
+            "candidate_costs": [],
+            "logical_agent_id": "synthesizer",
+            "node_id": "same-model-synthesis",
+            "physical": {
+              "policy": "target_deployment",
+              "target_agent_id": null,
+              "target_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+            },
+            "rationale": "v1 synthesis follower reuses the leader's frozen equivalent-replica site",
+            "scheduler": "b1_myopic_cost_aware",
+            "selected_agent_id": "A28",
+            "selected_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+          },
+          "scheduling_batch": 4,
+          "started_at": "2026-09-23T00:22:02.061923Z"
+        }
+      ],
+      "state": {
+        "node_status": {
+          "merge-package": "done",
+          "placement-group-bm25-reduce": "done",
+          "placement-group-project-context": "done",
+          "same-model-synthesis": "done",
+          "source-a-local-retrieve-reduce": "done",
+          "source-b-local-retrieve-reduce": "done"
+        }
+      },
+      "telemetry": {
+        "critical_path_latency_ms": 130360.36080002668,
+        "e2e_latency_ms": 174946.50260001072,
+        "max_parallelism": 2,
+        "parallel_overlap_ms": 405.1853867461905,
+        "total_model_service_latency_ms": 127396.94011304528,
+        "total_operator_latency_ms": 128653.45769998385,
+        "total_transfer_bytes": 8406732,
+        "total_transfer_duration_ms": 2112.1003000007477
+      }
+    }
+  },
+  "trace_path": "results\\heterogeneous_v1_pilot_v2\\hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1\\trace.jsonl",
+  "workflow": {
+    "completed": true,
+    "failure": null,
+    "records": [
+      {
+        "action": {
+          "decision_type": "action",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A4",
+            "target_deployment_id": null
+          },
+          "semantic": {
+            "arguments": {
+              "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+              "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+              "text_field": "body",
+              "top_k": 100000
+            },
+            "inputs": [
+              "heterogeneous-v2-s-shard-a"
+            ],
+            "operator": "bm25_retrieve"
+          }
+        },
+        "duration_ms": 407.20869999495335,
+        "ended_at": "2026-09-23T00:21:23.863292Z",
+        "execution": {
+          "agent_ids": [
+            "A4"
+          ],
+          "deployment_id": null,
+          "model_telemetry": null,
+          "operator": "bm25_retrieve",
+          "operator_latency_ms": 407.04879999975674,
+          "output": {
+            "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+            "media_type": "application/json",
+            "sha256_hex": "932a99af4653059aaf67ea725afb3d1e1d1c6f20ec4e1893409da7b8dd554b75",
+            "size_bytes": 4191847
+          },
+          "transfers": []
+        },
+        "failure": null,
+        "node_id": "source-a-local-retrieve-reduce",
+        "scheduler_decision": {
+          "candidate_costs": [],
+          "logical_agent_id": "edge-a",
+          "node_id": "source-a-local-retrieve-reduce",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A4",
+            "target_deployment_id": null
+          },
+          "rationale": "v1 scripted upstream DAG placement is frozen outside the study node",
+          "scheduler": "b1_myopic_cost_aware",
+          "selected_agent_id": "A4",
+          "selected_deployment_id": null
+        },
+        "scheduling_batch": 0,
+        "started_at": "2026-09-23T00:21:23.455371Z"
+      },
+      {
+        "action": {
+          "decision_type": "action",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A5",
+            "target_deployment_id": null
+          },
+          "semantic": {
+            "arguments": {
+              "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+              "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+              "text_field": "body",
+              "top_k": 100000
+            },
+            "inputs": [
+              "heterogeneous-v2-s-shard-b"
+            ],
+            "operator": "bm25_retrieve"
+          }
+        },
+        "duration_ms": 406.21570000075735,
+        "ended_at": "2026-09-23T00:21:23.862501Z",
+        "execution": {
+          "agent_ids": [
+            "A5"
+          ],
+          "deployment_id": null,
+          "model_telemetry": null,
+          "operator": "bm25_retrieve",
+          "operator_latency_ms": 406.10239998204634,
+          "output": {
+            "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+            "media_type": "application/json",
+            "sha256_hex": "b03c602b08db54820bd7afed47583d35acf1cea1a9474a633458563f1d442049",
+            "size_bytes": 4214885
+          },
+          "transfers": []
+        },
+        "failure": null,
+        "node_id": "source-b-local-retrieve-reduce",
+        "scheduler_decision": {
+          "candidate_costs": [],
+          "logical_agent_id": "edge-b",
+          "node_id": "source-b-local-retrieve-reduce",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A5",
+            "target_deployment_id": null
+          },
+          "rationale": "v1 scripted upstream DAG placement is frozen outside the study node",
+          "scheduler": "b1_myopic_cost_aware",
+          "selected_agent_id": "A5",
+          "selected_deployment_id": null
+        },
+        "scheduling_batch": 0,
+        "started_at": "2026-09-23T00:21:23.456378Z"
+      },
+      {
+        "action": {
+          "decision_type": "action",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A28",
+            "target_deployment_id": null
+          },
+          "semantic": {
+            "arguments": {
+              "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+            },
+            "inputs": [
+              "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+              "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked"
+            ],
+            "operator": "aggregate_artifacts"
+          }
+        },
+        "duration_ms": 2314.1732000221964,
+        "ended_at": "2026-09-23T00:21:35.152696Z",
+        "execution": {
+          "agent_ids": [
+            "A28"
+          ],
+          "deployment_id": null,
+          "model_telemetry": null,
+          "operator": "aggregate_artifacts",
+          "operator_latency_ms": 201.89039999968372,
+          "output": {
+            "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package",
+            "media_type": "application/json",
+            "sha256_hex": "499cca281d79735c67eca6fee3f4052152474b939d1b9bf3b30b35e956ff37cb",
+            "size_bytes": 8406731
+          },
+          "transfers": [
+            {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a4-ranked",
+              "bytes_transferred": 4191847,
+              "duration_ms": 1581.8786000018008,
+              "source_agent_id": "A4",
+              "target_agent_id": "A28"
+            },
+            {
+              "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--a5-ranked",
+              "bytes_transferred": 4214885,
+              "duration_ms": 530.2216999989469,
+              "source_agent_id": "A5",
+              "target_agent_id": "A28"
+            }
+          ]
+        },
+        "failure": null,
+        "node_id": "merge-package",
+        "scheduler_decision": {
+          "candidate_costs": [],
+          "logical_agent_id": "packager",
+          "node_id": "merge-package",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A28",
+            "target_deployment_id": null
+          },
+          "rationale": "v1 scripted upstream DAG placement is frozen outside the study node",
+          "scheduler": "b1_myopic_cost_aware",
+          "selected_agent_id": "A28",
+          "selected_deployment_id": null
+        },
+        "scheduling_batch": 1,
+        "started_at": "2026-09-23T00:21:32.838786Z"
+      },
+      {
+        "action": {
+          "decision_type": "action",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A28",
+            "target_deployment_id": null
+          },
+          "semantic": {
+            "arguments": {
+              "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence",
+              "query": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+              "text_field": "retrieval_text",
+              "top_k": 2
+            },
+            "inputs": [
+              "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--placement-package"
+            ],
+            "operator": "bm25_retrieve"
+          }
+        },
+        "duration_ms": 87.73830000427552,
+        "ended_at": "2026-09-23T00:21:44.096065Z",
+        "execution": {
+          "agent_ids": [
+            "A28"
+          ],
+          "deployment_id": null,
+          "model_telemetry": null,
+          "operator": "bm25_retrieve",
+          "operator_latency_ms": 87.46529999189079,
+          "output": {
+            "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence",
+            "media_type": "application/json",
+            "sha256_hex": "bb2ff729c5e915a686222fa42da3ea7e314081b137a93b07e4ff2e19b542f7c0",
+            "size_bytes": 54015
+          },
+          "transfers": []
+        },
+        "failure": null,
+        "node_id": "placement-group-bm25-reduce",
+        "scheduler_decision": {
+          "candidate_costs": [],
+          "logical_agent_id": "synthesizer",
+          "node_id": "placement-group-bm25-reduce",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A28",
+            "target_deployment_id": null
+          },
+          "rationale": "v1 empirical-oracle run forces the complete synthesis stage",
+          "scheduler": "b1_myopic_cost_aware",
+          "selected_agent_id": "A28",
+          "selected_deployment_id": null
+        },
+        "scheduling_batch": 2,
+        "started_at": "2026-09-23T00:21:44.007933Z"
+      },
+      {
+        "action": {
+          "decision_type": "action",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A28",
+            "target_deployment_id": null
+          },
+          "semantic": {
+            "arguments": {
+              "fields": [
+                "source_document_id",
+                "title",
+                "evidence_excerpt"
+              ],
+              "output_artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+            },
+            "inputs": [
+              "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--ranked-evidence"
+            ],
+            "operator": "select_fields"
+          }
+        },
+        "duration_ms": 18.522300000768155,
+        "ended_at": "2026-09-23T00:21:53.195408Z",
+        "execution": {
+          "agent_ids": [
+            "A28"
+          ],
+          "deployment_id": null,
+          "model_telemetry": null,
+          "operator": "select_fields",
+          "operator_latency_ms": 18.393500009551644,
+          "output": {
+            "artifact_id": "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready",
+            "media_type": "application/json",
+            "sha256_hex": "00df41bcb6c0447ca4c92582e39086c10ecf6e43481f5c809877d9e72df7dfbe",
+            "size_bytes": 12441
+          },
+          "transfers": []
+        },
+        "failure": null,
+        "node_id": "placement-group-project-context",
+        "scheduler_decision": {
+          "candidate_costs": [],
+          "logical_agent_id": "synthesizer",
+          "node_id": "placement-group-project-context",
+          "physical": {
+            "policy": "target_agent",
+            "target_agent_id": "A28",
+            "target_deployment_id": null
+          },
+          "rationale": "v1 synthesis-stage intermediate reuses the leader's frozen site",
+          "scheduler": "b1_myopic_cost_aware",
+          "selected_agent_id": "A28",
+          "selected_deployment_id": null
+        },
+        "scheduling_batch": 3,
+        "started_at": "2026-09-23T00:21:53.176488Z"
+      },
+      {
+        "action": {
+          "decision_type": "action",
+          "physical": {
+            "policy": "target_deployment",
+            "target_agent_id": null,
+            "target_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+          },
+          "semantic": {
+            "arguments": {
+              "prompt": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?\nUse only the context artifact. Compare both sources in 120 to 180 words, then end with exactly ANSWER: Yes or ANSWER: No. Do not reveal chain-of-thought."
+            },
+            "inputs": [
+              "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1--context-ready"
+            ],
+            "operator": "invoke_model"
+          }
+        },
+        "duration_ms": 127532.71830000449,
+        "ended_at": "2026-09-23T00:24:09.594431Z",
+        "execution": {
+          "agent_ids": [
+            "A28"
+          ],
+          "deployment_id": "a28-qwen3.8-27b-q4km-v1",
+          "model_telemetry": {
+            "finish_reason": "stop",
+            "input_tokens": 3211,
+            "output_tokens": 208,
+            "service_latency_ms": 127396.94011304528
+          },
+          "operator": "invoke_model",
+          "operator_latency_ms": 127532.55730000092,
+          "output": {
+            "text": "Both the Polygon Diablo 4 guide for Barbarian builds and the guide for Sorcerer builds in Season 2 explicitly state their intent to simplify complex class mechanics for players. The Barbarian guide notes that while the class is simple, the underlying math is complex, and it aims to gather and simplify the best builds, linking to more detailed resources for those needing deeper information on item affixes. Similarly, the Sorcerer guide acknowledges that harnessing multiple elements can be overwhelming and states that it has gathered and simplified the best builds for Season 2. Both guides follow an identical structural approach: they provide a streamlined leveling build and an endgame build, list specific skill point allocations, and recommend particular Legendary Aspects and Vampiric Powers. In both cases, the guides serve as accessible entry points that summarize key strategies while directing readers to original creators like IcyVeins or MaxRoll for comprehensive details. Therefore, the Sorcerer guide provides simplified versions of builds in the same manner as the Barbarian guide.\n\nANSWER: Yes"
+          },
+          "transfers": []
+        },
+        "failure": null,
+        "node_id": "same-model-synthesis",
+        "scheduler_decision": {
+          "candidate_costs": [],
+          "logical_agent_id": "synthesizer",
+          "node_id": "same-model-synthesis",
+          "physical": {
+            "policy": "target_deployment",
+            "target_agent_id": null,
+            "target_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+          },
+          "rationale": "v1 synthesis follower reuses the leader's frozen equivalent-replica site",
+          "scheduler": "b1_myopic_cost_aware",
+          "selected_agent_id": "A28",
+          "selected_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+        },
+        "scheduling_batch": 4,
+        "started_at": "2026-09-23T00:22:02.061923Z"
+      }
+    ],
+    "state": {
+      "node_status": {
+        "merge-package": "done",
+        "placement-group-bm25-reduce": "done",
+        "placement-group-project-context": "done",
+        "same-model-synthesis": "done",
+        "source-a-local-retrieve-reduce": "done",
+        "source-b-local-retrieve-reduce": "done"
+      }
+    },
+    "telemetry": {
+      "critical_path_latency_ms": 130360.36080002668,
+      "e2e_latency_ms": 174946.50260001072,
+      "max_parallelism": 2,
+      "parallel_overlap_ms": 405.1853867461905,
+      "total_model_service_latency_ms": 127396.94011304528,
+      "total_operator_latency_ms": 128653.45769998385,
+      "total_transfer_bytes": 8406732,
+      "total_transfer_duration_ms": 2112.1003000007477
+    }
+  },
+  "workload": {
+    "artifacts": [
+      {
+        "artifact_id": "heterogeneous-v2-s-shard-a",
+        "logical_type": "derived_semantic_document_corpus;question_independent_payload_axis;text_field=body",
+        "media_type": "application/json"
+      },
+      {
+        "artifact_id": "heterogeneous-v2-s-shard-b",
+        "logical_type": "derived_semantic_document_corpus;question_independent_payload_axis;text_field=body",
+        "media_type": "application/json"
+      }
+    ],
+    "available_model_instances": [
+      {
+        "modalities": [
+          "text",
+          "image"
+        ],
+        "model_id": "qwen3.8-27b-q4km-v1",
+        "model_instance_id": "a28-qwen3.8-27b-q4km-v1"
+      }
+    ],
+    "available_operations": [
+      "bm25_retrieve",
+      "aggregate_artifacts",
+      "select_fields",
+      "invoke_model"
+    ],
+    "max_agents": 4,
+    "min_agents": 4
+  }
+}
