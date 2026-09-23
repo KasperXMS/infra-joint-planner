@@ -178,6 +178,7 @@ class OpenAICompatibleModelBackend:
         max_input_tokens: int | None = None,
         token_counter: Callable[[str], int] | None = None,
         reasoning_effort: Literal["none", "low", "medium", "high"] | None = None,
+        temperature: float | None = None,
     ) -> None:
         if not model:
             raise ValueError("model must not be empty")
@@ -190,6 +191,7 @@ class OpenAICompatibleModelBackend:
         self._max_input_tokens = max_input_tokens
         self._token_counter = token_counter
         self._reasoning_effort = reasoning_effort
+        self._temperature = temperature
 
     async def invoke(self, request: ModelRequest) -> ModelCompletion:
         if self._token_counter is not None and self._max_input_tokens is not None:
@@ -233,6 +235,8 @@ class OpenAICompatibleModelBackend:
             arguments["max_tokens"] = request.max_output_tokens
         if self._reasoning_effort is not None:
             arguments["reasoning_effort"] = self._reasoning_effort
+        if self._temperature is not None:
+            arguments["temperature"] = self._temperature
         started = perf_counter()
         completion = await self._client.chat.completions.create(**cast(Any, arguments))
         latency_ms = (perf_counter() - started) * 1000

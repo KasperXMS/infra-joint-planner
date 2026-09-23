@@ -608,6 +608,7 @@ def prepare(
     if freeze_root.exists():
         raise RuntimeError("freeze already exists; refusing overwrite")
     environment_path = REPO / str(config["environment_config"])
+    planner_path = REPO / str(config["planner"]["config"])
     infrastructure = _infrastructure(config)
     manifest: dict[str, Any] = {
         "experiment_id": config["experiment_id"],
@@ -616,6 +617,11 @@ def prepare(
             "path": str(config["environment_config"]),
             "sha256": _sha256(environment_path),
         },
+        "planner_config": {
+            "path": str(config["planner"]["config"]),
+            "sha256": _sha256(planner_path),
+        },
+        "available_operations": list(config["planner"]["available_operations"]),
         "network": "native_unshaped",
         "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
         "planner_calls_per_task": 1,

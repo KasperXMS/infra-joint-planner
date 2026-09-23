@@ -43,7 +43,7 @@ dataset:
     longbench_structured: deterministic lossless fixed-width to typed JSON records
     multihop_rag: complete 609-document corpus in three deterministic content-hash shards
 planner:
-  config: configs/local/heterogeneous-v1-planner.yaml
+  config: configs/experiments/blind-baseline-planner-v1.yaml
   model_instance_aliases:
     reasoner-alpha: a28-qwen3.8-27b-q4km-v1
     reasoner-beta: strong-4090-qwen3.8-27b-q4km-v1

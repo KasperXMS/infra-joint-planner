@@ -1,4 +1,4 @@
-experiment_id: blind-baseline-development-smoke-v5
+experiment_id: blind-baseline-development-smoke-v6
 environment_config: configs/experiments/blind-baseline-environment-v1.yaml
 dataset:
   tasks:

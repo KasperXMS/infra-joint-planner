@@ -93,6 +93,7 @@ async def test_openai_compatible_backend_sends_explicit_reasoning_effort() -> No
         openai_client,
         "local-model",
         reasoning_effort="none",
+        temperature=0,
     )
     try:
         await backend.complete("Choose one")
@@ -100,6 +101,7 @@ async def test_openai_compatible_backend_sends_explicit_reasoning_effort() -> No
         await openai_client.close()
 
     assert json.loads(requests[0].content)["reasoning_effort"] == "none"
+    assert json.loads(requests[0].content)["temperature"] == 0
 
 
 @pytest.mark.asyncio

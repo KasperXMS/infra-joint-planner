@@ -27,7 +27,7 @@ dataset:
     longbench_multidoc: complete context represented as lossless ordered bounded text chunks
     multihop_rag: complete 609-document corpus in three content-hash shards with lossless bounded body chunks
 planner:
-  config: configs/local/heterogeneous-v1-planner.yaml
+  config: configs/experiments/blind-baseline-planner-v1.yaml
   model_instance_aliases:
     reasoner-alpha: a28-qwen3.8-27b-q4km-v1
     reasoner-beta: strong-4090-qwen3.8-27b-q4km-v1

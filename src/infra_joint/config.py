@@ -26,6 +26,7 @@ class OpenAIBackendConfig(ContractModel):
     model: str = Field(min_length=1)
     api_key_env: str = Field(default="OPENAI_API_KEY", min_length=1)
     reasoning_effort: Literal["none", "low", "medium", "high"] | None = None
+    temperature: float | None = Field(default=None, ge=0, le=2)
 
 
 BackendConfig = Annotated[
@@ -109,6 +110,7 @@ def build_model_backend(config: BackendConfig) -> tuple[ModelBackend, AsyncOpenA
             client,
             config.model,
             reasoning_effort=config.reasoning_effort,
+            temperature=config.temperature,
         ),
         client,
     )

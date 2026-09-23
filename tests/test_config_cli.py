@@ -79,9 +79,11 @@ def test_openai_backend_config_preserves_explicit_non_thinking_mode() -> None:
         base_url="http://localhost:11434/v1",
         model="local-model",
         reasoning_effort="none",
+        temperature=0,
     )
 
     assert config.reasoning_effort == "none"
+    assert config.temperature == 0
 
 
 def test_cli_help_exposes_worker_command() -> None:
