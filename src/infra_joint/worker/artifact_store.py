@@ -53,6 +53,8 @@ class ArtifactStore(Protocol):
 
     def ids(self) -> tuple[str, ...]: ...
 
+    def metadata(self) -> tuple["ArtifactMetadata", ...]: ...
+
 
 class InMemoryArtifactStore:
     def __init__(self, artifacts: tuple[StoredArtifact, ...] = ()) -> None:
@@ -79,6 +81,19 @@ class InMemoryArtifactStore:
 
     def ids(self) -> tuple[str, ...]:
         return tuple(sorted(self._artifacts))
+
+    def metadata(self) -> tuple["ArtifactMetadata", ...]:
+        return tuple(
+            ArtifactMetadata(
+                artifact_id=artifact.artifact_id,
+                media_type=artifact.media_type,
+                size_bytes=len(artifact.content),
+                sha256_hex=artifact.sha256_hex,
+            )
+            for artifact in sorted(
+                self._artifacts.values(), key=lambda item: item.artifact_id
+            )
+        )
 
 
 class ArtifactMetadata(ContractModel):
@@ -149,7 +164,10 @@ class FileArtifactStore:
         )
 
     def ids(self) -> tuple[str, ...]:
-        artifact_ids: list[str] = []
+        return tuple(item.artifact_id for item in self.metadata())
+
+    def metadata(self) -> tuple[ArtifactMetadata, ...]:
+        artifacts: list[ArtifactMetadata] = []
         for metadata_path in self._root.glob("*.json"):
             try:
                 metadata = ArtifactMetadata.model_validate_json(
@@ -159,8 +177,17 @@ class FileArtifactStore:
                 raise ArtifactCorruptionError(
                     f"invalid artifact metadata file: {metadata_path.name}"
                 ) from exc
-            artifact_ids.append(metadata.artifact_id)
-        return tuple(sorted(artifact_ids))
+            blob_path, expected_metadata_path = self._paths(metadata.artifact_id)
+            if expected_metadata_path != metadata_path or not blob_path.is_file():
+                raise ArtifactCorruptionError(
+                    f"partial or misplaced artifact metadata: {metadata.artifact_id}"
+                )
+            if blob_path.stat().st_size != metadata.size_bytes:
+                raise ArtifactCorruptionError(
+                    f"artifact size mismatch: {metadata.artifact_id}"
+                )
+            artifacts.append(metadata)
+        return tuple(sorted(artifacts, key=lambda item: item.artifact_id))
 
     def delete(self, artifact_id: str) -> bool:
         blob_path, metadata_path = self._paths(artifact_id)

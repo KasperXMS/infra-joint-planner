@@ -1293,6 +1293,19 @@ async def run(
             baseline["stopped_on_system_harness_confounder"] = run_id
             _write_json(output / "baseline-manifest.json", baseline)
             raise RuntimeError(f"system/harness confounder at {run_id}: {failure}")
+        if not result.execution_completed:
+            failure = {
+                "task": label,
+                "run_id": run_id,
+                "system_harness_confounder": True,
+                "runtime_failure": (
+                    result.failure.model_dump(mode="json") if result.failure else None
+                ),
+            }
+            baseline["tasks"].append(failure)
+            baseline["stopped_on_system_harness_confounder"] = run_id
+            _write_json(output / "baseline-manifest.json", baseline)
+            raise RuntimeError(f"system/harness confounder at {run_id}: {failure}")
         planner_call = json.loads(
             (output / "freeze" / label / "planner-call.json").read_text(encoding="utf-8")
         )

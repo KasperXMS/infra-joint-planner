@@ -86,15 +86,7 @@ def _failure(code: ExecutionErrorCode, message: str, status_code: int = 422) -> 
 
 
 def _artifact_metadata(store: ArtifactStore) -> tuple[ArtifactMetadata, ...]:
-    return tuple(
-        ArtifactMetadata(
-            artifact_id=artifact.artifact_id,
-            media_type=artifact.media_type,
-            size_bytes=len(artifact.content),
-            sha256_hex=artifact.sha256_hex,
-        )
-        for artifact in (store.get(artifact_id) for artifact_id in store.ids())
-    )
+    return store.metadata()
 
 
 def create_worker_app(
