@@ -246,11 +246,11 @@ evidence.
 
 ### E5 v2 pilot status
 
-E5 is being rerun from the v2 freeze with new run IDs. The frozen randomized
-schedule is `results/heterogeneous-v1-pilot-v2-schedule-audit2.json`: seed
+E5 is being rerun from the v2 freeze with new run IDs. The current frozen randomized
+schedule is `results/heterogeneous-v1-pilot-v2-schedule-audit3.json`: seed
 20260922, six calibrated bandwidths x three payloads x two forced placements x
-three repetitions = 108 scheduled runs. The live resume ledger is the matching
-`-audit2-progress.json` sidecar. After 56 eligible runs, attempt
+three repetitions = 108 scheduled runs. The paused resume ledger is the matching
+`-audit3-progress.json` sidecar. Under the preceding audit2 schedule, after 56 eligible runs, attempt
 `hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1` completed its workflow but
 failed closed when A5's artifact-cleanup SSH session did not deliver an exit
 status within 60 seconds. The A5 deletion itself had completed; because the
@@ -258,11 +258,34 @@ fail-fast loop had not yet reached A28, five generated artifacts there were
 explicitly removed and their absence was verified on all four Workers. SSH is
 now forced to use no stdin and no TTY, and this idempotent post-run `rm -f`
 alone receives one bounded retry whose recovery is persisted in metadata. Any
-second failure remains invalid. The failed attempt is retained and a new
-replacement ID is required before resuming. Partial cells are not analyzed and
-no v2 crossover or regime-selection conclusion is claimed.
+second failure remains invalid. The failed attempt is retained and audit3 uses
+a new replacement ID.
 
-E6 (freeze H_low/H_mid/H_high) remains pending completion and audit of E5 v2.
+The replacement completed under
+`hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-replacement-audit3`, after which
+the queue advanced to 75 valid scheduled runs. At the user's review boundary,
+the active 10 Mbps/L/A28 run was allowed to finish atomically and the driver
+was interrupted during the next run's initial transactional `tc` apply. That
+apply was rolled back; the next run created no directory or sidecar, A28/RTX
+were verified at `mq`/`noqueue`, and all four Workers were available and idle.
+The remaining queue is paused and has not been resumed. The machine-readable
+pause boundary is retained in
+`results/invalid-runs/pilot-v2-user-pause-after-run75.json`; it is classified as
+a controlled pre-execution pause, not as an experimental run.
+
+The exact partial-coverage, variation, preference, and queue-reduction audit is
+in `docs/heterogeneous-v1-pilot-v2-paused-analysis.md`, with machine-readable
+data in `results/heterogeneous-v1-pilot-v2-paused-analysis.json`. All 36 cells
+have at least one valid observation. S and M prefer RTX at every tested
+bandwidth, including 3 Mbps. L reverses between 3 Mbps (A28) and 10 Mbps (RTX).
+The minimum completion set is one pending 3 Mbps/L/A28 repetition to bring both
+placements at the observed bracket endpoints to n=3. The other 32 pending runs
+are not required for this preliminary regime-selection stage; two 30 Mbps/L
+runs are separately identified as optional confirmation if n=3 is desired at
+the candidate H_high.
+
+E6 (freeze H_low/H_mid/H_high) remains pending review of this reduced completion
+proposal; no queue cell will run before that review.
 
 ## Formal B0/B1 and oracle matrix
 
@@ -309,6 +332,8 @@ E1--E4 establish the real heterogeneous substrate, calibrated `tc` network
 conditions, equivalent 27.3B model replicas, and repeated device profiles. The
 first 108-run forced-placement sweep is reproducible but is excluded from E5/E6
 because its synthesis context was below the declared input scale. The versioned
-v2 representation has passed a 3,201-input-token real-Worker smoke, and E5 v2 is
-in progress. No v2 crossover, formal routing-regret, oracle-selection, or
-scheduler-superiority claim is made before E5--E7 finish and are audited.
+v2 representation has passed a 3,201-input-token real-Worker smoke. E5 v2 is
+paused at 75/108 valid scheduled runs for reduction review; the partial evidence
+shows an L-payload crossover bracket at 3--10 Mbps but is not formal evidence.
+No formal routing-regret, oracle-selection, or scheduler-superiority claim is
+made before E5--E7 finish and are audited.

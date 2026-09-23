@@ -1,0 +1,13 @@
+{
+  "classification": "controlled_pause_before_experimental_execution",
+  "counted_as_pilot_or_experiment_run": false,
+  "last_completed_run_id": "hetero-v1-pilot-bw10-l-forced-a28-r03-v2-audit1",
+  "valid_completed_count": 75,
+  "next_scheduled_run_id": "hetero-v1-pilot-bw30-s-forced-a28-r02-v2-audit1",
+  "interruption_point": "initial transactional tc apply before Worker preflight, workflow execution, result creation, trace creation, or metadata creation",
+  "next_run_directory_created": false,
+  "network_cleanup": "TcController BaseException cleanup ran; A28 and strong-4090 were independently verified restored to mq and noqueue",
+  "worker_state": "A4, A5, A28, and strong-4090 were available with in_flight=0 after the pause",
+  "resume_state": "queue intentionally paused for reduction review; no remaining cell may run before review",
+  "evidence_policy": "the next schedule entry was not an experimental run and has no result, trace, metadata, or failure sidecar"
+}

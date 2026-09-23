@@ -1,0 +1,2578 @@
+{
+  "coverage": [
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 3.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        179149.846,
+        177244.856
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 178197.351,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw3-s-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw3-s-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 3.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        76098.579,
+        75588.244
+      ],
+      "individual_transfer_bytes": [
+        8406731,
+        8406731
+      ],
+      "individual_transfer_ms": [
+        23805.141,
+        23665.68
+      ],
+      "median_e2e_ms": 75843.411,
+      "median_transfer_bytes": 8406731,
+      "median_transfer_ms": 23735.411,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw3-s-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw3-s-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 3.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        185611.553
+      ],
+      "individual_transfer_bytes": [
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0
+      ],
+      "median_e2e_ms": 185611.553,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw3-m-forced-a28-r01-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 3.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        149525.243,
+        150241.639
+      ],
+      "individual_transfer_bytes": [
+        33621241,
+        33621241
+      ],
+      "individual_transfer_ms": [
+        94014.824,
+        94058.689
+      ],
+      "median_e2e_ms": 149883.441,
+      "median_transfer_bytes": 33621241,
+      "median_transfer_ms": 94036.756,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw3-m-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw3-m-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 3.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        201948.09,
+        204459.241
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 203203.665,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw3-l-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw3-l-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 3.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        449700.038,
+        447113.123,
+        447718.389
+      ],
+      "individual_transfer_bytes": [
+        134499446,
+        134499446,
+        134499446
+      ],
+      "individual_transfer_ms": [
+        375619.379,
+        375622.778,
+        375605.165
+      ],
+      "median_e2e_ms": 447718.389,
+      "median_transfer_bytes": 134499446,
+      "median_transfer_ms": 375619.379,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw3-l-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw3-l-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw3-l-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 10.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        172491.448,
+        185025.086
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 178758.267,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw10-s-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw10-s-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 10.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        59300.746,
+        58588.481
+      ],
+      "individual_transfer_bytes": [
+        8406731,
+        8406731
+      ],
+      "individual_transfer_ms": [
+        7173.331,
+        7225.96
+      ],
+      "median_e2e_ms": 58944.613,
+      "median_transfer_bytes": 8406731,
+      "median_transfer_ms": 7199.645,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw10-s-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw10-s-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 10.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        184554.058,
+        185336.272
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 184945.165,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw10-m-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw10-m-forced-a28-r02-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 10.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        84602.673,
+        84407.071
+      ],
+      "individual_transfer_bytes": [
+        33621241,
+        33621241
+      ],
+      "individual_transfer_ms": [
+        28403.405,
+        28617.372
+      ],
+      "median_e2e_ms": 84504.872,
+      "median_transfer_bytes": 33621241,
+      "median_transfer_ms": 28510.389,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw10-m-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw10-m-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 10.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        194875.765,
+        197718.993,
+        204736.287
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 197718.993,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw10-l-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw10-l-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw10-l-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 10.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        184753.789,
+        186406.052,
+        183120.076
+      ],
+      "individual_transfer_bytes": [
+        134499446,
+        134499446,
+        134499446
+      ],
+      "individual_transfer_ms": [
+        113311.093,
+        114164.256,
+        113069.977
+      ],
+      "median_e2e_ms": 184753.789,
+      "median_transfer_bytes": 134499446,
+      "median_transfer_ms": 113311.093,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw10-l-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw10-l-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw10-l-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 30.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        180291.203,
+        182067.584
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 181179.394,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw30-s-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw30-s-forced-a28-r03-v2-replacement-audit2"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 30.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        55522.086,
+        56119.554,
+        54379.938
+      ],
+      "individual_transfer_bytes": [
+        8406731,
+        8406731,
+        8406731
+      ],
+      "individual_transfer_ms": [
+        2504.708,
+        2660.388,
+        3061.34
+      ],
+      "median_e2e_ms": 55522.086,
+      "median_transfer_bytes": 8406731,
+      "median_transfer_ms": 2660.388,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw30-s-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw30-s-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw30-s-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 30.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        176963.754,
+        174151.948,
+        188964.314
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 176963.754,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw30-m-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw30-m-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw30-m-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 30.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        66465.16,
+        67387.475
+      ],
+      "individual_transfer_bytes": [
+        33621241,
+        33621241
+      ],
+      "individual_transfer_ms": [
+        10276.172,
+        9722.724
+      ],
+      "median_e2e_ms": 66926.318,
+      "median_transfer_bytes": 33621241,
+      "median_transfer_ms": 9999.448,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw30-m-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw30-m-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 30.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        202672.614,
+        195311.71
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 198992.162,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw30-l-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw30-l-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 30.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        109893.291,
+        110702.769
+      ],
+      "individual_transfer_bytes": [
+        134499446,
+        134499446
+      ],
+      "individual_transfer_ms": [
+        38281.007,
+        38280.323
+      ],
+      "median_e2e_ms": 110298.03,
+      "median_transfer_bytes": 134499446,
+      "median_transfer_ms": 38280.665,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw30-l-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw30-l-forced-rtx-r02-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 100.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        171474.984,
+        174946.503,
+        176357.991
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 174946.503,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw100-s-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw100-s-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw100-s-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 100.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        52538.378,
+        53868.156
+      ],
+      "individual_transfer_bytes": [
+        8406731,
+        8406731
+      ],
+      "individual_transfer_ms": [
+        1278.797,
+        1514.316
+      ],
+      "median_e2e_ms": 53203.267,
+      "median_transfer_bytes": 8406731,
+      "median_transfer_ms": 1396.556,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw100-s-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw100-s-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 100.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        181741.426,
+        181271.24,
+        178451.632
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 181271.24,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw100-m-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw100-m-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw100-m-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 100.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        60704.601
+      ],
+      "individual_transfer_bytes": [
+        33621241
+      ],
+      "individual_transfer_ms": [
+        4105.355
+      ],
+      "median_e2e_ms": 60704.601,
+      "median_transfer_bytes": 33621241,
+      "median_transfer_ms": 4105.355,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw100-m-forced-rtx-r01-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 100.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        191002.299
+      ],
+      "individual_transfer_bytes": [
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0
+      ],
+      "median_e2e_ms": 191002.299,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw100-l-forced-a28-r02-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 100.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        85130.041
+      ],
+      "individual_transfer_bytes": [
+        134499446
+      ],
+      "individual_transfer_ms": [
+        13389.638
+      ],
+      "median_e2e_ms": 85130.041,
+      "median_transfer_bytes": 134499446,
+      "median_transfer_ms": 13389.638,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw100-l-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 300.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        176347.743,
+        175315.138,
+        178764.791
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 176347.743,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw300-s-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw300-s-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw300-s-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 300.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        53678.561
+      ],
+      "individual_transfer_bytes": [
+        8406731
+      ],
+      "individual_transfer_ms": [
+        2175.195
+      ],
+      "median_e2e_ms": 53678.561,
+      "median_transfer_bytes": 8406731,
+      "median_transfer_ms": 2175.195,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw300-s-forced-rtx-r01-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 300.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        179476.831,
+        180859.191,
+        183989.35
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 180859.191,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw300-m-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw300-m-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw300-m-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 300.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        59713.373,
+        59599.076
+      ],
+      "individual_transfer_bytes": [
+        33621241,
+        33621241
+      ],
+      "individual_transfer_ms": [
+        3463.988,
+        4459.855
+      ],
+      "median_e2e_ms": 59656.224,
+      "median_transfer_bytes": 33621241,
+      "median_transfer_ms": 3961.921,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw300-m-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw300-m-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 300.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        199654.591
+      ],
+      "individual_transfer_bytes": [
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0
+      ],
+      "median_e2e_ms": 199654.591,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw300-l-forced-a28-r01-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 300.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        89598.051,
+        99254.239
+      ],
+      "individual_transfer_bytes": [
+        134499446,
+        134499446
+      ],
+      "individual_transfer_ms": [
+        18488.791,
+        12128.797
+      ],
+      "median_e2e_ms": 94426.145,
+      "median_transfer_bytes": 134499446,
+      "median_transfer_ms": 15308.794,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw300-l-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw300-l-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 1000.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        178035.234,
+        176212.372
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 177123.803,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw1000-s-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-replacement-audit3"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 1000.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        53920.262
+      ],
+      "individual_transfer_bytes": [
+        8406731
+      ],
+      "individual_transfer_ms": [
+        1514.595
+      ],
+      "median_e2e_ms": 53920.262,
+      "median_transfer_bytes": 8406731,
+      "median_transfer_ms": 1514.595,
+      "n_completed": 1,
+      "n_scheduled": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw1000-s-forced-rtx-r02-v2-audit1"
+      ],
+      "scores": [
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 1000.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        179320.695,
+        208765.518,
+        179904.375
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 179904.375,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 3,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw1000-m-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw1000-m-forced-a28-r02-v2-audit1",
+        "hetero-v1-pilot-bw1000-m-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 1000.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        59204.507,
+        58992.598
+      ],
+      "individual_transfer_bytes": [
+        33621241,
+        33621241
+      ],
+      "individual_transfer_ms": [
+        3289.816,
+        3432.757
+      ],
+      "median_e2e_ms": 59098.553,
+      "median_transfer_bytes": 33621241,
+      "median_transfer_ms": 3361.286,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw1000-m-forced-rtx-r01-v2-audit1",
+        "hetero-v1-pilot-bw1000-m-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 1000.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        201018.844,
+        197113.568
+      ],
+      "individual_transfer_bytes": [
+        0,
+        0
+      ],
+      "individual_transfer_ms": [
+        0.0,
+        0.0
+      ],
+      "median_e2e_ms": 199066.206,
+      "median_transfer_bytes": 0,
+      "median_transfer_ms": 0.0,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "run_ids": [
+        "hetero-v1-pilot-bw1000-l-forced-a28-r01-v2-audit1",
+        "hetero-v1-pilot-bw1000-l-forced-a28-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    },
+    {
+      "all_format_valid": true,
+      "bandwidth_mbps": 1000.0,
+      "cleanup_recoveries": [],
+      "individual_e2e_ms": [
+        83839.181,
+        79082.931
+      ],
+      "individual_transfer_bytes": [
+        134499446,
+        134499446
+      ],
+      "individual_transfer_ms": [
+        10881.477,
+        8491.875
+      ],
+      "median_e2e_ms": 81461.056,
+      "median_transfer_bytes": 134499446,
+      "median_transfer_ms": 9686.676,
+      "n_completed": 2,
+      "n_scheduled": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "run_ids": [
+        "hetero-v1-pilot-bw1000-l-forced-rtx-r02-v2-audit1",
+        "hetero-v1-pilot-bw1000-l-forced-rtx-r03-v2-audit1"
+      ],
+      "scores": [
+        1.0,
+        1.0
+      ],
+      "validity": "all_completed_valid"
+    }
+  ],
+  "crossover_brackets": {
+    "L": [
+      {
+        "high_bandwidth_mbps": 10.0,
+        "high_delta_ms": -12965.204,
+        "low_bandwidth_mbps": 3.0,
+        "low_delta_ms": 244514.724
+      }
+    ],
+    "M": [],
+    "S": []
+  },
+  "factorization": {
+    "bandwidths_mbps": [
+      3.0,
+      10.0,
+      30.0,
+      100.0,
+      300.0,
+      1000.0
+    ],
+    "cell_count": 36,
+    "exact_6x3x2x3": true,
+    "payloads": [
+      "L",
+      "M",
+      "S"
+    ],
+    "placements": [
+      "forced-a28",
+      "forced-rtx"
+    ],
+    "repetitions": [
+      1,
+      2,
+      3
+    ],
+    "run_count": 108,
+    "runs_per_cell": [
+      3
+    ]
+  },
+  "invalid_scheduled_run_count": 0,
+  "invalid_scheduled_runs": [],
+  "pending_run_count": 33,
+  "pending_runs": [
+    {
+      "bandwidth_mbps": 30.0,
+      "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw30",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw30-s-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw10",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw10-s-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw30",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw30-l-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw10",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw10-m-forced-a28-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw100-l-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw1000",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw1000-l-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw1000",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw1000-s-forced-rtx-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw100-l-forced-a28-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw10",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw10-s-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw10",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw10-m-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw300",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw300-s-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw1000",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw1000-m-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw3",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw3-m-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw30",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw30-l-forced-rtx-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw300",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw300-l-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw100-s-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw300",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw300-s-forced-rtx-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw300",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw300-l-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw3",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw3-m-forced-a28-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw3",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw3-s-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw100-l-forced-a28-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw1000",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw1000-l-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw300",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw300-m-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw100-l-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw3",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw3-m-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw100-m-forced-rtx-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw3",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw3-s-forced-a28-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw100",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw100-m-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw3",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw3-l-forced-a28-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw30",
+      "payload": "M",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 2,
+      "run_id": "hetero-v1-pilot-bw30-m-forced-rtx-r02-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw1000",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-rtx",
+      "repetition": 1,
+      "run_id": "hetero-v1-pilot-bw1000-s-forced-rtx-r01-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw300",
+      "payload": "L",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw300-l-forced-a28-r03-v2-audit1",
+      "stage_estimates": null
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+      "condition_label": "pilot-bw1000",
+      "payload": "S",
+      "phase": "pilot",
+      "policy": "forced-a28",
+      "repetition": 3,
+      "run_id": "hetero-v1-pilot-bw1000-s-forced-a28-r03-v2-audit1",
+      "stage_estimates": null
+    }
+  ],
+  "preferences": {
+    "L": [
+      {
+        "bandwidth_mbps": 3.0,
+        "delta_rtx_minus_a28_ms": 244514.724,
+        "median_a28_e2e_ms": 203203.665,
+        "median_rtx_e2e_ms": 447718.389,
+        "n_a28": 2,
+        "n_rtx": 3,
+        "preferred": "A28"
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "delta_rtx_minus_a28_ms": -12965.204,
+        "median_a28_e2e_ms": 197718.993,
+        "median_rtx_e2e_ms": 184753.789,
+        "n_a28": 3,
+        "n_rtx": 3,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "delta_rtx_minus_a28_ms": -88694.132,
+        "median_a28_e2e_ms": 198992.162,
+        "median_rtx_e2e_ms": 110298.03,
+        "n_a28": 2,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "delta_rtx_minus_a28_ms": -105872.258,
+        "median_a28_e2e_ms": 191002.299,
+        "median_rtx_e2e_ms": 85130.041,
+        "n_a28": 1,
+        "n_rtx": 1,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "delta_rtx_minus_a28_ms": -105228.446,
+        "median_a28_e2e_ms": 199654.591,
+        "median_rtx_e2e_ms": 94426.145,
+        "n_a28": 1,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "delta_rtx_minus_a28_ms": -117605.15,
+        "median_a28_e2e_ms": 199066.206,
+        "median_rtx_e2e_ms": 81461.056,
+        "n_a28": 2,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      }
+    ],
+    "M": [
+      {
+        "bandwidth_mbps": 3.0,
+        "delta_rtx_minus_a28_ms": -35728.112,
+        "median_a28_e2e_ms": 185611.553,
+        "median_rtx_e2e_ms": 149883.441,
+        "n_a28": 1,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "delta_rtx_minus_a28_ms": -100440.293,
+        "median_a28_e2e_ms": 184945.165,
+        "median_rtx_e2e_ms": 84504.872,
+        "n_a28": 2,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "delta_rtx_minus_a28_ms": -110037.436,
+        "median_a28_e2e_ms": 176963.754,
+        "median_rtx_e2e_ms": 66926.318,
+        "n_a28": 3,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "delta_rtx_minus_a28_ms": -120566.639,
+        "median_a28_e2e_ms": 181271.24,
+        "median_rtx_e2e_ms": 60704.601,
+        "n_a28": 3,
+        "n_rtx": 1,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "delta_rtx_minus_a28_ms": -121202.967,
+        "median_a28_e2e_ms": 180859.191,
+        "median_rtx_e2e_ms": 59656.224,
+        "n_a28": 3,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "delta_rtx_minus_a28_ms": -120805.822,
+        "median_a28_e2e_ms": 179904.375,
+        "median_rtx_e2e_ms": 59098.553,
+        "n_a28": 3,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      }
+    ],
+    "S": [
+      {
+        "bandwidth_mbps": 3.0,
+        "delta_rtx_minus_a28_ms": -102353.94,
+        "median_a28_e2e_ms": 178197.351,
+        "median_rtx_e2e_ms": 75843.411,
+        "n_a28": 2,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "delta_rtx_minus_a28_ms": -119813.654,
+        "median_a28_e2e_ms": 178758.267,
+        "median_rtx_e2e_ms": 58944.613,
+        "n_a28": 2,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "delta_rtx_minus_a28_ms": -125657.308,
+        "median_a28_e2e_ms": 181179.394,
+        "median_rtx_e2e_ms": 55522.086,
+        "n_a28": 2,
+        "n_rtx": 3,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "delta_rtx_minus_a28_ms": -121743.236,
+        "median_a28_e2e_ms": 174946.503,
+        "median_rtx_e2e_ms": 53203.267,
+        "n_a28": 3,
+        "n_rtx": 2,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "delta_rtx_minus_a28_ms": -122669.182,
+        "median_a28_e2e_ms": 176347.743,
+        "median_rtx_e2e_ms": 53678.561,
+        "n_a28": 3,
+        "n_rtx": 1,
+        "preferred": "strong-4090"
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "delta_rtx_minus_a28_ms": -123203.541,
+        "median_a28_e2e_ms": 177123.803,
+        "median_rtx_e2e_ms": 53920.262,
+        "n_a28": 2,
+        "n_rtx": 1,
+        "preferred": "strong-4090"
+      }
+    ]
+  },
+  "reduction_recommendation": {
+    "candidate_regimes_mbps": {
+      "H_high": 30.0,
+      "H_low": 3.0,
+      "H_mid": 10.0
+    },
+    "interpretation": "S and M already prefer RTX at the minimum tested bandwidth and at every higher observed point, so no remaining run in the fixed 3--1000 Mbps schedule can create an in-range sign-change bracket unless a current sign reverses. L has an observed 3--10 Mbps bracket; 30 Mbps is the first clearly remote-favoring point above it.",
+    "minimum_required_run_count": 1,
+    "minimum_required_runs": [
+      {
+        "bandwidth_mbps": 3.0,
+        "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw3",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw3-l-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      }
+    ],
+    "minimum_rule": "Complete n=3 only for both placements at the observed sign-change bracket endpoints; do not fill unrelated cells.",
+    "no_in_range_crossover_payloads": [
+      "S",
+      "M"
+    ],
+    "optional_n3_high_regime_confirmation_runs": [
+      {
+        "bandwidth_mbps": 30.0,
+        "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw30",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw30-l-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw30",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw30-l-forced-rtx-r03-v2-audit1",
+        "stage_estimates": null
+      }
+    ],
+    "relevant_crossover_payloads": [
+      "L"
+    ],
+    "unnecessary_pending_run_count": 32,
+    "unnecessary_pending_runs": [
+      {
+        "bandwidth_mbps": 30.0,
+        "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw30",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw30-s-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw10",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw10-s-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw30",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw30-l-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw10",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw10-m-forced-a28-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw100-l-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw1000",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw1000-l-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw1000",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw1000-s-forced-rtx-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw100-l-forced-a28-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw10",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw10-s-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 10.0,
+        "calibration": "results\\network_calibration\\netcal-bw10-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw10",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw10-m-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw300",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw300-s-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw1000",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw1000-m-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 3.0,
+        "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw3",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw3-m-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw30",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw30-l-forced-rtx-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw300",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw300-l-forced-a28-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw100-s-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw300",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw300-s-forced-rtx-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw300",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw300-l-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 3.0,
+        "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw3",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw3-m-forced-a28-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 3.0,
+        "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw3",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw3-s-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw100-l-forced-a28-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw1000",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw1000-l-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw300",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw300-m-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw100-l-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 3.0,
+        "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw3",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw3-m-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw100-m-forced-rtx-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 3.0,
+        "calibration": "results\\network_calibration\\netcal-bw3-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw3",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw3-s-forced-a28-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 100.0,
+        "calibration": "results\\network_calibration\\netcal-bw100-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw100",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw100-m-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 30.0,
+        "calibration": "results\\network_calibration\\netcal-bw30-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw30",
+        "payload": "M",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 2,
+        "run_id": "hetero-v1-pilot-bw30-m-forced-rtx-r02-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw1000",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-rtx",
+        "repetition": 1,
+        "run_id": "hetero-v1-pilot-bw1000-s-forced-rtx-r01-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 300.0,
+        "calibration": "results\\network_calibration\\netcal-bw300-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw300",
+        "payload": "L",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw300-l-forced-a28-r03-v2-audit1",
+        "stage_estimates": null
+      },
+      {
+        "bandwidth_mbps": 1000.0,
+        "calibration": "results\\network_calibration\\netcal-bw1000-rtt20-v1-audit1.json",
+        "condition_label": "pilot-bw1000",
+        "payload": "S",
+        "phase": "pilot",
+        "policy": "forced-a28",
+        "repetition": 3,
+        "run_id": "hetero-v1-pilot-bw1000-s-forced-a28-r03-v2-audit1",
+        "stage_estimates": null
+      }
+    ]
+  },
+  "schedule": "results\\heterogeneous-v1-pilot-v2-schedule-audit3.json",
+  "schema_version": "heterogeneous-v1-partial-pilot-audit-v1",
+  "valid_completed_run_count": 75,
+  "within_cell_variation": [
+    {
+      "bandwidth_mbps": 3.0,
+      "cv_percent": 0.756,
+      "max_e2e_ms": 179149.846,
+      "mean_e2e_ms": 178197.351,
+      "min_e2e_ms": 177244.856,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-a28",
+      "range_e2e_ms": 1904.991,
+      "relative_range_percent_of_median": 1.069,
+      "sample_std_e2e_ms": 1347.032
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "cv_percent": 0.476,
+      "max_e2e_ms": 76098.579,
+      "mean_e2e_ms": 75843.411,
+      "min_e2e_ms": 75588.244,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 510.335,
+      "relative_range_percent_of_median": 0.673,
+      "sample_std_e2e_ms": 360.861
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "cv_percent": 0.338,
+      "max_e2e_ms": 150241.639,
+      "mean_e2e_ms": 149883.441,
+      "min_e2e_ms": 149525.243,
+      "n": 2,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 716.396,
+      "relative_range_percent_of_median": 0.478,
+      "sample_std_e2e_ms": 506.568
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "cv_percent": 0.874,
+      "max_e2e_ms": 204459.241,
+      "mean_e2e_ms": 203203.665,
+      "min_e2e_ms": 201948.09,
+      "n": 2,
+      "payload": "L",
+      "placement": "forced-a28",
+      "range_e2e_ms": 2511.151,
+      "relative_range_percent_of_median": 1.236,
+      "sample_std_e2e_ms": 1775.652
+    },
+    {
+      "bandwidth_mbps": 3.0,
+      "cv_percent": 0.302,
+      "max_e2e_ms": 449700.038,
+      "mean_e2e_ms": 448177.183,
+      "min_e2e_ms": 447113.123,
+      "n": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 2586.915,
+      "relative_range_percent_of_median": 0.578,
+      "sample_std_e2e_ms": 1353.108
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "cv_percent": 4.958,
+      "max_e2e_ms": 185025.086,
+      "mean_e2e_ms": 178758.267,
+      "min_e2e_ms": 172491.448,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-a28",
+      "range_e2e_ms": 12533.638,
+      "relative_range_percent_of_median": 7.012,
+      "sample_std_e2e_ms": 8862.62
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "cv_percent": 0.854,
+      "max_e2e_ms": 59300.746,
+      "mean_e2e_ms": 58944.613,
+      "min_e2e_ms": 58588.481,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 712.265,
+      "relative_range_percent_of_median": 1.208,
+      "sample_std_e2e_ms": 503.647
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "cv_percent": 0.299,
+      "max_e2e_ms": 185336.272,
+      "mean_e2e_ms": 184945.165,
+      "min_e2e_ms": 184554.058,
+      "n": 2,
+      "payload": "M",
+      "placement": "forced-a28",
+      "range_e2e_ms": 782.214,
+      "relative_range_percent_of_median": 0.423,
+      "sample_std_e2e_ms": 553.108
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "cv_percent": 0.164,
+      "max_e2e_ms": 84602.673,
+      "mean_e2e_ms": 84504.872,
+      "min_e2e_ms": 84407.071,
+      "n": 2,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 195.602,
+      "relative_range_percent_of_median": 0.231,
+      "sample_std_e2e_ms": 138.312
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "cv_percent": 2.549,
+      "max_e2e_ms": 204736.287,
+      "mean_e2e_ms": 199110.349,
+      "min_e2e_ms": 194875.765,
+      "n": 3,
+      "payload": "L",
+      "placement": "forced-a28",
+      "range_e2e_ms": 9860.522,
+      "relative_range_percent_of_median": 4.987,
+      "sample_std_e2e_ms": 5075.37
+    },
+    {
+      "bandwidth_mbps": 10.0,
+      "cv_percent": 0.889,
+      "max_e2e_ms": 186406.052,
+      "mean_e2e_ms": 184759.972,
+      "min_e2e_ms": 183120.076,
+      "n": 3,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 3285.975,
+      "relative_range_percent_of_median": 1.779,
+      "sample_std_e2e_ms": 1642.996
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "cv_percent": 0.693,
+      "max_e2e_ms": 182067.584,
+      "mean_e2e_ms": 181179.394,
+      "min_e2e_ms": 180291.203,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-a28",
+      "range_e2e_ms": 1776.38,
+      "relative_range_percent_of_median": 0.98,
+      "sample_std_e2e_ms": 1256.091
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "cv_percent": 1.597,
+      "max_e2e_ms": 56119.554,
+      "mean_e2e_ms": 55340.526,
+      "min_e2e_ms": 54379.938,
+      "n": 3,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 1739.616,
+      "relative_range_percent_of_median": 3.133,
+      "sample_std_e2e_ms": 883.906
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "cv_percent": 4.37,
+      "max_e2e_ms": 188964.314,
+      "mean_e2e_ms": 180026.672,
+      "min_e2e_ms": 174151.948,
+      "n": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "range_e2e_ms": 14812.366,
+      "relative_range_percent_of_median": 8.37,
+      "sample_std_e2e_ms": 7866.87
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "cv_percent": 0.974,
+      "max_e2e_ms": 67387.475,
+      "mean_e2e_ms": 66926.318,
+      "min_e2e_ms": 66465.16,
+      "n": 2,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 922.315,
+      "relative_range_percent_of_median": 1.378,
+      "sample_std_e2e_ms": 652.175
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "cv_percent": 2.616,
+      "max_e2e_ms": 202672.614,
+      "mean_e2e_ms": 198992.162,
+      "min_e2e_ms": 195311.71,
+      "n": 2,
+      "payload": "L",
+      "placement": "forced-a28",
+      "range_e2e_ms": 7360.904,
+      "relative_range_percent_of_median": 3.699,
+      "sample_std_e2e_ms": 5204.945
+    },
+    {
+      "bandwidth_mbps": 30.0,
+      "cv_percent": 0.519,
+      "max_e2e_ms": 110702.769,
+      "mean_e2e_ms": 110298.03,
+      "min_e2e_ms": 109893.291,
+      "n": 2,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 809.478,
+      "relative_range_percent_of_median": 0.734,
+      "sample_std_e2e_ms": 572.388
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "cv_percent": 1.442,
+      "max_e2e_ms": 176357.991,
+      "mean_e2e_ms": 174259.826,
+      "min_e2e_ms": 171474.984,
+      "n": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "range_e2e_ms": 4883.007,
+      "relative_range_percent_of_median": 2.791,
+      "sample_std_e2e_ms": 2512.883
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "cv_percent": 1.767,
+      "max_e2e_ms": 53868.156,
+      "mean_e2e_ms": 53203.267,
+      "min_e2e_ms": 52538.378,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 1329.778,
+      "relative_range_percent_of_median": 2.499,
+      "sample_std_e2e_ms": 940.295
+    },
+    {
+      "bandwidth_mbps": 100.0,
+      "cv_percent": 0.986,
+      "max_e2e_ms": 181741.426,
+      "mean_e2e_ms": 180488.099,
+      "min_e2e_ms": 178451.632,
+      "n": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "range_e2e_ms": 3289.794,
+      "relative_range_percent_of_median": 1.815,
+      "sample_std_e2e_ms": 1779.232
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "cv_percent": 1.001,
+      "max_e2e_ms": 178764.791,
+      "mean_e2e_ms": 176809.224,
+      "min_e2e_ms": 175315.138,
+      "n": 3,
+      "payload": "S",
+      "placement": "forced-a28",
+      "range_e2e_ms": 3449.653,
+      "relative_range_percent_of_median": 1.956,
+      "sample_std_e2e_ms": 1770.523
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "cv_percent": 1.274,
+      "max_e2e_ms": 183989.35,
+      "mean_e2e_ms": 181441.791,
+      "min_e2e_ms": 179476.831,
+      "n": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "range_e2e_ms": 4512.519,
+      "relative_range_percent_of_median": 2.495,
+      "sample_std_e2e_ms": 2311.985
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "cv_percent": 0.135,
+      "max_e2e_ms": 59713.373,
+      "mean_e2e_ms": 59656.224,
+      "min_e2e_ms": 59599.076,
+      "n": 2,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 114.297,
+      "relative_range_percent_of_median": 0.192,
+      "sample_std_e2e_ms": 80.82
+    },
+    {
+      "bandwidth_mbps": 300.0,
+      "cv_percent": 7.231,
+      "max_e2e_ms": 99254.239,
+      "mean_e2e_ms": 94426.145,
+      "min_e2e_ms": 89598.051,
+      "n": 2,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 9656.187,
+      "relative_range_percent_of_median": 10.226,
+      "sample_std_e2e_ms": 6827.956
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "cv_percent": 0.728,
+      "max_e2e_ms": 178035.234,
+      "mean_e2e_ms": 177123.803,
+      "min_e2e_ms": 176212.372,
+      "n": 2,
+      "payload": "S",
+      "placement": "forced-a28",
+      "range_e2e_ms": 1822.862,
+      "relative_range_percent_of_median": 1.029,
+      "sample_std_e2e_ms": 1288.958
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "cv_percent": 8.891,
+      "max_e2e_ms": 208765.518,
+      "mean_e2e_ms": 189330.196,
+      "min_e2e_ms": 179320.695,
+      "n": 3,
+      "payload": "M",
+      "placement": "forced-a28",
+      "range_e2e_ms": 29444.823,
+      "relative_range_percent_of_median": 16.367,
+      "sample_std_e2e_ms": 16834.012
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "cv_percent": 0.254,
+      "max_e2e_ms": 59204.507,
+      "mean_e2e_ms": 59098.553,
+      "min_e2e_ms": 58992.598,
+      "n": 2,
+      "payload": "M",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 211.909,
+      "relative_range_percent_of_median": 0.359,
+      "sample_std_e2e_ms": 149.843
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "cv_percent": 1.387,
+      "max_e2e_ms": 201018.844,
+      "mean_e2e_ms": 199066.206,
+      "min_e2e_ms": 197113.568,
+      "n": 2,
+      "payload": "L",
+      "placement": "forced-a28",
+      "range_e2e_ms": 3905.277,
+      "relative_range_percent_of_median": 1.962,
+      "sample_std_e2e_ms": 2761.447
+    },
+    {
+      "bandwidth_mbps": 1000.0,
+      "cv_percent": 4.129,
+      "max_e2e_ms": 83839.181,
+      "mean_e2e_ms": 81461.056,
+      "min_e2e_ms": 79082.931,
+      "n": 2,
+      "payload": "L",
+      "placement": "forced-rtx",
+      "range_e2e_ms": 4756.249,
+      "relative_range_percent_of_median": 5.839,
+      "sample_std_e2e_ms": 3363.176
+    }
+  ]
+}
