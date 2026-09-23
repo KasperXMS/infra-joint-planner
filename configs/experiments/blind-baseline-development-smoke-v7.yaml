@@ -1,0 +1,30 @@
+experiment_id: blind-baseline-development-smoke-v7
+environment_config: configs/experiments/blind-baseline-environment-v1.yaml
+dataset:
+  tasks:
+    - {label: video-dev-795-1, family: video_mme, source_task_id: 'video_mme:795', question_id: 795-1, source_filename: D97vMwfWxvI.mp4, selection_reason: non-formal question on the real AV1 source used to validate the generic video contract}
+    - {label: longbench-dev-multidoc, family: longbench_multidoc, source_task_id: 66f78ecfbb02136c067c2f12, boundary_lines: [0], selection_reason: non-formal Multi-Document QA development case with a lossless generic text representation}
+    - {label: multihop-dev-reasoning, family: multihop_rag, source_task_id: multihop-rag-train-facda0bcd2ae340c909be414, source_row_ordinal: 0, selection_reason: non-formal inference-query development case over the complete corpus}
+  revisions:
+    video_mme: ead1408f75b618502df9a1d8e0950166bf0a2a0b
+    longbench_v2: 2b48e494f2c7a2f0af81aae178e05c7e1dde0fe9
+    multihop_rag: 71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82
+  representations:
+    video_mme: complete original video bytes; no temporal or lossy conversion
+    longbench_multidoc: complete context represented as lossless ordered bounded text chunks
+    multihop_rag: complete 609-document corpus in three content-hash shards with lossless bounded body chunks
+planner:
+  config: configs/experiments/blind-baseline-planner-v1.yaml
+  model_instance_aliases: {reasoner-alpha: a28-qwen3.8-27b-q4km-v1, reasoner-beta: strong-4090-qwen3.8-27b-q4km-v1}
+  available_operations: [aggregate_artifacts, aggregate_records, bm25_retrieve, derive_fields, extract_clip, filter_records, invoke_model, make_contact_sheet, read_artifact, sample_frames, select_fields, top_k_records]
+  max_agents: 6
+execution:
+  network: native_unshaped
+  scheduler: B0_LOCALITY_AWARE_MYOPIC
+  repetitions: 1
+  retry: false
+  replacement: false
+  initial_placement:
+    video-dev-795-1: [A4]
+    longbench-dev-multidoc: [A4]
+    multihop-dev-reasoning: [A4, A5, A28]

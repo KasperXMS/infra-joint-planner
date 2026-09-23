@@ -187,8 +187,51 @@ async def test_llm_workflow_planner_generates_explicit_fanout_fanin_without_leak
     assert "top_k=3 is safe while top_k=12 or 20 is not" in prompt
     assert "The task objective and output contract are prompt context, not artifact IDs" in prompt
     assert "materialize concise evidence notes" in prompt
+    assert "system_context_preflight_guidance" in prompt
+    assert "max_equal_bm25_top_k_per_artifact" in prompt
     assert "never clipframe/clipframe-000001.jpg" in prompt
     assert '"text_field":"text"' in prompt
+
+
+def test_context_preflight_guidance_accounts_for_parallel_record_fan_in() -> None:
+    current_task = task().model_copy(
+        update={
+            "artifacts": tuple(
+                item.model_copy(
+                    update={
+                        "artifact_id": f"shard-{index}",
+                        "content_schema": item.content_schema.model_copy(
+                            update={"max_record_bytes": 3_000}
+                        ),
+                    }
+                )
+                for index, item in enumerate(task().artifacts * 2, start=1)
+            )[:3]
+        }
+    )
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("bm25_retrieve", "invoke_model"),
+    )
+
+    guidance = LLMWorkflowPlanner._context_preflight_guidance(
+        current_task, workload
+    )
+
+    assert guidance == [
+        {
+            "model_instance_id": "text-instance",
+            "record_artifact_ids": ["shard-1", "shard-2", "shard-3"],
+            "max_equal_bm25_top_k_per_artifact": 0,
+            "max_invoke_prompt_bytes": 1_024,
+            "assumption": (
+                "one BM25 result from every listed artifact enters the same "
+                "invoke_model call"
+            ),
+        }
+    ]
 
 
 @pytest.mark.asyncio

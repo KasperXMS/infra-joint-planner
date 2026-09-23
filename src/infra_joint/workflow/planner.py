@@ -133,6 +133,9 @@ class LLMWorkflowPlanner:
         payload = {
             "task": logical_task_payload(task),
             "workload": workload_payload,
+            "system_context_preflight_guidance": self._context_preflight_guidance(
+                task, workload
+            ),
             "system_feasible_operations_by_model_instance": {
                 instance.model_instance_id: sorted(
                     feasible_operations_for_model_instance(
@@ -202,6 +205,12 @@ class LLMWorkflowPlanner:
                 "and context_window is 16384, top_k=3 is safe while top_k=12 or 20 is not. "
                 "Retrieve separately from shards if useful, but keep the total records entering "
                 "the final model within the same bound.",
+                "For a fan-in over every record artifact listed in "
+                "system_context_preflight_guidance, obey its "
+                "max_equal_bm25_top_k_per_artifact and max_invoke_prompt_bytes values. A zero "
+                "cap means the complete fan-in is illegal: use separately bounded model calls "
+                "to materialize concise evidence notes before terminal synthesis. These are "
+                "system-derived semantic context limits, not infrastructure hints.",
                 "The task objective and output contract are prompt context, not artifact IDs; "
                 "never put names such as task, objective, question, or output_contract in a "
                 "node.inputs list unless that exact ID appears in initial_artifacts or is produced "
@@ -239,3 +248,58 @@ class LLMWorkflowPlanner:
                 json.dumps(payload, ensure_ascii=False, separators=(",", ":"), sort_keys=True),
             )
         )
+
+    @staticmethod
+    def _context_preflight_guidance(
+        task: TaskContract,
+        workload: WorkloadSpec,
+    ) -> list[dict[str, Any]]:
+        """Expose conservative fan-in bounds without physical infrastructure state."""
+
+        record_artifacts = [
+            artifact
+            for artifact in workload.artifacts
+            if artifact.content_schema is not None
+            and artifact.content_schema.kind == "record_array"
+            and artifact.content_schema.max_record_bytes is not None
+        ]
+        if not record_artifacts:
+            return []
+        max_invoke_prompt_bytes = 1_024
+        fixed_input_bytes = (
+            len(task.objective.encode("utf-8"))
+            + 2_048
+            + max_invoke_prompt_bytes
+        )
+        per_equal_top_k_bytes = sum(
+            artifact.content_schema.max_record_bytes + 129
+            for artifact in record_artifacts
+            if artifact.content_schema is not None
+            and artifact.content_schema.max_record_bytes is not None
+        )
+        json_container_bytes = 2 * len(record_artifacts)
+        guidance: list[dict[str, Any]] = []
+        for instance in workload.available_model_instances:
+            available_bytes = (
+                instance.context_window
+                - instance.reserved_output_tokens
+                - fixed_input_bytes
+                - json_container_bytes
+            )
+            guidance.append(
+                {
+                    "model_instance_id": instance.model_instance_id,
+                    "record_artifact_ids": [
+                        artifact.artifact_id for artifact in record_artifacts
+                    ],
+                    "max_equal_bm25_top_k_per_artifact": max(
+                        0, available_bytes // per_equal_top_k_bytes
+                    ),
+                    "max_invoke_prompt_bytes": max_invoke_prompt_bytes,
+                    "assumption": (
+                        "one BM25 result from every listed artifact enters the same "
+                        "invoke_model call"
+                    ),
+                }
+            )
+        return guidance
