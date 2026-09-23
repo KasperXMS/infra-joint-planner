@@ -1076,6 +1076,7 @@ async def run(
     else:
         baseline = {
             "experiment_id": config["experiment_id"],
+            "execution_revision": _code_revision(),
             "network": "native_unshaped",
             "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
             "n": 1,
