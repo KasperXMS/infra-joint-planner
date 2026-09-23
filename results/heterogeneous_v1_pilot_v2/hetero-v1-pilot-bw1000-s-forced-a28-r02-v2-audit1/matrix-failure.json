@@ -1,0 +1,9 @@
+{
+  "exception_message": "artifact cleanup failed: RuntimeError: remote command timed out on edge@192.168.0.105 after 60s",
+  "exception_type": "RuntimeError",
+  "recorded_at": "2026-09-23T01:08:28.677257+00:00",
+  "resume_policy": "explicit-replacement-run-id-and-new-schedule-required",
+  "run_id": "hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1",
+  "schedule_index": 56,
+  "schema_version": "heterogeneous-v1-matrix-failure-v1"
+}

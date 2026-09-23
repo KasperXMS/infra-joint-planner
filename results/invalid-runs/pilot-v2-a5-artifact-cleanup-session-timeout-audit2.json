@@ -1,0 +1,22 @@
+{
+  "attempt_id": "hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1",
+  "classification": "system_harness_confounder",
+  "counted_as_pilot_or_experiment_run": false,
+  "pilot_v2_valid_before_stop": 56,
+  "persisted_result": "results/heterogeneous_v1_pilot_v2/hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1/result.json",
+  "persisted_trace": "results/heterogeneous_v1_pilot_v2/hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1/trace.jsonl",
+  "persisted_metadata": "results/heterogeneous_v1_pilot_v2/hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1/experiment-metadata.json",
+  "workflow_observation": {
+    "execution_completed": true,
+    "failure": null,
+    "format_valid": true,
+    "trace_reconstructable": true
+  },
+  "failure_point": "post-run generated-artifact cleanup on A5",
+  "typed_failure": "RuntimeError: remote command timed out on edge@192.168.0.105 after 60s",
+  "host_evidence": "A5 sshd accepted and opened the cleanup session at 09:07:28 but recorded no normal close before the bounded client timeout; subsequent SSH sessions closed normally, host load was near zero, and /mnt/ssd was a healthy writable ext4 filesystem with 57 GiB free.",
+  "network_cleanup": "tc cleanup completed before artifact cleanup; A28 and strong-4090 were verified restored to mq and noqueue",
+  "post_failure_state": "All four Workers were reachable and idle. The exact generated artifact IDs were absent from A5, showing that its rm had satisfied the deletion postcondition despite the missing SSH exit status. Because the fail-fast cleanup loop stopped at A5, the five run-generated artifacts remained on A28; they were then explicitly removed and verified absent from all four Worker stores before any replacement run.",
+  "response": "Stopped the matrix and retained the failed attempt. Hardened SSH with no-stdin/no-TTY operation and added one bounded, explicitly recorded retry only for the idempotent post-run rm -f cleanup. A second failure remains fail-closed.",
+  "replacement_run_id": "hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-replacement-audit3"
+}

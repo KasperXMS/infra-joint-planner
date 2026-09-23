@@ -634,15 +634,38 @@ def _produced_artifact_ids(plan: WorkflowPlan) -> tuple[str, ...]:
     return tuple(item for node in plan.nodes for item in node.outputs)
 
 
-async def _cleanup_artifacts(artifact_ids: tuple[str, ...]) -> None:
+async def cleanup_generated_artifacts(artifact_ids: tuple[str, ...]) -> tuple[str, ...]:
+    """Remove generated artifacts, with one bounded retry of the idempotent rm.
+
+    A remote ``rm -f`` can complete while the SSH control session fails to
+    deliver its exit status. Retrying this exact post-run deletion is safe and
+    is kept distinct from retrying an experimental run. Recovery is returned
+    to the caller so it is persisted rather than silently hidden.
+    """
+
     runner = SshCommandRunner()
+    recoveries: list[str] = []
     for agent_id, (ssh_target, root) in ARTIFACT_ROOTS.items():
-        del agent_id
         paths: list[str] = []
         for artifact_id in artifact_ids:
             key = hashlib.sha256(artifact_id.encode("utf-8")).hexdigest()
             paths.extend((f"{root}/{key}.blob", f"{root}/{key}.json"))
-        await runner.run(ssh_target, ("rm", "-f", "--", *paths))
+        command = ("rm", "-f", "--", *paths)
+        try:
+            await runner.run(ssh_target, command)
+        except RuntimeError as initial_error:
+            try:
+                await runner.run(ssh_target, command)
+            except RuntimeError as retry_error:
+                raise RuntimeError(
+                    f"{agent_id} cleanup failed after one idempotent retry; "
+                    f"initial={initial_error}; retry={retry_error}"
+                ) from retry_error
+            recoveries.append(
+                f"{agent_id}: {type(initial_error).__name__}: {initial_error}; "
+                "idempotent cleanup retry succeeded"
+            )
+    return tuple(recoveries)
 
 
 def _model_finish_reasons(result: PersistedWorkflowRunResult) -> tuple[str, ...]:
@@ -713,6 +736,7 @@ async def run_one(args: argparse.Namespace) -> None:
     validation_error: str | None = None
     cleanup_error: str | None = None
     artifact_cleanup_error: str | None = None
+    artifact_cleanup_recovery: tuple[str, ...] = ()
     tc_class_statistics: dict[str, str] = {}
     states = await controller.apply(
         tuple(build_tc_command_plan(endpoint, tc_regime) for endpoint in endpoints)
@@ -757,7 +781,9 @@ async def run_one(args: argparse.Namespace) -> None:
         except Exception as exc:  # noqa: BLE001 - persist cleanup invalidity
             cleanup_error = f"{type(exc).__name__}: {exc}"
         try:
-            await _cleanup_artifacts(_produced_artifact_ids(plan))
+            artifact_cleanup_recovery = await cleanup_generated_artifacts(
+                _produced_artifact_ids(plan)
+            )
         except Exception as exc:  # noqa: BLE001 - persist cleanup invalidity
             artifact_cleanup_error = f"{type(exc).__name__}: {exc}"
     if result.workflow is None:
@@ -803,6 +829,7 @@ async def run_one(args: argparse.Namespace) -> None:
         ],
         "tc_cleanup_error": cleanup_error,
         "artifact_cleanup_error": artifact_cleanup_error,
+        "artifact_cleanup_recovery": list(artifact_cleanup_recovery),
         "tc_class_statistics": tc_class_statistics,
         "validation_error": validation_error,
         "scheduler_overhead": {

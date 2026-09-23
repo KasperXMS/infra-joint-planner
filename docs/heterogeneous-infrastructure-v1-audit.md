@@ -247,12 +247,20 @@ evidence.
 ### E5 v2 pilot status
 
 E5 is being rerun from the v2 freeze with new run IDs. The frozen randomized
-schedule is `results/heterogeneous-v1-pilot-v2-schedule.json`: seed 20260922,
-six calibrated bandwidths x three payloads x two forced placements x three
-repetitions = 108 scheduled runs. The live resume ledger is
-`results/heterogeneous-v1-pilot-v2-schedule-progress.json`. Because the matrix
-is still running, partial cells are not analyzed here and no v2 crossover or
-regime-selection conclusion is claimed.
+schedule is `results/heterogeneous-v1-pilot-v2-schedule-audit2.json`: seed
+20260922, six calibrated bandwidths x three payloads x two forced placements x
+three repetitions = 108 scheduled runs. The live resume ledger is the matching
+`-audit2-progress.json` sidecar. After 56 eligible runs, attempt
+`hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1` completed its workflow but
+failed closed when A5's artifact-cleanup SSH session did not deliver an exit
+status within 60 seconds. The A5 deletion itself had completed; because the
+fail-fast loop had not yet reached A28, five generated artifacts there were
+explicitly removed and their absence was verified on all four Workers. SSH is
+now forced to use no stdin and no TTY, and this idempotent post-run `rm -f`
+alone receives one bounded retry whose recovery is persisted in metadata. Any
+second failure remains invalid. The failed attempt is retained and a new
+replacement ID is required before resuming. Partial cells are not analyzed and
+no v2 crossover or regime-selection conclusion is claimed.
 
 E6 (freeze H_low/H_mid/H_high) remains pending completion and audit of E5 v2.
 
@@ -282,6 +290,7 @@ and idle-state condition.
 | `hetero-v1-pilot-bw10-l-forced-a28-r03` | system/harness confounder | no | workflow/result/trace completed, but A5 SSH timed out during generated-artifact cleanup before metadata persistence; exact artifacts were later removed, cleanup failure persistence was patched, and replacement used the new `-replacement-audit1` ID |
 | old 108-run context-scale pilot | experimental-design confounder | no (exploratory only) | all executions used only 610--616 model-input tokens instead of the declared approximately 2k--8k target; data are retained, but cannot select E6 regimes or support formal conclusions; v2 representation and new run IDs were frozen |
 | `hetero-v1-context-v2-smoke-rtx-audit1` | system/harness confounder | no | explicit v2 input preload was missing, causing a prepositioned-artifact mismatch; the finish-reason validator also masked the primary failure; result/trace/metadata were retained, validation was fixed, inputs were preloaded, and audit2 used a new ID |
+| `hetero-v1-pilot-bw1000-s-forced-a28-r02-v2-audit1` | system/harness confounder | no | workflow/result/trace completed, but the A5 cleanup SSH session timed out after its `rm` had executed; the attempt and sidecars were retained, remaining A28 outputs were explicitly removed, SSH was hardened, and one bounded recorded retry was added only for the idempotent cleanup command; replacement requires a new `-replacement-audit3` ID |
 
 No failed attempt above is used as calibration, compute-profile, v2 pilot,
 oracle, or scheduler evidence. The old 108-run pilot is retained only as

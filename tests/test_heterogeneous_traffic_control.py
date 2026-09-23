@@ -146,3 +146,37 @@ async def test_ssh_runner_kills_a_command_that_exceeds_total_timeout(
     with pytest.raises(RuntimeError, match="timed out.*after 1s"):
         await runner.run("edge@192.168.0.105", ("rm", "-f", "safe-file"))
     assert process.killed
+
+
+@pytest.mark.asyncio
+async def test_ssh_runner_disables_stdin_and_tty(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    captured: tuple[object, ...] = ()
+
+    class CompletedProcess:
+        returncode = 0
+
+        async def communicate(self) -> tuple[bytes, bytes]:
+            return b"ok", b""
+
+    async def create_completed_process(
+        *args: object, **kwargs: object
+    ) -> CompletedProcess:
+        nonlocal captured
+        del kwargs
+        captured = args
+        return CompletedProcess()
+
+    monkeypatch.setattr(
+        traffic_control_module.asyncio,
+        "create_subprocess_exec",
+        create_completed_process,
+    )
+
+    output = await SshCommandRunner().run("edge@192.168.0.105", ("true",))
+
+    assert output == "ok"
+    assert "-n" in captured
+    assert "-T" in captured
+    assert "ConnectionAttempts=1" in captured

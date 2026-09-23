@@ -296,10 +296,14 @@ class SshCommandRunner:
         remote_command = shlex.join(command)
         process = await asyncio.create_subprocess_exec(
             "ssh",
+            "-n",
+            "-T",
             "-o",
             "BatchMode=yes",
             "-o",
             f"ConnectTimeout={self._connect_timeout_seconds}",
+            "-o",
+            "ConnectionAttempts=1",
             ssh_target,
             remote_command,
             stdout=asyncio.subprocess.PIPE,
