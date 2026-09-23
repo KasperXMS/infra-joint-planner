@@ -222,8 +222,38 @@ class WorkflowPlan(ContractModel):
                     raise ValueError(
                         "invoke_model output_artifact_id must exactly match node outputs"
                     )
+                output_media_type = node.arguments.get("output_media_type", "text/plain")
+                if output_media_type not in {"text/plain", "application/json"}:
+                    raise ValueError(
+                        "invoke_model output_media_type must be text/plain or application/json"
+                    )
+                if not node.outputs and any(
+                    key in node.arguments
+                    for key in (
+                        "output_artifact_id",
+                        "output_media_type",
+                        "output_semantic_type",
+                    )
+                ):
+                    raise ValueError(
+                        "terminal inline invoke_model must not declare output materialization"
+                    )
             registry.validate_action(node.semantic_action())
         return self
+
+    def terminal_model_node(self) -> WorkflowNode:
+        """Return the unique terminal model node that owns the benchmark answer."""
+
+        producers_with_consumers = {edge.producer_node for edge in self.edges}
+        terminal_nodes = tuple(
+            node for node in self.nodes if node.node_id not in producers_with_consumers
+        )
+        if len(terminal_nodes) != 1:
+            raise ValueError("workflow must have exactly one terminal node")
+        terminal = terminal_nodes[0]
+        if terminal.operator != "invoke_model":
+            raise ValueError("workflow terminal node must use invoke_model")
+        return terminal
 
     @staticmethod
     def _unique_by_id[T](

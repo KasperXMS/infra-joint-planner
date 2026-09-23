@@ -97,6 +97,7 @@ class LLMWorkflowPlanner:
         workload: WorkloadSpec,
     ) -> None:
         plan.validate_against(task, self._environment, self._registry)
+        plan.terminal_model_node()
         available_operations = set(workload.available_operations)
         available_instances = {
             item.model_instance_id for item in workload.available_model_instances
@@ -167,6 +168,9 @@ class LLMWorkflowPlanner:
                 "Do not decide hosts, devices, artifact placement, transfers, network routes, "
                 "deployment migration, or generic-operator placement.",
                 "Every non-task input produced by a node must have an exact WorkflowEdge.",
+                "Create exactly one terminal sink node. It must use invoke_model and produce "
+                "the benchmark answer inline. Every other branch must feed that terminal "
+                "synthesis node.",
                 "invoke_model may declare zero outputs for a terminal observation or exactly one "
                 "text output for downstream agents. For a materialized model output, set "
                 "arguments.output_artifact_id equal to that output ID, set "

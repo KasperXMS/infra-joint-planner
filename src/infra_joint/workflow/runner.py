@@ -10,7 +10,6 @@ from pydantic import Field
 
 from infra_joint.benchmarks.base import AdaptationBundle, PreparedArtifact
 from infra_joint.config import RunnerConfig, build_model_backend
-from infra_joint.core.action import FinishDecision, JointDecision
 from infra_joint.core.base import ContractModel
 from infra_joint.core.errors import TypedExecutionError
 from infra_joint.core.workflow import WorkflowPlan
@@ -19,13 +18,13 @@ from infra_joint.evaluation.trace import JsonlTraceWriter
 from infra_joint.infrastructure.observer import LiveWorkerObserver
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
-from infra_joint.planning.finalize import ContractAwareFinalizer
 from infra_joint.planning.graph import FinalizerCallTelemetry
 from infra_joint.planning.planner import CompletionBackend
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.runtime.executor import ArtifactTransferTelemetry, RuntimeExecutor
 from infra_joint.runtime.resolver import BindingResolutionError
 from infra_joint.worker.model_backend import ModelCallTelemetry
+from infra_joint.workflow.finalize import extract_terminal_answer
 from infra_joint.workflow.orchestrator import (
     WorkflowExecutionResult,
     WorkflowFailure,
@@ -154,16 +153,19 @@ class WorkflowBenchmarkRunner:
                         transfer.model_dump(mode="json"),
                     )
 
-                planner_backend = self._planner_backend
-                if planner_backend is None:
-                    planner_backend, planner_client = build_model_backend(
-                        self._config.planner.model
+                if self._planner is not None:
+                    planner = self._planner
+                else:
+                    planner_backend = self._planner_backend
+                    if planner_backend is None:
+                        planner_backend, planner_client = build_model_backend(
+                            self._config.planner.model
+                        )
+                    planner = LLMWorkflowPlanner(
+                        planner_backend,
+                        registry,
+                        self._config.environment,
                     )
-                planner = self._planner or LLMWorkflowPlanner(
-                    planner_backend,
-                    registry,
-                    self._config.environment,
-                )
                 trace.emit("workflow.planner.start", {})
                 planner_started = perf_counter()
                 planning = await planner.plan(bundle.execution.task, self._workload)
@@ -172,6 +174,15 @@ class WorkflowBenchmarkRunner:
                     model=planning.model_telemetry,
                 )
                 plan = planning.plan
+                try:
+                    plan.validate_against(
+                        bundle.execution.task,
+                        self._config.environment,
+                        registry,
+                    )
+                    terminal_node = plan.terminal_model_node()
+                except (KeyError, ValueError) as exc:
+                    raise WorkflowPlanningError(str(exc)) from exc
                 trace.emit(
                     "workflow.planner.end",
                     {
@@ -212,35 +223,29 @@ class WorkflowBenchmarkRunner:
                     self._write_result(result_path, persisted)
                     return persisted
 
-                actions: tuple[JointDecision, ...] = tuple(
-                    item.action for item in workflow_result.records
-                ) + (FinishDecision(reason="workflow DAG completed"),)
-                observations = tuple(
-                    item.execution
-                    for item in workflow_result.records
-                    if item.execution is not None
+                trace.emit(
+                    "finalize.start",
+                    {
+                        "mode": "deterministic_terminal_extraction",
+                        "terminal_node_id": terminal_node.node_id,
+                    },
                 )
-                trace.emit("finalize.start", {})
                 finalizer_started = perf_counter()
-                finalized = await ContractAwareFinalizer(planner_backend).finalize(
-                    bundle.execution.task,
-                    actions,
-                    observations,
-                )
+                final_answer = extract_terminal_answer(plan, workflow_result)
                 finalizer_telemetry = FinalizerCallTelemetry(
                     latency_ms=(perf_counter() - finalizer_started) * 1000,
-                    model=finalized.model_telemetry,
+                    model=None,
                 )
                 trace.emit(
                     "finalize.end",
                     {
-                        "answer": finalized.answer,
+                        "answer": final_answer,
                         "telemetry": finalizer_telemetry.model_dump(mode="json"),
                     },
                 )
                 evaluation = await bundle.private_evaluation.build_evaluator().evaluate(
                     bundle.execution.task,
-                    finalized.answer,
+                    final_answer,
                 )
                 trace.emit("evaluation.result", evaluation.model_dump(mode="json"))
                 elapsed = (perf_counter() - started) * 1000
@@ -275,7 +280,7 @@ class WorkflowBenchmarkRunner:
                     workload=self._workload,
                     plan=plan,
                     workflow=workflow_result,
-                    final_answer=finalized.answer,
+                    final_answer=final_answer,
                     evaluation=evaluation,
                     initial_transfers=initial_transfers,
                     telemetry=telemetry,

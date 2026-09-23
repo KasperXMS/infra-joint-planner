@@ -26,7 +26,12 @@ from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, Ta
 from infra_joint.core.workflow import LogicalAgent, WorkflowEdge, WorkflowNode, WorkflowPlan
 from infra_joint.runtime.client import HttpWorkerClient
 from infra_joint.worker.artifact_fetcher import FetchedArtifact
-from infra_joint.worker.model_backend import ModelDeployment, StaticModelBackend
+from infra_joint.worker.model_backend import (
+    ModelCompletion,
+    ModelDeployment,
+    ModelRequest,
+    StaticModelBackend,
+)
 from infra_joint.worker.server import create_worker_app
 from infra_joint.workflow.planner import ScriptedWorkflowPlanner
 from infra_joint.workflow.runner import WorkflowBenchmarkRunner
@@ -46,6 +51,16 @@ class SourceClientFetcher:
             media_type=response.headers["content-type"].split(";", maxsplit=1)[0],
             sha256_hex=response.headers.get("x-artifact-sha256"),
         )
+
+
+class ForbiddenFinalizerBackend:
+    def __init__(self) -> None:
+        self.calls = 0
+
+    async def invoke(self, request: ModelRequest) -> ModelCompletion:
+        del request
+        self.calls += 1
+        raise AssertionError("workflow completion must not invoke a semantic finalizer")
 
 
 def bundle() -> AdaptationBundle:
@@ -193,6 +208,7 @@ async def test_workflow_runner_persists_real_runtime_fanout_fanin(
 ) -> None:
     current_bundle = bundle()
     current_environment = environment()
+    forbidden_finalizer = ForbiddenFinalizerBackend()
     source_app = create_worker_app("A", {})
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=source_app),
@@ -238,13 +254,17 @@ async def test_workflow_runner_persists_real_runtime_fanout_fanin(
                     "A": HttpWorkerClient("A", source_http),
                     "B": HttpWorkerClient("B", target_http),
                 },
-                planner_backend=StaticModelBackend("A"),
+                planner_backend=forbidden_finalizer,
                 planner=ScriptedWorkflowPlanner((plan(),)),
             ).run(current_bundle, run_id="workflow-run")
 
     assert result.execution_completed
     assert result.evaluation is not None
     assert result.evaluation.benchmark_score == 1
+    assert result.final_answer == "A"
+    assert result.telemetry is not None
+    assert result.telemetry.finalizer.model is None
+    assert forbidden_finalizer.calls == 0
     assert result.workflow is not None
     assert [item.scheduling_batch for item in result.workflow.records[:2]] == [0, 0]
     assert result.workflow.telemetry.total_transfer_bytes > 0
@@ -264,6 +284,13 @@ async def test_workflow_runner_persists_real_runtime_fanout_fanin(
         "artifact.transfer.end",
         "evaluation.result",
         "run.end",
+    }
+    finalize_start = next(
+        event for event in events if event["event_type"] == "finalize.start"
+    )
+    assert finalize_start["payload"] == {
+        "mode": "deterministic_terminal_extraction",
+        "terminal_node_id": "synthesize",
     }
     assert all(
         event["parent_id"] == events[index - 1]["step_id"]

@@ -10,7 +10,7 @@ from infra_joint.worker.model_backend import (
     ModelCompletion,
     ModelRequest,
 )
-from infra_joint.workflow.planner import LLMWorkflowPlanner
+from infra_joint.workflow.planner import LLMWorkflowPlanner, WorkflowPlanningError
 from infra_joint.workflow.workload import WorkloadSpec
 
 
@@ -160,6 +160,29 @@ async def test_llm_workflow_planner_generates_explicit_fanout_fanin_without_leak
     assert "private-evaluator-must-not-leak" not in prompt
     assert "physical-secret" not in prompt
     assert "device-secret" not in prompt
+
+
+@pytest.mark.asyncio
+async def test_llm_workflow_planner_rejects_invalid_model_output_before_execution() -> None:
+    current_task = task()
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("bm25_retrieve", "invoke_model"),
+        min_agents=3,
+        max_agents=3,
+    )
+    raw = json.loads(workflow_json())
+    raw["nodes"][-1]["arguments"]["output_media_type"] = "image/png"
+    planner = LLMWorkflowPlanner(
+        CapturingBackend(json.dumps(raw)),
+        build_operator_catalog(),
+        current_environment,
+    )
+
+    with pytest.raises(WorkflowPlanningError, match="output_media_type"):
+        await planner.plan(current_task, workload)
 
 
 def test_workload_has_capabilities_but_no_solution_or_placement_fields() -> None:

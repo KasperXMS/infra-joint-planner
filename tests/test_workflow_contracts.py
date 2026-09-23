@@ -11,6 +11,7 @@ from infra_joint.core import (
 )
 from infra_joint.core.state import AgentSpec, DeploymentSpec, EnvironmentSpec
 from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.operators.registry import OperatorRegistry, OperatorSpec
 
 
@@ -286,6 +287,73 @@ def test_external_validation_applies_operator_schema() -> None:
 
     with pytest.raises(ValueError, match="required property"):
         plan.validate_against(task(), environment(), registry())
+
+
+@pytest.mark.parametrize(
+    ("outputs", "arguments", "error"),
+    (
+        (
+            ("first", "second"),
+            {"prompt": "Answer."},
+            "at most one materialized output",
+        ),
+        (
+            ("answer",),
+            {"prompt": "Answer.", "output_artifact_id": "different"},
+            "must exactly match node outputs",
+        ),
+        (
+            ("answer",),
+            {"prompt": "Answer.", "output_media_type": "image/png"},
+            "output_media_type",
+        ),
+        (
+            (),
+            {"prompt": "Answer.", "output_media_type": "text/plain"},
+            "must not declare output materialization",
+        ),
+    ),
+)
+def test_invoke_model_output_contract_is_validated_before_execution(
+    outputs: tuple[str, ...],
+    arguments: dict[str, str],
+    error: str,
+) -> None:
+    plan = WorkflowPlan(
+        agents=(logical_agent("writer", "invoke_model"),),
+        nodes=(
+            WorkflowNode(
+                node_id="answer",
+                agent_id="writer",
+                operator="invoke_model",
+                inputs=("source",),
+                arguments=arguments,
+                outputs=outputs,
+            ),
+        ),
+    )
+
+    with pytest.raises(ValueError, match=error):
+        plan.validate_against(task(), environment(), build_operator_catalog())
+
+
+def test_invoke_model_accepts_one_declared_text_output_without_redundant_id() -> None:
+    plan = WorkflowPlan(
+        agents=(logical_agent("writer", "invoke_model"),),
+        nodes=(
+            WorkflowNode(
+                node_id="reason",
+                agent_id="writer",
+                operator="invoke_model",
+                inputs=("source",),
+                arguments={"prompt": "Reason.", "output_media_type": "application/json"},
+                outputs=("reasoning",),
+            ),
+        ),
+    )
+
+    assert plan.validate_against(task(), environment(), build_operator_catalog()) is plan
+    assert plan.terminal_model_node() == plan.nodes[0]
 
 
 def test_external_validation_rejects_unknown_or_overwritten_artifacts() -> None:

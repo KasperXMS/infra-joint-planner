@@ -4,7 +4,7 @@ from collections.abc import Callable
 from typing import Any, cast
 
 from infra_joint.agents.action import AgentAction, AgentActionType
-from infra_joint.agents.context import AgentExecutionContext
+from infra_joint.agents.context import AgentExecutionContext, AgentTaskView
 from infra_joint.agents.information import InformationObject, InformationObjectRef
 from infra_joint.agents.state import AgentState, AgentStatus, AgentStepRecord
 from infra_joint.core.base import ContractModel
@@ -32,7 +32,7 @@ class AgentManager:
         *,
         emit: TraceEmitter | None = None,
     ) -> None:
-        self._task = task
+        self._task = AgentTaskView.from_contract(task)
         self._agents = {item.agent_id: item for item in plan.agents}
         self._nodes = {item.node_id: item for item in plan.nodes}
         self._owned_nodes = {
@@ -246,6 +246,7 @@ class AgentManager:
                 "action_prepared": False,
             },
         )
+
     def _model_arguments(self, context: AgentExecutionContext) -> dict[str, Any]:
         instruction = context.node.arguments.get("prompt")
         if not isinstance(instruction, str) or not instruction:

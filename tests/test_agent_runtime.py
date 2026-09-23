@@ -1,4 +1,5 @@
 import asyncio
+import json
 from contextlib import AsyncExitStack
 from datetime import UTC, datetime
 from urllib.parse import urlparse
@@ -6,7 +7,7 @@ from urllib.parse import urlparse
 import httpx
 import pytest
 
-from infra_joint.agents import AgentManager, AgentStatus
+from infra_joint.agents import AgentManager, AgentStatus, AgentTaskView
 from infra_joint.core.action import JointAction
 from infra_joint.core.state import (
     AgentRuntimeState,
@@ -126,6 +127,69 @@ def test_role_conditioning_and_agent_state_are_logically_isolated() -> None:
     assert manager.states[0] is not manager.states[1]
     assert "skeptical critic" not in analyst.context.model_dump_json()
     assert "evidence analyst" not in critic.context.model_dump_json()
+
+
+def test_agent_context_prompt_and_trace_exclude_private_task_fields() -> None:
+    source_secret = "private://source-must-not-leak"
+    evaluator_secret = "private-evaluator-must-not-leak"
+    current_task = TaskContract(
+        task_id="sanitized-agent-task",
+        benchmark_id="synthetic",
+        objective="Answer from the artifact.",
+        artifacts=(
+            ArtifactSpec(
+                artifact_id="source",
+                logical_type="evidence",
+                media_type="text/plain",
+                size_bytes=6,
+                source_ref=source_secret,
+            ),
+        ),
+        output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
+        evaluator_id=evaluator_secret,
+    )
+    plan = WorkflowPlan(
+        agents=(logical_agent("analyst", "analyst"),),
+        nodes=(
+            WorkflowNode(
+                node_id="answer",
+                agent_id="analyst",
+                operator="invoke_model",
+                inputs=("source",),
+                arguments={"prompt": "Answer now."},
+            ),
+        ),
+    )
+    events: list[tuple[str, dict[str, object]]] = []
+    manager = AgentManager(
+        current_task,
+        plan,
+        emit=lambda event_type, payload: events.append((event_type, payload)),
+    )
+
+    prepared = manager.prepare(plan.nodes[0], infrastructure("source"))
+    manager.start(prepared)
+
+    serialized = "\n".join(
+        (
+            prepared.context.model_dump_json(),
+            str(prepared.action.arguments["prompt"]),
+            json.dumps(events, sort_keys=True),
+        )
+    )
+    assert source_secret not in serialized
+    assert evaluator_secret not in serialized
+    assert set(AgentTaskView.model_json_schema()["properties"]) == {
+        "task_id",
+        "benchmark_id",
+        "objective",
+        "artifacts",
+        "output_contract",
+    }
+    assert "source_ref" not in serialized
+    assert "evaluator_id" not in serialized
+    assert "gold" not in serialized
+    assert "supporting_evidence" not in serialized
 
 
 class SourceClientFetcher:
