@@ -1,0 +1,76 @@
+experiment_id: blind-baseline-6task-competent-v2
+environment_config: configs/experiments/blind-baseline-environment-v1.yaml
+dataset:
+  tasks:
+    - label: video-long-payload
+      family: video_mme
+      source_task_id: video_mme:795
+      question_id: 795-3
+      source_filename: D97vMwfWxvI.mp4
+      selection_reason: longest complete stable Video-MME source in the admitted 795/848 pair
+    - label: video-cross-temporal
+      family: video_mme
+      source_task_id: video_mme:848
+      question_id: 848-1
+      source_filename: gHXaUDx7P0Y.mp4
+      selection_reason: explicit chapter-order question requiring evidence across the timeline
+    - label: longbench-multidoc
+      family: longbench_multidoc
+      source_task_id: 66f7c780bb02136c067c35e8
+      boundary_lines: [0, 3277, 9091, 17721]
+      selection_reason: hard long-context financial Multi-Document QA task
+    - label: longbench-structured
+      family: longbench_structured
+      source_task_id: 66f3ac0b821e116aacb2e203
+      selection_reason: hard long structured-data Table QA task
+    - label: multihop-multisource
+      family: multihop_rag
+      source_task_id: multihop-rag-train-9bae0079038050a37a1ae583
+      source_row_ordinal: 91
+      selection_reason: comparison query requiring aggregation of multiple sources
+    - label: multihop-reasoning
+      family: multihop_rag
+      source_task_id: multihop-rag-train-9fec8a884e51ff8e037c394f
+      source_row_ordinal: 706
+      selection_reason: inference query requiring multi-hop reasoning
+  revisions:
+    video_mme: ead1408f75b618502df9a1d8e0950166bf0a2a0b
+    longbench_v2: 2b48e494f2c7a2f0af81aae178e05c7e1dde0fe9
+    multihop_rag: 71ac0d0bd1f951d2d6b70311f7d2ae404e1ffa82
+  representations:
+    video_mme: complete original video bytes; no temporal or lossy conversion
+    longbench_multidoc: four audited natural reports represented as lossless ordered bounded text chunks
+    longbench_structured: deterministic lossless fixed-width to typed JSON records
+    multihop_rag: complete 609-document corpus in three content-hash shards with lossless bounded body chunks
+planner:
+  config: configs/experiments/blind-baseline-planner-v1.yaml
+  model_instance_aliases:
+    reasoner-alpha: a28-qwen3.8-27b-q4km-v1
+    reasoner-beta: strong-4090-qwen3.8-27b-q4km-v1
+  available_operations:
+    - aggregate_artifacts
+    - aggregate_records
+    - bm25_retrieve
+    - derive_fields
+    - extract_clip
+    - filter_records
+    - invoke_model
+    - make_contact_sheet
+    - read_artifact
+    - sample_frames
+    - select_fields
+    - top_k_records
+  max_agents: 6
+execution:
+  network: native_unshaped
+  scheduler: B0_LOCALITY_AWARE_MYOPIC
+  repetitions: 1
+  retry: false
+  replacement: false
+  initial_placement:
+    video-long-payload: [A4]
+    video-cross-temporal: [A4]
+    longbench-multidoc: [A4, A5, A28, A5]
+    longbench-structured: [A4]
+    multihop-multisource: [A4, A5, A28]
+    multihop-reasoning: [A4, A5, A28]

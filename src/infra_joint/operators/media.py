@@ -213,7 +213,7 @@ class FfmpegMediaBackend:
 
 class SampleFramesArguments(ContractModel):
     every_seconds: float = Field(gt=0, le=3600)
-    max_frames: int = Field(default=16, gt=0, le=128)
+    max_frames: int = Field(default=16, gt=0, le=32)
     output_prefix: str = Field(min_length=1)
 
 

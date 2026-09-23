@@ -5,11 +5,13 @@ from pathlib import Path
 
 import pytest
 from PIL import Image
+from pydantic import ValidationError
 
 from infra_joint.core.action import SemanticAction
 from infra_joint.operators.media import (
     CommandResult,
     FfmpegMediaBackend,
+    SampleFramesArguments,
     probe_ffmpeg,
     register_media_operators,
 )
@@ -34,6 +36,20 @@ class FakeFfmpegRunner:
         else:
             output.write_bytes(b"clip-bytes")
         return CommandResult(0, "", "")
+
+
+def test_sample_frames_contract_bounds_serializable_fan_out() -> None:
+    assert SampleFramesArguments(
+        every_seconds=60,
+        max_frames=32,
+        output_prefix="frames",
+    ).max_frames == 32
+    with pytest.raises(ValidationError, match="less than or equal to 32"):
+        SampleFramesArguments(
+            every_seconds=60,
+            max_frames=33,
+            output_prefix="frames",
+        )
 
 
 @pytest.mark.asyncio
