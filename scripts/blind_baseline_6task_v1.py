@@ -1385,7 +1385,7 @@ def report(config: dict[str, Any], bundles: dict[str, AdaptationBundle], output:
                 f"`{sequence}`"
             )
         family_notes.append(f"- {family}: " + "; ".join(descriptions))
-    report_path = REPO / "docs/blind-baseline-6task-v1-audit.md"
+    report_path = REPO / "docs" / f"{config['experiment_id']}-audit.md"
     report_path.write_text(
         "\n".join(
             [
