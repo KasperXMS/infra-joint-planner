@@ -66,6 +66,7 @@ def environment() -> EnvironmentSpec:
                 deployment_id="text-instance",
                 agent_id="physical-secret",
                 model_id="text-model",
+                modalities=frozenset({"text", "image"}),
                 context_window=8192,
             ),
         ),
@@ -241,3 +242,24 @@ def test_workload_has_capabilities_but_no_solution_or_placement_fields() -> None
     }
     forbidden = {"nodes", "edges", "placements", "links", "gold", "evidence"}
     assert not properties.intersection(forbidden)
+
+
+def test_workflow_prompt_sorts_model_modalities_deterministically() -> None:
+    current_task = task()
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("invoke_model",),
+    )
+    prompt = LLMWorkflowPlanner(
+        CapturingBackend(workflow_json()),
+        build_operator_catalog(),
+        current_environment,
+    ).render_prompt(current_task, workload)
+    planning_input = json.loads(prompt.splitlines()[-1])
+
+    assert planning_input["workload"]["available_model_instances"][0]["modalities"] == [
+        "image",
+        "text",
+    ]

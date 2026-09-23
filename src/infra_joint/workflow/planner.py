@@ -124,9 +124,12 @@ class LLMWorkflowPlanner:
             for tool in self._registry.planner_tools()
             if tool["function"]["name"] in available
         ]
+        workload_payload = workload.model_dump(mode="json")
+        for instance in workload_payload["available_model_instances"]:
+            instance["modalities"] = sorted(instance["modalities"])
         payload = {
             "task": logical_task_payload(task),
-            "workload": workload.model_dump(mode="json"),
+            "workload": workload_payload,
             "available_operator_schemas": tools,
         }
         shape: dict[str, Any] = {

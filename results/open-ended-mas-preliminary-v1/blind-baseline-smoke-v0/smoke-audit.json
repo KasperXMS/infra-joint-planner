@@ -1,0 +1,88 @@
+{
+  "accepted_frozen_workflows": 0,
+  "benchmark_runs_completed": 0,
+  "benchmark_runs_started": 0,
+  "code_revisions": {
+    "image_table_attempt": "4b02537bb053f67f19761f0a277b1b4463f7282d",
+    "image_text_attempt": "ed492ef826e2a95b8497654e4d93df20c44e1fe5"
+  },
+  "dataset_sha256": {
+    "MMQA_dev.jsonl.gz": "2e348ca574b2dc368e84671709689070f943a59f2e08e6b6e374705deb712d31",
+    "MMQA_images.jsonl.gz": "691227e1758140c51a5617a904b5e363cd44b2582a0c0e9f9fe9153d4e62d5e7",
+    "MMQA_tables.jsonl.gz": "8d082d254fd0bfa19bca7e2da20369c15ccb25867db3edfe46b33d59e8dbf7b1",
+    "MMQA_texts.jsonl.gz": "cae3808ccc6c258e91131a3ca3dce43e629936e1496c97a288c4abb04a6ef905"
+  },
+  "evaluator": {
+    "id": "multimodalqa_official_list_f1_v1",
+    "official_source_sha256": "cf4497ea6ea8b581c989d40f841912d0d34d372a2d5b392317b9e8c7b2a0982f",
+    "used": false
+  },
+  "experiment": "blind-baseline-smoke",
+  "infrastructure_replay_started": false,
+  "native_preflight": {
+    "network": "native_unshaped",
+    "qdisc_shaping_detected": false,
+    "workers_available_and_idle": ["A4", "A5", "A28", "strong-4090"]
+  },
+  "planner": {
+    "max_agents": 6,
+    "min_agents": null,
+    "model": "deepseek-chat",
+    "physical_infrastructure_visible": false,
+    "prompt_forces_multiple_agents": false
+  },
+  "planner_calls": 2,
+  "privacy": {
+    "agent_view_excludes": ["source_ref", "evaluator_id", "gold_answers", "supporting_context", "intermediate_answers"],
+    "planner_view_excludes": ["source_ref", "evaluator_id", "gold_answers", "supporting_context", "intermediate_answers"],
+    "private_token_hits_in_reconstructed_planner_inputs": {
+      "image-table": [],
+      "image-text": []
+    }
+  },
+  "source_revision": "4dd14328c6d02a4daa357cc6032915a0b14602e3",
+  "stopped_at_layer": "workflow_planning",
+  "stopping_reason": "Both one-shot Planner completions violated their own LogicalAgent.allowed_operations contracts. No retry or prompt tuning was performed.",
+  "tasks": {
+    "image-table": {
+      "adaptation_validity": {
+        "evaluator_equivalent": true,
+        "information_equivalent": true,
+        "query_equivalent": true
+      },
+      "error": "operator aggregate_artifacts is not allowed for logical agent retrieval-agent",
+      "exact_modalities": ["image", "table"],
+      "planner_call_count": 1,
+      "public_representation_sha256": "eb2f079dc1f781e46049cdfbaf2f5da75435c4caa9b99234bbfc717fb87d2b4e",
+      "raw_completion_preserved": false,
+      "runtime_started": false,
+      "status": "invalid_planner_contract",
+      "task_id": "09e997f80f700a93c2094af964de65e6"
+    },
+    "image-text": {
+      "adaptation_validity": {
+        "evaluator_equivalent": true,
+        "information_equivalent": true,
+        "query_equivalent": true
+      },
+      "candidate_workflow_plan_sha256": "56986e42125231142ad5f57b24a07a18d3b9116f8025cd8e04377336b4474589",
+      "candidate_workflow_shape": {
+        "active_logical_agents": 3,
+        "fan_in_nodes": ["node-text-check", "node-final-synthesis"],
+        "invoke_model_agents": ["retrieval-agent", "vision-agent", "synthesis-agent"],
+        "model_handoffs_to_terminal": ["textual-baldness-evidence", "visual-baldness-evidence"],
+        "natural_non_trivial_mas_candidate": true,
+        "unique_terminal_model_node": "node-final-synthesis"
+      },
+      "error": "operator invoke_model is not allowed for logical agent retrieval-agent",
+      "exact_modalities": ["image", "text"],
+      "planner_call_count": 1,
+      "planner_prompt_sha256": "c1288cd230e08f6040d7aaef4617ac5a72e052ee269445a3215d9fd197e03dab",
+      "public_representation_sha256": "618417eaa4a03375aeb866270078b0524442c61e3806b7cf25cad659e5cf41c4",
+      "raw_completion_preserved": true,
+      "runtime_started": false,
+      "status": "invalid_planner_contract",
+      "task_id": "1e288b881eea53a6e3e3e56bd79f40e5"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "call_count": 1,
+  "code_revision": "4b02537bb053f67f19761f0a277b1b4463f7282d",
+  "error": "workflow planner must return one valid WorkflowPlan JSON object: operator aggregate_artifacts is not allowed for logical agent retrieval-agent",
+  "error_type": "WorkflowPlanningError",
+  "evidence_limitation": "The pre-registered harness did not persist the raw completion or exact prompt bytes when validation failed. A modality frozenset also made reconstructed prompt byte order nondeterministic. No retry was made; only the code revision and exact validation error are authoritative.",
+  "label": "image-table",
+  "model": "deepseek-chat",
+  "prompt_sha256": null,
+  "raw_response": null,
+  "status": "invalid",
+  "workflow_execution_started": false
+}
