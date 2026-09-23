@@ -1,0 +1,48 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "mmqa-1e288b881eea-texts",
+      "logical_type": "candidate_text_corpus;text_field=text",
+      "media_type": "application/json",
+      "size_bytes": 5112
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-table",
+      "logical_type": "candidate_table",
+      "media_type": "application/json",
+      "size_bytes": 2600
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-4f06737ade9b",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg",
+      "size_bytes": 48768
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-4e5e970f8bf7",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg",
+      "size_bytes": 68811
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-f01bc9809abe",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg",
+      "size_bytes": 51264
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-c773d7871f63",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg",
+      "size_bytes": 39756
+    }
+  ],
+  "benchmark_id": "multimodalqa_dev",
+  "objective": "Is the actor who starred in the films \"Rudy\" and \"D-Tox\" bald?",
+  "output_contract": {
+    "choices": null,
+    "format": "short_text",
+    "schema": null
+  },
+  "task_id": "1e288b881eea53a6e3e3e56bd79f40e5"
+}

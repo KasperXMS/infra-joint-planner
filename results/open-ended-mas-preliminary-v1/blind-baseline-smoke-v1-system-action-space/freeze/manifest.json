@@ -1,0 +1,245 @@
+{
+  "code_revision": "2290ec76ffb9372fdcf9df28e6ab3462717263b1",
+  "experiment_id": "open-ended-mas-preliminary-v1",
+  "official_evaluator_source_sha256": "cf4497ea6ea8b581c989d40f841912d0d34d372a2d5b392317b9e8c7b2a0982f",
+  "planner_and_agent_views_exclude": [
+    "source_ref",
+    "evaluator_id",
+    "answers",
+    "supporting_context",
+    "intermediate_answers"
+  ],
+  "planner_calls_per_task": 1,
+  "selection_rule": "exact modalities; rephrasing accuracy 1.0; minimum image+text candidates; qid tie-break",
+  "source_file_sha256": {
+    "MMQA_dev.jsonl.gz": "2e348ca574b2dc368e84671709689070f943a59f2e08e6b6e374705deb712d31",
+    "MMQA_images.jsonl.gz": "691227e1758140c51a5617a904b5e363cd44b2582a0c0e9f9fe9153d4e62d5e7",
+    "MMQA_tables.jsonl.gz": "8d082d254fd0bfa19bca7e2da20369c15ccb25867db3edfe46b33d59e8dbf7b1",
+    "MMQA_texts.jsonl.gz": "cae3808ccc6c258e91131a3ca3dce43e629936e1496c97a288c4abb04a6ef905"
+  },
+  "source_revision": "4dd14328c6d02a4daa357cc6032915a0b14602e3",
+  "tasks": {
+    "image-table": {
+      "adaptation_provenance": {
+        "transformations": [
+          {
+            "audit": {
+              "image_count": 2,
+              "modalities": [
+                "image",
+                "table"
+              ],
+              "question_type": "Compose(ImageQ,TableQ)",
+              "table_id": "546a7b7bbc8308e14db0686277e3dcaa",
+              "text_count": 10
+            },
+            "benchmark_id": "multimodalqa_dev",
+            "gold_independent": true,
+            "information_preserved": true,
+            "notes": "All official candidate texts, the full candidate table, and all candidate images are materialized; private annotations are excluded.",
+            "order_preserved": true,
+            "source_revision": "4dd14328c6d02a4daa357cc6032915a0b14602e3",
+            "source_task_id": "09e997f80f700a93c2094af964de65e6",
+            "transformation": "lossless_candidate_context_materialization"
+          }
+        ],
+        "validity": {
+          "evaluator_equivalent": true,
+          "information_equivalent": true,
+          "query_equivalent": true,
+          "reasons": [],
+          "setting_kind": "official_equivalent"
+        }
+      },
+      "artifact_placement": {
+        "mmqa-09e997f80f70-image-f5cc4b5a37f8": "A28",
+        "mmqa-09e997f80f70-image-fcf621aa5320": "A28",
+        "mmqa-09e997f80f70-table": "A28",
+        "mmqa-09e997f80f70-texts": "A28"
+      },
+      "artifacts": [
+        {
+          "artifact_id": "mmqa-09e997f80f70-texts",
+          "media_type": "application/json",
+          "sha256": "a23668d0f0adf5073ca94e6b523e45e875abb7ef9b4efa5de38252d6f80e9c27",
+          "size_bytes": 5039
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-table",
+          "media_type": "application/json",
+          "sha256": "c9768442bd7272b3560789bca8c6e171456f3360c2bdce8631d0d8a959bbc50f",
+          "size_bytes": 6236
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+          "media_type": "image/jpeg",
+          "sha256": "deb20863c740dc55bc22ab5fa01c4c9212d5165dad20a3ebe4ab7d0768383f62",
+          "size_bytes": 22467
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-image-fcf621aa5320",
+          "media_type": "image/png",
+          "sha256": "3189cc31090403f505f991e62bbdb8cb81757ea9b604506993d58e6fd13f4cc5",
+          "size_bytes": 57236
+        }
+      ],
+      "planner_plan_sha256": "dfcfbb910b7dcba2c806ffbf128fe7fb6b172c831fde804f9078888f9dc86033",
+      "public_representation_sha256": "eb2f079dc1f781e46049cdfbaf2f5da75435c4caa9b99234bbfc717fb87d2b4e",
+      "selected_image_provenance": [
+        {
+          "image_id": "f5cc4b5a37f891b3a68613b4313f4aff",
+          "local_filename": "f5cc4b5a37f891b3a68613b4313f4aff.jpg",
+          "local_sha256": "deb20863c740dc55bc22ab5fa01c4c9212d5165dad20a3ebe4ab7d0768383f62",
+          "official_index_record": {
+            "id": "f5cc4b5a37f891b3a68613b4313f4aff",
+            "path": "f5cc4b5a37f891b3a68613b4313f4aff.jpg",
+            "title": "Cork GAA",
+            "url": "https://en.wikipedia.org/wiki/Cork_GAA"
+          }
+        },
+        {
+          "image_id": "fcf621aa5320eecb265e8b924afc891d",
+          "local_filename": "fcf621aa5320eecb265e8b924afc891d.png",
+          "local_sha256": "3189cc31090403f505f991e62bbdb8cb81757ea9b604506993d58e6fd13f4cc5",
+          "official_index_record": {
+            "id": "fcf621aa5320eecb265e8b924afc891d",
+            "path": "fcf621aa5320eecb265e8b924afc891d.png",
+            "title": "National Hurling League",
+            "url": "https://en.wikipedia.org/wiki/National_Hurling_League"
+          }
+        }
+      ],
+      "task_id": "09e997f80f700a93c2094af964de65e6",
+      "workflow_plan_sha256": "404db1473d9ef0aa68cc61ae818c1b1e37338b6e6429e7d8c799cd23ae597466"
+    },
+    "image-text": {
+      "adaptation_provenance": {
+        "transformations": [
+          {
+            "audit": {
+              "image_count": 4,
+              "modalities": [
+                "image",
+                "text"
+              ],
+              "question_type": "Compose(ImageQ,TextQ)",
+              "table_id": "fa2a3a9ad1706e31fcee441fad07e1b9",
+              "text_count": 10
+            },
+            "benchmark_id": "multimodalqa_dev",
+            "gold_independent": true,
+            "information_preserved": true,
+            "notes": "All official candidate texts, the full candidate table, and all candidate images are materialized; private annotations are excluded.",
+            "order_preserved": true,
+            "source_revision": "4dd14328c6d02a4daa357cc6032915a0b14602e3",
+            "source_task_id": "1e288b881eea53a6e3e3e56bd79f40e5",
+            "transformation": "lossless_candidate_context_materialization"
+          }
+        ],
+        "validity": {
+          "evaluator_equivalent": true,
+          "information_equivalent": true,
+          "query_equivalent": true,
+          "reasons": [],
+          "setting_kind": "official_equivalent"
+        }
+      },
+      "artifact_placement": {
+        "mmqa-1e288b881eea-image-4e5e970f8bf7": "A28",
+        "mmqa-1e288b881eea-image-4f06737ade9b": "A28",
+        "mmqa-1e288b881eea-image-c773d7871f63": "A28",
+        "mmqa-1e288b881eea-image-f01bc9809abe": "A28",
+        "mmqa-1e288b881eea-table": "A28",
+        "mmqa-1e288b881eea-texts": "A28"
+      },
+      "artifacts": [
+        {
+          "artifact_id": "mmqa-1e288b881eea-texts",
+          "media_type": "application/json",
+          "sha256": "708590f4071a26729860e48eb24d73b8f35a0558558d9f44ff5a726e01384293",
+          "size_bytes": 5112
+        },
+        {
+          "artifact_id": "mmqa-1e288b881eea-table",
+          "media_type": "application/json",
+          "sha256": "acf5c7f8b648afc3792b8a0fc61c90843ab124a97e51af72c1ccfd92c1abcb47",
+          "size_bytes": 2600
+        },
+        {
+          "artifact_id": "mmqa-1e288b881eea-image-4f06737ade9b",
+          "media_type": "image/jpeg",
+          "sha256": "ce07ca5a76973774d06f2639d8e69a133767e0787ebd3d0a9fd42beb46cb53e1",
+          "size_bytes": 48768
+        },
+        {
+          "artifact_id": "mmqa-1e288b881eea-image-4e5e970f8bf7",
+          "media_type": "image/jpeg",
+          "sha256": "fa2287a2ebb57afe5ce7f8aa2cf6e6d4588bbd5be267cbc639af0f9637490135",
+          "size_bytes": 68811
+        },
+        {
+          "artifact_id": "mmqa-1e288b881eea-image-f01bc9809abe",
+          "media_type": "image/jpeg",
+          "sha256": "1365e55d76fe6c48948fd677315e52c70d42c6f55ef6cef57c32ae568bc63172",
+          "size_bytes": 51264
+        },
+        {
+          "artifact_id": "mmqa-1e288b881eea-image-c773d7871f63",
+          "media_type": "image/jpeg",
+          "sha256": "4cd4b69f7f8704fb9c62cdc9748f0cd2994ada32a4a628754d033d3782842961",
+          "size_bytes": 39756
+        }
+      ],
+      "planner_plan_sha256": "b636d1c4d33d92dffd1f42ebc80cead9f02d76e32402d18395cda787e07b163a",
+      "public_representation_sha256": "618417eaa4a03375aeb866270078b0524442c61e3806b7cf25cad659e5cf41c4",
+      "selected_image_provenance": [
+        {
+          "image_id": "4f06737ade9bd8cbb9ca3e52405aebcb",
+          "local_filename": "4f06737ade9bd8cbb9ca3e52405aebcb.jpg",
+          "local_sha256": "ce07ca5a76973774d06f2639d8e69a133767e0787ebd3d0a9fd42beb46cb53e1",
+          "official_index_record": {
+            "id": "4f06737ade9bd8cbb9ca3e52405aebcb",
+            "path": "4f06737ade9bd8cbb9ca3e52405aebcb.jpg",
+            "title": "Charles S. Dutton",
+            "url": "https://en.wikipedia.org/wiki/Charles_S._Dutton"
+          }
+        },
+        {
+          "image_id": "4e5e970f8bf71b237281f5ad9da39192",
+          "local_filename": "4e5e970f8bf71b237281f5ad9da39192.jpg",
+          "local_sha256": "fa2287a2ebb57afe5ce7f8aa2cf6e6d4588bbd5be267cbc639af0f9637490135",
+          "official_index_record": {
+            "id": "4e5e970f8bf71b237281f5ad9da39192",
+            "path": "4e5e970f8bf71b237281f5ad9da39192.jpg",
+            "title": "Laura San Giacomo",
+            "url": "https://en.wikipedia.org/wiki/Laura_San_Giacomo"
+          }
+        },
+        {
+          "image_id": "f01bc9809abe578463b5045eb8322f8c",
+          "local_filename": "f01bc9809abe578463b5045eb8322f8c.jpg",
+          "local_sha256": "1365e55d76fe6c48948fd677315e52c70d42c6f55ef6cef57c32ae568bc63172",
+          "official_index_record": {
+            "id": "f01bc9809abe578463b5045eb8322f8c",
+            "path": "f01bc9809abe578463b5045eb8322f8c.jpg",
+            "title": "Audrey Marie Anderson",
+            "url": "https://en.wikipedia.org/wiki/Audrey_Marie_Anderson"
+          }
+        },
+        {
+          "image_id": "c773d7871f63af42247311ed26335a84",
+          "local_filename": "c773d7871f63af42247311ed26335a84.jpg",
+          "local_sha256": "4cd4b69f7f8704fb9c62cdc9748f0cd2994ada32a4a628754d033d3782842961",
+          "official_index_record": {
+            "id": "c773d7871f63af42247311ed26335a84",
+            "path": "c773d7871f63af42247311ed26335a84.jpg",
+            "title": "Taylor Kinney",
+            "url": "https://en.wikipedia.org/wiki/Taylor_Kinney"
+          }
+        }
+      ],
+      "task_id": "1e288b881eea53a6e3e3e56bd79f40e5",
+      "workflow_plan_sha256": "f04b53f0995a8f76fe926a92a8b40db1000ab86d8d0639f24cc55ec71c2f5e67"
+    }
+  }
+}

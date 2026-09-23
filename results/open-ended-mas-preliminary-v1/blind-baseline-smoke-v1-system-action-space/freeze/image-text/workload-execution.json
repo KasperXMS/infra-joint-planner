@@ -1,0 +1,62 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "mmqa-1e288b881eea-texts",
+      "logical_type": "candidate_text_corpus;text_field=text",
+      "media_type": "application/json"
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-table",
+      "logical_type": "candidate_table",
+      "media_type": "application/json"
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-4f06737ade9b",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg"
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-4e5e970f8bf7",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg"
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-f01bc9809abe",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg"
+    },
+    {
+      "artifact_id": "mmqa-1e288b881eea-image-c773d7871f63",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg"
+    }
+  ],
+  "available_model_instances": [
+    {
+      "modalities": [
+        "image",
+        "text"
+      ],
+      "model_id": "qwen3.8-27b-q4km-v1",
+      "model_instance_id": "a28-qwen3.8-27b-q4km-v1"
+    },
+    {
+      "modalities": [
+        "image",
+        "text"
+      ],
+      "model_id": "qwen3.8-27b-q4km-v1",
+      "model_instance_id": "strong-4090-qwen3.8-27b-q4km-v1"
+    }
+  ],
+  "available_operations": [
+    "bm25_retrieve",
+    "filter_records",
+    "select_fields",
+    "aggregate_artifacts",
+    "make_contact_sheet",
+    "invoke_model"
+  ],
+  "max_agents": 6,
+  "min_agents": null
+}

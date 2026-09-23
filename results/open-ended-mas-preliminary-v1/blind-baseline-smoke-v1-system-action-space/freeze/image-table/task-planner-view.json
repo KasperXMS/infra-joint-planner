@@ -1,0 +1,36 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "mmqa-09e997f80f70-texts",
+      "logical_type": "candidate_text_corpus;text_field=text",
+      "media_type": "application/json",
+      "size_bytes": 5039
+    },
+    {
+      "artifact_id": "mmqa-09e997f80f70-table",
+      "logical_type": "candidate_table",
+      "media_type": "application/json",
+      "size_bytes": 6236
+    },
+    {
+      "artifact_id": "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg",
+      "size_bytes": 22467
+    },
+    {
+      "artifact_id": "mmqa-09e997f80f70-image-fcf621aa5320",
+      "logical_type": "candidate_image",
+      "media_type": "image/png",
+      "size_bytes": 57236
+    }
+  ],
+  "benchmark_id": "multimodalqa_dev",
+  "objective": "When looking at the hurler Bill Cooper's Inter-county listings, what sort of vessel can be seen in the middle of the crest for Cooper's 2015 team?",
+  "output_contract": {
+    "choices": null,
+    "format": "short_text",
+    "schema": null
+  },
+  "task_id": "09e997f80f700a93c2094af964de65e6"
+}

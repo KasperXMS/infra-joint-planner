@@ -1,0 +1,13 @@
+{
+  "call_count": 1,
+  "latency_ms": 3098.7963000079617,
+  "model_telemetry": {
+    "finish_reason": "stop",
+    "input_tokens": 2272,
+    "output_tokens": 918,
+    "service_latency_ms": 3097.865299991099
+  },
+  "planner_plan_sha256": "b636d1c4d33d92dffd1f42ebc80cead9f02d76e32402d18395cda787e07b163a",
+  "prompt_sha256": "da53b2b6ebe4a6ea4b737540933bb1e75d57f98c74b3eae8708e40294423c70f",
+  "workflow_plan_sha256": "f04b53f0995a8f76fe926a92a8b40db1000ab86d8d0639f24cc55ec71c2f5e67"
+}

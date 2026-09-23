@@ -1,0 +1,144 @@
+{
+  "agents": [
+    {
+      "agent_id": "text-retriever",
+      "model_instance_id": "a28-qwen3.8-27b-q4km-v1",
+      "objective": "Retrieve relevant text passages about the actor who starred in Rudy and D-Tox and whether he is bald.",
+      "role": "Text retrieval specialist"
+    },
+    {
+      "agent_id": "table-filter",
+      "model_instance_id": "strong-4090-qwen3.8-27b-q4km-v1",
+      "objective": "Filter and project table records to identify the actor who starred in Rudy and D-Tox.",
+      "role": "Structured data analyst"
+    },
+    {
+      "agent_id": "visual-assembler",
+      "model_instance_id": "a28-qwen3.8-27b-q4km-v1",
+      "objective": "Arrange candidate images into a contact sheet for visual inspection of the actor's appearance.",
+      "role": "Visual evidence assembler"
+    },
+    {
+      "agent_id": "final-synthesizer",
+      "model_instance_id": "strong-4090-qwen3.8-27b-q4km-v1",
+      "objective": "Combine retrieved text, table evidence, and visual contact sheet to answer whether the actor is bald.",
+      "role": "Multimodal answer synthesizer"
+    }
+  ],
+  "edges": [
+    {
+      "artifact_id": "retrieved-text-passages",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "retrieve-text"
+    },
+    {
+      "artifact_id": "filtered-table-rudy",
+      "consumer_node": "select-table-fields",
+      "producer_node": "filter-table"
+    },
+    {
+      "artifact_id": "selected-table-evidence",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "select-table-fields"
+    },
+    {
+      "artifact_id": "image-contact-sheet",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "make-contact-sheet"
+    }
+  ],
+  "nodes": [
+    {
+      "agent_id": "text-retriever",
+      "arguments": {
+        "output_artifact_id": "retrieved-text-passages",
+        "query": "actor starred in Rudy and D-Tox bald",
+        "text_field": "text",
+        "top_k": 5
+      },
+      "inputs": [
+        "mmqa-1e288b881eea-texts"
+      ],
+      "node_id": "retrieve-text",
+      "operator": "bm25_retrieve",
+      "outputs": [
+        "retrieved-text-passages"
+      ]
+    },
+    {
+      "agent_id": "table-filter",
+      "arguments": {
+        "field": "film",
+        "op": "contains",
+        "output_artifact_id": "filtered-table-rudy",
+        "value": "Rudy"
+      },
+      "inputs": [
+        "mmqa-1e288b881eea-table"
+      ],
+      "node_id": "filter-table",
+      "operator": "filter_records",
+      "outputs": [
+        "filtered-table-rudy"
+      ]
+    },
+    {
+      "agent_id": "table-filter",
+      "arguments": {
+        "fields": [
+          "actor",
+          "film",
+          "year"
+        ],
+        "output_artifact_id": "selected-table-evidence"
+      },
+      "inputs": [
+        "filtered-table-rudy"
+      ],
+      "node_id": "select-table-fields",
+      "operator": "select_fields",
+      "outputs": [
+        "selected-table-evidence"
+      ]
+    },
+    {
+      "agent_id": "visual-assembler",
+      "arguments": {
+        "cell_height": 180,
+        "cell_width": 320,
+        "columns": 4,
+        "output_artifact_id": "image-contact-sheet"
+      },
+      "inputs": [
+        "mmqa-1e288b881eea-image-4f06737ade9b",
+        "mmqa-1e288b881eea-image-4e5e970f8bf7",
+        "mmqa-1e288b881eea-image-f01bc9809abe",
+        "mmqa-1e288b881eea-image-c773d7871f63"
+      ],
+      "node_id": "make-contact-sheet",
+      "operator": "make_contact_sheet",
+      "outputs": [
+        "image-contact-sheet"
+      ]
+    },
+    {
+      "agent_id": "final-synthesizer",
+      "arguments": {
+        "output_artifact_id": "final-answer",
+        "output_media_type": "text/plain",
+        "output_semantic_type": "short_text_answer",
+        "prompt": "Based on the retrieved text passages, selected table evidence, and the contact sheet of images, determine whether the actor who starred in the films 'Rudy' and 'D-Tox' is bald. Provide a short answer: yes or no."
+      },
+      "inputs": [
+        "retrieved-text-passages",
+        "selected-table-evidence",
+        "image-contact-sheet"
+      ],
+      "node_id": "synthesize-answer",
+      "operator": "invoke_model",
+      "outputs": [
+        "final-answer"
+      ]
+    }
+  ]
+}

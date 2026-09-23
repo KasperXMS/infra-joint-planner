@@ -1,0 +1,111 @@
+{
+  "agents": [
+    {
+      "agent_id": "evidence-retriever",
+      "model_instance_id": "vision-reasoner-alpha",
+      "objective": "Retrieve text passages that identify Bill Cooper, his inter-county listings, and his 2015 team from the candidate text corpus.",
+      "role": "Candidate evidence retrieval"
+    },
+    {
+      "agent_id": "visual-inspector",
+      "model_instance_id": "vision-reasoner-beta",
+      "objective": "Inspect the candidate images as a contact sheet to identify the vessel in the middle of the crest for Cooper's 2015 team.",
+      "role": "Visual crest inspection"
+    },
+    {
+      "agent_id": "final-synthesizer",
+      "model_instance_id": "vision-reasoner-alpha",
+      "objective": "Combine retrieved textual context and visual inspection evidence into the final short-text answer.",
+      "role": "Terminal benchmark answer synthesis"
+    }
+  ],
+  "edges": [
+    {
+      "artifact_id": "cooper-passages",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "retrieve-cooper-passages"
+    },
+    {
+      "artifact_id": "crest-contact-sheet",
+      "consumer_node": "inspect-crest-vessel",
+      "producer_node": "contact-sheet-images"
+    },
+    {
+      "artifact_id": "visual-crest-evidence",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "inspect-crest-vessel"
+    }
+  ],
+  "nodes": [
+    {
+      "agent_id": "evidence-retriever",
+      "arguments": {
+        "output_artifact_id": "cooper-passages",
+        "query": "Bill Cooper hurler inter-county listings 2015 team crest vessel",
+        "text_field": "text",
+        "top_k": 5
+      },
+      "inputs": [
+        "mmqa-09e997f80f70-texts"
+      ],
+      "node_id": "retrieve-cooper-passages",
+      "operator": "bm25_retrieve",
+      "outputs": [
+        "cooper-passages"
+      ]
+    },
+    {
+      "agent_id": "visual-inspector",
+      "arguments": {
+        "cell_height": 180,
+        "cell_width": 320,
+        "columns": 2,
+        "output_artifact_id": "crest-contact-sheet"
+      },
+      "inputs": [
+        "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+        "mmqa-09e997f80f70-image-fcf621aa5320"
+      ],
+      "node_id": "contact-sheet-images",
+      "operator": "make_contact_sheet",
+      "outputs": [
+        "crest-contact-sheet"
+      ]
+    },
+    {
+      "agent_id": "visual-inspector",
+      "arguments": {
+        "output_artifact_id": "visual-crest-evidence",
+        "output_media_type": "text/plain",
+        "output_semantic_type": "crest_vessel_observation",
+        "prompt": "These are candidate images related to hurler Bill Cooper's inter-county listings and his 2015 team crest. Identify which image shows the 2015 team crest and state what sort of vessel appears in the middle of that crest. Answer concisely with the vessel type."
+      },
+      "inputs": [
+        "crest-contact-sheet"
+      ],
+      "node_id": "inspect-crest-vessel",
+      "operator": "invoke_model",
+      "outputs": [
+        "visual-crest-evidence"
+      ]
+    },
+    {
+      "agent_id": "final-synthesizer",
+      "arguments": {
+        "output_artifact_id": "final-answer",
+        "output_media_type": "text/plain",
+        "output_semantic_type": "benchmark_answer",
+        "prompt": "Using the retrieved text passages about Bill Cooper's inter-county listings and the visual inspection of his 2015 team crest, answer the benchmark question: When looking at the hurler Bill Cooper's Inter-county listings, what sort of vessel can be seen in the middle of the crest for Cooper's 2015 team? Provide only the short vessel type as the final answer."
+      },
+      "inputs": [
+        "cooper-passages",
+        "visual-crest-evidence"
+      ],
+      "node_id": "synthesize-answer",
+      "operator": "invoke_model",
+      "outputs": [
+        "final-answer"
+      ]
+    }
+  ]
+}

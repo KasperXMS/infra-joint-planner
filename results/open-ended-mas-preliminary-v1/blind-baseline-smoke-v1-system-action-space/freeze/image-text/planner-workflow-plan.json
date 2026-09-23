@@ -1,0 +1,114 @@
+{
+  "agents": [
+    {
+      "agent_id": "retrieval-agent-a",
+      "model_instance_id": "vision-reasoner-alpha",
+      "objective": "Retrieve relevant textual and tabular evidence about the actors in Rudy and D-Tox",
+      "role": "Text and table retrieval specialist"
+    },
+    {
+      "agent_id": "retrieval-agent-b",
+      "model_instance_id": "vision-reasoner-beta",
+      "objective": "Organize candidate images into a contact sheet for visual inspection",
+      "role": "Image evidence specialist"
+    },
+    {
+      "agent_id": "synthesizer",
+      "model_instance_id": "vision-reasoner-alpha",
+      "objective": "Determine whether the actor who starred in Rudy and D-Tox is bald and produce a short text answer",
+      "role": "Final answer synthesizer"
+    }
+  ],
+  "edges": [
+    {
+      "artifact_id": "retrieved-texts",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "retrieve-texts"
+    },
+    {
+      "artifact_id": "retrieved-table",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "retrieve-table"
+    },
+    {
+      "artifact_id": "contact-sheet",
+      "consumer_node": "synthesize-answer",
+      "producer_node": "make-contact-sheet"
+    }
+  ],
+  "nodes": [
+    {
+      "agent_id": "retrieval-agent-a",
+      "arguments": {
+        "output_artifact_id": "retrieved-texts",
+        "query": "Rudy D-Tox actor bald",
+        "text_field": "text",
+        "top_k": 5
+      },
+      "inputs": [
+        "mmqa-1e288b881eea-texts"
+      ],
+      "node_id": "retrieve-texts",
+      "operator": "bm25_retrieve",
+      "outputs": [
+        "retrieved-texts"
+      ]
+    },
+    {
+      "agent_id": "retrieval-agent-a",
+      "arguments": {
+        "output_artifact_id": "retrieved-table",
+        "query": "Rudy D-Tox actor",
+        "text_field": "text",
+        "top_k": 5
+      },
+      "inputs": [
+        "mmqa-1e288b881eea-table"
+      ],
+      "node_id": "retrieve-table",
+      "operator": "bm25_retrieve",
+      "outputs": [
+        "retrieved-table"
+      ]
+    },
+    {
+      "agent_id": "retrieval-agent-b",
+      "arguments": {
+        "cell_height": 180,
+        "cell_width": 320,
+        "columns": 2,
+        "output_artifact_id": "contact-sheet"
+      },
+      "inputs": [
+        "mmqa-1e288b881eea-image-4f06737ade9b",
+        "mmqa-1e288b881eea-image-4e5e970f8bf7",
+        "mmqa-1e288b881eea-image-f01bc9809abe",
+        "mmqa-1e288b881eea-image-c773d7871f63"
+      ],
+      "node_id": "make-contact-sheet",
+      "operator": "make_contact_sheet",
+      "outputs": [
+        "contact-sheet"
+      ]
+    },
+    {
+      "agent_id": "synthesizer",
+      "arguments": {
+        "output_artifact_id": "final-answer",
+        "output_media_type": "text/plain",
+        "output_semantic_type": "short_text",
+        "prompt": "Based on the provided text, table, and contact sheet evidence, answer the question: Is the actor who starred in the films \"Rudy\" and \"D-Tox\" bald? Provide a short text answer."
+      },
+      "inputs": [
+        "retrieved-texts",
+        "retrieved-table",
+        "contact-sheet"
+      ],
+      "node_id": "synthesize-answer",
+      "operator": "invoke_model",
+      "outputs": [
+        "final-answer"
+      ]
+    }
+  ]
+}

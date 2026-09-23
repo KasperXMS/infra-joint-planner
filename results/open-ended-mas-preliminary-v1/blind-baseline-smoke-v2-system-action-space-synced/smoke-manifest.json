@@ -1,0 +1,364 @@
+{
+  "code_revision": "6192e8cca417afe769d3ccb6635c9ff65bbe3be5",
+  "experiment": "blind-baseline-smoke",
+  "n": 1,
+  "network": "native_unshaped",
+  "qdisc_snapshot": {
+    "A28": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \n",
+    "A4": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \n",
+    "A5": "qdisc mq 0: root \nqdisc fq_codel 0: parent :5 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :4 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :3 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :2 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \nqdisc fq_codel 0: parent :1 limit 10240p flows 1024 quantum 1514 target 5ms interval 100ms memory_limit 32Mb ecn drop_batch 64 \n",
+    "strong-4090": "qdisc noqueue 0: root refcnt 2 \n"
+  },
+  "replacement": false,
+  "retry": false,
+  "runs": [
+    {
+      "artifact_cleanup_error": null,
+      "audit": {
+        "actual_placements": {
+          "filter-cooper-rows": [
+            "A28"
+          ],
+          "inspect-crest-image": [
+            "strong-4090"
+          ],
+          "retrieve-cooper-text": [
+            "A28"
+          ],
+          "synthesize-answer": [
+            "A28"
+          ]
+        },
+        "adaptation": {
+          "task": {
+            "artifacts": [
+              {
+                "artifact_id": "mmqa-09e997f80f70-texts",
+                "logical_type": "candidate_text_corpus;text_field=text",
+                "media_type": "application/json",
+                "size_bytes": 5039,
+                "source_ref": "prepared://multimodalqa/mmqa-09e997f80f70-texts"
+              },
+              {
+                "artifact_id": "mmqa-09e997f80f70-table",
+                "logical_type": "candidate_table",
+                "media_type": "application/json",
+                "size_bytes": 6236,
+                "source_ref": "prepared://multimodalqa/mmqa-09e997f80f70-table"
+              },
+              {
+                "artifact_id": "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+                "logical_type": "candidate_image",
+                "media_type": "image/jpeg",
+                "size_bytes": 22467,
+                "source_ref": "prepared://multimodalqa/mmqa-09e997f80f70-image-f5cc4b5a37f8"
+              },
+              {
+                "artifact_id": "mmqa-09e997f80f70-image-fcf621aa5320",
+                "logical_type": "candidate_image",
+                "media_type": "image/png",
+                "size_bytes": 57236,
+                "source_ref": "prepared://multimodalqa/mmqa-09e997f80f70-image-fcf621aa5320"
+              }
+            ],
+            "benchmark_id": "multimodalqa_dev",
+            "evaluator_id": "multimodalqa_official_list_f1_v1",
+            "objective": "When looking at the hurler Bill Cooper's Inter-county listings, what sort of vessel can be seen in the middle of the crest for Cooper's 2015 team?",
+            "output_contract": {
+              "choices": null,
+              "format": "short_text",
+              "schema_definition": null
+            },
+            "task_id": "09e997f80f700a93c2094af964de65e6"
+          },
+          "transformations": [
+            {
+              "audit": {
+                "image_count": 2,
+                "modalities": [
+                  "image",
+                  "table"
+                ],
+                "question_type": "Compose(ImageQ,TableQ)",
+                "table_id": "546a7b7bbc8308e14db0686277e3dcaa",
+                "text_count": 10
+              },
+              "benchmark_id": "multimodalqa_dev",
+              "gold_independent": true,
+              "information_preserved": true,
+              "notes": "All official candidate texts, the full candidate table, and all candidate images are materialized; private annotations are excluded.",
+              "order_preserved": true,
+              "source_revision": "4dd14328c6d02a4daa357cc6032915a0b14602e3",
+              "source_task_id": "09e997f80f700a93c2094af964de65e6",
+              "transformation": "lossless_candidate_context_materialization"
+            }
+          ],
+          "validity": {
+            "evaluator_equivalent": true,
+            "information_equivalent": true,
+            "query_equivalent": true,
+            "reasons": [],
+            "setting_kind": "official_equivalent"
+          }
+        },
+        "agent_final_states": {
+          "retrieval-agent": "done",
+          "synthesizer-agent": "done",
+          "visual-agent": "done"
+        },
+        "benchmark_faithful": true,
+        "benchmark_score": 0.0,
+        "evaluator_details": "{\"list_em\": 0.0, \"list_f1\": 0.0}",
+        "execution_bindings": {
+          "filter-cooper-rows": {
+            "actual_agent_ids": [
+              "A28"
+            ],
+            "actual_deployment_id": null,
+            "logical_agent_id": "retrieval-agent",
+            "selected_agent_id": null,
+            "selected_deployment_id": null
+          },
+          "inspect-crest-image": {
+            "actual_agent_ids": [
+              "strong-4090"
+            ],
+            "actual_deployment_id": "strong-4090-qwen3.8-27b-q4km-v1",
+            "logical_agent_id": "visual-agent",
+            "selected_agent_id": "strong-4090",
+            "selected_deployment_id": "strong-4090-qwen3.8-27b-q4km-v1"
+          },
+          "retrieve-cooper-text": {
+            "actual_agent_ids": [
+              "A28"
+            ],
+            "actual_deployment_id": null,
+            "logical_agent_id": "retrieval-agent",
+            "selected_agent_id": null,
+            "selected_deployment_id": null
+          },
+          "synthesize-answer": {
+            "actual_agent_ids": [
+              "A28"
+            ],
+            "actual_deployment_id": "a28-qwen3.8-27b-q4km-v1",
+            "logical_agent_id": "synthesizer-agent",
+            "selected_agent_id": "A28",
+            "selected_deployment_id": "a28-qwen3.8-27b-q4km-v1"
+          }
+        },
+        "execution_success": true,
+        "format_valid": true,
+        "freeze_accepted": false,
+        "information_objects": {
+          "explicit_handoffs": [
+            {
+              "consumer_agent_id": "synthesizer-agent",
+              "object_id": "cooper-text-filtered",
+              "producer_agent_id": "retrieval-agent"
+            },
+            {
+              "consumer_agent_id": "synthesizer-agent",
+              "object_id": "crest-vessel-observation",
+              "producer_agent_id": "visual-agent"
+            }
+          ],
+          "handoff_observed": true
+        },
+        "node_final_states": {
+          "filter-cooper-rows": "done",
+          "inspect-crest-image": "done",
+          "retrieve-cooper-text": "done",
+          "synthesize-answer": "done"
+        },
+        "pause_reason": "terminal answer did not pass the original evaluator",
+        "quality_pass": false,
+        "quality_policy": {
+          "metric": "multimodalqa_official_list_f1",
+          "operator": "==",
+          "threshold": 1.0
+        },
+        "run_id": "01-image-table-native",
+        "task": "image-table",
+        "task_id": "09e997f80f700a93c2094af964de65e6",
+        "terminal_answer": "A sailing ship",
+        "trace": {
+          "agent_private_leakage": [],
+          "event_count": 63,
+          "explicit_cross_agent_information_handoffs": [
+            {
+              "consumer_agent_id": "synthesizer-agent",
+              "object_id": "cooper-text-filtered",
+              "producer_agent_id": "retrieval-agent"
+            },
+            {
+              "consumer_agent_id": "synthesizer-agent",
+              "object_id": "crest-vessel-observation",
+              "producer_agent_id": "visual-agent"
+            }
+          ],
+          "missing_required_events": [],
+          "parent_chain_valid": true,
+          "reconstructable": true,
+          "required_events_present": true,
+          "sha256": "b3a3f7b009498a439c4ad841537eada4b40c472290584faa04e7cd178fadb964"
+        },
+        "transfer_bytes": 79789,
+        "transfer_time_ms": 288.0635999899823,
+        "transfers": {
+          "initial": [],
+          "workflow": [
+            {
+              "artifact_id": "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+              "bytes_transferred": 22467,
+              "duration_ms": 123.23460000334308,
+              "node_id": "inspect-crest-image",
+              "source_agent_id": "A28",
+              "target_agent_id": "strong-4090"
+            },
+            {
+              "artifact_id": "mmqa-09e997f80f70-image-fcf621aa5320",
+              "bytes_transferred": 57236,
+              "duration_ms": 40.707700012717396,
+              "node_id": "inspect-crest-image",
+              "source_agent_id": "A28",
+              "target_agent_id": "strong-4090"
+            },
+            {
+              "artifact_id": "crest-vessel-observation",
+              "bytes_transferred": 86,
+              "duration_ms": 124.12129997392185,
+              "node_id": "synthesize-answer",
+              "source_agent_id": "strong-4090",
+              "target_agent_id": "A28"
+            }
+          ]
+        },
+        "workflow_plan_sha256": "0a51f735332482580c7491c3a1188fe2059b903c2ebb94d8231894d91b68fa3a",
+        "workflow_shape": {
+          "active_logical_agent_count": 3,
+          "cross_agent_edges": [
+            {
+              "artifact_id": "cooper-text-filtered",
+              "consumer_agent_id": "synthesizer-agent",
+              "producer_agent_id": "retrieval-agent"
+            },
+            {
+              "artifact_id": "crest-vessel-observation",
+              "consumer_agent_id": "synthesizer-agent",
+              "producer_agent_id": "visual-agent"
+            }
+          ],
+          "fan_in_nodes": {
+            "synthesize-answer": 2
+          },
+          "fan_out_nodes": {},
+          "invoke_model_agents": [
+            "synthesizer-agent",
+            "visual-agent"
+          ],
+          "model_bindings": {
+            "retrieval-agent": "a28-qwen3.8-27b-q4km-v1",
+            "synthesizer-agent": "a28-qwen3.8-27b-q4km-v1",
+            "visual-agent": "strong-4090-qwen3.8-27b-q4km-v1"
+          },
+          "model_handoffs_to_terminal": [
+            {
+              "artifact_id": "crest-vessel-observation",
+              "consumer_agent_id": "synthesizer-agent",
+              "producer_agent_id": "visual-agent",
+              "producer_node_id": "inspect-crest-image"
+            }
+          ],
+          "non_trivial_mas": true,
+          "roles_objectives": {
+            "retrieval-agent": {
+              "objective": "Retrieve and isolate text passages about Bill Cooper's inter-county listings and his 2015 team crest.",
+              "role": "Evidence retriever"
+            },
+            "synthesizer-agent": {
+              "objective": "Synthesize the retrieved text and image evidence into the short final answer.",
+              "role": "Final synthesizer"
+            },
+            "visual-agent": {
+              "objective": "Inspect candidate images to identify the crest vessel in the middle of Cooper's 2015 team crest.",
+              "role": "Visual inspector"
+            }
+          },
+          "terminal_model_agent": "synthesizer-agent",
+          "unique_terminal_model_node": "synthesize-answer"
+        }
+      },
+      "network": "native_unshaped",
+      "run_id": "01-image-table-native",
+      "task": "image-table",
+      "validity_error": null
+    },
+    {
+      "artifact_cleanup_error": null,
+      "network": "native_unshaped",
+      "pause_reason": "planner produced a single-agent or trivial workflow; no forced MAS execution",
+      "paused_before_execution": true,
+      "run_id": "02-image-text-native",
+      "task": "image-text",
+      "validity_error": null,
+      "workflow_shape": {
+        "active_logical_agent_count": 4,
+        "cross_agent_edges": [
+          {
+            "artifact_id": "retrieved-text-passages",
+            "consumer_agent_id": "final-synthesizer",
+            "producer_agent_id": "text-retriever"
+          },
+          {
+            "artifact_id": "selected-table-evidence",
+            "consumer_agent_id": "final-synthesizer",
+            "producer_agent_id": "table-filter"
+          },
+          {
+            "artifact_id": "image-contact-sheet",
+            "consumer_agent_id": "final-synthesizer",
+            "producer_agent_id": "visual-assembler"
+          }
+        ],
+        "fan_in_nodes": {
+          "synthesize-answer": 3
+        },
+        "fan_out_nodes": {},
+        "invoke_model_agents": [
+          "final-synthesizer"
+        ],
+        "model_bindings": {
+          "final-synthesizer": "strong-4090-qwen3.8-27b-q4km-v1",
+          "table-filter": "strong-4090-qwen3.8-27b-q4km-v1",
+          "text-retriever": "a28-qwen3.8-27b-q4km-v1",
+          "visual-assembler": "a28-qwen3.8-27b-q4km-v1"
+        },
+        "model_handoffs_to_terminal": [],
+        "non_trivial_mas": false,
+        "roles_objectives": {
+          "final-synthesizer": {
+            "objective": "Combine retrieved text, table evidence, and visual contact sheet to answer whether the actor is bald.",
+            "role": "Multimodal answer synthesizer"
+          },
+          "table-filter": {
+            "objective": "Filter and project table records to identify the actor who starred in Rudy and D-Tox.",
+            "role": "Structured data analyst"
+          },
+          "text-retriever": {
+            "objective": "Retrieve relevant text passages about the actor who starred in Rudy and D-Tox and whether he is bald.",
+            "role": "Text retrieval specialist"
+          },
+          "visual-assembler": {
+            "objective": "Arrange candidate images into a contact sheet for visual inspection of the actor's appearance.",
+            "role": "Visual evidence assembler"
+          }
+        },
+        "terminal_model_agent": "final-synthesizer",
+        "unique_terminal_model_node": "synthesize-answer"
+      }
+    }
+  ],
+  "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
+  "stopped_on_confounder": null
+}

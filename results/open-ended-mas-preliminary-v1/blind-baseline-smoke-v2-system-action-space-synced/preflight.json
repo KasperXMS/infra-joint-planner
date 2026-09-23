@@ -1,0 +1,738 @@
+{
+  "image_model_calls": {
+    "A28": {
+      "model_telemetry": {
+        "finish_reason": "stop",
+        "input_tokens": 129,
+        "output_tokens": 3,
+        "service_latency_ms": 2617.347805062309
+      },
+      "operator": "invoke_model",
+      "output": {
+        "text": "IMAGE_OK"
+      }
+    },
+    "strong-4090": {
+      "model_telemetry": {
+        "finish_reason": "stop",
+        "input_tokens": 129,
+        "output_tokens": 3,
+        "service_latency_ms": 484.4295480288565
+      },
+      "operator": "invoke_model",
+      "output": {
+        "text": "IMAGE_OK"
+      }
+    }
+  },
+  "workers": {
+    "A28": {
+      "agent_id": "A28",
+      "artifacts": [
+        {
+          "artifact_id": "__infra_joint_preflight__--86d0b0c4633fc5a8",
+          "media_type": "text/plain",
+          "sha256_hex": "86d0b0c4633fc5a85620420c98b9dd3d11ffa6232533f8616d959bba5f26494e",
+          "size_bytes": 53
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+          "media_type": "image/jpeg",
+          "sha256_hex": "deb20863c740dc55bc22ab5fa01c4c9212d5165dad20a3ebe4ab7d0768383f62",
+          "size_bytes": 22467
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-image-fcf621aa5320",
+          "media_type": "image/png",
+          "sha256_hex": "3189cc31090403f505f991e62bbdb8cb81757ea9b604506993d58e6fd13f4cc5",
+          "size_bytes": 57236
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-table",
+          "media_type": "application/json",
+          "sha256_hex": "c9768442bd7272b3560789bca8c6e171456f3360c2bdce8631d0d8a959bbc50f",
+          "size_bytes": 6236
+        },
+        {
+          "artifact_id": "mmqa-09e997f80f70-texts",
+          "media_type": "application/json",
+          "sha256_hex": "a23668d0f0adf5073ca94e6b523e45e875abb7ef9b4efa5de38252d6f80e9c27",
+          "size_bytes": 5039
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        }
+      ],
+      "available": true,
+      "deployments": [
+        {
+          "context_window": 16384,
+          "deployment_id": "a28-qwen3.8-27b-q4km-v1",
+          "image_token_cost": 2048,
+          "modalities": [
+            "text",
+            "image"
+          ],
+          "model_id": "qwen3.8-27b-q4km-v1",
+          "reserved_output_tokens": 256
+        }
+      ],
+      "in_flight": 0,
+      "operator_contract_digests": {
+        "aggregate_artifacts": "99dbec146fe310b180bb93e735893f4ee21e53e1b6f82f674a916eb55406c3a0",
+        "aggregate_records": "ed141e2e8d239645e82628b0549696481ee2b93c2c5b4e4600f4f41427bd3caf",
+        "bm25_retrieve": "6d1b9dd294bd46e24d6d50ddd0c117f86e54fdbbe54929a9b42c464075c3f6cb",
+        "derive_fields": "41c15fe64b68bf662a19b1d73bd5026f541f6e5da6b49193b2243bf11f3cc5af",
+        "extract_clip": "355a1746e8a8efbcda85bfae3eda77a97d8d92fe430a810fad1a4e2e8c373af4",
+        "filter_records": "c8538027a28877fbfb15a6eb0f9b188488c5649bf0fb60c705d02e606faa4030",
+        "invoke_model": "93f370d5c2d19652f8a7d7f886c35f2af6676668adf02d9af84ce65cbbc83108",
+        "make_contact_sheet": "da37cbbefb8f0dffcc644ba8218c5c815cbfdc1810b2adc12c973ddd710aa986",
+        "read_artifact": "6c8df1eb152da6b7151a5c95e0d7cd2646abc0e89b2ba1e545e35e5f8843aa25",
+        "sample_frames": "a011dbce4d59d4d772655247ff79cdc7469d3eae57f62b87ca00b0ca4f85f994",
+        "select_fields": "7fc7e4194c7e538d0fd6ced6965de20ad5455df3cd8342edeccd8425895aab8e",
+        "top_k_records": "4478cb929a92a717d4d6704b4a38f892ca10371d267be2ad36cdf601916a8bb7"
+      },
+      "operators": [
+        "aggregate_artifacts",
+        "aggregate_records",
+        "bm25_retrieve",
+        "derive_fields",
+        "extract_clip",
+        "filter_records",
+        "invoke_model",
+        "make_contact_sheet",
+        "read_artifact",
+        "sample_frames",
+        "select_fields",
+        "top_k_records"
+      ]
+    },
+    "strong-4090": {
+      "agent_id": "strong-4090",
+      "artifacts": [
+        {
+          "artifact_id": "__infra_joint_preflight__--86d0b0c4633fc5a8",
+          "media_type": "text/plain",
+          "sha256_hex": "86d0b0c4633fc5a85620420c98b9dd3d11ffa6232533f8616d959bba5f26494e",
+          "size_bytes": 53
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw10-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw100-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw1000-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw3-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw30-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--1048576-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "0da33c6fd694be3c52a62a614a4187f367ff3f26a15576a5cf577f6f5ece9d93",
+          "size_bytes": 1048576
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--134217728-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "9480c8daa6e6a9b7b89e003a55ab0724a33da539bc12cfab3c05254d4af1a770",
+          "size_bytes": 134217728
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--33554432-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "f0ab9319d518d53a453562146439b8ea087f48b1019082e25df4e8ac2cdca812",
+          "size_bytes": 33554432
+        },
+        {
+          "artifact_id": "netcal-bw300-rtt20-v1-audit1--8388608-bytes",
+          "media_type": "application/octet-stream",
+          "sha256_hex": "7eff40288b8f9cb1c6609211ea12655f2b9e68a870a98b2ab16bebcfc3bcea0d",
+          "size_bytes": 8388608
+        }
+      ],
+      "available": true,
+      "deployments": [
+        {
+          "context_window": 16384,
+          "deployment_id": "strong-4090-qwen3.8-27b-q4km-v1",
+          "image_token_cost": 2048,
+          "modalities": [
+            "text",
+            "image"
+          ],
+          "model_id": "qwen3.8-27b-q4km-v1",
+          "reserved_output_tokens": 256
+        }
+      ],
+      "in_flight": 0,
+      "operator_contract_digests": {
+        "aggregate_artifacts": "99dbec146fe310b180bb93e735893f4ee21e53e1b6f82f674a916eb55406c3a0",
+        "aggregate_records": "ed141e2e8d239645e82628b0549696481ee2b93c2c5b4e4600f4f41427bd3caf",
+        "bm25_retrieve": "6d1b9dd294bd46e24d6d50ddd0c117f86e54fdbbe54929a9b42c464075c3f6cb",
+        "derive_fields": "41c15fe64b68bf662a19b1d73bd5026f541f6e5da6b49193b2243bf11f3cc5af",
+        "extract_clip": "355a1746e8a8efbcda85bfae3eda77a97d8d92fe430a810fad1a4e2e8c373af4",
+        "filter_records": "c8538027a28877fbfb15a6eb0f9b188488c5649bf0fb60c705d02e606faa4030",
+        "invoke_model": "93f370d5c2d19652f8a7d7f886c35f2af6676668adf02d9af84ce65cbbc83108",
+        "make_contact_sheet": "da37cbbefb8f0dffcc644ba8218c5c815cbfdc1810b2adc12c973ddd710aa986",
+        "read_artifact": "6c8df1eb152da6b7151a5c95e0d7cd2646abc0e89b2ba1e545e35e5f8843aa25",
+        "sample_frames": "a011dbce4d59d4d772655247ff79cdc7469d3eae57f62b87ca00b0ca4f85f994",
+        "select_fields": "7fc7e4194c7e538d0fd6ced6965de20ad5455df3cd8342edeccd8425895aab8e",
+        "top_k_records": "4478cb929a92a717d4d6704b4a38f892ca10371d267be2ad36cdf601916a8bb7"
+      },
+      "operators": [
+        "aggregate_artifacts",
+        "aggregate_records",
+        "bm25_retrieve",
+        "derive_fields",
+        "extract_clip",
+        "filter_records",
+        "invoke_model",
+        "make_contact_sheet",
+        "read_artifact",
+        "sample_frames",
+        "select_fields",
+        "top_k_records"
+      ]
+    }
+  }
+}

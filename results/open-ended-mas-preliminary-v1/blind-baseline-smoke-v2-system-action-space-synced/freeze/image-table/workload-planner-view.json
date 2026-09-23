@@ -1,0 +1,52 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "mmqa-09e997f80f70-texts",
+      "logical_type": "candidate_text_corpus;text_field=text",
+      "media_type": "application/json"
+    },
+    {
+      "artifact_id": "mmqa-09e997f80f70-table",
+      "logical_type": "candidate_table",
+      "media_type": "application/json"
+    },
+    {
+      "artifact_id": "mmqa-09e997f80f70-image-f5cc4b5a37f8",
+      "logical_type": "candidate_image",
+      "media_type": "image/jpeg"
+    },
+    {
+      "artifact_id": "mmqa-09e997f80f70-image-fcf621aa5320",
+      "logical_type": "candidate_image",
+      "media_type": "image/png"
+    }
+  ],
+  "available_model_instances": [
+    {
+      "modalities": [
+        "image",
+        "text"
+      ],
+      "model_id": "qwen3.8-27b-q4km-v1",
+      "model_instance_id": "vision-reasoner-alpha"
+    },
+    {
+      "modalities": [
+        "image",
+        "text"
+      ],
+      "model_id": "qwen3.8-27b-q4km-v1",
+      "model_instance_id": "vision-reasoner-beta"
+    }
+  ],
+  "available_operations": [
+    "bm25_retrieve",
+    "filter_records",
+    "select_fields",
+    "aggregate_artifacts",
+    "make_contact_sheet",
+    "invoke_model"
+  ],
+  "max_agents": 6,
+  "min_agents": null
+}
