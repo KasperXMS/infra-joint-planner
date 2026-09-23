@@ -13,6 +13,7 @@ from infra_joint.benchmarks.multihop_rag import (
     FixedCandidateSetting,
     FullCorpusSetting,
     MultiHopCorpusDocument,
+    MultiHopEvidence,
     MultiHopRAGAdapter,
     MultiHopRAGSample,
 )
@@ -49,6 +50,30 @@ def corpus_document(index: int) -> MultiHopCorpusDocument:
         category="business",
         url=f"https://example.test/{index}",
     )
+
+
+def test_official_nullable_author_is_preserved() -> None:
+    document = MultiHopCorpusDocument(
+        title="Untitled author",
+        body="Body",
+        author=None,
+        source="source",
+        published_at="2024-01-01",
+        category="category",
+        url="https://example.test/no-author",
+    )
+    evidence = MultiHopEvidence(
+        title=document.title,
+        fact="Fact",
+        author=None,
+        source=document.source,
+        published_at=document.published_at,
+        category=document.category,
+        url=document.url,
+    )
+
+    assert document.model_dump()["author"] is None
+    assert evidence.model_dump()["author"] is None
 
 
 def query_hash(sample: MultiHopRAGSample) -> str:

@@ -44,7 +44,7 @@ def _query_sha256(query: str) -> str:
 class MultiHopEvidence(ContractModel):
     """Official supporting evidence, retained only in the private evaluation side."""
 
-    author: str
+    author: str | None
     category: str
     fact: str = Field(min_length=1)
     published_at: str
@@ -71,7 +71,7 @@ class MultiHopCorpusDocument(ContractModel):
 
     title: str
     body: str
-    author: str
+    author: str | None
     source: str
     published_at: str
     category: str
