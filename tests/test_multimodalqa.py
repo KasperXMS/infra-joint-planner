@@ -54,3 +54,17 @@ async def test_official_evaluator_reports_list_metrics() -> None:
     assert result.format_valid
     assert result.benchmark_score == 1.0
     assert json.loads(result.details) == {"list_em": 1.0, "list_f1": 1.0}
+
+
+@pytest.mark.asyncio
+async def test_official_evaluator_matches_number_words_and_alternative_references() -> None:
+    task = MultiModalQAAdapter("revision").adapt(_sample()).execution.task
+    numeric = await MultiModalQAOfficialEvaluator(("8",)).evaluate(task, "eight")
+    alternative = await MultiModalQAOfficialEvaluator(("wrong", "The Boat")).evaluate(
+        task, "boat"
+    )
+
+    assert numeric.benchmark_score == 1.0
+    assert json.loads(numeric.details) == {"list_em": 1.0, "list_f1": 1.0}
+    assert alternative.benchmark_score == 1.0
+    assert json.loads(alternative.details) == {"list_em": 1.0, "list_f1": 1.0}

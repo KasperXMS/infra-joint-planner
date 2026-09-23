@@ -159,9 +159,11 @@ class LLMWorkflowPlanner:
         }
         return "\n".join(
             (
-                "Synthesize one complete multi-agent logical workflow DAG for the task.",
+                "Synthesize one complete logical workflow DAG for the task.",
                 "Plan once. Decide logical agents, roles, fixed model-instance bindings, "
                 "semantic operations, dependencies, parallel branches, and final synthesis.",
+                "Use multiple logical agents only when the task decomposition warrants it; "
+                "a single logical agent is valid.",
                 "Do not output next-action decisions or request replanning.",
                 "Do not invent operators, model instances, task artifacts, or schemas.",
                 "The fixed model instances may be shared by multiple logical agents.",

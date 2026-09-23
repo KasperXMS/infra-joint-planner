@@ -8,6 +8,7 @@ import gzip
 import hashlib
 import json
 import os
+import subprocess
 from contextlib import AsyncExitStack
 from pathlib import Path
 from time import perf_counter
@@ -39,6 +40,7 @@ from infra_joint.heterogeneous.traffic_control import (
 )
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
+from infra_joint.planning.planner import logical_task_payload
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.runtime.executor import ArtifactTransferTelemetry
 from infra_joint.workflow.planner import LLMWorkflowPlanner, ScriptedWorkflowPlanner
@@ -285,6 +287,58 @@ def _canonical_hash(value: object) -> str:
     return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
 
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while chunk := stream.read(1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _code_revision() -> str:
+    completed = subprocess.run(
+        ("git", "rev-parse", "HEAD"),
+        cwd=REPO,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
+
+
+def _selected_image_provenance(config: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    task_rows = cast(list[dict[str, Any]], config["dataset"]["tasks"])
+    qids = {str(item["qid"]) for item in task_rows}
+    examples = _jsonl_index(DEFAULT_DATASET / "MMQA_dev.jsonl.gz", qids)
+    image_ids = {
+        str(image_id)
+        for qid in qids
+        for image_id in examples[qid]["metadata"]["image_doc_ids"]
+    }
+    image_index = _jsonl_index(DEFAULT_DATASET / "MMQA_images.jsonl.gz", image_ids)
+    result: dict[str, list[dict[str, Any]]] = {}
+    for row in task_rows:
+        label = str(row["label"])
+        qid = str(row["qid"])
+        values: list[dict[str, Any]] = []
+        for raw_image_id in examples[qid]["metadata"]["image_doc_ids"]:
+            image_id = str(raw_image_id)
+            candidates = list(DEFAULT_IMAGES.glob(f"{image_id}.*"))
+            if len(candidates) != 1:
+                raise RuntimeError(f"expected exactly one selected image for {image_id}")
+            local = candidates[0]
+            values.append(
+                {
+                    "image_id": image_id,
+                    "official_index_record": image_index[image_id],
+                    "local_filename": local.name,
+                    "local_sha256": _file_sha256(local),
+                }
+            )
+        result[label] = values
+    return result
+
+
 def _write_json(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -384,12 +438,32 @@ async def freeze(
     registry = build_operator_catalog()
     planner_config = load_planner_config(REPO / str(config["planner"]["config"]))
     backend, client = build_model_backend(planner_config.model)
+    image_provenance = _selected_image_provenance(config)
     manifest: dict[str, Any] = {
         "experiment_id": config["experiment_id"],
+        "code_revision": _code_revision(),
         "source_revision": config["dataset"]["source_revision"],
+        "source_file_sha256": {
+            name: _file_sha256(DEFAULT_DATASET / name)
+            for name in (
+                "MMQA_dev.jsonl.gz",
+                "MMQA_texts.jsonl.gz",
+                "MMQA_tables.jsonl.gz",
+                "MMQA_images.jsonl.gz",
+            )
+        },
+        "official_evaluator_source_sha256": _file_sha256(
+            REPO / "artifacts/multimodalqa-official/baselines/evaluate.py"
+        ),
         "selection_rule": config["dataset"]["selection_rule"],
         "planner_calls_per_task": 1,
-        "private_fields_excluded": ["answers", "supporting_context", "intermediate_answers"],
+        "planner_and_agent_views_exclude": [
+            "source_ref",
+            "evaluator_id",
+            "answers",
+            "supporting_context",
+            "intermediate_answers",
+        ],
         "tasks": {},
     }
     try:
@@ -412,7 +486,13 @@ async def freeze(
             planner_hash = _canonical_hash(planner_json)
             execution_hash = _canonical_hash(execution_json)
             _write_json(
-                task_root / "task-contract.json", bundle.execution.task.model_dump(mode="json")
+                task_root / "task-planner-view.json",
+                logical_task_payload(bundle.execution.task),
+            )
+            private_root = output / "private" / label
+            _write_json(
+                private_root / "task-contract.json",
+                bundle.execution.task.model_dump(mode="json"),
             )
             _write_json(
                 task_root / "workload-planner-view.json", planner_workload.model_dump(mode="json")
@@ -440,7 +520,7 @@ async def freeze(
             )
             private_evaluation = cast(PrivateMultiModalQAEvaluation, bundle.private_evaluation)
             _write_json(
-                task_root / "private-evaluation.json",
+                private_root / "private-evaluation.json",
                 private_evaluation.model_dump(mode="json"),
             )
             manifest["tasks"][label] = {
@@ -451,6 +531,14 @@ async def freeze(
                 "artifact_placement": {
                     item.spec.artifact_id: "A28" for item in bundle.prepared_artifacts
                 },
+                "adaptation_provenance": {
+                    "transformations": [
+                        item.model_dump(mode="json")
+                        for item in bundle.execution.transformations
+                    ],
+                    "validity": bundle.execution.validity.model_dump(mode="json"),
+                },
+                "selected_image_provenance": image_provenance[label],
                 "artifacts": [
                     {
                         "artifact_id": item.spec.artifact_id,
@@ -486,15 +574,26 @@ def _validate_freeze(
         if entry["public_representation_sha256"] != bundle_public_digest(bundle):
             raise RuntimeError(f"public representation drift: {label}")
         plan = _load_frozen_plan(output, label)
+        plan.terminal_model_node()
         if entry["workflow_plan_sha256"] != _canonical_hash(plan.model_dump(mode="json")):
             raise RuntimeError(f"workflow plan hash mismatch: {label}")
         prompt = (output / "freeze" / label / "planner-prompt.txt").read_text(encoding="utf-8")
         private_evaluation = cast(PrivateMultiModalQAEvaluation, bundle.private_evaluation)
         private: dict[str, Any] = private_evaluation.model_dump(mode="json")
-        private_tokens: list[str] = []
+        private_tokens = [
+            bundle.execution.task.evaluator_id,
+            *(
+                item.source_ref
+                for item in bundle.execution.task.artifacts
+                if item.source_ref is not None
+            ),
+        ]
         private_tokens.extend(str(item) for item in private.get("gold_answers", []))
         private_tokens.extend(
             json.dumps(item, ensure_ascii=False) for item in private.get("supporting_context", [])
+        )
+        private_tokens.extend(
+            json.dumps(item, ensure_ascii=False) for item in private.get("intermediate_answers", [])
         )
         if any(token and token in prompt for token in private_tokens):
             raise RuntimeError(f"private evaluation leakage into planner prompt: {label}")
@@ -568,6 +667,392 @@ def _result_validity_error(result: PersistedWorkflowRunResult) -> str | None:
     if any(reason != "stop" for reason in model_reasons):
         return f"model finish reason is not stop: {model_reasons}"
     return None
+
+
+async def _native_network_snapshot() -> dict[str, str]:
+    raw = _yaml(PREFLIGHT_CONFIG)
+    endpoints = tuple(TcEndpoint.model_validate(item) for item in raw["tc_endpoints"])
+    runner = SshCommandRunner()
+    snapshot = {
+        endpoint.agent_id: await runner.run(
+            endpoint.ssh_target,
+            ("sudo", "-n", "tc", "qdisc", "show", "dev", endpoint.interface),
+        )
+        for endpoint in endpoints
+    }
+    shaped = {
+        agent_id: value
+        for agent_id, value in snapshot.items()
+        if "qdisc htb 1:" in value or "netem" in value
+    }
+    if shaped:
+        raise RuntimeError(f"native smoke found active traffic shaping: {sorted(shaped)}")
+    return snapshot
+
+
+def _trace_audit(
+    trace_path: Path,
+    run_id: str,
+    bundle: AdaptationBundle,
+) -> dict[str, Any]:
+    events = [
+        cast(dict[str, Any], json.loads(line))
+        for line in trace_path.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    chain_valid = bool(events) and all(
+        event["run_id"] == run_id
+        and event["step_id"].startswith(f"{index:06d}-")
+        and event["parent_id"] == (events[index - 1]["step_id"] if index else None)
+        for index, event in enumerate(events)
+    )
+    event_types = {str(event["event_type"]) for event in events}
+    required = {
+        "workflow.planner.end",
+        "workflow.execution.start",
+        "workflow.execution.end",
+        "finalize.end",
+        "evaluation.result",
+        "run.end",
+    }
+    agent_events = [event for event in events if str(event["event_type"]).startswith("agent.")]
+    agent_payload = json.dumps(agent_events, ensure_ascii=False, sort_keys=True)
+    forbidden_keys = {
+        "source_ref",
+        "evaluator_id",
+        "gold_answers",
+        "supporting_context",
+        "intermediate_answers",
+    }
+    forbidden_values = {
+        bundle.execution.task.evaluator_id,
+        *(
+            item.source_ref
+            for item in bundle.execution.task.artifacts
+            if item.source_ref is not None
+        ),
+    }
+    leakage = sorted(
+        value
+        for value in (*forbidden_keys, *forbidden_values)
+        if value and value in agent_payload
+    )
+    handoffs: list[dict[str, str]] = []
+    for event in agent_events:
+        if event["event_type"] != "agent.information.received":
+            continue
+        payload = cast(dict[str, Any], event["payload"])
+        information = cast(dict[str, Any], payload["information"])
+        producer = str(information["producer_agent_id"])
+        consumer = str(payload["agent_id"])
+        if producer not in {"task", consumer}:
+            handoffs.append(
+                {
+                    "object_id": str(information["object_id"]),
+                    "producer_agent_id": producer,
+                    "consumer_agent_id": consumer,
+                }
+            )
+    return {
+        "event_count": len(events),
+        "sha256": hashlib.sha256(trace_path.read_bytes()).hexdigest(),
+        "parent_chain_valid": chain_valid,
+        "required_events_present": not (required - event_types),
+        "missing_required_events": sorted(required - event_types),
+        "agent_private_leakage": leakage,
+        "explicit_cross_agent_information_handoffs": handoffs,
+        "reconstructable": chain_valid and not (required - event_types),
+    }
+
+
+def _workflow_shape(plan: WorkflowPlan) -> dict[str, Any]:
+    agents = {item.agent_id: item for item in plan.agents}
+    fan_out: dict[str, int] = {item.node_id: 0 for item in plan.nodes}
+    fan_in: dict[str, int] = {item.node_id: 0 for item in plan.nodes}
+    cross_agent_edges: list[dict[str, str]] = []
+    nodes = {item.node_id: item for item in plan.nodes}
+    for edge in plan.edges:
+        fan_out[edge.producer_node] += 1
+        fan_in[edge.consumer_node] += 1
+        producer = nodes[edge.producer_node].agent_id
+        consumer = nodes[edge.consumer_node].agent_id
+        if producer != consumer:
+            cross_agent_edges.append(
+                {
+                    "artifact_id": edge.artifact_id,
+                    "producer_agent_id": producer,
+                    "consumer_agent_id": consumer,
+                }
+            )
+    terminal = plan.terminal_model_node()
+    invoke_model_agents = {
+        item.agent_id for item in plan.nodes if item.operator == "invoke_model"
+    }
+    successors: dict[str, set[str]] = {item.node_id: set() for item in plan.nodes}
+    for edge in plan.edges:
+        successors[edge.producer_node].add(edge.consumer_node)
+
+    def reaches_terminal(node_id: str) -> bool:
+        pending = list(successors[node_id])
+        visited: set[str] = set()
+        while pending:
+            current = pending.pop()
+            if current == terminal.node_id:
+                return True
+            if current not in visited:
+                visited.add(current)
+                pending.extend(successors[current])
+        return False
+
+    model_handoffs_to_terminal = [
+        {
+            "artifact_id": edge.artifact_id,
+            "producer_node_id": edge.producer_node,
+            "producer_agent_id": nodes[edge.producer_node].agent_id,
+            "consumer_agent_id": nodes[edge.consumer_node].agent_id,
+        }
+        for edge in plan.edges
+        if nodes[edge.producer_node].operator == "invoke_model"
+        and nodes[edge.producer_node].agent_id != nodes[edge.consumer_node].agent_id
+        and reaches_terminal(edge.producer_node)
+    ]
+    return {
+        "active_logical_agent_count": len(agents),
+        "roles_objectives": {
+            agent_id: {"role": item.role, "objective": item.objective}
+            for agent_id, item in agents.items()
+        },
+        "model_bindings": {
+            agent_id: item.model_instance_id for agent_id, item in agents.items()
+        },
+        "invoke_model_agents": sorted(invoke_model_agents),
+        "fan_out_nodes": {
+            node_id: count for node_id, count in fan_out.items() if count > 1
+        },
+        "fan_in_nodes": {node_id: count for node_id, count in fan_in.items() if count > 1},
+        "cross_agent_edges": cross_agent_edges,
+        "unique_terminal_model_node": terminal.node_id,
+        "terminal_model_agent": terminal.agent_id,
+        "model_handoffs_to_terminal": model_handoffs_to_terminal,
+        "non_trivial_mas": (
+            len(agents) > 1
+            and len(invoke_model_agents) > 1
+            and bool(model_handoffs_to_terminal)
+        ),
+    }
+
+
+def _smoke_audit(
+    output: Path,
+    run_id: str,
+    label: str,
+    bundle: AdaptationBundle,
+    plan: WorkflowPlan,
+    result: PersistedWorkflowRunResult,
+) -> dict[str, Any]:
+    if result.workflow is None:
+        raise RuntimeError("completed smoke result is missing workflow evidence")
+    shape = _workflow_shape(plan)
+    trace = _trace_audit(Path(result.trace_path), run_id, bundle)
+    evaluation = result.evaluation
+    validity = bundle.execution.validity
+    benchmark_faithful = (
+        validity.information_equivalent
+        and validity.query_equivalent
+        and validity.evaluator_equivalent
+        and not trace["agent_private_leakage"]
+    )
+    quality_pass = bool(
+        evaluation is not None
+        and evaluation.format_valid
+        and evaluation.benchmark_score == 1.0
+    )
+    audit: dict[str, Any] = {
+        "run_id": run_id,
+        "task": label,
+        "task_id": bundle.execution.task.task_id,
+        "workflow_plan_sha256": _canonical_hash(plan.model_dump(mode="json")),
+        "benchmark_faithful": benchmark_faithful,
+        "adaptation": bundle.execution.model_dump(mode="json"),
+        "workflow_shape": shape,
+        "information_objects": {
+            "explicit_handoffs": trace["explicit_cross_agent_information_handoffs"],
+            "handoff_observed": bool(trace["explicit_cross_agent_information_handoffs"]),
+        },
+        "node_final_states": result.workflow.state.node_status,
+        "agent_final_states": {
+            item.agent_id: item.status for item in result.workflow.agent_states
+        },
+        "actual_placements": {
+            item.node_id: list(item.execution.agent_ids)
+            for item in result.workflow.records
+            if item.execution is not None
+        },
+        "execution_bindings": {
+            item.node_id: {
+                "logical_agent_id": item.scheduler_decision.logical_agent_id,
+                "selected_agent_id": item.scheduler_decision.selected_agent_id,
+                "selected_deployment_id": item.scheduler_decision.selected_deployment_id,
+                "actual_agent_ids": list(item.execution.agent_ids),
+                "actual_deployment_id": item.execution.deployment_id,
+            }
+            for item in result.workflow.records
+            if item.execution is not None
+        },
+        "transfers": {
+            "initial": [item.model_dump(mode="json") for item in result.initial_transfers],
+            "workflow": [
+                {
+                    "node_id": record.node_id,
+                    **transfer.model_dump(mode="json"),
+                }
+                for record in result.workflow.records
+                if record.execution is not None
+                for transfer in record.execution.transfers
+            ],
+        },
+        "transfer_bytes": result.telemetry.total_transfer_bytes if result.telemetry else None,
+        "transfer_time_ms": (
+            result.telemetry.total_transfer_duration_ms if result.telemetry else None
+        ),
+        "trace": trace,
+        "terminal_answer": result.final_answer,
+        "format_valid": evaluation.format_valid if evaluation else None,
+        "benchmark_score": evaluation.benchmark_score if evaluation else None,
+        "evaluator_details": evaluation.details if evaluation else None,
+        "execution_success": result.execution_completed and result.workflow.completed,
+        "quality_pass": quality_pass,
+        "quality_policy": {
+            "metric": "multimodalqa_official_list_f1",
+            "operator": "==",
+            "threshold": 1.0,
+        },
+    }
+    audit["freeze_accepted"] = bool(
+        benchmark_faithful
+        and shape["non_trivial_mas"]
+        and audit["execution_success"]
+        and quality_pass
+        and trace["reconstructable"]
+        and audit["information_objects"]["handoff_observed"]
+    )
+    if not shape["non_trivial_mas"]:
+        audit["pause_reason"] = "planner produced a single-agent or trivial workflow"
+    elif not quality_pass:
+        audit["pause_reason"] = "terminal answer did not pass the original evaluator"
+    elif not audit["freeze_accepted"]:
+        audit["pause_reason"] = "smoke acceptance invariant failed"
+    else:
+        audit["pause_reason"] = None
+        accepted_root = output / "accepted-freeze" / label
+        _write_json(accepted_root / "workflow-plan.json", plan.model_dump(mode="json"))
+        _write_json(
+            accepted_root / "freeze-record.json",
+            {
+                "task_id": bundle.execution.task.task_id,
+                "canonical_sha256": audit["workflow_plan_sha256"],
+                "source": str(output / "freeze" / label / "workflow-plan.json"),
+            },
+        )
+    return audit
+
+
+async def run_native_smoke(
+    config: dict[str, Any], bundles: dict[str, AdaptationBundle], output: Path
+) -> None:
+    _validate_freeze(config, bundles, output)
+    operations = tuple(str(item) for item in config["planner"]["available_operations"])
+    max_agents = int(config["planner"]["max_agents"])
+    planner_config = load_planner_config(REPO / str(config["planner"]["config"]))
+    network_snapshot = await _native_network_snapshot()
+    task_labels = [str(item["label"]) for item in config["dataset"]["tasks"]]
+    if len(task_labels) != 2 or set(task_labels) != set(bundles):
+        raise RuntimeError("Blind Baseline Smoke requires exactly the two frozen tasks")
+    manifest: dict[str, Any] = {
+        "experiment": "blind-baseline-smoke",
+        "code_revision": _code_revision(),
+        "network": "native_unshaped",
+        "qdisc_snapshot": network_snapshot,
+        "scheduler": "B0_LOCALITY_AWARE_MYOPIC",
+        "n": 1,
+        "retry": False,
+        "replacement": False,
+        "runs": [],
+        "stopped_on_confounder": None,
+    }
+    for index, label in enumerate(task_labels, start=1):
+        run_id = f"{index:02d}-{label}-native"
+        run_root = output / "runs" / run_id
+        if run_root.exists():
+            raise RuntimeError(f"run already exists; no retry or overwrite allowed: {run_id}")
+        bundle = bundles[label]
+        plan = _load_frozen_plan(output, label)
+        shape = _workflow_shape(plan)
+        environment = _execution_environment(bundle)
+        runner_config = RunnerConfig(
+            environment=environment,
+            worker_urls=WORKER_URLS,
+            planner=planner_config,
+            output_root=output / "runs",
+            http_timeout_seconds=900,
+        )
+        metadata: dict[str, Any] = {
+            "run_id": run_id,
+            "task": label,
+            "network": "native_unshaped",
+            "validity_error": None,
+            "artifact_cleanup_error": None,
+        }
+        result: PersistedWorkflowRunResult | None = None
+        if not shape["non_trivial_mas"]:
+            metadata["paused_before_execution"] = True
+            metadata["pause_reason"] = (
+                "planner produced a single-agent or trivial workflow; no forced MAS execution"
+            )
+            metadata["workflow_shape"] = shape
+            _write_json(run_root / "experiment-metadata.json", metadata)
+            manifest["runs"].append(metadata)
+            _write_json(output / "smoke-manifest.json", manifest)
+            continue
+        try:
+            async with AsyncExitStack() as stack:
+                clients = await _clients(stack)
+                await validate_worker_surfaces(environment, build_operator_catalog(), clients)
+                await _preload(bundle, clients)
+                await _assert_initial_placement(bundle, clients)
+                result = await PrepositionedWorkflowRunner(
+                    runner_config,
+                    _workload(bundle, environment, operations, max_agents=max_agents),
+                    LocalityAwareMyopicScheduler(),
+                    worker_clients=clients,
+                    planner=ScriptedWorkflowPlanner((plan,)),
+                ).run(bundle, run_id=run_id)
+                metadata["validity_error"] = _result_validity_error(result)
+        except Exception as exc:
+            metadata["validity_error"] = f"{type(exc).__name__}: {exc}"
+        finally:
+            try:
+                await _remove_artifacts(
+                    ("A4", "A5", "A28", "strong-4090"), _generated_ids(plan)
+                )
+                await _remove_artifacts(
+                    ("A4", "A5", "strong-4090"),
+                    tuple(item.spec.artifact_id for item in bundle.prepared_artifacts),
+                )
+            except Exception as exc:
+                metadata["artifact_cleanup_error"] = f"{type(exc).__name__}: {exc}"
+        if result is not None and metadata["validity_error"] is None:
+            audit = _smoke_audit(output, run_id, label, bundle, plan, result)
+            _write_json(run_root / "smoke-audit.json", audit)
+            metadata["audit"] = audit
+        _write_json(run_root / "experiment-metadata.json", metadata)
+        manifest["runs"].append(metadata)
+        _write_json(output / "smoke-manifest.json", manifest)
+        if metadata["validity_error"] or metadata["artifact_cleanup_error"]:
+            manifest["stopped_on_confounder"] = run_id
+            _write_json(output / "smoke-manifest.json", manifest)
+            raise RuntimeError(f"fail-closed after {run_id}: {metadata}")
+    _write_json(output / "smoke-manifest.json", manifest)
 
 
 async def run_matrix(
@@ -850,6 +1335,8 @@ async def main_async(args: argparse.Namespace) -> None:
     elif args.command == "run":
         _load_key(args.api_key_file)
         await run_matrix(config, bundles, args.output)
+    elif args.command == "native-smoke":
+        await run_native_smoke(config, bundles, args.output)
     elif args.command == "report":
         report(config, args.output)
     elif args.command == "all":
@@ -861,7 +1348,10 @@ async def main_async(args: argparse.Namespace) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=("freeze", "preflight", "run", "report", "all"))
+    parser.add_argument(
+        "command",
+        choices=("freeze", "preflight", "native-smoke", "run", "report", "all"),
+    )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--dataset", type=Path, default=DEFAULT_DATASET)
     parser.add_argument("--images", type=Path, default=DEFAULT_IMAGES)

@@ -5,11 +5,13 @@ from __future__ import annotations
 import json
 import re
 import string
+from collections.abc import Callable
 from functools import cache
 from hashlib import sha256
-from typing import Any
+from typing import Any, cast
 
 from pydantic import Field
+from word2number.w2n import word_to_num as _word_to_num  # type: ignore[import-untyped]
 
 from infra_joint.benchmarks.base import (
     AdaptationBundle,
@@ -24,6 +26,7 @@ from infra_joint.evaluation.evaluator import EvaluationResult, Evaluator
 
 MULTIMODALQA_BENCHMARK_ID = "multimodalqa_dev"
 MULTIMODALQA_EVALUATOR_ID = "multimodalqa_official_list_f1_v1"
+word_to_num = cast(Callable[[str], int | float], _word_to_num)
 
 
 def _canonical_json(value: object) -> bytes:
@@ -82,9 +85,14 @@ def _normalize_answer(value: str) -> str:
         lowered = token.lower()
         if not _is_number(lowered):
             lowered = "".join(ch for ch in lowered if ch not in string.punctuation)
-        lowered = re.sub(r"\b(a|an|the)\b", " ", lowered)
         if _is_number(lowered.strip()):
             lowered = str(float(lowered.strip()))
+        else:
+            try:
+                lowered = str(float(word_to_num(lowered)))
+            except ValueError:
+                lowered = lowered
+        lowered = re.sub(r"\b(a|an|the)\b", " ", lowered)
         return " ".join(lowered.split())
 
     return " ".join(
@@ -155,9 +163,15 @@ class MultiModalQAOfficialEvaluator:
             )
         predicted = (answer,)
         pred_norm = tuple(_bag(item)[0] for item in predicted)
-        gold_norm = tuple(_bag(item)[0] for item in self._gold_answers)
-        list_em = float(set(pred_norm) == set(gold_norm) and len(pred_norm) == len(gold_norm))
-        list_f1 = _list_f1(predicted, self._gold_answers)
+        reference_scores = tuple(
+            (
+                float(pred_norm == (_bag(gold)[0],)),
+                _list_f1(predicted, (gold,)),
+            )
+            for gold in self._gold_answers
+        )
+        list_em = max(item[0] for item in reference_scores)
+        list_f1 = max(item[1] for item in reference_scores)
         return EvaluationResult(
             format_valid=bool(answer.strip()),
             benchmark_score=list_f1,

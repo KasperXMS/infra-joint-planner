@@ -160,6 +160,8 @@ async def test_llm_workflow_planner_generates_explicit_fanout_fanin_without_leak
     assert "private-evaluator-must-not-leak" not in prompt
     assert "physical-secret" not in prompt
     assert "device-secret" not in prompt
+    assert "Use multiple logical agents only" in prompt
+    assert "a single logical agent is valid" in prompt
 
 
 @pytest.mark.asyncio
@@ -183,6 +185,48 @@ async def test_llm_workflow_planner_rejects_invalid_model_output_before_executio
 
     with pytest.raises(WorkflowPlanningError, match="output_media_type"):
         await planner.plan(current_task, workload)
+
+
+@pytest.mark.asyncio
+async def test_llm_workflow_planner_allows_natural_single_agent_plan() -> None:
+    current_task = task()
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("invoke_model",),
+        max_agents=6,
+    )
+    raw = {
+        "agents": [
+            {
+                "agent_id": "answerer",
+                "role": "answerer",
+                "objective": "Answer directly when decomposition is unnecessary.",
+                "model_instance_id": "text-instance",
+                "allowed_operations": ["invoke_model"],
+            }
+        ],
+        "nodes": [
+            {
+                "node_id": "answer",
+                "agent_id": "answerer",
+                "operator": "invoke_model",
+                "inputs": ["shard-a", "shard-b"],
+                "arguments": {"prompt": "Answer from the supplied evidence."},
+                "outputs": [],
+            }
+        ],
+        "edges": [],
+    }
+
+    result = await LLMWorkflowPlanner(
+        CapturingBackend(json.dumps(raw)),
+        build_operator_catalog(),
+        current_environment,
+    ).plan(current_task, workload)
+
+    assert len(result.plan.agents) == 1
 
 
 def test_workload_has_capabilities_but_no_solution_or_placement_fields() -> None:
