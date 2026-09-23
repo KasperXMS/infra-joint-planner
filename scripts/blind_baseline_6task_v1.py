@@ -239,17 +239,18 @@ def _longbench_structured_bundle(
         "OperatingCost",
         "OperationProfit",
     )
-    starts = [header.index(name) for name in names]
-    final_end = max(len(line) for line in lines)
-    ends = [*starts[1:], final_end]
+    if tuple(header.split()) != names:
+        raise RuntimeError("LongBench structured header drift")
     records: list[dict[str, Any]] = []
-    for line in lines[1:]:
+    for line_number, line in enumerate(lines[1:], start=2):
         if not line.strip():
             continue
-        values = {
-            name: line[start:end].strip()
-            for name, start, end in zip(names, starts, ends, strict=True)
-        }
+        raw_values = line.split()
+        if len(raw_values) != len(names):
+            raise RuntimeError(
+                f"LongBench structured row {line_number} has {len(raw_values)} fields"
+            )
+        values = dict(zip(names, raw_values, strict=True))
         record: dict[str, Any] = {
             "Symbol": values["Symbol"],
             "EndDate": values["EndDate"],
@@ -285,7 +286,7 @@ def _longbench_structured_bundle(
         benchmark_id="longbench_v2",
         source_revision=source_revision,
         source_task_id=sample.sample_id,
-        transformation="fixed_width_text_to_typed_json_records",
+        transformation="whitespace_table_to_typed_json_records",
         information_preserved=True,
         order_preserved=True,
         gold_independent=True,
