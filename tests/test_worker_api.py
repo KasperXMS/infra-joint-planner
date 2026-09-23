@@ -37,6 +37,25 @@ async def test_worker_artifact_delete_is_idempotent() -> None:
 
 
 @pytest.mark.asyncio
+async def test_worker_artifact_routes_preserve_ids_with_path_separators() -> None:
+    artifact_id = "clipframe/frame-000001.jpg"
+    store = InMemoryArtifactStore(
+        (StoredArtifact.create(artifact_id, "image/jpeg", b"jpeg"),)
+    )
+    app = create_worker_app("worker", {}, artifact_store=store)
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as http_client:
+        client = HttpWorkerClient("worker", http_client)
+        response = await http_client.get("/artifact/clipframe%2Fframe-000001.jpg")
+        assert response.status_code == 200
+        assert response.content == b"jpeg"
+        assert await client.delete_artifact(artifact_id) is True
+
+    assert store.ids() == ()
+
+
+@pytest.mark.asyncio
 async def test_worker_rejects_unknown_deployment() -> None:
     app = create_worker_app(
         "worker",

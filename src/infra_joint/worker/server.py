@@ -171,7 +171,7 @@ def create_worker_app(
             artifacts=_artifact_metadata(store),
         )
 
-    @app.get("/artifact/{artifact_id}")
+    @app.get("/artifact/{artifact_id:path}")
     async def get_artifact(artifact_id: str) -> Response:
         try:
             artifact = store.get(artifact_id)
@@ -187,7 +187,7 @@ def create_worker_app(
             headers={"x-artifact-sha256": artifact.sha256_hex},
         )
 
-    @app.put("/artifact/{artifact_id}", response_model=PutArtifactResponse)
+    @app.put("/artifact/{artifact_id:path}", response_model=PutArtifactResponse)
     async def put_artifact(artifact_id: str, request: Request) -> PutArtifactResponse:
         content = await request.body()
         media_type = request.headers.get("content-type", "application/octet-stream")
@@ -203,7 +203,7 @@ def create_worker_app(
             sha256_hex=artifact.sha256_hex,
         )
 
-    @app.delete("/artifact/{artifact_id}")
+    @app.delete("/artifact/{artifact_id:path}")
     async def delete_artifact(artifact_id: str) -> dict[str, bool | str]:
         return {"artifact_id": artifact_id, "deleted": store.delete(artifact_id)}
 
