@@ -741,7 +741,6 @@ async def freeze_plans(
     }
     operations = tuple(str(item) for item in config["planner"]["available_operations"])
     max_agents = int(config["planner"]["max_agents"])
-    alias_environment = _alias_environment(aliases)
     registry = build_operator_catalog()
     planner_config = load_planner_config(REPO / str(config["planner"]["config"]))
     backend, client = build_model_backend(planner_config.model)
@@ -750,7 +749,15 @@ async def freeze_plans(
             attempt_root = args.output / "planner-attempts" / label
             if attempt_root.exists():
                 raise RuntimeError(f"Planner attempt exists; retry forbidden: {label}")
-            planner_workload = _alias_workload(bundle, aliases, operations, max_agents)
+            environment = _environment(config, label, bundle)
+            alias_environment = _alias_environment(aliases, environment)
+            planner_workload = _alias_workload(
+                bundle,
+                aliases,
+                operations,
+                max_agents,
+                environment,
+            )
             capturing_backend = CapturingCompletionBackend(backend)
             planner = LLMWorkflowPlanner(capturing_backend, registry, alias_environment)
             prompt = planner.render_prompt(bundle.execution.task, planner_workload)
@@ -768,7 +775,6 @@ async def freeze_plans(
             try:
                 outcome = await planner.plan(bundle.execution.task, planner_workload)
                 execution_plan = _translate_plan(outcome.plan, aliases)
-                environment = _environment(config, label, bundle)
                 execution_plan.validate_against(
                     bundle.execution.task,
                     environment,

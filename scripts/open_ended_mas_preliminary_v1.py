@@ -228,8 +228,11 @@ def _workload(
     )
 
 
-def _alias_environment(aliases: dict[str, str]) -> EnvironmentSpec:
-    base = _base_environment()
+def _alias_environment(
+    aliases: dict[str, str],
+    environment: EnvironmentSpec | None = None,
+) -> EnvironmentSpec:
+    base = environment or _base_environment()
     deployments = {item.deployment_id: item for item in base.deployments}
     physical_agents = {item.agent_id: item for item in base.agents}
     alias_deployments = tuple(
@@ -261,8 +264,12 @@ def _alias_workload(
     aliases: dict[str, str],
     operations: tuple[str, ...],
     max_agents: int,
+    environment: EnvironmentSpec | None = None,
 ) -> WorkloadSpec:
-    deployments = {item.deployment_id: item for item in _base_environment().deployments}
+    deployments = {
+        item.deployment_id: item
+        for item in (environment or _base_environment()).deployments
+    }
     return WorkloadSpec(
         available_operations=operations,
         available_model_instances=tuple(
@@ -283,6 +290,7 @@ def _alias_workload(
                 media_type=item.media_type,
                 size_bytes=item.size_bytes,
                 content_schema=item.content_schema,
+                collection=item.collection,
             )
             for item in bundle.execution.task.artifacts
         ),
@@ -315,6 +323,14 @@ def _file_sha256(path: Path) -> str:
 
 
 def _code_revision() -> str:
+    injected_revision = os.environ.get("INFRA_JOINT_CODE_REVISION")
+    if injected_revision is not None:
+        revision = injected_revision.strip().lower()
+        if len(revision) != 40 or any(
+            character not in "0123456789abcdef" for character in revision
+        ):
+            raise ValueError("INFRA_JOINT_CODE_REVISION must be a full 40-character Git SHA")
+        return revision
     completed = subprocess.run(
         ("git", "rev-parse", "HEAD"),
         cwd=REPO,

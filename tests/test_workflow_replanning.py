@@ -23,7 +23,10 @@ from infra_joint.workflow.replanning import (
     ReplanTrigger,
     ReviseWorkflowProposal,
     ScriptedWorkflowReplanner,
+    WorkflowReplanContext,
+    WorkflowReplanner,
     WorkflowReplanningError,
+    WorkflowReplanOutcome,
     validate_workflow_revision,
 )
 from infra_joint.workflow.scheduler import LocalityAwareMyopicScheduler
@@ -101,10 +104,15 @@ class RecordingExecutor:
                 sha256_hex=SHA,
             )
             output = {
-                "artifact_id": output_id,
-                "media_type": "text/plain",
-                "size_bytes": 20,
-                "sha256_hex": SHA,
+                "text": "materialized semantic evidence",
+                "artifacts": [
+                    {
+                        "artifact_id": output_id,
+                        "media_type": "text/plain",
+                        "size_bytes": 20,
+                        "sha256_hex": SHA,
+                    }
+                ],
             }
         else:
             output = {"text": "answer"}
@@ -227,7 +235,7 @@ def revised_plan() -> WorkflowPlan:
 
 
 def build_executor(
-    scripted: ScriptedWorkflowReplanner,
+    scripted: WorkflowReplanner,
     *,
     pause_before_operators: tuple[str, ...] = (),
 ) -> tuple[ReplanningWorkflowExecutor, RecordingExecutor, WorkloadSpec]:
@@ -356,6 +364,76 @@ async def test_first_model_checkpoint_observes_tool_prefix_before_any_model_call
         "note",
         "terminal",
     ]
+    assert actions.nodes == [("shard-a",), ("evidence-a",), ("note-a",)]
+
+
+@pytest.mark.asyncio
+async def test_terminal_checkpoint_exposes_materialized_semantic_evidence() -> None:
+    class CapturingReplanner:
+        context: WorkflowReplanContext | None = None
+
+        async def replan(
+            self,
+            task: TaskContract,
+            workload: WorkloadSpec,
+            context: WorkflowReplanContext,
+        ) -> WorkflowReplanOutcome:
+            del task, workload
+            self.context = context
+            return WorkflowReplanOutcome(
+                proposal=KeepWorkflowProposal(reason="evidence is sufficient")
+            )
+
+    note = WorkflowNode(
+        node_id="note",
+        agent_id="synth",
+        operator="invoke_model",
+        inputs=("evidence-a",),
+        arguments={
+            "prompt": "materialize an evidence note",
+            "output_artifact_id": "note-a",
+            "output_media_type": "text/plain",
+        },
+        outputs=("note-a",),
+    )
+    terminal = WorkflowNode(
+        node_id="terminal",
+        agent_id="synth",
+        operator="invoke_model",
+        inputs=("note-a",),
+        arguments={"prompt": "answer from the evidence note"},
+    )
+    plan = WorkflowPlan(
+        agents=(agent("retriever-a"), agent("synth")),
+        nodes=(retrieval("a"), note, terminal),
+        edges=(
+            WorkflowEdge(
+                producer_node="retrieve-a",
+                consumer_node="note",
+                artifact_id="evidence-a",
+            ),
+            WorkflowEdge(
+                producer_node="note",
+                consumer_node="terminal",
+                artifact_id="note-a",
+            ),
+        ),
+    )
+    replanner = CapturingReplanner()
+    loop, actions, workload = build_executor(replanner)
+
+    result = await loop.execute(task(), workload, plan)
+
+    assert result.workflow.completed
+    assert replanner.context is not None
+    assert replanner.context.completed_node_ids == ("note", "retrieve-a")
+    assert replanner.context.pending_node_ids == ("terminal",)
+    note_observation = next(
+        item
+        for item in replanner.context.semantic_observations
+        if item.node_id == "note"
+    )
+    assert note_observation.output["text"] == "materialized semantic evidence"
     assert actions.nodes == [("shard-a",), ("evidence-a",), ("note-a",)]
 
 

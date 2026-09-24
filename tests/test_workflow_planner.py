@@ -452,6 +452,8 @@ def test_planner_and_replanner_see_collection_semantics_without_private_or_physi
         assert "private-evaluator-must-not-leak" not in prompt
         assert "physical-secret" not in prompt
         assert "device-secret" not in prompt
+        assert "source_ref" not in prompt
+        assert "evaluator_id" not in prompt
     assert "completed_node_ids list is an immutable prefix contract" in replan_prompt
     assert "add a new retrieval node and a new reasoning node with fresh IDs" in replan_prompt
     assert "system_context_preflight_guidance" in replan_prompt

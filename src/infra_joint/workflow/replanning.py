@@ -504,16 +504,15 @@ class LLMWorkflowReplanner:
             )
         )
         visibility = (
-            "The input contains no physical placement, bandwidth, RTT, load, queue, gold, "
-            "supporting evidence, source_ref, or evaluator metadata. Do not infer or request "
-            "those fields."
+            "The input contains semantic-only state and no private benchmark metadata or "
+            "infrastructure state. Do not infer or request either."
             if infrastructure is None
             else (
                 "The infrastructure_state object is authoritative for current artifact "
                 "locations, bandwidth/RTT, worker load, transfer estimates, and measured "
-                "execution-cost profiles. It contains no gold, supporting evidence, "
-                "source_ref, or evaluator metadata. Preserve semantic correctness; never trade "
-                "away required evidence merely to reduce cost."
+                "execution-cost profiles. It contains no private benchmark metadata. Preserve "
+                "semantic correctness; never trade away required evidence merely to reduce "
+                "cost."
             )
         )
         return "\n".join(
@@ -553,6 +552,106 @@ class LLMWorkflowReplanner:
                 json.dumps(payload, ensure_ascii=False, separators=(",", ":"), sort_keys=True),
             )
         )
+
+
+class OpaqueModelAliasWorkflowReplanner:
+    """Translate physical deployment IDs across a resource-blind prompt boundary."""
+
+    def __init__(
+        self,
+        backend: CompletionBackend,
+        registry: OperatorRegistry,
+        environment: EnvironmentSpec,
+        aliases: dict[str, str],
+    ) -> None:
+        self._real_by_alias = aliases
+        self._alias_by_real = {real: alias for alias, real in aliases.items()}
+        if len(self._alias_by_real) != len(aliases):
+            raise ValueError("model instance aliases must be one-to-one")
+        aliased_environment = environment.model_copy(
+            update={
+                "deployments": tuple(
+                    deployment.model_copy(
+                        update={
+                            "deployment_id": self._alias_by_real[
+                                deployment.deployment_id
+                            ]
+                        }
+                    )
+                    for deployment in environment.deployments
+                )
+            }
+        )
+        self._inner = LLMWorkflowReplanner(backend, registry, aliased_environment)
+
+    def _alias_plan(self, plan: WorkflowPlan) -> WorkflowPlan:
+        return plan.model_copy(
+            update={
+                "agents": tuple(
+                    agent.model_copy(
+                        update={
+                            "model_instance_id": self._alias_by_real[
+                                agent.model_instance_id
+                            ]
+                        }
+                    )
+                    for agent in plan.agents
+                )
+            }
+        )
+
+    def _alias_workload(self, workload: WorkloadSpec) -> WorkloadSpec:
+        return workload.model_copy(
+            update={
+                "available_model_instances": tuple(
+                    instance.model_copy(
+                        update={
+                            "model_instance_id": self._alias_by_real[
+                                instance.model_instance_id
+                            ]
+                        }
+                    )
+                    for instance in workload.available_model_instances
+                )
+            }
+        )
+
+    def _restore_plan(self, plan: WorkflowPlan) -> WorkflowPlan:
+        return plan.model_copy(
+            update={
+                "agents": tuple(
+                    agent.model_copy(
+                        update={
+                            "model_instance_id": self._real_by_alias[
+                                agent.model_instance_id
+                            ]
+                        }
+                    )
+                    for agent in plan.agents
+                )
+            }
+        )
+
+    async def replan(
+        self,
+        task: TaskContract,
+        workload: WorkloadSpec,
+        context: WorkflowReplanContext,
+    ) -> WorkflowReplanOutcome:
+        aliased_context = context.model_copy(
+            update={"current_plan": self._alias_plan(context.current_plan)}
+        )
+        outcome = await self._inner.replan(
+            task,
+            self._alias_workload(workload),
+            aliased_context,
+        )
+        if isinstance(outcome.proposal, ReviseWorkflowProposal):
+            proposal = outcome.proposal.model_copy(
+                update={"plan": self._restore_plan(outcome.proposal.plan)}
+            )
+            return outcome.model_copy(update={"proposal": proposal})
+        return outcome
 
 
 class LLMInfrastructureAwareWorkflowReplanner(LLMWorkflowReplanner):
