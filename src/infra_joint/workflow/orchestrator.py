@@ -66,6 +66,7 @@ class WorkflowExecutionTelemetry(ContractModel):
 
 class WorkflowExecutionResult(ContractModel):
     completed: bool
+    paused: bool = False
     state: WorkflowState
     records: tuple[WorkflowNodeRecord, ...]
     telemetry: WorkflowExecutionTelemetry
@@ -86,7 +87,7 @@ class _ScheduledNode(ContractModel):
 
 
 class WorkflowOrchestrator:
-    """Execute a validated plan-once DAG through the existing M4 RuntimeExecutor."""
+    """Execute or resume a validated DAG through the existing M4 RuntimeExecutor."""
 
     def __init__(
         self,
@@ -114,6 +115,18 @@ class WorkflowOrchestrator:
         task: TaskContract,
         plan: WorkflowPlan,
     ) -> WorkflowExecutionResult:
+        return await self.execute_revision(task, plan)
+
+    async def execute_revision(
+        self,
+        task: TaskContract,
+        plan: WorkflowPlan,
+        *,
+        prior: WorkflowExecutionResult | None = None,
+        pause_before_terminal: bool = False,
+    ) -> WorkflowExecutionResult:
+        """Execute or resume a validated plan without replaying completed nodes."""
+
         plan.validate_against(
             task,
             self._environment,
@@ -135,11 +148,57 @@ class WorkflowOrchestrator:
             ),
             emit=self._emit,
         )
-        predecessors = self._predecessors(plan)
         records: list[WorkflowNodeRecord] = []
         batch_index = 0
+        prior_e2e_latency_ms = 0.0
+        if prior is not None:
+            if prior.failure is not None:
+                raise ValueError("cannot resume a failed workflow execution")
+            successful = tuple(
+                record
+                for record in prior.records
+                if record.failure is None and record.execution is not None
+            )
+            completed_ids = {record.node_id for record in successful}
+            unknown_completed = sorted(completed_ids - set(nodes))
+            if unknown_completed:
+                raise ValueError(
+                    f"revised plan removed completed nodes: {unknown_completed}"
+                )
+            for node_id in completed_ids:
+                statuses[node_id] = NodeStatus.DONE
+            infrastructure = await self._observer.observe()
+            manager.restore(
+                prior.agent_states,
+                tuple(
+                    (nodes[record.node_id], cast(ExecutionResult, record.execution))
+                    for record in successful
+                ),
+                infrastructure,
+            )
+            records.extend(prior.records)
+            batch_index = max(
+                (record.scheduling_batch for record in prior.records),
+                default=-1,
+            ) + 1
+            prior_e2e_latency_ms = prior.telemetry.e2e_latency_ms
+        predecessors = self._predecessors(plan)
         failure: WorkflowFailure | None = None
-        self._emit("workflow.execution.start", {"node_count": len(nodes)})
+        paused = False
+        self._emit(
+            "workflow.execution.resume" if prior is not None else "workflow.execution.start",
+            {
+                "node_count": len(nodes),
+                "completed_node_ids": sorted(
+                    node_id
+                    for node_id, status in statuses.items()
+                    if status == NodeStatus.DONE
+                ),
+            },
+        )
+        terminal_node_id = (
+            plan.terminal_model_node().node_id if pause_before_terminal else None
+        )
 
         while any(status != NodeStatus.DONE for status in statuses.values()):
             if failure is not None:
@@ -156,6 +215,14 @@ class WorkflowOrchestrator:
             ready = sorted(
                 node_id for node_id, status in statuses.items() if status == NodeStatus.READY
             )
+            if terminal_node_id is not None and terminal_node_id in ready:
+                non_terminal_ready = [
+                    node_id for node_id in ready if node_id != terminal_node_id
+                ]
+                if not non_terminal_ready:
+                    paused = True
+                    break
+                ready = non_terminal_ready
             if not ready:
                 failure = WorkflowFailure(
                     code="workflow_stalled",
@@ -274,14 +341,25 @@ class WorkflowOrchestrator:
                 batch_index += 1
 
         state = WorkflowState(node_status=statuses).validate_against(plan)
-        telemetry = self._telemetry(plan, records, (perf_counter() - started) * 1000)
+        telemetry = self._telemetry(
+            plan,
+            records,
+            prior_e2e_latency_ms + (perf_counter() - started) * 1000,
+        )
         completed = failure is None and all(
             status == NodeStatus.DONE for status in statuses.values()
         )
         self._emit(
-            "workflow.execution.end" if completed else "workflow.execution.failed",
+            (
+                "workflow.execution.end"
+                if completed
+                else "workflow.execution.paused"
+                if paused
+                else "workflow.execution.failed"
+            ),
             {
                 "completed": completed,
+                "paused": paused,
                 "state": state.model_dump(mode="json"),
                 "failure": failure.model_dump(mode="json") if failure else None,
                 "telemetry": telemetry.model_dump(mode="json"),
@@ -290,6 +368,7 @@ class WorkflowOrchestrator:
         )
         return WorkflowExecutionResult(
             completed=completed,
+            paused=paused,
             state=state,
             records=tuple(records),
             telemetry=telemetry,

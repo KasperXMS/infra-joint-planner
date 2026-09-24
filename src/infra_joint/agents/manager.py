@@ -84,6 +84,61 @@ class AgentManager:
     def states(self) -> tuple[AgentState, ...]:
         return tuple(self._states[key] for key in sorted(self._states))
 
+    def restore(
+        self,
+        prior_states: tuple[AgentState, ...],
+        completed_executions: tuple[tuple[WorkflowNode, ExecutionResult], ...],
+        infrastructure: InfrastructureState,
+    ) -> None:
+        """Restore completed semantic state before executing a revised future graph."""
+
+        prior_by_agent = {state.agent_id: state for state in prior_states}
+        actions = {
+            record.node_id: record.action
+            for state in prior_states
+            for record in state.history
+            if record.succeeded
+        }
+        for node, execution in completed_executions:
+            if node.agent_id not in self._agents:
+                raise ValueError(
+                    f"completed node agent is absent from revised plan: {node.agent_id}"
+                )
+            try:
+                action = actions[node.node_id]
+            except KeyError as exc:
+                raise ValueError(
+                    f"completed node is absent from prior agent history: {node.node_id}"
+                ) from exc
+            self._completed_nodes[node.agent_id].add(node.node_id)
+            for item in self._produced_information(action, execution, infrastructure):
+                self._information[item.object_id] = item
+
+        for agent_id in self._agents:
+            prior = prior_by_agent.get(agent_id)
+            if prior is None:
+                continue
+            completed = self._completed_nodes[agent_id]
+            history = tuple(
+                record for record in prior.history if record.node_id in completed
+            )
+            next_status = (
+                AgentStatus.DONE
+                if completed == set(self._owned_nodes[agent_id])
+                else AgentStatus.WAITING
+            )
+            self._states[agent_id] = prior.model_copy(
+                update={"status": next_status, "history": history}
+            )
+            self._trace(
+                "agent.restored",
+                {
+                    "agent_id": agent_id,
+                    "completed_nodes": sorted(completed),
+                    "status": next_status.value,
+                },
+            )
+
     def mark_ready(self, agent_id: str) -> None:
         state = self._states[agent_id]
         if state.status in {AgentStatus.IDLE, AgentStatus.WAITING}:

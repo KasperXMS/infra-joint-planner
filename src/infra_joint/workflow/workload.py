@@ -2,7 +2,11 @@ from pydantic import Field, field_validator, model_validator
 
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import EnvironmentSpec
-from infra_joint.core.task import ArtifactContentSchema, TaskContract
+from infra_joint.core.task import (
+    ArtifactCollectionRelation,
+    ArtifactContentSchema,
+    TaskContract,
+)
 from infra_joint.operators.registry import OperatorRegistry
 
 
@@ -14,6 +18,7 @@ class WorkloadArtifact(ContractModel):
     media_type: str = Field(min_length=1)
     size_bytes: int = Field(ge=0)
     content_schema: ArtifactContentSchema | None = None
+    collection: ArtifactCollectionRelation | None = None
 
 
 class AvailableModelInstance(ContractModel):
@@ -120,6 +125,7 @@ class WorkloadSpec(ContractModel):
                 "media_type": item.media_type,
                 "size_bytes": item.size_bytes,
                 "content_schema": item.content_schema,
+                "collection": item.collection,
             }
             for item in task.artifacts
         }
@@ -129,6 +135,7 @@ class WorkloadSpec(ContractModel):
                 "media_type": item.media_type,
                 "size_bytes": item.size_bytes,
                 "content_schema": item.content_schema,
+                "collection": item.collection,
             }
             for item in self.artifacts
         }
@@ -165,6 +172,7 @@ class WorkloadSpec(ContractModel):
                     media_type=item.media_type,
                     size_bytes=item.size_bytes,
                     content_schema=item.content_schema,
+                    collection=item.collection,
                 )
                 for item in task.artifacts
             ),

@@ -8,14 +8,24 @@ from infra_joint.core.action import (
     PhysicalPolicy,
     SemanticAction,
 )
-from infra_joint.core.task import ArtifactSpec, OutputContract, TaskContract
+from infra_joint.core.task import (
+    ArtifactCollectionRelation,
+    ArtifactSpec,
+    CollectionCompleteness,
+    OutputContract,
+    PartitionSemantics,
+    TaskContract,
+)
 
 __all__ = [
     "ArtifactSpec",
+    "ArtifactCollectionRelation",
+    "CollectionCompleteness",
     "FinishDecision",
     "JointAction",
     "JointDecision",
     "OutputContract",
+    "PartitionSemantics",
     "PhysicalDecision",
     "PhysicalPolicy",
     "SemanticAction",

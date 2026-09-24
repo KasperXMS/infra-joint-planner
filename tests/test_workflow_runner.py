@@ -34,6 +34,11 @@ from infra_joint.worker.model_backend import (
 )
 from infra_joint.worker.server import create_worker_app
 from infra_joint.workflow.planner import ScriptedWorkflowPlanner
+from infra_joint.workflow.replanning import (
+    ReplanTrigger,
+    ReviseWorkflowProposal,
+    ScriptedWorkflowReplanner,
+)
 from infra_joint.workflow.runner import WorkflowBenchmarkRunner
 from infra_joint.workflow.scheduler import LocalityAwareMyopicScheduler
 from infra_joint.workflow.workload import WorkloadSpec
@@ -201,6 +206,18 @@ def plan() -> WorkflowPlan:
     )
 
 
+def partial_plan() -> WorkflowPlan:
+    full = plan()
+    return WorkflowPlan(
+        agents=(full.agents[0], full.agents[2]),
+        nodes=(
+            full.nodes[0],
+            full.nodes[2].model_copy(update={"inputs": ("evidence-a",)}),
+        ),
+        edges=(full.edges[0],),
+    )
+
+
 @pytest.mark.asyncio
 async def test_workflow_runner_persists_real_runtime_fanout_fanin(
     tmp_path: Path,
@@ -295,3 +312,98 @@ async def test_workflow_runner_persists_real_runtime_fanout_fanin(
         event["parent_id"] == events[index - 1]["step_id"]
         for index, event in enumerate(events[1:], start=1)
     )
+
+
+@pytest.mark.asyncio
+async def test_workflow_runner_persists_replanning_versions_and_does_not_replay(
+    tmp_path: Path,
+) -> None:
+    current_bundle = bundle()
+    current_environment = environment()
+    source_app = create_worker_app("A", {})
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=source_app),
+        base_url="http://A",
+    ) as source_http:
+        target_app = create_worker_app(
+            "B",
+            {
+                "text": ModelDeployment(
+                    deployment_id="text",
+                    model_id="text-model",
+                    backend=StaticModelBackend("A"),
+                    modalities=frozenset({"text"}),
+                    context_window=4096,
+                    reserved_output_tokens=512,
+                    image_token_cost=4096,
+                ),
+            },
+            artifact_fetcher=SourceClientFetcher(source_http),
+        )
+        async with httpx.AsyncClient(
+            transport=httpx.ASGITransport(app=target_app),
+            base_url="http://B",
+        ) as target_http:
+            config = RunnerConfig(
+                environment=current_environment,
+                worker_urls={"A": "http://A", "B": "http://B"},
+                planner=PlannerConfig(model=StaticBackendConfig(response="unused")),
+                output_root=tmp_path,
+            )
+            workload = WorkloadSpec.from_task_environment(
+                current_bundle.execution.task,
+                current_environment,
+                available_operations=("bm25_retrieve", "invoke_model"),
+                max_agents=3,
+            )
+            result = await WorkflowBenchmarkRunner(
+                config,
+                workload,
+                LocalityAwareMyopicScheduler(),
+                worker_clients={
+                    "A": HttpWorkerClient("A", source_http),
+                    "B": HttpWorkerClient("B", target_http),
+                },
+                planner=ScriptedWorkflowPlanner((partial_plan(),)),
+                replanner=ScriptedWorkflowReplanner(
+                    (
+                        ReviseWorkflowProposal(
+                            trigger=ReplanTrigger.EVIDENCE_INSUFFICIENT,
+                            reason="the unsearched shard may contain relevant evidence",
+                            plan=plan(),
+                        ),
+                    )
+                ),
+            ).run(current_bundle, run_id="workflow-replanning-run")
+
+    assert result.execution_completed
+    assert result.replanning is not None
+    assert len(result.replanning.versions) == 2
+    assert result.replanning.revisions[0].trigger == ReplanTrigger.EVIDENCE_INSUFFICIENT
+    assert result.workflow is not None
+    assert [record.node_id for record in result.workflow.records].count("retrieve-a") == 1
+    assert [record.node_id for record in result.workflow.records] == [
+        "retrieve-a",
+        "retrieve-b",
+        "synthesize",
+    ]
+    persisted = json.loads(
+        (tmp_path / "workflow-replanning-run" / "result.json").read_text()
+    )
+    assert [version["revision_index"] for version in persisted["replanning"]["versions"]] == [
+        0,
+        1,
+    ]
+    events = [
+        json.loads(line)
+        for line in (tmp_path / "workflow-replanning-run" / "trace.jsonl")
+        .read_text()
+        .splitlines()
+    ]
+    assert {event["event_type"] for event in events} >= {
+        "workflow.execution.paused",
+        "workflow.replanner.start",
+        "workflow.replanner.end",
+        "workflow.execution.resume",
+        "run.end",
+    }

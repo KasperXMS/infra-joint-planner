@@ -17,6 +17,7 @@ from infra_joint.benchmarks.multihop_rag import (
     MultiHopRAGAdapter,
     MultiHopRAGSample,
 )
+from infra_joint.core.task import CollectionCompleteness, PartitionSemantics
 
 
 def official_sample() -> MultiHopRAGSample:
@@ -94,6 +95,21 @@ def test_full_corpus_setting_shards_every_document_without_gold() -> None:
     assert task.objective == sample.query
     assert len(bundle.prepared_artifacts) == 3
     assert bundle.execution.validity.setting_kind == BenchmarkSettingKind.OFFICIAL_EQUIVALENT
+    relations = [artifact.collection for artifact in task.artifacts]
+    assert all(relation is not None for relation in relations)
+    assert {relation.collection_id for relation in relations if relation is not None} == {
+        f"{sample.task_id}:complete-corpus"
+    }
+    assert {
+        relation.partition_index for relation in relations if relation is not None
+    } == {0, 1, 2}
+    assert all(
+        relation.partition_semantics == PartitionSemantics.NON_SEMANTIC
+        and relation.completeness == CollectionCompleteness.UNION_IS_COMPLETE
+        and relation.partition_method == "sha256(document) modulo partition_count"
+        for relation in relations
+        if relation is not None
+    )
 
     adapted_records = [
         record for artifact in bundle.prepared_artifacts for record in json.loads(artifact.content)

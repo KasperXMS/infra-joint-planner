@@ -35,6 +35,12 @@ from infra_joint.workflow.planner import (
     WorkflowPlanner,
     WorkflowPlanningError,
 )
+from infra_joint.workflow.replanning import (
+    ReplanningWorkflowExecution,
+    ReplanningWorkflowExecutor,
+    WorkflowReplanner,
+    WorkflowReplanningError,
+)
 from infra_joint.workflow.scheduler import WorkflowScheduler
 from infra_joint.workflow.trace import WorkflowTraceRecorder
 from infra_joint.workflow.workload import WorkloadSpec
@@ -70,6 +76,7 @@ class PersistedWorkflowRunResult(ContractModel):
     workload: WorkloadSpec
     plan: WorkflowPlan | None = None
     workflow: WorkflowExecutionResult | None = None
+    replanning: ReplanningWorkflowExecution | None = None
     final_answer: str | None = None
     evaluation: EvaluationResult | None = None
     initial_transfers: tuple[ArtifactTransferTelemetry, ...] = ()
@@ -80,7 +87,7 @@ class PersistedWorkflowRunResult(ContractModel):
 
 
 class WorkflowBenchmarkRunner:
-    """Real plan-once workflow pipeline over unchanged M4 workers and runtime."""
+    """Real workflow pipeline over unchanged M4 workers and runtime."""
 
     def __init__(
         self,
@@ -91,6 +98,7 @@ class WorkflowBenchmarkRunner:
         worker_clients: dict[str, WorkerClient] | None = None,
         planner_backend: CompletionBackend | None = None,
         planner: WorkflowPlanner | None = None,
+        replanner: WorkflowReplanner | None = None,
     ) -> None:
         self._config = config
         self._workload = workload
@@ -98,6 +106,7 @@ class WorkflowBenchmarkRunner:
         self._worker_clients = worker_clients
         self._planner_backend = planner_backend
         self._planner = planner
+        self._replanner = replanner
 
     async def run(
         self,
@@ -115,6 +124,7 @@ class WorkflowBenchmarkRunner:
         planner_client = None
         plan: WorkflowPlan | None = None
         workflow_result: WorkflowExecutionResult | None = None
+        replanning_result: ReplanningWorkflowExecution | None = None
         initial_transfers: tuple[ArtifactTransferTelemetry, ...] = ()
         try:
             async with AsyncExitStack() as stack:
@@ -191,7 +201,7 @@ class WorkflowBenchmarkRunner:
                         "telemetry": planner_telemetry.model_dump(mode="json"),
                     },
                 )
-                workflow_result = await WorkflowOrchestrator(
+                orchestrator = WorkflowOrchestrator(
                     registry,
                     self._config.environment,
                     LiveWorkerObserver(self._config.environment, worker_clients),
@@ -199,7 +209,34 @@ class WorkflowBenchmarkRunner:
                     self._scheduler,
                     available_operations=self._workload.available_operations,
                     trace=trace,
-                ).execute(bundle.execution.task, plan)
+                )
+                if self._replanner is None:
+                    workflow_result = await orchestrator.execute(
+                        bundle.execution.task, plan
+                    )
+                else:
+                    try:
+                        replanning_result = await ReplanningWorkflowExecutor(
+                            orchestrator,
+                            self._replanner,
+                            max_replans=1,
+                            trace=trace,
+                        ).execute(bundle.execution.task, self._workload, plan)
+                    except WorkflowReplanningError as exc:
+                        workflow_result = exc.execution
+                        if workflow_result is not None:
+                            current_plan = exc.current_plan or plan
+                            replanning_result = ReplanningWorkflowExecution(
+                                versions=exc.versions,
+                                revisions=exc.revisions,
+                                final_plan=current_plan,
+                                workflow=workflow_result,
+                            )
+                            plan = current_plan
+                        raise
+                    plan = replanning_result.final_plan
+                    terminal_node = plan.terminal_model_node()
+                    workflow_result = replanning_result.workflow
                 if not workflow_result.completed:
                     if workflow_result.failure is None:
                         raise RuntimeError("incomplete workflow is missing a typed failure")
@@ -219,6 +256,7 @@ class WorkflowBenchmarkRunner:
                         elapsed,
                         plan=plan,
                         workflow=workflow_result,
+                        replanning=replanning_result,
                         initial_transfers=initial_transfers,
                         failure=run_failure,
                     )
@@ -282,6 +320,7 @@ class WorkflowBenchmarkRunner:
                     workload=self._workload,
                     plan=plan,
                     workflow=workflow_result,
+                    replanning=replanning_result,
                     final_answer=final_answer,
                     evaluation=evaluation,
                     initial_transfers=initial_transfers,
@@ -305,6 +344,7 @@ class WorkflowBenchmarkRunner:
                 (perf_counter() - started) * 1000,
                 plan=plan,
                 workflow=workflow_result,
+                replanning=replanning_result,
                 initial_transfers=initial_transfers,
                 failure=failure,
             )
@@ -375,6 +415,7 @@ class WorkflowBenchmarkRunner:
         *,
         plan: WorkflowPlan | None,
         workflow: WorkflowExecutionResult | None,
+        replanning: ReplanningWorkflowExecution | None = None,
         initial_transfers: tuple[ArtifactTransferTelemetry, ...],
         failure: WorkflowRunFailure,
     ) -> PersistedWorkflowRunResult:
@@ -387,6 +428,7 @@ class WorkflowBenchmarkRunner:
             workload=self._workload,
             plan=plan,
             workflow=workflow,
+            replanning=replanning,
             initial_transfers=initial_transfers,
             runner_e2e_latency_ms=elapsed_ms,
             failure=failure,
@@ -408,6 +450,8 @@ class WorkflowBenchmarkRunner:
             code = exc.code.value
         elif isinstance(exc, WorkflowPlanningError):
             code = "workflow_plan_invalid"
+        elif isinstance(exc, WorkflowReplanningError):
+            code = "workflow_replan_invalid"
         else:
             code = "internal_error"
         return WorkflowRunFailure(

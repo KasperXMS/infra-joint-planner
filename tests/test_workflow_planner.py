@@ -4,12 +4,16 @@ import pytest
 
 from infra_joint.core.state import AgentSpec, DeploymentSpec, EnvironmentSpec
 from infra_joint.core.task import (
+    ArtifactCollectionRelation,
     ArtifactContentSchema,
     ArtifactSpec,
+    CollectionCompleteness,
     OutputContract,
     OutputFormat,
+    PartitionSemantics,
     TaskContract,
 )
+from infra_joint.core.workflow import WorkflowPlan
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.worker.model_backend import (
     ModelCallTelemetry,
@@ -17,6 +21,11 @@ from infra_joint.worker.model_backend import (
     ModelRequest,
 )
 from infra_joint.workflow.planner import LLMWorkflowPlanner, WorkflowPlanningError
+from infra_joint.workflow.replanning import (
+    LLMWorkflowReplanner,
+    SemanticNodeObservation,
+    WorkflowReplanContext,
+)
 from infra_joint.workflow.workload import WorkloadSpec
 
 
@@ -216,7 +225,7 @@ def test_context_preflight_guidance_accounts_for_parallel_record_fan_in() -> Non
         available_operations=("bm25_retrieve", "invoke_model"),
     )
 
-    guidance = LLMWorkflowPlanner._context_preflight_guidance(
+    guidance = LLMWorkflowPlanner.context_preflight_guidance(
         current_task, workload
     )
 
@@ -356,3 +365,69 @@ def test_workflow_prompt_sorts_model_modalities_deterministically() -> None:
         "text-instance": ["invoke_model"]
     }
     assert "allowed_operations" not in prompt
+
+
+def test_planner_and_replanner_see_collection_semantics_without_private_or_physical_data() -> None:
+    current_task = task().model_copy(
+        update={
+            "artifacts": tuple(
+                artifact.model_copy(
+                    update={
+                        "collection": ArtifactCollectionRelation(
+                            collection_id="complete-corpus",
+                            partition_index=index,
+                            partition_count=2,
+                            partition_method="sha256(document) modulo partition_count",
+                            partition_semantics=PartitionSemantics.NON_SEMANTIC,
+                            completeness=CollectionCompleteness.UNION_IS_COMPLETE,
+                        )
+                    }
+                )
+                for index, artifact in enumerate(task().artifacts)
+            )
+        }
+    )
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("bm25_retrieve", "invoke_model"),
+    )
+    current_plan = WorkflowPlan.model_validate_json(workflow_json())
+    context = WorkflowReplanContext(
+        revision_index=0,
+        current_plan=current_plan,
+        completed_node_ids=("retrieve-a", "retrieve-b"),
+        pending_node_ids=("synthesize",),
+        semantic_observations=(
+            SemanticNodeObservation(
+                node_id="retrieve-a",
+                operator="bm25_retrieve",
+                output={"artifact_id": "evidence-a"},
+            ),
+        ),
+    )
+
+    initial_prompt = LLMWorkflowPlanner(
+        CapturingBackend(workflow_json()),
+        build_operator_catalog(),
+        current_environment,
+    ).render_prompt(current_task, workload)
+    replan_prompt = LLMWorkflowReplanner(
+        CapturingBackend('{"decision":"keep","reason":"sufficient"}'),
+        build_operator_catalog(),
+        current_environment,
+    ).render_prompt(current_task, workload, context)
+
+    for prompt in (initial_prompt, replan_prompt):
+        assert '"collection_id":"complete-corpus"' in prompt
+        assert '"partition_semantics":"non_semantic"' in prompt
+        assert '"completeness":"union_is_complete"' in prompt
+        assert "private://must-not-leak" not in prompt
+        assert "private-evaluator-must-not-leak" not in prompt
+        assert "physical-secret" not in prompt
+        assert "device-secret" not in prompt
+    assert "completed_node_ids list is an immutable prefix contract" in replan_prompt
+    assert "add a new retrieval node and a new reasoning node with fresh IDs" in replan_prompt
+    assert "system_context_preflight_guidance" in replan_prompt
+    assert "will not lower top_k or repair the graph" in replan_prompt

@@ -14,10 +14,13 @@ from infra_joint.benchmarks.base import (
 )
 from infra_joint.core.base import ContractModel
 from infra_joint.core.task import (
+    ArtifactCollectionRelation,
     ArtifactContentSchema,
     ArtifactSpec,
+    CollectionCompleteness,
     OutputContract,
     OutputFormat,
+    PartitionSemantics,
     TaskContract,
 )
 from infra_joint.evaluation.evaluator import EvaluationResult, Evaluator
@@ -237,6 +240,7 @@ class MultiHopRAGAdapter:
             shard_index = int(document.stable_id(), 16) % shard_count
             shards[shard_index].extend(self._document_records(document, setting.max_chunk_chars))
 
+        collection_id = f"{sample.task_id}:complete-corpus"
         prepared = tuple(
             self._json_artifact(
                 sample.task_id,
@@ -269,6 +273,14 @@ class MultiHopRAGAdapter:
                         (len(_canonical_json(record)) for record in shard),
                         default=0,
                     ),
+                ),
+                collection=ArtifactCollectionRelation(
+                    collection_id=collection_id,
+                    partition_index=index,
+                    partition_count=shard_count,
+                    partition_method="sha256(document) modulo partition_count",
+                    partition_semantics=PartitionSemantics.NON_SEMANTIC,
+                    completeness=CollectionCompleteness.UNION_IS_COMPLETE,
                 ),
             )
             for index, shard in enumerate(shards)
@@ -410,6 +422,7 @@ class MultiHopRAGAdapter:
         content: bytes,
         *,
         content_schema: ArtifactContentSchema | None = None,
+        collection: ArtifactCollectionRelation | None = None,
     ) -> PreparedArtifact:
         spec = ArtifactSpec(
             artifact_id=artifact_id,
@@ -417,6 +430,7 @@ class MultiHopRAGAdapter:
             media_type="application/json",
             size_bytes=len(content),
             content_schema=content_schema,
+            collection=collection,
             source_ref=f"prepared://multihop-rag/{task_id}/{artifact_id}",
         )
         return PreparedArtifact.create(spec, content)

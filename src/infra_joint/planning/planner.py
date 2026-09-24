@@ -122,6 +122,11 @@ def logical_task_payload(task: TaskContract) -> dict[str, Any]:
                     if artifact.content_schema is not None
                     else None
                 ),
+                "collection": (
+                    artifact.collection.model_dump(mode="json")
+                    if artifact.collection is not None
+                    else None
+                ),
             }
             for artifact in task.artifacts
         ],

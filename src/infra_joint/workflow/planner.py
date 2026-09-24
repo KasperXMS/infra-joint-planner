@@ -133,7 +133,7 @@ class LLMWorkflowPlanner:
         payload = {
             "task": logical_task_payload(task),
             "workload": workload_payload,
-            "system_context_preflight_guidance": self._context_preflight_guidance(
+            "system_context_preflight_guidance": self.context_preflight_guidance(
                 task, workload
             ),
             "system_feasible_operations_by_model_instance": {
@@ -197,6 +197,11 @@ class LLMWorkflowPlanner:
                 "records, aggregate_artifacts concatenates complete record arrays, and "
                 "select_fields projects fields without shortening their values. Use their "
                 "declared schemas and bounded-size facts accordingly.",
+                "Artifact collection metadata is authoritative. Members with "
+                "partition_semantics=non_semantic are not topical subsets, and "
+                "completeness=union_is_complete means their union is the complete collection. "
+                "Plan retrieval coverage accordingly; never infer semantic coverage from a hash "
+                "partition's index or current artifact ID.",
                 "Plan validation will reject an oversized model input and will not lower top_k "
                 "or repair the workflow. For a BM25 result sent to a model, conservatively bound "
                 "its bytes as 2 + top_k * (input max_record_bytes + 129), then add the model "
@@ -250,7 +255,7 @@ class LLMWorkflowPlanner:
         )
 
     @staticmethod
-    def _context_preflight_guidance(
+    def context_preflight_guidance(
         task: TaskContract,
         workload: WorkloadSpec,
     ) -> list[dict[str, Any]]:

@@ -5,7 +5,15 @@ from pydantic import ValidationError
 
 from infra_joint.core.action import PhysicalDecision, PhysicalPolicy
 from infra_joint.core.state import InfrastructureState
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactCollectionRelation,
+    ArtifactSpec,
+    CollectionCompleteness,
+    OutputContract,
+    OutputFormat,
+    PartitionSemantics,
+    TaskContract,
+)
 
 
 def test_task_contract_rejects_unknown_infrastructure_fields() -> None:
@@ -37,6 +45,35 @@ def test_task_contract_rejects_duplicate_artifacts() -> None:
             benchmark_id="demo",
             objective="Answer",
             artifacts=(artifact, artifact),
+            output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
+            evaluator_id="exact-v1",
+        )
+
+
+def test_complete_collection_requires_every_declared_partition() -> None:
+    relation = ArtifactCollectionRelation(
+        collection_id="corpus",
+        partition_index=0,
+        partition_count=2,
+        partition_method="hash",
+        partition_semantics=PartitionSemantics.NON_SEMANTIC,
+        completeness=CollectionCompleteness.UNION_IS_COMPLETE,
+    )
+
+    with pytest.raises(ValidationError, match="every partition"):
+        TaskContract(
+            task_id="task-1",
+            benchmark_id="demo",
+            objective="Answer",
+            artifacts=(
+                ArtifactSpec(
+                    artifact_id="shard-0",
+                    logical_type="corpus_shard",
+                    media_type="application/json",
+                    size_bytes=10,
+                    collection=relation,
+                ),
+            ),
             output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
             evaluator_id="exact-v1",
         )
