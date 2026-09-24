@@ -124,6 +124,7 @@ class WorkflowOrchestrator:
         *,
         prior: WorkflowExecutionResult | None = None,
         pause_before_terminal: bool = False,
+        pause_before_operators: Iterable[str] = (),
     ) -> WorkflowExecutionResult:
         """Execute or resume a validated plan without replaying completed nodes."""
 
@@ -199,6 +200,7 @@ class WorkflowOrchestrator:
         terminal_node_id = (
             plan.terminal_model_node().node_id if pause_before_terminal else None
         )
+        blocked_operators = frozenset(pause_before_operators)
 
         while any(status != NodeStatus.DONE for status in statuses.values()):
             if failure is not None:
@@ -215,14 +217,20 @@ class WorkflowOrchestrator:
             ready = sorted(
                 node_id for node_id, status in statuses.items() if status == NodeStatus.READY
             )
-            if terminal_node_id is not None and terminal_node_id in ready:
-                non_terminal_ready = [
-                    node_id for node_id in ready if node_id != terminal_node_id
+            blocked_ready = {
+                node_id
+                for node_id in ready
+                if node_id == terminal_node_id
+                or nodes[node_id].operator in blocked_operators
+            }
+            if blocked_ready:
+                executable_ready = [
+                    node_id for node_id in ready if node_id not in blocked_ready
                 ]
-                if not non_terminal_ready:
+                if not executable_ready:
                     paused = True
                     break
-                ready = non_terminal_ready
+                ready = executable_ready
             if not ready:
                 failure = WorkflowFailure(
                     code="workflow_stalled",

@@ -6,6 +6,8 @@ from infra_joint.workflow.orchestrator import (
 )
 from infra_joint.workflow.planner import LLMWorkflowPlanner, WorkflowPlanner
 from infra_joint.workflow.replanning import (
+    InfrastructureReplanView,
+    LLMInfrastructureAwareWorkflowReplanner,
     LLMWorkflowReplanner,
     ReplanningWorkflowExecutor,
     WorkflowReplanner,
@@ -18,7 +20,9 @@ from infra_joint.workflow.workload import WorkloadSpec
 
 __all__ = [
     "LLMWorkflowPlanner",
+    "LLMInfrastructureAwareWorkflowReplanner",
     "LLMWorkflowReplanner",
+    "InfrastructureReplanView",
     "LocalityAwareMyopicScheduler",
     "MyopicCostAwareScheduler",
     "ReplanningWorkflowExecutor",

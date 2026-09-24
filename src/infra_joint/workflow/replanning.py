@@ -10,7 +10,7 @@ from typing import Annotated, Any, Literal, Protocol
 from pydantic import Field, TypeAdapter, ValidationError
 
 from infra_joint.core.base import ContractModel
-from infra_joint.core.state import EnvironmentSpec
+from infra_joint.core.state import EnvironmentSpec, InfrastructureState
 from infra_joint.core.task import TaskContract
 from infra_joint.core.workflow import (
     NodeStatus,
@@ -54,6 +54,42 @@ class FuturePathFeedback(ContractModel):
     feedback_type: str = Field(min_length=1)
     reason: str = Field(min_length=1)
     affected_node_ids: tuple[str, ...] = ()
+
+
+class TransferCostEstimate(ContractModel):
+    node_id: str = Field(min_length=1)
+    target_agent_id: str = Field(min_length=1)
+    artifact_ids: tuple[str, ...]
+    transfer_bytes: int = Field(ge=0)
+    estimated_latency_ms: float | None = Field(default=None, ge=0)
+    basis: str = Field(min_length=1)
+
+
+class ExecutionCostProfile(ContractModel):
+    operator: str = Field(min_length=1)
+    agent_id: str = Field(min_length=1)
+    deployment_id: str | None = None
+    input_units: int | None = Field(default=None, ge=0)
+    output_units: int | None = Field(default=None, ge=0)
+    service_latency_ms: float = Field(ge=0)
+    source: str = Field(min_length=1)
+
+
+class InfrastructureReplanView(ContractModel):
+    """Explicit physical state visible only to the infra-aware replanner arm."""
+
+    environment: EnvironmentSpec
+    state: InfrastructureState
+    relevant_artifact_ids: tuple[str, ...]
+    pending_transfer_estimates: tuple[TransferCostEstimate, ...] = ()
+    execution_cost_profiles: tuple[ExecutionCostProfile, ...] = ()
+
+
+class InfrastructureReplanViewProvider(Protocol):
+    async def observe(
+        self,
+        context: WorkflowReplanContext,
+    ) -> InfrastructureReplanView: ...
 
 
 class WorkflowReplanContext(ContractModel):
@@ -348,9 +384,21 @@ class LLMWorkflowReplanner:
         workload: WorkloadSpec,
         context: WorkflowReplanContext,
     ) -> WorkflowReplanOutcome:
-        completion = await self._backend.invoke(
-            ModelRequest(prompt=self.render_prompt(task, workload, context))
+        return await self._invoke_and_validate(
+            task,
+            workload,
+            context,
+            self.render_prompt(task, workload, context),
         )
+
+    async def _invoke_and_validate(
+        self,
+        task: TaskContract,
+        workload: WorkloadSpec,
+        context: WorkflowReplanContext,
+        prompt: str,
+    ) -> WorkflowReplanOutcome:
+        completion = await self._backend.invoke(ModelRequest(prompt=prompt))
         try:
             proposal = WORKFLOW_REPLAN_ADAPTER.validate_python(json.loads(completion.text))
             if isinstance(proposal, ReviseWorkflowProposal):
@@ -402,6 +450,16 @@ class LLMWorkflowReplanner:
         workload: WorkloadSpec,
         context: WorkflowReplanContext,
     ) -> str:
+        return self._render_prompt(task, workload, context, infrastructure=None)
+
+    def _render_prompt(
+        self,
+        task: TaskContract,
+        workload: WorkloadSpec,
+        context: WorkflowReplanContext,
+        *,
+        infrastructure: InfrastructureReplanView | None,
+    ) -> str:
         available = set(workload.available_operations)
         tools = [
             tool
@@ -431,13 +489,39 @@ class LLMWorkflowReplanner:
             ),
             "execution_observation": context.model_dump(mode="json"),
         }
+        if infrastructure is not None:
+            payload["infrastructure_state"] = infrastructure.model_dump(mode="json")
+        revision_scope = (
+            "Revise only for evidence_insufficient, evidence_conflict_or_incomplete, or "
+            "explicit future_path_feedback present in the input."
+            if infrastructure is None
+            else (
+                "Revise only for evidence_insufficient, evidence_conflict_or_incomplete, "
+                "or when the explicit infrastructure snapshot makes a different pending "
+                "workflow materially cheaper while preserving evidence coverage and answer "
+                "quality. Use future_path_feedback as the trigger for an infrastructure-only "
+                "revision."
+            )
+        )
+        visibility = (
+            "The input contains no physical placement, bandwidth, RTT, load, queue, gold, "
+            "supporting evidence, source_ref, or evaluator metadata. Do not infer or request "
+            "those fields."
+            if infrastructure is None
+            else (
+                "The infrastructure_state object is authoritative for current artifact "
+                "locations, bandwidth/RTT, worker load, transfer estimates, and measured "
+                "execution-cost profiles. It contains no gold, supporting evidence, "
+                "source_ref, or evaluator metadata. Preserve semantic correctness; never trade "
+                "away required evidence merely to reduce cost."
+            )
+        )
         return "\n".join(
             (
                 "Decide whether the unexecuted part of the workflow needs one semantic revision.",
                 "Return keep when the completed evidence is sufficient and consistent for the "
                 "pending terminal path. Do not make cosmetic or speculative changes.",
-                "Revise only for evidence_insufficient, evidence_conflict_or_incomplete, or "
-                "explicit future_path_feedback present in the input.",
+                revision_scope,
                 "A revision is a complete next WorkflowPlan. Every completed node and its owning "
                 "agent must remain exactly unchanged. Completed artifacts remain available. Only "
                 "pending nodes, future dependencies, and new retrieval/reasoning branches may "
@@ -459,9 +543,7 @@ class LLMWorkflowReplanner:
                 "Collection metadata is authoritative: non_semantic partitions do not divide the "
                 "corpus by topic, and union_is_complete means all listed partitions together form "
                 "the complete collection. Use this only for semantic coverage reasoning.",
-                "The input contains no physical placement, bandwidth, RTT, load, queue, gold, "
-                "supporting evidence, source_ref, or evaluator metadata. Do not infer or request "
-                "those fields.",
+                visibility,
                 "Keep form: {\"decision\":\"keep\",\"reason\":\"...\"}.",
                 "Revise form: {\"decision\":\"revise\",\"trigger\":"
                 "\"evidence_insufficient|evidence_conflict_or_incomplete|future_path_feedback\","
@@ -471,6 +553,37 @@ class LLMWorkflowReplanner:
                 json.dumps(payload, ensure_ascii=False, separators=(",", ":"), sort_keys=True),
             )
         )
+
+
+class LLMInfrastructureAwareWorkflowReplanner(LLMWorkflowReplanner):
+    """The same workflow reviser with one explicit, current infrastructure view."""
+
+    def __init__(
+        self,
+        backend: CompletionBackend,
+        registry: OperatorRegistry,
+        environment: EnvironmentSpec,
+        view_provider: InfrastructureReplanViewProvider,
+    ) -> None:
+        super().__init__(backend, registry, environment)
+        self._view_provider = view_provider
+        self.observed_views: list[InfrastructureReplanView] = []
+
+    async def replan(
+        self,
+        task: TaskContract,
+        workload: WorkloadSpec,
+        context: WorkflowReplanContext,
+    ) -> WorkflowReplanOutcome:
+        view = await self._view_provider.observe(context)
+        self.observed_views.append(view)
+        prompt = self._render_prompt(
+            task,
+            workload,
+            context,
+            infrastructure=view,
+        )
+        return await self._invoke_and_validate(task, workload, context, prompt)
 
 
 FeedbackProvider = Callable[
@@ -488,6 +601,7 @@ class ReplanningWorkflowExecutor:
         *,
         max_replans: int = 1,
         feedback_provider: FeedbackProvider | None = None,
+        pause_before_operators: Iterable[str] = (),
         trace: WorkflowTraceRecorder | None = None,
     ) -> None:
         if max_replans < 1:
@@ -496,6 +610,7 @@ class ReplanningWorkflowExecutor:
         self._replanner = replanner
         self._max_replans = max_replans
         self._feedback_provider = feedback_provider
+        self._pause_before_operators = tuple(pause_before_operators)
         self._trace = trace
 
     async def execute(
@@ -515,6 +630,7 @@ class ReplanningWorkflowExecutor:
                 current,
                 prior=prior,
                 pause_before_terminal=True,
+                pause_before_operators=self._pause_before_operators,
             )
             if stage.failure is not None:
                 return ReplanningWorkflowExecution(

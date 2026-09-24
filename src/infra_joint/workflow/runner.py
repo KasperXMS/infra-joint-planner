@@ -1,4 +1,5 @@
 import json
+from collections.abc import Iterable
 from contextlib import AsyncExitStack
 from hashlib import sha256
 from pathlib import Path
@@ -99,6 +100,7 @@ class WorkflowBenchmarkRunner:
         planner_backend: CompletionBackend | None = None,
         planner: WorkflowPlanner | None = None,
         replanner: WorkflowReplanner | None = None,
+        replan_pause_before_operators: Iterable[str] = (),
     ) -> None:
         self._config = config
         self._workload = workload
@@ -107,6 +109,7 @@ class WorkflowBenchmarkRunner:
         self._planner_backend = planner_backend
         self._planner = planner
         self._replanner = replanner
+        self._replan_pause_before_operators = tuple(replan_pause_before_operators)
 
     async def run(
         self,
@@ -220,6 +223,7 @@ class WorkflowBenchmarkRunner:
                             orchestrator,
                             self._replanner,
                             max_replans=1,
+                            pause_before_operators=self._replan_pause_before_operators,
                             trace=trace,
                         ).execute(bundle.execution.task, self._workload, plan)
                     except WorkflowReplanningError as exc:

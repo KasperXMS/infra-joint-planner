@@ -91,11 +91,28 @@ class RecordingExecutor:
                 },
                 operator_latency_ms=1,
             )
+        output_id = action.semantic.arguments.get("output_artifact_id")
+        if isinstance(output_id, str):
+            self._observer.artifacts[output_id] = ArtifactRuntimeState(
+                artifact_id=output_id,
+                locations=("C",),
+                media_type="text/plain",
+                size_bytes=20,
+                sha256_hex=SHA,
+            )
+            output = {
+                "artifact_id": output_id,
+                "media_type": "text/plain",
+                "size_bytes": 20,
+                "sha256_hex": SHA,
+            }
+        else:
+            output = {"text": "answer"}
         return ExecutionResult(
             operator="invoke_model",
             agent_ids=("C",),
             deployment_id="text",
-            output={"text": "answer"},
+            output=output,
             operator_latency_ms=1,
         )
 
@@ -115,7 +132,7 @@ def environment() -> EnvironmentSpec:
                 deployment_id="text",
                 agent_id="C",
                 model_id="text-model",
-                context_window=4096,
+                context_window=8192,
                 reserved_output_tokens=512,
             ),
         ),
@@ -211,6 +228,8 @@ def revised_plan() -> WorkflowPlan:
 
 def build_executor(
     scripted: ScriptedWorkflowReplanner,
+    *,
+    pause_before_operators: tuple[str, ...] = (),
 ) -> tuple[ReplanningWorkflowExecutor, RecordingExecutor, WorkloadSpec]:
     current_environment = environment()
     registry = build_operator_catalog()
@@ -230,7 +249,15 @@ def build_executor(
         LocalityAwareMyopicScheduler(),
         available_operations=workload.available_operations,
     )
-    return ReplanningWorkflowExecutor(orchestrator, scripted), action_executor, workload
+    return (
+        ReplanningWorkflowExecutor(
+            orchestrator,
+            scripted,
+            pause_before_operators=pause_before_operators,
+        ),
+        action_executor,
+        workload,
+    )
 
 
 @pytest.mark.asyncio
@@ -274,6 +301,62 @@ async def test_keep_decision_executes_original_future_without_changes() -> None:
     assert len(result.versions) == 1
     assert result.revisions[0].decision == "keep"
     assert actions.nodes == [("shard-a",), ("evidence-a",)]
+
+
+@pytest.mark.asyncio
+async def test_first_model_checkpoint_observes_tool_prefix_before_any_model_call() -> None:
+    note = WorkflowNode(
+        node_id="note",
+        agent_id="synth",
+        operator="invoke_model",
+        inputs=("evidence-a",),
+        arguments={
+            "prompt": "make a note",
+            "output_artifact_id": "note-a",
+            "output_media_type": "text/plain",
+        },
+        outputs=("note-a",),
+    )
+    terminal = WorkflowNode(
+        node_id="terminal",
+        agent_id="synth",
+        operator="invoke_model",
+        inputs=("note-a",),
+        arguments={"prompt": "answer from the note"},
+    )
+    plan = WorkflowPlan(
+        agents=(agent("retriever-a"), agent("synth")),
+        nodes=(retrieval("a"), note, terminal),
+        edges=(
+            WorkflowEdge(
+                producer_node="retrieve-a",
+                consumer_node="note",
+                artifact_id="evidence-a",
+            ),
+            WorkflowEdge(
+                producer_node="note",
+                consumer_node="terminal",
+                artifact_id="note-a",
+            ),
+        ),
+    )
+    scripted = ScriptedWorkflowReplanner(
+        (KeepWorkflowProposal(reason="tool evidence is sufficient"),)
+    )
+    loop, actions, workload = build_executor(
+        scripted,
+        pause_before_operators=("invoke_model",),
+    )
+
+    result = await loop.execute(task(), workload, plan)
+
+    assert result.workflow.completed
+    assert [record.node_id for record in result.workflow.records] == [
+        "retrieve-a",
+        "note",
+        "terminal",
+    ]
+    assert actions.nodes == [("shard-a",), ("evidence-a",), ("note-a",)]
 
 
 def test_revision_rejects_modifying_a_completed_node() -> None:

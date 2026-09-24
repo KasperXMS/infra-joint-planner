@@ -1,0 +1,47 @@
+experiment_id: infra-aware-replanning-preliminary-v1
+environment_config: configs/experiments/blind-baseline-environment-v1.yaml
+source_baseline_config: configs/experiments/blind-baseline-6task-competent-v2.yaml
+planner:
+  config: configs/experiments/blind-baseline-planner-v1.yaml
+  available_operations:
+    - aggregate_artifacts
+    - aggregate_records
+    - bm25_retrieve
+    - derive_fields
+    - extract_clip
+    - filter_records
+    - invoke_model
+    - make_contact_sheet
+    - read_artifact
+    - sample_frames
+    - select_fields
+    - top_k_records
+  max_agents: 6
+execution:
+  scheduler: B0_LOCALITY_AWARE_MYOPIC
+  replan_checkpoint: before_first_invoke_model
+  max_replans: 1
+  retry: false
+  replacement: false
+  repetitions: 1
+network:
+  control: tc_htb_all_worker_paths
+  added_rtt_ms: 0
+  regimes:
+    - {id: H_low, bandwidth_mbps: 3}
+    - {id: H_mid, bandwidth_mbps: 10}
+    - {id: H_high, bandwidth_mbps: 30}
+tasks:
+  - {label: video-long-payload, source_task_id: video_mme:795, question_id: 795-3}
+  - {label: multihop-multisource, source_task_id: multihop-rag-train-9bae0079038050a37a1ae583}
+  - {label: longbench-multidoc, source_task_id: 66f7c780bb02136c067c35e8}
+arms: [resource-blind, infra-aware]
+execution_cost_profiles:
+  - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 1024, output_units: 128, service_latency_ms: 29763.3, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 2048, output_units: 128, service_latency_ms: 29789.8, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 4096, output_units: 256, service_latency_ms: 58269.0, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 8192, output_units: 256, service_latency_ms: 58685.0, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 1024, output_units: 128, service_latency_ms: 1607.2, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 2048, output_units: 128, service_latency_ms: 1629.5, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 4096, output_units: 256, service_latency_ms: 2766.2, source: heterogeneous-v1-audit2-median}
+  - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 8192, output_units: 256, service_latency_ms: 3023.7, source: heterogeneous-v1-audit2-median}

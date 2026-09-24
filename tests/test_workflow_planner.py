@@ -1,8 +1,18 @@
 import json
+from datetime import UTC, datetime
 
 import pytest
 
-from infra_joint.core.state import AgentSpec, DeploymentSpec, EnvironmentSpec
+from infra_joint.core.state import (
+    AgentRuntimeState,
+    AgentSpec,
+    ArtifactRuntimeState,
+    DeploymentRuntimeState,
+    DeploymentSpec,
+    EnvironmentSpec,
+    InfrastructureState,
+    LinkRuntimeState,
+)
 from infra_joint.core.task import (
     ArtifactCollectionRelation,
     ArtifactContentSchema,
@@ -22,8 +32,12 @@ from infra_joint.worker.model_backend import (
 )
 from infra_joint.workflow.planner import LLMWorkflowPlanner, WorkflowPlanningError
 from infra_joint.workflow.replanning import (
+    ExecutionCostProfile,
+    InfrastructureReplanView,
+    LLMInfrastructureAwareWorkflowReplanner,
     LLMWorkflowReplanner,
     SemanticNodeObservation,
+    TransferCostEstimate,
     WorkflowReplanContext,
 )
 from infra_joint.workflow.workload import WorkloadSpec
@@ -40,6 +54,17 @@ class CapturingBackend:
             text=self._response,
             telemetry=ModelCallTelemetry(service_latency_ms=1),
         )
+
+
+class StaticInfrastructureViewProvider:
+    def __init__(self, view: InfrastructureReplanView) -> None:
+        self._view = view
+
+    async def observe(
+        self, context: WorkflowReplanContext
+    ) -> InfrastructureReplanView:
+        del context
+        return self._view
 
 
 def task() -> TaskContract:
@@ -431,3 +456,99 @@ def test_planner_and_replanner_see_collection_semantics_without_private_or_physi
     assert "add a new retrieval node and a new reasoning node with fresh IDs" in replan_prompt
     assert "system_context_preflight_guidance" in replan_prompt
     assert "will not lower top_k or repair the graph" in replan_prompt
+
+
+@pytest.mark.asyncio
+async def test_infra_aware_replanner_alone_receives_explicit_physical_cost_view() -> None:
+    current_task = task()
+    current_environment = environment()
+    workload = WorkloadSpec.from_task_environment(
+        current_task,
+        current_environment,
+        available_operations=("bm25_retrieve", "invoke_model"),
+    )
+    current_plan = WorkflowPlan.model_validate_json(workflow_json())
+    context = WorkflowReplanContext(
+        revision_index=0,
+        current_plan=current_plan,
+        completed_node_ids=("retrieve-a", "retrieve-b"),
+        pending_node_ids=("synthesize",),
+        semantic_observations=(),
+    )
+    state = InfrastructureState(
+        agents=(AgentRuntimeState(agent_id="physical-secret", available=True),),
+        deployments=(
+            DeploymentRuntimeState(deployment_id="text-instance", available=True),
+        ),
+        artifacts=(
+            ArtifactRuntimeState(
+                artifact_id="evidence-a",
+                locations=("physical-secret",),
+                media_type="application/json",
+                size_bytes=1024,
+                sha256_hex="a" * 64,
+            ),
+        ),
+        links=(
+            LinkRuntimeState(
+                source_agent_id="physical-secret",
+                target_agent_id="cloud",
+                available=True,
+                bandwidth_mbps=3,
+                rtt_ms=20,
+            ),
+        ),
+        observed_at=datetime.now(UTC),
+    )
+    view = InfrastructureReplanView(
+        environment=current_environment,
+        state=state,
+        relevant_artifact_ids=("evidence-a",),
+        pending_transfer_estimates=(
+            TransferCostEstimate(
+                node_id="synthesize",
+                target_agent_id="cloud",
+                artifact_ids=("evidence-a",),
+                transfer_bytes=1024,
+                estimated_latency_ms=22.7,
+                basis="current artifact locations and measured link",
+            ),
+        ),
+        execution_cost_profiles=(
+            ExecutionCostProfile(
+                operator="invoke_model",
+                agent_id="cloud",
+                deployment_id="text-instance",
+                input_units=1024,
+                output_units=128,
+                service_latency_ms=1600,
+                source="frozen measured profile",
+            ),
+        ),
+    )
+    blind_backend = CapturingBackend('{"decision":"keep","reason":"sufficient"}')
+    aware_backend = CapturingBackend('{"decision":"keep","reason":"sufficient"}')
+    blind = LLMWorkflowReplanner(
+        blind_backend,
+        build_operator_catalog(),
+        current_environment,
+    )
+    aware = LLMInfrastructureAwareWorkflowReplanner(
+        aware_backend,
+        build_operator_catalog(),
+        current_environment,
+        StaticInfrastructureViewProvider(view),
+    )
+
+    await blind.replan(current_task, workload, context)
+    await aware.replan(current_task, workload, context)
+
+    blind_prompt = blind_backend.requests[0].prompt
+    aware_prompt = aware_backend.requests[0].prompt
+    assert "physical-secret" not in blind_prompt
+    assert '"bandwidth_mbps":3.0' not in blind_prompt
+    assert "physical-secret" in aware_prompt
+    assert '"bandwidth_mbps":3.0' in aware_prompt
+    assert '"service_latency_ms":1600.0' in aware_prompt
+    assert "private://must-not-leak" not in aware_prompt
+    assert "private-evaluator-must-not-leak" not in aware_prompt
