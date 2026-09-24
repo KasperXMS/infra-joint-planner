@@ -17,6 +17,15 @@ runs/
 traces/
 *.jsonl
 
+# Local experiment evidence. Historical results already tracked by Git remain tracked;
+# new raw/private evidence should be summarized in docs before it is published.
+/results/
+/docs/blind-baseline-6task-v1-audit.md
+
+# Temporary deployment bundles created while syncing remote workers
+/baseline-*.bundle
+/baseline-code-*.tar.gz
+
 # Local configuration and credentials
 .env
 .env.*
