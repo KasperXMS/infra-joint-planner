@@ -15,6 +15,7 @@ from infra_joint.core.workflow import (
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.planning.planner import CompletionBackend, logical_task_payload
 from infra_joint.worker.model_backend import ModelCallTelemetry, ModelRequest
+from infra_joint.workflow.costing import InfrastructurePlanningView
 from infra_joint.workflow.workload import WorkloadSpec
 
 
@@ -33,6 +34,10 @@ class WorkflowPlanner(Protocol):
         task: TaskContract,
         workload: WorkloadSpec,
     ) -> WorkflowPlannerOutcome: ...
+
+
+class InfrastructurePlanningViewProvider(Protocol):
+    async def observe_for_planning(self) -> InfrastructurePlanningView: ...
 
 
 class ScriptedWorkflowPlanner:
@@ -79,9 +84,19 @@ class LLMWorkflowPlanner:
             workload.validate_against(task, self._environment, self._registry)
         except (KeyError, ValueError) as exc:
             raise WorkflowPlanningError(str(exc)) from exc
-        completion = await self._backend.invoke(
-            ModelRequest(prompt=self.render_prompt(task, workload))
+        return await self._invoke_and_validate(
+            task,
+            workload,
+            self.render_prompt(task, workload),
         )
+
+    async def _invoke_and_validate(
+        self,
+        task: TaskContract,
+        workload: WorkloadSpec,
+        prompt: str,
+    ) -> WorkflowPlannerOutcome:
+        completion = await self._backend.invoke(ModelRequest(prompt=prompt))
         try:
             raw = json.loads(completion.text)
             plan = WorkflowPlan.model_validate(raw)
@@ -308,3 +323,53 @@ class LLMWorkflowPlanner:
                 }
             )
         return guidance
+
+
+class LLMInfrastructureAwareWorkflowPlanner(LLMWorkflowPlanner):
+    """Open-ended Planner augmented by a live, system-evaluated cost contract."""
+
+    def __init__(
+        self,
+        backend: CompletionBackend,
+        registry: OperatorRegistry,
+        environment: EnvironmentSpec,
+        view_provider: InfrastructurePlanningViewProvider,
+    ) -> None:
+        super().__init__(backend, registry, environment)
+        self._view_provider = view_provider
+        self.observed_views: list[InfrastructurePlanningView] = []
+
+    async def plan(
+        self,
+        task: TaskContract,
+        workload: WorkloadSpec,
+    ) -> WorkflowPlannerOutcome:
+        try:
+            workload.validate_against(task, self._environment, self._registry)
+        except (KeyError, ValueError) as exc:
+            raise WorkflowPlanningError(str(exc)) from exc
+        view = await self._view_provider.observe_for_planning()
+        self.observed_views.append(view)
+        prompt = "\n".join(
+            (
+                self.render_prompt(task, workload),
+                "Infrastructure-aware extension:",
+                "Use the authoritative live view and cost_guidance below to choose the open-ended "
+                "DAG, semantic reductions, information flow, parallel branches, and model-instance "
+                "bindings. The system has not enumerated candidate workflows or topology choices.",
+                "Apply the stated cost formulas and lexicographic objective. Preserve required "
+                "evidence and benchmark semantics before optimizing cost. Unknown cost is not "
+                "zero. Generic operator placement still follows the declared B0 rule; express "
+                "only logical workflow decisions in WorkflowPlan.",
+                "Infrastructure planning view:",
+                json.dumps(
+                    view.model_dump(mode="json"),
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+                "Return exactly one WorkflowPlan JSON object with no Markdown or surrounding "
+                "text.",
+            )
+        )
+        return await self._invoke_and_validate(task, workload, prompt)

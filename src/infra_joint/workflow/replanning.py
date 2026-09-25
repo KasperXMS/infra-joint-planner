@@ -21,6 +21,10 @@ from infra_joint.core.workflow import (
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.planning.planner import CompletionBackend, logical_task_payload
 from infra_joint.worker.model_backend import ModelCallTelemetry, ModelRequest
+from infra_joint.workflow.costing import (
+    ExecutionCostProfile,
+    InfrastructureCostGuidance,
+)
 from infra_joint.workflow.orchestrator import (
     WorkflowExecutionResult,
     WorkflowOrchestrator,
@@ -65,16 +69,6 @@ class TransferCostEstimate(ContractModel):
     basis: str = Field(min_length=1)
 
 
-class ExecutionCostProfile(ContractModel):
-    operator: str = Field(min_length=1)
-    agent_id: str = Field(min_length=1)
-    deployment_id: str | None = None
-    input_units: int | None = Field(default=None, ge=0)
-    output_units: int | None = Field(default=None, ge=0)
-    service_latency_ms: float = Field(ge=0)
-    source: str = Field(min_length=1)
-
-
 class InfrastructureReplanView(ContractModel):
     """Explicit physical state visible only to the infra-aware replanner arm."""
 
@@ -83,6 +77,7 @@ class InfrastructureReplanView(ContractModel):
     relevant_artifact_ids: tuple[str, ...]
     pending_transfer_estimates: tuple[TransferCostEstimate, ...] = ()
     execution_cost_profiles: tuple[ExecutionCostProfile, ...] = ()
+    cost_guidance: InfrastructureCostGuidance | None = None
 
 
 class InfrastructureReplanViewProvider(Protocol):
@@ -510,9 +505,11 @@ class LLMWorkflowReplanner:
             else (
                 "The infrastructure_state object is authoritative for current artifact "
                 "locations, bandwidth/RTT, worker load, transfer estimates, and measured "
-                "execution-cost profiles. It contains no private benchmark metadata. Preserve "
-                "semantic correctness; never trade away required evidence merely to reduce "
-                "cost."
+                "execution-cost profiles. cost_guidance is the system-generated, auditable "
+                "evaluation of the current open-ended DAG; apply its formulas and lexicographic "
+                "objective rather than reasoning from raw numbers alone. It contains no private "
+                "benchmark metadata. Preserve semantic correctness; never trade away required "
+                "evidence merely to reduce cost."
             )
         )
         return "\n".join(

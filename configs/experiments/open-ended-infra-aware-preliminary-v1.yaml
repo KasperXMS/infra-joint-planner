@@ -1,0 +1,48 @@
+experiment_id: open-ended-infra-aware-preliminary-v1
+substrate_revision: c39565d799d5a02c00eeef07024c536cbdc6a3ad
+source_baseline_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+source_baseline_status: frozen_no_further_semantic_tuning
+required_controller_hostname: super
+planner:
+  config: configs/experiments/blind-baseline-planner-v1.yaml
+  available_operations:
+    - aggregate_artifacts
+    - aggregate_records
+    - bm25_retrieve
+    - derive_fields
+    - extract_clip
+    - filter_records
+    - invoke_model
+    - make_contact_sheet
+    - read_artifact
+    - sample_frames
+    - select_fields
+    - top_k_records
+  max_agents: 6
+execution:
+  scheduler: B0_LOCALITY_AWARE_MYOPIC
+  replanning_checkpoint: after_evidence_before_terminal
+  max_replans: 1
+  repetitions: 1
+  retry: false
+  replacement: false
+network:
+  control: tc_htb_all_worker_paths
+  added_rtt_ms: 0
+  regimes:
+    - {id: H_low, bandwidth_mbps: 3}
+    - {id: H_mid, bandwidth_mbps: 10}
+    - {id: H_high, bandwidth_mbps: 30}
+cost_model:
+  formula_version: open-ended-dag-cost-v1
+  workflow_candidates: none
+  profile_policy: frozen measured operator observations plus calibrated model service points
+  model_profiles:
+    - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 1024, output_units: 128, unit_kind: tokens, service_latency_ms: 29763.3, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 2048, output_units: 128, unit_kind: tokens, service_latency_ms: 29789.8, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 4096, output_units: 256, unit_kind: tokens, service_latency_ms: 58269.0, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: A28, deployment_id: a28-qwen3.8-27b-q4km-v1, input_units: 8192, output_units: 256, unit_kind: tokens, service_latency_ms: 58685.0, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 1024, output_units: 128, unit_kind: tokens, service_latency_ms: 1607.2, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 2048, output_units: 128, unit_kind: tokens, service_latency_ms: 1629.5, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 4096, output_units: 256, unit_kind: tokens, service_latency_ms: 2766.2, source: heterogeneous-v1-audit2-median}
+    - {operator: invoke_model, agent_id: strong-4090, deployment_id: strong-4090-qwen3.8-27b-q4km-v1, input_units: 8192, output_units: 256, unit_kind: tokens, service_latency_ms: 3023.7, source: heterogeneous-v1-audit2-median}
