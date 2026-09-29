@@ -5,7 +5,7 @@ from contextlib import AsyncExitStack
 from hashlib import sha256
 from pathlib import Path
 from time import perf_counter
-from typing import cast
+from typing import Protocol, cast
 from uuid import uuid4
 
 import httpx
@@ -26,6 +26,7 @@ from infra_joint.control.loop import (
 from infra_joint.control.physical import PhysicalExecutionService, PhysicalProfiler
 from infra_joint.control.validation import SemanticActionValidator, SemanticValidationError
 from infra_joint.core.base import ContractModel
+from infra_joint.core.task import TaskContract
 from infra_joint.evaluation.evaluator import EvaluationResult
 from infra_joint.evaluation.trace import JsonlTraceWriter
 from infra_joint.infrastructure.observer import LiveWorkerObserver
@@ -39,6 +40,19 @@ from infra_joint.runtime.executor import (
 )
 from infra_joint.workflow.costing import ExecutionCostProfile
 from infra_joint.workflow.trace import WorkflowTraceRecorder
+
+
+class LogicalRuntime(Protocol):
+    async def run(
+        self,
+        task: TaskContract,
+        gateway: RuntimeActionGateway,
+        *,
+        root_agent: LogicalAgentSpec | None,
+        profile_visibility: ProfileVisibility,
+        budget: AgentLoopBudget | None,
+        trace: WorkflowTraceRecorder,
+    ) -> AgentLoopResult: ...
 
 
 class ControlPlaneRunFailure(ContractModel):
@@ -78,7 +92,7 @@ class ControlPlaneBenchmarkRunner:
     def __init__(
         self,
         config: RunnerConfig,
-        manager: ManagerPolicy,
+        manager: ManagerPolicy | None,
         available_operations: tuple[str, ...],
         *,
         worker_clients: dict[str, WorkerClient] | None = None,
@@ -87,7 +101,10 @@ class ControlPlaneBenchmarkRunner:
         profile_visibility: ProfileVisibility = ProfileVisibility.BLIND,
         cost_profiles: tuple[ExecutionCostProfile, ...] = (),
         loop_budget: AgentLoopBudget | None = None,
+        logical_runtime: LogicalRuntime | None = None,
     ) -> None:
+        if manager is None and logical_runtime is None:
+            raise ValueError("manager or logical_runtime is required")
         self._config = config
         self._manager = manager
         self._available_operations = available_operations
@@ -97,6 +114,7 @@ class ControlPlaneBenchmarkRunner:
         self._profile_visibility = profile_visibility
         self._cost_profiles = cost_profiles
         self._loop_budget = loop_budget
+        self._logical_runtime = logical_runtime
 
     async def run(
         self,
@@ -162,16 +180,28 @@ class ControlPlaneBenchmarkRunner:
                     ),
                     physical,
                 )
-                loop = await PersistentManagerLoop(
-                    gateway,
-                    self._manager,
-                    root_agent=self._root_agent,
-                    subagent_factory=self._subagent_factory,
-                    profile_visibility=self._profile_visibility,
-                    max_steps_per_agent=self._config.max_planning_steps,
-                    budget=self._loop_budget,
-                    trace=trace,
-                ).run(bundle.execution.task)
+                if self._logical_runtime is not None:
+                    loop = await self._logical_runtime.run(
+                        bundle.execution.task,
+                        gateway,
+                        root_agent=self._root_agent,
+                        profile_visibility=self._profile_visibility,
+                        budget=self._loop_budget,
+                        trace=trace,
+                    )
+                else:
+                    if self._manager is None:
+                        raise RuntimeError("legacy manager policy is not configured")
+                    loop = await PersistentManagerLoop(
+                        gateway,
+                        self._manager,
+                        root_agent=self._root_agent,
+                        subagent_factory=self._subagent_factory,
+                        profile_visibility=self._profile_visibility,
+                        max_steps_per_agent=self._config.max_planning_steps,
+                        budget=self._loop_budget,
+                        trace=trace,
+                    ).run(bundle.execution.task)
                 evaluation = await bundle.private_evaluation.build_evaluator().evaluate(
                     bundle.execution.task,
                     loop.final_answer,

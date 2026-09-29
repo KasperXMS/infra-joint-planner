@@ -29,10 +29,7 @@ from infra_joint.benchmarks.base import AdaptationBundle
 from infra_joint.config import PlannerConfig, RunnerConfig, StaticBackendConfig
 from infra_joint.control.contracts import ProfileVisibility
 from infra_joint.control.loop import AgentLoopBudget
-from infra_joint.control.openai_agents import (
-    OpenAIAgentsManagerPolicy,
-    OpenAIAgentsSubagentFactory,
-)
+from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
 from infra_joint.core.base import ContractModel
 from infra_joint.operators.catalog import build_operator_catalog
@@ -152,7 +149,7 @@ def freeze(
         available_operations=_operations(base),
         budget=_budget(validation),
         profile_visibility=ProfileVisibility.BLIND.value,
-        sdk_runtime="OpenAI Agents SDK Manager + bounded specialists-as-tools",
+        sdk_runtime="OpenAI Agents SDK native function tools + bounded agents-as-tools",
     )
     _write_json(freeze_path, manifest)
     for label, bundle in bundles.items():
@@ -227,28 +224,21 @@ async def run_all(
                 max_planning_steps=manifest.budget.max_manager_turns,
                 http_timeout_seconds=900,
             )
-            manager = OpenAIAgentsManagerPolicy(
+            logical_runtime = OpenAIAgentsNativeRuntime(
                 name="resource-blind-manager",
                 instructions=MANAGER_INSTRUCTIONS,
                 model=sdk_model,
                 registry=registry,
                 available_operations=operations,
-                structured_output=False,
-            )
-            subagents = OpenAIAgentsSubagentFactory(
-                model=sdk_model,
-                registry=registry,
-                available_operations=operations,
-                structured_output=False,
             )
             result = await ControlPlaneBenchmarkRunner(
                 config,
-                manager,
+                None,
                 operations,
                 worker_clients=clients,
-                subagent_factory=subagents,
                 profile_visibility=ProfileVisibility.BLIND,
                 loop_budget=manifest.budget,
+                logical_runtime=logical_runtime,
             ).run(bundle, run_id=run_id)
             summary = {
                 "label": label,

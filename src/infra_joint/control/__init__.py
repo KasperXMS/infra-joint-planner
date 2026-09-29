@@ -11,6 +11,7 @@ from infra_joint.control.contracts import (
 )
 from infra_joint.control.gateway import ActionGateway, RuntimeActionGateway
 from infra_joint.control.loop import PersistentManagerLoop
+from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.physical import (
     PhysicalExecutionService,
     PhysicalFeasibilityValidator,
@@ -26,6 +27,7 @@ __all__ = [
     "LogicalObservation",
     "LogicalOutput",
     "LogicalToolAction",
+    "OpenAIAgentsNativeRuntime",
     "PersistentManagerLoop",
     "PhysicalExecutionService",
     "PhysicalFeasibilityValidator",
