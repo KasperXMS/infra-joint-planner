@@ -17,7 +17,10 @@ from infra_joint.control.workflow import (
     WorkflowDependency,
     WorkflowRuntimeState,
 )
-from infra_joint.control.workflow_cost import SemanticWorkflowCostEvaluator
+from infra_joint.control.workflow_cost import (
+    ConcurrentServiceProfile,
+    SemanticWorkflowCostEvaluator,
+)
 from infra_joint.control.workflow_validation import (
     WorkflowValidationError,
     validate_semantic_workflow,
@@ -393,3 +396,458 @@ def test_candidate_correlated_cost_matches_actual_auto_scheduler_selection() -> 
     assert action_profile.service_latency_ms_range == (1, 100)
     assert detail.view.predicted_service_latency_ms == 100
     assert detail.view.predicted_total_work_ms == 200
+
+
+def _frontier_task(*artifact_ids: str) -> TaskContract:
+    return TaskContract(
+        task_id="frontier-projection",
+        benchmark_id="synthetic",
+        objective="Use the evidence and return A or B.",
+        artifacts=tuple(
+            ArtifactSpec(
+                artifact_id=artifact_id,
+                logical_type="evidence",
+                media_type="application/json",
+                size_bytes=1_000,
+                content_schema=ArtifactContentSchema(kind="record_array"),
+            )
+            for artifact_id in artifact_ids
+        ),
+        output_contract=OutputContract(
+            format=OutputFormat.CHOICE,
+            choices=("A", "B"),
+        ),
+        evaluator_id="private",
+    )
+
+
+def _model_action(
+    action_id: str,
+    inputs: tuple[str, ...],
+    output_id: str | None = None,
+) -> LogicalModelAction:
+    outputs = (
+        (
+            LogicalOutput(
+                artifact_id=output_id,
+                semantic_type="analysis",
+                media_type="text/plain",
+            ),
+        )
+        if output_id is not None
+        else ()
+    )
+    return LogicalModelAction(
+        action_id=action_id,
+        owner_agent_id="analysis-role",
+        inputs=inputs,
+        outputs=outputs,
+        prompt="Analyze the supplied evidence.",
+        requirements=ExecutionRequirements(
+            min_context_tokens=256,
+            reserved_output_tokens=32,
+        ),
+    )
+
+
+def _single_compute_environment() -> EnvironmentSpec:
+    return EnvironmentSpec(
+        agents=(
+            AgentSpec(agent_id="A", device="source"),
+            AgentSpec(
+                agent_id="B",
+                device="gpu",
+                capabilities=frozenset({"model"}),
+            ),
+        ),
+        deployments=(
+            DeploymentSpec(
+                deployment_id="dep-b",
+                agent_id="B",
+                model_id="test-model",
+                context_window=8_192,
+                reserved_output_tokens=64,
+                image_token_cost=256,
+            ),
+        ),
+        links=(
+            LinkSpec(
+                source_agent_id="A",
+                target_agent_id="B",
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            ),
+        ),
+    )
+
+
+def _single_compute_state(*artifact_ids: str) -> InfrastructureState:
+    return InfrastructureState(
+        agents=(
+            AgentRuntimeState(agent_id="A", available=True),
+            AgentRuntimeState(agent_id="B", available=True),
+        ),
+        deployments=(DeploymentRuntimeState(deployment_id="dep-b", available=True),),
+        artifacts=tuple(
+            ArtifactRuntimeState(
+                artifact_id=artifact_id,
+                locations=("A",),
+                media_type="application/json",
+                size_bytes=1_000,
+            )
+            for artifact_id in artifact_ids
+        ),
+        links=(
+            LinkRuntimeState(
+                source_agent_id="A",
+                target_agent_id="B",
+                available=True,
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            ),
+        ),
+        observed_at=datetime.now(UTC),
+    )
+
+
+def _model_profiles() -> tuple[ExecutionCostProfile, ...]:
+    return (
+        ExecutionCostProfile(
+            operator="invoke_model",
+            agent_id="B",
+            deployment_id="dep-b",
+            input_units=1_000,
+            unit_kind="bytes",
+            service_latency_ms=100,
+            source="single-service-calibration",
+        ),
+    )
+
+
+def _frontier_evaluator(
+    plan: SemanticWorkflowPlan,
+    *,
+    concurrent_profiles: tuple[ConcurrentServiceProfile, ...] = (),
+) -> SemanticWorkflowCostEvaluator:
+    environment = _single_compute_environment()
+    registry = build_operator_catalog()
+    return SemanticWorkflowCostEvaluator(
+        environment,
+        registry,
+        _model_profiles(),
+        _frontier_task("raw"),
+        build_static_capability_contract(environment, registry, ("invoke_model",)),
+        concurrent_profiles=concurrent_profiles,
+    )
+
+
+def _replica_plan() -> SemanticWorkflowPlan:
+    inspect = _model_action("inspect", ("raw",), "note")
+    answer = _model_action("answer", ("raw", "note"))
+    return SemanticWorkflowPlan(
+        workflow_id="replica-projection",
+        version=0,
+        actions=(inspect, answer),
+        dependencies=(
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="inspect",
+                consumer_action_id="answer",
+                information_id="note",
+            ),
+        ),
+        terminal_action_id="answer",
+    )
+
+
+def _parallel_model_plan(*, serial: bool = False) -> SemanticWorkflowPlan:
+    first = _model_action("branch-a", ("raw",), "note-a")
+    second = _model_action("branch-b", ("raw",), "note-b")
+    answer = _model_action("answer", ("note-a", "note-b"))
+    dependencies = [
+        WorkflowDependency(
+            dependency_type="artifact",
+            producer_action_id="branch-a",
+            consumer_action_id="answer",
+            information_id="note-a",
+        ),
+        WorkflowDependency(
+            dependency_type="artifact",
+            producer_action_id="branch-b",
+            consumer_action_id="answer",
+            information_id="note-b",
+        ),
+    ]
+    if serial:
+        dependencies.append(
+            WorkflowDependency(
+                dependency_type="control",
+                producer_action_id="branch-a",
+                consumer_action_id="branch-b",
+            )
+        )
+    return SemanticWorkflowPlan(
+        workflow_id="serial-projection" if serial else "parallel-projection",
+        version=0,
+        actions=(first, second, answer),
+        dependencies=tuple(dependencies),
+        terminal_action_id="answer",
+    )
+
+
+def _concurrent_profile() -> tuple[ConcurrentServiceProfile, ...]:
+    return (
+        ConcurrentServiceProfile(
+            operator="invoke_model",
+            concurrency=2,
+            agent_id="B",
+            deployment_id="dep-b",
+            service_latency_ms=150,
+            source="measured-dual-model",
+        ),
+    )
+
+
+def test_frontier_projection_propagates_input_replica_and_future_output_location() -> None:
+    plan = _replica_plan()
+    state = _single_compute_state("raw")
+    detail = _frontier_evaluator(plan).evaluate_detailed(
+        plan,
+        WorkflowRuntimeState.initialize(plan),
+        state,
+    )
+    selected = {item.action_id: item for item in detail.selected_bindings}
+    assert selected["inspect"].transfer_bytes == 1_000
+    assert selected["answer"].transfer_bytes == 0
+    assert [item.action_ids for item in detail.frontiers] == [
+        ("inspect",),
+        ("answer",),
+    ]
+    artifacts = {item.artifact_id: item for item in detail.projected_artifacts}
+    assert artifacts["raw"].locations == ("A", "B")
+    assert artifacts["note"].locations == ("B",)
+
+    scheduler = AutoPhysicalScheduler()
+    environment = _single_compute_environment()
+    registry = build_operator_catalog()
+    first = scheduler.select(
+        plan.actions[0],
+        semantic_action(plan.actions[0]),
+        environment,
+        state,
+        registry,
+    )
+    after_first = state.model_copy(
+        update={
+            "artifacts": (
+                ArtifactRuntimeState(
+                    artifact_id="raw",
+                    locations=("A", "B"),
+                    media_type="application/json",
+                    size_bytes=1_000,
+                ),
+                ArtifactRuntimeState(
+                    artifact_id="note",
+                    locations=("B",),
+                    media_type="text/plain",
+                    size_bytes=256,
+                ),
+            )
+        }
+    )
+    second = scheduler.select(
+        plan.actions[1],
+        semantic_action(plan.actions[1]),
+        environment,
+        after_first,
+        registry,
+    )
+    assert selected["inspect"].selected_agent_id == first.selected_agent_id
+    assert selected["answer"].selected_agent_id == second.selected_agent_id
+
+
+def test_same_frontier_uses_one_snapshot_and_known_concurrency_profile() -> None:
+    plan = _parallel_model_plan()
+    detail = _frontier_evaluator(
+        plan,
+        concurrent_profiles=_concurrent_profile(),
+    ).evaluate_detailed(
+        plan,
+        WorkflowRuntimeState.initialize(plan),
+        _single_compute_state("raw"),
+    )
+    selected = {item.action_id: item for item in detail.selected_bindings}
+    assert selected["branch-a"].transfer_bytes == 1_000
+    assert selected["branch-b"].transfer_bytes == 1_000
+    assert selected["branch-a"].concurrency == 2
+    assert selected["branch-b"].concurrency == 2
+    assert selected["branch-a"].service_latency_ms == 150
+    assert selected["branch-b"].service_latency_ms == 150
+    assert selected["branch-a"].concurrency_profile_source == "measured-dual-model"
+    group = detail.frontiers[0].concurrency_groups[0]
+    assert group.action_ids == ("branch-a", "branch-b")
+    assert group.concurrency == 2
+    assert group.profile_complete
+    assert detail.view.predicted_service_latency_ms == 400
+    assert detail.view.predicted_critical_path_ms == pytest.approx(270.8)
+
+
+def test_missing_concurrency_profile_fails_unknown() -> None:
+    plan = _parallel_model_plan()
+    detail = _frontier_evaluator(plan).evaluate_detailed(
+        plan,
+        WorkflowRuntimeState.initialize(plan),
+        _single_compute_state("raw"),
+    )
+    assert detail.frontiers[0].concurrency_groups[0].profile_complete is False
+    assert detail.view.predicted_critical_path_ms is None
+    assert detail.view.predicted_total_work_ms is None
+    assert "concurrent_service_profile_unavailable" in detail.view.unknown_reasons
+
+
+def test_different_device_parallel_actions_have_known_critical_path() -> None:
+    environment = EnvironmentSpec(
+        agents=tuple(
+            AgentSpec(
+                agent_id=agent_id,
+                device="gpu",
+                capabilities=frozenset({"model"}),
+            )
+            for agent_id in ("A", "B")
+        ),
+        deployments=tuple(
+            DeploymentSpec(
+                deployment_id=f"dep-{agent_id.lower()}",
+                agent_id=agent_id,
+                model_id="test-model",
+                context_window=8_192,
+                reserved_output_tokens=64,
+                image_token_cost=256,
+            )
+            for agent_id in ("A", "B")
+        ),
+        links=(
+            LinkSpec(
+                source_agent_id="B",
+                target_agent_id="A",
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            ),
+            LinkSpec(
+                source_agent_id="A",
+                target_agent_id="B",
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            ),
+        ),
+    )
+    state = InfrastructureState(
+        agents=tuple(
+            AgentRuntimeState(agent_id=agent_id, available=True)
+            for agent_id in ("A", "B")
+        ),
+        deployments=tuple(
+            DeploymentRuntimeState(
+                deployment_id=f"dep-{agent_id.lower()}",
+                available=True,
+            )
+            for agent_id in ("A", "B")
+        ),
+        artifacts=(
+            ArtifactRuntimeState(
+                artifact_id="raw-a",
+                locations=("A",),
+                media_type="application/json",
+                size_bytes=1_000,
+            ),
+            ArtifactRuntimeState(
+                artifact_id="raw-b",
+                locations=("B",),
+                media_type="application/json",
+                size_bytes=1_000,
+            ),
+        ),
+        links=tuple(
+            LinkRuntimeState(
+                source_agent_id=source,
+                target_agent_id=target,
+                available=True,
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            )
+            for source, target in (("B", "A"), ("A", "B"))
+        ),
+        observed_at=datetime.now(UTC),
+    )
+    first = _model_action("branch-a", ("raw-a",), "note-a")
+    second = _model_action("branch-b", ("raw-b",), "note-b")
+    answer = _model_action("answer", ("note-a", "note-b"))
+    plan = SemanticWorkflowPlan(
+        workflow_id="different-device-parallel",
+        version=0,
+        actions=(first, second, answer),
+        dependencies=(
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="branch-a",
+                consumer_action_id="answer",
+                information_id="note-a",
+            ),
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="branch-b",
+                consumer_action_id="answer",
+                information_id="note-b",
+            ),
+        ),
+        terminal_action_id="answer",
+    )
+    registry = build_operator_catalog()
+    profiles = tuple(
+        ExecutionCostProfile(
+            operator="invoke_model",
+            agent_id=agent_id,
+            deployment_id=f"dep-{agent_id.lower()}",
+            service_latency_ms=latency,
+            source="per-device-calibration",
+        )
+        for agent_id, latency in (("A", 100), ("B", 200))
+    )
+    detail = SemanticWorkflowCostEvaluator(
+        environment,
+        registry,
+        profiles,
+        _frontier_task("raw-a", "raw-b"),
+        build_static_capability_contract(environment, registry, ("invoke_model",)),
+    ).evaluate_detailed(plan, WorkflowRuntimeState.initialize(plan), state)
+    first_frontier = {
+        item.action_id: item.selected_agent_id
+        for item in detail.selected_bindings
+        if item.frontier_index == 0
+    }
+    assert first_frontier == {"branch-a": "A", "branch-b": "B"}
+    assert detail.frontiers[0].concurrency_groups == ()
+    assert detail.view.predicted_critical_path_ms is not None
+    assert "concurrent_service_profile_unavailable" not in detail.view.unknown_reasons
+
+
+def test_dependency_changes_parallel_critical_path_to_serial() -> None:
+    state = _single_compute_state("raw")
+    parallel_plan = _parallel_model_plan()
+    serial_plan = _parallel_model_plan(serial=True)
+    parallel = _frontier_evaluator(
+        parallel_plan,
+        concurrent_profiles=_concurrent_profile(),
+    ).evaluate(
+        parallel_plan,
+        WorkflowRuntimeState.initialize(parallel_plan),
+        state,
+    )
+    serial = _frontier_evaluator(serial_plan).evaluate(
+        serial_plan,
+        WorkflowRuntimeState.initialize(serial_plan),
+        state,
+    )
+    assert parallel.predicted_critical_path_ms == pytest.approx(270.8)
+    assert serial.predicted_critical_path_ms == pytest.approx(320.8)
+    assert serial.predicted_critical_path_ms > parallel.predicted_critical_path_ms

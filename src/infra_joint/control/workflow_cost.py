@@ -28,22 +28,66 @@ from infra_joint.runtime.resolver import BindingResolutionError
 from infra_joint.workflow.costing import ExecutionCostProfile
 
 
+class ConcurrentServiceProfile(ContractModel):
+    """Measured per-action service time at one worker-level concurrency."""
+
+    operator: str = Field(min_length=1)
+    concurrency: int = Field(ge=2)
+    agent_id: str = Field(default="*", min_length=1)
+    deployment_id: str | None = None
+    input_units: int | None = Field(default=None, ge=0)
+    unit_kind: str = Field(default="bytes", min_length=1)
+    service_latency_ms: float = Field(ge=0)
+    source: str = Field(min_length=1)
+
+
 class SelectedBindingPrediction(ContractModel):
     """Internal physical diagnostic, deliberately excluded from the logical view."""
 
     action_id: str = Field(min_length=1)
+    frontier_index: int = Field(ge=0)
     selected_agent_id: str = Field(min_length=1)
     selected_deployment_id: str | None = None
+    concurrency: int = Field(default=1, ge=1)
     transfer_bytes: int | None = Field(default=None, ge=0)
     transfer_latency_ms: float | None = Field(default=None, ge=0)
+    base_service_latency_ms: float | None = Field(default=None, ge=0)
     service_latency_ms: float | None = Field(default=None, ge=0)
     queue_latency_ms: float | None = Field(default=None, ge=0)
     total_latency_ms: float | None = Field(default=None, ge=0)
+    concurrency_profile_source: str | None = None
+
+
+class ConcurrentGroupPrediction(ContractModel):
+    """Internal worker-level concurrency group for one projected ready frontier."""
+
+    selected_agent_id: str = Field(min_length=1)
+    action_ids: tuple[str, ...] = Field(min_length=2)
+    deployment_ids: tuple[str, ...] = ()
+    concurrency: int = Field(ge=2)
+    profile_complete: bool
+
+
+class FrontierPrediction(ContractModel):
+    frontier_index: int = Field(ge=0)
+    action_ids: tuple[str, ...] = Field(min_length=1)
+    concurrency_groups: tuple[ConcurrentGroupPrediction, ...] = ()
+
+
+class ProjectedArtifactPrediction(ContractModel):
+    """Internal final projected artifact state for deterministic projection audits."""
+
+    artifact_id: str = Field(min_length=1)
+    media_type: str = Field(min_length=1)
+    size_bytes: int | None = Field(default=None, ge=0)
+    locations: tuple[str, ...]
 
 
 class WorkflowCostEvaluation(ContractModel):
     view: WorkflowPhysicalView
     selected_bindings: tuple[SelectedBindingPrediction, ...]
+    frontiers: tuple[FrontierPrediction, ...]
+    projected_artifacts: tuple[ProjectedArtifactPrediction, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,25 +107,23 @@ class _CandidateCost:
     transfer_latency_ms: float | None
     service_latency_ms: float | None
     queue_units: int
+    unknown_reasons: tuple[str, ...]
 
-    @property
-    def queue_latency_ms(self) -> float | None:
-        if self.service_latency_ms is None:
-            return None
-        return self.queue_units * self.service_latency_ms
 
-    @property
-    def total_latency_ms(self) -> float | None:
-        if self.transfer_latency_ms is None or self.service_latency_ms is None:
-            return None
-        queue = self.queue_latency_ms
-        if queue is None:
-            return None
-        return self.transfer_latency_ms + self.service_latency_ms + queue
+@dataclass(slots=True)
+class _FrontierAction:
+    action: LogicalAction
+    candidates: tuple[_CandidateCost, ...]
+    selection: PhysicalSelection | None
+    selected: _CandidateCost | None
+    profile: PendingActionPhysicalProfile
+    adjusted_service_latency_ms: float | None
+    concurrency: int = 1
+    concurrency_profile_source: str | None = None
 
 
 class SemanticWorkflowCostEvaluator:
-    """Predict AUTO execution from correlated costs for real feasible bindings."""
+    """Simulate pending ready frontiers using the real AUTO selection policy."""
 
     def __init__(
         self,
@@ -91,11 +133,13 @@ class SemanticWorkflowCostEvaluator:
         task: TaskContract,
         capabilities: StaticCapabilityContract,
         *,
+        concurrent_profiles: tuple[ConcurrentServiceProfile, ...] = (),
         scheduler: AutoPhysicalScheduler | None = None,
     ) -> None:
         self._environment = environment
         self._registry = registry
         self._profiles = profiles
+        self._concurrent_profiles = concurrent_profiles
         self._task = task
         self._capabilities = capabilities
         self._scheduler = scheduler or AutoPhysicalScheduler()
@@ -115,11 +159,7 @@ class SemanticWorkflowCostEvaluator:
         infrastructure: InfrastructureState,
     ) -> WorkflowCostEvaluation:
         state.validate_against(plan)
-        static = analyze_static_workflow(
-            plan,
-            self._task,
-            self._capabilities,
-        ).artifact_map()
+        static = analyze_static_workflow(plan, self._task, self._capabilities).artifact_map()
         runtime_artifacts = {item.artifact_id: item for item in infrastructure.artifacts}
         projected = {
             artifact_id: _ProjectedArtifact(
@@ -142,100 +182,182 @@ class SemanticWorkflowCostEvaluator:
             )
             for artifact_id, envelope in static.items()
         }
+        actions = plan.action_map()
+        declared_order = {item.action_id: index for index, item in enumerate(plan.actions)}
+        predecessors = _predecessors(plan)
         pending = set(state.pending_action_ids)
+        initial_pending_count = len(pending)
+        completed = set(state.completed_action_ids)
         profiles: list[PendingActionPhysicalProfile] = []
-        selected_predictions: list[SelectedBindingPrediction] = []
+        predictions: list[SelectedBindingPrediction] = []
+        frontier_predictions: list[FrontierPrediction] = []
         node_costs: dict[str, float] = {}
         unknown: set[str] = set()
+        frontier_index = 0
 
-        for action in _topological_actions(plan):
-            if action.action_id not in pending:
-                continue
-            projected_state = infrastructure.model_copy(
-                update={
-                    "artifacts": tuple(
-                        ArtifactRuntimeState(
-                            artifact_id=item.artifact_id,
-                            locations=item.locations,
-                            media_type=item.media_type,
-                            size_bytes=item.size_bytes,
-                        )
-                        for item in projected.values()
+        while pending:
+            ready_ids = sorted(
+                (
+                    action_id
+                    for action_id in pending
+                    if predecessors[action_id] <= completed
+                ),
+                key=declared_order.__getitem__,
+            )
+            if not ready_ids:
+                unknown.add("workflow_projection_stalled")
+                break
+
+            # Every selection and candidate estimate in this frontier uses this exact snapshot.
+            snapshot = _projected_state(infrastructure, projected)
+            frontier: list[_FrontierAction] = []
+            for action_id in ready_ids:
+                action = actions[action_id]
+                candidates = self._candidates(action, projected, snapshot)
+                try:
+                    selection = self._scheduler.select(
+                        action,
+                        semantic_action(action),
+                        self._environment,
+                        snapshot,
+                        self._registry,
                     )
-                }
-            )
-            candidates = self._candidates(action, projected, projected_state)
-            try:
-                selection = self._scheduler.select(
-                    action,
-                    semantic_action(action),
-                    self._environment,
-                    projected_state,
-                    self._registry,
+                except BindingResolutionError as exc:
+                    selection = None
+                    unknown.add(exc.code.value)
+                selected = _selected_cost(candidates, selection)
+                profile = self._profile(action, projected, candidates, selected, snapshot)
+                frontier.append(
+                    _FrontierAction(
+                        action=action,
+                        candidates=candidates,
+                        selection=selection,
+                        selected=selected,
+                        profile=profile,
+                        adjusted_service_latency_ms=(
+                            selected.service_latency_ms if selected is not None else None
+                        ),
+                    )
                 )
-            except BindingResolutionError as exc:
-                selection = None
-                unknown.add(exc.code.value)
-            selected = _selected_cost(candidates, selection)
-            profile = self._profile(
-                action,
-                projected,
-                candidates,
-                selected,
-                infrastructure,
+
+            groups = self._apply_concurrency_profiles(frontier, projected)
+            frontier_predictions.append(
+                FrontierPrediction(
+                    frontier_index=frontier_index,
+                    action_ids=tuple(ready_ids),
+                    concurrency_groups=groups,
+                )
             )
-            profiles.append(profile)
-            unknown.update(profile.unknown_reasons)
-            output_locations: tuple[str, ...] = ()
-            if selected is not None and selection is not None:
+            input_replicas: dict[str, set[str]] = defaultdict(set)
+            output_updates: dict[str, _ProjectedArtifact] = {}
+            for item in frontier:
+                profiles.append(item.profile)
+                unknown.update(item.profile.unknown_reasons)
+                if item.selection is None or item.selected is None:
+                    continue
+                selected = item.selected
+                service = item.adjusted_service_latency_ms
+                queue_latency = (
+                    selected.queue_units * service if service is not None else None
+                )
+                total = _total_latency(
+                    selected.transfer_latency_ms,
+                    service,
+                    queue_latency,
+                )
                 prediction = SelectedBindingPrediction(
-                    action_id=action.action_id,
-                    selected_agent_id=selection.selected_agent_id,
-                    selected_deployment_id=selection.selected_deployment_id,
+                    action_id=item.action.action_id,
+                    frontier_index=frontier_index,
+                    selected_agent_id=item.selection.selected_agent_id,
+                    selected_deployment_id=item.selection.selected_deployment_id,
+                    concurrency=item.concurrency,
                     transfer_bytes=selected.transfer_bytes,
                     transfer_latency_ms=selected.transfer_latency_ms,
-                    service_latency_ms=selected.service_latency_ms,
-                    queue_latency_ms=selected.queue_latency_ms,
-                    total_latency_ms=selected.total_latency_ms,
+                    base_service_latency_ms=selected.service_latency_ms,
+                    service_latency_ms=service,
+                    queue_latency_ms=queue_latency,
+                    total_latency_ms=total,
+                    concurrency_profile_source=item.concurrency_profile_source,
                 )
-                selected_predictions.append(prediction)
-                if prediction.total_latency_ms is not None:
-                    node_costs[action.action_id] = prediction.total_latency_ms
-                output_locations = (selection.selected_agent_id,)
-            for output in action.outputs:
-                envelope = static[output.artifact_id]
-                projected[output.artifact_id] = _ProjectedArtifact(
-                    artifact_id=output.artifact_id,
-                    media_type=envelope.media_type,
-                    size_bytes=envelope.size_upper_bound_bytes,
-                    locations=output_locations,
-                )
+                predictions.append(prediction)
+                if total is not None:
+                    node_costs[item.action.action_id] = total
+                target = item.selection.selected_agent_id
+                for artifact_id in item.action.inputs:
+                    input_replicas[artifact_id].add(target)
+                for output in item.action.outputs:
+                    envelope = static[output.artifact_id]
+                    output_updates[output.artifact_id] = _ProjectedArtifact(
+                        artifact_id=output.artifact_id,
+                        media_type=envelope.media_type,
+                        size_bytes=envelope.size_upper_bound_bytes,
+                        locations=(target,),
+                    )
 
-        complete = len(node_costs) == len(profiles)
+            # Runtime localization replicas and outputs become visible only after the whole
+            # gather-style frontier completes. Siblings never observe each other's updates.
+            for artifact_id, targets in input_replicas.items():
+                artifact = projected[artifact_id]
+                projected[artifact_id] = _ProjectedArtifact(
+                    artifact_id=artifact.artifact_id,
+                    media_type=artifact.media_type,
+                    size_bytes=artifact.size_bytes,
+                    locations=tuple(sorted(set(artifact.locations) | targets)),
+                )
+            projected.update(output_updates)
+            pending.difference_update(ready_ids)
+            completed.update(ready_ids)
+            frontier_index += 1
+
+        complete = (
+            len(profiles) == initial_pending_count
+            and len(predictions) == initial_pending_count
+            and len(node_costs) == initial_pending_count
+        )
         view = WorkflowPhysicalView(
             plan_version=plan.version,
             pending_action_profiles=tuple(profiles),
-            predicted_transfer_bytes=_sum_int(
-                item.transfer_bytes for item in selected_predictions
+            predicted_transfer_bytes=(
+                _sum_int(item.transfer_bytes for item in predictions)
+                if len(predictions) == initial_pending_count
+                else None
             ),
-            predicted_transfer_latency_ms=_sum_float(
-                item.transfer_latency_ms for item in selected_predictions
+            predicted_transfer_latency_ms=(
+                _sum_float(item.transfer_latency_ms for item in predictions)
+                if len(predictions) == initial_pending_count
+                else None
             ),
-            predicted_service_latency_ms=_sum_float(
-                item.service_latency_ms for item in selected_predictions
+            predicted_service_latency_ms=(
+                _sum_float(item.service_latency_ms for item in predictions)
+                if len(predictions) == initial_pending_count
+                else None
             ),
-            predicted_queue_latency_ms=_sum_float(
-                item.queue_latency_ms for item in selected_predictions
+            predicted_queue_latency_ms=(
+                _sum_float(item.queue_latency_ms for item in predictions)
+                if len(predictions) == initial_pending_count
+                else None
             ),
             predicted_critical_path_ms=(
-                _critical_path(plan, pending, node_costs) if complete else None
+                _critical_path(plan, set(state.pending_action_ids), node_costs)
+                if complete
+                else None
             ),
-            predicted_total_work_ms=sum(node_costs.values()) if complete else None,
+            predicted_total_work_ms=(sum(node_costs.values()) if complete else None),
             unknown_reasons=tuple(sorted(unknown)),
         )
         return WorkflowCostEvaluation(
             view=view,
-            selected_bindings=tuple(selected_predictions),
+            selected_bindings=tuple(predictions),
+            frontiers=tuple(frontier_predictions),
+            projected_artifacts=tuple(
+                ProjectedArtifactPrediction(
+                    artifact_id=item.artifact_id,
+                    media_type=item.media_type,
+                    size_bytes=item.size_bytes,
+                    locations=item.locations,
+                )
+                for item in projected.values()
+            ),
         )
 
     def _candidates(
@@ -279,41 +401,59 @@ class SemanticWorkflowCostEvaluator:
         deployment_id: str | None,
     ) -> _CandidateCost:
         remote = 0
+        remote_known = True
         transfer_bytes = 0
+        transfer_bytes_known = True
         transfer_latency = 0.0
-        complete_transfer = True
+        transfer_latency_known = True
+        reasons: set[str] = set()
         for artifact_id in action.inputs:
             artifact = artifacts[artifact_id]
+            if not artifact.locations:
+                remote_known = False
+                transfer_bytes_known = False
+                transfer_latency_known = False
+                reasons.add("future_artifact_location_unknown")
+                continue
             if agent_id in artifact.locations:
                 continue
             remote += 1
-            if artifact.size_bytes is None or not artifact.locations:
-                complete_transfer = False
+            if artifact.size_bytes is None:
+                transfer_bytes_known = False
+                transfer_latency_known = False
+                reasons.add("future_artifact_size_unknown")
                 continue
-            route = _best_transfer(
+            transfer_bytes += artifact.size_bytes
+            route = _runtime_transfer_latency(
                 artifact.locations,
                 agent_id,
                 artifact.size_bytes,
                 infrastructure,
+                self._environment,
             )
             if route is None:
-                complete_transfer = False
-                continue
-            transfer_bytes += artifact.size_bytes
-            transfer_latency += route
+                transfer_latency_known = False
+                reasons.add("transfer_route_unknown")
+            else:
+                transfer_latency += route
         input_bytes = _sum_int(artifacts[item].size_bytes for item in action.inputs)
         operator = "invoke_model" if isinstance(action, LogicalModelAction) else action.operator
         service = self._matching_profile(operator, agent_id, deployment_id, input_bytes)
+        if service is None:
+            reasons.add("service_profile_unavailable")
         runtime = next(item for item in infrastructure.agents if item.agent_id == agent_id)
         queue = runtime.queue_depth if runtime.queue_depth is not None else runtime.in_flight
         return _CandidateCost(
             agent_id=agent_id,
             deployment_id=deployment_id,
-            remote_inputs=remote if complete_transfer else None,
-            transfer_bytes=transfer_bytes if complete_transfer else None,
-            transfer_latency_ms=transfer_latency if complete_transfer else None,
+            remote_inputs=remote if remote_known else None,
+            transfer_bytes=transfer_bytes if transfer_bytes_known else None,
+            transfer_latency_ms=(
+                transfer_latency if transfer_latency_known and transfer_bytes_known else None
+            ),
             service_latency_ms=service.service_latency_ms if service is not None else None,
             queue_units=queue,
+            unknown_reasons=tuple(sorted(reasons)),
         )
 
     def _profile(
@@ -334,15 +474,11 @@ class SemanticWorkflowCostEvaluator:
         service = [
             item.service_latency_ms for item in candidates if item.service_latency_ms is not None
         ]
-        reasons: list[str] = []
+        reasons = {reason for item in candidates for reason in item.unknown_reasons}
         if input_bytes is None:
-            reasons.append("predicted input size unavailable")
+            reasons.add("future_artifact_size_unknown")
         if not candidates:
-            reasons.append("no feasible candidates")
-        if len(remote) != len(candidates):
-            reasons.append("future input locality or route unavailable")
-        if len(service) != len(candidates):
-            reasons.append("one or more service profiles unavailable")
+            reasons.add("no_feasible_candidates")
         if selected is None or selected.remote_inputs is None:
             network_class: NetworkClass = "unknown"
         elif selected.remote_inputs == 0:
@@ -364,8 +500,82 @@ class SemanticWorkflowCostEvaluator:
             service_latency_ms_range=_range(service),
             queue_pressure_range=_range([item.queue_units for item in candidates]),
             network_class=network_class,
-            unknown_reasons=tuple(reasons),
+            unknown_reasons=tuple(sorted(reasons)),
         )
+
+    def _apply_concurrency_profiles(
+        self,
+        frontier: list[_FrontierAction],
+        artifacts: dict[str, _ProjectedArtifact],
+    ) -> tuple[ConcurrentGroupPrediction, ...]:
+        by_target: dict[str, list[_FrontierAction]] = defaultdict(list)
+        for item in frontier:
+            if item.selection is not None and item.selected is not None:
+                by_target[item.selection.selected_agent_id].append(item)
+        predictions: list[ConcurrentGroupPrediction] = []
+        for agent_id, group in sorted(by_target.items()):
+            concurrency = len(group)
+            if concurrency < 2:
+                continue
+            complete = True
+            sources: list[str] = []
+            for item in group:
+                item.concurrency = concurrency
+                selected = item.selected
+                if selected is None:
+                    complete = False
+                    continue
+                operator = (
+                    "invoke_model"
+                    if isinstance(item.action, LogicalModelAction)
+                    else item.action.operator
+                )
+                input_bytes = _sum_int(
+                    artifacts[artifact_id].size_bytes for artifact_id in item.action.inputs
+                )
+                profile = self._matching_concurrent_profile(
+                    operator,
+                    agent_id,
+                    selected.deployment_id,
+                    input_bytes,
+                    concurrency,
+                )
+                if profile is None:
+                    complete = False
+                    item.adjusted_service_latency_ms = None
+                    item.profile = item.profile.model_copy(
+                        update={
+                            "unknown_reasons": tuple(
+                                sorted(
+                                    set(item.profile.unknown_reasons)
+                                    | {"concurrent_service_profile_unavailable"}
+                                )
+                            )
+                        }
+                    )
+                else:
+                    item.adjusted_service_latency_ms = profile.service_latency_ms
+                    item.concurrency_profile_source = profile.source
+                    sources.append(profile.source)
+            predictions.append(
+                ConcurrentGroupPrediction(
+                    selected_agent_id=agent_id,
+                    action_ids=tuple(item.action.action_id for item in group),
+                    deployment_ids=tuple(
+                        sorted(
+                            {
+                                item.selection.selected_deployment_id
+                                for item in group
+                                if item.selection is not None
+                                and item.selection.selected_deployment_id is not None
+                            }
+                        )
+                    ),
+                    concurrency=concurrency,
+                    profile_complete=complete and len(sources) == concurrency,
+                )
+            )
+        return tuple(predictions)
 
     def _matching_profile(
         self,
@@ -390,6 +600,37 @@ class SemanticWorkflowCostEvaluator:
             matches,
             key=lambda item: (
                 item.agent_id != agent_id,
+                abs((item.input_units or 0) - (input_bytes or 0)),
+                item.service_latency_ms,
+            ),
+        )
+
+    def _matching_concurrent_profile(
+        self,
+        operator: str,
+        agent_id: str,
+        deployment_id: str | None,
+        input_bytes: int | None,
+        concurrency: int,
+    ) -> ConcurrentServiceProfile | None:
+        matches = [
+            item
+            for item in self._concurrent_profiles
+            if item.operator == operator
+            and item.concurrency == concurrency
+            and item.agent_id in {agent_id, "*"}
+            and (
+                item.deployment_id is None
+                or item.deployment_id == deployment_id
+            )
+        ]
+        if not matches:
+            return None
+        return min(
+            matches,
+            key=lambda item: (
+                item.agent_id != agent_id,
+                item.deployment_id != deployment_id,
                 abs((item.input_units or 0) - (input_bytes or 0)),
                 item.service_latency_ms,
             ),
@@ -430,46 +671,62 @@ def _selected_cost(
     )
 
 
-def _best_transfer(
+def _projected_state(
+    infrastructure: InfrastructureState,
+    artifacts: dict[str, _ProjectedArtifact],
+) -> InfrastructureState:
+    return infrastructure.model_copy(
+        update={
+            "artifacts": tuple(
+                ArtifactRuntimeState(
+                    artifact_id=item.artifact_id,
+                    locations=item.locations,
+                    media_type=item.media_type,
+                    size_bytes=item.size_bytes,
+                )
+                for item in artifacts.values()
+            )
+        }
+    )
+
+
+def _runtime_transfer_latency(
     sources: tuple[str, ...],
     target: str,
     size_bytes: int,
     infrastructure: InfrastructureState,
+    environment: EnvironmentSpec,
 ) -> float | None:
-    estimates = [
-        item.rtt_ms + size_bytes * 8 / (item.bandwidth_mbps * 1_000_000) * 1000
-        for item in infrastructure.links
-        if item.available
-        and item.source_agent_id in sources
-        and item.target_agent_id == target
-        and item.rtt_ms is not None
-        and item.bandwidth_mbps is not None
-    ]
-    return min(estimates) if estimates else None
-
-
-def _topological_actions(plan: SemanticWorkflowPlan) -> tuple[LogicalAction, ...]:
-    actions = plan.action_map()
-    declared = {item.action_id: index for index, item in enumerate(plan.actions)}
-    indegree = dict.fromkeys(actions, 0)
-    successors: dict[str, list[str]] = defaultdict(list)
-    for edge in plan.dependencies:
-        indegree[edge.consumer_action_id] += 1
-        successors[edge.producer_action_id].append(edge.consumer_action_id)
-    ready = sorted(
-        (action_id for action_id, count in indegree.items() if count == 0),
-        key=declared.__getitem__,
+    # RuntimeExecutor chooses the lexicographically first configured source, not the fastest link.
+    configured_agents = {item.agent_id for item in environment.agents}
+    source_candidates = sorted(set(sources) & configured_agents)
+    if not source_candidates:
+        return None
+    source = source_candidates[0]
+    link = next(
+        (
+            item
+            for item in infrastructure.links
+            if item.available
+            and item.source_agent_id == source
+            and item.target_agent_id == target
+            and item.bandwidth_mbps is not None
+            and item.rtt_ms is not None
+        ),
+        None,
     )
-    result: list[LogicalAction] = []
-    while ready:
-        action_id = ready.pop(0)
-        result.append(actions[action_id])
-        for successor in successors[action_id]:
-            indegree[successor] -= 1
-            if indegree[successor] == 0:
-                ready.append(successor)
-                ready.sort(key=declared.__getitem__)
-    return tuple(result)
+    if link is None or link.bandwidth_mbps is None or link.rtt_ms is None:
+        return None
+    return link.rtt_ms + size_bytes * 8 / (link.bandwidth_mbps * 1_000_000) * 1000
+
+
+def _predecessors(plan: SemanticWorkflowPlan) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = {
+        item.action_id: set() for item in plan.actions
+    }
+    for edge in plan.dependencies:
+        result[edge.consumer_action_id].add(edge.producer_action_id)
+    return result
 
 
 def _critical_path(
@@ -477,27 +734,42 @@ def _critical_path(
     pending: set[str],
     node_cost: dict[str, float],
 ) -> float:
-    predecessors: dict[str, set[str]] = defaultdict(set)
-    for edge in plan.dependencies:
-        if edge.consumer_action_id in pending and edge.producer_action_id in pending:
-            predecessors[edge.consumer_action_id].add(edge.producer_action_id)
+    predecessors = _predecessors(plan)
     distances: dict[str, float] = {}
     unresolved = set(pending)
     while unresolved:
         ready = sorted(
             action_id
             for action_id in unresolved
-            if predecessors[action_id] <= distances.keys()
+            if (predecessors[action_id] & pending) <= distances.keys()
         )
         if not ready:
-            return 0.0
+            raise ValueError("cannot compute critical path for a cyclic pending workflow")
         for action_id in ready:
             distances[action_id] = node_cost[action_id] + max(
-                (distances[item] for item in predecessors[action_id]),
+                (
+                    distances[item]
+                    for item in predecessors[action_id]
+                    if item in pending
+                ),
                 default=0.0,
             )
             unresolved.remove(action_id)
     return max(distances.values(), default=0.0)
+
+
+def _total_latency(
+    transfer_latency_ms: float | None,
+    service_latency_ms: float | None,
+    queue_latency_ms: float | None,
+) -> float | None:
+    if (
+        transfer_latency_ms is None
+        or service_latency_ms is None
+        or queue_latency_ms is None
+    ):
+        return None
+    return transfer_latency_ms + service_latency_ms + queue_latency_ms
 
 
 def _range[T: int | float](values: list[T]) -> tuple[T, T] | None:

@@ -147,6 +147,7 @@ async def test_adaptive_runner_reuses_frozen_prior_and_original_evaluator(
             KeepWorkflowPolicy(),
             ("invoke_model",),
             prior_store=prior_store,
+            require_frozen_prior=False,
             worker_clients=worker_clients,
         ).run(bundle, run_id="formal-run")
         missing = await AdaptiveWorkflowBenchmarkRunner(
@@ -155,7 +156,6 @@ async def test_adaptive_runner_reuses_frozen_prior_and_original_evaluator(
             KeepWorkflowPolicy(),
             ("invoke_model",),
             prior_store=PriorWorkflowStore(tmp_path / "missing-priors"),
-            require_frozen_prior=True,
             worker_clients=worker_clients,
         ).run(bundle, run_id="formal-missing-prior")
 

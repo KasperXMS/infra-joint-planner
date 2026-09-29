@@ -28,6 +28,7 @@ from infra_joint.control.prior import (
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.control.workflow import canonical_sha256
 from infra_joint.control.workflow_cost import (
+    ConcurrentServiceProfile,
     ObservedWorkflowProfileProvider,
     SemanticWorkflowCostEvaluator,
 )
@@ -77,9 +78,10 @@ class AdaptiveWorkflowBenchmarkRunner:
         available_operations: tuple[str, ...],
         *,
         prior_store: PriorWorkflowStore,
-        require_frozen_prior: bool = False,
+        require_frozen_prior: bool = True,
         worker_clients: dict[str, WorkerClient] | None = None,
         cost_profiles: tuple[ExecutionCostProfile, ...] = (),
+        concurrent_service_profiles: tuple[ConcurrentServiceProfile, ...] = (),
     ) -> None:
         self._config = config
         self._prior_generator = prior_generator
@@ -89,6 +91,7 @@ class AdaptiveWorkflowBenchmarkRunner:
         self._require_frozen_prior = require_frozen_prior
         self._worker_clients = worker_clients
         self._cost_profiles = cost_profiles
+        self._concurrent_service_profiles = concurrent_service_profiles
 
     async def run(
         self,
@@ -160,6 +163,7 @@ class AdaptiveWorkflowBenchmarkRunner:
                             self._cost_profiles,
                             task,
                             capabilities,
+                            concurrent_profiles=self._concurrent_service_profiles,
                         ),
                     ),
                     self._adapter,
