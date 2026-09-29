@@ -232,11 +232,13 @@ async def run_all(
                 model=sdk_model,
                 registry=registry,
                 available_operations=operations,
+                structured_output=False,
             )
             subagents = OpenAIAgentsSubagentFactory(
                 model=sdk_model,
                 registry=registry,
                 available_operations=operations,
+                structured_output=False,
             )
             result = await ControlPlaneBenchmarkRunner(
                 config,

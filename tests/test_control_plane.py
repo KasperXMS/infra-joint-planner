@@ -334,6 +334,69 @@ async def test_openai_agents_adapter_emits_only_logical_decisions(monkeypatch) -
 
 
 @pytest.mark.asyncio
+async def test_openai_agents_adapter_supports_strict_text_json(monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    class FakeAgent:
+        def __init__(self, **kwargs) -> None:
+            captured.update(kwargs)
+
+    class FakeRunner:
+        @staticmethod
+        async def run(agent, input: str):
+            captured["input"] = input
+            return SimpleNamespace(
+                final_output=json.dumps(
+                    {
+                        "decision": {
+                            "decision_type": "continue",
+                            "rationale": "take a model step",
+                            "actions": [
+                                {
+                                    "action_type": "model",
+                                    "action_id": "answer",
+                                    "owner_agent_id": "manager",
+                                    "prompt": "answer",
+                                }
+                            ],
+                        }
+                    }
+                )
+            )
+
+    monkeypatch.setitem(
+        sys.modules,
+        "agents",
+        SimpleNamespace(Agent=FakeAgent, Runner=FakeRunner),
+    )
+    decision = await OpenAIAgentsManagerPolicy(
+        name="manager",
+        instructions="Solve.",
+        model="planner-model",
+        registry=build_operator_catalog(),
+        available_operations=("invoke_model",),
+        structured_output=False,
+    ).decide(
+        ManagerContext(
+            task=AgentTaskView.from_contract(task()),
+            agent=LogicalAgentSpec(
+                logical_agent_id="manager",
+                role="manager",
+                objective="solve",
+            ),
+            assigned_artifacts=("source",),
+            unresolved_requirements=("solve",),
+            observations=(),
+            subagent_results=(),
+            workflow=WorkflowGraphSnapshot(version=0, nodes=(), edges=()),
+        )
+    )
+    assert isinstance(decision, ContinueDecision)
+    assert captured["output_type"] is str
+    assert "decision_json_schema" in str(captured["input"])
+
+
+@pytest.mark.asyncio
 async def test_persistent_manager_subagent_gateway_and_trace_smoke() -> None:
     registry = build_operator_catalog()
     backend = QueueBackend(["bounded evidence", "terminal answer"])

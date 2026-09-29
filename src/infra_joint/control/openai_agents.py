@@ -42,10 +42,12 @@ class OpenAIAgentsManagerPolicy:
         model: object,
         registry: OperatorRegistry,
         available_operations: Iterable[str],
+        structured_output: bool = True,
     ) -> None:
         self._name = name
         self._instructions = instructions
         self._model = model
+        self._structured_output = structured_output
         allowed = frozenset(available_operations)
         self._tools = tuple(
             spec.model_dump(mode="json")
@@ -59,10 +61,14 @@ class OpenAIAgentsManagerPolicy:
             name=self._name,
             instructions=self._system_instructions(),
             model=self._model,
-            output_type=_DecisionEnvelope,
+            output_type=_DecisionEnvelope if self._structured_output else str,
         )
         result = await runner.run(agent, input=self._input(context))
         output = getattr(result, "final_output", None)
+        if not self._structured_output:
+            if not isinstance(output, str):
+                raise TypeError("Agents SDK returned a non-text manager decision")
+            output = json.loads(output)
         envelope = (
             output
             if isinstance(output, _DecisionEnvelope)
@@ -79,6 +85,14 @@ class OpenAIAgentsManagerPolicy:
             "LogicalModelAction requirements, never a deployment/model instance/worker/device/IP/"
             "route/placement. Finish only by citing your own successful model action. A manager "
             "may create bounded specialists as subagent_calls and retains final-answer ownership."
+            + (
+                ""
+                if self._structured_output
+                else (
+                    " Return exactly one JSON object matching decision_json_schema; "
+                    "do not use markdown fences."
+                )
+            )
         )
 
     def _input(self, context: ManagerContext) -> str:
@@ -86,6 +100,8 @@ class OpenAIAgentsManagerPolicy:
             "context": context.model_dump(mode="json"),
             "finite_operator_contracts": self._tools,
         }
+        if not self._structured_output:
+            payload["decision_json_schema"] = _DecisionEnvelope.model_json_schema()
         return json.dumps(payload, ensure_ascii=False, sort_keys=True)
 
 
@@ -97,10 +113,12 @@ class OpenAIAgentsSubagentFactory(SubagentPolicyFactory):
         model: object,
         registry: OperatorRegistry,
         available_operations: Iterable[str],
+        structured_output: bool = True,
     ) -> None:
         self._model = model
         self._registry = registry
         self._available_operations = tuple(available_operations)
+        self._structured_output = structured_output
 
     def create(self, call: SubagentCall) -> ManagerPolicy:
         return OpenAIAgentsManagerPolicy(
@@ -112,6 +130,7 @@ class OpenAIAgentsSubagentFactory(SubagentPolicyFactory):
             model=self._model,
             registry=self._registry,
             available_operations=self._available_operations,
+            structured_output=self._structured_output,
         )
 
 
