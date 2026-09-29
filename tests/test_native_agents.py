@@ -181,6 +181,20 @@ class FakePhysicalService:
         )
 
 
+class CancelOncePhysicalService(FakePhysicalService):
+    def __init__(self) -> None:
+        super().__init__()
+        self.started = asyncio.Event()
+        self._block_once = True
+
+    async def execute(self, action: object, *, expose_profile: bool) -> PhysicalExecutionOutcome:
+        if self._block_once:
+            self._block_once = False
+            self.started.set()
+            await asyncio.Event().wait()
+        return await super().execute(action, expose_profile=expose_profile)
+
+
 def benchmark_task(*, shards: int = 1) -> TaskContract:
     return TaskContract(
         task_id="native-smoke",
@@ -300,6 +314,86 @@ async def test_native_function_tools_cross_gateway_and_recover_from_typed_failur
         "invoke_model" if isinstance(item, LogicalModelAction) else item.operator
         for item in physical.actions
     ] == ["read_artifact", "invoke_model"]
+
+
+@pytest.mark.asyncio
+async def test_malformed_native_tool_arguments_return_typed_failure() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    runtime, gateway = runtime_and_gateway(task, physical, ("read_artifact", "invoke_model"))
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        failure = await tool(agent, "read_artifact").on_invoke_tool(
+            tool_context(agent, context, "malformed"),
+            '{"inputs":["source-0"]}{"arguments":{}}',
+        )
+        assert json.loads(failure)["failure_code"] == "semantic_validation_failed"
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+
+    assert result.final_answer == "A"
+    assert result.observations[0].action_id == "manager:malformed"
+    assert not result.observations[0].succeeded
+
+
+@pytest.mark.asyncio
+async def test_cancelled_native_tool_call_closes_running_graph_node() -> None:
+    task = benchmark_task()
+    physical = CancelOncePhysicalService()
+    runtime, gateway = runtime_and_gateway(task, physical, ("read_artifact", "invoke_model"))
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        pending = asyncio.create_task(
+            tool(agent, "read_artifact").on_invoke_tool(
+                tool_context(agent, context, "cancelled"),
+                json.dumps({"inputs": ["source-0"], "arguments": {}}),
+            )
+        )
+        await physical.started.wait()
+        pending.cancel()
+        with pytest.raises(asyncio.CancelledError):
+            await pending
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+
+    cancelled = next(
+        item for item in result.observations if item.action_id == "manager:cancelled"
+    )
+    assert cancelled.failure_code == "action_cancelled"
+    statuses = {
+        item.action_id: item.status for item in result.graph_snapshots[-1].nodes
+    }
+    assert statuses == {"manager:cancelled": "failed", "manager:answer": "succeeded"}
 
 
 @pytest.mark.asyncio

@@ -518,12 +518,21 @@ class OpenAIAgentsNativeRuntime:
         spec: OperatorSpec,
         input_json: str,
     ) -> str:
-        payload = cast(dict[str, object], json.loads(input_json))
-        inputs = tuple(str(item) for item in cast(list[object], payload.get("inputs", [])))
-        arguments = cast(dict[str, Any], payload.get("arguments", {}))
         owner = _logical_owner(context, state.root_agent.logical_agent_id)
         call_id = str(getattr(context, "tool_call_id", f"call-{len(state.actions) + 1}"))
         action_id = f"{owner}:{call_id}"
+        try:
+            payload = cast(dict[str, object], json.loads(input_json))
+        except (json.JSONDecodeError, TypeError) as exc:
+            return self._record_logical_failure(
+                state,
+                action_id,
+                owner,
+                "semantic_validation_failed",
+                f"invalid SDK tool arguments: {exc}",
+            )
+        inputs = tuple(str(item) for item in cast(list[object], payload.get("inputs", [])))
+        arguments = cast(dict[str, Any], payload.get("arguments", {}))
         try:
             action = _logical_action(spec, action_id, owner, inputs, arguments, payload)
         except (ValueError, TypeError) as exc:
@@ -598,9 +607,32 @@ class OpenAIAgentsNativeRuntime:
                 },
             )
 
-        outcomes = await state.gateway.execute_batch(
-            (action,), expose_profile=state.visibility == ProfileVisibility.AWARE
-        )
+        try:
+            outcomes = await state.gateway.execute_batch(
+                (action,), expose_profile=state.visibility == ProfileVisibility.AWARE
+            )
+        except asyncio.CancelledError:
+            await self._close_interrupted_action(
+                state,
+                action_id=action_id,
+                owner=owner,
+                batch_id=batch_id,
+                decision_id=decision_id,
+                code="action_cancelled",
+                message="SDK cancelled the in-flight tool call",
+            )
+            raise
+        except Exception as exc:
+            await self._close_interrupted_action(
+                state,
+                action_id=action_id,
+                owner=owner,
+                batch_id=batch_id,
+                decision_id=decision_id,
+                code="physical_execution_failed",
+                message=f"unrecoverable physical execution error: {type(exc).__name__}",
+            )
+            raise
         outcome = outcomes[0]
         observation = outcome.observation
         async with state.state_lock:
@@ -628,6 +660,42 @@ class OpenAIAgentsNativeRuntime:
                 },
             )
         return observation.model_dump_json(exclude_none=True)
+
+    async def _close_interrupted_action(
+        self,
+        state: _NativeState,
+        *,
+        action_id: str,
+        owner: str,
+        batch_id: str,
+        decision_id: str,
+        code: str,
+        message: str,
+    ) -> None:
+        observation = LogicalObservation(
+            action_id=action_id,
+            owner_agent_id=owner,
+            succeeded=False,
+            failure_code=code,
+            failure_message=message,
+        )
+        async with state.state_lock:
+            state.observations.append(observation)
+            finished = state.graph.mark_finished((), (action_id,))
+            state.emit("workflow.graph.snapshot", finished.model_dump(mode="json"))
+            state.emit("logical.observation", observation.model_dump(mode="json"))
+            state.emit(
+                "logical.batch.completed",
+                {
+                    "batch_id": batch_id,
+                    "decision_id": decision_id,
+                    "logical_agent_id": owner,
+                    "action_ids": [action_id],
+                    "succeeded_action_ids": [],
+                    "failed_action_ids": [action_id],
+                    "agent_state": "ready_for_reasoning",
+                },
+            )
 
     def _record_logical_failure(
         self,
