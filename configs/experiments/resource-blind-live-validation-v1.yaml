@@ -1,5 +1,5 @@
 experiment_id: resource-blind-live-validation-v1
-source_experiment_config: configs/experiments/blind-baseline-6task-competent-v2.yaml
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
 tasks:
   - video-cross-temporal
   - longbench-multidoc
@@ -23,4 +23,3 @@ execution:
   repetitions: 1
   retry: false
   replacement: false
-
