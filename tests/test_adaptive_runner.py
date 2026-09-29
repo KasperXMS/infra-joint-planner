@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import httpx
@@ -15,7 +16,13 @@ from infra_joint.config import PlannerConfig, RunnerConfig, StaticBackendConfig
 from infra_joint.control.adaptation import KeepWorkflowPolicy
 from infra_joint.control.adaptive_runner import AdaptiveWorkflowBenchmarkRunner
 from infra_joint.control.contracts import ExecutionRequirements, LogicalModelAction
-from infra_joint.control.prior import PriorWorkflowStore, StaticPriorWorkflowGenerator
+from infra_joint.control.prior import (
+    LLMPriorWorkflowGenerator,
+    PriorAttemptStore,
+    PriorWorkflowDraft,
+    PriorWorkflowStore,
+    StaticPriorWorkflowGenerator,
+)
 from infra_joint.control.workflow import SemanticWorkflowPlan
 from infra_joint.core.state import (
     AgentSpec,
@@ -136,6 +143,38 @@ async def test_adaptive_runner_reuses_frozen_prior_and_original_evaluator(
         },
     )
     prior_store = PriorWorkflowStore(tmp_path / "prior_workflows")
+    llm_attempts = PriorAttemptStore(tmp_path / "prior_attempts")
+    llm_generator = LLMPriorWorkflowGenerator(
+        StaticModelBackend(
+            PriorWorkflowDraft(
+                actions=plan.actions,
+                dependencies=plan.dependencies,
+                terminal_action_id=plan.terminal_action_id,
+            ).model_dump_json()
+        ),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=llm_attempts,
+    )
+    llm_store = PriorWorkflowStore(tmp_path / "llm_prior_workflows")
+    prepared = await AdaptiveWorkflowBenchmarkRunner(
+        config,
+        llm_generator,
+        KeepWorkflowPolicy(),
+        ("invoke_model",),
+        prior_store=llm_store,
+        require_frozen_prior=True,
+    ).prepare_prior_workflow(bundle)
+    assert prepared.plan.version == 0
+    assert prepared.plan.workflow_id.startswith("prior-")
+    attempt = next((tmp_path / "prior_attempts" / task.task_id).iterdir())
+    validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert validation["attempt_status"] == "frozen_success"
+    assert validation["plan_sha256"] == prepared.plan_sha256
+    assert Path(validation["frozen_prior_path"]) == llm_store.path_for(task.task_id)
+    assert (attempt / "raw_completion.txt").exists()
+    assert (attempt / "draft.json").exists()
+    assert (attempt / "constructed-g0.json").exists()
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=app),
         base_url="http://worker",

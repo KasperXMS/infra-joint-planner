@@ -22,6 +22,7 @@ from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.physical import PhysicalExecutionService, PhysicalProfiler
 from infra_joint.control.prior import (
     FrozenPriorWorkflow,
+    PriorAttemptStore,
     PriorWorkflowGenerator,
     PriorWorkflowStore,
 )
@@ -235,6 +236,7 @@ class AdaptiveWorkflowBenchmarkRunner:
         generation = await self._prior_generator.generate(
             bundle.execution.task,
             capabilities,
+            public_bundle_sha256=self._public_bundle_hash(bundle),
         )
         expected = self._prior_generator.provenance(bundle.execution.task, capabilities)
         if generation.provenance != expected:
@@ -245,7 +247,13 @@ class AdaptiveWorkflowBenchmarkRunner:
             capabilities=capabilities,
             public_bundle_sha256=self._public_bundle_hash(bundle),
         )
-        self._prior_store.save(frozen)
+        frozen_path = self._prior_store.save(frozen)
+        if generation.attempt is not None:
+            PriorAttemptStore.persist_frozen_success(
+                generation.attempt,
+                generation.plan,
+                frozen_path,
+            )
         return frozen
 
     async def _resolve_prior(
@@ -264,7 +272,11 @@ class AdaptiveWorkflowBenchmarkRunner:
             raise FileNotFoundError(
                 f"formal experiment requires a frozen prior workflow: {prior_path}"
             )
-        generation = await self._prior_generator.generate(task, capabilities)
+        generation = await self._prior_generator.generate(
+            task,
+            capabilities,
+            public_bundle_sha256=bundle_hash,
+        )
         if generation.provenance != expected:
             raise ValueError("prior generator returned inconsistent provenance")
         frozen = FrozenPriorWorkflow.create(
@@ -273,7 +285,13 @@ class AdaptiveWorkflowBenchmarkRunner:
             capabilities=capabilities,
             public_bundle_sha256=bundle_hash,
         )
-        self._prior_store.save(frozen)
+        frozen_path = self._prior_store.save(frozen)
+        if generation.attempt is not None:
+            PriorAttemptStore.persist_frozen_success(
+                generation.attempt,
+                generation.plan,
+                frozen_path,
+            )
         return frozen
 
     async def _materialize(

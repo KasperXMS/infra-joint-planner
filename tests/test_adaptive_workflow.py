@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from datetime import UTC, datetime
+from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
@@ -29,6 +30,8 @@ from infra_joint.control.physical import (
 from infra_joint.control.prior import (
     FrozenPriorWorkflow,
     LLMPriorWorkflowGenerator,
+    PriorAttemptStore,
+    PriorWorkflowDraft,
     PriorWorkflowStore,
     StaticPriorWorkflowGenerator,
 )
@@ -104,6 +107,12 @@ class CapturingBackend:
                 finish_reason="stop",
             ),
         )
+
+
+class FailingBackend:
+    async def invoke(self, request: ModelRequest) -> ModelCompletion:
+        del request
+        raise RuntimeError("backend unavailable")
 
 
 class FixedProfileProvider:
@@ -343,6 +352,15 @@ def direct_plan() -> SemanticWorkflowPlan:
     )
 
 
+def prior_draft(plan: SemanticWorkflowPlan | None = None) -> PriorWorkflowDraft:
+    source = plan or direct_plan()
+    return PriorWorkflowDraft(
+        actions=source.actions,
+        dependencies=source.dependencies,
+        terminal_action_id=source.terminal_action_id,
+    )
+
+
 def reduction_patch() -> WorkflowPatch:
     return WorkflowPatch(
         patch_id="prefer-near-data-reduction",
@@ -405,20 +423,223 @@ def test_static_prior_and_persistence_reuse_same_g0(tmp_path) -> None:
 
 @pytest.mark.asyncio
 async def test_llm_prior_prompt_is_sanitized_and_infrastructure_independent() -> None:
-    backend = CapturingBackend(direct_plan().model_dump_json())
+    backend = CapturingBackend(prior_draft().model_dump_json())
     generator = LLMPriorWorkflowGenerator(
         backend,
         build_operator_catalog(),
         model_id="test-prior-model",
     )
     generated = await generator.generate(task(), capabilities())
-    assert generated.plan == direct_plan()
+    assert generated.plan.version == 0
+    assert generated.plan.workflow_id.startswith("prior-")
+    assert generated.plan.actions == direct_plan().actions
+    assert generated.plan.dependencies == direct_plan().dependencies
+    assert generated.plan.terminal_action_id == direct_plan().terminal_action_id
     prompt = backend.requests[0].prompt
     assert "private://never-leak" not in prompt
     assert "private-evaluator" not in prompt
     assert "worker-secret" not in prompt
     assert "deployment-secret" not in prompt
     assert "100 Mbps" not in prompt
+    payload = json.loads(prompt.splitlines()[-1])
+    output_properties = payload["workflow_output_schema"]["properties"]
+    assert "version" not in output_properties
+    assert "workflow_id" not in output_properties
+    assert generated.provenance.generator_version == "llm-prior-v2"
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_system_metadata_is_stable_and_model_cannot_control_it() -> None:
+    draft = prior_draft()
+    first = LLMPriorWorkflowGenerator(
+        CapturingBackend(draft.model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+    )
+    second = LLMPriorWorkflowGenerator(
+        CapturingBackend(draft.model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+    )
+    one = await first.generate(task(), capabilities())
+    two = await second.generate(task(), capabilities())
+    assert one.plan.workflow_id == two.plan.workflow_id
+    assert one.plan.version == two.plan.version == 0
+    with pytest.raises(ValidationError):
+        PriorWorkflowDraft.model_validate(
+            {**draft.model_dump(mode="json"), "version": 99, "workflow_id": "model-owned"}
+        )
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_rejected_raw_completion_is_persisted_before_parse(
+    tmp_path: Path,
+) -> None:
+    raw = '{"schema_version":"prior-workflow-draft-v1","not":"a draft"}'
+    attempts = PriorAttemptStore(tmp_path / "prior_attempts")
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(raw),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=attempts,
+    )
+    with pytest.raises(ValueError, match="invalid semantic workflow draft"):
+        await generator.generate(
+            task(), capabilities(), public_bundle_sha256="a" * 64
+        )
+    directories = tuple((tmp_path / "prior_attempts" / task().task_id).iterdir())
+    assert len(directories) == 1
+    attempt = directories[0]
+    assert (attempt / "raw_completion.txt").read_text("utf-8") == raw
+    assert json.loads((attempt / "parse_result.json").read_text("utf-8"))["status"] == "failed"
+    validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert validation["attempt_status"] == "parse_failed"
+    assert not (tmp_path / "prior_workflows" / f"{task().task_id}.json").exists()
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_backend_failure_has_typed_attempt_evidence(tmp_path: Path) -> None:
+    generator = LLMPriorWorkflowGenerator(
+        FailingBackend(),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=PriorAttemptStore(tmp_path / "attempts"),
+    )
+    with pytest.raises(RuntimeError, match="backend unavailable"):
+        await generator.generate(
+            task(), capabilities(), public_bundle_sha256="1" * 64
+        )
+    attempt = next((tmp_path / "attempts" / task().task_id).iterdir())
+    assert (attempt / "raw_completion.txt").read_text("utf-8") == ""
+    parse = json.loads((attempt / "parse_result.json").read_text("utf-8"))
+    validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert parse["status"] == "skipped"
+    assert validation["attempt_status"] == "backend_failed"
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_semantic_failure_persists_draft_and_constructed_g0(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    invalid = prior_draft(
+        direct_plan().model_copy(
+            update={"actions": (model_action(inputs=("dangling",)),)}
+        )
+    )
+    secret = "sk-test-secret-that-must-not-appear"
+    monkeypatch.setenv("DEEPSEEK_API_KEY", secret)
+    attempts = PriorAttemptStore(tmp_path / "prior_attempts")
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(invalid.model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=attempts,
+    )
+    with pytest.raises(WorkflowValidationError, match="dangling"):
+        await generator.generate(
+            task(), capabilities(), public_bundle_sha256="b" * 64
+        )
+    attempt = next((tmp_path / "prior_attempts" / task().task_id).iterdir())
+    assert (attempt / "draft.json").exists()
+    constructed = json.loads((attempt / "constructed-g0.json").read_text("utf-8"))
+    assert constructed["version"] == 0
+    result = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert result["attempt_status"] == "semantic_validation_failed"
+    assert secret not in "".join(
+        path.read_text("utf-8") for path in attempt.iterdir() if path.is_file()
+    )
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_cyclic_draft_remains_rejected(tmp_path: Path) -> None:
+    plan = SemanticWorkflowPlan(
+        workflow_id="discarded",
+        version=0,
+        actions=(reduction_action(), model_action(inputs=("reduced",))),
+        dependencies=(
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="reduce",
+                consumer_action_id="answer",
+                information_id="reduced",
+            ),
+            WorkflowDependency(
+                dependency_type="control",
+                producer_action_id="answer",
+                consumer_action_id="reduce",
+            ),
+        ),
+        terminal_action_id="answer",
+    )
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(prior_draft(plan).model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=PriorAttemptStore(tmp_path / "attempts"),
+    )
+    with pytest.raises(WorkflowValidationError, match="acyclic"):
+        await generator.generate(
+            task(), capabilities(), public_bundle_sha256="c" * 64
+        )
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_static_context_failure_remains_rejected(tmp_path: Path) -> None:
+    constrained_environment = environment().model_copy(
+        update={
+            "deployments": tuple(
+                item.model_copy(update={"context_window": 8192})
+                for item in environment().deployments
+            )
+        }
+    )
+    constrained_capabilities = build_static_capability_contract(
+        constrained_environment,
+        build_operator_catalog(),
+        ("bm25_retrieve", "invoke_model"),
+    )
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(prior_draft().model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=PriorAttemptStore(tmp_path / "attempts"),
+    )
+    with pytest.raises(WorkflowValidationError, match="context"):
+        await generator.generate(
+            task(), constrained_capabilities, public_bundle_sha256="d" * 64
+        )
+    attempt = next((tmp_path / "attempts" / task().task_id).iterdir())
+    validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert validation["attempt_status"] == "static_feasibility_failed"
+
+
+@pytest.mark.asyncio
+async def test_successful_llm_prior_evidence_can_be_marked_frozen(tmp_path: Path) -> None:
+    attempts = PriorAttemptStore(tmp_path / "attempts")
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(prior_draft().model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=attempts,
+    )
+    generation = await generator.generate(
+        task(), capabilities(), public_bundle_sha256="e" * 64
+    )
+    assert generation.attempt is not None
+    frozen_path = tmp_path / "prior_workflows" / "formal-smoke.json"
+    PriorAttemptStore.persist_frozen_success(
+        generation.attempt,
+        generation.plan,
+        frozen_path,
+    )
+    attempt = Path(generation.attempt.directory)
+    assert (attempt / "raw_completion.txt").read_text("utf-8") == prior_draft().model_dump_json()
+    assert (attempt / "draft.json").exists()
+    assert (attempt / "constructed-g0.json").exists()
+    validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert validation["attempt_status"] == "frozen_success"
+    assert validation["plan_sha256"] == generation.plan.canonical_sha256()
 
 
 def test_static_model_capability_misuse_is_rejected() -> None:
@@ -1030,4 +1251,28 @@ def test_frozen_prior_model_and_prompt_mismatch_fail_closed() -> None:
             capabilities(),
             "b" * 64,
             expected.model_copy(update={"prompt_sha256": "c" * 64}),
+        )
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_v1_frozen_provenance_is_not_reused_by_v2() -> None:
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(prior_draft().model_dump_json()),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+    )
+    generation = await generator.generate(task(), capabilities())
+    frozen = FrozenPriorWorkflow.create(
+        task=task(),
+        generation=generation,
+        capabilities=capabilities(),
+        public_bundle_sha256="f" * 64,
+    )
+    expected = generator.provenance(task(), capabilities())
+    with pytest.raises(ValueError, match="generator version mismatch"):
+        frozen.verify(
+            task(),
+            capabilities(),
+            "f" * 64,
+            expected.model_copy(update={"generator_version": "llm-prior-v1"}),
         )

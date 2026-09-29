@@ -39,7 +39,11 @@ from infra_joint.control.adaptive_runner import (
     AdaptiveWorkflowBenchmarkRunner,
     PersistedAdaptiveWorkflowResult,
 )
-from infra_joint.control.prior import LLMPriorWorkflowGenerator, PriorWorkflowStore
+from infra_joint.control.prior import (
+    LLMPriorWorkflowGenerator,
+    PriorAttemptStore,
+    PriorWorkflowStore,
+)
 from infra_joint.control.workflow import canonical_sha256
 from infra_joint.core.state import ArtifactPlacement, EnvironmentSpec, LinkSpec
 from infra_joint.runtime.client import HttpWorkerClient
@@ -178,7 +182,12 @@ def _model_config(config: dict[str, Any], section: str) -> OpenAIBackendConfig:
     return OpenAIBackendConfig.model_validate(values)
 
 
-def _prior_generator(config: dict[str, Any], backend: Any) -> LLMPriorWorkflowGenerator:
+def _prior_generator(
+    config: dict[str, Any],
+    backend: Any,
+    *,
+    attempt_store: PriorAttemptStore | None = None,
+) -> LLMPriorWorkflowGenerator:
     model = _model_config(config, "prior")
     from infra_joint.operators.catalog import build_operator_catalog
 
@@ -187,6 +196,7 @@ def _prior_generator(config: dict[str, Any], backend: Any) -> LLMPriorWorkflowGe
         build_operator_catalog(),
         model_id=model.model,
         generator_id="workflow-formal-preliminary-2x2-v1-prior",
+        attempt_store=attempt_store,
     )
 
 
@@ -252,7 +262,11 @@ async def prepare(args: argparse.Namespace) -> None:
                 },
                 output,
             ),
-            _prior_generator(config, capture),
+            _prior_generator(
+                config,
+                capture,
+                attempt_store=PriorAttemptStore(output / "prior_attempts"),
+            ),
             KeepWorkflowPolicy(),
             _operations(config),
             prior_store=store,
@@ -264,6 +278,16 @@ async def prepare(args: argparse.Namespace) -> None:
             await client.close()
     if len(capture.requests) != 1 or len(capture.completions) != 1:
         raise RuntimeError("prior preparation must make exactly one model call")
+    attempt_root = output / "prior_attempts" / bundle.execution.task.task_id
+    attempt_directories = tuple(sorted(path for path in attempt_root.iterdir() if path.is_dir()))
+    if len(attempt_directories) != 1:
+        raise RuntimeError("formal prior preparation must have exactly one durable attempt")
+    attempt_directory = attempt_directories[0]
+    validation_result = json.loads(
+        (attempt_directory / "validation_result.json").read_text("utf-8")
+    )
+    if validation_result.get("attempt_status") != "frozen_success":
+        raise RuntimeError("successful prior preparation lacks frozen-success evidence")
     _write_json(
         output / "freeze" / "preparation.json",
         {
@@ -282,6 +306,14 @@ async def prepare(args: argparse.Namespace) -> None:
             "generator_id": frozen.generator_id,
             "generator_version": frozen.generator_version,
             "prior_call_count": 1,
+            "attempt_id": attempt_directory.name,
+            "attempt_path": str(attempt_directory),
+            "raw_completion_persisted": (attempt_directory / "raw_completion.txt").exists(),
+            "draft_parse": "passed",
+            "constructed_g0_version": frozen.plan.version,
+            "semantic_validation": validation_result["semantic_validation"],
+            "static_feasibility": validation_result["static_feasibility"],
+            "frozen_prior_path": validation_result["frozen_prior_path"],
             "prior_call": _backend_evidence(capture)[0],
             "plan": frozen.plan.model_dump(mode="json"),
         },
