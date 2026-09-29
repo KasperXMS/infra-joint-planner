@@ -162,10 +162,15 @@ def derive_output_envelopes(
         output_bound = columns * rows * width * height * 4 + 1_048_576
     elif operator == "invoke_model":
         output_schema = ArtifactContentSchema(kind="text")
-        if feasible_model_classes:
-            output_bound = max(item.reserved_output_tokens for item in feasible_model_classes) * 4
+        byte_bounds = tuple(
+            item.max_output_bytes
+            for item in feasible_model_classes
+            if item.max_output_bytes is not None
+        )
+        if feasible_model_classes and len(byte_bounds) == len(feasible_model_classes):
+            output_bound = max(byte_bounds)
         else:
-            unknown = ("no statically feasible model class",)
+            unknown = ("model_output_byte_bound_unavailable",)
     elif input_bounds and all(item is not None for item in input_bounds):
         output_bound = sum(item for item in input_bounds if item is not None)
         unknown = ("generic conservative copy bound",)

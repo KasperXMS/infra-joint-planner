@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass
+from typing import Literal
 
 from pydantic import Field
 
@@ -36,8 +37,20 @@ class ConcurrentServiceProfile(ContractModel):
     agent_id: str = Field(default="*", min_length=1)
     deployment_id: str | None = None
     input_units: int | None = Field(default=None, ge=0)
-    unit_kind: str = Field(default="bytes", min_length=1)
+    unit_kind: Literal["bytes", "fixed"] = "bytes"
     service_latency_ms: float = Field(ge=0)
+    source: str = Field(min_length=1)
+
+
+class ConcurrentTransferProfile(ContractModel):
+    """Measured per-flow latency for a shared directed link at one concurrency."""
+
+    source_agent_id: str = Field(default="*", min_length=1)
+    target_agent_id: str = Field(default="*", min_length=1)
+    concurrency: int = Field(ge=2)
+    input_units: int | None = Field(default=None, ge=0)
+    unit_kind: Literal["bytes", "fixed"] = "bytes"
+    transfer_latency_ms: float = Field(ge=0)
     source: str = Field(min_length=1)
 
 
@@ -50,12 +63,14 @@ class SelectedBindingPrediction(ContractModel):
     selected_deployment_id: str | None = None
     concurrency: int = Field(default=1, ge=1)
     transfer_bytes: int | None = Field(default=None, ge=0)
+    base_transfer_latency_ms: float | None = Field(default=None, ge=0)
     transfer_latency_ms: float | None = Field(default=None, ge=0)
     base_service_latency_ms: float | None = Field(default=None, ge=0)
     service_latency_ms: float | None = Field(default=None, ge=0)
     queue_latency_ms: float | None = Field(default=None, ge=0)
     total_latency_ms: float | None = Field(default=None, ge=0)
     concurrency_profile_source: str | None = None
+    transfer_concurrency_profile_sources: tuple[str, ...] = ()
 
 
 class ConcurrentGroupPrediction(ContractModel):
@@ -68,10 +83,22 @@ class ConcurrentGroupPrediction(ContractModel):
     profile_complete: bool
 
 
+class ConcurrentTransferGroupPrediction(ContractModel):
+    """Internal directed-link transfer group for one projected ready frontier."""
+
+    source_agent_id: str = Field(min_length=1)
+    target_agent_id: str = Field(min_length=1)
+    action_ids: tuple[str, ...] = Field(min_length=2)
+    artifact_ids: tuple[str, ...] = Field(min_length=2)
+    concurrency: int = Field(ge=2)
+    profile_complete: bool
+
+
 class FrontierPrediction(ContractModel):
     frontier_index: int = Field(ge=0)
     action_ids: tuple[str, ...] = Field(min_length=1)
     concurrency_groups: tuple[ConcurrentGroupPrediction, ...] = ()
+    transfer_concurrency_groups: tuple[ConcurrentTransferGroupPrediction, ...] = ()
 
 
 class ProjectedArtifactPrediction(ContractModel):
@@ -108,6 +135,17 @@ class _CandidateCost:
     service_latency_ms: float | None
     queue_units: int
     unknown_reasons: tuple[str, ...]
+    transfer_demands: tuple[_TransferDemand, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class _TransferDemand:
+    artifact_id: str
+    source_agent_id: str
+    target_agent_id: str
+    size_bytes: int
+    base_latency_ms: float | None
+    sequence_index: int
 
 
 @dataclass(slots=True)
@@ -117,9 +155,11 @@ class _FrontierAction:
     selection: PhysicalSelection | None
     selected: _CandidateCost | None
     profile: PendingActionPhysicalProfile
+    adjusted_transfer_latency_ms: float | None
     adjusted_service_latency_ms: float | None
     concurrency: int = 1
     concurrency_profile_source: str | None = None
+    transfer_concurrency_profile_sources: tuple[str, ...] = ()
 
 
 class SemanticWorkflowCostEvaluator:
@@ -134,12 +174,14 @@ class SemanticWorkflowCostEvaluator:
         capabilities: StaticCapabilityContract,
         *,
         concurrent_profiles: tuple[ConcurrentServiceProfile, ...] = (),
+        concurrent_transfer_profiles: tuple[ConcurrentTransferProfile, ...] = (),
         scheduler: AutoPhysicalScheduler | None = None,
     ) -> None:
         self._environment = environment
         self._registry = registry
         self._profiles = profiles
         self._concurrent_profiles = concurrent_profiles
+        self._concurrent_transfer_profiles = concurrent_transfer_profiles
         self._task = task
         self._capabilities = capabilities
         self._scheduler = scheduler or AutoPhysicalScheduler()
@@ -234,18 +276,23 @@ class SemanticWorkflowCostEvaluator:
                         selection=selection,
                         selected=selected,
                         profile=profile,
+                        adjusted_transfer_latency_ms=(
+                            selected.transfer_latency_ms if selected is not None else None
+                        ),
                         adjusted_service_latency_ms=(
                             selected.service_latency_ms if selected is not None else None
                         ),
                     )
                 )
 
-            groups = self._apply_concurrency_profiles(frontier, projected)
+            service_groups = self._apply_service_concurrency_profiles(frontier, projected)
+            transfer_groups = self._apply_transfer_concurrency_profiles(frontier)
             frontier_predictions.append(
                 FrontierPrediction(
                     frontier_index=frontier_index,
                     action_ids=tuple(ready_ids),
-                    concurrency_groups=groups,
+                    concurrency_groups=service_groups,
+                    transfer_concurrency_groups=transfer_groups,
                 )
             )
             input_replicas: dict[str, set[str]] = defaultdict(set)
@@ -256,12 +303,13 @@ class SemanticWorkflowCostEvaluator:
                 if item.selection is None or item.selected is None:
                     continue
                 selected = item.selected
+                transfer = item.adjusted_transfer_latency_ms
                 service = item.adjusted_service_latency_ms
                 queue_latency = (
                     selected.queue_units * service if service is not None else None
                 )
                 total = _total_latency(
-                    selected.transfer_latency_ms,
+                    transfer,
                     service,
                     queue_latency,
                 )
@@ -272,12 +320,16 @@ class SemanticWorkflowCostEvaluator:
                     selected_deployment_id=item.selection.selected_deployment_id,
                     concurrency=item.concurrency,
                     transfer_bytes=selected.transfer_bytes,
-                    transfer_latency_ms=selected.transfer_latency_ms,
+                    base_transfer_latency_ms=selected.transfer_latency_ms,
+                    transfer_latency_ms=transfer,
                     base_service_latency_ms=selected.service_latency_ms,
                     service_latency_ms=service,
                     queue_latency_ms=queue_latency,
                     total_latency_ms=total,
                     concurrency_profile_source=item.concurrency_profile_source,
+                    transfer_concurrency_profile_sources=(
+                        item.transfer_concurrency_profile_sources
+                    ),
                 )
                 predictions.append(prediction)
                 if total is not None:
@@ -407,6 +459,8 @@ class SemanticWorkflowCostEvaluator:
         transfer_latency = 0.0
         transfer_latency_known = True
         reasons: set[str] = set()
+        transfer_demands: list[_TransferDemand] = []
+        transfer_sequence = 0
         for artifact_id in action.inputs:
             artifact = artifacts[artifact_id]
             if not artifact.locations:
@@ -424,7 +478,7 @@ class SemanticWorkflowCostEvaluator:
                 reasons.add("future_artifact_size_unknown")
                 continue
             transfer_bytes += artifact.size_bytes
-            route = _runtime_transfer_latency(
+            route = _runtime_transfer(
                 artifact.locations,
                 agent_id,
                 artifact.size_bytes,
@@ -433,9 +487,25 @@ class SemanticWorkflowCostEvaluator:
             )
             if route is None:
                 transfer_latency_known = False
+                reasons.add("future_artifact_location_unknown")
+                continue
+            source_agent_id, latency = route
+            transfer_demands.append(
+                _TransferDemand(
+                    artifact_id=artifact_id,
+                    source_agent_id=source_agent_id,
+                    target_agent_id=agent_id,
+                    size_bytes=artifact.size_bytes,
+                    base_latency_ms=latency,
+                    sequence_index=transfer_sequence,
+                )
+            )
+            transfer_sequence += 1
+            if latency is None:
+                transfer_latency_known = False
                 reasons.add("transfer_route_unknown")
             else:
-                transfer_latency += route
+                transfer_latency += latency
         input_bytes = _sum_int(artifacts[item].size_bytes for item in action.inputs)
         operator = "invoke_model" if isinstance(action, LogicalModelAction) else action.operator
         service = self._matching_profile(operator, agent_id, deployment_id, input_bytes)
@@ -454,6 +524,7 @@ class SemanticWorkflowCostEvaluator:
             service_latency_ms=service.service_latency_ms if service is not None else None,
             queue_units=queue,
             unknown_reasons=tuple(sorted(reasons)),
+            transfer_demands=tuple(transfer_demands),
         )
 
     def _profile(
@@ -503,7 +574,7 @@ class SemanticWorkflowCostEvaluator:
             unknown_reasons=tuple(sorted(reasons)),
         )
 
-    def _apply_concurrency_profiles(
+    def _apply_service_concurrency_profiles(
         self,
         frontier: list[_FrontierAction],
         artifacts: dict[str, _ProjectedArtifact],
@@ -577,6 +648,97 @@ class SemanticWorkflowCostEvaluator:
             )
         return tuple(predictions)
 
+    def _apply_transfer_concurrency_profiles(
+        self,
+        frontier: list[_FrontierAction],
+    ) -> tuple[ConcurrentTransferGroupPrediction, ...]:
+        demands_by_link: dict[
+            tuple[str, str, int],
+            list[tuple[_FrontierAction, _TransferDemand]],
+        ] = defaultdict(list)
+        for item in frontier:
+            if item.selected is None:
+                continue
+            for demand in item.selected.transfer_demands:
+                demands_by_link[
+                    (
+                        demand.source_agent_id,
+                        demand.target_agent_id,
+                        demand.sequence_index,
+                    )
+                ].append((item, demand))
+
+        adjusted_parts: dict[str, list[float]] = defaultdict(list)
+        unknown_actions: set[str] = set()
+        sources_by_action: dict[str, list[str]] = defaultdict(list)
+        predictions: list[ConcurrentTransferGroupPrediction] = []
+        for (
+            source_agent_id,
+            target_agent_id,
+            _sequence_index,
+        ), group in sorted(demands_by_link.items()):
+            concurrency = len(group)
+            if concurrency == 1:
+                item, demand = group[0]
+                if demand.base_latency_ms is None:
+                    unknown_actions.add(item.action.action_id)
+                else:
+                    adjusted_parts[item.action.action_id].append(demand.base_latency_ms)
+                continue
+
+            complete = True
+            for item, demand in group:
+                profile = self._matching_transfer_profile(
+                    source_agent_id,
+                    target_agent_id,
+                    demand.size_bytes,
+                    concurrency,
+                )
+                if profile is None:
+                    complete = False
+                    unknown_actions.add(item.action.action_id)
+                    item.profile = item.profile.model_copy(
+                        update={
+                            "unknown_reasons": tuple(
+                                sorted(
+                                    set(item.profile.unknown_reasons)
+                                    | {"concurrent_transfer_profile_unavailable"}
+                                )
+                            )
+                        }
+                    )
+                else:
+                    adjusted_parts[item.action.action_id].append(
+                        profile.transfer_latency_ms
+                    )
+                    sources_by_action[item.action.action_id].append(profile.source)
+            predictions.append(
+                ConcurrentTransferGroupPrediction(
+                    source_agent_id=source_agent_id,
+                    target_agent_id=target_agent_id,
+                    action_ids=tuple(item.action.action_id for item, _ in group),
+                    artifact_ids=tuple(demand.artifact_id for _, demand in group),
+                    concurrency=concurrency,
+                    profile_complete=complete,
+                )
+            )
+
+        for item in frontier:
+            selected = item.selected
+            if selected is None:
+                continue
+            action_id = item.action.action_id
+            if selected.transfer_bytes is None or action_id in unknown_actions:
+                item.adjusted_transfer_latency_ms = None
+            elif selected.transfer_demands:
+                item.adjusted_transfer_latency_ms = sum(adjusted_parts[action_id])
+            else:
+                item.adjusted_transfer_latency_ms = 0.0
+            item.transfer_concurrency_profile_sources = tuple(
+                sources_by_action[action_id]
+            )
+        return tuple(predictions)
+
     def _matching_profile(
         self,
         operator: str,
@@ -588,6 +750,7 @@ class SemanticWorkflowCostEvaluator:
             item
             for item in self._profiles
             if item.operator == operator
+            and item.unit_kind in {"bytes", "fixed"}
             and item.agent_id in {agent_id, "*"}
             and (
                 (deployment_id is None and item.deployment_id is None)
@@ -600,7 +763,12 @@ class SemanticWorkflowCostEvaluator:
             matches,
             key=lambda item: (
                 item.agent_id != agent_id,
-                abs((item.input_units or 0) - (input_bytes or 0)),
+                item.unit_kind != "bytes",
+                (
+                    abs((item.input_units or 0) - (input_bytes or 0))
+                    if item.unit_kind == "bytes"
+                    else 0
+                ),
                 item.service_latency_ms,
             ),
         )
@@ -631,8 +799,44 @@ class SemanticWorkflowCostEvaluator:
             key=lambda item: (
                 item.agent_id != agent_id,
                 item.deployment_id != deployment_id,
-                abs((item.input_units or 0) - (input_bytes or 0)),
+                item.unit_kind != "bytes",
+                (
+                    abs((item.input_units or 0) - (input_bytes or 0))
+                    if item.unit_kind == "bytes"
+                    else 0
+                ),
                 item.service_latency_ms,
+            ),
+        )
+
+    def _matching_transfer_profile(
+        self,
+        source_agent_id: str,
+        target_agent_id: str,
+        size_bytes: int,
+        concurrency: int,
+    ) -> ConcurrentTransferProfile | None:
+        matches = [
+            item
+            for item in self._concurrent_transfer_profiles
+            if item.concurrency == concurrency
+            and item.source_agent_id in {source_agent_id, "*"}
+            and item.target_agent_id in {target_agent_id, "*"}
+        ]
+        if not matches:
+            return None
+        return min(
+            matches,
+            key=lambda item: (
+                item.source_agent_id != source_agent_id,
+                item.target_agent_id != target_agent_id,
+                item.unit_kind != "bytes",
+                (
+                    abs((item.input_units or 0) - size_bytes)
+                    if item.unit_kind == "bytes"
+                    else 0
+                ),
+                item.transfer_latency_ms,
             ),
         )
 
@@ -690,13 +894,13 @@ def _projected_state(
     )
 
 
-def _runtime_transfer_latency(
+def _runtime_transfer(
     sources: tuple[str, ...],
     target: str,
     size_bytes: int,
     infrastructure: InfrastructureState,
     environment: EnvironmentSpec,
-) -> float | None:
+) -> tuple[str, float | None] | None:
     # RuntimeExecutor chooses the lexicographically first configured source, not the fastest link.
     configured_agents = {item.agent_id for item in environment.agents}
     source_candidates = sorted(set(sources) & configured_agents)
@@ -716,8 +920,11 @@ def _runtime_transfer_latency(
         None,
     )
     if link is None or link.bandwidth_mbps is None or link.rtt_ms is None:
-        return None
-    return link.rtt_ms + size_bytes * 8 / (link.bandwidth_mbps * 1_000_000) * 1000
+        return (source, None)
+    return (
+        source,
+        link.rtt_ms + size_bytes * 8 / (link.bandwidth_mbps * 1_000_000) * 1000,
+    )
 
 
 def _predecessors(plan: SemanticWorkflowPlan) -> dict[str, set[str]]:

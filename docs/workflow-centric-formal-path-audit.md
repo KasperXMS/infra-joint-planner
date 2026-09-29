@@ -10,11 +10,29 @@ G_{t+1}=\mathcal A(G_t,\phi(H_t)),\qquad
 X_t=\Omega(G_t,H_t).
 \]
 
-The physical substrate and its behavior remain unchanged: `ActionGateway`,
-`PhysicalExecutionService`, `RuntimeExecutor`, worker APIs, benchmark adapters/evaluators,
-the SDK-native open-ended runtime, the legacy workflow/replanning path, and
-`AutoPhysicalScheduler` were not modified. No Video-MME, LongBench, MultiHop, Blind-vs-Aware,
+The workflow formulation, prior/patch semantics, adaptation policy, benchmark adapters/evaluators,
+SDK-native open-ended runtime, legacy workflow/replanning path, and `AutoPhysicalScheduler`
+selection policy remain unchanged. The physical boundary was hardened only to freeze a whole
+frontier's selections against one shared observation, and the worker deployment contract gained an
+enforced optional model-output byte limit. No Video-MME, LongBench, MultiHop, Blind-vs-Aware,
 network sweep, or prompt-tuning experiment was run.
+
+## Actual frontier execution semantics
+
+`RuntimeActionGateway.execute_batch()` now performs the formal frontier sequence explicitly:
+
+1. validate and reserve the semantic batch;
+2. observe one shared pre-frontier `InfrastructureState`;
+3. prepare every action and run `AutoPhysicalScheduler.select()` against that exact state;
+4. freeze every resulting `PhysicalSelection`;
+5. execute all prepared actions concurrently with explicit target-agent/deployment decisions;
+6. observe one shared post-frontier state and complete the semantic batch.
+
+`execute_prepared()` neither observes nor schedules again. Every physical outcome records the
+batch ID, shared snapshot timestamp and canonical SHA-256, plus its frozen selection. These remain
+in physical telemetry and are absent from `LogicalObservation`. A changing observer integration
+test proves that the second observation cannot change either sibling's placement. The predictor's
+selected bindings match the real prepared batch for the same G0 and H.
 
 ## Static feasibility of G0
 
@@ -110,6 +128,40 @@ turns the corresponding costs into a serial path. Same-worker actions use their 
 contention-adjusted service times in this calculation. Unknown transfer, service, queue, or
 concurrency data makes the critical path `None` instead of contributing a silent zero.
 
+## Concurrent network transfer profiles
+
+The projection records every selected remote-input demand with its runtime-faithful,
+lexicographically chosen source and target. Within a ready frontier, transfer demands at the same
+per-action transfer stage are grouped by directed `(source, target)` link. Two sibling requests for
+the same artifact and target therefore remain two remote flows during selection/costing; the target
+replica is added only after the frontier. Different directed links are not conflated.
+
+`ConcurrentTransferProfile` supplies measured per-flow latency for a link scope, concurrency, and
+optional byte bucket. Internal diagnostics retain base single-flow latency, adjusted latency,
+calibration source, and link identities. The logical-facing view receives only adjusted aggregate
+costs and stable unknown reasons.
+
+If a shared-link group has no matching measurement, affected transfer latency, total work, and
+critical path are `None` with `concurrent_transfer_profile_unavailable`. The predictor assumes
+neither full per-flow bandwidth, linear sharing, fair TCP splitting, nor zero contention. Complete
+critical-path estimates require both concurrent service and concurrent transfer profiles whenever
+both forms of contention occur.
+
+## Profile units and model-output bounds
+
+Formal service-profile matching now accepts only byte and fixed profiles. A legacy
+`ExecutionCostProfile(unit_kind="tokens")` is not compared numerically with input bytes and instead
+produces `service_profile_unavailable`. `ConcurrentServiceProfile` and
+`ConcurrentTransferProfile` restrict `unit_kind` to `bytes` or `fixed` at validation time.
+
+The former `reserved_output_tokens * 4` future-artifact assumption was removed.
+`DeploymentSpec`, worker `ModelDeployment`, worker `/state`, and
+`StaticModelCapabilityClass` now carry optional `max_output_bytes`. The worker enforces a declared
+limit after inference, and future model artifacts use it as their strict upper bound. When it is
+absent, the static envelope has no byte bound and records
+`model_output_byte_bound_unavailable`; downstream text-context validation consequently fails
+closed instead of relying on an unproven tokenizer-independent conversion.
+
 ## Frozen-prior provenance and formal mode
 
 Prior metadata now comes from the generator that made the call. Both static and LLM generators
@@ -194,7 +246,15 @@ The added and updated tests cover:
 19. different-worker parallel critical-path prediction;
 20. parallel-to-serial critical-path change after adding a dependency;
 21. default frozen-prior enforcement and explicit development opt-out;
-22. the complete regression suite.
+22. real gateway observe-once/frozen-selection behavior under a mutating observer;
+23. predictor/real prepared-batch selection equivalence;
+24. same-link concurrent transfer detection and measured adjustment;
+25. missing transfer-concurrency profile fail-unknown behavior;
+26. different-link isolation and duplicate same-artifact transfer accounting;
+27. simultaneous service/transfer contention completeness rules;
+28. token-vs-byte unit mismatch rejection;
+29. explicit/unknown model-output byte bounds and worker enforcement;
+30. the complete regression suite.
 
 The scripted constrained case still patches `large artifact -> model` into
 `large artifact -> BM25 reduction -> model` and completes. The fast case keeps G0 unchanged and
@@ -202,10 +262,10 @@ completes. These are deterministic synthetic/integration smokes only.
 
 Validation results on 2026-09-30:
 
-- full pytest: **263 passed**;
+- full pytest: **269 passed**;
 - Ruff: **all checks passed**;
 - strict Pyright: **0 errors, 0 warnings**;
 - `git diff --check`: **passed**.
 
-The formal path is now ready for experiment-design review. This work stops before any formal
-benchmark or Aware experiment.
+All requested architecture and prediction-layer freeze checks now pass. The formal path is frozen
+for experiment-design review. This work stops before any formal benchmark or Aware experiment.

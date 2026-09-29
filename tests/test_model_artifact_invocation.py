@@ -1,5 +1,6 @@
 import base64
 import json
+from dataclasses import replace
 
 import httpx
 import pytest
@@ -123,6 +124,30 @@ async def test_worker_materializes_typed_json_model_output() -> None:
     assert response.status_code == 200
     assert response.json()["output"]["artifacts"][0]["artifact_id"] == "reasoning-json"
     assert store.get("reasoning-json").content == b'{"fact":"value"}'
+
+
+@pytest.mark.asyncio
+async def test_worker_enforces_declared_model_output_byte_bound() -> None:
+    backend = RecordingBackend("output-too-large")
+    bounded = replace(deployment(backend), max_output_bytes=4)
+    app = create_worker_app("worker", {"vision-reader": bounded})
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app), base_url="http://worker"
+    ) as client:
+        response = await client.post(
+            "/execute/operator",
+            json={
+                "action": {
+                    "operator": "invoke_model",
+                    "inputs": [],
+                    "arguments": {"prompt": "Answer."},
+                },
+                "deployment_id": "vision-reader",
+            },
+        )
+
+    assert response.status_code == 502
+    assert response.json()["detail"]["code"] == "model_output_too_large"
 
 
 def test_context_preflight_fails_before_model_request() -> None:

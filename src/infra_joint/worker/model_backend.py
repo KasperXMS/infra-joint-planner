@@ -51,6 +51,7 @@ class ModelDeployment:
     context_window: int
     reserved_output_tokens: int
     image_token_cost: int
+    max_output_bytes: int | None = None
 
     def __post_init__(self) -> None:
         if not self.deployment_id or not self.model_id:
@@ -63,6 +64,8 @@ class ModelDeployment:
             raise ValueError("reserved output tokens must be smaller than context window")
         if self.image_token_cost < 1:
             raise ValueError("image_token_cost must be positive")
+        if self.max_output_bytes is not None and self.max_output_bytes < 1:
+            raise ValueError("max_output_bytes must be positive")
 
 
 class StaticModelBackend:

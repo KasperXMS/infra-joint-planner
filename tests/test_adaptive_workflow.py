@@ -247,6 +247,7 @@ def environment() -> EnvironmentSpec:
                 model_id="test",
                 context_window=32768,
                 reserved_output_tokens=64,
+                max_output_bytes=256,
             ),
             DeploymentSpec(
                 deployment_id="deployment-secret-b",
@@ -254,6 +255,7 @@ def environment() -> EnvironmentSpec:
                 model_id="test",
                 context_window=32768,
                 reserved_output_tokens=64,
+                max_output_bytes=256,
             ),
         ),
     )

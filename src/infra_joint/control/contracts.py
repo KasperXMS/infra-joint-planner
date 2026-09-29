@@ -87,6 +87,7 @@ class StaticModelCapabilityClass(ContractModel):
     context_window: int = Field(gt=0)
     reserved_output_tokens: int = Field(gt=0)
     image_token_cost: int = Field(gt=0)
+    max_output_bytes: int | None = Field(default=None, gt=0)
     quality_classes: frozenset[Literal["standard", "high_quality", "low_latency"]] = (
         frozenset()
     )

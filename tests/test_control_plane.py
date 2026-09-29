@@ -19,6 +19,7 @@ from infra_joint.benchmarks.base import (
     ValidityAssessment,
 )
 from infra_joint.config import PlannerConfig, RunnerConfig, StaticBackendConfig
+from infra_joint.control.capabilities import build_static_capability_contract
 from infra_joint.control.contracts import (
     ContinueDecision,
     ExecutionRequirements,
@@ -56,6 +57,9 @@ from infra_joint.control.validation import (
     SemanticValidationError,
     semantic_action,
 )
+from infra_joint.control.workflow import SemanticWorkflowPlan, WorkflowRuntimeState
+from infra_joint.control.workflow_cost import SemanticWorkflowCostEvaluator
+from infra_joint.core.action import JointAction, PhysicalPolicy
 from infra_joint.core.state import (
     AgentRuntimeState,
     AgentSpec,
@@ -65,6 +69,8 @@ from infra_joint.core.state import (
     DeploymentSpec,
     EnvironmentSpec,
     InfrastructureState,
+    LinkRuntimeState,
+    LinkSpec,
 )
 from infra_joint.core.task import (
     ArtifactSpec,
@@ -85,7 +91,39 @@ from infra_joint.worker.model_backend import (
     ModelRequest,
 )
 from infra_joint.worker.server import create_worker_app
+from infra_joint.workflow.costing import ExecutionCostProfile
 from infra_joint.workflow.trace import WorkflowTraceRecorder
+
+
+class SequencedObserver:
+    def __init__(self, *states: InfrastructureState) -> None:
+        self._states = states
+        self.calls = 0
+
+    async def observe(self) -> InfrastructureState:
+        state = self._states[min(self.calls, len(self._states) - 1)]
+        self.calls += 1
+        return state
+
+
+class FrozenSelectionExecutor:
+    def __init__(self) -> None:
+        self.decisions: list[object] = []
+        self.snapshots: list[InfrastructureState] = []
+
+    async def execute(
+        self,
+        action: object,
+        infrastructure: InfrastructureState,
+    ) -> ExecutionResult:
+        self.decisions.append(action)
+        self.snapshots.append(infrastructure)
+        return ExecutionResult(
+            operator="invoke_model",
+            agent_ids=("A",),
+            deployment_id="dep-a",
+            output={"text": "A"},
+        )
 
 
 class QueueBackend:
@@ -381,6 +419,165 @@ async def test_same_agent_four_independent_bm25_actions_run_in_parallel() -> Non
 @pytest.mark.asyncio
 async def test_same_agent_six_cross_shard_bm25_actions_run_in_parallel() -> None:
     await _assert_same_owner_retrieval_batch_runs_in_parallel(6)
+
+
+@pytest.mark.asyncio
+async def test_real_gateway_freezes_one_shared_scheduling_snapshot() -> None:
+    current_task = TaskContract(
+        task_id="shared-frontier-snapshot",
+        benchmark_id="synthetic",
+        objective="Answer from the shared evidence.",
+        artifacts=(
+            ArtifactSpec(
+                artifact_id="raw",
+                logical_type="evidence",
+                media_type="application/json",
+                size_bytes=100,
+            ),
+        ),
+        output_contract=OutputContract(
+            format=OutputFormat.CHOICE,
+            choices=("A", "B"),
+        ),
+        evaluator_id="private",
+    )
+    environment = EnvironmentSpec(
+        agents=tuple(
+            AgentSpec(
+                agent_id=agent_id,
+                device="gpu",
+                capabilities=frozenset({"model"}),
+            )
+            for agent_id in ("A", "B")
+        ),
+        deployments=tuple(
+            DeploymentSpec(
+                deployment_id=f"dep-{agent_id.lower()}",
+                agent_id=agent_id,
+                model_id="test-model",
+                context_window=4_096,
+                reserved_output_tokens=64,
+                image_token_cost=256,
+            )
+            for agent_id in ("A", "B")
+        ),
+        links=tuple(
+            LinkSpec(
+                source_agent_id=source,
+                target_agent_id=target,
+                bandwidth_mbps=10,
+                rtt_ms=10,
+            )
+            for source, target in (("A", "B"), ("B", "A"))
+        ),
+    )
+
+    def snapshot(location: str, second: int) -> InfrastructureState:
+        return InfrastructureState(
+            agents=tuple(
+                AgentRuntimeState(agent_id=agent_id, available=True)
+                for agent_id in ("A", "B")
+            ),
+            deployments=tuple(
+                DeploymentRuntimeState(
+                    deployment_id=f"dep-{agent_id.lower()}",
+                    available=True,
+                )
+                for agent_id in ("A", "B")
+            ),
+            artifacts=(
+                ArtifactRuntimeState(
+                    artifact_id="raw",
+                    locations=(location,),
+                    media_type="application/json",
+                    size_bytes=100,
+                ),
+            ),
+            links=tuple(
+                LinkRuntimeState(
+                    source_agent_id=source,
+                    target_agent_id=target,
+                    available=True,
+                    bandwidth_mbps=10,
+                    rtt_ms=10,
+                )
+                for source, target in (("A", "B"), ("B", "A"))
+            ),
+            observed_at=datetime(2026, 1, 1, 0, 0, second, tzinfo=UTC),
+        )
+
+    before = snapshot("A", 1)
+    after = snapshot("B", 2)
+    observer = SequencedObserver(before, after)
+    executor = FrozenSelectionExecutor()
+    registry = build_operator_catalog()
+    gateway = RuntimeActionGateway(
+        SemanticActionValidator(current_task, registry, ("invoke_model",)),
+        PhysicalExecutionService(
+            registry,
+            environment,
+            observer,
+            executor,  # type: ignore[arg-type]
+        ),
+    )
+    actions = tuple(
+        LogicalModelAction(
+            action_id=f"sibling-{index}",
+            owner_agent_id="manager",
+            inputs=("raw",),
+            prompt="Return A or B.",
+        )
+        for index in range(2)
+    )
+    outcomes = await gateway.execute_batch(actions, expose_profile=False)
+
+    assert observer.calls == 2  # one pre-frontier scheduling observation, one post-frontier
+    assert [item.selection.selected_agent_id for item in outcomes if item.selection] == [
+        "A",
+        "A",
+    ]
+    assert all(item.infrastructure_before == before for item in outcomes)
+    assert all(item.infrastructure_after == after for item in outcomes)
+    assert executor.snapshots == [before, before]
+    assert all(isinstance(item, JointAction) for item in executor.decisions)
+    assert all(
+        item.physical.policy == PhysicalPolicy.TARGET_DEPLOYMENT
+        and item.physical.target_deployment_id == "dep-a"
+        for item in executor.decisions
+        if isinstance(item, JointAction)
+    )
+    assert len({item.batch_id for item in outcomes}) == 1
+    assert len({item.shared_snapshot_sha256 for item in outcomes}) == 1
+    assert all(item.shared_snapshot_observed_at == before.observed_at for item in outcomes)
+
+    plan = SemanticWorkflowPlan(
+        workflow_id="shared-frontier-snapshot",
+        version=0,
+        actions=actions,
+        terminal_action_id="sibling-0",
+    )
+    predicted = SemanticWorkflowCostEvaluator(
+        environment,
+        registry,
+        tuple(
+            ExecutionCostProfile(
+                operator="invoke_model",
+                agent_id=agent_id,
+                deployment_id=f"dep-{agent_id.lower()}",
+                unit_kind="fixed",
+                service_latency_ms=10,
+                source="test",
+            )
+            for agent_id in ("A", "B")
+        ),
+        current_task,
+        build_static_capability_contract(environment, registry, ("invoke_model",)),
+    ).evaluate_detailed(plan, WorkflowRuntimeState.initialize(plan), before)
+    assert [item.selected_agent_id for item in predicted.selected_bindings] == [
+        item.selection.selected_agent_id
+        for item in outcomes
+        if item.selection is not None
+    ]
 
 
 def test_same_batch_producer_consumer_is_rejected() -> None:

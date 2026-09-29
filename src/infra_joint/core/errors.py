@@ -11,6 +11,7 @@ class ExecutionErrorCode(StrEnum):
     DEPLOYMENT_REQUIRED = "deployment_required"
     MISSING_ARTIFACT = "missing_artifact"
     MODEL_SERVICE_ERROR = "model_service_error"
+    MODEL_OUTPUT_TOO_LARGE = "model_output_too_large"
     OPERATOR_FAILED = "operator_failed"
     SURFACE_MISMATCH = "surface_mismatch"
     UNSUPPORTED_MODALITY = "unsupported_modality"

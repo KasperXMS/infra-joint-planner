@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from collections.abc import Mapping
+from datetime import datetime
 from time import perf_counter
 from typing import Literal, Protocol, cast
 
@@ -51,6 +54,25 @@ class PhysicalExecutionOutcome(ContractModel):
     selection: PhysicalSelection | None = None
     execution: ExecutionResult | None = None
     failure: PhysicalFailureTelemetry | None = None
+    batch_id: str | None = Field(default=None, min_length=1)
+    shared_snapshot_observed_at: datetime | None = None
+    shared_snapshot_sha256: str | None = Field(
+        default=None,
+        pattern=r"^[0-9a-f]{64}$",
+    )
+
+
+class PreparedPhysicalAction(ContractModel):
+    """A logical action with a selection frozen against one frontier snapshot."""
+
+    batch_id: str = Field(min_length=1)
+    logical_action: LogicalAction
+    semantic_action: SemanticAction
+    selection: PhysicalSelection | None = None
+    physical_profile: PhysicalProfileView | None = None
+    preparation_failure: PhysicalFailureTelemetry | None = None
+    shared_snapshot_observed_at: datetime
+    shared_snapshot_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
 
 
 class PhysicalFailureTelemetry(ContractModel):
@@ -480,81 +502,177 @@ class PhysicalExecutionService:
     async def profile_overview(self) -> PhysicalProfileView:
         return self._profiler.overview(await self._observer.observe())
 
+    async def observe_infrastructure(self) -> InfrastructureState:
+        return await self._observer.observe()
+
+    def prepare_batch(
+        self,
+        actions: tuple[LogicalAction, ...],
+        infrastructure_snapshot: InfrastructureState,
+        *,
+        batch_id: str,
+        expose_profile: bool,
+    ) -> tuple[PreparedPhysicalAction, ...]:
+        """Freeze every placement against the exact same pre-frontier state."""
+
+        snapshot_sha256 = _infrastructure_sha256(infrastructure_snapshot)
+        prepared: list[PreparedPhysicalAction] = []
+        for action in actions:
+            semantic = semantic_action(action)
+            profile = (
+                self._profiler.for_action(action, infrastructure_snapshot)
+                if expose_profile
+                else None
+            )
+            started = perf_counter()
+            try:
+                selection = self._scheduler.select(
+                    action,
+                    semantic,
+                    self._environment,
+                    infrastructure_snapshot,
+                    self._registry,
+                )
+                failure = None
+            except (BindingResolutionError, PhysicalFeasibilityError) as exc:
+                selection = None
+                code = (
+                    exc.code.value
+                    if isinstance(exc, BindingResolutionError)
+                    else "physical_feasibility_failed"
+                )
+                failure = PhysicalFailureTelemetry(
+                    operator=semantic.operator,
+                    stage="selection",
+                    failure_code=code,
+                    failure_message=str(exc),
+                    duration_ms=(perf_counter() - started) * 1000,
+                )
+            prepared.append(
+                PreparedPhysicalAction(
+                    batch_id=batch_id,
+                    logical_action=action,
+                    semantic_action=semantic,
+                    selection=selection,
+                    physical_profile=profile,
+                    preparation_failure=failure,
+                    shared_snapshot_observed_at=infrastructure_snapshot.observed_at,
+                    shared_snapshot_sha256=snapshot_sha256,
+                )
+            )
+        return tuple(prepared)
+
+    async def execute_prepared(
+        self,
+        prepared: PreparedPhysicalAction,
+        shared_pre_frontier_state: InfrastructureState,
+    ) -> PhysicalExecutionOutcome:
+        """Execute one frozen selection without observing or scheduling again."""
+
+        action = prepared.logical_action
+        selection = prepared.selection
+        failure = prepared.preparation_failure
+        if selection is None:
+            if failure is None:
+                raise RuntimeError("prepared physical action has no selection or failure")
+            return PhysicalExecutionOutcome(
+                observation=LogicalObservation(
+                    action_id=action.action_id,
+                    owner_agent_id=action.owner_agent_id,
+                    succeeded=False,
+                    failure_code=failure.failure_code,
+                    failure_message=failure.failure_message,
+                    physical_profile=prepared.physical_profile,
+                ),
+                infrastructure_before=shared_pre_frontier_state,
+                infrastructure_after=shared_pre_frontier_state,
+                failure=failure,
+                batch_id=prepared.batch_id,
+                shared_snapshot_observed_at=prepared.shared_snapshot_observed_at,
+                shared_snapshot_sha256=prepared.shared_snapshot_sha256,
+            )
+
+        started = perf_counter()
+        try:
+            execution = await self._executor.execute(
+                JointAction(
+                    semantic=prepared.semantic_action,
+                    physical=_frozen_decision(selection),
+                ),
+                shared_pre_frontier_state,
+            )
+            observation = LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=True,
+                output=execution.output,
+                produced_information=self._produced_information(action, execution),
+                physical_profile=prepared.physical_profile,
+            )
+            return PhysicalExecutionOutcome(
+                observation=observation,
+                infrastructure_before=shared_pre_frontier_state,
+                infrastructure_after=shared_pre_frontier_state,
+                selection=selection,
+                execution=execution,
+                batch_id=prepared.batch_id,
+                shared_snapshot_observed_at=prepared.shared_snapshot_observed_at,
+                shared_snapshot_sha256=prepared.shared_snapshot_sha256,
+            )
+        except (BindingResolutionError, PhysicalFeasibilityError, TypedExecutionError) as exc:
+            code = (
+                exc.code.value
+                if isinstance(exc, (BindingResolutionError, TypedExecutionError))
+                else "physical_feasibility_failed"
+            )
+            failure = PhysicalFailureTelemetry(
+                operator=prepared.semantic_action.operator,
+                stage="execution",
+                failure_code=code,
+                failure_message=str(exc),
+                duration_ms=(perf_counter() - started) * 1000,
+            )
+            return PhysicalExecutionOutcome(
+                observation=LogicalObservation(
+                    action_id=action.action_id,
+                    owner_agent_id=action.owner_agent_id,
+                    succeeded=False,
+                    failure_code=code,
+                    failure_message=str(exc),
+                    physical_profile=prepared.physical_profile,
+                ),
+                infrastructure_before=shared_pre_frontier_state,
+                infrastructure_after=shared_pre_frontier_state,
+                selection=selection,
+                failure=failure,
+                batch_id=prepared.batch_id,
+                shared_snapshot_observed_at=prepared.shared_snapshot_observed_at,
+                shared_snapshot_sha256=prepared.shared_snapshot_sha256,
+            )
+
     async def execute(
         self,
         action: LogicalAction,
         *,
         expose_profile: bool,
     ) -> PhysicalExecutionOutcome:
-        before = await self._observer.observe()
-        semantic = semantic_action(action)
-        profile = self._profiler.for_action(action, before) if expose_profile else None
-        selection: PhysicalSelection | None = None
-        stage: Literal["selection", "execution"] = "selection"
-        physical_started = perf_counter()
-        try:
-            selection = self._scheduler.select(
-                action,
-                semantic,
-                self._environment,
-                before,
-                self._registry,
-            )
-            stage = "execution"
-            physical_started = perf_counter()
-            execution = await self._executor.execute(
-                JointAction(semantic=semantic, physical=selection.decision), before
-            )
-            after = await self._observer.observe()
-            observation = LogicalObservation(
-                action_id=action.action_id,
-                owner_agent_id=action.owner_agent_id,
-                succeeded=True,
-                output=execution.output,
-                produced_information=self._produced_information(action, execution, after),
-                physical_profile=profile,
-            )
-            return PhysicalExecutionOutcome(
-                observation=observation,
-                infrastructure_before=before,
-                infrastructure_after=after,
-                selection=selection,
-                execution=execution,
-            )
-        except (BindingResolutionError, PhysicalFeasibilityError, TypedExecutionError) as exc:
-            after = await self._observer.observe()
-            if isinstance(exc, (BindingResolutionError, TypedExecutionError)):
-                code_value = exc.code.value
-            else:
-                code_value = "physical_feasibility_failed"
-            observation = LogicalObservation(
-                action_id=action.action_id,
-                owner_agent_id=action.owner_agent_id,
-                succeeded=False,
-                failure_code=code_value,
-                failure_message=str(exc),
-                physical_profile=profile,
-            )
-            failure = PhysicalFailureTelemetry(
-                operator=semantic.operator,
-                stage=stage,
-                failure_code=code_value,
-                failure_message=str(exc),
-                duration_ms=(perf_counter() - physical_started) * 1000,
-            )
-            return PhysicalExecutionOutcome(
-                observation=observation,
-                infrastructure_before=before,
-                infrastructure_after=after,
-                selection=selection,
-                failure=failure,
-            )
+        from uuid import uuid4
+
+        before = await self.observe_infrastructure()
+        prepared = self.prepare_batch(
+            (action,),
+            before,
+            batch_id=str(uuid4()),
+            expose_profile=expose_profile,
+        )[0]
+        outcome = await self.execute_prepared(prepared, before)
+        after = await self.observe_infrastructure()
+        return outcome.model_copy(update={"infrastructure_after": after})
 
     @staticmethod
     def _produced_information(
         action: LogicalAction,
         execution: ExecutionResult,
-        infrastructure: InfrastructureState,
     ) -> tuple[ProducedInformation, ...]:
         if not action.outputs:
             return ()
@@ -572,7 +690,6 @@ class PhysicalExecutionService:
         else:
             raise ValueError("declared logical outputs were not materialized by the worker")
         declared = {item.artifact_id: item for item in action.outputs}
-        runtime = {item.artifact_id: item for item in infrastructure.artifacts}
         if set(item.artifact_id for item in metadata) != set(declared):
             raise ValueError("materialized outputs do not match logical action declarations")
         return tuple(
@@ -581,7 +698,7 @@ class PhysicalExecutionService:
                 semantic_type=declared[item.artifact_id].semantic_type,
                 media_type=item.media_type,
                 size_bytes=item.size_bytes,
-                sha256_hex=runtime[item.artifact_id].sha256_hex,
+                sha256_hex=item.sha256_hex,
             )
             for item in metadata
         )
@@ -600,3 +717,25 @@ def _classify_bandwidth(values: list[float]) -> NetworkClass:
     if representative < 30:
         return "moderate"
     return "fast"
+
+
+def _frozen_decision(selection: PhysicalSelection) -> PhysicalDecision:
+    if selection.selected_deployment_id is not None:
+        return PhysicalDecision(
+            policy=PhysicalPolicy.TARGET_DEPLOYMENT,
+            target_deployment_id=selection.selected_deployment_id,
+        )
+    return PhysicalDecision(
+        policy=PhysicalPolicy.TARGET_AGENT,
+        target_agent_id=selection.selected_agent_id,
+    )
+
+
+def _infrastructure_sha256(state: InfrastructureState) -> str:
+    payload = json.dumps(
+        state.model_dump(mode="json"),
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()

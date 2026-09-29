@@ -70,6 +70,8 @@ async def validate_worker_surfaces(
                 or actual_deployment.reserved_output_tokens
                 != expected_deployment.reserved_output_tokens
                 or actual_deployment.image_token_cost != expected_deployment.image_token_cost
+                or actual_deployment.max_output_bytes
+                != expected_deployment.max_output_bytes
             ):
                 raise TypedExecutionError(
                     ExecutionErrorCode.SURFACE_MISMATCH,

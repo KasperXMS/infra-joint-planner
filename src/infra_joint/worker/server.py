@@ -52,6 +52,7 @@ class WorkerDeploymentState(ContractModel):
     context_window: int = Field(gt=0)
     reserved_output_tokens: int = Field(gt=0)
     image_token_cost: int = Field(gt=0)
+    max_output_bytes: int | None = Field(default=None, gt=0)
 
 
 class WorkerStateResponse(ContractModel):
@@ -157,6 +158,7 @@ def create_worker_app(
                     context_window=item.context_window,
                     reserved_output_tokens=item.reserved_output_tokens,
                     image_token_cost=item.image_token_cost,
+                    max_output_bytes=item.max_output_bytes,
                 )
                 for item in sorted(deployments.values(), key=lambda value: value.deployment_id)
             ),
@@ -273,6 +275,16 @@ def create_worker_app(
                 f"model backend request failed: {type(exc).__name__}",
                 502,
             ) from exc
+        output_bytes = completion.text.encode("utf-8")
+        if (
+            deployment.max_output_bytes is not None
+            and len(output_bytes) > deployment.max_output_bytes
+        ):
+            raise _failure(
+                ExecutionErrorCode.MODEL_OUTPUT_TOO_LARGE,
+                "model output exceeds the deployment byte limit",
+                502,
+            )
         output: dict[str, Any] = {"text": completion.text}
         output_artifact_id = action.arguments.get("output_artifact_id")
         if output_artifact_id is not None:
@@ -289,7 +301,7 @@ def create_worker_app(
             materialized = StoredArtifact.create(
                 output_artifact_id,
                 output_media_type,
-                completion.text.encode("utf-8"),
+                output_bytes,
             )
             store.put(materialized)
             output["artifacts"] = [

@@ -19,6 +19,7 @@ from infra_joint.control.workflow import (
 )
 from infra_joint.control.workflow_cost import (
     ConcurrentServiceProfile,
+    ConcurrentTransferProfile,
     SemanticWorkflowCostEvaluator,
 )
 from infra_joint.control.workflow_validation import (
@@ -348,6 +349,7 @@ def test_candidate_correlated_cost_matches_actual_auto_scheduler_selection() -> 
             operator="invoke_model",
             agent_id="A",
             deployment_id="dep-a",
+            unit_kind="fixed",
             service_latency_ms=100,
             source="test",
         ),
@@ -355,6 +357,7 @@ def test_candidate_correlated_cost_matches_actual_auto_scheduler_selection() -> 
             operator="invoke_model",
             agent_id="B",
             deployment_id="dep-b",
+            unit_kind="fixed",
             service_latency_ms=1,
             source="test",
         ),
@@ -362,6 +365,7 @@ def test_candidate_correlated_cost_matches_actual_auto_scheduler_selection() -> 
             operator="invoke_model",
             agent_id="C",
             deployment_id="dep-c",
+            unit_kind="fixed",
             service_latency_ms=10,
             source="test",
         ),
@@ -468,6 +472,7 @@ def _single_compute_environment() -> EnvironmentSpec:
                 context_window=8_192,
                 reserved_output_tokens=64,
                 image_token_cost=256,
+                max_output_bytes=256,
             ),
         ),
         links=(
@@ -528,6 +533,7 @@ def _frontier_evaluator(
     plan: SemanticWorkflowPlan,
     *,
     concurrent_profiles: tuple[ConcurrentServiceProfile, ...] = (),
+    concurrent_transfer_profiles: tuple[ConcurrentTransferProfile, ...] = (),
 ) -> SemanticWorkflowCostEvaluator:
     environment = _single_compute_environment()
     registry = build_operator_catalog()
@@ -538,6 +544,7 @@ def _frontier_evaluator(
         _frontier_task("raw"),
         build_static_capability_contract(environment, registry, ("invoke_model",)),
         concurrent_profiles=concurrent_profiles,
+        concurrent_transfer_profiles=concurrent_transfer_profiles,
     )
 
 
@@ -608,6 +615,20 @@ def _concurrent_profile() -> tuple[ConcurrentServiceProfile, ...]:
     )
 
 
+def _concurrent_transfer_profile() -> tuple[ConcurrentTransferProfile, ...]:
+    return (
+        ConcurrentTransferProfile(
+            source_agent_id="A",
+            target_agent_id="B",
+            concurrency=2,
+            input_units=1_000,
+            unit_kind="bytes",
+            transfer_latency_ms=30,
+            source="measured-dual-transfer",
+        ),
+    )
+
+
 def test_frontier_projection_propagates_input_replica_and_future_output_location() -> None:
     plan = _replica_plan()
     state = _single_compute_state("raw")
@@ -671,6 +692,7 @@ def test_same_frontier_uses_one_snapshot_and_known_concurrency_profile() -> None
     detail = _frontier_evaluator(
         plan,
         concurrent_profiles=_concurrent_profile(),
+        concurrent_transfer_profiles=_concurrent_transfer_profile(),
     ).evaluate_detailed(
         plan,
         WorkflowRuntimeState.initialize(plan),
@@ -688,8 +710,19 @@ def test_same_frontier_uses_one_snapshot_and_known_concurrency_profile() -> None
     assert group.action_ids == ("branch-a", "branch-b")
     assert group.concurrency == 2
     assert group.profile_complete
+    transfer_group = detail.frontiers[0].transfer_concurrency_groups[0]
+    assert transfer_group.action_ids == ("branch-a", "branch-b")
+    assert transfer_group.artifact_ids == ("raw", "raw")
+    assert transfer_group.concurrency == 2
+    assert transfer_group.profile_complete
+    assert selected["branch-a"].base_transfer_latency_ms == pytest.approx(20.8)
+    assert selected["branch-a"].transfer_latency_ms == 30
+    assert selected["branch-a"].transfer_concurrency_profile_sources == (
+        "measured-dual-transfer",
+    )
     assert detail.view.predicted_service_latency_ms == 400
-    assert detail.view.predicted_critical_path_ms == pytest.approx(270.8)
+    assert detail.view.predicted_transfer_latency_ms == 60
+    assert detail.view.predicted_critical_path_ms == pytest.approx(280)
 
 
 def test_missing_concurrency_profile_fails_unknown() -> None:
@@ -703,6 +736,7 @@ def test_missing_concurrency_profile_fails_unknown() -> None:
     assert detail.view.predicted_critical_path_ms is None
     assert detail.view.predicted_total_work_ms is None
     assert "concurrent_service_profile_unavailable" in detail.view.unknown_reasons
+    assert "concurrent_transfer_profile_unavailable" in detail.view.unknown_reasons
 
 
 def test_different_device_parallel_actions_have_known_critical_path() -> None:
@@ -723,6 +757,7 @@ def test_different_device_parallel_actions_have_known_critical_path() -> None:
                 context_window=8_192,
                 reserved_output_tokens=64,
                 image_token_cost=256,
+                max_output_bytes=256,
             )
             for agent_id in ("A", "B")
         ),
@@ -808,6 +843,7 @@ def test_different_device_parallel_actions_have_known_critical_path() -> None:
             operator="invoke_model",
             agent_id=agent_id,
             deployment_id=f"dep-{agent_id.lower()}",
+            unit_kind="fixed",
             service_latency_ms=latency,
             source="per-device-calibration",
         )
@@ -838,6 +874,7 @@ def test_dependency_changes_parallel_critical_path_to_serial() -> None:
     parallel = _frontier_evaluator(
         parallel_plan,
         concurrent_profiles=_concurrent_profile(),
+        concurrent_transfer_profiles=_concurrent_transfer_profile(),
     ).evaluate(
         parallel_plan,
         WorkflowRuntimeState.initialize(parallel_plan),
@@ -848,6 +885,220 @@ def test_dependency_changes_parallel_critical_path_to_serial() -> None:
         WorkflowRuntimeState.initialize(serial_plan),
         state,
     )
-    assert parallel.predicted_critical_path_ms == pytest.approx(270.8)
+    assert parallel.predicted_critical_path_ms == pytest.approx(280)
     assert serial.predicted_critical_path_ms == pytest.approx(320.8)
     assert serial.predicted_critical_path_ms > parallel.predicted_critical_path_ms
+
+
+def test_service_and_transfer_contention_each_fail_unknown_when_unmeasured() -> None:
+    plan = _parallel_model_plan()
+    state = _single_compute_state("raw")
+    service_only = _frontier_evaluator(
+        plan,
+        concurrent_profiles=_concurrent_profile(),
+    ).evaluate(plan, WorkflowRuntimeState.initialize(plan), state)
+    transfer_only = _frontier_evaluator(
+        plan,
+        concurrent_transfer_profiles=_concurrent_transfer_profile(),
+    ).evaluate(plan, WorkflowRuntimeState.initialize(plan), state)
+
+    assert service_only.predicted_critical_path_ms is None
+    assert "concurrent_transfer_profile_unavailable" in service_only.unknown_reasons
+    assert "concurrent_service_profile_unavailable" not in service_only.unknown_reasons
+    assert transfer_only.predicted_critical_path_ms is None
+    assert "concurrent_service_profile_unavailable" in transfer_only.unknown_reasons
+    assert "concurrent_transfer_profile_unavailable" not in transfer_only.unknown_reasons
+
+
+def test_simultaneous_different_links_are_not_grouped_as_contended() -> None:
+    environment = EnvironmentSpec(
+        agents=(
+            AgentSpec(agent_id="S1", device="source"),
+            AgentSpec(agent_id="S2", device="source"),
+            AgentSpec(
+                agent_id="B",
+                device="gpu",
+                capabilities=frozenset({"model"}),
+            ),
+        ),
+        deployments=(
+            DeploymentSpec(
+                deployment_id="dep-b",
+                agent_id="B",
+                model_id="test-model",
+                context_window=8_192,
+                reserved_output_tokens=64,
+                image_token_cost=256,
+                max_output_bytes=256,
+            ),
+        ),
+        links=tuple(
+            LinkSpec(
+                source_agent_id=source,
+                target_agent_id="B",
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            )
+            for source in ("S1", "S2")
+        ),
+    )
+    task = _frontier_task("raw-a", "raw-b")
+    state = InfrastructureState(
+        agents=tuple(
+            AgentRuntimeState(agent_id=agent_id, available=True)
+            for agent_id in ("S1", "S2", "B")
+        ),
+        deployments=(DeploymentRuntimeState(deployment_id="dep-b", available=True),),
+        artifacts=(
+            ArtifactRuntimeState(
+                artifact_id="raw-a",
+                locations=("S1",),
+                media_type="application/json",
+                size_bytes=1_000,
+            ),
+            ArtifactRuntimeState(
+                artifact_id="raw-b",
+                locations=("S2",),
+                media_type="application/json",
+                size_bytes=1_000,
+            ),
+        ),
+        links=tuple(
+            LinkRuntimeState(
+                source_agent_id=source,
+                target_agent_id="B",
+                available=True,
+                bandwidth_mbps=10,
+                rtt_ms=20,
+            )
+            for source in ("S1", "S2")
+        ),
+        observed_at=datetime.now(UTC),
+    )
+    first = _model_action("branch-a", ("raw-a",), "note-a")
+    second = _model_action("branch-b", ("raw-b",), "note-b")
+    answer = _model_action("answer", ("note-a", "note-b"))
+    plan = SemanticWorkflowPlan(
+        workflow_id="different-link-parallel",
+        version=0,
+        actions=(first, second, answer),
+        dependencies=(
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="branch-a",
+                consumer_action_id="answer",
+                information_id="note-a",
+            ),
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="branch-b",
+                consumer_action_id="answer",
+                information_id="note-b",
+            ),
+        ),
+        terminal_action_id="answer",
+    )
+    registry = build_operator_catalog()
+    detail = SemanticWorkflowCostEvaluator(
+        environment,
+        registry,
+        (
+            ExecutionCostProfile(
+                operator="invoke_model",
+                agent_id="B",
+                deployment_id="dep-b",
+                unit_kind="fixed",
+                service_latency_ms=100,
+                source="single-service",
+            ),
+        ),
+        task,
+        build_static_capability_contract(environment, registry, ("invoke_model",)),
+        concurrent_profiles=_concurrent_profile(),
+    ).evaluate_detailed(plan, WorkflowRuntimeState.initialize(plan), state)
+
+    assert detail.frontiers[0].transfer_concurrency_groups == ()
+    assert "concurrent_transfer_profile_unavailable" not in detail.view.unknown_reasons
+    assert detail.view.predicted_critical_path_ms == pytest.approx(270.8)
+
+
+def test_token_service_profile_does_not_match_byte_input() -> None:
+    with pytest.raises(ValueError, match="unit_kind"):
+        ConcurrentServiceProfile.model_validate(
+            {
+                "operator": "invoke_model",
+                "concurrency": 2,
+                "unit_kind": "tokens",
+                "service_latency_ms": 1,
+                "source": "invalid",
+            }
+        )
+    environment = _single_compute_environment()
+    registry = build_operator_catalog()
+    plan = direct_plan()
+    detail = SemanticWorkflowCostEvaluator(
+        environment,
+        registry,
+        (
+            ExecutionCostProfile(
+                operator="invoke_model",
+                agent_id="B",
+                deployment_id="dep-b",
+                input_units=1_000,
+                unit_kind="tokens",
+                service_latency_ms=1,
+                source="incompatible-token-profile",
+            ),
+        ),
+        large_task(size_bytes=1_000),
+        build_static_capability_contract(environment, registry, ("invoke_model",)),
+    ).evaluate_detailed(
+        plan,
+        WorkflowRuntimeState.initialize(plan),
+        _single_compute_state("raw"),
+    )
+    assert detail.selected_bindings[0].service_latency_ms is None
+    assert detail.view.predicted_critical_path_ms is None
+    assert "service_profile_unavailable" in detail.view.unknown_reasons
+
+
+def test_model_output_byte_bound_is_explicit_or_unknown() -> None:
+    plan = SemanticWorkflowPlan(
+        workflow_id="model-output-bound",
+        version=0,
+        actions=(_model_action("produce", ("raw",), "note"),),
+        terminal_action_id="produce",
+    )
+    registry = build_operator_catalog()
+    explicit_environment = _single_compute_environment()
+    explicit = analyze_static_workflow(
+        plan,
+        _frontier_task("raw"),
+        build_static_capability_contract(
+            explicit_environment,
+            registry,
+            ("invoke_model",),
+        ),
+    ).artifact_map()["note"]
+    assert explicit.size_upper_bound_bytes == 256
+    assert explicit.unknown_reasons == ()
+
+    unknown_environment = explicit_environment.model_copy(
+        update={
+            "deployments": tuple(
+                item.model_copy(update={"max_output_bytes": None})
+                for item in explicit_environment.deployments
+            )
+        }
+    )
+    unknown = analyze_static_workflow(
+        plan,
+        _frontier_task("raw"),
+        build_static_capability_contract(
+            unknown_environment,
+            registry,
+            ("invoke_model",),
+        ),
+    ).artifact_map()["note"]
+    assert unknown.size_upper_bound_bytes is None
+    assert unknown.unknown_reasons == ("model_output_byte_bound_unavailable",)

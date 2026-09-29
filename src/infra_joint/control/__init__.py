@@ -26,6 +26,7 @@ from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.physical import (
     PhysicalExecutionService,
     PhysicalFeasibilityValidator,
+    PreparedPhysicalAction,
 )
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
 from infra_joint.control.workflow import (
@@ -49,6 +50,7 @@ __all__ = [
     "LLMInfraAwareWorkflowAdapter",
     "OpenAIAgentsNativeRuntime",
     "PersistentManagerLoop",
+    "PreparedPhysicalAction",
     "PhysicalExecutionService",
     "PhysicalFeasibilityValidator",
     "PhysicalProfileView",

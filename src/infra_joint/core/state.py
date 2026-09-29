@@ -19,6 +19,7 @@ class DeploymentSpec(ContractModel):
     context_window: int = Field(gt=0)
     reserved_output_tokens: int = Field(default=1024, gt=0)
     image_token_cost: int = Field(default=4096, gt=0)
+    max_output_bytes: int | None = Field(default=None, gt=0)
 
     @model_validator(mode="after")
     def output_budget_fits_context(self) -> "DeploymentSpec":
