@@ -1,0 +1,905 @@
+from __future__ import annotations
+
+import json
+from datetime import UTC, datetime
+
+import pytest
+from pydantic import ValidationError
+
+from infra_joint.control.adaptation import (
+    KeepWorkflow,
+    KeepWorkflowPolicy,
+    PatchWorkflow,
+    ScriptedWorkflowAdaptationPolicy,
+)
+from infra_joint.control.adaptive_executor import AdaptiveWorkflowExecutor
+from infra_joint.control.capabilities import build_static_capability_contract
+from infra_joint.control.contracts import (
+    ExecutionRequirements,
+    LogicalModelAction,
+    LogicalObservation,
+    LogicalOutput,
+    LogicalToolAction,
+)
+from infra_joint.control.physical import (
+    PhysicalExecutionOutcome,
+    PhysicalProfiler,
+    PhysicalSelection,
+)
+from infra_joint.control.prior import (
+    FrozenPriorWorkflow,
+    LLMPriorWorkflowGenerator,
+    PriorWorkflowStore,
+    StaticPriorWorkflowGenerator,
+)
+from infra_joint.control.validation import SemanticActionValidator
+from infra_joint.control.workflow import (
+    AddAction,
+    AddDependency,
+    RemovePendingAction,
+    RemovePendingDependency,
+    ReplacePendingAction,
+    SemanticWorkflowPlan,
+    WorkflowDependency,
+    WorkflowPatch,
+    WorkflowRuntimeState,
+)
+from infra_joint.control.workflow_cost import SemanticWorkflowCostEvaluator
+from infra_joint.control.workflow_profile import WorkflowPhysicalView
+from infra_joint.control.workflow_validation import (
+    WorkflowValidationError,
+    apply_workflow_patch,
+    validate_semantic_workflow,
+)
+from infra_joint.core.state import (
+    AgentRuntimeState,
+    AgentSpec,
+    ArtifactRuntimeState,
+    DeploymentRuntimeState,
+    DeploymentSpec,
+    EnvironmentSpec,
+    InfrastructureState,
+    LinkRuntimeState,
+    LinkSpec,
+)
+from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.evaluation.trace import TraceEvent
+from infra_joint.operators.catalog import build_operator_catalog
+from infra_joint.worker.model_backend import (
+    ModelCallTelemetry,
+    ModelCompletion,
+    ModelRequest,
+)
+from infra_joint.workflow.costing import ExecutionCostProfile
+from infra_joint.workflow.trace import WorkflowTraceRecorder
+
+
+class MemorySink:
+    def __init__(self) -> None:
+        self.events: list[TraceEvent] = []
+
+    def append(self, event: TraceEvent) -> None:
+        self.events.append(event)
+
+
+class CapturingBackend:
+    def __init__(self, response: str) -> None:
+        self.response = response
+        self.requests: list[ModelRequest] = []
+
+    async def invoke(self, request: ModelRequest) -> ModelCompletion:
+        self.requests.append(request)
+        return ModelCompletion(
+            text=self.response,
+            telemetry=ModelCallTelemetry(service_latency_ms=1, finish_reason="stop"),
+        )
+
+
+class FixedProfileProvider:
+    def __init__(self, network_class: str) -> None:
+        self.network_class = network_class
+        self.contexts: list[tuple[SemanticWorkflowPlan, WorkflowRuntimeState]] = []
+
+    async def build(self, plan, state):
+        self.contexts.append((plan, state))
+        return WorkflowPhysicalView(
+            plan_version=plan.version,
+            pending_action_profiles=(),
+            predicted_transfer_bytes=10_000 if self.network_class == "constrained" else 0,
+            predicted_transfer_latency_ms=(1000 if self.network_class == "constrained" else 1),
+            predicted_service_latency_ms=10,
+            predicted_queue_latency_ms=0,
+            predicted_critical_path_ms=(1010 if self.network_class == "constrained" else 11),
+            predicted_total_work_ms=(1010 if self.network_class == "constrained" else 11),
+        )
+
+
+class RecordingGateway:
+    def __init__(self, task: TaskContract, binding: str = "worker-secret-a") -> None:
+        self.validator = SemanticActionValidator(
+            task,
+            build_operator_catalog(),
+            ("bm25_retrieve", "invoke_model"),
+        )
+        self.binding = binding
+        self.batches: list[tuple[str, ...]] = []
+        self.outcomes: list[PhysicalExecutionOutcome] = []
+
+    def validate_batch(self, actions):
+        self.validator.validate_batch(actions)
+
+    async def profile_overview(self):
+        raise AssertionError("formal executor uses workflow-level profiling")
+
+    async def execute_batch(self, actions, *, expose_profile):
+        assert not expose_profile
+        self.validator.validate_batch(actions)
+        self.validator.reserve_batch(actions)
+        self.batches.append(tuple(item.action_id for item in actions))
+        current = infrastructure_state()
+        results: list[PhysicalExecutionOutcome] = []
+        for action in actions:
+            produced = tuple(
+                {
+                    "artifact_id": item.artifact_id,
+                    "semantic_type": item.semantic_type,
+                    "media_type": item.media_type,
+                    "size_bytes": 50,
+                }
+                for item in action.outputs
+            )
+            output = {"text": "A"} if isinstance(action, LogicalModelAction) else {}
+            observation = LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=True,
+                output=output,
+                produced_information=produced,
+            )
+            outcome = PhysicalExecutionOutcome(
+                observation=observation,
+                infrastructure_before=current,
+                infrastructure_after=current,
+                selection=PhysicalSelection(
+                    decision={"policy": "auto"},
+                    selected_agent_id=self.binding,
+                    selected_deployment_id=(
+                        f"deployment-on-{self.binding}"
+                        if isinstance(action, LogicalModelAction)
+                        else None
+                    ),
+                    rationale="deterministic test binding",
+                ),
+            )
+            results.append(outcome)
+        self.validator.complete_batch(
+            actions,
+            frozenset(item.action_id for item in actions),
+        )
+        self.outcomes.extend(results)
+        return tuple(results)
+
+
+def task() -> TaskContract:
+    return TaskContract(
+        task_id="formal-smoke",
+        benchmark_id="synthetic",
+        objective="Find the answer in the corpus.",
+        artifacts=(
+            ArtifactSpec(
+                artifact_id="raw",
+                logical_type="corpus",
+                media_type="application/json",
+                size_bytes=10_000,
+                source_ref="private://never-leak",
+            ),
+        ),
+        output_contract=OutputContract(
+            format=OutputFormat.CHOICE,
+            choices=("A", "B"),
+        ),
+        evaluator_id="private-evaluator",
+    )
+
+
+def environment() -> EnvironmentSpec:
+    return EnvironmentSpec(
+        agents=(
+            AgentSpec(
+                agent_id="worker-secret-a",
+                device="edge",
+                capabilities=frozenset({"model", "retrieval"}),
+            ),
+            AgentSpec(
+                agent_id="worker-secret-b",
+                device="gpu",
+                capabilities=frozenset({"model", "retrieval"}),
+            ),
+        ),
+        deployments=(
+            DeploymentSpec(
+                deployment_id="deployment-secret-a",
+                agent_id="worker-secret-a",
+                model_id="test",
+                context_window=4096,
+                reserved_output_tokens=64,
+            ),
+            DeploymentSpec(
+                deployment_id="deployment-secret-b",
+                agent_id="worker-secret-b",
+                model_id="test",
+                context_window=4096,
+                reserved_output_tokens=64,
+            ),
+        ),
+    )
+
+
+def infrastructure_state() -> InfrastructureState:
+    return InfrastructureState(
+        agents=(
+            AgentRuntimeState(agent_id="worker-secret-a", available=True),
+            AgentRuntimeState(agent_id="worker-secret-b", available=True),
+        ),
+        deployments=(
+            DeploymentRuntimeState(deployment_id="deployment-secret-a", available=True),
+            DeploymentRuntimeState(deployment_id="deployment-secret-b", available=True),
+        ),
+        artifacts=(
+            ArtifactRuntimeState(
+                artifact_id="raw",
+                locations=("worker-secret-a",),
+                media_type="application/json",
+                size_bytes=10_000,
+            ),
+        ),
+        links=(),
+        observed_at=datetime.now(UTC),
+    )
+
+
+def capabilities():
+    return build_static_capability_contract(
+        environment(),
+        build_operator_catalog(),
+        ("bm25_retrieve", "invoke_model"),
+    )
+
+
+def model_action(
+    action_id: str = "answer",
+    inputs: tuple[str, ...] = ("raw",),
+) -> LogicalModelAction:
+    return LogicalModelAction(
+        action_id=action_id,
+        owner_agent_id="manager",
+        inputs=inputs,
+        prompt="Return only A or B.",
+        requirements=ExecutionRequirements(
+            modalities=frozenset({"text"}),
+            min_context_tokens=512,
+            reserved_output_tokens=32,
+        ),
+    )
+
+
+def reduction_action(
+    action_id: str = "reduce",
+    output_id: str = "reduced",
+) -> LogicalToolAction:
+    return LogicalToolAction(
+        action_id=action_id,
+        owner_agent_id="manager",
+        operator="bm25_retrieve",
+        inputs=("raw",),
+        outputs=(
+            LogicalOutput(
+                artifact_id=output_id,
+                semantic_type="retrieval_hits",
+                media_type="application/json",
+            ),
+        ),
+        arguments={
+            "query": "answer evidence",
+            "top_k": 2,
+            "text_field": "text",
+            "output_artifact_id": output_id,
+        },
+    )
+
+
+def direct_plan() -> SemanticWorkflowPlan:
+    return SemanticWorkflowPlan(
+        workflow_id="workflow-formal-smoke",
+        version=0,
+        actions=(model_action(),),
+        terminal_action_id="answer",
+    )
+
+
+def reduction_patch() -> WorkflowPatch:
+    return WorkflowPatch(
+        patch_id="prefer-near-data-reduction",
+        reason="large remote input dominates under constrained networking",
+        edits=(
+            AddAction(action=reduction_action()),
+            ReplacePendingAction(
+                action_id="answer",
+                replacement=model_action(inputs=("reduced",)),
+            ),
+            AddDependency(
+                dependency=WorkflowDependency(
+                    dependency_type="artifact",
+                    producer_action_id="reduce",
+                    consumer_action_id="answer",
+                    information_id="reduced",
+                )
+            ),
+        ),
+    )
+
+
+def test_semantic_plan_forbids_physical_fields_and_has_no_private_task_data() -> None:
+    with pytest.raises(ValidationError):
+        SemanticWorkflowPlan.model_validate(
+            {
+                **direct_plan().model_dump(mode="json"),
+                "worker_id": "worker-secret-a",
+            }
+        )
+    serialized = direct_plan().model_dump_json()
+    assert "private://" not in serialized
+    assert "private-evaluator" not in serialized
+    assert "worker-secret" not in serialized
+
+
+def test_static_prior_and_persistence_reuse_same_g0(tmp_path) -> None:
+    plan = direct_plan()
+    generator = StaticPriorWorkflowGenerator(plan, build_operator_catalog())
+    generated = __import__("asyncio").run(generator.generate(task(), capabilities()))
+    frozen = FrozenPriorWorkflow.create(
+        task=task(),
+        plan=generated,
+        capabilities=capabilities(),
+        public_bundle_sha256="a" * 64,
+        prior_model="static-test",
+        prompt="static deterministic prior",
+    )
+    store = PriorWorkflowStore(tmp_path / "prior_workflows")
+    path = store.save(frozen)
+    assert path.name == "formal-smoke.json"
+    assert store.save(frozen) == path
+    loaded = store.load(task().task_id)
+    loaded.verify(task(), capabilities(), "a" * 64)
+    assert loaded.plan_sha256 == plan.canonical_sha256()
+
+
+@pytest.mark.asyncio
+async def test_llm_prior_prompt_is_sanitized_and_infrastructure_independent() -> None:
+    backend = CapturingBackend(direct_plan().model_dump_json())
+    generated = await LLMPriorWorkflowGenerator(
+        backend,
+        build_operator_catalog(),
+    ).generate(task(), capabilities())
+    assert generated == direct_plan()
+    prompt = backend.requests[0].prompt
+    assert "private://never-leak" not in prompt
+    assert "private-evaluator" not in prompt
+    assert "worker-secret" not in prompt
+    assert "deployment-secret" not in prompt
+    assert "100 Mbps" not in prompt
+
+
+def test_static_model_capability_misuse_is_rejected() -> None:
+    impossible = direct_plan().model_copy(
+        update={
+            "actions": (
+                model_action().model_copy(
+                    update={
+                        "requirements": ExecutionRequirements(
+                            modalities=frozenset({"text", "image"}),
+                            min_context_tokens=512,
+                            reserved_output_tokens=32,
+                        )
+                    }
+                ),
+            )
+        }
+    )
+    with pytest.raises(WorkflowValidationError, match="statically infeasible"):
+        validate_semantic_workflow(
+            impossible,
+            task(),
+            capabilities(),
+            build_operator_catalog(),
+        )
+
+
+@pytest.mark.asyncio
+async def test_keep_policy_leaves_workflow_unchanged() -> None:
+    profile = WorkflowPhysicalView(
+        plan_version=0,
+        pending_action_profiles=(),
+        unknown_reasons=("profiles unavailable",),
+    )
+    provider = FixedProfileProvider("fast")
+    gateway = RecordingGateway(task())
+    result = await AdaptiveWorkflowExecutor(
+        gateway,
+        provider,
+        KeepWorkflowPolicy(),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), direct_plan(), WorkflowTraceRecorder("keep", MemorySink()))
+    assert profile.predicted_critical_path_ms is None
+    assert result.final_plan == direct_plan()
+    assert result.patch_records[0].decision == "keep"
+
+
+def test_semantic_workflow_cost_uses_feasible_bindings_and_preserves_unknowns() -> None:
+    remote_environment = EnvironmentSpec(
+        agents=(
+            AgentSpec(agent_id="source", device="edge"),
+            AgentSpec(
+                agent_id="compute",
+                device="gpu",
+                capabilities=frozenset({"model"}),
+            ),
+        ),
+        deployments=(
+            DeploymentSpec(
+                deployment_id="runtime-only-deployment",
+                agent_id="compute",
+                model_id="test",
+                context_window=32768,
+                reserved_output_tokens=64,
+            ),
+        ),
+        links=(
+            LinkSpec(
+                source_agent_id="source",
+                target_agent_id="compute",
+                bandwidth_mbps=3,
+                rtt_ms=20,
+            ),
+        ),
+    )
+    current = InfrastructureState(
+        agents=(
+            AgentRuntimeState(agent_id="source", available=True),
+            AgentRuntimeState(agent_id="compute", available=True, queue_depth=1),
+        ),
+        deployments=(
+            DeploymentRuntimeState(
+                deployment_id="runtime-only-deployment",
+                available=True,
+            ),
+        ),
+        artifacts=(
+            ArtifactRuntimeState(
+                artifact_id="raw",
+                locations=("source",),
+                media_type="application/json",
+                size_bytes=10_000,
+            ),
+        ),
+        links=(
+            LinkRuntimeState(
+                source_agent_id="source",
+                target_agent_id="compute",
+                available=True,
+                bandwidth_mbps=3,
+                rtt_ms=20,
+            ),
+        ),
+        observed_at=datetime.now(UTC),
+    )
+    evaluator = SemanticWorkflowCostEvaluator(
+        PhysicalProfiler(
+            remote_environment,
+            build_operator_catalog(),
+            (
+                ExecutionCostProfile(
+                    operator="invoke_model",
+                    agent_id="compute",
+                    deployment_id="runtime-only-deployment",
+                    input_units=10_000,
+                    unit_kind="bytes",
+                    service_latency_ms=100,
+                    source="deterministic-test",
+                ),
+            ),
+        )
+    )
+    view = evaluator.evaluate(
+        direct_plan(),
+        WorkflowRuntimeState.initialize(direct_plan()),
+        current,
+    )
+    assert view.predicted_transfer_bytes == 10_000
+    assert view.predicted_transfer_latency_ms is not None
+    assert view.predicted_service_latency_ms == 100
+    assert view.predicted_queue_latency_ms == 100
+    assert view.predicted_critical_path_ms is not None
+    serialized = view.model_dump_json()
+    assert "source" not in serialized
+    assert "compute" not in serialized
+    assert "runtime-only-deployment" not in serialized
+
+
+def test_valid_patch_changes_only_pending_suffix() -> None:
+    proposed = apply_workflow_patch(
+        direct_plan(),
+        WorkflowRuntimeState.initialize(direct_plan()),
+        reduction_patch(),
+        task(),
+        capabilities(),
+        build_operator_catalog(),
+    )
+    assert proposed.version == 1
+    assert tuple(item.action_id for item in proposed.actions) == ("answer", "reduce")
+    assert proposed.action_map()["answer"].inputs == ("reduced",)
+
+
+def test_patch_cannot_modify_completed_or_running_action() -> None:
+    plan = direct_plan()
+    patch = WorkflowPatch(
+        patch_id="illegal",
+        reason="attempt immutable rewrite",
+        edits=(ReplacePendingAction(action_id="answer", replacement=model_action(inputs=())),),
+    )
+    state = WorkflowRuntimeState(running_action_ids=("answer",))
+    with pytest.raises(WorkflowValidationError, match="only pending"):
+        apply_workflow_patch(
+            plan,
+            state,
+            patch,
+            task(),
+            capabilities(),
+            build_operator_catalog(),
+        )
+
+
+def test_patch_cannot_modify_completed_action() -> None:
+    plan = direct_plan()
+    state = WorkflowRuntimeState(completed_action_ids=("answer",))
+    patch = WorkflowPatch(
+        patch_id="illegal-completed",
+        reason="attempt completed rewrite",
+        edits=(ReplacePendingAction(action_id="answer", replacement=model_action(inputs=())),),
+    )
+    with pytest.raises(WorkflowValidationError, match="only pending"):
+        apply_workflow_patch(
+            plan,
+            state,
+            patch,
+            task(),
+            capabilities(),
+            build_operator_catalog(),
+        )
+
+
+def test_remove_pending_action_requires_edges_removed_first() -> None:
+    reduce = reduction_action()
+    answer = model_action(inputs=("reduced",))
+    plan = SemanticWorkflowPlan(
+        workflow_id="remove-test",
+        version=0,
+        actions=(reduce, answer),
+        dependencies=(
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="reduce",
+                consumer_action_id="answer",
+                information_id="reduced",
+            ),
+        ),
+        terminal_action_id="answer",
+    )
+    patch = WorkflowPatch(
+        patch_id="remove",
+        reason="invalid removal order",
+        edits=(RemovePendingAction(action_id="reduce"),),
+    )
+    with pytest.raises(WorkflowValidationError, match="remove dependencies"):
+        apply_workflow_patch(
+            plan,
+            WorkflowRuntimeState.initialize(plan),
+            patch,
+            task(),
+            capabilities(),
+            build_operator_catalog(),
+        )
+
+
+def test_cycle_dangling_input_and_invalid_terminal_fail_closed() -> None:
+    registry = build_operator_catalog()
+    reduce_a = reduction_action("a", "a-out").model_copy(update={"inputs": ("b-out",)})
+    reduce_b = reduction_action("b", "b-out").model_copy(update={"inputs": ("a-out",)})
+    cyclic = SemanticWorkflowPlan(
+        workflow_id="cycle",
+        version=0,
+        actions=(reduce_a, reduce_b, model_action(inputs=("a-out",))),
+        dependencies=(
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="b",
+                consumer_action_id="a",
+                information_id="b-out",
+            ),
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="a",
+                consumer_action_id="b",
+                information_id="a-out",
+            ),
+            WorkflowDependency(
+                dependency_type="artifact",
+                producer_action_id="a",
+                consumer_action_id="answer",
+                information_id="a-out",
+            ),
+        ),
+        terminal_action_id="answer",
+    )
+    with pytest.raises(WorkflowValidationError, match="acyclic"):
+        validate_semantic_workflow(cyclic, task(), capabilities(), registry)
+    dangling = direct_plan().model_copy(update={"actions": (model_action(inputs=("missing",)),)})
+    with pytest.raises(WorkflowValidationError, match="dangling"):
+        validate_semantic_workflow(dangling, task(), capabilities(), registry)
+    invalid_terminal = SemanticWorkflowPlan(
+        workflow_id="bad-terminal",
+        version=0,
+        actions=(reduction_action(),),
+        terminal_action_id="reduce",
+    )
+    with pytest.raises(WorkflowValidationError, match="terminal action must"):
+        validate_semantic_workflow(invalid_terminal, task(), capabilities(), registry)
+    unreachable = SemanticWorkflowPlan(
+        workflow_id="unreachable",
+        version=0,
+        actions=(reduction_action(), model_action()),
+        terminal_action_id="answer",
+    )
+    with pytest.raises(WorkflowValidationError, match="reach the terminal"):
+        validate_semantic_workflow(unreachable, task(), capabilities(), registry)
+
+
+def test_remove_pending_branch_and_add_remove_dependency() -> None:
+    branch_zero = reduction_action("branch-0", "hits-0")
+    branch_one = reduction_action("branch-1", "hits-1")
+    answer = model_action(inputs=("hits-0", "hits-1"))
+    edge_zero = WorkflowDependency(
+        dependency_type="artifact",
+        producer_action_id="branch-0",
+        consumer_action_id="answer",
+        information_id="hits-0",
+    )
+    edge_one = WorkflowDependency(
+        dependency_type="artifact",
+        producer_action_id="branch-1",
+        consumer_action_id="answer",
+        information_id="hits-1",
+    )
+    plan = SemanticWorkflowPlan(
+        workflow_id="remove-branch",
+        version=0,
+        actions=(branch_zero, branch_one, answer),
+        dependencies=(edge_zero, edge_one),
+        terminal_action_id="answer",
+    )
+    removed = apply_workflow_patch(
+        plan,
+        WorkflowRuntimeState.initialize(plan),
+        WorkflowPatch(
+            patch_id="remove-one-branch",
+            reason="one pending branch is unnecessary",
+            edits=(
+                RemovePendingDependency(dependency=edge_one),
+                ReplacePendingAction(
+                    action_id="answer",
+                    replacement=model_action(inputs=("hits-0",)),
+                ),
+                RemovePendingAction(action_id="branch-1"),
+            ),
+        ),
+        task(),
+        capabilities(),
+        build_operator_catalog(),
+    )
+    assert set(removed.action_map()) == {"branch-0", "answer"}
+
+    control = WorkflowDependency(
+        dependency_type="control",
+        producer_action_id="branch-0",
+        consumer_action_id="answer",
+    )
+    added = apply_workflow_patch(
+        removed,
+        WorkflowRuntimeState.initialize(removed),
+        WorkflowPatch(
+            patch_id="add-control",
+            reason="test finite dependency edit",
+            edits=(AddDependency(dependency=control),),
+        ),
+        task(),
+        capabilities(),
+        build_operator_catalog(),
+    )
+    restored = apply_workflow_patch(
+        added,
+        WorkflowRuntimeState.initialize(added),
+        WorkflowPatch(
+            patch_id="remove-control",
+            reason="test inverse dependency edit",
+            edits=(RemovePendingDependency(dependency=control),),
+        ),
+        task(),
+        capabilities(),
+        build_operator_catalog(),
+    )
+    assert control not in restored.dependencies
+
+
+@pytest.mark.asyncio
+async def test_slow_network_inserts_reduction_but_fast_network_keeps_g0() -> None:
+    slow_gateway = RecordingGateway(task())
+    slow_sink = MemorySink()
+    slow = await AdaptiveWorkflowExecutor(
+        slow_gateway,
+        FixedProfileProvider("constrained"),
+        ScriptedWorkflowAdaptationPolicy(
+            (PatchWorkflow(reason="reduce transfer cost", patch=reduction_patch()),)
+        ),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), direct_plan(), WorkflowTraceRecorder("slow", slow_sink))
+    assert slow.succeeded
+    assert slow_gateway.batches == [("reduce",), ("answer",)]
+    assert slow.final_plan.version == 1
+
+    fast_gateway = RecordingGateway(task())
+    fast = await AdaptiveWorkflowExecutor(
+        fast_gateway,
+        FixedProfileProvider("fast"),
+        ScriptedWorkflowAdaptationPolicy((KeepWorkflow(reason="movement is cheap"),)),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), direct_plan(), WorkflowTraceRecorder("fast", MemorySink()))
+    assert fast.succeeded
+    assert fast_gateway.batches == [("answer",)]
+    assert fast.final_plan.canonical_sha256() == direct_plan().canonical_sha256()
+
+
+def parallel_plan() -> SemanticWorkflowPlan:
+    branches = tuple(
+        model_action(f"branch-{index}").model_copy(
+            update={
+                "outputs": (
+                    LogicalOutput(
+                        artifact_id=f"hits-{index}",
+                        semantic_type="analysis",
+                        media_type="text/plain",
+                    ),
+                )
+            }
+        )
+        for index in range(3)
+    )
+    answer = model_action(inputs=tuple(f"hits-{index}" for index in range(3)))
+    edges = tuple(
+        WorkflowDependency(
+            dependency_type="artifact",
+            producer_action_id=f"branch-{index}",
+            consumer_action_id="answer",
+            information_id=f"hits-{index}",
+        )
+        for index in range(3)
+    )
+    return SemanticWorkflowPlan(
+        workflow_id="parallel-smoke",
+        version=0,
+        actions=branches + (answer,),
+        dependencies=edges,
+        terminal_action_id="answer",
+    )
+
+
+@pytest.mark.asyncio
+async def test_dependency_edits_change_parallel_frontier_without_hidden_serialization() -> None:
+    plan = parallel_plan()
+    validate_semantic_workflow(plan, task(), capabilities(), build_operator_catalog())
+    parallel_gateway = RecordingGateway(task())
+    parallel = await AdaptiveWorkflowExecutor(
+        parallel_gateway,
+        FixedProfileProvider("fast"),
+        ScriptedWorkflowAdaptationPolicy((KeepWorkflow(reason="parallel capacity"),)),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), plan, WorkflowTraceRecorder("parallel", MemorySink()))
+    assert parallel.succeeded
+    assert parallel_gateway.batches[0] == ("branch-0", "branch-1", "branch-2")
+
+    patch = WorkflowPatch(
+        patch_id="serialize-contention",
+        reason="abstract queue contention makes serialized branches cheaper",
+        edits=(
+            AddDependency(
+                dependency=WorkflowDependency(
+                    dependency_type="control",
+                    producer_action_id="branch-0",
+                    consumer_action_id="branch-1",
+                )
+            ),
+            AddDependency(
+                dependency=WorkflowDependency(
+                    dependency_type="control",
+                    producer_action_id="branch-1",
+                    consumer_action_id="branch-2",
+                )
+            ),
+        ),
+    )
+    serial_gateway = RecordingGateway(task())
+    serial = await AdaptiveWorkflowExecutor(
+        serial_gateway,
+        FixedProfileProvider("constrained"),
+        ScriptedWorkflowAdaptationPolicy((PatchWorkflow(reason="avoid contention", patch=patch),)),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), plan, WorkflowTraceRecorder("serial", MemorySink()))
+    assert serial.succeeded
+    assert serial_gateway.batches == [
+        ("branch-0",),
+        ("branch-1",),
+        ("branch-2",),
+        ("answer",),
+    ]
+
+
+@pytest.mark.asyncio
+async def test_same_g0_can_receive_different_physical_bindings() -> None:
+    plan = direct_plan()
+    bindings: list[str] = []
+    for binding in ("worker-secret-a", "worker-secret-b"):
+        gateway = RecordingGateway(task(), binding)
+        result = await AdaptiveWorkflowExecutor(
+            gateway,
+            FixedProfileProvider("fast"),
+            ScriptedWorkflowAdaptationPolicy((KeepWorkflow(reason="same semantic plan"),)),
+            build_operator_catalog(),
+            capabilities(),
+        ).execute(task(), plan, WorkflowTraceRecorder(binding, MemorySink()))
+        assert result.final_plan.canonical_sha256() == plan.canonical_sha256()
+        assert gateway.outcomes[0].selection is not None
+        bindings.append(gateway.outcomes[0].selection.selected_agent_id)
+    assert bindings == ["worker-secret-a", "worker-secret-b"]
+
+
+@pytest.mark.asyncio
+async def test_trace_reconstructs_versions_and_logical_events_do_not_leak() -> None:
+    sink = MemorySink()
+    result = await AdaptiveWorkflowExecutor(
+        RecordingGateway(task()),
+        FixedProfileProvider("constrained"),
+        ScriptedWorkflowAdaptationPolicy(
+            (PatchWorkflow(reason="reduce transfer cost", patch=reduction_patch()),)
+        ),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), direct_plan(), WorkflowTraceRecorder("trace", sink))
+    versions = [
+        event.payload for event in sink.events if event.event_type == "workflow.plan.version"
+    ]
+    patches = [event for event in sink.events if event.event_type == "workflow.plan.patch"]
+    snapshots = [
+        event for event in sink.events if event.event_type == "workflow.execution.snapshot"
+    ]
+    assert [item["version"] for item in versions] == [0, 1]
+    assert versions[-1]["canonical_sha256"] == result.final_plan.canonical_sha256()
+    assert patches and snapshots
+    logical_trace = json.dumps(versions + [item.payload for item in patches], sort_keys=True)
+    assert "worker-secret" not in logical_trace
+    assert "deployment-secret" not in logical_trace
+    assert "private://never-leak" not in logical_trace
+    assert "private-evaluator" not in logical_trace

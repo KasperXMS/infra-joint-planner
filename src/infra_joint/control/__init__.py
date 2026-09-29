@@ -1,5 +1,13 @@
 """Persistent logical-agent control plane over the existing physical substrate."""
 
+from infra_joint.control.adaptation import (
+    KeepWorkflow,
+    LLMInfraAwareWorkflowAdapter,
+    PatchWorkflow,
+    WorkflowAdaptationPolicy,
+)
+from infra_joint.control.adaptive_executor import AdaptiveWorkflowExecutor
+from infra_joint.control.adaptive_runner import AdaptiveWorkflowBenchmarkRunner
 from infra_joint.control.contracts import (
     ExecutionRequirements,
     LogicalAgentSpec,
@@ -20,9 +28,16 @@ from infra_joint.control.physical import (
     PhysicalFeasibilityValidator,
 )
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
+from infra_joint.control.workflow import (
+    SemanticWorkflowPlan,
+    WorkflowPatch,
+    WorkflowRuntimeState,
+)
 
 __all__ = [
     "ActionGateway",
+    "AdaptiveWorkflowBenchmarkRunner",
+    "AdaptiveWorkflowExecutor",
     "ControlPlaneBenchmarkRunner",
     "ExecutionRequirements",
     "LogicalAgentSpec",
@@ -30,13 +45,20 @@ __all__ = [
     "LogicalObservation",
     "LogicalOutput",
     "LogicalToolAction",
+    "KeepWorkflow",
+    "LLMInfraAwareWorkflowAdapter",
     "OpenAIAgentsNativeRuntime",
     "PersistentManagerLoop",
     "PhysicalExecutionService",
     "PhysicalFeasibilityValidator",
     "PhysicalProfileView",
+    "PatchWorkflow",
     "RuntimeActionGateway",
     "StaticCapabilityContract",
     "StaticModelCapabilityClass",
     "StaticOperatorCapability",
+    "SemanticWorkflowPlan",
+    "WorkflowAdaptationPolicy",
+    "WorkflowPatch",
+    "WorkflowRuntimeState",
 ]
