@@ -21,6 +21,7 @@ from blind_baseline_6task_v1 import (
     _yaml,
     load_bundles,
 )
+from open_ended_mas_preliminary_v1 import _load_key
 from openai import AsyncOpenAI
 
 from infra_joint.agents.context import AgentTaskView
@@ -286,6 +287,8 @@ async def run_all(
 
 
 async def main_async(args: argparse.Namespace) -> None:
+    if args.api_key_file is not None:
+        _load_key(args.api_key_file)
     validation = _load_config(args.config)
     base_path = REPO / str(validation["source_experiment_config"])
     base = _yaml(base_path)
@@ -306,6 +309,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--longbench-samples", type=Path, required=True)
     parser.add_argument("--multihop-corpus", type=Path, required=True)
     parser.add_argument("--multihop-queries", type=Path, required=True)
+    parser.add_argument("--api-key-file", type=Path)
     parser.add_argument("--freeze-only", action="store_true")
     return parser.parse_args()
 
