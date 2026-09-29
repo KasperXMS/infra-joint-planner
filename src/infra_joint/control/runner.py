@@ -13,7 +13,12 @@ from pydantic import Field
 
 from infra_joint.benchmarks.base import AdaptationBundle, PreparedArtifact
 from infra_joint.config import RunnerConfig
-from infra_joint.control.contracts import LogicalAgentSpec, ProfileVisibility
+from infra_joint.control.capabilities import build_static_capability_contract
+from infra_joint.control.contracts import (
+    LogicalAgentSpec,
+    ProfileVisibility,
+    StaticCapabilityContract,
+)
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.loop import (
     AgentLoopBudget,
@@ -52,6 +57,7 @@ class LogicalRuntime(Protocol):
         profile_visibility: ProfileVisibility,
         budget: AgentLoopBudget | None,
         trace: WorkflowTraceRecorder,
+        static_capabilities: StaticCapabilityContract,
     ) -> AgentLoopResult: ...
 
 
@@ -181,6 +187,11 @@ class ControlPlaneBenchmarkRunner:
                     physical,
                 )
                 if self._logical_runtime is not None:
+                    static_capabilities = build_static_capability_contract(
+                        self._config.environment,
+                        registry,
+                        self._available_operations,
+                    )
                     loop = await self._logical_runtime.run(
                         bundle.execution.task,
                         gateway,
@@ -188,6 +199,7 @@ class ControlPlaneBenchmarkRunner:
                         profile_visibility=self._profile_visibility,
                         budget=self._loop_budget,
                         trace=trace,
+                        static_capabilities=static_capabilities,
                     )
                 else:
                     if self._manager is None:

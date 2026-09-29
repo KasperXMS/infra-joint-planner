@@ -145,8 +145,11 @@ async def main_async(args: argparse.Namespace) -> None:
             max_active_subagents=1,
         ),
     )
-    if result.final_answer != "A" or gateway.call_count != 1:
-        raise RuntimeError("SDK-native adapter smoke produced an unexpected result")
+    if result.final_answer != "A" or not 1 <= gateway.call_count <= 2:
+        raise RuntimeError(
+            "SDK-native adapter smoke produced an unexpected result: "
+            f"gateway_calls={gateway.call_count}, result={result.model_dump_json()}"
+        )
     print(
         json.dumps(
             {

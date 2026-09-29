@@ -67,6 +67,79 @@ class ExecutionRequirements(ContractModel):
         return value
 
 
+class StaticOperatorCapability(ContractModel):
+    """Identity-free semantic contract for one system-owned executable primitive."""
+
+    operator: str = Field(min_length=1)
+    description: str = Field(min_length=1)
+    input_schema: dict[str, Any]
+    argument_schema: dict[str, Any]
+    output_schema: dict[str, Any]
+    required_capabilities: frozenset[str] = frozenset()
+
+
+class StaticModelCapabilityClass(ContractModel):
+    """An abstract model class, never a deployment or device identity."""
+
+    capability_class: str = Field(pattern=r"^model-class-[0-9]{2}$")
+    modalities: frozenset[str]
+    capabilities: frozenset[str]
+    context_window: int = Field(gt=0)
+    reserved_output_tokens: int = Field(gt=0)
+    quality_classes: frozenset[Literal["standard", "high_quality", "low_latency"]] = (
+        frozenset()
+    )
+
+    @model_validator(mode="after")
+    def output_budget_fits_context(self) -> Self:
+        if "text" not in self.modalities:
+            raise ValueError("static model class must support text prompts")
+        if self.reserved_output_tokens >= self.context_window:
+            raise ValueError("static model output budget must fit its context window")
+        return self
+
+    def satisfies(self, requirements: ExecutionRequirements) -> bool:
+        return (
+            requirements.modalities <= self.modalities
+            and requirements.required_capabilities <= self.capabilities
+            and requirements.min_context_tokens <= self.context_window
+            and requirements.reserved_output_tokens <= self.reserved_output_tokens
+            and (
+                requirements.quality_class is None
+                or requirements.quality_class in self.quality_classes
+            )
+        )
+
+
+class StaticCapabilityContract(ContractModel):
+    """Shared Blind/Aware action-space facts with no dynamic physical state."""
+
+    schema_version: Literal["static-capability-v1"] = "static-capability-v1"
+    operators: tuple[StaticOperatorCapability, ...]
+    model_classes: tuple[StaticModelCapabilityClass, ...]
+
+    @model_validator(mode="after")
+    def entries_are_unique(self) -> Self:
+        operators = tuple(item.operator for item in self.operators)
+        classes = tuple(item.capability_class for item in self.model_classes)
+        if len(operators) != len(set(operators)):
+            raise ValueError("static operator capabilities must be unique")
+        if len(classes) != len(set(classes)):
+            raise ValueError("static model capability classes must be unique")
+        _reject_physical_content(self.model_dump(mode="json"))
+        return self
+
+    def matching_model_classes(
+        self,
+        requirements: ExecutionRequirements,
+    ) -> tuple[str, ...]:
+        return tuple(
+            item.capability_class
+            for item in self.model_classes
+            if item.satisfies(requirements)
+        )
+
+
 class _LogicalActionBase(ContractModel):
     action_id: str = Field(min_length=1)
     owner_agent_id: str = Field(min_length=1)

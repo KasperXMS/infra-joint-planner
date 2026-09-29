@@ -24,6 +24,8 @@ from infra_joint.control.contracts import (
     LogicalOutput,
     LogicalToolAction,
     ProfileVisibility,
+    StaticCapabilityContract,
+    StaticOperatorCapability,
     SubagentResult,
 )
 from infra_joint.control.gateway import ActionGateway
@@ -92,6 +94,7 @@ class _NativeState:
     root_agent: LogicalAgentSpec
     trace: WorkflowTraceRecorder | None
     artifact_namespace: str
+    static_capabilities: StaticCapabilityContract
     observations: list[LogicalObservation] = field(
         default_factory=lambda: list[LogicalObservation]()
     )
@@ -261,6 +264,7 @@ class OpenAIAgentsNativeRuntime:
         profile_visibility: ProfileVisibility = ProfileVisibility.BLIND,
         budget: AgentLoopBudget | None = None,
         trace: WorkflowTraceRecorder | None = None,
+        static_capabilities: StaticCapabilityContract | None = None,
     ) -> AgentLoopResult:
         root = root_agent or LogicalAgentSpec(
             logical_agent_id="manager",
@@ -269,6 +273,24 @@ class OpenAIAgentsNativeRuntime:
         )
         resolved_budget = budget or AgentLoopBudget()
         task_view = AgentTaskView.from_contract(task)
+        resolved_capabilities = static_capabilities or StaticCapabilityContract(
+            operators=tuple(
+                StaticOperatorCapability(
+                    operator=name,
+                    description=self._registry.binding(name).spec.description,
+                    input_schema=self._registry.binding(name).spec.input_schema
+                    or {"type": "array"},
+                    argument_schema=self._registry.binding(name).spec.argument_schema
+                    or {"type": "object"},
+                    output_schema=self._registry.binding(name).spec.output_schema or {},
+                    required_capabilities=self._registry.binding(
+                        name
+                    ).spec.capability_requirements,
+                )
+                for name in self._available_operations
+            ),
+            model_classes=(),
+        )
         state = _NativeState(
             task=task,
             task_view=task_view,
@@ -279,6 +301,7 @@ class OpenAIAgentsNativeRuntime:
             root_agent=root,
             trace=trace,
             artifact_namespace=f"derived/{uuid4().hex}",
+            static_capabilities=resolved_capabilities,
             accessible={root.logical_agent_id: {item.artifact_id for item in task_view.artifacts}},
             produced={root.logical_agent_id: set()},
         )
@@ -291,6 +314,7 @@ class OpenAIAgentsNativeRuntime:
                 "budget": resolved_budget.model_dump(mode="json"),
                 "adapter": "openai-agents-sdk-native-tools-v1",
                 "artifact_namespace": state.artifact_namespace,
+                "static_capability_contract": resolved_capabilities.model_dump(mode="json"),
             },
         )
         state.emit("workflow.graph.snapshot", state.graph.snapshot().model_dump(mode="json"))
@@ -322,7 +346,7 @@ class OpenAIAgentsNativeRuntime:
         try:
             result = await runner.run(
                 manager,
-                input=self._manager_input(task_view),
+                input=self._manager_input(task_view, resolved_capabilities),
                 context=state,
                 max_turns=resolved_budget.max_manager_turns,
                 hooks=hooks,
@@ -415,7 +439,16 @@ class OpenAIAgentsNativeRuntime:
         specialist_agent = cast(_AgentObject, specialist)
 
         def input_builder(options: dict[str, object]) -> str:
-            return json.dumps(options["params"], ensure_ascii=False, sort_keys=True)
+            return json.dumps(
+                {
+                    "assignment": options["params"],
+                    "static_capability_contract": state.static_capabilities.model_dump(
+                        mode="json"
+                    ),
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            )
 
         tool = specialist_agent.as_tool(
             tool_name="consult_specialist",
@@ -606,6 +639,8 @@ class OpenAIAgentsNativeRuntime:
                     "semantic_validation_failed",
                     str(exc),
                 )
+            if isinstance(action, LogicalModelAction):
+                self._emit_model_requirements(state, action)
             state.emit(
                 "logical.batch.validation",
                 {**validation, "status": "accepted", "all_inputs_materialized": True},
@@ -667,6 +702,8 @@ class OpenAIAgentsNativeRuntime:
             )
             state.emit("workflow.graph.snapshot", finished.model_dump(mode="json"))
             self._emit_outcome(state, batch_id, action_id, outcome)
+            if isinstance(action, LogicalModelAction):
+                self._emit_model_outcome(state, action, outcome)
             state.emit(
                 "logical.batch.completed",
                 {
@@ -753,6 +790,50 @@ class OpenAIAgentsNativeRuntime:
             payload["failure"] = outcome.failure.model_dump(mode="json")
         state.emit("physical.execution", payload)
 
+    @staticmethod
+    def _emit_model_requirements(
+        state: _NativeState,
+        action: LogicalModelAction,
+    ) -> None:
+        matches = state.static_capabilities.matching_model_classes(action.requirements)
+        state.emit(
+            "logical.model.requirements",
+            {
+                "action_id": action.action_id,
+                "owner_agent_id": action.owner_agent_id,
+                "requested": action.requirements.model_dump(mode="json"),
+                "matching_model_classes": list(matches),
+                "static_feasible": bool(matches),
+                "classification": "static_feasible" if matches else "static_impossible",
+            },
+        )
+
+    @staticmethod
+    def _emit_model_outcome(
+        state: _NativeState,
+        action: LogicalModelAction,
+        outcome: PhysicalExecutionOutcome,
+    ) -> None:
+        execution = outcome.execution
+        state.emit(
+            "logical.model.outcome",
+            {
+                "action_id": action.action_id,
+                "owner_agent_id": action.owner_agent_id,
+                "succeeded": outcome.observation.succeeded,
+                "failure_code": outcome.observation.failure_code,
+                "static_feasible": bool(
+                    state.static_capabilities.matching_model_classes(
+                        action.requirements
+                    )
+                ),
+                "physical_selection_succeeded": outcome.selection is not None,
+                "reached_model_inference": (
+                    execution is not None and execution.model_telemetry is not None
+                ),
+            },
+        )
+
     def _manager_instructions(self) -> str:
         return (
             self._instructions
@@ -779,9 +860,17 @@ class OpenAIAgentsNativeRuntime:
         )
 
     @staticmethod
-    def _manager_input(task: AgentTaskView) -> str:
+    def _manager_input(
+        task: AgentTaskView,
+        static_capabilities: StaticCapabilityContract,
+    ) -> str:
         return json.dumps(
-            {"task": task.model_dump(mode="json")},
+            {
+                "task": task.model_dump(mode="json"),
+                "static_capability_contract": static_capabilities.model_dump(
+                    mode="json"
+                ),
+            },
             ensure_ascii=False,
             sort_keys=True,
         )

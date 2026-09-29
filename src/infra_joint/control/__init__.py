@@ -8,6 +8,9 @@ from infra_joint.control.contracts import (
     LogicalOutput,
     LogicalToolAction,
     PhysicalProfileView,
+    StaticCapabilityContract,
+    StaticModelCapabilityClass,
+    StaticOperatorCapability,
 )
 from infra_joint.control.gateway import ActionGateway, RuntimeActionGateway
 from infra_joint.control.loop import PersistentManagerLoop
@@ -33,4 +36,7 @@ __all__ = [
     "PhysicalFeasibilityValidator",
     "PhysicalProfileView",
     "RuntimeActionGateway",
+    "StaticCapabilityContract",
+    "StaticModelCapabilityClass",
+    "StaticOperatorCapability",
 ]

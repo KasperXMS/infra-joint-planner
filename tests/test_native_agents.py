@@ -11,6 +11,8 @@ from infra_joint.control.contracts import (
     LogicalObservation,
     ProducedInformation,
     ProfileVisibility,
+    StaticCapabilityContract,
+    StaticModelCapabilityClass,
 )
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.loop import AgentLoopBudget
@@ -712,6 +714,18 @@ async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -
             max_active_subagents=1,
         ),
         trace=WorkflowTraceRecorder("native-blind", sink),
+        static_capabilities=StaticCapabilityContract(
+            operators=(),
+            model_classes=(
+                StaticModelCapabilityClass(
+                    capability_class="model-class-01",
+                    modalities=frozenset({"text", "image"}),
+                    capabilities=frozenset({"model"}),
+                    context_window=16_384,
+                    reserved_output_tokens=1_024,
+                ),
+            ),
+        ),
     )
 
     assert result.final_answer == "A"
@@ -730,3 +744,12 @@ async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -
     ):
         assert forbidden not in logical
     assert all(item.physical_profile is None for item in result.observations)
+    requirements = next(
+        item for item in sink.events if item.event_type == "logical.model.requirements"
+    )
+    assert requirements.payload["static_feasible"] is True
+    assert requirements.payload["matching_model_classes"] == ["model-class-01"]
+    outcome = next(
+        item for item in sink.events if item.event_type == "logical.model.outcome"
+    )
+    assert outcome.payload["reached_model_inference"] is False

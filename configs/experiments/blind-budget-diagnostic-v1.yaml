@@ -1,0 +1,26 @@
+experiment_id: blind-budget-diagnostic-v1
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+fresh_environment_config: configs/experiments/blind-budget-diagnostic-environment-v1.yaml
+tasks:
+  - video-cross-temporal
+  - longbench-multidoc
+  - multihop-multisource
+control_plane:
+  implementation: openai-agents-sdk-native-tools-with-bounded-agents-as-tools
+  profile_visibility: blind
+  manager_model:
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+    api_key_env: DEEPSEEK_API_KEY
+  action_call_budgets: [18, 24, 32]
+  manager_turn_rule: ceil_two_thirds_action_budget
+  max_subagent_turns: 8
+  max_created_subagents: 4
+  max_active_subagents: 2
+execution:
+  network: native_unshaped
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false
+  worker_store_policy: isolated_fresh_processes
