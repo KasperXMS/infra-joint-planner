@@ -73,10 +73,15 @@ class SmokeGateway:
 
 
 def load_key(path: Path) -> str:
-    value = path.read_text(encoding="utf-8").strip()
-    if not value:
-        raise RuntimeError("API key file is empty")
-    return value
+    prefix = "DeepSeek API Key:"
+    values = [
+        line.removeprefix(prefix).strip()
+        for line in path.read_text(encoding="utf-8").splitlines()
+        if line.startswith(prefix)
+    ]
+    if len(values) != 1 or not values[0]:
+        raise RuntimeError("API key file must contain exactly one DeepSeek key")
+    return values[0]
 
 
 async def main_async(args: argparse.Namespace) -> None:
