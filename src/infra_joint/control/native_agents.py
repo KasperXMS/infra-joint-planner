@@ -8,6 +8,7 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from time import perf_counter
 from typing import Any, Protocol, cast
+from uuid import uuid4
 
 from jsonschema import Draft202012Validator
 from jsonschema.exceptions import ValidationError as JsonSchemaValidationError
@@ -90,6 +91,7 @@ class _NativeState:
     visibility: ProfileVisibility
     root_agent: LogicalAgentSpec
     trace: WorkflowTraceRecorder | None
+    artifact_namespace: str
     observations: list[LogicalObservation] = field(
         default_factory=lambda: list[LogicalObservation]()
     )
@@ -276,6 +278,7 @@ class OpenAIAgentsNativeRuntime:
             visibility=profile_visibility,
             root_agent=root,
             trace=trace,
+            artifact_namespace=f"derived/{uuid4().hex}",
             accessible={root.logical_agent_id: {item.artifact_id for item in task_view.artifacts}},
             produced={root.logical_agent_id: set()},
         )
@@ -287,6 +290,7 @@ class OpenAIAgentsNativeRuntime:
                 "root_agent": root.model_dump(mode="json"),
                 "budget": resolved_budget.model_dump(mode="json"),
                 "adapter": "openai-agents-sdk-native-tools-v1",
+                "artifact_namespace": state.artifact_namespace,
             },
         )
         state.emit("workflow.graph.snapshot", state.graph.snapshot().model_dump(mode="json"))
@@ -503,7 +507,14 @@ class OpenAIAgentsNativeRuntime:
                         },
                     )
                 state.emit("logical.subagent.end", subagent_result.model_dump(mode="json"))
-                return answer
+                return json.dumps(
+                    {
+                        "specialist_answer": answer,
+                        "produced_artifact_ids": handoff,
+                    },
+                    ensure_ascii=False,
+                    sort_keys=True,
+                )
             finally:
                 async with state.state_lock:
                     state.active_subagents -= 1
@@ -535,6 +546,11 @@ class OpenAIAgentsNativeRuntime:
         arguments = _with_schema_defaults(
             spec.argument_schema,
             cast(dict[str, Any], payload.get("arguments", {})),
+        )
+        arguments = _namespace_output_arguments(
+            state.artifact_namespace,
+            spec.operator_id,
+            arguments,
         )
         try:
             action = _logical_action(spec, action_id, owner, inputs, arguments, payload)
@@ -948,6 +964,21 @@ def _with_schema_defaults(
         default = cast(dict[object, object], value).get("default")
         if default is not None:
             normalized[name] = copy.deepcopy(default)
+    return normalized
+
+
+def _namespace_output_arguments(
+    namespace: str,
+    operator: str,
+    arguments: dict[str, Any],
+) -> dict[str, Any]:
+    normalized = dict(arguments)
+    key = "output_prefix" if operator == "sample_frames" else "output_artifact_id"
+    value = normalized.get(key)
+    if not isinstance(value, str) or not value:
+        return normalized
+    prefix = namespace.rstrip("/") + "/"
+    normalized[key] = value if value.startswith(prefix) else prefix + value.lstrip("/")
     return normalized
 
 

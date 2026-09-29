@@ -517,13 +517,17 @@ async def test_two_native_bm25_tools_run_in_parallel() -> None:
 
         results = await asyncio.gather(retrieve(0), retrieve(1))
         assert all(json.loads(item)["succeeded"] for item in results)
+        hits = [
+            json.loads(item)["produced_information"][0]["artifact_id"]
+            for item in results
+        ]
         await reasoning_end(hooks, context, agent)
         await reasoning_start(hooks, context, agent)
         await tool(agent, "invoke_model").on_invoke_tool(
             tool_context(agent, context, "answer"),
             json.dumps(
                 {
-                    "inputs": ["hits-0", "hits-1"],
+                    "inputs": hits,
                     "arguments": {"prompt": "Return only A."},
                 }
             ),
@@ -576,13 +580,14 @@ async def test_dependent_native_call_waits_for_producer_result() -> None:
         producer_result, premature_result = await asyncio.gather(producer, premature)
         assert json.loads(producer_result)["succeeded"]
         assert json.loads(premature_result)["failure_code"] == "artifact_not_materialized"
+        hits = json.loads(producer_result)["produced_information"][0]["artifact_id"]
         await reasoning_end(hooks, context, agent)
         await reasoning_start(hooks, context, agent)
         final = await tool(agent, "invoke_model").on_invoke_tool(
             tool_context(agent, context, "after-observation"),
             json.dumps(
                 {
-                    "inputs": ["hits"],
+                    "inputs": [hits],
                     "arguments": {"prompt": "Return only A."},
                 }
             ),
@@ -642,14 +647,16 @@ async def test_manager_specialist_tool_handoff_then_manager_continues() -> None:
                 }
             ),
         )
-        assert specialist_result == "evidence ready"
+        specialist_payload = json.loads(specialist_result)
+        assert specialist_payload["specialist_answer"] == "evidence ready"
+        evidence_note = specialist_payload["produced_artifact_ids"][0]
         await reasoning_end(hooks, context, agent)
         await reasoning_start(hooks, context, agent)
         answer = await tool(agent, "invoke_model").on_invoke_tool(
             tool_context(agent, context, "manager-answer"),
             json.dumps(
                 {
-                    "inputs": ["evidence-note"],
+                    "inputs": [evidence_note],
                     "arguments": {"prompt": "Return only A."},
                 }
             ),
@@ -665,7 +672,10 @@ async def test_manager_specialist_tool_handoff_then_manager_continues() -> None:
     assert result.terminal_action_id == "manager:manager-answer"
     assert len(result.subagent_results) == 1
     assert result.subagent_results[0].logical_agent_id == "evidence-specialist"
-    assert any(item.information_id == "evidence-note" for item in result.graph_snapshots[-1].edges)
+    assert any(
+        item.information_id.endswith("/evidence-note")
+        for item in result.graph_snapshots[-1].edges
+    )
 
 
 @pytest.mark.asyncio
