@@ -295,6 +295,7 @@ class OpenAIAgentsNativeRuntime:
             self._function_tool(sdk, state, self._registry.binding(name).spec)
             for name in self._available_operations
         ]
+        hooks = _sdk_hooks(sdk, state)
         specialist = self._agent(
             sdk,
             name="bounded_specialist",
@@ -302,7 +303,9 @@ class OpenAIAgentsNativeRuntime:
             tools=function_tools,
             max_parallel=True,
         )
-        specialist_tool = self._specialist_tool(specialist, state, resolved_budget)
+        specialist_tool = self._specialist_tool(
+            specialist, state, resolved_budget, hooks
+        )
         manager = self._agent(
             sdk,
             name=root.logical_agent_id,
@@ -311,7 +314,6 @@ class OpenAIAgentsNativeRuntime:
             max_parallel=True,
         )
         runner = cast(_RunnerType, sdk.__dict__["Runner"])
-        hooks = _NativeHooks(state)
         try:
             result = await runner.run(
                 manager,
@@ -403,6 +405,7 @@ class OpenAIAgentsNativeRuntime:
         specialist: object,
         state: _NativeState,
         budget: AgentLoopBudget,
+        hooks: object,
     ) -> object:
         specialist_agent = cast(_AgentObject, specialist)
 
@@ -416,7 +419,7 @@ class OpenAIAgentsNativeRuntime:
                 "needed by that specialist; its result returns to the manager."
             ),
             max_turns=budget.max_subagent_turns,
-            hooks=_NativeHooks(state),
+            hooks=hooks,
             parameters=SpecialistRequest,
             input_builder=input_builder,
         )
@@ -880,3 +883,62 @@ def _load_native_agents_sdk() -> object:
     if missing:
         raise RuntimeError(f"OpenAI Agents SDK is missing required APIs: {missing}")
     return module
+
+
+def _sdk_hooks(sdk: object, state: _NativeState) -> object:
+    delegate = _NativeHooks(state)
+    base = sdk.__dict__.get("RunHooks")
+    if base is None:
+        return delegate
+
+    class SdkNativeHooks(base):  # type: ignore[valid-type, misc]
+        async def on_llm_start(
+            self,
+            context: object,
+            agent: object,
+            system_prompt: str | None,
+            input_items: list[object],
+        ) -> None:
+            await delegate.on_llm_start(
+                context, agent, system_prompt, input_items
+            )
+
+        async def on_llm_end(
+            self,
+            context: object,
+            agent: object,
+            response: object,
+        ) -> None:
+            await delegate.on_llm_end(context, agent, response)
+
+        async def on_agent_start(self, context: object, agent: object) -> None:
+            await delegate.on_agent_start(context, agent)
+
+        async def on_agent_end(
+            self, context: object, agent: object, output: object
+        ) -> None:
+            await delegate.on_agent_end(context, agent, output)
+
+        async def on_handoff(
+            self,
+            context: object,
+            from_agent: object,
+            to_agent: object,
+        ) -> None:
+            await delegate.on_handoff(context, from_agent, to_agent)
+
+        async def on_tool_start(
+            self, context: object, agent: object, tool: object
+        ) -> None:
+            await delegate.on_tool_start(context, agent, tool)
+
+        async def on_tool_end(
+            self,
+            context: object,
+            agent: object,
+            tool: object,
+            result: object,
+        ) -> None:
+            await delegate.on_tool_end(context, agent, tool, result)
+
+    return SdkNativeHooks()

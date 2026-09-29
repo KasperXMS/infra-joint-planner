@@ -45,6 +45,10 @@ class FakeModelSettings:
         self.parallel_tool_calls = parallel_tool_calls
 
 
+class FakeRunHooks:
+    pass
+
+
 class FakeAgent:
     def __init__(self, **kwargs: Any) -> None:
         self.name = kwargs["name"]
@@ -101,6 +105,7 @@ FAKE_SDK = SimpleNamespace(
     Agent=FakeAgent,
     FunctionTool=FakeFunctionTool,
     ModelSettings=FakeModelSettings,
+    RunHooks=FakeRunHooks,
     Runner=FakeRunner,
 )
 
