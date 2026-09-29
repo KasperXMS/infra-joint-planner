@@ -133,7 +133,7 @@ async def main_async(args: argparse.Namespace) -> None:
         ),
         model=model,
         registry=registry,
-        available_operations=("invoke_model",),
+        available_operations=tuple(registry),
     ).run(
         task,
         gateway,  # type: ignore[arg-type]

@@ -14,7 +14,10 @@ from infra_joint.control.contracts import (
 )
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.loop import AgentLoopBudget
-from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
+from infra_joint.control.native_agents import (
+    OpenAIAgentsNativeRuntime,
+    _native_tool_schema,
+)
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.core.state import InfrastructureState
@@ -220,6 +223,15 @@ def runtime_and_gateway(
         physical,  # type: ignore[arg-type]
     )
     return runtime, gateway
+
+
+def test_native_schema_rebases_nested_operator_definitions() -> None:
+    spec = build_operator_catalog().binding("aggregate_records").spec
+    schema = _native_tool_schema(spec)
+    reference = schema["properties"]["arguments"]["properties"]["aggregations"][
+        "items"
+    ]["$ref"]
+    assert reference == "#/properties/arguments/$defs/Aggregation"
 
 
 def tool(agent: FakeAgent, name: str) -> FakeFunctionTool:

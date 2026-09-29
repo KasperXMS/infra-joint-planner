@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import copy
 import importlib
 import json
 from collections.abc import Iterable, Iterator
@@ -715,10 +716,17 @@ class OpenAIAgentsNativeRuntime:
 
 
 def _native_tool_schema(spec: OperatorSpec) -> dict[str, Any]:
+    input_schema = copy.deepcopy(
+        spec.input_schema
+        or {"type": "array", "items": {"type": "string"}}
+    )
+    argument_schema = _nest_local_references(
+        copy.deepcopy(spec.argument_schema or {"type": "object"}),
+        "#/properties/arguments",
+    )
     properties: dict[str, Any] = {
-        "inputs": spec.input_schema
-        or {"type": "array", "items": {"type": "string"}},
-        "arguments": spec.argument_schema or {"type": "object"},
+        "inputs": input_schema,
+        "arguments": argument_schema,
     }
     if spec.operator_id == "invoke_model":
         properties["requirements"] = {
@@ -751,6 +759,23 @@ def _native_tool_schema(spec: OperatorSpec) -> dict[str, Any]:
         "required": ["inputs", "arguments"],
         "additionalProperties": False,
     }
+
+
+def _nest_local_references(value: object, prefix: str) -> object:
+    if isinstance(value, dict):
+        result: dict[str, object] = {}
+        for key, nested in cast(dict[object, object], value).items():
+            if key == "$ref" and isinstance(nested, str) and nested.startswith("#/"):
+                result[str(key)] = prefix + nested[1:]
+            else:
+                result[str(key)] = _nest_local_references(nested, prefix)
+        return result
+    if isinstance(value, list):
+        return [
+            _nest_local_references(item, prefix)
+            for item in cast(list[object], value)
+        ]
+    return value
 
 
 def _logical_owner(context: object, fallback: str) -> str:
