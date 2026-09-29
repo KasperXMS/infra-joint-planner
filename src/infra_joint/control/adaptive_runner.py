@@ -17,6 +17,7 @@ from infra_joint.control.adaptive_executor import (
     AdaptiveWorkflowExecutor,
 )
 from infra_joint.control.capabilities import build_static_capability_contract
+from infra_joint.control.contracts import StaticCapabilityContract
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.physical import PhysicalExecutionService, PhysicalProfiler
 from infra_joint.control.prior import (
@@ -31,6 +32,7 @@ from infra_joint.control.workflow_cost import (
     SemanticWorkflowCostEvaluator,
 )
 from infra_joint.core.base import ContractModel
+from infra_joint.core.task import TaskContract
 from infra_joint.evaluation.evaluator import EvaluationResult
 from infra_joint.evaluation.trace import JsonlTraceWriter
 from infra_joint.infrastructure.observer import LiveWorkerObserver
@@ -56,6 +58,7 @@ class PersistedAdaptiveWorkflowResult(ContractModel):
     prior_plan_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     execution: AdaptiveWorkflowExecution | None = None
     final_answer: str | None = None
+    terminal_output_contract_valid: bool | None = None
     evaluation: EvaluationResult | None = None
     initial_transfers: tuple[ArtifactTransferTelemetry, ...] = ()
     e2e_latency_ms: float = Field(ge=0)
@@ -74,8 +77,7 @@ class AdaptiveWorkflowBenchmarkRunner:
         available_operations: tuple[str, ...],
         *,
         prior_store: PriorWorkflowStore,
-        prior_model: str,
-        prior_prompt: str,
+        require_frozen_prior: bool = False,
         worker_clients: dict[str, WorkerClient] | None = None,
         cost_profiles: tuple[ExecutionCostProfile, ...] = (),
     ) -> None:
@@ -84,8 +86,7 @@ class AdaptiveWorkflowBenchmarkRunner:
         self._adapter = adaptation_policy
         self._available_operations = available_operations
         self._prior_store = prior_store
-        self._prior_model = prior_model
-        self._prior_prompt = prior_prompt
+        self._require_frozen_prior = require_frozen_prior
         self._worker_clients = worker_clients
         self._cost_profiles = cost_profiles
 
@@ -119,30 +120,16 @@ class AdaptiveWorkflowBenchmarkRunner:
                         clients[agent_id] = HttpWorkerClient(agent_id, client)
                 registry = build_operator_catalog()
                 await validate_worker_surfaces(self._config.environment, registry, clients)
-                transfers = await self._materialize(bundle, clients)
-                for transfer in transfers:
-                    trace.emit("artifact.materialize.end", transfer.model_dump(mode="json"))
                 capabilities = build_static_capability_contract(
                     self._config.environment,
                     registry,
                     self._available_operations,
                 )
                 bundle_hash = self._public_bundle_hash(bundle)
-                prior_path = self._prior_store.path_for(task.task_id)
-                if prior_path.exists():
-                    frozen = self._prior_store.load(task.task_id)
-                    frozen.verify(task, capabilities, bundle_hash)
-                else:
-                    plan = await self._prior_generator.generate(task, capabilities)
-                    frozen = FrozenPriorWorkflow.create(
-                        task=task,
-                        plan=plan,
-                        capabilities=capabilities,
-                        public_bundle_sha256=bundle_hash,
-                        prior_model=self._prior_model,
-                        prompt=self._prior_prompt,
-                    )
-                    self._prior_store.save(frozen)
+                frozen = await self._resolve_prior(task, capabilities, bundle_hash)
+                transfers = await self._materialize(bundle, clients)
+                for transfer in transfers:
+                    trace.emit("artifact.materialize.end", transfer.model_dump(mode="json"))
                 observer = LiveWorkerObserver(self._config.environment, clients)
                 profiler = PhysicalProfiler(
                     self._config.environment,
@@ -167,7 +154,13 @@ class AdaptiveWorkflowBenchmarkRunner:
                     gateway,
                     ObservedWorkflowProfileProvider(
                         observer,
-                        SemanticWorkflowCostEvaluator(profiler),
+                        SemanticWorkflowCostEvaluator(
+                            self._config.environment,
+                            registry,
+                            self._cost_profiles,
+                            task,
+                            capabilities,
+                        ),
                     ),
                     self._adapter,
                     registry,
@@ -188,6 +181,11 @@ class AdaptiveWorkflowBenchmarkRunner:
                     prior_plan_sha256=frozen.plan_sha256,
                     execution=execution,
                     final_answer=execution.final_answer,
+                    terminal_output_contract_valid=(
+                        execution.terminal_output_contract.valid
+                        if execution.terminal_output_contract is not None
+                        else None
+                    ),
                     evaluation=evaluation,
                     initial_transfers=transfers,
                     e2e_latency_ms=(perf_counter() - started) * 1000,
@@ -213,6 +211,62 @@ class AdaptiveWorkflowBenchmarkRunner:
             trace.emit("run.failed", failure.model_dump(mode="json"))
         result_path.write_text(persisted.model_dump_json(indent=2) + "\n", encoding="utf-8")
         return persisted
+
+    async def prepare_prior_workflow(
+        self,
+        bundle: AdaptationBundle,
+    ) -> FrozenPriorWorkflow:
+        """Explicit development/preparation entry point; it performs no task execution."""
+
+        registry = build_operator_catalog()
+        capabilities = build_static_capability_contract(
+            self._config.environment,
+            registry,
+            self._available_operations,
+        )
+        generation = await self._prior_generator.generate(
+            bundle.execution.task,
+            capabilities,
+        )
+        expected = self._prior_generator.provenance(bundle.execution.task, capabilities)
+        if generation.provenance != expected:
+            raise ValueError("prior generator returned inconsistent provenance")
+        frozen = FrozenPriorWorkflow.create(
+            task=bundle.execution.task,
+            generation=generation,
+            capabilities=capabilities,
+            public_bundle_sha256=self._public_bundle_hash(bundle),
+        )
+        self._prior_store.save(frozen)
+        return frozen
+
+    async def _resolve_prior(
+        self,
+        task: TaskContract,
+        capabilities: StaticCapabilityContract,
+        bundle_hash: str,
+    ) -> FrozenPriorWorkflow:
+        expected = self._prior_generator.provenance(task, capabilities)
+        prior_path = self._prior_store.path_for(task.task_id)
+        if prior_path.exists():
+            frozen = self._prior_store.load(task.task_id)
+            frozen.verify(task, capabilities, bundle_hash, expected)
+            return frozen
+        if self._require_frozen_prior:
+            raise FileNotFoundError(
+                f"formal experiment requires a frozen prior workflow: {prior_path}"
+            )
+        generation = await self._prior_generator.generate(task, capabilities)
+        if generation.provenance != expected:
+            raise ValueError("prior generator returned inconsistent provenance")
+        frozen = FrozenPriorWorkflow.create(
+            task=task,
+            generation=generation,
+            capabilities=capabilities,
+            public_bundle_sha256=bundle_hash,
+        )
+        self._prior_store.save(frozen)
+        return frozen
 
     async def _materialize(
         self,

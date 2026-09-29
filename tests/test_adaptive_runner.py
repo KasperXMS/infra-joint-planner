@@ -140,21 +140,32 @@ async def test_adaptive_runner_reuses_frozen_prior_and_original_evaluator(
         transport=httpx.ASGITransport(app=app),
         base_url="http://worker",
     ) as client:
+        worker_clients = {agent_id: HttpWorkerClient(agent_id, client)}
         result = await AdaptiveWorkflowBenchmarkRunner(
             config,
             StaticPriorWorkflowGenerator(plan, build_operator_catalog()),
             KeepWorkflowPolicy(),
             ("invoke_model",),
             prior_store=prior_store,
-            prior_model="static-prior",
-            prior_prompt="deterministic prior",
-            worker_clients={agent_id: HttpWorkerClient(agent_id, client)},
+            worker_clients=worker_clients,
         ).run(bundle, run_id="formal-run")
+        missing = await AdaptiveWorkflowBenchmarkRunner(
+            config,
+            StaticPriorWorkflowGenerator(plan, build_operator_catalog()),
+            KeepWorkflowPolicy(),
+            ("invoke_model",),
+            prior_store=PriorWorkflowStore(tmp_path / "missing-priors"),
+            require_frozen_prior=True,
+            worker_clients=worker_clients,
+        ).run(bundle, run_id="formal-missing-prior")
 
     assert result.execution_completed
     assert result.final_answer == "A"
     assert result.evaluation is not None
     assert result.evaluation.benchmark_score == 1
+    assert not missing.execution_completed
+    assert missing.failure is not None
+    assert "requires a frozen prior workflow" in missing.failure.message
     frozen = prior_store.load(task.task_id)
     assert frozen.plan_sha256 == plan.canonical_sha256()
     trace_path = tmp_path / "runs" / "formal-run" / "trace.jsonl"
@@ -169,3 +180,36 @@ async def test_adaptive_runner_reuses_frozen_prior_and_original_evaluator(
     assert "private-exact" not in logical_lines
     assert agent_id not in logical_lines
     assert deployment_id not in logical_lines
+
+    invalid_app = create_worker_app(
+        agent_id,
+        {
+            deployment_id: ModelDeployment(
+                deployment_id=deployment_id,
+                model_id="static-model",
+                backend=StaticModelBackend("C"),
+                modalities=frozenset({"text"}),
+                context_window=4096,
+                reserved_output_tokens=64,
+                image_token_cost=256,
+            )
+        },
+    )
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=invalid_app),
+        base_url="http://worker",
+    ) as invalid_client:
+        invalid = await AdaptiveWorkflowBenchmarkRunner(
+            config,
+            StaticPriorWorkflowGenerator(plan, build_operator_catalog()),
+            KeepWorkflowPolicy(),
+            ("invoke_model",),
+            prior_store=prior_store,
+            require_frozen_prior=True,
+            worker_clients={agent_id: HttpWorkerClient(agent_id, invalid_client)},
+        ).run(bundle, run_id="formal-invalid-choice")
+    assert invalid.execution_completed
+    assert invalid.terminal_output_contract_valid is False
+    assert invalid.evaluation is not None
+    assert not invalid.evaluation.format_valid
+    assert invalid.evaluation.benchmark_score == 0

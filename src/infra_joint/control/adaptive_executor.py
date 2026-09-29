@@ -9,6 +9,7 @@ from infra_joint.control.adaptation import (
     PatchWorkflow,
     WorkflowAdaptationContext,
     WorkflowAdaptationPolicy,
+    WorkflowAdaptationTelemetry,
 )
 from infra_joint.control.contracts import (
     LogicalAction,
@@ -18,6 +19,10 @@ from infra_joint.control.contracts import (
 )
 from infra_joint.control.gateway import ActionGateway
 from infra_joint.control.graph import ExecutionGrownGraph
+from infra_joint.control.output_validation import (
+    TerminalOutputValidation,
+    validate_terminal_output,
+)
 from infra_joint.control.workflow import (
     SemanticWorkflowPlan,
     SemanticWorkflowVersion,
@@ -51,7 +56,9 @@ class AdaptiveWorkflowExecution(ContractModel):
     final_state: WorkflowRuntimeState
     observations: tuple[LogicalObservation, ...]
     execution_graph: tuple[WorkflowGraphSnapshot, ...]
+    adaptation_telemetry: tuple[WorkflowAdaptationTelemetry, ...] = ()
     final_answer: str | None = None
+    terminal_output_contract: TerminalOutputValidation | None = None
     failure: AdaptiveExecutionFailure | None = None
 
     @property
@@ -94,11 +101,12 @@ class AdaptiveWorkflowExecutor:
         records: list[WorkflowPatchRecord] = []
         graph = ExecutionGrownGraph()
         observations: list[LogicalObservation] = []
+        adaptation_telemetry: list[WorkflowAdaptationTelemetry] = []
         trace.emit("workflow.plan.version", self._version_payload(versions[-1]))
 
         for _ in range(self._max_frontiers):
             profile = await self._profiles.build(plan, state)
-            decision = await self._adapter.adapt(
+            adaptation = await self._adapter.adapt(
                 WorkflowAdaptationContext(
                     task=AgentTaskView.from_contract(task),
                     plan=plan,
@@ -107,6 +115,12 @@ class AdaptiveWorkflowExecutor:
                     static_capabilities=self._capabilities,
                     physical=profile,
                 )
+            )
+            decision = adaptation.decision
+            adaptation_telemetry.append(adaptation.telemetry)
+            trace.emit(
+                "workflow.adaptation",
+                adaptation.telemetry.model_dump(mode="json"),
             )
             if isinstance(decision, PatchWorkflow):
                 revised = apply_workflow_patch(
@@ -158,6 +172,7 @@ class AdaptiveWorkflowExecutor:
                     records,
                     observations,
                     graph,
+                    adaptation_telemetry,
                     failure=AdaptiveExecutionFailure(
                         code="workflow_stalled",
                         message="pending workflow has no newly-ready frontier",
@@ -207,6 +222,7 @@ class AdaptiveWorkflowExecutor:
                     records,
                     observations,
                     graph,
+                    adaptation_telemetry,
                     failure=AdaptiveExecutionFailure(
                         code=failed_observation.failure_code or "physical_execution_failed",
                         message=failed_observation.failure_message or "physical action failed",
@@ -226,6 +242,7 @@ class AdaptiveWorkflowExecutor:
                         records,
                         observations,
                         graph,
+                        adaptation_telemetry,
                         failure=AdaptiveExecutionFailure(
                             code="terminal_output_invalid",
                             message="terminal model action returned no non-empty inline text",
@@ -239,7 +256,12 @@ class AdaptiveWorkflowExecutor:
                     records,
                     observations,
                     graph,
+                    adaptation_telemetry,
                     final_answer=answer,
+                    terminal_output_contract=validate_terminal_output(
+                        answer,
+                        task.output_contract,
+                    ),
                 )
         return self._result(
             plan,
@@ -248,6 +270,7 @@ class AdaptiveWorkflowExecutor:
             records,
             observations,
             graph,
+            adaptation_telemetry,
             failure=AdaptiveExecutionFailure(
                 code="frontier_budget_exhausted",
                 message="adaptive workflow exceeded the configured frontier budget",
@@ -280,8 +303,10 @@ class AdaptiveWorkflowExecutor:
         records: list[WorkflowPatchRecord],
         observations: list[LogicalObservation],
         graph: ExecutionGrownGraph,
+        adaptation_telemetry: list[WorkflowAdaptationTelemetry],
         *,
         final_answer: str | None = None,
+        terminal_output_contract: TerminalOutputValidation | None = None,
         failure: AdaptiveExecutionFailure | None = None,
     ) -> AdaptiveWorkflowExecution:
         return AdaptiveWorkflowExecution(
@@ -292,6 +317,8 @@ class AdaptiveWorkflowExecutor:
             final_state=state,
             observations=tuple(observations),
             execution_graph=graph.snapshots,
+            adaptation_telemetry=tuple(adaptation_telemetry),
             final_answer=final_answer,
+            terminal_output_contract=terminal_output_contract,
             failure=failure,
         )

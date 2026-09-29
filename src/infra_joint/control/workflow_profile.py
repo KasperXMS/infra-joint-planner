@@ -12,8 +12,8 @@ from infra_joint.core.base import ContractModel
 class PendingActionPhysicalProfile(ContractModel):
     action_id: str = Field(min_length=1)
     candidate_count: int = Field(ge=0)
-    input_bytes: int = Field(ge=0)
-    remote_input_count_range: tuple[int, int]
+    input_bytes: int | None = Field(default=None, ge=0)
+    remote_input_count_range: tuple[int, int] | None = None
     transfer_latency_ms_range: tuple[float, float] | None = None
     service_latency_ms_range: tuple[float, float] | None = None
     queue_pressure_range: tuple[int, int] | None = None

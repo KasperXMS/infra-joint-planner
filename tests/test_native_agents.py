@@ -723,6 +723,7 @@ async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -
                     capabilities=frozenset({"model"}),
                     context_window=16_384,
                     reserved_output_tokens=1_024,
+                    image_token_cost=512,
                 ),
             ),
         ),

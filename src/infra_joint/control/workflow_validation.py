@@ -8,6 +8,10 @@ from infra_joint.control.contracts import (
     LogicalToolAction,
     StaticCapabilityContract,
 )
+from infra_joint.control.static_feasibility import (
+    StaticFeasibilityError,
+    analyze_static_workflow,
+)
 from infra_joint.control.validation import semantic_action
 from infra_joint.control.workflow import (
     AddAction,
@@ -130,6 +134,10 @@ def validate_semantic_workflow(
     unreachable = sorted(set(actions) - reachable)
     if unreachable:
         raise WorkflowValidationError(f"all actions must reach the terminal action: {unreachable}")
+    try:
+        analyze_static_workflow(plan, task, capabilities)
+    except StaticFeasibilityError as exc:
+        raise WorkflowValidationError(str(exc)) from exc
 
 
 def validate_workflow_revision(

@@ -9,6 +9,7 @@ from pydantic import ValidationError
 from infra_joint.control.adaptation import (
     KeepWorkflow,
     KeepWorkflowPolicy,
+    LLMInfraAwareWorkflowAdapter,
     PatchWorkflow,
     ScriptedWorkflowAdaptationPolicy,
 )
@@ -23,7 +24,6 @@ from infra_joint.control.contracts import (
 )
 from infra_joint.control.physical import (
     PhysicalExecutionOutcome,
-    PhysicalProfiler,
     PhysicalSelection,
 )
 from infra_joint.control.prior import (
@@ -62,7 +62,13 @@ from infra_joint.core.state import (
     LinkRuntimeState,
     LinkSpec,
 )
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactContentSchema,
+    ArtifactSpec,
+    OutputContract,
+    OutputFormat,
+    TaskContract,
+)
 from infra_joint.evaluation.trace import TraceEvent
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.worker.model_backend import (
@@ -91,7 +97,12 @@ class CapturingBackend:
         self.requests.append(request)
         return ModelCompletion(
             text=self.response,
-            telemetry=ModelCallTelemetry(service_latency_ms=1, finish_reason="stop"),
+            telemetry=ModelCallTelemetry(
+                service_latency_ms=1,
+                input_tokens=10,
+                output_tokens=3,
+                finish_reason="stop",
+            ),
         )
 
 
@@ -115,13 +126,19 @@ class FixedProfileProvider:
 
 
 class RecordingGateway:
-    def __init__(self, task: TaskContract, binding: str = "worker-secret-a") -> None:
+    def __init__(
+        self,
+        task: TaskContract,
+        binding: str = "worker-secret-a",
+        answer: str = "A",
+    ) -> None:
         self.validator = SemanticActionValidator(
             task,
             build_operator_catalog(),
             ("bm25_retrieve", "invoke_model"),
         )
         self.binding = binding
+        self.answer = answer
         self.batches: list[tuple[str, ...]] = []
         self.outcomes: list[PhysicalExecutionOutcome] = []
 
@@ -148,7 +165,7 @@ class RecordingGateway:
                 }
                 for item in action.outputs
             )
-            output = {"text": "A"} if isinstance(action, LogicalModelAction) else {}
+            output = {"text": self.answer} if isinstance(action, LogicalModelAction) else {}
             observation = LogicalObservation(
                 action_id=action.action_id,
                 owner_agent_id=action.owner_agent_id,
@@ -191,6 +208,13 @@ def task() -> TaskContract:
                 logical_type="corpus",
                 media_type="application/json",
                 size_bytes=10_000,
+                content_schema=ArtifactContentSchema(
+                    kind="record_array",
+                    fields={"text": "string"},
+                    text_field="text",
+                    record_count=10,
+                    max_record_bytes=1_000,
+                ),
                 source_ref="private://never-leak",
             ),
         ),
@@ -221,14 +245,14 @@ def environment() -> EnvironmentSpec:
                 deployment_id="deployment-secret-a",
                 agent_id="worker-secret-a",
                 model_id="test",
-                context_window=4096,
+                context_window=32768,
                 reserved_output_tokens=64,
             ),
             DeploymentSpec(
                 deployment_id="deployment-secret-b",
                 agent_id="worker-secret-b",
                 model_id="test",
-                context_window=4096,
+                context_window=32768,
                 reserved_output_tokens=64,
             ),
         ),
@@ -359,29 +383,34 @@ def test_static_prior_and_persistence_reuse_same_g0(tmp_path) -> None:
     generated = __import__("asyncio").run(generator.generate(task(), capabilities()))
     frozen = FrozenPriorWorkflow.create(
         task=task(),
-        plan=generated,
+        generation=generated,
         capabilities=capabilities(),
         public_bundle_sha256="a" * 64,
-        prior_model="static-test",
-        prompt="static deterministic prior",
     )
     store = PriorWorkflowStore(tmp_path / "prior_workflows")
     path = store.save(frozen)
     assert path.name == "formal-smoke.json"
     assert store.save(frozen) == path
     loaded = store.load(task().task_id)
-    loaded.verify(task(), capabilities(), "a" * 64)
+    loaded.verify(
+        task(),
+        capabilities(),
+        "a" * 64,
+        generator.provenance(task(), capabilities()),
+    )
     assert loaded.plan_sha256 == plan.canonical_sha256()
 
 
 @pytest.mark.asyncio
 async def test_llm_prior_prompt_is_sanitized_and_infrastructure_independent() -> None:
     backend = CapturingBackend(direct_plan().model_dump_json())
-    generated = await LLMPriorWorkflowGenerator(
+    generator = LLMPriorWorkflowGenerator(
         backend,
         build_operator_catalog(),
-    ).generate(task(), capabilities())
-    assert generated == direct_plan()
+        model_id="test-prior-model",
+    )
+    generated = await generator.generate(task(), capabilities())
+    assert generated.plan == direct_plan()
     prompt = backend.requests[0].prompt
     assert "private://never-leak" not in prompt
     assert "private-evaluator" not in prompt
@@ -494,22 +523,27 @@ def test_semantic_workflow_cost_uses_feasible_bindings_and_preserves_unknowns() 
         ),
         observed_at=datetime.now(UTC),
     )
+    registry = build_operator_catalog()
     evaluator = SemanticWorkflowCostEvaluator(
-        PhysicalProfiler(
-            remote_environment,
-            build_operator_catalog(),
-            (
-                ExecutionCostProfile(
-                    operator="invoke_model",
-                    agent_id="compute",
-                    deployment_id="runtime-only-deployment",
-                    input_units=10_000,
-                    unit_kind="bytes",
-                    service_latency_ms=100,
-                    source="deterministic-test",
-                ),
+        remote_environment,
+        registry,
+        (
+            ExecutionCostProfile(
+                operator="invoke_model",
+                agent_id="compute",
+                deployment_id="runtime-only-deployment",
+                input_units=10_000,
+                unit_kind="bytes",
+                service_latency_ms=100,
+                source="deterministic-test",
             ),
-        )
+        ),
+        task(),
+        build_static_capability_contract(
+            remote_environment,
+            registry,
+            ("invoke_model",),
+        ),
     )
     view = evaluator.evaluate(
         direct_plan(),
@@ -903,3 +937,95 @@ async def test_trace_reconstructs_versions_and_logical_events_do_not_leak() -> N
     assert "deployment-secret" not in logical_trace
     assert "private://never-leak" not in logical_trace
     assert "private-evaluator" not in logical_trace
+
+
+@pytest.mark.asyncio
+async def test_llm_adaptation_telemetry_is_complete() -> None:
+    backend = CapturingBackend(
+        '{"decision_type":"keep","reason":"current workflow is efficient"}'
+    )
+    sink = MemorySink()
+    result = await AdaptiveWorkflowExecutor(
+        RecordingGateway(task()),
+        FixedProfileProvider("fast"),
+        LLMInfraAwareWorkflowAdapter(backend),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), direct_plan(), WorkflowTraceRecorder("adapt-telemetry", sink))
+    telemetry = result.adaptation_telemetry[0]
+    assert telemetry.decision_type == "keep"
+    assert telemetry.patch_edit_count == 0
+    assert telemetry.adaptation_latency_ms >= 0
+    assert telemetry.model_service_latency_ms == 1
+    assert telemetry.input_tokens == 10
+    assert telemetry.output_tokens == 3
+    assert any(item.event_type == "workflow.adaptation" for item in sink.events)
+
+
+@pytest.mark.asyncio
+async def test_invalid_terminal_choice_and_json_are_recorded_not_execution_failures() -> None:
+    invalid_choice = await AdaptiveWorkflowExecutor(
+        RecordingGateway(task(), answer="C"),
+        FixedProfileProvider("fast"),
+        KeepWorkflowPolicy(),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(task(), direct_plan(), WorkflowTraceRecorder("bad-choice", MemorySink()))
+    assert invalid_choice.succeeded
+    assert invalid_choice.terminal_output_contract is not None
+    assert not invalid_choice.terminal_output_contract.valid
+    assert invalid_choice.terminal_output_contract.failure_code == "invalid_choice_output"
+
+    json_task = task().model_copy(
+        update={
+            "output_contract": OutputContract(
+                format=OutputFormat.JSON,
+                schema={
+                    "type": "object",
+                    "properties": {"answer": {"type": "integer"}},
+                    "required": ["answer"],
+                    "additionalProperties": False,
+                },
+            )
+        }
+    )
+    invalid_json = await AdaptiveWorkflowExecutor(
+        RecordingGateway(json_task, answer='{"answer":"not-an-integer"}'),
+        FixedProfileProvider("fast"),
+        KeepWorkflowPolicy(),
+        build_operator_catalog(),
+        capabilities(),
+    ).execute(
+        json_task,
+        direct_plan(),
+        WorkflowTraceRecorder("bad-json", MemorySink()),
+    )
+    assert invalid_json.succeeded
+    assert invalid_json.terminal_output_contract is not None
+    assert invalid_json.terminal_output_contract.failure_code == "output_schema_mismatch"
+
+
+def test_frozen_prior_model_and_prompt_mismatch_fail_closed() -> None:
+    generator = StaticPriorWorkflowGenerator(direct_plan(), build_operator_catalog())
+    generation = __import__("asyncio").run(generator.generate(task(), capabilities()))
+    frozen = FrozenPriorWorkflow.create(
+        task=task(),
+        generation=generation,
+        capabilities=capabilities(),
+        public_bundle_sha256="b" * 64,
+    )
+    expected = generator.provenance(task(), capabilities())
+    with pytest.raises(ValueError, match="model mismatch"):
+        frozen.verify(
+            task(),
+            capabilities(),
+            "b" * 64,
+            expected.model_copy(update={"model_id": "different-model"}),
+        )
+    with pytest.raises(ValueError, match="prompt mismatch"):
+        frozen.verify(
+            task(),
+            capabilities(),
+            "b" * 64,
+            expected.model_copy(update={"prompt_sha256": "c" * 64}),
+        )

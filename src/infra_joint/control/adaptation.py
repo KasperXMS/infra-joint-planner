@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from collections import deque
 from collections.abc import Iterable
+from time import perf_counter
 from typing import Annotated, Literal, Protocol
 
 from pydantic import Field, TypeAdapter, ValidationError
@@ -53,16 +54,39 @@ class WorkflowAdaptationPolicy(Protocol):
     async def adapt(
         self,
         context: WorkflowAdaptationContext,
-    ) -> WorkflowAdaptationDecision: ...
+    ) -> WorkflowAdaptationOutcome: ...
+
+
+class WorkflowAdaptationTelemetry(ContractModel):
+    adaptation_latency_ms: float = Field(ge=0)
+    model_service_latency_ms: float | None = Field(default=None, ge=0)
+    input_tokens: int | None = Field(default=None, ge=0)
+    output_tokens: int | None = Field(default=None, ge=0)
+    decision_type: Literal["keep", "patch"]
+    patch_edit_count: int = Field(ge=0)
+
+
+class WorkflowAdaptationOutcome(ContractModel):
+    decision: WorkflowAdaptationDecision
+    telemetry: WorkflowAdaptationTelemetry
 
 
 class KeepWorkflowPolicy:
     def __init__(self, reason: str = "current workflow remains appropriate") -> None:
         self._reason = reason
 
-    async def adapt(self, context: WorkflowAdaptationContext) -> KeepWorkflow:
+    async def adapt(self, context: WorkflowAdaptationContext) -> WorkflowAdaptationOutcome:
+        started = perf_counter()
         del context
-        return KeepWorkflow(reason=self._reason)
+        decision = KeepWorkflow(reason=self._reason)
+        return WorkflowAdaptationOutcome(
+            decision=decision,
+            telemetry=WorkflowAdaptationTelemetry(
+                adaptation_latency_ms=(perf_counter() - started) * 1000,
+                decision_type="keep",
+                patch_edit_count=0,
+            ),
+        )
 
 
 class ScriptedWorkflowAdaptationPolicy:
@@ -72,11 +96,24 @@ class ScriptedWorkflowAdaptationPolicy:
     async def adapt(
         self,
         context: WorkflowAdaptationContext,
-    ) -> WorkflowAdaptationDecision:
+    ) -> WorkflowAdaptationOutcome:
+        started = perf_counter()
         del context
         if not self._decisions:
-            return KeepWorkflow(reason="script exhausted; preserve current pending suffix")
-        return self._decisions.popleft()
+            decision: WorkflowAdaptationDecision = KeepWorkflow(
+                reason="script exhausted; preserve current pending suffix"
+            )
+        else:
+            decision = self._decisions.popleft()
+        edit_count = len(decision.patch.edits) if isinstance(decision, PatchWorkflow) else 0
+        return WorkflowAdaptationOutcome(
+            decision=decision,
+            telemetry=WorkflowAdaptationTelemetry(
+                adaptation_latency_ms=(perf_counter() - started) * 1000,
+                decision_type=decision.decision_type,
+                patch_edit_count=edit_count,
+            ),
+        )
 
 
 class LLMInfraAwareWorkflowAdapter:
@@ -88,12 +125,26 @@ class LLMInfraAwareWorkflowAdapter:
     async def adapt(
         self,
         context: WorkflowAdaptationContext,
-    ) -> WorkflowAdaptationDecision:
+    ) -> WorkflowAdaptationOutcome:
+        started = perf_counter()
         completion = await self._backend.invoke(ModelRequest(prompt=self.render_prompt(context)))
         try:
-            return ADAPTATION_ADAPTER.validate_json(completion.text)
+            decision = ADAPTATION_ADAPTER.validate_json(completion.text)
         except ValidationError as exc:
             raise ValueError("workflow adapter returned an invalid KEEP/PATCH decision") from exc
+        return WorkflowAdaptationOutcome(
+            decision=decision,
+            telemetry=WorkflowAdaptationTelemetry(
+                adaptation_latency_ms=(perf_counter() - started) * 1000,
+                model_service_latency_ms=completion.telemetry.service_latency_ms,
+                input_tokens=completion.telemetry.input_tokens,
+                output_tokens=completion.telemetry.output_tokens,
+                decision_type=decision.decision_type,
+                patch_edit_count=(
+                    len(decision.patch.edits) if isinstance(decision, PatchWorkflow) else 0
+                ),
+            ),
+        )
 
     def render_prompt(self, context: WorkflowAdaptationContext) -> str:
         return "\n".join(

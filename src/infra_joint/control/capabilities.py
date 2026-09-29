@@ -41,6 +41,7 @@ def build_static_capability_contract(
             tuple[str, ...],
             int,
             int,
+            int,
             tuple[QualityClass, ...],
         ],
         list[str],
@@ -52,6 +53,7 @@ def build_static_capability_contract(
             tuple(sorted(host.capabilities)),
             deployment.context_window,
             deployment.reserved_output_tokens,
+            deployment.image_token_cost,
             tuple(sorted(quality.get(deployment.deployment_id, frozenset()))),
         )
         signatures[signature].append(deployment.deployment_id)
@@ -63,7 +65,8 @@ def build_static_capability_contract(
             capabilities=frozenset(signature[1]),
             context_window=signature[2],
             reserved_output_tokens=signature[3],
-            quality_classes=frozenset(signature[4]),
+            image_token_cost=signature[4],
+            quality_classes=frozenset(signature[5]),
         )
         for index, signature in enumerate(sorted(signatures), start=1)
     )

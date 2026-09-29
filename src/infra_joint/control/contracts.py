@@ -86,6 +86,7 @@ class StaticModelCapabilityClass(ContractModel):
     capabilities: frozenset[str]
     context_window: int = Field(gt=0)
     reserved_output_tokens: int = Field(gt=0)
+    image_token_cost: int = Field(gt=0)
     quality_classes: frozenset[Literal["standard", "high_quality", "low_latency"]] = (
         frozenset()
     )
@@ -141,8 +142,18 @@ class StaticCapabilityContract(ContractModel):
 
 
 class _LogicalActionBase(ContractModel):
+    """Logical action shared fields.
+
+    In the workflow-centric formal path, owner_agent_id is a role/provenance/grouping
+    annotation only. It does not create independent memory, conversational state, or
+    MAS communication semantics.
+    """
+
     action_id: str = Field(min_length=1)
-    owner_agent_id: str = Field(min_length=1)
+    owner_agent_id: str = Field(
+        min_length=1,
+        description="Logical role/provenance annotation; not a physical or stateful agent.",
+    )
     inputs: tuple[str, ...] = ()
     outputs: tuple[LogicalOutput, ...] = ()
     depends_on: tuple[str, ...] = ()
