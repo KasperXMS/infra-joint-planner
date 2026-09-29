@@ -64,6 +64,11 @@ class SemanticActionValidator:
             )
 
         batch_ids = set(action_ids)
+        batch_producers = {
+            output.artifact_id: action.action_id
+            for action in actions
+            for output in action.outputs
+        }
         for action in actions:
             missing_dependencies = sorted(
                 set(action.depends_on) - self._known_actions - batch_ids
@@ -74,7 +79,13 @@ class SemanticActionValidator:
                 )
             if set(action.depends_on) & batch_ids:
                 raise SemanticValidationError(
-                    "actions in one parallel step cannot depend on each other"
+                    "same-batch producer-consumer dependency is not allowed"
+                )
+            same_batch_inputs = sorted(set(action.inputs) & batch_producers.keys())
+            if same_batch_inputs:
+                raise SemanticValidationError(
+                    "same-batch producer-consumer dependency is not allowed: "
+                    f"{same_batch_inputs}"
                 )
             missing_inputs = sorted(set(action.inputs) - self.known_artifacts)
             if missing_inputs:

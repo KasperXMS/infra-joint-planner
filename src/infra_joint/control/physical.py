@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
+from time import perf_counter
 from typing import Literal, Protocol, cast
 
 from pydantic import Field
@@ -49,6 +50,15 @@ class PhysicalExecutionOutcome(ContractModel):
     infrastructure_after: InfrastructureState
     selection: PhysicalSelection | None = None
     execution: ExecutionResult | None = None
+    failure: PhysicalFailureTelemetry | None = None
+
+
+class PhysicalFailureTelemetry(ContractModel):
+    operator: str = Field(min_length=1)
+    stage: Literal["selection", "execution"]
+    failure_code: str = Field(min_length=1)
+    failure_message: str = Field(min_length=1)
+    duration_ms: float = Field(ge=0)
 
 
 class PhysicalActionScheduler(Protocol):
@@ -479,6 +489,9 @@ class PhysicalExecutionService:
         before = await self._observer.observe()
         semantic = semantic_action(action)
         profile = self._profiler.for_action(action, before) if expose_profile else None
+        selection: PhysicalSelection | None = None
+        stage: Literal["selection", "execution"] = "selection"
+        physical_started = perf_counter()
         try:
             selection = self._scheduler.select(
                 action,
@@ -487,6 +500,8 @@ class PhysicalExecutionService:
                 before,
                 self._registry,
             )
+            stage = "execution"
+            physical_started = perf_counter()
             execution = await self._executor.execute(
                 JointAction(semantic=semantic, physical=selection.decision), before
             )
@@ -520,10 +535,19 @@ class PhysicalExecutionService:
                 failure_message=str(exc),
                 physical_profile=profile,
             )
+            failure = PhysicalFailureTelemetry(
+                operator=semantic.operator,
+                stage=stage,
+                failure_code=code_value,
+                failure_message=str(exc),
+                duration_ms=(perf_counter() - physical_started) * 1000,
+            )
             return PhysicalExecutionOutcome(
                 observation=observation,
                 infrastructure_before=before,
                 infrastructure_after=after,
+                selection=selection,
+                failure=failure,
             )
 
     @staticmethod

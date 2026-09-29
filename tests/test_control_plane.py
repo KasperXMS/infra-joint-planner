@@ -1,3 +1,4 @@
+import asyncio
 import json
 import sys
 from contextlib import AsyncExitStack
@@ -24,9 +25,11 @@ from infra_joint.control.contracts import (
     FinishDecision,
     LogicalAgentSpec,
     LogicalModelAction,
+    LogicalObservation,
     LogicalOutput,
     LogicalToolAction,
     ManagerContext,
+    ProducedInformation,
     ProfileVisibility,
     SubagentCall,
     WorkflowGraphSnapshot,
@@ -42,11 +45,17 @@ from infra_joint.control.loop import (
 from infra_joint.control.openai_agents import OpenAIAgentsManagerPolicy
 from infra_joint.control.physical import (
     AutoPhysicalScheduler,
+    PhysicalExecutionOutcome,
     PhysicalExecutionService,
     PhysicalProfiler,
+    PhysicalSelection,
 )
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
-from infra_joint.control.validation import SemanticActionValidator, semantic_action
+from infra_joint.control.validation import (
+    SemanticActionValidator,
+    SemanticValidationError,
+    semantic_action,
+)
 from infra_joint.core.state import (
     AgentRuntimeState,
     AgentSpec,
@@ -67,7 +76,7 @@ from infra_joint.evaluation.trace import TraceEvent
 from infra_joint.infrastructure.observer import LiveWorkerObserver
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.runtime.client import HttpWorkerClient
-from infra_joint.runtime.executor import RuntimeExecutor
+from infra_joint.runtime.executor import ExecutionResult, RuntimeExecutor
 from infra_joint.worker.artifact_store import InMemoryArtifactStore, StoredArtifact
 from infra_joint.worker.model_backend import (
     ModelCallTelemetry,
@@ -108,6 +117,95 @@ class MemorySink:
         self.events.append(event)
 
 
+class ConcurrentPhysicalService:
+    def __init__(self, expected: int) -> None:
+        self.expected = expected
+        self.entered = 0
+        self.active = 0
+        self.peak_active = 0
+        self.release = asyncio.Event()
+
+    async def execute(self, action, *, expose_profile: bool):
+        assert not expose_profile
+        self.entered += 1
+        self.active += 1
+        self.peak_active = max(self.peak_active, self.active)
+        if self.entered == self.expected:
+            self.release.set()
+        await asyncio.wait_for(self.release.wait(), timeout=1)
+        await asyncio.sleep(0)
+        self.active -= 1
+        current_state = state("A")
+        return PhysicalExecutionOutcome(
+            observation=LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=True,
+            ),
+            infrastructure_before=current_state,
+            infrastructure_after=current_state,
+        )
+
+
+class MixedPhysicalService:
+    async def execute(self, action, *, expose_profile: bool):
+        assert not expose_profile
+        current_state = state("A")
+        selection = PhysicalSelection(
+            decision={"policy": "auto"},
+            selected_agent_id="secret-worker",
+            selected_deployment_id=(
+                "secret-deployment" if isinstance(action, LogicalModelAction) else None
+            ),
+            rationale="test selection",
+        )
+        if action.action_id == "bad-retrieval":
+            return PhysicalExecutionOutcome(
+                observation=LogicalObservation(
+                    action_id=action.action_id,
+                    owner_agent_id=action.owner_agent_id,
+                    succeeded=False,
+                    failure_code="operator_failed",
+                    failure_message="bounded failure",
+                ),
+                infrastructure_before=current_state,
+                infrastructure_after=current_state,
+                selection=selection,
+            )
+        produced = tuple(
+            ProducedInformation(
+                artifact_id=item.artifact_id,
+                semantic_type=item.semantic_type,
+                media_type=item.media_type,
+                size_bytes=12,
+            )
+            for item in action.outputs
+        )
+        output = {"text": "A"} if isinstance(action, LogicalModelAction) else {}
+        return PhysicalExecutionOutcome(
+            observation=LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=True,
+                output=output,
+                produced_information=produced,
+            ),
+            infrastructure_before=current_state,
+            infrastructure_after=current_state,
+            selection=selection,
+            execution=ExecutionResult(
+                operator=(
+                    "invoke_model"
+                    if isinstance(action, LogicalModelAction)
+                    else action.operator
+                ),
+                agent_ids=("secret-worker",),
+                deployment_id=selection.selected_deployment_id,
+                output=output,
+            ),
+        )
+
+
 def task() -> TaskContract:
     return TaskContract(
         task_id="control-smoke",
@@ -124,6 +222,50 @@ def task() -> TaskContract:
         ),
         output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
         evaluator_id="private-evaluator",
+    )
+
+
+def retrieval_task(count: int) -> TaskContract:
+    return TaskContract(
+        task_id=f"retrieval-{count}",
+        benchmark_id="synthetic",
+        objective="Retrieve independent evidence.",
+        artifacts=tuple(
+            ArtifactSpec(
+                artifact_id=f"shard-{index}",
+                logical_type="records",
+                media_type="application/json",
+                size_bytes=2,
+            )
+            for index in range(count)
+        ),
+        output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
+        evaluator_id="private-evaluator",
+    )
+
+
+def retrieval_actions(count: int) -> tuple[LogicalToolAction, ...]:
+    return tuple(
+        LogicalToolAction(
+            action_id=f"retrieve-{index}",
+            owner_agent_id="manager",
+            operator="bm25_retrieve",
+            inputs=(f"shard-{index}",),
+            outputs=(
+                LogicalOutput(
+                    artifact_id=f"hits-{index}",
+                    semantic_type="retrieval_hits",
+                    media_type="application/json",
+                ),
+            ),
+            arguments={
+                "query": "target evidence",
+                "top_k": 2,
+                "text_field": "text",
+                "output_artifact_id": f"hits-{index}",
+            },
+        )
+        for index in range(count)
     )
 
 
@@ -212,6 +354,165 @@ def test_semantic_validation_does_not_require_environment() -> None:
         )
 
 
+async def _assert_same_owner_retrieval_batch_runs_in_parallel(count: int) -> None:
+    current_task = retrieval_task(count)
+    physical = ConcurrentPhysicalService(count)
+    gateway = RuntimeActionGateway(
+        SemanticActionValidator(
+            current_task,
+            build_operator_catalog(),
+            ("bm25_retrieve",),
+        ),
+        physical,  # type: ignore[arg-type]
+    )
+    outcomes = await gateway.execute_batch(
+        retrieval_actions(count),
+        expose_profile=False,
+    )
+    assert len(outcomes) == count
+    assert physical.peak_active == count
+
+
+@pytest.mark.asyncio
+async def test_same_agent_four_independent_bm25_actions_run_in_parallel() -> None:
+    await _assert_same_owner_retrieval_batch_runs_in_parallel(4)
+
+
+@pytest.mark.asyncio
+async def test_same_agent_six_cross_shard_bm25_actions_run_in_parallel() -> None:
+    await _assert_same_owner_retrieval_batch_runs_in_parallel(6)
+
+
+def test_same_batch_producer_consumer_is_rejected() -> None:
+    current_task = TaskContract(
+        task_id="dependent-batch",
+        benchmark_id="synthetic",
+        objective="Inspect images.",
+        artifacts=(
+            ArtifactSpec(
+                artifact_id="frame-1",
+                logical_type="video_frame",
+                media_type="image/jpeg",
+                size_bytes=10,
+            ),
+        ),
+        output_contract=OutputContract(format=OutputFormat.SHORT_TEXT),
+        evaluator_id="private-evaluator",
+    )
+    contact = LogicalToolAction(
+        action_id="contact",
+        owner_agent_id="manager",
+        operator="make_contact_sheet",
+        inputs=("frame-1",),
+        outputs=(
+            LogicalOutput(
+                artifact_id="contact-sheet",
+                semantic_type="contact_sheet",
+                media_type="image/jpeg",
+            ),
+        ),
+        arguments={"output_artifact_id": "contact-sheet"},
+    )
+    analyze = LogicalModelAction(
+        action_id="analyze",
+        owner_agent_id="manager",
+        inputs=("contact-sheet",),
+        prompt="Analyze the contact sheet.",
+        requirements=ExecutionRequirements(modalities=frozenset({"text", "image"})),
+    )
+    with pytest.raises(
+        SemanticValidationError,
+        match="same-batch producer-consumer dependency",
+    ):
+        SemanticActionValidator(
+            current_task,
+            build_operator_catalog(),
+            ("make_contact_sheet", "invoke_model"),
+        ).validate_batch((contact, analyze))
+
+
+@pytest.mark.asyncio
+async def test_mixed_batch_observations_arrive_together_and_graph_states_are_correct() -> None:
+    current_task = retrieval_task(2).model_copy(
+        update={
+            "output_contract": OutputContract(
+                format=OutputFormat.CHOICE,
+                choices=("A", "B"),
+            )
+        }
+    )
+    good, bad = retrieval_actions(2)
+    bad = bad.model_copy(update={"action_id": "bad-retrieval"})
+    policy = ScriptedManagerPolicy(
+        (
+            ContinueDecision(
+                rationale="run an independent mixed batch",
+                actions=(good, bad),
+            ),
+            ContinueDecision(
+                rationale="answer from the successful observation",
+                actions=(
+                    LogicalModelAction(
+                        action_id="terminal",
+                        owner_agent_id="manager",
+                        inputs=("hits-0",),
+                        prompt="Return A.",
+                    ),
+                ),
+            ),
+            FinishDecision(reason="done", source_action_id="terminal"),
+        )
+    )
+    registry = build_operator_catalog()
+    gateway = RuntimeActionGateway(
+        SemanticActionValidator(
+            current_task,
+            registry,
+            ("bm25_retrieve", "invoke_model"),
+        ),
+        MixedPhysicalService(),  # type: ignore[arg-type]
+    )
+    sink = MemorySink()
+    result = await PersistentManagerLoop(
+        gateway,
+        policy,
+        profile_visibility=ProfileVisibility.BLIND,
+        trace=WorkflowTraceRecorder("mixed-batch", sink),
+    ).run(current_task)
+
+    assert result.final_answer == "A"
+    assert len(policy.contexts[1].observations) == 2
+    assert {item.succeeded for item in policy.contexts[1].observations} == {True, False}
+    final_nodes = {item.action_id: item.status for item in result.graph_snapshots[-1].nodes}
+    assert final_nodes == {
+        "retrieve-0": "succeeded",
+        "bad-retrieval": "failed",
+        "terminal": "succeeded",
+    }
+    batch_events = [
+        item for item in sink.events if item.event_type.startswith("logical.batch.")
+    ]
+    assert [item.event_type for item in batch_events[:3]] == [
+        "logical.batch.validation",
+        "logical.batch.started",
+        "logical.batch.completed",
+    ]
+    first_completion = batch_events[2].payload
+    assert first_completion["succeeded_action_ids"] == ["retrieve-0"]
+    assert first_completion["failed_action_ids"] == ["bad-retrieval"]
+    logical_serialized = json.dumps(
+        [
+            item.payload
+            for item in sink.events
+            if item.event_type.startswith("logical.")
+        ],
+        sort_keys=True,
+    )
+    assert "secret-worker" not in logical_serialized
+    assert "secret-deployment" not in logical_serialized
+    assert "private-evaluator" not in logical_serialized
+
+
 def test_same_logical_model_action_can_bind_to_different_devices() -> None:
     registry = build_operator_catalog()
     current_environment = environment()
@@ -248,6 +549,57 @@ def test_same_logical_model_action_can_bind_to_different_devices() -> None:
     serialized = action.model_dump_json()
     assert "model-a" not in serialized
     assert "model-b" not in serialized
+
+
+@pytest.mark.asyncio
+async def test_failed_physical_action_retains_selection_and_failure_telemetry() -> None:
+    content = b"too large"
+    store = InMemoryArtifactStore(
+        (StoredArtifact.create("source", "text/plain", content),)
+    )
+    app = create_worker_app(
+        "A",
+        {},
+        artifact_store=store,
+        max_read_artifact_bytes=4,
+    )
+    current_environment = EnvironmentSpec(
+        agents=(AgentSpec(agent_id="A", device="edge"),),
+        deployments=(),
+    )
+    registry = build_operator_catalog()
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app),
+        base_url="http://A",
+    ) as http:
+        clients = {"A": HttpWorkerClient("A", http)}
+        outcome = await PhysicalExecutionService(
+            registry,
+            current_environment,
+            LiveWorkerObserver(current_environment, clients),
+            RuntimeExecutor(registry, current_environment, clients),
+        ).execute(
+            LogicalToolAction(
+                action_id="read",
+                owner_agent_id="manager",
+                operator="read_artifact",
+                inputs=("source",),
+            ),
+            expose_profile=False,
+        )
+
+    assert not outcome.observation.succeeded
+    assert outcome.observation.failure_code == "artifact_too_large"
+    assert outcome.observation.physical_profile is None
+    assert outcome.selection is not None
+    assert outcome.selection.selected_agent_id == "A"
+    assert outcome.failure is not None
+    assert outcome.failure.stage == "execution"
+    assert outcome.failure.operator == "read_artifact"
+    assert outcome.failure.duration_ms >= 0
+    logical_json = outcome.observation.model_dump_json()
+    assert "selected_agent_id" not in logical_json
+    assert "deployment_id" not in logical_json
 
 
 def test_aware_profile_is_abstract_and_identifier_free() -> None:

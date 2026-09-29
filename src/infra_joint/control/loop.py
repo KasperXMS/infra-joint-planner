@@ -14,6 +14,7 @@ from infra_joint.agents.context import AgentTaskView
 from infra_joint.control.contracts import (
     ContinueDecision,
     FinishDecision,
+    LogicalAction,
     LogicalAgentSpec,
     LogicalObservation,
     ManagerContext,
@@ -215,9 +216,11 @@ class PersistentManagerLoop:
                 latency_ms=(perf_counter() - started) * 1000,
             )
             self._planner_steps.append(telemetry)
+            decision_id = f"{agent.logical_agent_id}:turn:{step + 1}"
             self._emit(
                 "logical.decision",
                 {
+                    "decision_id": decision_id,
                     "logical_agent_id": agent.logical_agent_id,
                     "iteration": step,
                     "decision": decision.model_dump(mode="json"),
@@ -236,7 +239,7 @@ class PersistentManagerLoop:
                 )
                 local_subagents.extend(results)
             if decision.actions:
-                await self._execute_actions(decision)
+                await self._execute_actions(decision, decision_id)
         raise AgentLoopError(
             f"logical agent exceeded its step budget: {agent.logical_agent_id}"
         )
@@ -303,16 +306,60 @@ class PersistentManagerLoop:
         finally:
             self._active_subagents -= len(calls)
 
-    async def _execute_actions(self, decision: ContinueDecision) -> None:
+    async def _execute_actions(
+        self,
+        decision: ContinueDecision,
+        decision_id: str,
+    ) -> None:
         actions = decision.actions
         if self._tool_model_calls + len(actions) > self._budget.max_tool_model_calls:
             raise AgentLoopError("tool/model call budget exceeded")
+        batch_id = f"{decision_id}:batch"
+        validation = {
+            "batch_id": batch_id,
+            "decision_id": decision_id,
+            "logical_agent_id": actions[0].owner_agent_id,
+            "action_ids": [item.action_id for item in actions],
+            "input_artifact_ids": sorted(
+                {artifact_id for item in actions for artifact_id in item.inputs}
+            ),
+            "same_batch_dependencies": self._same_batch_dependencies(actions),
+        }
+        try:
+            self._gateway.validate_batch(actions)
+        except Exception as exc:
+            self._emit(
+                "logical.batch.validation",
+                {
+                    **validation,
+                    "status": "rejected",
+                    "reason": str(exc),
+                },
+            )
+            raise
+        self._emit(
+            "logical.batch.validation",
+            {
+                **validation,
+                "status": "accepted",
+                "all_inputs_materialized": True,
+            },
+        )
         self._tool_model_calls += len(actions)
-        self._gateway.validate_batch(actions)
         snapshot = self._graph.add(actions)
         self._emit("workflow.graph.snapshot", snapshot.model_dump(mode="json"))
         running = self._graph.mark_running(tuple(item.action_id for item in actions))
         self._emit("workflow.graph.snapshot", running.model_dump(mode="json"))
+        self._emit(
+            "logical.batch.started",
+            {
+                "batch_id": batch_id,
+                "decision_id": decision_id,
+                "logical_agent_id": actions[0].owner_agent_id,
+                "action_ids": [item.action_id for item in actions],
+                "agent_state": "waiting_on_physical",
+            },
+        )
         outcomes = await self._gateway.execute_batch(
             actions,
             expose_profile=self._visibility == ProfileVisibility.AWARE,
@@ -330,9 +377,21 @@ class PersistentManagerLoop:
                 self._accessible_by_agent[action.owner_agent_id].update(produced)
                 self._produced_by_agent[action.owner_agent_id].update(produced)
             (succeeded if observation.succeeded else failed).append(action.action_id)
-            self._emit_outcome(action.action_id, outcome)
+            self._emit_outcome(batch_id, action.action_id, outcome)
         completed = self._graph.mark_finished(tuple(succeeded), tuple(failed))
         self._emit("workflow.graph.snapshot", completed.model_dump(mode="json"))
+        self._emit(
+            "logical.batch.completed",
+            {
+                "batch_id": batch_id,
+                "decision_id": decision_id,
+                "logical_agent_id": actions[0].owner_agent_id,
+                "action_ids": [item.action_id for item in actions],
+                "succeeded_action_ids": succeeded,
+                "failed_action_ids": failed,
+                "agent_state": "ready_for_reasoning",
+            },
+        )
 
     def _terminal_answer(
         self,
@@ -403,14 +462,18 @@ class PersistentManagerLoop:
             raise AgentLoopError(
                 f"agent may only issue its own executable actions: {wrong}"
             )
-        if len(decision.actions) > 1:
-            raise AgentLoopError("one logical agent may have only one active action")
+        batch_outputs = {
+            output.artifact_id
+            for action in decision.actions
+            for output in action.outputs
+        }
         inaccessible = sorted(
             {
                 artifact_id
                 for action in decision.actions
                 for artifact_id in action.inputs
                 if artifact_id not in self._accessible_by_agent[agent.logical_agent_id]
+                and artifact_id not in batch_outputs
             }
         )
         if inaccessible:
@@ -449,6 +512,7 @@ class PersistentManagerLoop:
 
     def _emit_outcome(
         self,
+        batch_id: str,
         action_id: str,
         outcome: PhysicalExecutionOutcome,
     ) -> None:
@@ -456,12 +520,47 @@ class PersistentManagerLoop:
             "logical.observation",
             outcome.observation.model_dump(mode="json"),
         )
-        payload: dict[str, object] = {"action_id": action_id}
+        payload: dict[str, object] = {"batch_id": batch_id, "action_id": action_id}
         if outcome.selection is not None:
             payload["selection"] = outcome.selection.model_dump(mode="json")
         if outcome.execution is not None:
             payload["execution"] = outcome.execution.model_dump(mode="json")
+        if outcome.failure is not None:
+            payload["failure"] = outcome.failure.model_dump(mode="json")
         self._emit("physical.execution", payload)
+
+    @staticmethod
+    def _same_batch_dependencies(
+        actions: tuple[LogicalAction, ...],
+    ) -> list[dict[str, str]]:
+        producers = {
+            output.artifact_id: action.action_id
+            for action in actions
+            for output in action.outputs
+        }
+        batch_action_ids = {item.action_id for item in actions}
+        dependencies: list[dict[str, str]] = []
+        for action in actions:
+            for artifact_id in action.inputs:
+                producer = producers.get(artifact_id)
+                if producer is not None:
+                    dependencies.append(
+                        {
+                            "producer_action_id": producer,
+                            "consumer_action_id": action.action_id,
+                            "artifact_id": artifact_id,
+                        }
+                    )
+            for producer in action.depends_on:
+                if producer in batch_action_ids:
+                    dependencies.append(
+                        {
+                            "producer_action_id": producer,
+                            "consumer_action_id": action.action_id,
+                            "artifact_id": "control-dependency",
+                        }
+                    )
+        return dependencies
 
     def _require_task(self) -> AgentTaskView:
         if self._task is None:
