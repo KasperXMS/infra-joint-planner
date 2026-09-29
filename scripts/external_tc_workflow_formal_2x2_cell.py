@@ -152,6 +152,8 @@ async def run(args: argparse.Namespace) -> None:
             args.multihop_corpus,
             "--multihop-queries",
             args.multihop_queries,
+            "--api-key-file",
+            args.api_key_file,
         ]
         for value in args.worker_url:
             run_parts.extend(("--worker-url", value))
@@ -218,6 +220,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--multihop-queries",
         default="/home/super/xiaoming/blind_baseline_6task_v1/data/MultiHopRAG.json",
+    )
+    parser.add_argument(
+        "--api-key-file",
+        default="/home/super/xiaoming/blind_baseline_6task_v1/api_key.txt",
     )
     return parser.parse_args()
 

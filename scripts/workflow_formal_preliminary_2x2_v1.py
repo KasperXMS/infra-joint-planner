@@ -18,6 +18,7 @@ import httpx
 import yaml
 from blind_baseline_6task_v1 import _multihop_bundle
 from open_ended_infra_aware_preliminary_v1 import _observed_operator_profiles
+from open_ended_mas_preliminary_v1 import _load_key
 
 from infra_joint.benchmarks.base import AdaptationBundle
 from infra_joint.config import (
@@ -539,6 +540,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--multihop-corpus", type=Path, required=True)
     parser.add_argument("--multihop-queries", type=Path, required=True)
+    parser.add_argument("--api-key-file", type=Path)
     parser.add_argument("--run-id")
     parser.add_argument("--worker-url", action="append", default=[])
     return parser.parse_args()
@@ -546,6 +548,8 @@ def parse_args() -> argparse.Namespace:
 
 async def main() -> None:
     args = parse_args()
+    if args.api_key_file is not None:
+        _load_key(args.api_key_file)
     if args.command == "prepare":
         await prepare(args)
     elif args.command == "run-cell":
