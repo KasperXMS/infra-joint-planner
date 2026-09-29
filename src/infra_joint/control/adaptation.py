@@ -4,14 +4,25 @@ import json
 from collections import deque
 from collections.abc import Iterable
 from time import perf_counter
-from typing import Annotated, Literal, Protocol
+from typing import Annotated, Literal, Protocol, Self
 
-from pydantic import Field, TypeAdapter, ValidationError
+from pydantic import Field, TypeAdapter, ValidationError, model_validator
 
 from infra_joint.agents.context import AgentTaskView
 from infra_joint.control.contracts import LogicalObservation, StaticCapabilityContract
+from infra_joint.control.prior import (
+    PriorLogicalAction,
+    formalize_prior_action,
+    without_quality_tiers,
+)
 from infra_joint.control.workflow import (
+    AddAction,
+    AddDependency,
+    RemovePendingAction,
+    RemovePendingDependency,
+    ReplacePendingAction,
     SemanticWorkflowPlan,
+    WorkflowDependency,
     WorkflowPatch,
     WorkflowRuntimeState,
 )
@@ -41,12 +52,71 @@ class PatchWorkflow(ContractModel):
     patch: WorkflowPatch
 
 
+class PriorAddAction(ContractModel):
+    edit_type: Literal["add_action"] = "add_action"
+    action: PriorLogicalAction
+
+
+class PriorReplacePendingAction(ContractModel):
+    edit_type: Literal["replace_pending_action"] = "replace_pending_action"
+    action_id: str = Field(min_length=1)
+    replacement: PriorLogicalAction
+
+    @model_validator(mode="after")
+    def replacement_preserves_identity(self) -> Self:
+        if self.replacement.action_id != self.action_id:
+            raise ValueError("replacement must preserve the pending action ID")
+        return self
+
+
+class PriorRemovePendingAction(ContractModel):
+    edit_type: Literal["remove_pending_action"] = "remove_pending_action"
+    action_id: str = Field(min_length=1)
+
+
+class PriorAddDependency(ContractModel):
+    edit_type: Literal["add_dependency"] = "add_dependency"
+    dependency: WorkflowDependency
+
+
+class PriorRemovePendingDependency(ContractModel):
+    edit_type: Literal["remove_pending_dependency"] = "remove_pending_dependency"
+    dependency: WorkflowDependency
+
+
+PriorWorkflowEdit = Annotated[
+    PriorAddAction
+    | PriorRemovePendingAction
+    | PriorReplacePendingAction
+    | PriorAddDependency
+    | PriorRemovePendingDependency,
+    Field(discriminator="edit_type"),
+]
+
+
+class PriorWorkflowPatch(ContractModel):
+    schema_version: Literal["workflow-patch-v1"] = "workflow-patch-v1"
+    patch_id: str = Field(min_length=1)
+    reason: str = Field(min_length=1)
+    edits: tuple[PriorWorkflowEdit, ...] = Field(min_length=1)
+
+
+class PriorPatchWorkflow(ContractModel):
+    decision_type: Literal["patch"] = "patch"
+    reason: str = Field(min_length=1)
+    patch: PriorWorkflowPatch
+
+
 WorkflowAdaptationDecision = Annotated[
     KeepWorkflow | PatchWorkflow,
     Field(discriminator="decision_type"),
 ]
-ADAPTATION_ADAPTER: TypeAdapter[WorkflowAdaptationDecision] = TypeAdapter(
-    WorkflowAdaptationDecision
+PriorWorkflowAdaptationDecision = Annotated[
+    KeepWorkflow | PriorPatchWorkflow,
+    Field(discriminator="decision_type"),
+]
+ADAPTATION_ADAPTER: TypeAdapter[PriorWorkflowAdaptationDecision] = TypeAdapter(
+    PriorWorkflowAdaptationDecision
 )
 
 
@@ -129,9 +199,10 @@ class LLMInfraAwareWorkflowAdapter:
         started = perf_counter()
         completion = await self._backend.invoke(ModelRequest(prompt=self.render_prompt(context)))
         try:
-            decision = ADAPTATION_ADAPTER.validate_json(completion.text)
+            draft = ADAPTATION_ADAPTER.validate_json(completion.text)
         except ValidationError as exc:
             raise ValueError("workflow adapter returned an invalid KEEP/PATCH decision") from exc
+        decision = _formal_decision(draft)
         return WorkflowAdaptationOutcome(
             decision=decision,
             telemetry=WorkflowAdaptationTelemetry(
@@ -154,12 +225,17 @@ class LLMInfraAwareWorkflowAdapter:
                 "feasibility problem. Preserve task evidence and semantic correctness.",
                 "PATCH may only use the finite edit vocabulary and may not modify completed or "
                 "running actions. Do not name or infer physical identities or placement.",
+                "Model requirements describe only semantic feasibility: modalities, context "
+                "and output budgets, and required capabilities. Model quality and latency "
+                "tiers are system-owned and unavailable.",
                 "Never expose workers, devices, deployments, IPs, routes, evaluator metadata, "
                 "gold, supporting evidence, or source references.",
                 "Return exactly one keep/patch JSON object with no Markdown.",
                 json.dumps(
                     {
-                        "context": context.model_dump(mode="json", by_alias=True),
+                        "context": without_quality_tiers(
+                            context.model_dump(mode="json", by_alias=True)
+                        ),
                         "decision_output_schema": ADAPTATION_ADAPTER.json_schema(),
                     },
                     ensure_ascii=False,
@@ -168,3 +244,41 @@ class LLMInfraAwareWorkflowAdapter:
                 ),
             )
         )
+
+
+def _formal_decision(
+    decision: PriorWorkflowAdaptationDecision,
+) -> WorkflowAdaptationDecision:
+    if isinstance(decision, KeepWorkflow):
+        return decision
+    edits: list[
+        AddAction
+        | RemovePendingAction
+        | ReplacePendingAction
+        | AddDependency
+        | RemovePendingDependency
+    ] = []
+    for edit in decision.patch.edits:
+        if isinstance(edit, PriorAddAction):
+            edits.append(AddAction(action=formalize_prior_action(edit.action)))
+        elif isinstance(edit, PriorReplacePendingAction):
+            edits.append(
+                ReplacePendingAction(
+                    action_id=edit.action_id,
+                    replacement=formalize_prior_action(edit.replacement),
+                )
+            )
+        elif isinstance(edit, PriorRemovePendingAction):
+            edits.append(RemovePendingAction(action_id=edit.action_id))
+        elif isinstance(edit, PriorAddDependency):
+            edits.append(AddDependency(dependency=edit.dependency))
+        else:
+            edits.append(RemovePendingDependency(dependency=edit.dependency))
+    return PatchWorkflow(
+        reason=decision.reason,
+        patch=WorkflowPatch(
+            patch_id=decision.patch.patch_id,
+            reason=decision.patch.reason,
+            edits=tuple(edits),
+        ),
+    )

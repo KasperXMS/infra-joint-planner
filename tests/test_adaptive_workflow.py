@@ -7,12 +7,15 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
+from infra_joint.agents.context import AgentTaskView
 from infra_joint.control.adaptation import (
+    ADAPTATION_ADAPTER,
     KeepWorkflow,
     KeepWorkflowPolicy,
     LLMInfraAwareWorkflowAdapter,
     PatchWorkflow,
     ScriptedWorkflowAdaptationPolicy,
+    WorkflowAdaptationContext,
 )
 from infra_joint.control.adaptive_executor import AdaptiveWorkflowExecutor
 from infra_joint.control.capabilities import build_static_capability_contract
@@ -31,6 +34,8 @@ from infra_joint.control.prior import (
     FrozenPriorWorkflow,
     LLMPriorWorkflowGenerator,
     PriorAttemptStore,
+    PriorExecutionRequirements,
+    PriorLogicalModelAction,
     PriorWorkflowDraft,
     PriorWorkflowStore,
     StaticPriorWorkflowGenerator,
@@ -354,10 +359,32 @@ def direct_plan() -> SemanticWorkflowPlan:
 
 def prior_draft(plan: SemanticWorkflowPlan | None = None) -> PriorWorkflowDraft:
     source = plan or direct_plan()
-    return PriorWorkflowDraft(
-        actions=source.actions,
-        dependencies=source.dependencies,
-        terminal_action_id=source.terminal_action_id,
+    actions = []
+    for action in source.actions:
+        payload = action.model_dump(mode="json")
+        if isinstance(action, LogicalModelAction):
+            payload["requirements"].pop("quality_class")
+        actions.append(payload)
+    return PriorWorkflowDraft.model_validate(
+        {
+            "actions": actions,
+            "dependencies": source.dependencies,
+            "terminal_action_id": source.terminal_action_id,
+        }
+    )
+
+
+async def adaptation_context() -> WorkflowAdaptationContext:
+    plan = direct_plan()
+    runtime = WorkflowRuntimeState.initialize(plan)
+    physical = await FixedProfileProvider("constrained").build(plan, runtime)
+    return WorkflowAdaptationContext(
+        task=AgentTaskView.from_contract(task()),
+        plan=plan,
+        runtime=runtime,
+        observations=(),
+        static_capabilities=capabilities(),
+        physical=physical,
     )
 
 
@@ -433,6 +460,11 @@ async def test_llm_prior_prompt_is_sanitized_and_infrastructure_independent() ->
     assert generated.plan.version == 0
     assert generated.plan.workflow_id.startswith("prior-")
     assert generated.plan.actions == direct_plan().actions
+    assert all(
+        action.requirements.quality_class is None
+        for action in generated.plan.actions
+        if isinstance(action, LogicalModelAction)
+    )
     assert generated.plan.dependencies == direct_plan().dependencies
     assert generated.plan.terminal_action_id == direct_plan().terminal_action_id
     prompt = backend.requests[0].prompt
@@ -441,11 +473,60 @@ async def test_llm_prior_prompt_is_sanitized_and_infrastructure_independent() ->
     assert "worker-secret" not in prompt
     assert "deployment-secret" not in prompt
     assert "100 Mbps" not in prompt
+    assert '"quality_class"' not in prompt
+    assert '"quality_classes"' not in prompt
     payload = json.loads(prompt.splitlines()[-1])
     output_properties = payload["workflow_output_schema"]["properties"]
     assert "version" not in output_properties
     assert "workflow_id" not in output_properties
-    assert generated.provenance.generator_version == "llm-prior-v2"
+    assert generated.provenance.generator_version == "llm-prior-v3"
+
+
+def test_prior_facing_model_schema_excludes_quality_tiers() -> None:
+    requirement_schema = json.dumps(
+        PriorExecutionRequirements.model_json_schema(),
+        sort_keys=True,
+    )
+    workflow_schema = json.dumps(PriorWorkflowDraft.model_json_schema(), sort_keys=True)
+    assert "quality_class" not in requirement_schema
+    assert "quality_class" not in workflow_schema
+
+
+def test_prior_rejects_model_attempt_to_choose_quality_tier() -> None:
+    payload = prior_draft().model_dump(mode="json")
+    model = next(
+        action for action in payload["actions"] if action["action_type"] == "model"
+    )
+    model["requirements"]["quality_class"] = "high_quality"
+    with pytest.raises(ValidationError, match="quality_class"):
+        PriorWorkflowDraft.model_validate(payload)
+
+
+def test_prior_conversion_preserves_semantics_and_forces_null_quality() -> None:
+    draft = PriorWorkflowDraft(
+        actions=(
+            PriorLogicalModelAction(
+                action_id="vision-answer",
+                owner_agent_id="analyst",
+                inputs=("evidence",),
+                prompt="Use the available evidence.",
+                requirements=PriorExecutionRequirements(
+                    modalities=frozenset({"text", "image"}),
+                    min_context_tokens=4096,
+                    reserved_output_tokens=512,
+                    required_capabilities=frozenset({"model", "vision"}),
+                ),
+            ),
+        ),
+        terminal_action_id="vision-answer",
+    )
+    action = draft.formal_actions()[0]
+    assert isinstance(action, LogicalModelAction)
+    assert action.requirements.modalities == frozenset({"text", "image"})
+    assert action.requirements.min_context_tokens == 4096
+    assert action.requirements.reserved_output_tokens == 512
+    assert action.requirements.required_capabilities == frozenset({"model", "vision"})
+    assert action.requirements.quality_class is None
 
 
 @pytest.mark.asyncio
@@ -552,6 +633,26 @@ async def test_llm_prior_semantic_failure_persists_draft_and_constructed_g0(
 
 
 @pytest.mark.asyncio
+async def test_llm_prior_g0_construction_failure_is_terminal(tmp_path: Path) -> None:
+    payload = prior_draft().model_dump(mode="json")
+    payload["actions"].append(payload["actions"][0])
+    generator = LLMPriorWorkflowGenerator(
+        CapturingBackend(json.dumps(payload)),
+        build_operator_catalog(),
+        model_id="test-prior-model",
+        attempt_store=PriorAttemptStore(tmp_path / "attempts"),
+    )
+    with pytest.raises(WorkflowValidationError, match="cannot construct"):
+        await generator.generate(
+            task(), capabilities(), public_bundle_sha256="2" * 64
+        )
+    attempt = next((tmp_path / "attempts" / task().task_id).iterdir())
+    validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
+    assert validation["attempt_status"] == "semantic_validation_failed"
+    assert validation["semantic_validation"] == "failed"
+
+
+@pytest.mark.asyncio
 async def test_llm_prior_cyclic_draft_remains_rejected(tmp_path: Path) -> None:
     plan = SemanticWorkflowPlan(
         workflow_id="discarded",
@@ -640,6 +741,36 @@ async def test_successful_llm_prior_evidence_can_be_marked_frozen(tmp_path: Path
     validation = json.loads((attempt / "validation_result.json").read_text("utf-8"))
     assert validation["attempt_status"] == "frozen_success"
     assert validation["plan_sha256"] == generation.plan.canonical_sha256()
+
+
+def test_prior_freeze_failure_has_terminal_attempt_status(tmp_path: Path) -> None:
+    reference = PriorAttemptStore(tmp_path / "attempts").begin(
+        task=task(),
+        provenance=LLMPriorWorkflowGenerator(
+            CapturingBackend(prior_draft().model_dump_json()),
+            build_operator_catalog(),
+            model_id="test-prior-model",
+        ).provenance(task(), capabilities()),
+        capabilities=capabilities(),
+        public_bundle_sha256="f" * 64,
+    )
+    PriorAttemptStore.persist_freeze_failure(
+        reference,
+        direct_plan(),
+        OSError("store unavailable"),
+    )
+    validation = json.loads(
+        Path(reference.directory, "validation_result.json").read_text("utf-8")
+    )
+    assert validation == {
+        "attempt_status": "freeze_failed",
+        "constructed_g0_version": 0,
+        "exception_type": "OSError",
+        "message": "store unavailable",
+        "plan_sha256": direct_plan().canonical_sha256(),
+        "semantic_validation": "passed",
+        "static_feasibility": "passed",
+    }
 
 
 def test_static_model_capability_misuse_is_rejected() -> None:
@@ -1185,6 +1316,104 @@ async def test_llm_adaptation_telemetry_is_complete() -> None:
     assert any(item.event_type == "workflow.adaptation" for item in sink.events)
 
 
+@pytest.mark.parametrize("edit_type", ["add_action", "replace_pending_action"])
+def test_adapter_add_replace_schema_rejects_quality_tier(edit_type: str) -> None:
+    action = {
+        "action_type": "model",
+        "action_id": "answer" if edit_type == "replace_pending_action" else "extra",
+        "owner_agent_id": "analyst",
+        "inputs": ["evidence"],
+        "outputs": [],
+        "depends_on": [],
+        "prompt": "Use the evidence.",
+        "requirements": {
+            "modalities": ["text"],
+            "min_context_tokens": 256,
+            "reserved_output_tokens": 32,
+            "required_capabilities": ["model"],
+            "quality_class": "low_latency",
+        },
+    }
+    edit = {"edit_type": edit_type}
+    if edit_type == "add_action":
+        edit["action"] = action
+    else:
+        edit["action_id"] = "answer"
+        edit["replacement"] = action
+    decision = {
+        "decision_type": "patch",
+        "reason": "test",
+        "patch": {
+            "schema_version": "workflow-patch-v1",
+            "patch_id": "quality-attempt",
+            "reason": "test",
+            "edits": [edit],
+        },
+    }
+    assert "quality_class" not in json.dumps(ADAPTATION_ADAPTER.json_schema())
+    with pytest.raises(ValidationError, match="quality_class"):
+        ADAPTATION_ADAPTER.validate_python(decision)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("edit_type", ["add_action", "replace_pending_action"])
+async def test_adapter_add_replace_conversion_forces_null_quality(edit_type: str) -> None:
+    action_id = "answer" if edit_type == "replace_pending_action" else "extra"
+    action = {
+        "action_type": "model",
+        "action_id": action_id,
+        "owner_agent_id": "analyst",
+        "inputs": ["evidence"],
+        "outputs": [],
+        "depends_on": [],
+        "prompt": "Use the evidence.",
+        "requirements": {
+            "modalities": ["text"],
+            "min_context_tokens": 512,
+            "reserved_output_tokens": 64,
+            "required_capabilities": ["model"],
+        },
+    }
+    edit = {"edit_type": edit_type}
+    if edit_type == "add_action":
+        edit["action"] = action
+    else:
+        edit["action_id"] = action_id
+        edit["replacement"] = action
+    backend = CapturingBackend(
+        json.dumps(
+            {
+                "decision_type": "patch",
+                "reason": "test conversion",
+                "patch": {
+                    "schema_version": "workflow-patch-v1",
+                    "patch_id": "safe-model-revision",
+                    "reason": "test conversion",
+                    "edits": [edit],
+                },
+            }
+        )
+    )
+    outcome = await LLMInfraAwareWorkflowAdapter(backend).adapt(
+        await adaptation_context()
+    )
+    assert isinstance(outcome.decision, PatchWorkflow)
+    formal_edit = outcome.decision.patch.edits[0]
+    formal_action = (
+        formal_edit.action
+        if isinstance(formal_edit, AddAction)
+        else formal_edit.replacement
+    )
+    assert isinstance(formal_action, LogicalModelAction)
+    assert formal_action.requirements.min_context_tokens == 512
+    assert formal_action.requirements.reserved_output_tokens == 64
+    assert formal_action.requirements.required_capabilities == frozenset({"model"})
+    assert formal_action.requirements.quality_class is None
+    assert "quality and latency tiers are system-owned" in backend.requests[0].prompt
+    assert '"quality_class"' not in backend.requests[0].prompt
+    assert '"quality_classes"' not in backend.requests[0].prompt
+
+
 @pytest.mark.asyncio
 async def test_invalid_terminal_choice_and_json_are_recorded_not_execution_failures() -> None:
     invalid_choice = await AdaptiveWorkflowExecutor(
@@ -1255,7 +1484,7 @@ def test_frozen_prior_model_and_prompt_mismatch_fail_closed() -> None:
 
 
 @pytest.mark.asyncio
-async def test_llm_prior_v1_frozen_provenance_is_not_reused_by_v2() -> None:
+async def test_llm_prior_v2_frozen_provenance_is_not_reused_by_v3() -> None:
     generator = LLMPriorWorkflowGenerator(
         CapturingBackend(prior_draft().model_dump_json()),
         build_operator_catalog(),
@@ -1274,5 +1503,5 @@ async def test_llm_prior_v1_frozen_provenance_is_not_reused_by_v2() -> None:
             task(),
             capabilities(),
             "f" * 64,
-            expected.model_copy(update={"generator_version": "llm-prior-v1"}),
+            expected.model_copy(update={"generator_version": "llm-prior-v2"}),
         )

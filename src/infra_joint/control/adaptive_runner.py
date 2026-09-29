@@ -23,6 +23,7 @@ from infra_joint.control.physical import PhysicalExecutionService, PhysicalProfi
 from infra_joint.control.prior import (
     FrozenPriorWorkflow,
     PriorAttemptStore,
+    PriorGenerationResult,
     PriorWorkflowGenerator,
     PriorWorkflowStore,
 )
@@ -238,23 +239,12 @@ class AdaptiveWorkflowBenchmarkRunner:
             capabilities,
             public_bundle_sha256=self._public_bundle_hash(bundle),
         )
-        expected = self._prior_generator.provenance(bundle.execution.task, capabilities)
-        if generation.provenance != expected:
-            raise ValueError("prior generator returned inconsistent provenance")
-        frozen = FrozenPriorWorkflow.create(
-            task=bundle.execution.task,
-            generation=generation,
-            capabilities=capabilities,
-            public_bundle_sha256=self._public_bundle_hash(bundle),
+        return self._freeze_generation(
+            bundle.execution.task,
+            capabilities,
+            self._public_bundle_hash(bundle),
+            generation,
         )
-        frozen_path = self._prior_store.save(frozen)
-        if generation.attempt is not None:
-            PriorAttemptStore.persist_frozen_success(
-                generation.attempt,
-                generation.plan,
-                frozen_path,
-            )
-        return frozen
 
     async def _resolve_prior(
         self,
@@ -277,21 +267,40 @@ class AdaptiveWorkflowBenchmarkRunner:
             capabilities,
             public_bundle_sha256=bundle_hash,
         )
-        if generation.provenance != expected:
-            raise ValueError("prior generator returned inconsistent provenance")
-        frozen = FrozenPriorWorkflow.create(
-            task=task,
-            generation=generation,
-            capabilities=capabilities,
-            public_bundle_sha256=bundle_hash,
-        )
-        frozen_path = self._prior_store.save(frozen)
-        if generation.attempt is not None:
-            PriorAttemptStore.persist_frozen_success(
-                generation.attempt,
-                generation.plan,
-                frozen_path,
+        return self._freeze_generation(task, capabilities, bundle_hash, generation)
+
+    def _freeze_generation(
+        self,
+        task: TaskContract,
+        capabilities: StaticCapabilityContract,
+        bundle_hash: str,
+        generation: PriorGenerationResult,
+    ) -> FrozenPriorWorkflow:
+        try:
+            expected = self._prior_generator.provenance(task, capabilities)
+            if generation.provenance != expected:
+                raise ValueError("prior generator returned inconsistent provenance")
+            frozen = FrozenPriorWorkflow.create(
+                task=task,
+                generation=generation,
+                capabilities=capabilities,
+                public_bundle_sha256=bundle_hash,
             )
+            frozen_path = self._prior_store.save(frozen)
+            if generation.attempt is not None:
+                PriorAttemptStore.persist_frozen_success(
+                    generation.attempt,
+                    generation.plan,
+                    frozen_path,
+                )
+        except Exception as exc:
+            if generation.attempt is not None:
+                PriorAttemptStore.persist_freeze_failure(
+                    generation.attempt,
+                    generation.plan,
+                    exc,
+                )
+            raise
         return frozen
 
     async def _materialize(

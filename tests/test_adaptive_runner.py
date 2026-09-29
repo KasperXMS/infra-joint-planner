@@ -144,12 +144,20 @@ async def test_adaptive_runner_reuses_frozen_prior_and_original_evaluator(
     )
     prior_store = PriorWorkflowStore(tmp_path / "prior_workflows")
     llm_attempts = PriorAttemptStore(tmp_path / "prior_attempts")
+    prior_actions = []
+    for action in plan.actions:
+        payload = action.model_dump(mode="json")
+        if isinstance(action, LogicalModelAction):
+            payload["requirements"].pop("quality_class")
+        prior_actions.append(payload)
     llm_generator = LLMPriorWorkflowGenerator(
         StaticModelBackend(
-            PriorWorkflowDraft(
-                actions=plan.actions,
-                dependencies=plan.dependencies,
-                terminal_action_id=plan.terminal_action_id,
+            PriorWorkflowDraft.model_validate(
+                {
+                    "actions": prior_actions,
+                    "dependencies": plan.dependencies,
+                    "terminal_action_id": plan.terminal_action_id,
+                }
             ).model_dump_json()
         ),
         build_operator_catalog(),

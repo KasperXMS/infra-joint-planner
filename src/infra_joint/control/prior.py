@@ -4,13 +4,20 @@ import json
 import re
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Literal, Protocol
+from typing import Annotated, Literal, Protocol, Self, cast
 from uuid import uuid4
 
-from pydantic import Field, ValidationError
+from pydantic import Field, ValidationError, field_validator, model_validator
 
 from infra_joint.agents.context import AgentTaskView
-from infra_joint.control.contracts import LogicalAction, StaticCapabilityContract
+from infra_joint.control.contracts import (
+    ExecutionRequirements,
+    LogicalAction,
+    LogicalModelAction,
+    LogicalOutput,
+    LogicalToolAction,
+    StaticCapabilityContract,
+)
 from infra_joint.control.static_feasibility import StaticFeasibilityError
 from infra_joint.control.workflow import (
     SemanticWorkflowPlan,
@@ -62,16 +69,87 @@ class PriorGenerationResult(ContractModel):
     attempt: PriorAttemptReference | None = None
 
 
+class PriorExecutionRequirements(ContractModel):
+    """Semantic model requirements exposed by the formal prior path."""
+
+    modalities: frozenset[str] = frozenset({"text"})
+    min_context_tokens: int = Field(default=1, gt=0)
+    reserved_output_tokens: int = Field(default=1, gt=0)
+    required_capabilities: frozenset[str] = frozenset({"model"})
+
+    @field_validator("modalities")
+    @classmethod
+    def modalities_are_non_empty(cls, value: frozenset[str]) -> frozenset[str]:
+        if not value or any(not item for item in value):
+            raise ValueError("execution requirements need non-empty modalities")
+        return value
+
+
+class PriorLogicalModelAction(ContractModel):
+    """LLM-facing model action without system-owned quality-tier selection."""
+
+    action_type: Literal["model"] = "model"
+    action_id: str = Field(min_length=1)
+    owner_agent_id: str = Field(min_length=1)
+    inputs: tuple[str, ...] = ()
+    outputs: tuple[LogicalOutput, ...] = ()
+    depends_on: tuple[str, ...] = ()
+    prompt: str = Field(min_length=1)
+    requirements: PriorExecutionRequirements = Field(
+        default_factory=PriorExecutionRequirements
+    )
+
+    @field_validator("inputs", "depends_on")
+    @classmethod
+    def identifiers_are_unique(cls, values: tuple[str, ...]) -> tuple[str, ...]:
+        if any(not item for item in values):
+            raise ValueError("logical action identifiers must be non-empty")
+        if len(values) != len(set(values)):
+            raise ValueError("logical action identifiers must be unique")
+        return values
+
+    @field_validator("outputs")
+    @classmethod
+    def output_ids_are_unique(
+        cls,
+        values: tuple[LogicalOutput, ...],
+    ) -> tuple[LogicalOutput, ...]:
+        identifiers = tuple(item.artifact_id for item in values)
+        if len(identifiers) != len(set(identifiers)):
+            raise ValueError("logical output artifact IDs must be unique")
+        return values
+
+    @model_validator(mode="after")
+    def validate_model_output(self) -> Self:
+        if len(self.outputs) > 1:
+            raise ValueError("a model action supports at most one materialized output")
+        if self.outputs and self.outputs[0].media_type not in {
+            "text/plain",
+            "application/json",
+        }:
+            raise ValueError("model output must be text/plain or application/json")
+        return self
+
+
+PriorLogicalAction = Annotated[
+    LogicalToolAction | PriorLogicalModelAction,
+    Field(discriminator="action_type"),
+]
+
+
 class PriorWorkflowDraft(ContractModel):
     """Infrastructure-free semantic content proposed by the LLM prior generator."""
 
     schema_version: Literal["prior-workflow-draft-v1"] = "prior-workflow-draft-v1"
-    actions: tuple[LogicalAction, ...]
+    actions: tuple[PriorLogicalAction, ...]
     dependencies: tuple[WorkflowDependency, ...] = ()
     terminal_action_id: str = Field(min_length=1)
 
     def canonical_sha256(self) -> str:
         return canonical_sha256(self.model_dump(mode="json"))
+
+    def formal_actions(self) -> tuple[LogicalAction, ...]:
+        return tuple(formalize_prior_action(action) for action in self.actions)
 
 
 class PriorAttemptStore:
@@ -168,9 +246,11 @@ class PriorAttemptStore:
     @staticmethod
     def persist_validation_failure(
         reference: PriorAttemptReference,
-        exc: WorkflowValidationError,
+        exc: BaseException,
     ) -> None:
-        static_failure = isinstance(exc.__cause__, StaticFeasibilityError)
+        static_failure = isinstance(exc, WorkflowValidationError) and isinstance(
+            exc.__cause__, StaticFeasibilityError
+        )
         status = "static_feasibility_failed" if static_failure else "semantic_validation_failed"
         _write_json(
             Path(reference.directory, "validation_result.json"),
@@ -214,6 +294,25 @@ class PriorAttemptStore:
                 "constructed_g0_version": plan.version,
                 "plan_sha256": plan.canonical_sha256(),
                 "frozen_prior_path": str(frozen_path),
+            },
+        )
+
+    @staticmethod
+    def persist_freeze_failure(
+        reference: PriorAttemptReference,
+        plan: SemanticWorkflowPlan,
+        exc: BaseException,
+    ) -> None:
+        _write_json(
+            Path(reference.directory, "validation_result.json"),
+            {
+                "attempt_status": "freeze_failed",
+                "semantic_validation": "passed",
+                "static_feasibility": "passed",
+                "constructed_g0_version": plan.version,
+                "plan_sha256": plan.canonical_sha256(),
+                "exception_type": type(exc).__name__,
+                "message": str(exc) or type(exc).__name__,
             },
         )
 
@@ -287,7 +386,7 @@ class LLMPriorWorkflowGenerator:
     ) -> PriorGeneratorProvenance:
         return PriorGeneratorProvenance(
             generator_id=self._generator_id,
-            generator_version="llm-prior-v2",
+            generator_version="llm-prior-v3",
             model_id=self._model_id,
             prompt_sha256=canonical_sha256(self.render_prompt(task, capabilities)),
         )
@@ -327,13 +426,20 @@ class LLMPriorWorkflowGenerator:
             raise ValueError("prior generator returned an invalid semantic workflow draft") from exc
         if attempt is not None:
             PriorAttemptStore.persist_parsed_draft(attempt, draft)
-        plan = SemanticWorkflowPlan(
-            workflow_id=_workflow_id(task, provenance, draft),
-            version=0,
-            actions=draft.actions,
-            dependencies=draft.dependencies,
-            terminal_action_id=draft.terminal_action_id,
-        )
+        try:
+            plan = SemanticWorkflowPlan(
+                workflow_id=_workflow_id(task, provenance, draft),
+                version=0,
+                actions=draft.formal_actions(),
+                dependencies=draft.dependencies,
+                terminal_action_id=draft.terminal_action_id,
+            )
+        except ValueError as exc:
+            if attempt is not None:
+                PriorAttemptStore.persist_validation_failure(attempt, exc)
+            raise WorkflowValidationError(
+                "prior workflow draft cannot construct a semantic G0"
+            ) from exc
         if attempt is not None:
             PriorAttemptStore.persist_constructed_g0(attempt, plan)
         try:
@@ -357,13 +463,18 @@ class LLMPriorWorkflowGenerator:
     ) -> str:
         payload = {
             "task": AgentTaskView.from_contract(task).model_dump(mode="json", by_alias=True),
-            "static_capabilities": capabilities.model_dump(mode="json"),
+            "static_capabilities": without_quality_tiers(
+                capabilities.model_dump(mode="json")
+            ),
             "workflow_output_schema": PriorWorkflowDraft.model_json_schema(),
         }
         return "\n".join(
             (
                 "Produce one complete infrastructure-independent semantic workflow G0.",
                 "Use only the finite system-owned actions and abstract model requirements.",
+                "Model requirements describe only semantic feasibility: modalities, context "
+                "and output budgets, and required capabilities. Model quality and latency "
+                "tiers are system-owned and unavailable.",
                 "Never mention workers, devices, deployments, placement, routes, bandwidth, "
                 "latency, queue, load, evaluator metadata, gold, or source references.",
                 "Return exactly one prior-workflow-draft-v1 JSON object with no Markdown.",
@@ -483,6 +594,47 @@ def _workflow_id(
         }
     )
     return f"prior-{digest[:32]}"
+
+
+def formalize_prior_action(action: PriorLogicalAction) -> LogicalAction:
+    if isinstance(action, LogicalToolAction):
+        return action
+    requirements = action.requirements
+    return LogicalModelAction(
+        action_id=action.action_id,
+        owner_agent_id=action.owner_agent_id,
+        inputs=action.inputs,
+        outputs=tuple(
+            LogicalOutput.model_validate(output.model_dump(mode="json"))
+            for output in action.outputs
+        ),
+        depends_on=action.depends_on,
+        prompt=action.prompt,
+        requirements=ExecutionRequirements(
+            modalities=requirements.modalities,
+            min_context_tokens=requirements.min_context_tokens,
+            reserved_output_tokens=requirements.reserved_output_tokens,
+            required_capabilities=requirements.required_capabilities,
+            quality_class=None,
+        ),
+    )
+
+
+def without_quality_tiers(value: object) -> object:
+    """Project formal LLM inputs without the out-of-scope model-quality axis."""
+
+    if isinstance(value, dict):
+        mapping = cast(dict[str, object], value)
+        return {
+            key: without_quality_tiers(nested)
+            for key, nested in mapping.items()
+            if key not in {"quality_class", "quality_classes"}
+        }
+    if isinstance(value, list):
+        return [without_quality_tiers(item) for item in cast(list[object], value)]
+    if isinstance(value, tuple):
+        return tuple(without_quality_tiers(item) for item in cast(tuple[object, ...], value))
+    return value
 
 
 def _safe_name(value: str) -> str:

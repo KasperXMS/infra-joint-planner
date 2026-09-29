@@ -246,6 +246,12 @@ async def prepare(args: argparse.Namespace) -> None:
     config = _yaml(args.config)
     bundle = _load_bundle(config, args)
     output = args.output
+    attempt_root = output / "prior_attempts" / bundle.execution.task.task_id
+    attempts_before = (
+        {path for path in attempt_root.iterdir() if path.is_dir()}
+        if attempt_root.exists()
+        else set()
+    )
     store = PriorWorkflowStore(output / "frozen-prior")
     model_config = _model_config(config, "prior")
     backend, client = build_model_backend(model_config)
@@ -278,11 +284,11 @@ async def prepare(args: argparse.Namespace) -> None:
             await client.close()
     if len(capture.requests) != 1 or len(capture.completions) != 1:
         raise RuntimeError("prior preparation must make exactly one model call")
-    attempt_root = output / "prior_attempts" / bundle.execution.task.task_id
-    attempt_directories = tuple(sorted(path for path in attempt_root.iterdir() if path.is_dir()))
-    if len(attempt_directories) != 1:
-        raise RuntimeError("formal prior preparation must have exactly one durable attempt")
-    attempt_directory = attempt_directories[0]
+    attempts_after = {path for path in attempt_root.iterdir() if path.is_dir()}
+    new_attempts = tuple(sorted(attempts_after - attempts_before))
+    if len(new_attempts) != 1:
+        raise RuntimeError("formal prior preparation must create exactly one durable attempt")
+    attempt_directory = new_attempts[0]
     validation_result = json.loads(
         (attempt_directory / "validation_result.json").read_text("utf-8")
     )
