@@ -5,7 +5,7 @@ tasks:
   - longbench-multidoc
   - multihop-multisource
 control_plane:
-  implementation: openai-agents-sdk-manager-with-bounded-specialists
+  implementation: openai-agents-sdk-native-tools-with-bounded-agents-as-tools
   profile_visibility: blind
   manager_model:
     base_url: https://api.deepseek.com
