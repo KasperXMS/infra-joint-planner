@@ -16,6 +16,7 @@ from infra_joint.config import RunnerConfig
 from infra_joint.control.contracts import LogicalAgentSpec, ProfileVisibility
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.loop import (
+    AgentLoopBudget,
     AgentLoopError,
     AgentLoopResult,
     ManagerPolicy,
@@ -85,6 +86,7 @@ class ControlPlaneBenchmarkRunner:
         root_agent: LogicalAgentSpec | None = None,
         profile_visibility: ProfileVisibility = ProfileVisibility.BLIND,
         cost_profiles: tuple[ExecutionCostProfile, ...] = (),
+        loop_budget: AgentLoopBudget | None = None,
     ) -> None:
         self._config = config
         self._manager = manager
@@ -94,6 +96,7 @@ class ControlPlaneBenchmarkRunner:
         self._root_agent = root_agent
         self._profile_visibility = profile_visibility
         self._cost_profiles = cost_profiles
+        self._loop_budget = loop_budget
 
     async def run(
         self,
@@ -166,6 +169,7 @@ class ControlPlaneBenchmarkRunner:
                     subagent_factory=self._subagent_factory,
                     profile_visibility=self._profile_visibility,
                     max_steps_per_agent=self._config.max_planning_steps,
+                    budget=self._loop_budget,
                     trace=trace,
                 ).run(bundle.execution.task)
                 evaluation = await bundle.private_evaluation.build_evaluator().evaluate(

@@ -39,7 +39,7 @@ class OpenAIAgentsManagerPolicy:
         self,
         name: str,
         instructions: str,
-        model: str,
+        model: object,
         registry: OperatorRegistry,
         available_operations: Iterable[str],
     ) -> None:
@@ -94,7 +94,7 @@ class OpenAIAgentsSubagentFactory(SubagentPolicyFactory):
 
     def __init__(
         self,
-        model: str,
+        model: object,
         registry: OperatorRegistry,
         available_operations: Iterable[str],
     ) -> None:

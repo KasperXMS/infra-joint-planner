@@ -33,6 +33,8 @@ from infra_joint.control.contracts import (
 )
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.loop import (
+    AgentLoopBudget,
+    AgentLoopError,
     PersistentManagerLoop,
     ScriptedManagerPolicy,
     ScriptedSubagentFactory,
@@ -514,6 +516,50 @@ async def test_persistent_manager_subagent_gateway_and_trace_smoke() -> None:
     assert "private-evaluator" not in logical_serialized
     assert "model-a" not in logical_serialized
     assert '"A"' not in logical_serialized
+
+
+@pytest.mark.asyncio
+async def test_persistent_loop_enforces_uniform_subagent_budget() -> None:
+    manager = ScriptedManagerPolicy(
+        (
+            ContinueDecision(
+                rationale="request too many specialists",
+                subagent_calls=(
+                    SubagentCall(
+                        call_id="one",
+                        agent=LogicalAgentSpec(
+                            logical_agent_id="one",
+                            role="researcher",
+                            objective="inspect",
+                        ),
+                        instruction="inspect",
+                    ),
+                    SubagentCall(
+                        call_id="two",
+                        agent=LogicalAgentSpec(
+                            logical_agent_id="two",
+                            role="researcher",
+                            objective="inspect",
+                        ),
+                        instruction="inspect",
+                    ),
+                ),
+            ),
+        )
+    )
+    with pytest.raises(AgentLoopError, match="created subagent budget exceeded"):
+        await PersistentManagerLoop(
+            gateway=SimpleNamespace(),
+            manager=manager,
+            subagent_factory=ScriptedSubagentFactory({}),
+            budget=AgentLoopBudget(
+                max_manager_turns=2,
+                max_subagent_turns=2,
+                max_tool_model_calls=2,
+                max_created_subagents=1,
+                max_active_subagents=1,
+            ),
+        ).run(task())
 
 
 @pytest.mark.asyncio

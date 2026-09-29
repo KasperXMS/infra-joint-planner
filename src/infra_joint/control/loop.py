@@ -44,6 +44,22 @@ class PlannerStepTelemetry(ContractModel):
     latency_ms: float = Field(ge=0)
 
 
+class AgentLoopBudget(ContractModel):
+    max_manager_turns: int = Field(default=12, gt=0)
+    max_subagent_turns: int = Field(default=8, gt=0)
+    max_tool_model_calls: int = Field(default=18, gt=0)
+    max_created_subagents: int = Field(default=4, ge=0)
+    max_active_subagents: int = Field(default=2, ge=0)
+
+
+class AgentLoopUsage(ContractModel):
+    manager_turns: int = Field(ge=0)
+    subagent_turns: int = Field(ge=0)
+    tool_model_calls: int = Field(ge=0)
+    created_subagents: int = Field(ge=0)
+    peak_active_subagents: int = Field(ge=0)
+
+
 class AgentLoopResult(ContractModel):
     final_answer: str
     terminal_action_id: str = Field(min_length=1)
@@ -51,6 +67,8 @@ class AgentLoopResult(ContractModel):
     subagent_results: tuple[SubagentResult, ...]
     graph_snapshots: tuple[WorkflowGraphSnapshot, ...]
     planner_steps: tuple[PlannerStepTelemetry, ...]
+    budget: AgentLoopBudget
+    usage: AgentLoopUsage
 
 
 class AgentLoopError(RuntimeError):
@@ -69,6 +87,7 @@ class PersistentManagerLoop:
         subagent_factory: SubagentPolicyFactory | None = None,
         profile_visibility: ProfileVisibility = ProfileVisibility.BLIND,
         max_steps_per_agent: int = 12,
+        budget: AgentLoopBudget | None = None,
         trace: WorkflowTraceRecorder | None = None,
     ) -> None:
         if max_steps_per_agent < 1:
@@ -82,7 +101,13 @@ class PersistentManagerLoop:
         )
         self._subagent_factory = subagent_factory
         self._visibility = profile_visibility
-        self._max_steps = max_steps_per_agent
+        self._budget = budget or AgentLoopBudget(
+            max_manager_turns=max_steps_per_agent,
+            max_subagent_turns=max_steps_per_agent,
+            max_tool_model_calls=max_steps_per_agent * 8,
+            max_created_subagents=8,
+            max_active_subagents=4,
+        )
         self._trace = trace
         self._graph = ExecutionGrownGraph()
         self._task: AgentTaskView | None = None
@@ -94,6 +119,12 @@ class PersistentManagerLoop:
         self._accessible_by_agent: dict[str, set[str]] = {}
         self._produced_by_agent: dict[str, set[str]] = {}
         self._requirements_by_agent: dict[str, list[str]] = {}
+        self._manager_turns = 0
+        self._subagent_turns = 0
+        self._tool_model_calls = 0
+        self._created_subagents = 0
+        self._active_subagents = 0
+        self._peak_active_subagents = 0
 
     async def run(self, task: TaskContract) -> AgentLoopResult:
         self._task = AgentTaskView.from_contract(task)
@@ -103,6 +134,7 @@ class PersistentManagerLoop:
                 "task": self._task.model_dump(mode="json"),
                 "profile_visibility": self._visibility.value,
                 "root_agent": self._root.model_dump(mode="json"),
+                "budget": self._budget.model_dump(mode="json"),
             },
         )
         self._emit(
@@ -123,6 +155,8 @@ class PersistentManagerLoop:
             subagent_results=tuple(self._subagent_results),
             graph_snapshots=self._graph.snapshots,
             planner_steps=tuple(self._planner_steps),
+            budget=self._budget,
+            usage=self._usage(),
         )
         self._emit(
             "logical.loop.end",
@@ -130,6 +164,7 @@ class PersistentManagerLoop:
                 "terminal_action_id": terminal,
                 "final_answer": answer,
                 "graph_version": self._graph.snapshot().version,
+                "usage": self._usage().model_dump(mode="json"),
             },
         )
         return result
@@ -146,7 +181,16 @@ class PersistentManagerLoop:
         self._accessible_by_agent[agent.logical_agent_id] = set(assigned_artifacts)
         self._produced_by_agent[agent.logical_agent_id] = set()
         self._requirements_by_agent[agent.logical_agent_id] = [agent.objective]
-        for step in range(self._max_steps):
+        turn_limit = (
+            self._budget.max_manager_turns
+            if agent.logical_agent_id == self._root.logical_agent_id
+            else self._budget.max_subagent_turns
+        )
+        for step in range(turn_limit):
+            if agent.logical_agent_id == self._root.logical_agent_id:
+                self._manager_turns += 1
+            else:
+                self._subagent_turns += 1
             profile = None
             if self._visibility == ProfileVisibility.AWARE:
                 profile = await self._gateway.profile_overview()
@@ -211,10 +255,20 @@ class PersistentManagerLoop:
             raise AgentLoopError("subagent call IDs must be unique within a manager step")
         if len(agent_ids) != len(set(agent_ids)):
             raise AgentLoopError("subagent IDs must be unique within a manager step")
+        if self._created_subagents + len(calls) > self._budget.max_created_subagents:
+            raise AgentLoopError("created subagent budget exceeded")
+        if self._active_subagents + len(calls) > self._budget.max_active_subagents:
+            raise AgentLoopError("active subagent budget exceeded")
         collisions = sorted(set(agent_ids) & self._known_agents)
         if collisions:
             raise AgentLoopError(f"logical agent IDs already exist: {collisions}")
         self._known_agents.update(agent_ids)
+        self._created_subagents += len(calls)
+        self._active_subagents += len(calls)
+        self._peak_active_subagents = max(
+            self._peak_active_subagents,
+            self._active_subagents,
+        )
         parent_access = self._accessible_by_agent[parent_agent_id]
         for call in calls:
             missing = sorted(set(call.input_artifacts) - parent_access)
@@ -244,10 +298,16 @@ class PersistentManagerLoop:
             self._emit("logical.subagent.end", result.model_dump(mode="json"))
             return result
 
-        return tuple(await asyncio.gather(*(invoke(call) for call in calls)))
+        try:
+            return tuple(await asyncio.gather(*(invoke(call) for call in calls)))
+        finally:
+            self._active_subagents -= len(calls)
 
     async def _execute_actions(self, decision: ContinueDecision) -> None:
         actions = decision.actions
+        if self._tool_model_calls + len(actions) > self._budget.max_tool_model_calls:
+            raise AgentLoopError("tool/model call budget exceeded")
+        self._tool_model_calls += len(actions)
         self._gateway.validate_batch(actions)
         snapshot = self._graph.add(actions)
         self._emit("workflow.graph.snapshot", snapshot.model_dump(mode="json"))
@@ -407,6 +467,15 @@ class PersistentManagerLoop:
         if self._task is None:
             raise RuntimeError("agent loop has not started")
         return self._task
+
+    def _usage(self) -> AgentLoopUsage:
+        return AgentLoopUsage(
+            manager_turns=self._manager_turns,
+            subagent_turns=self._subagent_turns,
+            tool_model_calls=self._tool_model_calls,
+            created_subagents=self._created_subagents,
+            peak_active_subagents=self._peak_active_subagents,
+        )
 
     def _emit(self, event_type: str, payload: dict[str, object]) -> None:
         if self._trace is not None:
