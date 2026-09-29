@@ -1,0 +1,65 @@
+experiment_id: workflow-formal-preliminary-2x2-v1
+substrate_revision: 14902e5ab4191ce880620d1a4c9c6538e0c2d34e
+source_benchmark_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+task:
+  label: multihop-multisource
+  family: multihop_rag
+  source_task_id: multihop-rag-train-9bae0079038050a37a1ae583
+  selection_reason: >-
+    Three content-hash shards form one complete corpus and expose a raw-shard movement versus
+    per-shard semantic-reduction trade-off using only the frozen generic tool vocabulary.
+prior:
+  generator: LLMPriorWorkflowGenerator
+  model:
+    backend: openai_compatible
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+    api_key_env: DEEPSEEK_API_KEY
+    reasoning_effort: none
+    temperature: 0
+  generate_calls: 1
+  resource_blind: true
+  require_frozen_prior: true
+adaptation:
+  baseline: KeepWorkflowPolicy
+  proposed: LLMInfraAwareWorkflowAdapter
+  model:
+    backend: openai_compatible
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+    api_key_env: DEEPSEEK_API_KEY
+    reasoning_effort: none
+    temperature: 0
+network:
+  control: tc_htb_all_worker_paths
+  regimes:
+    fast: {bandwidth_mbps: 100, added_rtt_ms: 5}
+    slow: {bandwidth_mbps: 3, added_rtt_ms: 50}
+matrix:
+  - {run_id: 01-fast-keep, regime: fast, method: keep}
+  - {run_id: 02-fast-aware, regime: fast, method: aware}
+  - {run_id: 03-slow-keep, regime: slow, method: keep}
+  - {run_id: 04-slow-aware, regime: slow, method: aware}
+execution:
+  repetitions: 1
+  retry: false
+  replacement: false
+  scheduler: AutoPhysicalScheduler
+  worker_store_policy: isolated_fresh_process_per_cell
+  available_operations:
+    - aggregate_artifacts
+    - aggregate_records
+    - bm25_retrieve
+    - derive_fields
+    - extract_clip
+    - filter_records
+    - invoke_model
+    - make_contact_sheet
+    - read_artifact
+    - sample_frames
+    - select_fields
+    - top_k_records
+profiles:
+  operator_source_evidence: >-
+    /home/super/xiaoming/blind_baseline_semantic_cleanup_v1/evidence-clean-attempt3
+  policy: frozen measured fixed-unit operator observations; unavailable profiles remain unknown
