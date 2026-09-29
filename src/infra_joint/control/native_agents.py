@@ -532,9 +532,13 @@ class OpenAIAgentsNativeRuntime:
                 f"invalid SDK tool arguments: {exc}",
             )
         inputs = tuple(str(item) for item in cast(list[object], payload.get("inputs", [])))
-        arguments = cast(dict[str, Any], payload.get("arguments", {}))
+        arguments = _with_schema_defaults(
+            spec.argument_schema,
+            cast(dict[str, Any], payload.get("arguments", {})),
+        )
         try:
             action = _logical_action(spec, action_id, owner, inputs, arguments, payload)
+            _validate_dynamic_output_contract(state, action)
         except (ValueError, TypeError) as exc:
             return self._record_logical_failure(
                 state, action_id, owner, "semantic_validation_failed", str(exc)
@@ -926,6 +930,67 @@ def _logical_outputs(
             media_type=media_type,
         ),
     )
+
+
+def _with_schema_defaults(
+    schema: dict[str, Any] | None,
+    arguments: dict[str, Any],
+) -> dict[str, Any]:
+    normalized = dict(arguments)
+    if schema is None:
+        return normalized
+    properties = schema.get("properties")
+    if not isinstance(properties, dict):
+        return normalized
+    for name, value in cast(dict[object, object], properties).items():
+        if not isinstance(name, str) or name in normalized or not isinstance(value, dict):
+            continue
+        default = cast(dict[object, object], value).get("default")
+        if default is not None:
+            normalized[name] = copy.deepcopy(default)
+    return normalized
+
+
+def _validate_dynamic_output_contract(
+    state: _NativeState,
+    action: LogicalAction,
+) -> None:
+    if not isinstance(action, LogicalToolAction) or action.operator != "sample_frames":
+        return
+    if len(action.inputs) != 1:
+        return
+    duration = _known_video_duration(state, action.inputs[0])
+    if duration is None:
+        return
+    interval = action.arguments.get("every_seconds")
+    count = action.arguments.get("max_frames")
+    if not isinstance(interval, (int, float)) or not isinstance(count, int):
+        return
+    if float(interval) * count <= duration:
+        return
+    raise ValueError(
+        "sample_frames cannot materialize every declared output: "
+        f"max_frames * every_seconds = {float(interval) * count:.3f}s exceeds "
+        f"the known {duration:.3f}s input duration; lower max_frames or every_seconds"
+    )
+
+
+def _known_video_duration(state: _NativeState, artifact_id: str) -> float | None:
+    for artifact in state.task_view.artifacts:
+        if artifact.artifact_id != artifact_id or artifact.content_schema is None:
+            continue
+        return artifact.content_schema.duration_seconds
+    for candidate in state.actions.values():
+        if (
+            not isinstance(candidate, LogicalToolAction)
+            or candidate.operator != "extract_clip"
+            or all(item.artifact_id != artifact_id for item in candidate.outputs)
+        ):
+            continue
+        duration = candidate.arguments.get("duration_seconds")
+        if isinstance(duration, (int, float)) and float(duration) > 0:
+            return float(duration)
+    return None
 
 
 def _failure_result(action_id: str, owner: str, code: str, message: str) -> str:

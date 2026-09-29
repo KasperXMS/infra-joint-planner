@@ -21,7 +21,13 @@ from infra_joint.control.native_agents import (
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.core.state import InfrastructureState
-from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
+from infra_joint.core.task import (
+    ArtifactContentSchema,
+    ArtifactSpec,
+    OutputContract,
+    OutputFormat,
+    TaskContract,
+)
 from infra_joint.evaluation.trace import TraceEvent
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.workflow.trace import WorkflowTraceRecorder
@@ -218,6 +224,31 @@ def benchmark_task(*, shards: int = 1) -> TaskContract:
     )
 
 
+def video_task() -> TaskContract:
+    return TaskContract(
+        task_id="native-video-smoke",
+        benchmark_id="synthetic",
+        objective="Choose A from the video.",
+        artifacts=(
+            ArtifactSpec(
+                artifact_id="video",
+                logical_type="complete_video",
+                media_type="video/mp4",
+                size_bytes=10,
+                content_schema=ArtifactContentSchema(
+                    kind="video",
+                    duration_seconds=150,
+                ),
+            ),
+        ),
+        output_contract=OutputContract(
+            format=OutputFormat.CHOICE,
+            choices=("A", "B"),
+        ),
+        evaluator_id="private-evaluator",
+    )
+
+
 def runtime_and_gateway(
     task: TaskContract,
     physical: FakePhysicalService,
@@ -394,6 +425,69 @@ async def test_cancelled_native_tool_call_closes_running_graph_node() -> None:
         item.action_id: item.status for item in result.graph_snapshots[-1].nodes
     }
     assert statuses == {"manager:cancelled": "failed", "manager:answer": "succeeded"}
+
+
+@pytest.mark.asyncio
+async def test_sample_frames_contract_failure_is_typed_and_recoverable() -> None:
+    task = video_task()
+    physical = FakePhysicalService()
+    runtime, gateway = runtime_and_gateway(task, physical, ("sample_frames", "invoke_model"))
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        invalid = await tool(agent, "sample_frames").on_invoke_tool(
+            tool_context(agent, context, "too-sparse"),
+            json.dumps(
+                {
+                    "inputs": ["video"],
+                    "arguments": {
+                        "every_seconds": 100,
+                        "max_frames": 2,
+                        "output_prefix": "bad",
+                    },
+                }
+            ),
+        )
+        assert json.loads(invalid)["failure_code"] == "semantic_validation_failed"
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        corrected = await tool(agent, "sample_frames").on_invoke_tool(
+            tool_context(agent, context, "corrected"),
+            json.dumps(
+                {
+                    "inputs": ["video"],
+                    "arguments": {
+                        "every_seconds": 5,
+                        "output_prefix": "good",
+                    },
+                }
+            ),
+        )
+        assert json.loads(corrected)["succeeded"]
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps(
+                {
+                    "inputs": ["video"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+
+    assert result.final_answer == "A"
+    sample = next(
+        item
+        for item in physical.actions
+        if not isinstance(item, LogicalModelAction) and item.operator == "sample_frames"
+    )
+    assert len(sample.outputs) == 16
 
 
 @pytest.mark.asyncio
