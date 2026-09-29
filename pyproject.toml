@@ -26,6 +26,9 @@ dependencies = [
 infra-joint = "infra_joint.cli:app"
 
 [project.optional-dependencies]
+agents = [
+  "openai-agents>=0.4,<1",
+]
 dev = [
   "pyright>=1.1.390",
   "pytest>=8.3",
@@ -41,6 +44,7 @@ packages = ["src/infra_joint"]
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100

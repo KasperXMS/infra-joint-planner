@@ -10,7 +10,7 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - typed semantic actions, physical decisions, and finish decisions;
 - a single-source operator registry for planner schemas and runtime handlers;
 - deterministic physical binding with explicit infeasibility errors;
-- a Blind Planner control graph with a mandatory finalization node;
+- a legacy Blind Planner control graph retained for historical reproduction;
 - HTTP runtime-to-worker execution through FastAPI and httpx;
 - a pluggable OpenAI-compatible model backend with explicit credential injection;
 - worker-local artifact storage and checksum-verified worker-to-worker pulls;
@@ -21,7 +21,7 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - LongBench-v2 identity, multi-document, and audited fixed-width structured adapters;
 - MultiHop-RAG full-corpus and explicitly derived fixed-candidate adapters;
 - a strict JSON LLM Blind Planner with AUTO-only physical placement;
-- tool-free contract-aware finalization over logical evidence only;
+- deterministic terminal-model answer extraction with no reasoning finalizer;
 - artifact-aware text/image model invocation with fail-closed context preflight;
 - concrete per-worker deployment-to-backend mappings and startup surface validation;
 - paper-facing latency, token, operator, model-service, and transfer telemetry;
@@ -30,6 +30,12 @@ The repository currently implements the M0 contracts and the first M1 execution 
 - an append-only JSONL trace writer;
 - a persistent checksum-verifying artifact store and YAML-driven worker CLI;
 - contract and runtime invariant tests.
+
+The formal control-plane entry point is now
+`infra_joint.control.runner.ControlPlaneBenchmarkRunner`: a persistent manager loop grows an
+action graph from observations and sends every tool/model action through one `ActionGateway`.
+The physical layer selects workers and model deployments. The older runners under
+`experiments/` and `workflow/` remain available only for frozen historical replay.
 
 ## Development
 
@@ -41,6 +47,10 @@ uv run pytest
 uv run ruff check .
 uv run pyright
 ```
+
+Install the optional OpenAI Agents SDK adapter with `uv sync --extra dev --extra agents` on a
+machine with package-index access. The core gateway, physical runtime, and tests do not require
+that optional package.
 
 Start the example worker (the checked-in example uses a deterministic backend and no secret):
 
@@ -71,11 +81,11 @@ validates each live worker surface before materializing or executing a task.
 ## Architectural invariants
 
 1. `TaskContract` contains no infrastructure placement or benchmark gold data.
-2. Semantic actions and physical decisions remain separately typed.
+2. Logical actions never contain physical worker, deployment, route, or placement identity.
 3. `OperatorRegistry` is the only source for planner tools and runtime bindings.
 4. Explicit physical intent is rejected when infeasible, never silently overridden.
 5. Unknown infrastructure measurements remain `None` instead of fake precision.
-6. Planning and finalization budgets are separate concerns.
+6. Benchmark answers come directly from a terminal model action; there is no reasoning finalizer.
 
 Secrets and machine-local topology must be supplied outside the repository. Never add API
 keys, host addresses, or local deployment credentials to tracked configuration.

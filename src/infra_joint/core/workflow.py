@@ -15,11 +15,11 @@ if TYPE_CHECKING:
 
 
 class LogicalAgent(ContractModel):
-    """A semantic workflow role bound to a concrete model deployment.
+    """Legacy frozen-DAG role bound to a concrete model deployment.
 
-    Logical agents are intentionally distinct from physical ``AgentSpec`` and
-    ``DeploymentSpec`` records. Multiple logical agents may share one
-    ``model_instance_id`` when they use the same deployment for different roles.
+    This contract is retained for historical experiment replay. New persistent
+    control-plane code uses ``control.contracts.LogicalAgentSpec``, which has no
+    physical binding.
     """
 
     agent_id: str = Field(min_length=1)

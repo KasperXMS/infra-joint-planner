@@ -88,7 +88,10 @@ class PersistedWorkflowRunResult(ContractModel):
 
 
 class WorkflowBenchmarkRunner:
-    """Real workflow pipeline over unchanged M4 workers and runtime."""
+    """Legacy frozen-DAG runner retained only for historical experiment replay.
+
+    New formal runs use ``infra_joint.control.runner.ControlPlaneBenchmarkRunner``.
+    """
 
     def __init__(
         self,

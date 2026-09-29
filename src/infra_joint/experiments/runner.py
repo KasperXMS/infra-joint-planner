@@ -59,6 +59,11 @@ class PersistedRunResult(ContractModel):
 
 
 class BenchmarkRunner:
+    """Legacy M4 iterative runner retained only for historical experiment replay.
+
+    New formal runs use ``infra_joint.control.runner.ControlPlaneBenchmarkRunner``.
+    """
+
     def __init__(
         self,
         config: RunnerConfig,
