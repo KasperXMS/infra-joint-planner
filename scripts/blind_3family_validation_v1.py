@@ -224,9 +224,9 @@ def _load_bundle(
         sample_id = str(row["source_task_id"])
         samples = _load_longbench_samples(args.longbench_samples, {sample_id})
         bundle = _longbench_multidoc_bundle(
-            row,
             samples[sample_id],
             revisions["longbench_v2"],
+            tuple(int(item) for item in cast(list[object], row["boundary_lines"])),
         )
         source = {
             "longbench_samples": {
