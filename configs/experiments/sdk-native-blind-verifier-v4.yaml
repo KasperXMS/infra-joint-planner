@@ -1,0 +1,33 @@
+experiment_id: sdk-native-blind-verifier-v4
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+fresh_environment_config: configs/experiments/sdk-native-blind-verifier-environment-v4.yaml
+task: multihop-multisource
+control_plane:
+  implementation: openai-agents-sdk-native-tools-with-bounded-agents-as-tools
+  profile_visibility: blind
+  manager_model:
+    base_url: https://api.deepseek.com
+    model: deepseek-chat
+    api_key_env: DEEPSEEK_API_KEY
+  blind_verifier:
+    enabled: true
+    model: deepseek-chat
+    temperature: 0
+    result_transport: required_function_tool
+    semantic_action_view: true
+    manager_budget_feedback: true
+    complete_candidate_finalization: deterministic_exact_output
+  budget:
+    max_manager_turns: 12
+    max_subagent_turns: 8
+    max_tool_model_calls: 18
+    max_created_subagents: 4
+    max_active_subagents: 2
+    max_verifier_calls: 12
+execution:
+  network: native_unshaped
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false
+  worker_store_policy: isolated_fresh_processes
