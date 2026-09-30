@@ -1,5 +1,9 @@
 # Blind Manager + Verifier v1 report
 
+> Stage-2 note: the original `blind-harness-v1` manifest and evidence remain frozen.
+> A later generic, deterministic choice-format extraction fix was frozen separately as
+> `blind-harness-v1.1`; see `docs/blind-3family-validation-v1-report.md`.
+
 ## Outcome
 
 The explicit resource-blind Verifier made the SDK-native Manager terminate normally,
