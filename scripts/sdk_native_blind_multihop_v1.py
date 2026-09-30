@@ -74,6 +74,11 @@ class FrozenBlindRun(ContractModel):
     repetitions: int
     retry: bool
     replacement: bool
+    blind_verifier_enabled: bool = False
+    verifier_model: str | None = None
+    max_verifier_calls: int = 12
+    native_runtime_sha256: str | None = None
+    verifier_source_sha256: str | None = None
 
 
 def _revision() -> str:
@@ -119,6 +124,14 @@ def _freeze(
     if freeze_path.exists():
         return FrozenBlindRun.model_validate_json(freeze_path.read_text("utf-8"))
     execution = cast(dict[str, Any], config["execution"])
+    control = cast(dict[str, Any], config["control_plane"])
+    verifier_config = cast(dict[str, Any], control.get("blind_verifier", {}))
+    manager_model = cast(dict[str, Any], control["manager_model"])
+    if bool(verifier_config.get("enabled", False)) and (
+        verifier_config.get("model") != manager_model.get("model")
+        or float(verifier_config.get("temperature", -1)) != 0
+    ):
+        raise RuntimeError("Blind verifier must reuse the manager model at temperature 0")
     budget = _budget(config)
     manifest = FrozenBlindRun(
         experiment_id=str(config["experiment_id"]),
@@ -156,6 +169,19 @@ def _freeze(
         repetitions=int(execution["repetitions"]),
         retry=bool(execution["retry"]),
         replacement=bool(execution["replacement"]),
+        blind_verifier_enabled=bool(verifier_config.get("enabled", False)),
+        verifier_model=(
+            str(manager_model["model"])
+            if bool(verifier_config.get("enabled", False))
+            else None
+        ),
+        max_verifier_calls=budget.max_verifier_calls,
+        native_runtime_sha256=_sha256(
+            REPO / "src/infra_joint/control/native_agents.py"
+        ),
+        verifier_source_sha256=_sha256(
+            REPO / "src/infra_joint/control/verification.py"
+        ),
     )
     if manifest.repetitions != 1 or manifest.retry or manifest.replacement:
         raise RuntimeError("single-run no-retry/no-replacement contract changed")
@@ -221,6 +247,16 @@ def _trace_summary(path: Path) -> dict[str, Any]:
             for transfer in cast(list[dict[str, Any]], execution.get("transfers", [])):
                 transfer_bytes += int(transfer["bytes_transferred"])
     failures = [item for item in observations if not bool(item["succeeded"])]
+    verifications = [
+        cast(dict[str, Any], event["payload"])
+        for event in events
+        if event["event_type"] == "logical.verification"
+    ]
+    phase_changes = [
+        cast(dict[str, Any], event["payload"])
+        for event in events
+        if event["event_type"] == "logical.phase.changed"
+    ]
     return {
         "manager_reasoning_turns": sum(
             item.get("logical_agent_id") == "manager" for item in reasoning
@@ -242,6 +278,14 @@ def _trace_summary(path: Path) -> dict[str, Any]:
         "graph_snapshots": snapshots,
         "final_graph": snapshots[-1] if snapshots else None,
         "action_transfer_bytes": transfer_bytes,
+        "verifications": verifications,
+        "phase_changes": phase_changes,
+        "verifier_input_tokens": sum(
+            int(item.get("input_tokens", 0)) for item in verifications
+        ),
+        "verifier_output_tokens": sum(
+            int(item.get("output_tokens", 0)) for item in verifications
+        ),
     }
 
 
@@ -293,6 +337,7 @@ async def run_once(args: argparse.Namespace) -> None:
             model=sdk_model,
             registry=registry,
             available_operations=operations,
+            enable_blind_verifier=manifest.blind_verifier_enabled,
         )
         result = await ControlPlaneBenchmarkRunner(
             runner_config,

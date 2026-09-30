@@ -1314,3 +1314,70 @@ async def test_control_plane_runner_uses_terminal_answer_and_original_evaluator(
     assert "private-exact" not in logical_lines
     assert "worker-secret" not in logical_lines
     assert "deployment-secret" not in logical_lines
+
+
+@pytest.mark.asyncio
+async def test_control_plane_evaluator_is_not_built_before_terminal_answer(
+    tmp_path,
+) -> None:
+    runner_task = TaskContract(
+        task_id="no-terminal",
+        benchmark_id="synthetic",
+        objective="Return A.",
+        artifacts=(),
+        output_contract=OutputContract(
+            format=OutputFormat.CHOICE,
+            choices=("A", "B"),
+        ),
+        evaluator_id="private-spy",
+    )
+
+    class PrivateEvaluatorSpy:
+        task_id = "no-terminal"
+        evaluator_id = "private-spy"
+
+        def __init__(self) -> None:
+            self.built = False
+
+        def build_evaluator(self) -> object:
+            self.built = True
+            raise AssertionError("evaluator must not be built before a terminal answer")
+
+    class FailingLogicalRuntime:
+        async def run(self, *_args: object, **_kwargs: object) -> object:
+            raise AgentLoopError("verifier did not authorize synthesis")
+
+    private = PrivateEvaluatorSpy()
+    bundle = AdaptationBundle(
+        execution=AdaptedExecutionCase(
+            task=runner_task,
+            transformations=(),
+            validity=ValidityAssessment(
+                information_equivalent=True,
+                query_equivalent=True,
+                evaluator_equivalent=True,
+                setting_kind=BenchmarkSettingKind.OFFICIAL_EQUIVALENT,
+            ),
+        ),
+        private_evaluation=private,  # type: ignore[arg-type]
+    )
+    config = RunnerConfig(
+        environment=EnvironmentSpec(agents=(), deployments=()),
+        worker_urls={},
+        planner=PlannerConfig(model=StaticBackendConfig(response="unused")),
+        output_root=tmp_path / "runs",
+    )
+
+    result = await ControlPlaneBenchmarkRunner(
+        config,
+        None,
+        (),
+        worker_clients={},
+        logical_runtime=FailingLogicalRuntime(),  # type: ignore[arg-type]
+    ).run(bundle, run_id="no-terminal")
+
+    assert not result.execution_completed
+    assert result.evaluation is None
+    assert not private.built
+    trace = (tmp_path / "runs" / "no-terminal" / "trace.jsonl").read_text("utf-8")
+    assert '"event_type":"evaluation.result"' not in trace

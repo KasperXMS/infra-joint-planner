@@ -39,6 +39,15 @@ from infra_joint.control.loop import (
 )
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.validation import SemanticValidationError
+from infra_joint.control.verification import (
+    BlindVerifier,
+    OpenAIAgentsBlindVerifier,
+    VerificationContext,
+    VerificationTelemetry,
+    VerifierBudgetView,
+    VerifierObservation,
+    invoke_verifier,
+)
 from infra_joint.core.base import ContractModel
 from infra_joint.core.task import OutputFormat, TaskContract
 from infra_joint.operators.registry import OperatorRegistry, OperatorSpec
@@ -95,6 +104,7 @@ class _NativeState:
     trace: WorkflowTraceRecorder | None
     artifact_namespace: str
     static_capabilities: StaticCapabilityContract
+    blind_verifier: BlindVerifier | None = None
     observations: list[LogicalObservation] = field(
         default_factory=lambda: list[LogicalObservation]()
     )
@@ -103,6 +113,9 @@ class _NativeState:
     )
     planner_steps: list[PlannerStepTelemetry] = field(
         default_factory=lambda: list[PlannerStepTelemetry]()
+    )
+    verification_steps: list[VerificationTelemetry] = field(
+        default_factory=lambda: list[VerificationTelemetry]()
     )
     accessible: dict[str, set[str]] = field(
         default_factory=lambda: dict[str, set[str]]()
@@ -125,6 +138,8 @@ class _NativeState:
     created_subagents: int = 0
     active_subagents: int = 0
     peak_active_subagents: int = 0
+    verifier_calls: int = 0
+    phase: str = "evidence_collection"
     fatal_error: AgentLoopError | None = None
     state_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
 
@@ -139,6 +154,7 @@ class _NativeState:
             tool_model_calls=self.tool_model_calls,
             created_subagents=self.created_subagents,
             peak_active_subagents=self.peak_active_subagents,
+            verifier_calls=self.verifier_calls,
         )
 
 
@@ -244,6 +260,8 @@ class OpenAIAgentsNativeRuntime:
         registry: OperatorRegistry,
         available_operations: Iterable[str],
         sdk_module: object | None = None,
+        enable_blind_verifier: bool = False,
+        blind_verifier: BlindVerifier | None = None,
     ) -> None:
         self._name = name
         self._instructions = instructions
@@ -251,6 +269,8 @@ class OpenAIAgentsNativeRuntime:
         self._registry = registry
         self._available_operations = tuple(sorted(set(available_operations)))
         self._sdk_module = sdk_module
+        self._enable_blind_verifier = enable_blind_verifier or blind_verifier is not None
+        self._blind_verifier = blind_verifier
         unknown = sorted(item for item in self._available_operations if item not in registry)
         if unknown:
             raise ValueError(f"native tool space references unknown operators: {unknown}")
@@ -273,6 +293,12 @@ class OpenAIAgentsNativeRuntime:
         )
         resolved_budget = budget or AgentLoopBudget()
         task_view = AgentTaskView.from_contract(task)
+        sdk = self._sdk_module or _load_native_agents_sdk()
+        verifier = self._blind_verifier
+        if self._enable_blind_verifier and verifier is None:
+            verifier = OpenAIAgentsBlindVerifier(model=self._model, sdk_module=sdk)
+        if verifier is not None and profile_visibility != ProfileVisibility.BLIND:
+            raise ValueError("Blind verifier requires ProfileVisibility.BLIND")
         resolved_capabilities = static_capabilities or StaticCapabilityContract(
             operators=tuple(
                 StaticOperatorCapability(
@@ -302,6 +328,7 @@ class OpenAIAgentsNativeRuntime:
             trace=trace,
             artifact_namespace=f"derived/{uuid4().hex}",
             static_capabilities=resolved_capabilities,
+            blind_verifier=verifier,
             accessible={root.logical_agent_id: {item.artifact_id for item in task_view.artifacts}},
             produced={root.logical_agent_id: set()},
         )
@@ -315,11 +342,14 @@ class OpenAIAgentsNativeRuntime:
                 "adapter": "openai-agents-sdk-native-tools-v1",
                 "artifact_namespace": state.artifact_namespace,
                 "static_capability_contract": resolved_capabilities.model_dump(mode="json"),
+                "blind_verifier": {
+                    "enabled": verifier is not None,
+                    "max_calls": resolved_budget.max_verifier_calls,
+                },
             },
         )
         state.emit("workflow.graph.snapshot", state.graph.snapshot().model_dump(mode="json"))
 
-        sdk = self._sdk_module or _load_native_agents_sdk()
         function_tools = [
             self._function_tool(sdk, state, self._registry.binding(name).spec)
             for name in self._available_operations
@@ -341,6 +371,7 @@ class OpenAIAgentsNativeRuntime:
             instructions=self._manager_instructions(),
             tools=[*function_tools, specialist_tool],
             max_parallel=True,
+            tool_use_behavior=self._manager_tool_use_behavior(sdk, state),
         )
         runner = cast(_RunnerType, sdk.__dict__["Runner"])
         try:
@@ -360,6 +391,10 @@ class OpenAIAgentsNativeRuntime:
         output = getattr(result, "final_output", None)
         if not isinstance(output, str) or not output.strip():
             raise AgentLoopError("SDK-native manager returned no textual final answer")
+        if verifier is not None and state.phase != "synthesis":
+            raise AgentLoopError(
+                "Blind verifier did not authorize the terminal synthesis phase"
+            )
         answer = output.strip()
         terminal = self._terminal_source(state, answer)
         _validate_output_contract(task, answer)
@@ -372,6 +407,7 @@ class OpenAIAgentsNativeRuntime:
             planner_steps=tuple(state.planner_steps),
             budget=resolved_budget,
             usage=state.usage(),
+            verification_steps=tuple(state.verification_steps),
         )
         state.emit(
             "logical.loop.end",
@@ -411,6 +447,7 @@ class OpenAIAgentsNativeRuntime:
         instructions: str,
         tools: list[object],
         max_parallel: bool,
+        tool_use_behavior: object | None = None,
     ) -> object:
         constructor = cast(_AgentConstructor, sdk.__dict__["Agent"])
         settings_constructor = cast(Any, sdk.__dict__.get("ModelSettings"))
@@ -427,6 +464,8 @@ class OpenAIAgentsNativeRuntime:
         }
         if settings is not None:
             kwargs["model_settings"] = settings
+        if tool_use_behavior is not None:
+            kwargs["tool_use_behavior"] = tool_use_behavior
         return constructor(**kwargs)
 
     def _specialist_tool(
@@ -464,8 +503,17 @@ class OpenAIAgentsNativeRuntime:
         original = tool.on_invoke_tool
 
         async def invoke(context: object, input_json: str) -> str:
-            request = SpecialistRequest.model_validate_json(input_json)
             parent = state.root_agent.logical_agent_id
+            call_id = str(getattr(context, "tool_call_id", "specialist"))
+            if state.phase == "synthesis":
+                return self._record_logical_failure(
+                    state,
+                    f"{parent}:{call_id}",
+                    parent,
+                    "phase_restricted",
+                    "synthesis phase permits only invoke_model or a final response",
+                )
+            request = SpecialistRequest.model_validate_json(input_json)
             async with state.state_lock:
                 missing = sorted(set(request.input_artifacts) - state.accessible[parent])
                 if missing:
@@ -555,6 +603,147 @@ class OpenAIAgentsNativeRuntime:
         tool.on_invoke_tool = invoke
         return tool
 
+    def _manager_tool_use_behavior(
+        self,
+        sdk: object,
+        state: _NativeState,
+    ) -> object | None:
+        if state.blind_verifier is None:
+            return None
+        result_constructor = sdk.__dict__["ToolsToFinalOutputResult"]
+
+        async def after_batch(context: object, tool_results: list[object]) -> object:
+            del context
+            if not tool_results:
+                return result_constructor(is_final_output=False, final_output=None)
+            telemetry = await self._verify_manager_batch(state)
+            _attach_verification_feedback(tool_results[-1], telemetry)
+            return result_constructor(is_final_output=False, final_output=None)
+
+        return after_batch
+
+    async def _verify_manager_batch(
+        self,
+        state: _NativeState,
+    ) -> VerificationTelemetry:
+        verifier = state.blind_verifier
+        if verifier is None:
+            raise RuntimeError("Blind verifier is not configured")
+        async with state.state_lock:
+            if state.verifier_calls >= state.budget.max_verifier_calls:
+                raise AgentLoopError("verifier call budget exhausted")
+            state.verifier_calls += 1
+            verification_index = state.verifier_calls
+            observations = tuple(
+                VerifierObservation(
+                    action_id=item.action_id,
+                    owner_agent_id=item.owner_agent_id,
+                    succeeded=item.succeeded,
+                    output=item.output,
+                    produced_information=item.produced_information,
+                    failure_code=item.failure_code,
+                    failure_message=item.failure_message,
+                )
+                for item in state.observations
+            )
+            produced_by_id = {
+                item.artifact_id: item
+                for observation in observations
+                for item in observation.produced_information
+            }
+            context = VerificationContext(
+                task=state.task_view,
+                workflow=state.graph.snapshot(),
+                observations=observations,
+                produced_artifacts=tuple(
+                    produced_by_id[key] for key in sorted(produced_by_id)
+                ),
+                phase=cast(Any, state.phase),
+                remaining_budget=VerifierBudgetView(
+                    remaining_manager_turns=max(
+                        state.budget.max_manager_turns - state.manager_turns,
+                        0,
+                    ),
+                    remaining_tool_model_calls=max(
+                        state.budget.max_tool_model_calls - state.tool_model_calls,
+                        0,
+                    ),
+                    remaining_created_subagents=max(
+                        state.budget.max_created_subagents - state.created_subagents,
+                        0,
+                    ),
+                    remaining_verifier_calls=max(
+                        state.budget.max_verifier_calls - state.verifier_calls,
+                        0,
+                    ),
+                ),
+            )
+            state.emit(
+                "logical.verification.started",
+                {
+                    "verification_index": verification_index,
+                    "graph_version": context.workflow.version,
+                    "phase": context.phase,
+                },
+            )
+        started = perf_counter()
+        try:
+            telemetry = await invoke_verifier(
+                verifier,
+                context,
+                verification_index=verification_index,
+            )
+        except Exception as exc:
+            async with state.state_lock:
+                state.emit(
+                    "logical.verification.failed",
+                    {
+                        "verification_index": verification_index,
+                        "graph_version": context.workflow.version,
+                        "phase": context.phase,
+                        "latency_ms": (perf_counter() - started) * 1000,
+                        "exception_type": type(exc).__name__,
+                    },
+                )
+            raise AgentLoopError(
+                f"Blind verifier failed: {type(exc).__name__}: {exc}"
+            ) from exc
+        async with state.state_lock:
+            state.verification_steps.append(telemetry)
+            state.emit(
+                "logical.verification",
+                {
+                    "verification_index": telemetry.verification_index,
+                    "graph_version": telemetry.graph_version,
+                    "status": telemetry.result.status,
+                    "failure_stage": telemetry.result.failure_stage,
+                    "reason": telemetry.result.reason,
+                    "missing_requirements": list(
+                        telemetry.result.missing_requirements
+                    ),
+                    "latency_ms": telemetry.latency_ms,
+                    "input_tokens": telemetry.input_tokens,
+                    "output_tokens": telemetry.output_tokens,
+                },
+            )
+            previous = state.phase
+            state.phase = (
+                "synthesis"
+                if telemetry.result.status == "ready_for_synthesis"
+                else "evidence_collection"
+            )
+            if state.phase != previous:
+                state.emit(
+                    "logical.phase.changed",
+                    {
+                        "from": previous,
+                        "to": state.phase,
+                        "verification_index": telemetry.verification_index,
+                        "graph_version": telemetry.graph_version,
+                    },
+                )
+        return telemetry
+
     async def _invoke_operator(
         self,
         state: _NativeState,
@@ -565,6 +754,14 @@ class OpenAIAgentsNativeRuntime:
         owner = _logical_owner(context, state.root_agent.logical_agent_id)
         call_id = str(getattr(context, "tool_call_id", f"call-{len(state.actions) + 1}"))
         action_id = f"{owner}:{call_id}"
+        if state.phase == "synthesis" and spec.operator_id != "invoke_model":
+            return self._record_logical_failure(
+                state,
+                action_id,
+                owner,
+                "phase_restricted",
+                "synthesis phase permits only invoke_model or a final response",
+            )
         try:
             payload = cast(dict[str, object], json.loads(input_json))
         except (json.JSONDecodeError, TypeError) as exc:
@@ -1121,6 +1318,58 @@ def _failure_result(action_id: str, owner: str, code: str, message: str) -> str:
         failure_code=code,
         failure_message=message,
     ).model_dump_json(exclude_none=True)
+
+
+def _attach_verification_feedback(
+    tool_result: object,
+    telemetry: VerificationTelemetry,
+) -> None:
+    original = getattr(tool_result, "output", None)
+    parsed: dict[str, Any]
+    if isinstance(original, str):
+        try:
+            decoded = json.loads(original)
+        except json.JSONDecodeError:
+            parsed = {"tool_result": original}
+        else:
+            parsed = (
+                cast(dict[str, Any], decoded)
+                if isinstance(decoded, dict)
+                else {"tool_result": decoded}
+            )
+    else:
+        parsed = {"tool_result": original}
+    parsed["blind_verification"] = telemetry.result.model_dump(mode="json")
+    if telemetry.result.status == "ready_for_synthesis":
+        parsed["verifier_feedback"] = (
+            "The independent Blind verifier found the materialized semantic evidence "
+            "sufficient. Stop evidence expansion and synthesize the requested answer "
+            "from the currently available evidence."
+        )
+    else:
+        parsed["verifier_feedback"] = (
+            "The independent Blind verifier found the task incomplete. Continue from "
+            "the stated semantic gaps; do not treat this verdict as a task answer."
+        )
+    updated = json.dumps(parsed, ensure_ascii=False, sort_keys=True)
+    mutable_result = cast(Any, tool_result)
+    mutable_result.output = updated
+    run_item = getattr(tool_result, "run_item", None)
+    if run_item is None:
+        raise AgentLoopError("SDK tool batch has no result item for verifier feedback")
+    run_item.output = updated
+    raw_item = getattr(run_item, "raw_item", None)
+    if isinstance(raw_item, dict):
+        raw_item["output"] = updated
+        return
+    if hasattr(raw_item, "output"):
+        try:
+            mutable_raw_item = cast(Any, raw_item)
+            mutable_raw_item.output = updated
+            return
+        except (AttributeError, TypeError):
+            pass
+    raise AgentLoopError("SDK tool result cannot carry verifier feedback")
 
 
 def _validate_output_contract(task: TaskContract, answer: str) -> None:

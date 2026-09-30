@@ -29,6 +29,12 @@ from infra_joint.control.physical import (
     PreparedPhysicalAction,
 )
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
+from infra_joint.control.verification import (
+    OpenAIAgentsBlindVerifier,
+    VerificationContext,
+    VerificationResult,
+    VerificationTelemetry,
+)
 from infra_joint.control.workflow import (
     SemanticWorkflowPlan,
     WorkflowPatch,
@@ -49,6 +55,7 @@ __all__ = [
     "KeepWorkflow",
     "LLMInfraAwareWorkflowAdapter",
     "OpenAIAgentsNativeRuntime",
+    "OpenAIAgentsBlindVerifier",
     "PersistentManagerLoop",
     "PreparedPhysicalAction",
     "PhysicalExecutionService",
@@ -63,4 +70,7 @@ __all__ = [
     "WorkflowAdaptationPolicy",
     "WorkflowPatch",
     "WorkflowRuntimeState",
+    "VerificationContext",
+    "VerificationResult",
+    "VerificationTelemetry",
 ]

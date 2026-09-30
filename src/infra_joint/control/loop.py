@@ -27,6 +27,7 @@ from infra_joint.control.contracts import (
 from infra_joint.control.gateway import ActionGateway
 from infra_joint.control.graph import ExecutionGrownGraph
 from infra_joint.control.physical import PhysicalExecutionOutcome
+from infra_joint.control.verification import VerificationTelemetry
 from infra_joint.core.base import ContractModel
 from infra_joint.core.task import OutputFormat, TaskContract
 from infra_joint.workflow.trace import WorkflowTraceRecorder
@@ -51,6 +52,7 @@ class AgentLoopBudget(ContractModel):
     max_tool_model_calls: int = Field(default=18, gt=0)
     max_created_subagents: int = Field(default=4, ge=0)
     max_active_subagents: int = Field(default=2, ge=0)
+    max_verifier_calls: int = Field(default=12, gt=0)
 
 
 class AgentLoopUsage(ContractModel):
@@ -59,6 +61,7 @@ class AgentLoopUsage(ContractModel):
     tool_model_calls: int = Field(ge=0)
     created_subagents: int = Field(ge=0)
     peak_active_subagents: int = Field(ge=0)
+    verifier_calls: int = Field(default=0, ge=0)
 
 
 class AgentLoopResult(ContractModel):
@@ -70,6 +73,7 @@ class AgentLoopResult(ContractModel):
     planner_steps: tuple[PlannerStepTelemetry, ...]
     budget: AgentLoopBudget
     usage: AgentLoopUsage
+    verification_steps: tuple[VerificationTelemetry, ...] = ()
 
 
 class AgentLoopError(RuntimeError):

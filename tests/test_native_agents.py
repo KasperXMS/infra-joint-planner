@@ -6,6 +6,7 @@ from typing import Any
 
 import pytest
 
+from infra_joint.agents.context import AgentTaskView
 from infra_joint.control.contracts import (
     LogicalModelAction,
     LogicalObservation,
@@ -13,15 +14,23 @@ from infra_joint.control.contracts import (
     ProfileVisibility,
     StaticCapabilityContract,
     StaticModelCapabilityClass,
+    WorkflowGraphSnapshot,
 )
 from infra_joint.control.gateway import RuntimeActionGateway
-from infra_joint.control.loop import AgentLoopBudget
+from infra_joint.control.loop import AgentLoopBudget, AgentLoopError
 from infra_joint.control.native_agents import (
     OpenAIAgentsNativeRuntime,
     _native_tool_schema,
 )
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.validation import SemanticActionValidator
+from infra_joint.control.verification import (
+    OpenAIAgentsBlindVerifier,
+    VerificationContext,
+    VerificationResponse,
+    VerificationResult,
+    VerifierBudgetView,
+)
 from infra_joint.core.state import InfrastructureState
 from infra_joint.core.task import (
     ArtifactContentSchema,
@@ -52,8 +61,22 @@ class FakeFunctionTool:
 
 
 class FakeModelSettings:
-    def __init__(self, *, parallel_tool_calls: bool) -> None:
+    def __init__(
+        self,
+        *,
+        parallel_tool_calls: bool,
+        temperature: float | None = None,
+        tool_choice: str | None = None,
+    ) -> None:
         self.parallel_tool_calls = parallel_tool_calls
+        self.temperature = temperature
+        self.tool_choice = tool_choice
+
+
+class FakeToolsToFinalOutputResult:
+    def __init__(self, *, is_final_output: bool, final_output: object) -> None:
+        self.is_final_output = is_final_output
+        self.final_output = final_output
 
 
 class FakeRunHooks:
@@ -66,6 +89,7 @@ class FakeAgent:
         self.instructions = kwargs["instructions"]
         self.tools = kwargs["tools"]
         self.model_settings = kwargs.get("model_settings")
+        self.tool_use_behavior = kwargs.get("tool_use_behavior", "run_llm_again")
 
     def as_tool(self, **kwargs: Any) -> FakeFunctionTool:
         hooks = kwargs["hooks"]
@@ -118,12 +142,36 @@ FAKE_SDK = SimpleNamespace(
     ModelSettings=FakeModelSettings,
     RunHooks=FakeRunHooks,
     Runner=FakeRunner,
+    ToolsToFinalOutputResult=FakeToolsToFinalOutputResult,
 )
 
 
+class FakeVerifier:
+    def __init__(self, results: tuple[VerificationResult, ...]) -> None:
+        self._results = list(results)
+        self.contexts: list[VerificationContext] = []
+
+    async def verify(self, context: VerificationContext) -> VerificationResponse:
+        self.contexts.append(context)
+        if not self._results:
+            raise AssertionError("fake verifier has no remaining result")
+        return VerificationResponse(
+            result=self._results.pop(0),
+            input_tokens=11,
+            output_tokens=7,
+        )
+
+
 class FakePhysicalService:
-    def __init__(self, *, fail_read_once: bool = False, bm25_barrier: int = 0) -> None:
+    def __init__(
+        self,
+        *,
+        fail_read_once: bool = False,
+        fail_model_once: bool = False,
+        bm25_barrier: int = 0,
+    ) -> None:
         self.fail_read_once = fail_read_once
+        self.fail_model_once = fail_model_once
         self.bm25_barrier = bm25_barrier
         self.actions: list[object] = []
         self.active_bm25 = 0
@@ -152,6 +200,15 @@ class FakePhysicalService:
                 succeeded=False,
                 failure_code="artifact_too_large",
                 failure_message="artifact exceeds the bounded read limit",
+            )
+        elif operator == "invoke_model" and self.fail_model_once:
+            self.fail_model_once = False
+            observation = LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=False,
+                failure_code="context_limit_exceeded",
+                failure_message="model request exceeds the static context envelope",
             )
         else:
             produced = tuple(
@@ -255,6 +312,8 @@ def runtime_and_gateway(
     task: TaskContract,
     physical: FakePhysicalService,
     operations: tuple[str, ...],
+    *,
+    verifier: FakeVerifier | None = None,
 ) -> tuple[OpenAIAgentsNativeRuntime, RuntimeActionGateway]:
     registry = build_operator_catalog()
     runtime = OpenAIAgentsNativeRuntime(
@@ -264,6 +323,7 @@ def runtime_and_gateway(
         registry=registry,
         available_operations=operations,
         sdk_module=FAKE_SDK,
+        blind_verifier=verifier,
     )
     gateway = RuntimeActionGateway(
         SemanticActionValidator(task, registry, operations),
@@ -305,6 +365,28 @@ async def reasoning_start(hooks: object, context: object, agent: FakeAgent) -> N
 
 async def reasoning_end(hooks: object, context: object, agent: FakeAgent) -> None:
     await hooks.on_llm_end(context, agent, SimpleNamespace())
+
+
+async def complete_tool_batch(
+    agent: FakeAgent,
+    results: tuple[tuple[FakeFunctionTool, str], ...],
+) -> tuple[str, ...]:
+    behavior = agent.tool_use_behavior
+    if not callable(behavior):
+        return tuple(output for _, output in results)
+    wrapped: list[object] = []
+    for function_tool, output in results:
+        run_item = SimpleNamespace(output=output, raw_item={"output": output})
+        wrapped.append(
+            SimpleNamespace(
+                tool=function_tool,
+                output=output,
+                run_item=run_item,
+            )
+        )
+    decision = await behavior(SimpleNamespace(), wrapped)
+    assert not decision.is_final_output
+    return tuple(str(item.output) for item in wrapped)
 
 
 @pytest.mark.asyncio
@@ -754,3 +836,429 @@ async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -
         item for item in sink.events if item.event_type == "logical.model.outcome"
     )
     assert outcome.payload["reached_model_inference"] is False
+
+
+def continue_verdict(reason: str = "more evidence is required") -> VerificationResult:
+    return VerificationResult(
+        status="continue",
+        failure_stage="evidence_collection",
+        reason=reason,
+        missing_requirements=("independent supporting evidence",),
+    )
+
+
+def ready_verdict() -> VerificationResult:
+    return VerificationResult(
+        status="ready_for_synthesis",
+        failure_stage="none",
+        reason="materialized evidence is sufficient for a synthesis attempt",
+    )
+
+
+@pytest.mark.asyncio
+async def test_openai_agents_blind_verifier_uses_required_function_tool() -> None:
+    class VerifierRunner:
+        @staticmethod
+        async def run(
+            agent: FakeAgent,
+            input: str,
+            *,
+            max_turns: int,
+        ) -> object:
+            assert max_turns == 1
+            parsed_context = json.loads(input)
+            assert parsed_context["task"]["objective"] == (
+                "Choose A from the available evidence."
+            )
+            submit = tool(agent, "submit_verification")
+            output = await submit.on_invoke_tool(
+                SimpleNamespace(),
+                ready_verdict().model_dump_json(),
+            )
+            return SimpleNamespace(
+                final_output=output,
+                context_wrapper=SimpleNamespace(
+                    usage=SimpleNamespace(input_tokens=23, output_tokens=9)
+                ),
+            )
+
+    sdk = SimpleNamespace(
+        Agent=FakeAgent,
+        FunctionTool=FakeFunctionTool,
+        ModelSettings=FakeModelSettings,
+        Runner=VerifierRunner,
+    )
+    verifier = OpenAIAgentsBlindVerifier(model="verifier-model", sdk_module=sdk)
+    response = await verifier.verify(
+        VerificationContext(
+            task=AgentTaskView.from_contract(benchmark_task()),
+            workflow=WorkflowGraphSnapshot(version=0, nodes=(), edges=()),
+            observations=(),
+            produced_artifacts=(),
+            phase="evidence_collection",
+            remaining_budget=VerifierBudgetView(
+                remaining_manager_turns=11,
+                remaining_tool_model_calls=12,
+                remaining_created_subagents=4,
+                remaining_verifier_calls=11,
+            ),
+        )
+    )
+
+    verifier_agent = verifier._agent
+    assert isinstance(verifier_agent, FakeAgent)
+    assert [item.name for item in verifier_agent.tools] == ["submit_verification"]
+    assert verifier_agent.tool_use_behavior == "stop_on_first_tool"
+    assert verifier_agent.model_settings.temperature == 0
+    assert verifier_agent.model_settings.parallel_tool_calls is False
+    assert verifier_agent.model_settings.tool_choice == "required"
+    assert response.result.status == "ready_for_synthesis"
+    assert response.input_tokens == 23
+    assert response.output_tokens == 9
+
+
+@pytest.mark.asyncio
+async def test_blind_verifier_feedback_reaches_next_manager_turn_without_leakage() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    verifier = FakeVerifier((continue_verdict(), ready_verdict()))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("read_artifact", "invoke_model"),
+        verifier=verifier,
+    )
+    sink = MemorySink()
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        read_tool = tool(agent, "read_artifact")
+        read = await read_tool.on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        feedback = await complete_tool_batch(agent, ((read_tool, read),))
+        verification = json.loads(feedback[0])["blind_verification"]
+        assert verification["status"] == "continue"
+        assert verification["missing_requirements"] == [
+            "independent supporting evidence"
+        ]
+        assert "task incomplete" in json.loads(feedback[0])["verifier_feedback"]
+
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        answer = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((model_tool, answer),))
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task,
+        gateway,
+        trace=WorkflowTraceRecorder("blind-verifier", sink),
+        budget=AgentLoopBudget(max_tool_model_calls=2),
+    )
+
+    assert result.final_answer == "A"
+    assert result.usage.tool_model_calls == 2
+    assert result.usage.verifier_calls == 2
+    assert len(result.verification_steps) == 2
+    assert [item.result.status for item in result.verification_steps] == [
+        "continue",
+        "ready_for_synthesis",
+    ]
+    serialized_contexts = json.dumps(
+        [item.model_dump(mode="json") for item in verifier.contexts],
+        sort_keys=True,
+    )
+    for forbidden in (
+        "private://",
+        "private-evaluator",
+        "source_ref",
+        "evaluator_id",
+        "physical_profile",
+        "deployment_id",
+        "worker_id",
+        "network",
+        "placement",
+    ):
+        assert forbidden not in serialized_contexts
+    verification_events = [
+        item for item in sink.events if item.event_type == "logical.verification"
+    ]
+    assert len(verification_events) == 2
+    assert verification_events[0].payload["input_tokens"] == 11
+    assert any(item.event_type == "logical.phase.changed" for item in sink.events)
+
+
+@pytest.mark.asyncio
+async def test_blind_verifier_failure_is_traced_and_typed() -> None:
+    class FailingVerifier:
+        async def verify(self, context: VerificationContext) -> VerificationResponse:
+            del context
+            raise RuntimeError("response transport rejected")
+
+    task = benchmark_task()
+    runtime, gateway = runtime_and_gateway(
+        task,
+        FakePhysicalService(),
+        ("read_artifact",),
+        verifier=FailingVerifier(),  # type: ignore[arg-type]
+    )
+    sink = MemorySink()
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        read_tool = tool(agent, "read_artifact")
+        read = await read_tool.on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((read_tool, read),))
+        return "unreachable"
+
+    FakeRunner.behavior = behavior
+    with pytest.raises(
+        AgentLoopError,
+        match="Blind verifier failed: RuntimeError: response transport rejected",
+    ):
+        await runtime.run(
+            task,
+            gateway,
+            trace=WorkflowTraceRecorder("failed-verifier", sink),
+        )
+
+    event_types = [item.event_type for item in sink.events]
+    assert "logical.verification.started" in event_types
+    failure = next(
+        item for item in sink.events if item.event_type == "logical.verification.failed"
+    )
+    assert failure.payload["exception_type"] == "RuntimeError"
+    assert failure.payload["phase"] == "evidence_collection"
+
+
+@pytest.mark.asyncio
+async def test_ready_phase_rejects_expansion_but_permits_model_synthesis() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    verifier = FakeVerifier((ready_verdict(), ready_verdict()))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("read_artifact", "bm25_retrieve", "invoke_model"),
+        verifier=verifier,
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        read_tool = tool(agent, "read_artifact")
+        read = await read_tool.on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((read_tool, read),))
+
+        await reasoning_start(hooks, context, agent)
+        retrieval_tool = tool(agent, "bm25_retrieve")
+        rejected = await retrieval_tool.on_invoke_tool(
+            tool_context(agent, context, "late-retrieval"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {
+                        "query": "more",
+                        "top_k": 2,
+                        "text_field": "text",
+                        "output_artifact_id": "late-hits",
+                    },
+                }
+            ),
+        )
+        assert json.loads(rejected)["failure_code"] == "phase_restricted"
+        model_tool = tool(agent, "invoke_model")
+        answer = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "synthesis"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        assert json.loads(answer)["succeeded"]
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(
+            agent,
+            ((retrieval_tool, rejected), (model_tool, answer)),
+        )
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+
+    assert result.final_answer == "A"
+    assert result.usage.tool_model_calls == 2
+    assert len(physical.actions) == 2
+    assert any(item.failure_code == "phase_restricted" for item in result.observations)
+
+
+@pytest.mark.asyncio
+async def test_failed_synthesis_can_return_to_planning() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService(fail_model_once=True)
+    verifier = FakeVerifier(
+        (
+            ready_verdict(),
+            VerificationResult(
+                status="continue",
+                failure_stage="synthesis",
+                reason="the synthesis model call failed before producing an answer",
+                missing_requirements=("successful synthesis result",),
+            ),
+            ready_verdict(),
+            ready_verdict(),
+        )
+    )
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("read_artifact", "invoke_model"),
+        verifier=verifier,
+    )
+
+    async def call_batch(
+        agent: FakeAgent,
+        context: object,
+        hooks: object,
+        name: str,
+        input_json: str,
+    ) -> str:
+        await reasoning_start(hooks, context, agent)
+        selected = tool(agent, name)
+        output = await selected.on_invoke_tool(
+            tool_context(agent, context, name + "-" + str(len(physical.actions))),
+            input_json,
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((selected, output),))
+        return output
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await call_batch(
+            agent,
+            context,
+            hooks,
+            "read_artifact",
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        failed = await call_batch(
+            agent,
+            context,
+            hooks,
+            "invoke_model",
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        assert json.loads(failed)["failure_code"] == "context_limit_exceeded"
+        recovered = await call_batch(
+            agent,
+            context,
+            hooks,
+            "read_artifact",
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        assert json.loads(recovered)["succeeded"]
+        succeeded = await call_batch(
+            agent,
+            context,
+            hooks,
+            "invoke_model",
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        assert json.loads(succeeded)["succeeded"]
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+
+    assert result.final_answer == "A"
+    assert [item.result.status for item in result.verification_steps] == [
+        "ready_for_synthesis",
+        "continue",
+        "ready_for_synthesis",
+        "ready_for_synthesis",
+    ]
+    assert result.usage.tool_model_calls == 4
+
+
+@pytest.mark.asyncio
+async def test_verifier_has_independent_hard_budget_and_cannot_authorize_terminal_early() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    verifier = FakeVerifier((continue_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("read_artifact", "invoke_model"),
+        verifier=verifier,
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        read_tool = tool(agent, "read_artifact")
+        read = await read_tool.on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((read_tool, read),))
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        model = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((model_tool, model),))
+        return "A"
+
+    FakeRunner.behavior = behavior
+    with pytest.raises(AgentLoopError, match="verifier call budget exhausted"):
+        await runtime.run(
+            task,
+            gateway,
+            budget=AgentLoopBudget(
+                max_manager_turns=4,
+                max_subagent_turns=2,
+                max_tool_model_calls=2,
+                max_created_subagents=0,
+                max_active_subagents=0,
+                max_verifier_calls=1,
+            ),
+        )
