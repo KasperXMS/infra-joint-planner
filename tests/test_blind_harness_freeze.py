@@ -25,7 +25,7 @@ from blind_3family_validation_v1 import (  # noqa: E402
 
 
 def frozen_components() -> tuple[object, EnvironmentSpec, object, tuple[str, ...]]:
-    harness = load_harness(REPO / "configs/experiments/blind-harness-v1.yaml")
+    harness = load_harness(REPO / "configs/experiments/blind-harness-v1.1.yaml")
     base = _yaml(REPO / "configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml")
     fresh = _yaml(REPO / "configs/experiments/blind-3family-longbench-environment-v1.yaml")
     environment = EnvironmentSpec.model_validate(fresh["environment"])

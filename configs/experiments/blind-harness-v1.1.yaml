@@ -1,0 +1,45 @@
+harness_id: blind-harness-v1.1
+frozen_from_revision: ae052c00d30fddb0c25c8866efa37124945a1e02
+positive_baseline_run_id: 05-multihop-blind-verifier-strict-state
+profile_visibility: blind
+runtime:
+  implementation: OpenAIAgentsNativeRuntime
+  source_sha256: 777ba219f80935f76b213c938c8933ee5f884354155f6eba736cdc5145d3c2eb
+manager:
+  model: deepseek-chat
+  base_url: https://api.deepseek.com
+  api_key_env: DEEPSEEK_API_KEY
+  instructions_sha256: 68b87058ba0a90549cd93a5e18a4a8def2f690e0df089545126a78718892a56e
+verifier:
+  enabled: true
+  model: deepseek-chat
+  temperature: 0
+  result_transport: required_function_tool
+  source_sha256: 6c7813735ceec02136008d74da99ae3e773ec93b95b5a50d8a8dd1fd992699e8
+  candidate_finalization: deterministic_contract_format_extraction_from_terminal_model_output
+budget:
+  max_manager_turns: 12
+  max_subagent_turns: 8
+  max_tool_model_calls: 18
+  max_created_subagents: 4
+  max_active_subagents: 2
+  max_verifier_calls: 12
+available_operations:
+  - aggregate_artifacts
+  - aggregate_records
+  - bm25_retrieve
+  - derive_fields
+  - extract_clip
+  - filter_records
+  - invoke_model
+  - make_contact_sheet
+  - read_artifact
+  - sample_frames
+  - select_fields
+  - top_k_records
+anonymous_model_contract:
+  context_window: 32768
+  reserved_output_tokens: 2048
+  modalities: [text, image]
+  image_token_cost: 2048
+static_capability_contract_sha256: 8d46d9b941a08380a00fdab1e7c151c25affd589ec4444864f3c5c925a2089a4
