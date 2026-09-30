@@ -373,6 +373,74 @@ async def calibrate(args: argparse.Namespace) -> None:
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
 
 
+async def probe_ttft(args: argparse.Namespace) -> None:
+    context_window = args.context_window
+    input_bytes = context_window - args.reserved_output_tokens
+    request = ModelRequest(
+        prompt=_payload(input_bytes),
+        max_output_tokens=args.reserved_output_tokens,
+    )
+    estimated = preflight_model_request(
+        request,
+        modalities=frozenset({"text", "image"}),
+        context_window=context_window,
+        reserved_output_tokens=args.reserved_output_tokens,
+        image_token_cost=2048,
+    )
+    client = AsyncOpenAI(api_key="ollama-local-calibration", base_url=args.base_url)
+    started = perf_counter()
+    first_content_at: float | None = None
+    output_parts: list[str] = []
+    finish_reason: str | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    try:
+        stream = await client.chat.completions.create(
+            model=args.model,
+            messages=[{"role": "user", "content": request.prompt}],
+            max_tokens=args.reserved_output_tokens,
+            reasoning_effort="none",
+            temperature=0,
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+        async for chunk in stream:
+            if chunk.usage is not None:
+                input_tokens = chunk.usage.prompt_tokens
+                output_tokens = chunk.usage.completion_tokens
+            for choice in chunk.choices:
+                if choice.finish_reason is not None:
+                    finish_reason = choice.finish_reason
+                content = choice.delta.content
+                if content:
+                    if first_content_at is None:
+                        first_content_at = perf_counter()
+                    output_parts.append(content)
+    finally:
+        await client.close()
+    finished = perf_counter()
+    output = "".join(output_parts)
+    result = {
+        "planner_backend_calls": 0,
+        "deployment": args.deployment,
+        "context_window": context_window,
+        "input_bytes": input_bytes,
+        "preflight_estimated_input": estimated,
+        "reserved_output_tokens": args.reserved_output_tokens,
+        "ttft_ms": (first_content_at - started) * 1000
+        if first_content_at is not None
+        else None,
+        "total_latency_ms": (finished - started) * 1000,
+        "backend_input_tokens": input_tokens,
+        "backend_output_tokens": output_tokens,
+        "finish_reason": finish_reason,
+        "output_nonempty": bool(output.strip()),
+        "output_preview": output[:160],
+    }
+    _write_json(args.output, result)
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser()
     commands = root.add_subparsers(dest="command", required=True)
@@ -396,6 +464,13 @@ def parser() -> argparse.ArgumentParser:
     calibration.add_argument("--runtime-hard-limit", type=int, required=True)
     calibration.add_argument("--reserved-output-tokens", type=int, default=1024)
     calibration.add_argument("--output", type=Path, required=True)
+    ttft = commands.add_parser("ttft-probe")
+    ttft.add_argument("--deployment", required=True)
+    ttft.add_argument("--base-url", default="http://127.0.0.1:11435/v1")
+    ttft.add_argument("--model", default="qwen3.8-27b-v1")
+    ttft.add_argument("--context-window", type=int, default=16384)
+    ttft.add_argument("--reserved-output-tokens", type=int, default=1024)
+    ttft.add_argument("--output", type=Path, required=True)
     return root
 
 
@@ -403,8 +478,10 @@ def main() -> None:
     args = parser().parse_args()
     if args.command == "diagnose":
         diagnose(args)
-    else:
+    elif args.command == "calibrate":
         asyncio.run(calibrate(args))
+    else:
+        asyncio.run(probe_ttft(args))
 
 
 if __name__ == "__main__":
