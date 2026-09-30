@@ -13,6 +13,7 @@ sys.path.insert(0, str(SCRIPTS))
 from blind_3family_validation_v1 import (  # noqa: E402
     REPO,
     _operations,
+    _revision,
     _validate_harness_manifest_hash,
     _yaml,
     load_harness,
@@ -55,3 +56,17 @@ def test_stage2_config_pins_harness_manifest_bytes(tmp_path: Path) -> None:
     changed.write_bytes(harness_path.read_bytes() + b"\n")
     with pytest.raises(RuntimeError, match="manifest drift"):
         _validate_harness_manifest_hash(config, changed)
+
+
+def test_archive_deployment_revision_is_fail_closed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        "blind_3family_validation_v1.subprocess.check_output",
+        lambda *args, **kwargs: (_ for _ in ()).throw(FileNotFoundError()),
+    )
+    monkeypatch.setenv("INFRA_JOINT_CODE_REVISION", "a" * 40)
+    assert _revision() == "a" * 40
+    monkeypatch.setenv("INFRA_JOINT_CODE_REVISION", "not-a-commit")
+    with pytest.raises(RuntimeError, match="code revision is unavailable"):
+        _revision()

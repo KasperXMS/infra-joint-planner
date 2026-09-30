@@ -13,6 +13,7 @@ import argparse
 import asyncio
 import hashlib
 import json
+import os
 import re
 import subprocess
 from contextlib import AsyncExitStack
@@ -93,9 +94,20 @@ class Stage2RunFreeze(ContractModel):
 
 
 def _revision() -> str:
-    return subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd=REPO, text=True
-    ).strip()
+    try:
+        revision = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"],
+            cwd=REPO,
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        revision = os.environ.get("INFRA_JOINT_CODE_REVISION", "")
+    if re.fullmatch(r"[0-9a-f]{40}", revision) is None:
+        raise RuntimeError(
+            "code revision is unavailable; set INFRA_JOINT_CODE_REVISION for archive deploys"
+        )
+    return revision
 
 
 def _sha256_text(value: str) -> str:
