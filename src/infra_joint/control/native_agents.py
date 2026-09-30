@@ -4,6 +4,7 @@ import asyncio
 import copy
 import importlib
 import json
+import re
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from time import perf_counter
@@ -396,8 +397,8 @@ class OpenAIAgentsNativeRuntime:
             raise AgentLoopError(
                 "Blind verifier did not authorize the terminal synthesis phase"
             )
-        answer = output.strip()
-        terminal = self._terminal_source(state, answer)
+        answer = _deterministic_terminal_answer(task.output_contract, output)
+        terminal = self._terminal_source(state, answer, task.output_contract)
         _validate_output_contract(task, answer)
         loop_result = AgentLoopResult(
             final_answer=answer,
@@ -619,14 +620,18 @@ class OpenAIAgentsNativeRuntime:
                 return result_constructor(is_final_output=False, final_output=None)
             telemetry = await self._verify_manager_batch(state)
             if telemetry.result.status == "complete":
-                candidate, action_id = _latest_terminal_candidate(state)
-                _validate_answer_contract(state.task_view.output_contract, candidate)
+                raw_candidate, action_id = _latest_terminal_candidate(state)
+                candidate = _deterministic_terminal_answer(
+                    state.task_view.output_contract,
+                    raw_candidate,
+                )
                 state.emit(
                     "logical.terminal.candidate_selected",
                     {
                         "source_action_id": action_id,
                         "verification_index": telemetry.verification_index,
                         "graph_version": telemetry.graph_version,
+                        "deterministic_format_extraction": candidate != raw_candidate,
                     },
                 )
                 return result_constructor(
@@ -1101,18 +1106,31 @@ class OpenAIAgentsNativeRuntime:
         )
 
     @staticmethod
-    def _terminal_source(state: _NativeState, answer: str) -> str:
-        matches = [
-            item.action_id
-            for item in state.observations
-            if item.owner_agent_id == state.root_agent.logical_agent_id
-            and item.succeeded
-            and isinstance(state.actions.get(item.action_id), LogicalModelAction)
-            and item.output.get("text") == answer
-        ]
+    def _terminal_source(
+        state: _NativeState,
+        answer: str,
+        contract: OutputContract,
+    ) -> str:
+        matches: list[str] = []
+        for item in state.observations:
+            candidate = item.output.get("text")
+            if (
+                item.owner_agent_id != state.root_agent.logical_agent_id
+                or not item.succeeded
+                or not isinstance(state.actions.get(item.action_id), LogicalModelAction)
+                or not isinstance(candidate, str)
+            ):
+                continue
+            try:
+                normalized = _deterministic_terminal_answer(contract, candidate)
+            except AgentLoopError:
+                continue
+            if normalized == answer:
+                matches.append(item.action_id)
         if not matches:
             raise AgentLoopError(
-                "terminal answer must exactly match a successful manager invoke_model result"
+                "terminal answer must deterministically derive from a successful manager "
+                "invoke_model result"
             )
         return matches[-1]
 
@@ -1457,6 +1475,42 @@ def _verifier_action_view(
 
 def _validate_output_contract(task: TaskContract, answer: str) -> None:
     _validate_answer_contract(task.output_contract, answer)
+
+
+def _deterministic_terminal_answer(contract: OutputContract, answer: str) -> str:
+    """Extract contract formatting without adding semantic reasoning.
+
+    Choice extraction is intentionally narrow: a declared label must be exact,
+    explicitly introduced, explicitly wrapped, or followed immediately by a
+    formatting delimiter. Ambiguous free text remains invalid.
+    """
+
+    stripped = answer.strip()
+    if contract.format != OutputFormat.CHOICE:
+        _validate_answer_contract(contract, stripped)
+        return stripped
+    choices = contract.choices
+    if choices is None:
+        raise AgentLoopError("terminal answer violates the choice output contract")
+    if stripped in choices:
+        return stripped
+
+    matches: set[str] = set()
+    for choice in choices:
+        label = re.escape(choice)
+        patterns = (
+            rf"(?is)^(?:answer|choice)\s*[:：]\s*{label}(?:\s|$|[.。:：;；,，\-–—])",
+            rf"(?s)^\(\s*{label}\s*\)(?:\s|$|[.。:：;；,，\-–—])",
+            rf"(?s)^\[\s*{label}\s*\](?:\s|$|[.。:：;；,，\-–—])",
+            rf"(?s)^\*\*\s*{label}\s*(?:[.。])?\*\*(?:\s|$|[.:：;；,，\-–—])",
+            rf"(?s)^__\s*{label}\s*(?:[.。])?__(?:\s|$|[.:：;；,，\-–—])",
+            rf"(?s)^{label}(?:$|[.。:：;；,，\-–—\r\n])",
+        )
+        if any(re.match(pattern, stripped) is not None for pattern in patterns):
+            matches.add(choice)
+    if len(matches) != 1:
+        raise AgentLoopError("terminal answer violates the choice output contract")
+    return next(iter(matches))
 
 
 def _validate_answer_contract(contract: OutputContract, answer: str) -> None:

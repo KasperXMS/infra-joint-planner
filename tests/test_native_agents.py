@@ -170,10 +170,12 @@ class FakePhysicalService:
         fail_read_once: bool = False,
         fail_model_once: bool = False,
         bm25_barrier: int = 0,
+        model_text: str = "A",
     ) -> None:
         self.fail_read_once = fail_read_once
         self.fail_model_once = fail_model_once
         self.bm25_barrier = bm25_barrier
+        self.model_text = model_text
         self.actions: list[object] = []
         self.active_bm25 = 0
         self.peak_bm25 = 0
@@ -222,7 +224,7 @@ class FakePhysicalService:
                 for item in action.outputs
             )
             if isinstance(action, LogicalModelAction):
-                text = "evidence" if action.outputs else "A"
+                text = "evidence" if action.outputs else self.model_text
                 output = {"text": text}
             else:
                 output = {"text": "small artifact"} if operator == "read_artifact" else {}
@@ -1160,6 +1162,88 @@ async def test_complete_verdict_returns_exact_successful_model_candidate() -> No
         if item.event_type == "logical.terminal.candidate_selected"
     )
     assert selected.payload["source_action_id"] == result.terminal_action_id
+
+
+@pytest.mark.asyncio
+async def test_complete_verdict_deterministically_extracts_leading_choice() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService(model_text="A. The evidence supports this choice.")
+    verifier = FakeVerifier((complete_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("invoke_model",),
+        verifier=verifier,
+    )
+    sink = MemorySink()
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        model = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "terminal-candidate"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Choose the supported label."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        decision, _outputs = await resolve_tool_batch(agent, ((model_tool, model),))
+        assert decision.is_final_output
+        return str(decision.final_output)
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task,
+        gateway,
+        trace=WorkflowTraceRecorder("formatted-candidate", sink),
+    )
+
+    assert result.final_answer == "A"
+    selected = next(
+        item
+        for item in sink.events
+        if item.event_type == "logical.terminal.candidate_selected"
+    )
+    assert selected.payload["deterministic_format_extraction"] is True
+
+
+@pytest.mark.asyncio
+async def test_complete_verdict_rejects_ambiguous_choice_candidate() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService(model_text="A or B")
+    verifier = FakeVerifier((complete_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("invoke_model",),
+        verifier=verifier,
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        model = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "ambiguous-candidate"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Choose the supported label."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        await resolve_tool_batch(agent, ((model_tool, model),))
+        return "unreachable"
+
+    FakeRunner.behavior = behavior
+    with pytest.raises(
+        AgentLoopError,
+        match="terminal answer violates the choice output contract",
+    ):
+        await runtime.run(task, gateway)
 
 
 @pytest.mark.asyncio
