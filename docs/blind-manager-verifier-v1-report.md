@@ -1,174 +1,188 @@
 # Blind Manager + Verifier v1 report
 
-## Decision
+## Outcome
 
-The explicit Blind Verifier did **not** make the fixed-budget SDK-native Blind
-baseline complete normally on `multihop-multisource`.
+The explicit resource-blind Verifier made the SDK-native Manager terminate normally,
+but the run did **not** obtain a positive benchmark score.
 
-The first live attempt exposed an invalid verifier transport contract: the DeepSeek
-endpoint rejected the Agents SDK `response_format` request before returning a
-verdict. The generic transport was then changed to one schema-constrained,
-required `submit_verification` function call. That change passed the full test and
-type/lint suite and was frozen in commit `1a0d5b2` for a new, isolated run.
+The accepted live run completed its execution graph, reached real model inference,
+materialized a terminal answer, received a final `complete` verdict from the Verifier,
+and invoked the unchanged private evaluator. The terminal answer was semantically
+correct (`Yes`) and cited both required guide passages. The official evaluator still
+returned `0.0` because the model rendered the answer as Markdown `**Yes.**`: the
+benchmark's faithful scoring rule lowercases and splits on whitespace but does not
+strip punctuation or Markdown, so `**yes.**` does not intersect the private gold token
+`yes`.
 
-The second run removed the transport confounder. All 12 verifier calls completed,
-but every verdict was `continue`. The Manager used all 18 physical action calls on
-retrieval, aggregation, metadata projection/inspection, and document filtering. It
-never invoked a model, never entered synthesis, and exhausted all 12 Manager turns.
-There was no terminal answer and therefore the private evaluator was correctly not
-invoked.
+Primary residual failure class: **synthesis/output-contract compliance**. Two earlier
+model actions encountered recoverable context preflight failures, but they were not the
+terminal cause. Retrieval, verification, tool execution, physical feasibility,
+stopping, and hard-budget enforcement all behaved correctly.
 
-Primary failure class: **workflow composition**. Secondary classes:
-**stopping/over-expansion** and **hard budget exhaustion**. This was not a context,
-deployment, network, artifact-store, tool-execution, or evaluator failure.
+No retry, replacement, prompt tuning, budget increase, Aware run, or matrix run was
+performed after this accepted cell.
 
-## Frozen second-run setting
+## Frozen setting
 
-- Run ID: `02-multihop-multisource-blind-native-verifier-function-tool`
-- Code revision: `1a0d5b27cba01cabca158f57be433961a51bbd4a`
+- Run ID: `05-multihop-blind-verifier-strict-state`
+- Code revision: `f263aaa89174f047869c3ed865c5c0ba95cb942b`
 - Task: `multihop-multisource`
 - Benchmark task ID: `multihop-rag-train-9bae0079038050a37a1ae583`
-- Benchmark setting: `official_equivalent`
 - Task bundle SHA-256:
   `54ef8ddbe4a3379254345f307b3f0ef6b95fe92e0b28ac4c89124bb6b7ebfe8e`
 - Runtime: `OpenAIAgentsNativeRuntime`
 - Visibility: `ProfileVisibility.BLIND`
-- Manager: unchanged `deepseek-chat`; instructions SHA-256
-  `68b87058ba0a90549cd93a5e18a4a8def2f690e0df089545126a78718892a56e`
-- Verifier: independent `deepseek-chat`, temperature 0, required function-tool
-  result transport
-- Budget: 12 Manager turns / 18 physical tool-model calls / 12 verifier calls
+- Manager: unchanged `deepseek-chat`
+- Verifier: independent `deepseek-chat`, temperature 0, required
+  `submit_verification` function-tool transport
+- Budget: 12 Manager turns / 18 physical tool-model calls / 12 Verifier calls
 - Subagent limits: 8 turns / 4 created / 2 active
-- Deployments: unchanged 32,768 context / 2,048 reserved output on A28 and
-  strong-4090
-- Scheduler: unchanged AUTO locality-aware scheduler
-- Network: native/unshaped; no `netem` or `tbf` qdisc was present
+- Model deployments: unchanged 32,768 context / 2,048 reserved output
+- Scheduler: unchanged AUTO locality-aware physical scheduler
+- Network: native/unshaped
 - Repetitions: 1; retry/replacement: false
-- Stores: new `sdk-native-blind-verifier-v2` roots on all four workers; all were
+- Worker stores: isolated `sdk-native-blind-verifier-v5` roots on all four workers,
   empty before materialization
-- Dataset materialization and execution occurred on strong-4090 and the remote
-  workers. The dataset was not downloaded to or relayed through the development PC.
 
-All four workers ran the same clean checkout and exact commit. Worker `/state`
-reported identical operator-contract digests; A28 and strong-4090 both exposed the
-expected 32K/2048 model contract.
+The complete corpus and queries remained on strong-4090 and the experiment workers.
+They were not downloaded to or relayed through the development PC. Only the sanitized
+freeze manifest, result, trace, and summary were copied to the local ignored evidence
+directory after the run.
 
-## Verifier contract and isolation
+## Verifier behavior
 
-The harness invokes the Verifier once after a completed Manager tool batch. The
-Verifier is not a Manager-visible tool and its calls do not consume the 18-call
-physical budget. Its required function tool accepts exactly `VerificationResult`
-and stops after the first valid submission. Invalid or unavailable verdict
-transport is now emitted as `logical.verification.failed` and surfaced as a typed
-`AgentLoopError`.
+The Verifier ran after each completed Manager action batch. It received only the
+sanitized task objective, logical graph, semantic action/observation views, produced
+artifact metadata, typed failures, phase, and remaining logical budget. It did not
+receive worker/device/deployment identity, placement, bandwidth, RTT, route, load,
+queue, gold, supporting-evidence annotations, source references, or evaluator metadata.
 
-The Verifier input contains the sanitized task view, execution-grown logical graph,
-logical observations/failures, produced artifact semantic metadata, phase, and
-remaining logical budgets. A scan of all second-run `logical.*` events found none
-of `source_ref`, `evaluator_id`, `private://`, gold/supporting-evidence fields,
-physical selections, deployment IDs, node IPs, bandwidth, or queue state.
+The final three-state contract was:
 
-`continue` feedback is returned to the next Manager turn. A
-`ready_for_synthesis` verdict would restrict the following phase to
-`invoke_model` or the final response. The private evaluator remains downstream of
-a valid terminal answer only.
+1. evidence sufficient but no successful candidate: `ready_for_synthesis`;
+2. successful task-answer candidate: `complete`;
+3. a concrete remaining gap, conflict, failed synthesis, or recoverable blocker:
+   `continue`.
 
-## Second-run execution
+The first verdict, after the six cross-shard BM25 calls, was
+`ready_for_synthesis`. Two oversized synthesis attempts then failed before transfer at
+68,872 and 69,721 estimated input tokens. The Verifier correctly returned `continue`,
+and the Manager used generic projection, aggregation, and retrieval actions to create
+smaller model-consumable evidence. The final model call consumed 3,381 input tokens,
+produced 292 output tokens with `finish_reason=stop`, and the Verifier returned
+`complete`.
+
+Finalization deterministically selected that successful Manager-owned model output.
+It did not call another LLM, rewrite the answer, normalize it, or consult the private
+evaluator.
+
+## Accepted run metrics
 
 | Metric | Observed |
 |---|---:|
-| Execution completed | No |
-| Final answer | None |
-| Evaluator invoked / score | No / N/A |
-| Manager reasoning turns | 12 |
-| Specialist calls / turns | 0 / 0 |
-| Verifier calls attempted / completed | 12 / 12 |
-| First `READY_FOR_SYNTHESIS` turn | None |
-| Physical action calls | 18 |
-| Additional calls rejected at budget gate | 13 |
-| Model actions / reached inference | 0 / 0 |
-| Context/preflight failures | 0 |
-| Graph nodes / edges / final version | 18 / 12 / 54 |
+| Execution completed | Yes |
+| Terminal answer materialized | Yes |
+| Format valid | Yes |
+| Evaluator invoked / score | Yes / 0.0 |
+| Manager reasoning turns | 6 |
+| Verifier calls | 6 |
+| First `READY_FOR_SYNTHESIS` | Manager turn 1 / graph version 18 |
+| Tool calls before first synthesis | 6 |
+| Successful tool executions | 15 |
+| Model actions | 3 |
+| Reached model inference | 1 |
+| Context/preflight failures | 2 |
+| Subagent calls / turns | 0 / 0 |
+| Physical action calls | 18 / 18 |
+| Final graph nodes / edges / version | 18 / 16 / 54 |
+| E2E latency | 167,532.15 ms |
 | Initial transfer bytes | 7,696,522 |
-| Action transfer bytes | 92,107 |
-| Total transferred bytes | 7,788,629 |
-| Observed trace E2E | 53,350.33 ms |
-| Manager reasoning latency | 23,654.55 ms |
-| Verifier latency | 26,616.21 ms |
-| Terminal failure | `manager turn budget exhausted` |
+| Action transfer bytes | 5,204,596 |
+| Total transferred bytes | 12,901,118 |
+| Successful model service latency | 132,956.39 ms |
 
-The 18 executed actions were:
+The terminal candidate began:
 
-| Stage | Calls | Result |
-|---|---:|---|
-| Cross-shard BM25 for Sorcerer and Barbarian | 6 | All succeeded |
-| Aggregate the three hit sets per subject | 2 | Both succeeded; 92,107 transfer bytes |
-| Filter candidate hits | 2 | Both succeeded |
-| Project candidate metadata | 2 | Both succeeded |
-| Read projected metadata | 2 | Both succeeded |
-| Filter full shards by discovered document identity | 4 | All four admitted calls succeeded |
+> **Yes.** Both guides are Polygon articles for Diablo 4 Season 2 ... and explicitly
+> state they provide simplified versions of the builds.
 
-The Manager correctly discovered candidate Polygon Sorcerer and Barbarian guide
-identities. It then spent the remaining physical budget locating their full records
-across non-semantic hash shards. In the six-action extraction batch only four calls
-could be admitted under the remaining budget; two were rejected. The resulting
-evidence included one non-empty Sorcerer document artifact but no materialized
-Barbarian body. The Verifier therefore continued to report missing body evidence.
+The two cited evidence passages correctly stated that the respective Sorcerer and
+Barbarian guides had "gathered and simplified" the best builds for season 2.
 
-After the physical budget reached zero, the Manager issued 13 more logical tool
-requests across the remaining turns. All were correctly rejected before physical
-execution with `budget_exhausted`. The Verifier continued to run after those failed
-batches and never authorized synthesis. This post-exhaustion loop inflated latency,
-but it did not change the completion outcome: no physical call remained for either
-the missing evidence or terminal model synthesis.
+## Benchmark-score audit
 
-## Failure analysis
+The evaluator was not changed. Its current faithful benchmark rule is:
 
-- **Retrieval:** not the primary failure. Six-way BM25 succeeded and identified
-  both target guide records.
-- **Verification:** transport was healthy in the second run. Its semantic verdicts
-  remained conservative because observations exposed metadata and incomplete
-  document materialization, not both guide bodies.
-- **Context:** no context or model-binding preflight was attempted; there were zero
-  context failures.
-- **Tool execution:** all 18 admitted physical actions succeeded. The 13 later
-  failures were deliberate budget-gate rejections, not worker failures.
-- **Workflow composition (primary):** the Manager used the complete action budget
-  on a multi-stage retrieve/aggregate/filter/project/read/extract path and allocated
-  no call to evidence analysis or final model synthesis.
-- **Stopping/over-expansion (secondary):** after the budget was exhausted, the
-  Manager continued requesting unavailable actions and the Verifier continued
-  producing `continue` verdicts.
-- **Synthesis:** never reached; no model inference occurred.
-- **Budget:** the hard limits worked exactly as configured and were not raised.
+1. if the exact wrapper `The answer to the question is "..."` exists, extract its
+   contents; otherwise evaluate the entire terminal output;
+2. lowercase and split prediction and gold on whitespace;
+3. score 1 only when the token sets intersect.
 
-The experiment therefore answers the stated question negatively for this fixed
-harness and budget. The Verifier removed premature terminal completion, but did not
-solve action-budget allocation or compel a timely transition to synthesis.
+For this run:
 
-## Validation
+```text
+private gold token set: {yes}
+prediction's first token: **yes.**
+intersection: empty
+score: 0.0
+```
 
-- Full pytest: **293 passed**
+This is not evidence that the semantic answer was wrong. It is evidence that the
+unchanged terminal model did not obey the benchmark's unusually narrow answer syntax,
+and that the unchanged evaluator intentionally performs no punctuation or Markdown
+normalization. Treating the run as score 1 would require changing the evaluator or
+post-processing the terminal answer, both forbidden in this stage.
+
+## Failure classification
+
+- **Retrieval:** succeeded. Six independent BM25 calls covered both subjects across
+  all three non-semantic corpus shards; later compact retrieval produced the two guide
+  artifacts used by the final model.
+- **Verification:** succeeded. It made a timely first-turn transition, diagnosed both
+  context failures, and emitted `complete` after a real candidate existed.
+- **Context:** two recoverable pre-inference failures occurred; the Manager adapted to
+  inputs that fit the 32K/2048 deployment contract.
+- **Tool execution:** all 15 tool calls succeeded.
+- **Workflow composition:** recovered from oversized synthesis inputs without hidden
+  repair or rollback.
+- **Stopping:** succeeded at Manager turn 6; no post-completion expansion occurred.
+- **Synthesis (primary residual issue):** semantically correct, but not compatible with
+  the evaluator's literal whitespace-token syntax because of Markdown/punctuation.
+- **Budget:** exactly 18 physical calls were used. The successful inference and
+  deterministic terminal selection occurred within the fixed budget.
+
+## Validation and durable evidence
+
+At the accepted revision:
+
+- full pytest: **298 passed**
 - Ruff: **passed**
-- Strict Pyright: **0 errors, 0 warnings, 0 informations**
-- Added coverage verifies required function-tool verdict submission, deterministic
-  model settings, JSON verdict parsing, typed verifier failure tracing, privacy
-  isolation, CONTINUE feedback, synthesis gating, synthesis-failure recovery,
-  independent verifier accounting, hard budgets, and evaluator-after-terminal
-  ordering.
+- strict Pyright: **0 errors, 0 warnings, 0 informations**
 
-## Durable evidence and stop
+Sanitized evidence is retained at:
 
-- First attempt audit: `docs/sdk-native-blind-verifier-v1-report.md`
-- Second freeze: `results/sdk-native-blind-verifier-v2/freeze/manifest.json`
-- Second result:
-  `results/sdk-native-blind-verifier-v2/runs/02-multihop-multisource-blind-native-verifier-function-tool/result.json`
-- Second full trace:
-  `results/sdk-native-blind-verifier-v2/runs/02-multihop-multisource-blind-native-verifier-function-tool/trace.jsonl`
-- Second summary: `results/sdk-native-blind-verifier-v2/summary.json`
-- Remote durable evidence:
-  `/home/super/xiaoming/blind-verifier-stage1-1a0d5b2/app/results/sdk-native-blind-verifier-v2`
+- freeze: `results/sdk-native-blind-verifier-v5/freeze/manifest.json`
+- result:
+  `results/sdk-native-blind-verifier-v5/runs/05-multihop-blind-verifier-strict-state/result.json`
+- trace:
+  `results/sdk-native-blind-verifier-v5/runs/05-multihop-blind-verifier-strict-state/trace.jsonl`
+- summary: `results/sdk-native-blind-verifier-v5/summary.json`
+- remote durable root:
+  `/home/super/xiaoming/blind-verifier-v5-f263aaa/app/results/sdk-native-blind-verifier-v5`
 
-Historical v1 evidence and all v2 Worker stores were retained. The four v2 Worker
-processes were stopped. No Aware run, matrix, retry, replacement, prompt tuning,
-budget increase, or task substitution was performed.
+The private task contract/evaluation files remain only in the remote private evidence
+directory and were not copied into the local workspace. All four isolated Worker
+processes were stopped after the result was persisted; their artifact stores and all
+historical evidence were retained.
+
+## Stop decision
+
+The narrow research question has a split answer:
+
+- **Control-plane completion:** yes. The explicit Blind Verifier caused the
+  SDK-native Blind baseline to collect evidence, recover from context failures,
+  synthesize once successfully, and stop normally.
+- **Positive benchmark score:** no. The remaining failure is terminal answer-format
+  compliance under the unchanged official evaluator.
+
+Per the stage stop rule, no additional Blind run and no Aware experiment was started.
