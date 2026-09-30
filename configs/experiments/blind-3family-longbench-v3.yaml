@@ -1,0 +1,14 @@
+experiment_id: blind-3family-validation-v1-longbench-attempt3
+harness_manifest: configs/experiments/blind-harness-v1.yaml
+harness_manifest_sha256: 0b4c05341ca4b475081487b12e9c6246711348e59092bdb9e2febeab10a8a58b
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+fresh_environment_config: configs/experiments/blind-3family-longbench-environment-v3.yaml
+task: longbench-multidoc
+run_id: 01-longbench-multidoc-blind-harness-v1-attempt3
+execution:
+  network: native_unshaped
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false
+

@@ -42,6 +42,8 @@ from sdk_native_blind_multihop_v1 import _assert_fresh, _trace_summary
 from infra_joint.agents.context import AgentTaskView
 from infra_joint.benchmarks.base import AdaptationBundle
 from infra_joint.config import EnvironmentSpec, PlannerConfig, RunnerConfig, StaticBackendConfig
+from infra_joint.control import native_agents as native_agents_module
+from infra_joint.control import verification as verification_module
 from infra_joint.control.capabilities import build_static_capability_contract
 from infra_joint.control.contracts import ProfileVisibility, StaticCapabilityContract
 from infra_joint.control.loop import AgentLoopBudget
@@ -142,6 +144,27 @@ def _capability_sha256(capabilities: StaticCapabilityContract) -> str:
 
 def load_harness(path: Path) -> BlindHarnessFreeze:
     return BlindHarnessFreeze.model_validate(_yaml(path))
+
+
+def validate_runtime_import_root() -> None:
+    expected = {
+        "native runtime": (REPO / "src/infra_joint/control/native_agents.py").resolve(),
+        "Verifier": (REPO / "src/infra_joint/control/verification.py").resolve(),
+    }
+    actual = {
+        "native runtime": Path(str(native_agents_module.__file__)).resolve(),
+        "Verifier": Path(str(verification_module.__file__)).resolve(),
+    }
+    drift = [
+        f"{name}: expected={expected[name]}, imported={path}"
+        for name, path in actual.items()
+        if path != expected[name]
+    ]
+    if drift:
+        raise RuntimeError(
+            "archive deployment imported infra_joint from a different checkout: "
+            + "; ".join(drift)
+        )
 
 
 def _operations(base: dict[str, Any]) -> tuple[str, ...]:
@@ -382,6 +405,7 @@ def _extra_trace_summary(path: Path) -> dict[str, Any]:
 
 
 async def run_once(args: argparse.Namespace) -> None:
+    validate_runtime_import_root()
     if args.api_key_file is not None:
         _load_key(args.api_key_file)
     config = _yaml(args.config)

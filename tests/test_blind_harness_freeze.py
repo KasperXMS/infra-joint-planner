@@ -20,6 +20,7 @@ from blind_3family_validation_v1 import (  # noqa: E402
     _yaml,
     load_harness,
     validate_harness,
+    validate_runtime_import_root,
 )
 
 
@@ -127,3 +128,12 @@ def test_longbench_stage2_loader_uses_existing_adapter_contract(
         "source_revision": "revision-1",
         "boundaries": (0, 3, 8),
     }
+
+
+def test_archive_deployment_rejects_editable_install_from_other_checkout(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.setattr(validation.native_agents_module, "__file__", tmp_path / "native.py")
+    with pytest.raises(RuntimeError, match="different checkout"):
+        validate_runtime_import_root()
