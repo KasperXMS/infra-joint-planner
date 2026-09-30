@@ -960,6 +960,16 @@ def test_verifier_action_view_rejects_physical_or_private_semantics() -> None:
         )
 
 
+def test_blind_verifier_instructions_define_generic_three_state_transition() -> None:
+    instructions = OpenAIAgentsBlindVerifier.INSTRUCTIONS
+    assert "do not return continue merely because a model has not yet synthesized" in instructions
+    assert "return ready_for_synthesis" in instructions
+    assert "return complete" in instructions
+    assert "return continue only for a concrete evidence gap" in instructions
+    for forbidden in ("Polygon", "Diablo", "Sorcerer", "Barbarian", "MultiHop"):
+        assert forbidden not in instructions
+
+
 @pytest.mark.asyncio
 async def test_blind_verifier_feedback_reaches_next_manager_turn_without_leakage() -> None:
     task = benchmark_task()
