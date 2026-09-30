@@ -43,6 +43,25 @@ def test_committed_blind_harness_v1_is_internally_consistent() -> None:
     validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
 
 
+def test_blind_harness_v1_2_changes_only_generic_budget() -> None:
+    previous = load_harness(REPO / "configs/experiments/blind-harness-v1.1.yaml")
+    current = load_harness(REPO / "configs/experiments/blind-harness-v1.2.yaml")
+    previous_payload = previous.model_dump(mode="json")
+    current_payload = current.model_dump(mode="json")
+    for key in ("harness_id", "frozen_from_revision", "positive_baseline_run_id", "budget"):
+        previous_payload.pop(key)
+        current_payload.pop(key)
+    assert current_payload == previous_payload
+    assert current.budget.model_dump(mode="json") == {
+        "max_manager_turns": 20,
+        "max_subagent_turns": 8,
+        "max_tool_model_calls": 64,
+        "max_created_subagents": 4,
+        "max_active_subagents": 2,
+        "max_verifier_calls": 20,
+    }
+
+
 def test_blind_harness_rejects_manager_instruction_drift() -> None:
     harness, environment, capabilities, operations = frozen_components()
     changed_manager = {**harness.manager, "instructions_sha256": "0" * 64}  # type: ignore[union-attr]

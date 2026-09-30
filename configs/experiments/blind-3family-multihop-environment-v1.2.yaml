@@ -1,0 +1,39 @@
+environment:
+  agents:
+    - agent_id: A4
+      device: NVIDIA Jetson AGX Orin 32GB
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+    - agent_id: A5
+      device: NVIDIA Jetson AGX Orin 32GB
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+    - agent_id: A28
+      device: NVIDIA Jetson AGX Orin 64GB
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+    - agent_id: strong-4090
+      device: 2x NVIDIA GeForce RTX 4090
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+  deployments:
+    - deployment_id: a28-qwen3.8-27b-q4km-v1
+      agent_id: A28
+      model_id: qwen3.8-27b-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 2048
+    - deployment_id: strong-4090-qwen3.8-27b-q4km-v1
+      agent_id: strong-4090
+      model_id: qwen3.8-27b-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 2048
+worker_urls:
+  A4: http://192.168.0.104:34104
+  A5: http://192.168.0.105:34105
+  A28: http://192.168.0.128:34128
+  strong-4090: http://192.168.0.12:34212
+fresh_worker_stores:
+  A4: /mnt/ssd/heterogeneous-v1/artifacts/blind-3family-multihop-v1.2/a4
+  A5: /mnt/ssd/heterogeneous-v1/artifacts/blind-3family-multihop-v1.2/a5
+  A28: /mnt/ssd/heterogeneous-v1/artifacts/blind-3family-multihop-v1.2/a28
+  strong-4090: /home/super/heterogeneous-v1/artifacts/blind-3family-multihop-v1.2/strong-4090

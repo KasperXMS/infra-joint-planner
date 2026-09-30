@@ -184,7 +184,11 @@ def validate_harness(
     operations: tuple[str, ...],
 ) -> None:
     errors: list[str] = []
-    if harness.harness_id not in {"blind-harness-v1", "blind-harness-v1.1"}:
+    if harness.harness_id not in {
+        "blind-harness-v1",
+        "blind-harness-v1.1",
+        "blind-harness-v1.2",
+    }:
         errors.append("unexpected harness_id")
     if harness.profile_visibility != ProfileVisibility.BLIND.value:
         errors.append("profile visibility is not Blind")
