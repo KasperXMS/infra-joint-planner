@@ -34,6 +34,7 @@ from infra_joint.control.verification import (
     VerificationContext,
     VerificationResult,
     VerificationTelemetry,
+    VerifierActionView,
 )
 from infra_joint.control.workflow import (
     SemanticWorkflowPlan,
@@ -73,4 +74,5 @@ __all__ = [
     "VerificationContext",
     "VerificationResult",
     "VerificationTelemetry",
+    "VerifierActionView",
 ]

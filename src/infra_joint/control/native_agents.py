@@ -44,6 +44,7 @@ from infra_joint.control.verification import (
     OpenAIAgentsBlindVerifier,
     VerificationContext,
     VerificationTelemetry,
+    VerifierActionView,
     VerifierBudgetView,
     VerifierObservation,
     invoke_verifier,
@@ -646,6 +647,14 @@ class OpenAIAgentsNativeRuntime:
                 )
                 for item in state.observations
             )
+            operator_descriptions = {
+                item.operator: item.description
+                for item in state.static_capabilities.operators
+            }
+            actions = tuple(
+                _verifier_action_view(action, operator_descriptions)
+                for action in state.actions.values()
+            )
             produced_by_id = {
                 item.artifact_id: item
                 for observation in observations
@@ -654,6 +663,7 @@ class OpenAIAgentsNativeRuntime:
             context = VerificationContext(
                 task=state.task_view,
                 workflow=state.graph.snapshot(),
+                actions=actions,
                 observations=observations,
                 produced_artifacts=tuple(
                     produced_by_id[key] for key in sorted(produced_by_id)
@@ -724,6 +734,9 @@ class OpenAIAgentsNativeRuntime:
                     "latency_ms": telemetry.latency_ms,
                     "input_tokens": telemetry.input_tokens,
                     "output_tokens": telemetry.output_tokens,
+                    "remaining_budget": telemetry.remaining_budget.model_dump(
+                        mode="json"
+                    ),
                 },
             )
             previous = state.phase
@@ -1340,6 +1353,9 @@ def _attach_verification_feedback(
     else:
         parsed = {"tool_result": original}
     parsed["blind_verification"] = telemetry.result.model_dump(mode="json")
+    parsed["remaining_logical_budget"] = telemetry.remaining_budget.model_dump(
+        mode="json"
+    )
     if telemetry.result.status == "ready_for_synthesis":
         parsed["verifier_feedback"] = (
             "The independent Blind verifier found the materialized semantic evidence "
@@ -1370,6 +1386,41 @@ def _attach_verification_feedback(
         except (AttributeError, TypeError):
             pass
     raise AgentLoopError("SDK tool result cannot carry verifier feedback")
+
+
+def _verifier_action_view(
+    action: LogicalAction,
+    operator_descriptions: dict[str, str],
+) -> VerifierActionView:
+    operator = "invoke_model" if isinstance(action, LogicalModelAction) else action.operator
+    try:
+        description = operator_descriptions[operator]
+    except KeyError as exc:
+        raise AgentLoopError(
+            f"logical action has no static semantic operator description: {operator}"
+        ) from exc
+    if isinstance(action, LogicalModelAction):
+        return VerifierActionView(
+            action_id=action.action_id,
+            owner_agent_id=action.owner_agent_id,
+            action_type="model",
+            operator=operator,
+            description=description,
+            inputs=action.inputs,
+            outputs=action.outputs,
+            prompt=action.prompt,
+            requirements=action.requirements,
+        )
+    return VerifierActionView(
+        action_id=action.action_id,
+        owner_agent_id=action.owner_agent_id,
+        action_type="tool",
+        operator=operator,
+        description=description,
+        inputs=action.inputs,
+        outputs=action.outputs,
+        arguments=action.arguments,
+    )
 
 
 def _validate_output_contract(task: TaskContract, answer: str) -> None:

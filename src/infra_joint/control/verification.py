@@ -10,6 +10,8 @@ from pydantic import Field, model_validator
 
 from infra_joint.agents.context import AgentTaskView
 from infra_joint.control.contracts import (
+    ExecutionRequirements,
+    LogicalOutput,
     ProducedInformation,
     WorkflowGraphSnapshot,
 )
@@ -54,11 +56,43 @@ class VerifierObservation(ContractModel):
     failure_message: str | None = None
 
 
+class VerifierActionView(ContractModel):
+    """Physical-identity-free semantic intent of one accepted logical action."""
+
+    action_id: str = Field(min_length=1)
+    owner_agent_id: str = Field(min_length=1)
+    action_type: Literal["tool", "model"]
+    operator: str = Field(min_length=1)
+    description: str = Field(min_length=1)
+    inputs: tuple[str, ...] = ()
+    outputs: tuple[LogicalOutput, ...] = ()
+    arguments: dict[str, Any] = Field(default_factory=dict)
+    prompt: str | None = None
+    requirements: ExecutionRequirements | None = None
+
+    @model_validator(mode="after")
+    def semantic_request_matches_action_type(self) -> Self:
+        if self.action_type == "tool" and (
+            self.prompt is not None or self.requirements is not None
+        ):
+            raise ValueError("tool action view cannot contain a model request")
+        if self.action_type == "model" and (
+            self.operator != "invoke_model"
+            or self.prompt is None
+            or self.requirements is None
+            or self.arguments
+        ):
+            raise ValueError("model action view requires only prompt and requirements")
+        _reject_private_or_physical(self.model_dump(mode="json", exclude_none=True))
+        return self
+
+
 class VerificationContext(ContractModel):
     """Resource-blind semantic state provided to the independent verifier."""
 
     task: AgentTaskView
     workflow: WorkflowGraphSnapshot
+    actions: tuple[VerifierActionView, ...]
     observations: tuple[VerifierObservation, ...]
     produced_artifacts: tuple[ProducedInformation, ...]
     phase: Literal["evidence_collection", "synthesis"]
@@ -83,6 +117,7 @@ class VerificationTelemetry(ContractModel):
     latency_ms: float = Field(ge=0)
     input_tokens: int = Field(ge=0)
     output_tokens: int = Field(ge=0)
+    remaining_budget: VerifierBudgetView
 
 
 class BlindVerifier(Protocol):
@@ -102,8 +137,12 @@ class OpenAIAgentsBlindVerifier:
         "question, never reveal or infer gold/evaluator data, never prescribe an operator or "
         "physical action, and never reason about devices, deployments, placement, network, "
         "load, queue, latency, or routes. missing_requirements must describe semantic gaps, not "
-        "commands. ready_for_synthesis must use failure_stage=none; continue must identify the "
-        "current stage."
+        "commands. Successful evidence-producing actions materialize their declared outputs for "
+        "later model consumption; do not require complete artifact bodies to be copied into your "
+        "context when the semantic action intent and bounded observations establish useful task "
+        "coverage. Use the remaining logical budget to avoid unnecessary expansion, but never "
+        "declare readiness solely because budget is low. ready_for_synthesis must use "
+        "failure_stage=none; continue must identify the current stage."
     )
 
     def __init__(
@@ -189,6 +228,7 @@ async def invoke_verifier(
         latency_ms=(perf_counter() - started) * 1000,
         input_tokens=response.input_tokens,
         output_tokens=response.output_tokens,
+        remaining_budget=context.remaining_budget,
     )
 
 
@@ -201,7 +241,7 @@ def _load_agents_sdk() -> object:
         ) from exc
 
 
-_IPV4 = re.compile(r"(?<![\d.])(?:\d{1,3}\.){3}\d{1,3}(?![\d.])")
+_IPV4 = re.compile(r"(?<![0-9])(?:[0-9]{1,3}\.){3}[0-9]{1,3}(?![0-9])")
 _FORBIDDEN_KEYS = frozenset(
     {
         "worker_id",
@@ -245,6 +285,7 @@ def _reject_private_or_physical(value: object) -> None:
 __all__ = [
     "BlindVerifier",
     "OpenAIAgentsBlindVerifier",
+    "VerifierActionView",
     "VerificationContext",
     "VerificationResponse",
     "VerificationResult",

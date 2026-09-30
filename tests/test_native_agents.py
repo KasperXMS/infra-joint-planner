@@ -29,6 +29,7 @@ from infra_joint.control.verification import (
     VerificationContext,
     VerificationResponse,
     VerificationResult,
+    VerifierActionView,
     VerifierBudgetView,
 )
 from infra_joint.core.state import InfrastructureState
@@ -893,6 +894,7 @@ async def test_openai_agents_blind_verifier_uses_required_function_tool() -> Non
         VerificationContext(
             task=AgentTaskView.from_contract(benchmark_task()),
             workflow=WorkflowGraphSnapshot(version=0, nodes=(), edges=()),
+            actions=(),
             observations=(),
             produced_artifacts=(),
             phase="evidence_collection",
@@ -915,6 +917,28 @@ async def test_openai_agents_blind_verifier_uses_required_function_tool() -> Non
     assert response.result.status == "ready_for_synthesis"
     assert response.input_tokens == 23
     assert response.output_tokens == 9
+
+
+def test_verifier_action_view_rejects_physical_or_private_semantics() -> None:
+    with pytest.raises(ValueError, match="forbidden field: worker_id"):
+        VerifierActionView(
+            action_id="tool-1",
+            owner_agent_id="manager",
+            action_type="tool",
+            operator="filter_records",
+            description="Filter records.",
+            arguments={"worker_id": "hidden-worker"},
+        )
+    with pytest.raises(ValueError, match="private or physical identity"):
+        VerifierActionView(
+            action_id="model-1",
+            owner_agent_id="manager",
+            action_type="model",
+            operator="invoke_model",
+            description="Invoke a semantic model.",
+            prompt="Fetch from 192.168.0.12.",
+            requirements={},
+        )
 
 
 @pytest.mark.asyncio
@@ -945,6 +969,12 @@ async def test_blind_verifier_feedback_reaches_next_manager_turn_without_leakage
             "independent supporting evidence"
         ]
         assert "task incomplete" in json.loads(feedback[0])["verifier_feedback"]
+        assert json.loads(feedback[0])["remaining_logical_budget"] == {
+            "remaining_created_subagents": 4,
+            "remaining_manager_turns": 11,
+            "remaining_tool_model_calls": 1,
+            "remaining_verifier_calls": 11,
+        }
 
         await reasoning_start(hooks, context, agent)
         model_tool = tool(agent, "invoke_model")
@@ -981,6 +1011,11 @@ async def test_blind_verifier_feedback_reaches_next_manager_turn_without_leakage
         [item.model_dump(mode="json") for item in verifier.contexts],
         sort_keys=True,
     )
+    first_action = verifier.contexts[0].actions[0]
+    assert first_action.operator == "read_artifact"
+    assert first_action.inputs == ("source-0",)
+    assert "Read only small control or metadata" in first_action.description
+    assert first_action.arguments == {}
     for forbidden in (
         "private://",
         "private-evaluator",
