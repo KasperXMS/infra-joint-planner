@@ -1,0 +1,13 @@
+experiment_id: blind-3family-validation-v1.1-multihop
+harness_manifest: configs/experiments/blind-harness-v1.1.yaml
+harness_manifest_sha256: eb6bd6d218d719c7edb6d7f47b47fbab6b5e670ec28436e01c1972b4865ac9d6
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+fresh_environment_config: configs/experiments/blind-3family-multihop-environment-v1.1.yaml
+task: multihop-multisource
+run_id: 06-multihop-blind-harness-v1.1-regression
+execution:
+  network: native_unshaped
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false

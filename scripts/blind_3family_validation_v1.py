@@ -25,6 +25,7 @@ from blind_baseline_6task_v1 import (
     _load_longbench_samples,
     _load_video_bundles,
     _longbench_multidoc_bundle,
+    _multihop_bundle,
     _placement_map,
     _public_bundle_digest,
     _sha256,
@@ -55,7 +56,11 @@ from infra_joint.operators.catalog import build_operator_catalog
 REPO = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = REPO / "configs/experiments/blind-3family-longbench-v1.yaml"
 DEFAULT_OUTPUT = REPO / "results/blind-3family-validation-v1-longbench"
-ALLOWED_TASKS = {"longbench-multidoc", "video-long-payload"}
+ALLOWED_TASKS = {
+    "longbench-multidoc",
+    "multihop-multisource",
+    "video-long-payload",
+}
 
 
 class BlindHarnessFreeze(ContractModel):
@@ -256,6 +261,39 @@ def _load_bundle(
                 "size_bytes": args.longbench_samples.stat().st_size,
                 "sha256": _sha256(args.longbench_samples),
             }
+        }
+        return bundle, source
+    if label == "multihop-multisource":
+        if args.multihop_corpus is None or args.multihop_queries is None:
+            raise RuntimeError(
+                "--multihop-corpus and --multihop-queries are required for "
+                "multihop-multisource"
+            )
+        corpus = cast(
+            list[dict[str, Any]],
+            json.loads(args.multihop_corpus.read_text(encoding="utf-8")),
+        )
+        queries = cast(
+            list[dict[str, Any]],
+            json.loads(args.multihop_queries.read_text(encoding="utf-8")),
+        )
+        if len(corpus) != 609:
+            raise RuntimeError(f"expected complete 609-document corpus, got {len(corpus)}")
+        bundle = _multihop_bundle(
+            row,
+            corpus,
+            queries,
+            revisions["multihop_rag"],
+        )
+        source = {
+            "multihop_corpus": {
+                "size_bytes": args.multihop_corpus.stat().st_size,
+                "sha256": _sha256(args.multihop_corpus),
+            },
+            "multihop_queries": {
+                "size_bytes": args.multihop_queries.stat().st_size,
+                "sha256": _sha256(args.multihop_queries),
+            },
         }
         return bundle, source
     if args.video_tasks is None or args.video_answers is None or args.video_sources is None:
@@ -522,6 +560,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--longbench-samples", type=Path)
+    parser.add_argument("--multihop-corpus", type=Path)
+    parser.add_argument("--multihop-queries", type=Path)
     parser.add_argument("--video-tasks", type=Path)
     parser.add_argument("--video-answers", type=Path)
     parser.add_argument("--video-sources", type=Path)

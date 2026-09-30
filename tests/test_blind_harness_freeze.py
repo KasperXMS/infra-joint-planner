@@ -130,6 +130,64 @@ def test_longbench_stage2_loader_uses_existing_adapter_contract(
     }
 
 
+def test_multihop_stage2_loader_uses_complete_remote_dataset_contract(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    corpus_path = tmp_path / "corpus.json"
+    queries_path = tmp_path / "queries.json"
+    corpus = [{"id": index} for index in range(609)]
+    queries = [{"id": "query"}]
+    corpus_path.write_text(validation.json.dumps(corpus), encoding="utf-8")
+    queries_path.write_text(validation.json.dumps(queries), encoding="utf-8")
+    row = {"label": "multihop-multisource"}
+    bundle = object()
+    captured: dict[str, object] = {}
+
+    def adapt(
+        actual_row: object,
+        actual_corpus: object,
+        actual_queries: object,
+        source_revision: str,
+    ) -> object:
+        captured.update(
+            row=actual_row,
+            corpus=actual_corpus,
+            queries=actual_queries,
+            source_revision=source_revision,
+        )
+        return bundle
+
+    monkeypatch.setattr(validation, "_multihop_bundle", adapt)
+    args = SimpleNamespace(
+        multihop_corpus=corpus_path,
+        multihop_queries=queries_path,
+        longbench_samples=None,
+        video_tasks=None,
+        video_answers=None,
+        video_sources=None,
+    )
+    loaded, source = validation._load_bundle(  # noqa: SLF001
+        {"task": "multihop-multisource"},
+        {
+            "dataset": {
+                "tasks": [row],
+                "revisions": {"multihop_rag": "revision-1"},
+            }
+        },
+        args,
+    )
+
+    assert loaded is bundle
+    assert captured == {
+        "row": row,
+        "corpus": corpus,
+        "queries": queries,
+        "source_revision": "revision-1",
+    }
+    assert source["multihop_corpus"]["size_bytes"] == corpus_path.stat().st_size
+
+
 def test_archive_deployment_rejects_editable_install_from_other_checkout(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
