@@ -80,6 +80,34 @@ def test_stage2_config_pins_harness_manifest_bytes(tmp_path: Path) -> None:
         _validate_harness_manifest_hash(config, changed)
 
 
+@pytest.mark.parametrize(
+    "config_name",
+    [
+        "blind-3family-multihop-v1.2.yaml",
+        "blind-3family-longbench-v1.2.yaml",
+        "blind-3family-video-v1.2.yaml",
+    ],
+)
+def test_blind_harness_v1_2_stage2_cells_share_frozen_contract(
+    config_name: str,
+) -> None:
+    config = _yaml(REPO / "configs/experiments" / config_name)
+    harness_path = REPO / str(config["harness_manifest"])
+    _validate_harness_manifest_hash(config, harness_path)
+    assert config["task"] in {
+        "multihop-multisource",
+        "longbench-multidoc",
+        "video-long-payload",
+    }
+    assert config["execution"] == {
+        "network": "native_unshaped",
+        "scheduler": "auto_physical_locality_aware",
+        "repetitions": 1,
+        "retry": False,
+        "replacement": False,
+    }
+
+
 def test_archive_deployment_revision_is_fail_closed(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
