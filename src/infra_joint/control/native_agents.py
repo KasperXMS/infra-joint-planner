@@ -50,7 +50,7 @@ from infra_joint.control.verification import (
     invoke_verifier,
 )
 from infra_joint.core.base import ContractModel
-from infra_joint.core.task import OutputFormat, TaskContract
+from infra_joint.core.task import OutputContract, OutputFormat, TaskContract
 from infra_joint.operators.registry import OperatorRegistry, OperatorSpec
 from infra_joint.workflow.trace import WorkflowTraceRecorder
 
@@ -392,7 +392,7 @@ class OpenAIAgentsNativeRuntime:
         output = getattr(result, "final_output", None)
         if not isinstance(output, str) or not output.strip():
             raise AgentLoopError("SDK-native manager returned no textual final answer")
-        if verifier is not None and state.phase != "synthesis":
+        if verifier is not None and state.phase not in {"synthesis", "complete"}:
             raise AgentLoopError(
                 "Blind verifier did not authorize the terminal synthesis phase"
             )
@@ -618,6 +618,21 @@ class OpenAIAgentsNativeRuntime:
             if not tool_results:
                 return result_constructor(is_final_output=False, final_output=None)
             telemetry = await self._verify_manager_batch(state)
+            if telemetry.result.status == "complete":
+                candidate, action_id = _latest_terminal_candidate(state)
+                _validate_answer_contract(state.task_view.output_contract, candidate)
+                state.emit(
+                    "logical.terminal.candidate_selected",
+                    {
+                        "source_action_id": action_id,
+                        "verification_index": telemetry.verification_index,
+                        "graph_version": telemetry.graph_version,
+                    },
+                )
+                return result_constructor(
+                    is_final_output=True,
+                    final_output=candidate,
+                )
             _attach_verification_feedback(tool_results[-1], telemetry)
             return result_constructor(is_final_output=False, final_output=None)
 
@@ -740,11 +755,12 @@ class OpenAIAgentsNativeRuntime:
                 },
             )
             previous = state.phase
-            state.phase = (
-                "synthesis"
-                if telemetry.result.status == "ready_for_synthesis"
-                else "evidence_collection"
-            )
+            if telemetry.result.status == "complete":
+                state.phase = "complete"
+            elif telemetry.result.status == "ready_for_synthesis":
+                state.phase = "synthesis"
+            else:
+                state.phase = "evidence_collection"
             if state.phase != previous:
                 state.emit(
                     "logical.phase.changed",
@@ -805,7 +821,6 @@ class OpenAIAgentsNativeRuntime:
 
         async with state.state_lock:
             if state.tool_model_calls >= state.budget.max_tool_model_calls:
-                state.fatal_error = AgentLoopError("tool/model call budget exceeded")
                 return self._record_logical_failure(
                     state,
                     action_id,
@@ -1388,6 +1403,23 @@ def _attach_verification_feedback(
     raise AgentLoopError("SDK tool result cannot carry verifier feedback")
 
 
+def _latest_terminal_candidate(state: _NativeState) -> tuple[str, str]:
+    for observation in reversed(state.observations):
+        action = state.actions.get(observation.action_id)
+        candidate = observation.output.get("text")
+        if (
+            observation.owner_agent_id == state.root_agent.logical_agent_id
+            and observation.succeeded
+            and isinstance(action, LogicalModelAction)
+            and isinstance(candidate, str)
+            and candidate.strip()
+        ):
+            return candidate.strip(), observation.action_id
+    raise AgentLoopError(
+        "Blind verifier returned complete without a successful manager model candidate"
+    )
+
+
 def _verifier_action_view(
     action: LogicalAction,
     operator_descriptions: dict[str, str],
@@ -1424,7 +1456,10 @@ def _verifier_action_view(
 
 
 def _validate_output_contract(task: TaskContract, answer: str) -> None:
-    contract = task.output_contract
+    _validate_answer_contract(task.output_contract, answer)
+
+
+def _validate_answer_contract(contract: OutputContract, answer: str) -> None:
     if contract.format == OutputFormat.CHOICE:
         if contract.choices is None or answer not in contract.choices:
             raise AgentLoopError("terminal answer violates the choice output contract")

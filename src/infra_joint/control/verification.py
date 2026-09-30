@@ -21,7 +21,7 @@ from infra_joint.core.base import ContractModel
 class VerificationResult(ContractModel):
     """A Blind evidence-sufficiency verdict; never a benchmark answer."""
 
-    status: Literal["continue", "ready_for_synthesis"]
+    status: Literal["continue", "ready_for_synthesis", "complete"]
     failure_stage: Literal[
         "evidence_collection", "execution", "synthesis", "none"
     ]
@@ -30,8 +30,10 @@ class VerificationResult(ContractModel):
 
     @model_validator(mode="after")
     def status_matches_stage(self) -> Self:
-        if self.status == "ready_for_synthesis" and self.failure_stage != "none":
-            raise ValueError("ready_for_synthesis requires failure_stage=none")
+        if self.status in {"ready_for_synthesis", "complete"} and (
+            self.failure_stage != "none"
+        ):
+            raise ValueError("ready_for_synthesis and complete require failure_stage=none")
         if self.status == "continue" and self.failure_stage == "none":
             raise ValueError("continue requires a concrete failure_stage")
         if len(self.missing_requirements) != len(set(self.missing_requirements)):
@@ -133,8 +135,11 @@ class OpenAIAgentsBlindVerifier:
         "final synthesis under the task output contract. Return continue when evidence is "
         "missing, irrelevant, conflicting, when an execution failure still blocks the task, or "
         "when a failed synthesis needs recovery. Return ready_for_synthesis only when the "
-        "available observations support a final synthesis attempt. Never answer the benchmark "
-        "question, never reveal or infer gold/evaluator data, never prescribe an operator or "
+        "available observations support a final synthesis attempt. Return complete only when a "
+        "successful manager-owned model observation already contains a non-empty candidate that "
+        "directly answers the task and satisfies its terminal output contract; never rewrite that "
+        "candidate. Never answer the benchmark question, never reveal or infer gold/evaluator "
+        "data, never prescribe an operator or "
         "physical action, and never reason about devices, deployments, placement, network, "
         "load, queue, latency, or routes. missing_requirements must describe semantic gaps, not "
         "commands. Successful evidence-producing actions materialize their declared outputs for "
@@ -142,7 +147,8 @@ class OpenAIAgentsBlindVerifier:
         "context when the semantic action intent and bounded observations establish useful task "
         "coverage. Use the remaining logical budget to avoid unnecessary expansion, but never "
         "declare readiness solely because budget is low. ready_for_synthesis must use "
-        "failure_stage=none; continue must identify the current stage."
+        "failure_stage=none; complete also requires failure_stage=none; continue must identify "
+        "the current stage."
     )
 
     def __init__(

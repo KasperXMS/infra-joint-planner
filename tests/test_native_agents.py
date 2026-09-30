@@ -375,6 +375,17 @@ async def complete_tool_batch(
     behavior = agent.tool_use_behavior
     if not callable(behavior):
         return tuple(output for _, output in results)
+    decision, outputs = await resolve_tool_batch(agent, results)
+    assert not decision.is_final_output
+    return outputs
+
+
+async def resolve_tool_batch(
+    agent: FakeAgent,
+    results: tuple[tuple[FakeFunctionTool, str], ...],
+) -> tuple[FakeToolsToFinalOutputResult, tuple[str, ...]]:
+    behavior = agent.tool_use_behavior
+    assert callable(behavior)
     wrapped: list[object] = []
     for function_tool, output in results:
         run_item = SimpleNamespace(output=output, raw_item={"output": output})
@@ -386,8 +397,8 @@ async def complete_tool_batch(
             )
         )
     decision = await behavior(SimpleNamespace(), wrapped)
-    assert not decision.is_final_output
-    return tuple(str(item.output) for item in wrapped)
+    assert isinstance(decision, FakeToolsToFinalOutputResult)
+    return decision, tuple(str(item.output) for item in wrapped)
 
 
 @pytest.mark.asyncio
@@ -856,6 +867,14 @@ def ready_verdict() -> VerificationResult:
     )
 
 
+def complete_verdict() -> VerificationResult:
+    return VerificationResult(
+        status="complete",
+        failure_stage="none",
+        reason="a successful manager model result satisfies the terminal contract",
+    )
+
+
 @pytest.mark.asyncio
 async def test_openai_agents_blind_verifier_uses_required_function_tool() -> None:
     class VerifierRunner:
@@ -1081,6 +1100,136 @@ async def test_blind_verifier_failure_is_traced_and_typed() -> None:
     )
     assert failure.payload["exception_type"] == "RuntimeError"
     assert failure.payload["phase"] == "evidence_collection"
+
+
+@pytest.mark.asyncio
+async def test_complete_verdict_returns_exact_successful_model_candidate() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    verifier = FakeVerifier((complete_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("invoke_model",),
+        verifier=verifier,
+    )
+    sink = MemorySink()
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        model = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "terminal-candidate"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        decision, _outputs = await resolve_tool_batch(agent, ((model_tool, model),))
+        assert decision.is_final_output
+        return str(decision.final_output)
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task,
+        gateway,
+        trace=WorkflowTraceRecorder("complete-candidate", sink),
+    )
+
+    assert result.final_answer == "A"
+    assert result.terminal_action_id.endswith("terminal-candidate")
+    assert result.usage.tool_model_calls == 1
+    assert result.usage.verifier_calls == 1
+    assert result.verification_steps[0].result.status == "complete"
+    selected = next(
+        item
+        for item in sink.events
+        if item.event_type == "logical.terminal.candidate_selected"
+    )
+    assert selected.payload["source_action_id"] == result.terminal_action_id
+
+
+@pytest.mark.asyncio
+async def test_complete_verdict_without_model_candidate_fails_closed() -> None:
+    task = benchmark_task()
+    verifier = FakeVerifier((complete_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        FakePhysicalService(),
+        ("read_artifact",),
+        verifier=verifier,
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        read_tool = tool(agent, "read_artifact")
+        read = await read_tool.on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        await resolve_tool_batch(agent, ((read_tool, read),))
+        return "unreachable"
+
+    FakeRunner.behavior = behavior
+    with pytest.raises(
+        AgentLoopError,
+        match="complete without a successful manager model candidate",
+    ):
+        await runtime.run(task, gateway)
+
+
+@pytest.mark.asyncio
+async def test_budget_exhaustion_does_not_discard_existing_terminal_candidate() -> None:
+    task = benchmark_task()
+    verifier = FakeVerifier((continue_verdict(), ready_verdict()))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        FakePhysicalService(),
+        ("read_artifact", "invoke_model"),
+        verifier=verifier,
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        model = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "existing-candidate"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((model_tool, model),))
+
+        await reasoning_start(hooks, context, agent)
+        read_tool = tool(agent, "read_artifact")
+        rejected = await read_tool.on_invoke_tool(
+            tool_context(agent, context, "over-budget"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        assert json.loads(rejected)["failure_code"] == "budget_exhausted"
+        await reasoning_end(hooks, context, agent)
+        await complete_tool_batch(agent, ((read_tool, rejected),))
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task,
+        gateway,
+        budget=AgentLoopBudget(max_tool_model_calls=1),
+    )
+
+    assert result.final_answer == "A"
+    assert result.usage.tool_model_calls == 1
+    assert len(result.observations) == 2
+    assert result.observations[-1].failure_code == "budget_exhausted"
 
 
 @pytest.mark.asyncio
