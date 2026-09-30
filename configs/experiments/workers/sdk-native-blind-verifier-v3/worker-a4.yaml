@@ -1,0 +1,9 @@
+agent_id: A4
+host: 0.0.0.0
+port: 23104
+artifact_root: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-blind-verifier-v3/a4
+deployments: {}
+allowed_artifact_hosts: [192.168.0.12, 192.168.0.104, 192.168.0.105, 192.168.0.128]
+ffmpeg_executable: /mnt/ssd/heterogeneous-v1/ffmpeg-av1-sw-v8.0.1/bin/ffmpeg
+ffmpeg_probe_input: /mnt/ssd/heterogeneous-v1/av1-probe/video-mme-av1-capability-probe.mp4
+max_read_artifact_bytes: 65536
