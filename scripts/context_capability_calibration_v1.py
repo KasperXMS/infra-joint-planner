@@ -252,8 +252,11 @@ def diagnose(args: argparse.Namespace) -> None:
     print(json.dumps(result, ensure_ascii=False, sort_keys=True))
 
 
-def _payload(input_bytes: int) -> str:
-    prefix = "Deterministic context calibration. Ignore filler and reply exactly OK.\n"
+def _payload(input_bytes: int, probe_id: str = "primary") -> str:
+    prefix = (
+        f"Deterministic context calibration {probe_id}. "
+        "Ignore filler and reply exactly OK.\n"
+    )
     unit = "0123456789abcdef"
     if input_bytes < len(prefix):
         raise ValueError("calibration input is too small")
@@ -377,7 +380,7 @@ async def probe_ttft(args: argparse.Namespace) -> None:
     context_window = args.context_window
     input_bytes = context_window - args.reserved_output_tokens
     request = ModelRequest(
-        prompt=_payload(input_bytes),
+        prompt=_payload(input_bytes, args.probe_id),
         max_output_tokens=args.reserved_output_tokens,
     )
     estimated = preflight_model_request(
@@ -423,6 +426,7 @@ async def probe_ttft(args: argparse.Namespace) -> None:
     result = {
         "planner_backend_calls": 0,
         "deployment": args.deployment,
+        "probe_id": args.probe_id,
         "context_window": context_window,
         "input_bytes": input_bytes,
         "preflight_estimated_input": estimated,
@@ -470,6 +474,7 @@ def parser() -> argparse.ArgumentParser:
     ttft.add_argument("--model", default="qwen3.8-27b-v1")
     ttft.add_argument("--context-window", type=int, default=16384)
     ttft.add_argument("--reserved-output-tokens", type=int, default=1024)
+    ttft.add_argument("--probe-id", required=True)
     ttft.add_argument("--output", type=Path, required=True)
     return root
 
