@@ -1,0 +1,24 @@
+experiment_id: sdk-native-infra-preliminary-v1.3-fast-blind
+harness_manifest: configs/experiments/blind-harness-v1.3.yaml
+harness_manifest_sha256: 26bd5c37e73052c820b7a5d9ab69dfe3c52d9ff25278d51042b9c2e712ad97d6
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+task: multihop-multisource
+run_id: 12-multihop-fast-blind-v1.3
+profile_visibility: blind
+model_service_timeout_seconds: 1200
+network: {regime: fast, bandwidth_mbps: 100, added_rtt_ms: 5}
+worker_urls:
+  A4: http://192.168.0.104:39104
+  A5: http://192.168.0.105:39105
+  A28: http://192.168.0.128:39128
+  strong-4090: http://192.168.0.12:39212
+fresh_worker_stores:
+  A4: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/fast-blind/a4
+  A5: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/fast-blind/a5
+  A28: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/fast-blind/a28
+  strong-4090: /home/super/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/fast-blind/strong-4090
+execution:
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false

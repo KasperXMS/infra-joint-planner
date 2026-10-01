@@ -1,0 +1,25 @@
+tc_endpoints:
+  - agent_id: A4
+    ssh_target: edge@192.168.0.104
+    interface: wlP1p1s0
+    address: 192.168.0.104
+    peer_addresses: [192.168.0.12, 192.168.0.105, 192.168.0.128]
+    supports_netem: false
+  - agent_id: A5
+    ssh_target: edge@192.168.0.105
+    interface: wlP1p1s0
+    address: 192.168.0.105
+    peer_addresses: [192.168.0.12, 192.168.0.104, 192.168.0.128]
+    supports_netem: false
+  - agent_id: A28
+    ssh_target: edge@192.168.0.128
+    interface: wlP1p1s0
+    address: 192.168.0.128
+    peer_addresses: [192.168.0.12, 192.168.0.104, 192.168.0.105]
+    supports_netem: false
+  - agent_id: strong-4090
+    ssh_target: super@192.168.0.12
+    interface: wlp6s0
+    address: 192.168.0.12
+    peer_addresses: [192.168.0.104, 192.168.0.105, 192.168.0.128]
+    supports_netem: true
