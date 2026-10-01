@@ -188,11 +188,17 @@ def _sdk_model(validation: dict[str, Any]) -> object:
 async def _clients(
     stack: AsyncExitStack,
     urls: dict[str, str],
+    *,
+    timeout_seconds: float = 900,
 ) -> dict[str, WorkerClient]:
     result: dict[str, WorkerClient] = {}
     for agent_id, url in urls.items():
         http = await stack.enter_async_context(
-            httpx.AsyncClient(base_url=url, timeout=900, trust_env=False)
+            httpx.AsyncClient(
+                base_url=url,
+                timeout=timeout_seconds,
+                trust_env=False,
+            )
         )
         result[agent_id] = HttpWorkerClient(agent_id, http)
     return result

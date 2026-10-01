@@ -1,0 +1,14 @@
+experiment_id: blind-3family-validation-v1.2-longbench-timeout1200
+harness_manifest: configs/experiments/blind-harness-v1.2.yaml
+harness_manifest_sha256: b79ea82c12e251a4c88f23a88e0d11f6034c785a7693b3709aa9467548db7f28
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+fresh_environment_config: configs/experiments/blind-3family-longbench-environment-v1.2-timeout1200.yaml
+task: longbench-multidoc
+run_id: 10-longbench-multidoc-blind-harness-v1.2-timeout1200
+model_service_timeout_seconds: 1200
+execution:
+  network: native_unshaped
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false

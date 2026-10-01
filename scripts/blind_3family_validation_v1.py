@@ -95,6 +95,7 @@ class Stage2RunFreeze(ContractModel):
     fresh_worker_stores: dict[str, str]
     network: str
     scheduler: str
+    model_service_timeout_seconds: float = 900
     repetitions: int
     retry: bool
     replacement: bool
@@ -338,6 +339,13 @@ def _validate_run_config(config: dict[str, Any]) -> None:
         raise RuntimeError("Stage-2 single-run execution contract drift")
 
 
+def _model_service_timeout_seconds(config: dict[str, Any]) -> float:
+    timeout = float(config.get("model_service_timeout_seconds", 900))
+    if timeout not in {900.0, 1200.0}:
+        raise RuntimeError("unsupported model-service timeout")
+    return timeout
+
+
 def _validate_harness_manifest_hash(config: dict[str, Any], path: Path) -> None:
     expected = str(config["harness_manifest_sha256"])
     actual = _sha256(path)
@@ -389,6 +397,7 @@ def _freeze(
         },
         network=str(execution["network"]),
         scheduler=str(execution["scheduler"]),
+        model_service_timeout_seconds=_model_service_timeout_seconds(config),
         repetitions=int(execution["repetitions"]),
         retry=bool(execution["retry"]),
         replacement=bool(execution["replacement"]),
@@ -498,7 +507,11 @@ async def run_once(args: argparse.Namespace) -> None:
         }
     )
     async with AsyncExitStack() as stack:
-        clients = await _clients(stack, manifest.worker_urls)
+        clients = await _clients(
+            stack,
+            manifest.worker_urls,
+            timeout_seconds=manifest.model_service_timeout_seconds,
+        )
         await _assert_fresh(clients)
         runner_config = RunnerConfig(
             environment=environment,
@@ -506,7 +519,7 @@ async def run_once(args: argparse.Namespace) -> None:
             planner=PlannerConfig(model=StaticBackendConfig(response="unused")),
             output_root=args.output / "runs",
             max_planning_steps=harness.budget.max_manager_turns,
-            http_timeout_seconds=900,
+            http_timeout_seconds=manifest.model_service_timeout_seconds,
         )
         runtime = OpenAIAgentsNativeRuntime(
             name="resource-blind-manager",
@@ -533,6 +546,7 @@ async def run_once(args: argparse.Namespace) -> None:
         "harness_id": harness.harness_id,
         "task_label": manifest.task_label,
         "run_id": manifest.run_id,
+        "model_service_timeout_seconds": manifest.model_service_timeout_seconds,
         "execution_completed": result.execution_completed,
         "final_answer": result.final_answer,
         "evaluator_score": (

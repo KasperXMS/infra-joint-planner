@@ -14,6 +14,7 @@ sys.path.insert(0, str(SCRIPTS))
 import blind_3family_validation_v1 as validation  # noqa: E402
 from blind_3family_validation_v1 import (  # noqa: E402
     REPO,
+    _model_service_timeout_seconds,
     _operations,
     _revision,
     _validate_harness_manifest_hash,
@@ -106,6 +107,26 @@ def test_blind_harness_v1_2_stage2_cells_share_frozen_contract(
         "retry": False,
         "replacement": False,
     }
+
+
+def test_longbench_timeout1200_cell_changes_only_service_timeout() -> None:
+    previous = _yaml(REPO / "configs/experiments/blind-3family-longbench-v1.2.yaml")
+    current = _yaml(
+        REPO
+        / "configs/experiments/blind-3family-longbench-v1.2-timeout1200.yaml"
+    )
+    assert _model_service_timeout_seconds(previous) == 900
+    assert _model_service_timeout_seconds(current) == 1200
+    assert current["harness_manifest"] == previous["harness_manifest"]
+    assert current["harness_manifest_sha256"] == previous["harness_manifest_sha256"]
+    assert current["source_experiment_config"] == previous["source_experiment_config"]
+    assert current["task"] == previous["task"]
+    assert current["execution"] == previous["execution"]
+
+
+def test_stage2_timeout_rejects_unapproved_value() -> None:
+    with pytest.raises(RuntimeError, match="unsupported model-service timeout"):
+        _model_service_timeout_seconds({"model_service_timeout_seconds": 1201})
 
 
 def test_archive_deployment_revision_is_fail_closed(
