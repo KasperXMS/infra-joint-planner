@@ -10,6 +10,7 @@ from infra_joint.agents.context import AgentTaskView
 from infra_joint.control.contracts import (
     LogicalModelAction,
     LogicalObservation,
+    PhysicalProfileView,
     ProducedInformation,
     ProfileVisibility,
     StaticCapabilityContract,
@@ -181,9 +182,10 @@ class FakePhysicalService:
         self.peak_bm25 = 0
         self.entered_bm25 = 0
         self.release = asyncio.Event()
+        self.expose_profile_values: list[bool] = []
 
     async def execute(self, action: object, *, expose_profile: bool) -> PhysicalExecutionOutcome:
-        assert not expose_profile
+        self.expose_profile_values.append(expose_profile)
         self.actions.append(action)
         operator = "invoke_model" if isinstance(action, LogicalModelAction) else action.operator
         if operator == "bm25_retrieve" and self.bm25_barrier:
@@ -234,6 +236,19 @@ class FakePhysicalService:
                 succeeded=True,
                 output=output,
                 produced_information=produced,
+                physical_profile=(
+                    PhysicalProfileView(
+                        candidate_count=2,
+                        input_bytes=10,
+                        remote_input_count_range=(0, 1),
+                        transfer_latency_ms_range=(0, 5),
+                        service_latency_ms_range=(10, 20),
+                        queue_pressure_range=(0, 0),
+                        network_class="fast",
+                    )
+                    if expose_profile
+                    else None
+                ),
             )
         current = InfrastructureState(
             agents=(),
@@ -850,6 +865,51 @@ async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -
         item for item in sink.events if item.event_type == "logical.model.outcome"
     )
     assert outcome.payload["reached_model_inference"] is False
+
+
+@pytest.mark.asyncio
+async def test_aware_manager_shares_blind_verifier_without_profile_leakage() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    verifier = FakeVerifier((complete_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("invoke_model",),
+        verifier=verifier,
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        model = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "aware-terminal"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Return only A."},
+                }
+            ),
+        )
+        assert json.loads(model)["physical_profile"]["network_class"] == "fast"
+        await reasoning_end(hooks, context, agent)
+        decision, _ = await resolve_tool_batch(agent, ((model_tool, model),))
+        assert decision.is_final_output
+        return str(decision.final_output)
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task,
+        gateway,
+        profile_visibility=ProfileVisibility.AWARE,
+    )
+
+    assert result.final_answer == "A"
+    assert physical.expose_profile_values == [True]
+    assert result.observations[0].physical_profile is not None
+    verifier_observation = verifier.contexts[0].observations[0].model_dump(mode="json")
+    assert "physical_profile" not in verifier_observation
+    assert "network_class" not in json.dumps(verifier.contexts[0].model_dump(mode="json"))
 
 
 def continue_verdict(reason: str = "more evidence is required") -> VerificationResult:

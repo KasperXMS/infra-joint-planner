@@ -300,8 +300,6 @@ class OpenAIAgentsNativeRuntime:
         verifier = self._blind_verifier
         if self._enable_blind_verifier and verifier is None:
             verifier = OpenAIAgentsBlindVerifier(model=self._model, sdk_module=sdk)
-        if verifier is not None and profile_visibility != ProfileVisibility.BLIND:
-            raise ValueError("Blind verifier requires ProfileVisibility.BLIND")
         resolved_capabilities = static_capabilities or StaticCapabilityContract(
             operators=tuple(
                 StaticOperatorCapability(

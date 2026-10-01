@@ -172,7 +172,7 @@ def _freeze_cell(
 def _compact_trace(path: Path) -> dict[str, object]:
     detail = _trace_summary(path)
     extra = _extra_trace_summary(path)
-    graph = cast(dict[str, object], detail["final_graph"])
+    graph = detail["final_graph"]
     events = [
         cast(dict[str, Any], json.loads(line))
         for line in path.read_text(encoding="utf-8").splitlines()
@@ -203,8 +203,16 @@ def _compact_trace(path: Path) -> dict[str, object]:
         "model_calls": detail["model_calls"],
         "subagent_calls": detail["subagent_calls"],
         "context_failure_count": len(cast(list[object], detail["context_failures"])),
-        "graph_nodes": len(cast(list[object], graph["nodes"])),
-        "graph_edges": len(cast(list[object], graph["edges"])),
+        "graph_nodes": (
+            0
+            if graph is None
+            else len(cast(list[object], cast(dict[str, object], graph)["nodes"]))
+        ),
+        "graph_edges": (
+            0
+            if graph is None
+            else len(cast(list[object], cast(dict[str, object], graph)["edges"]))
+        ),
         "reached_model_inference": extra["reached_model_inference"],
         "logical_privacy_pass": extra["logical_privacy_pass"] and not identities,
         "logical_identity_findings": identities,
