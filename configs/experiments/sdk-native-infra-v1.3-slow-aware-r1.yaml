@@ -1,0 +1,20 @@
+experiment_id: sdk-native-infra-preliminary-v1.3.1-slow-aware
+harness_manifest: configs/experiments/blind-harness-v1.3.1.yaml
+harness_manifest_sha256: ab7f548a047bd24c97b561a564467e8c6d46f1d4380a9effa3d431469be0d643
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+task: multihop-multisource
+run_id: 19-multihop-slow-aware-v1.3.1
+profile_visibility: aware
+model_service_timeout_seconds: 1200
+network: {regime: slow, bandwidth_mbps: 3, added_rtt_ms: 50}
+worker_urls:
+  A4: http://192.168.0.104:46104
+  A5: http://192.168.0.105:46105
+  A28: http://192.168.0.128:46128
+  strong-4090: http://192.168.0.12:46212
+fresh_worker_stores:
+  A4: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/matrix-r1/slow-aware/a4
+  A5: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/matrix-r1/slow-aware/a5
+  A28: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/matrix-r1/slow-aware/a28
+  strong-4090: /home/super/heterogeneous-v1/artifacts/sdk-native-infra-v1.3/matrix-r1/slow-aware/strong-4090
+execution: {scheduler: auto_physical_locality_aware, repetitions: 1, retry: false, replacement: false}

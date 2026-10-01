@@ -232,8 +232,8 @@ async def run_once(args: argparse.Namespace) -> None:
     harness_path = REPO / str(config["harness_manifest"])
     _validate_harness_manifest_hash(config, harness_path)
     harness = load_harness(harness_path)
-    if harness.harness_id != "blind-harness-v1.3":
-        raise RuntimeError("preliminary requires blind-harness-v1.3")
+    if harness.harness_id not in {"blind-harness-v1.3", "blind-harness-v1.3.1"}:
+        raise RuntimeError("preliminary requires a frozen blind-harness-v1.3 contract")
     if _model_service_timeout_seconds(config) != harness.model_service_timeout_seconds:
         raise RuntimeError("model-service timeout drift from frozen harness")
     base = _yaml(REPO / str(config["source_experiment_config"]))

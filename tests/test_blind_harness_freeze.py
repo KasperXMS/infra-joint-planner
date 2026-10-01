@@ -26,7 +26,7 @@ from blind_3family_validation_v1 import (  # noqa: E402
 
 
 def frozen_components() -> tuple[object, EnvironmentSpec, object, tuple[str, ...]]:
-    harness = load_harness(REPO / "configs/experiments/blind-harness-v1.3.yaml")
+    harness = load_harness(REPO / "configs/experiments/blind-harness-v1.3.1.yaml")
     base = _yaml(REPO / "configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml")
     fresh = _yaml(REPO / "configs/experiments/blind-3family-video-environment-v1.3.yaml")
     environment = EnvironmentSpec.model_validate(fresh["environment"])
@@ -39,7 +39,7 @@ def frozen_components() -> tuple[object, EnvironmentSpec, object, tuple[str, ...
     return harness, environment, capabilities, operations
 
 
-def test_committed_blind_harness_v1_3_is_internally_consistent() -> None:
+def test_committed_blind_harness_v1_3_1_is_internally_consistent() -> None:
     harness, environment, capabilities, operations = frozen_components()
     validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
 
@@ -82,6 +82,19 @@ def test_blind_harness_v1_3_changes_only_terminal_contract_and_timeout() -> None
     assert current.runtime["source_sha256"] != previous.runtime["source_sha256"]
     assert previous.model_service_timeout_seconds == 900
     assert current.model_service_timeout_seconds == 1200
+
+
+def test_blind_harness_v1_3_1_changes_only_cross_mode_verifier_compatibility() -> None:
+    previous = load_harness(REPO / "configs/experiments/blind-harness-v1.3.yaml")
+    current = load_harness(REPO / "configs/experiments/blind-harness-v1.3.1.yaml")
+    previous_payload = previous.model_dump(mode="json")
+    current_payload = current.model_dump(mode="json")
+    for key in ("harness_id", "frozen_from_revision", "runtime"):
+        previous_payload.pop(key)
+        current_payload.pop(key)
+    assert current_payload == previous_payload
+    assert current.runtime["implementation"] == previous.runtime["implementation"]
+    assert current.runtime["source_sha256"] != previous.runtime["source_sha256"]
 
 
 def test_blind_harness_rejects_manager_instruction_drift() -> None:

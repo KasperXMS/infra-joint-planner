@@ -191,6 +191,7 @@ def validate_harness(
         "blind-harness-v1.1",
         "blind-harness-v1.2",
         "blind-harness-v1.3",
+        "blind-harness-v1.3.1",
     }:
         errors.append("unexpected harness_id")
     if harness.profile_visibility != ProfileVisibility.BLIND.value:
@@ -470,7 +471,7 @@ async def run_once(args: argparse.Namespace) -> None:
     _validate_harness_manifest_hash(config, harness_path)
     harness = load_harness(harness_path)
     if (
-        harness.harness_id == "blind-harness-v1.3"
+        harness.harness_id in {"blind-harness-v1.3", "blind-harness-v1.3.1"}
         and _model_service_timeout_seconds(config)
         != harness.model_service_timeout_seconds
     ):
