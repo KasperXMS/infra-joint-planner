@@ -169,7 +169,10 @@ def _freeze_cell(
     return manifest
 
 
-def _compact_trace(path: Path) -> dict[str, object]:
+def _compact_trace(
+    path: Path,
+    result: dict[str, Any] | None = None,
+) -> dict[str, object]:
     detail = _trace_summary(path)
     extra = _extra_trace_summary(path)
     graph = detail["final_graph"]
@@ -179,14 +182,44 @@ def _compact_trace(path: Path) -> dict[str, object]:
         if line.strip()
     ]
     profiles: list[dict[str, Any]] = []
+    action_transfer_bytes = 0
+    action_transfer_latency_ms = 0.0
+    trace_e2e_latency_ms: float | None = None
     for event in events:
-        if event.get("event_type") != "physical.execution":
-            continue
+        event_type = event.get("event_type")
         payload = cast(dict[str, Any], event.get("payload", {}))
-        observation = cast(dict[str, Any], payload.get("observation", {}))
-        profile = observation.get("physical_profile")
-        if isinstance(profile, dict):
-            profiles.append(cast(dict[str, Any], profile))
+        if event_type in {"run.end", "run.failed"}:
+            raw_e2e = payload.get("e2e_latency_ms")
+            if isinstance(raw_e2e, int | float):
+                trace_e2e_latency_ms = float(raw_e2e)
+        if event_type != "physical.execution":
+            continue
+        execution = cast(dict[str, Any], payload.get("execution", {}))
+        transfers = execution.get("transfers", [])
+        if isinstance(transfers, list):
+            for raw_transfer in transfers:
+                if not isinstance(raw_transfer, dict):
+                    continue
+                transfer = cast(dict[str, Any], raw_transfer)
+                raw_bytes = transfer.get("bytes_transferred")
+                raw_duration = transfer.get("duration_ms")
+                if isinstance(raw_bytes, int):
+                    action_transfer_bytes += raw_bytes
+                if isinstance(raw_duration, int | float):
+                    action_transfer_latency_ms += float(raw_duration)
+    if result is not None:
+        loop = result.get("loop")
+        if isinstance(loop, dict):
+            observations = cast(dict[str, Any], loop).get("observations", [])
+            if isinstance(observations, list):
+                for raw_observation in observations:
+                    if not isinstance(raw_observation, dict):
+                        continue
+                    profile = cast(dict[str, Any], raw_observation).get(
+                        "physical_profile"
+                    )
+                    if isinstance(profile, dict):
+                        profiles.append(cast(dict[str, Any], profile))
     logical_text = json.dumps(
         [event for event in events if str(event.get("event_type", "")).startswith("logical.")],
         ensure_ascii=False,
@@ -220,6 +253,9 @@ def _compact_trace(path: Path) -> dict[str, object]:
         "observed_network_classes": sorted(
             {str(item["network_class"]) for item in profiles}
         ),
+        "trace_e2e_latency_ms": trace_e2e_latency_ms,
+        "trace_action_transfer_bytes": action_transfer_bytes,
+        "trace_action_transfer_latency_ms": action_transfer_latency_ms,
     }
 
 
@@ -317,9 +353,16 @@ async def run_once(args: argparse.Namespace) -> None:
         result = await runner.run(bundle, run_id=manifest.run_id)
     trace_path = args.output / "runs" / manifest.run_id / "trace.jsonl"
     initial_bytes = sum(item.bytes_transferred for item in result.initial_transfers)
-    trace = _compact_trace(trace_path)
+    trace = _compact_trace(trace_path, result.model_dump(mode="json"))
     action_bytes = (
-        0 if result.telemetry is None else result.telemetry.action_transfer_bytes
+        int(trace["trace_action_transfer_bytes"])
+        if result.telemetry is None
+        else result.telemetry.action_transfer_bytes
+    )
+    e2e_latency_ms = (
+        trace["trace_e2e_latency_ms"]
+        if result.telemetry is None
+        else result.telemetry.e2e_latency_ms
     )
     summary = {
         "harness_id": harness.harness_id,
@@ -339,9 +382,7 @@ async def run_once(args: argparse.Namespace) -> None:
         ),
         "failure": None if result.failure is None else result.failure.model_dump(mode="json"),
         "loop_usage": None if result.loop is None else result.loop.usage.model_dump(mode="json"),
-        "e2e_latency_ms": (
-            None if result.telemetry is None else result.telemetry.e2e_latency_ms
-        ),
+        "e2e_latency_ms": e2e_latency_ms,
         "initial_transfer_bytes": initial_bytes,
         "action_transfer_bytes": action_bytes,
         "total_transferred_bytes": initial_bytes + action_bytes,
