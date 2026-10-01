@@ -75,6 +75,7 @@ class BlindHarnessFreeze(ContractModel):
     available_operations: tuple[str, ...]
     anonymous_model_contract: dict[str, Any]
     static_capability_contract_sha256: str
+    model_service_timeout_seconds: float = 900
 
 
 class Stage2RunFreeze(ContractModel):
@@ -189,6 +190,7 @@ def validate_harness(
         "blind-harness-v1",
         "blind-harness-v1.1",
         "blind-harness-v1.2",
+        "blind-harness-v1.3",
     }:
         errors.append("unexpected harness_id")
     if harness.profile_visibility != ProfileVisibility.BLIND.value:
@@ -467,6 +469,12 @@ async def run_once(args: argparse.Namespace) -> None:
     harness_path = REPO / str(config["harness_manifest"])
     _validate_harness_manifest_hash(config, harness_path)
     harness = load_harness(harness_path)
+    if (
+        harness.harness_id == "blind-harness-v1.3"
+        and _model_service_timeout_seconds(config)
+        != harness.model_service_timeout_seconds
+    ):
+        raise RuntimeError("model-service timeout drift from frozen Blind harness")
     bundle, source_manifest = _load_bundle(config, base, args)
     environment = _environment(base, str(config["task"]), bundle)
     fresh_environment = EnvironmentSpec.model_validate(fresh["environment"])

@@ -26,9 +26,9 @@ from blind_3family_validation_v1 import (  # noqa: E402
 
 
 def frozen_components() -> tuple[object, EnvironmentSpec, object, tuple[str, ...]]:
-    harness = load_harness(REPO / "configs/experiments/blind-harness-v1.1.yaml")
+    harness = load_harness(REPO / "configs/experiments/blind-harness-v1.3.yaml")
     base = _yaml(REPO / "configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml")
-    fresh = _yaml(REPO / "configs/experiments/blind-3family-longbench-environment-v1.yaml")
+    fresh = _yaml(REPO / "configs/experiments/blind-3family-video-environment-v1.3.yaml")
     environment = EnvironmentSpec.model_validate(fresh["environment"])
     operations = _operations(base)
     capabilities = build_static_capability_contract(
@@ -39,7 +39,7 @@ def frozen_components() -> tuple[object, EnvironmentSpec, object, tuple[str, ...
     return harness, environment, capabilities, operations
 
 
-def test_committed_blind_harness_v1_is_internally_consistent() -> None:
+def test_committed_blind_harness_v1_3_is_internally_consistent() -> None:
     harness, environment, capabilities, operations = frozen_components()
     validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
 
@@ -61,6 +61,27 @@ def test_blind_harness_v1_2_changes_only_generic_budget() -> None:
         "max_active_subagents": 2,
         "max_verifier_calls": 20,
     }
+
+
+def test_blind_harness_v1_3_changes_only_terminal_contract_and_timeout() -> None:
+    previous = load_harness(REPO / "configs/experiments/blind-harness-v1.2.yaml")
+    current = load_harness(REPO / "configs/experiments/blind-harness-v1.3.yaml")
+    previous_payload = previous.model_dump(mode="json")
+    current_payload = current.model_dump(mode="json")
+    for key in (
+        "harness_id",
+        "frozen_from_revision",
+        "positive_baseline_run_id",
+        "runtime",
+        "model_service_timeout_seconds",
+    ):
+        previous_payload.pop(key)
+        current_payload.pop(key)
+    assert current_payload == previous_payload
+    assert current.runtime["implementation"] == previous.runtime["implementation"]
+    assert current.runtime["source_sha256"] != previous.runtime["source_sha256"]
+    assert previous.model_service_timeout_seconds == 900
+    assert current.model_service_timeout_seconds == 1200
 
 
 def test_blind_harness_rejects_manager_instruction_drift() -> None:
@@ -127,6 +148,16 @@ def test_longbench_timeout1200_cell_changes_only_service_timeout() -> None:
 def test_stage2_timeout_rejects_unapproved_value() -> None:
     with pytest.raises(RuntimeError, match="unsupported model-service timeout"):
         _model_service_timeout_seconds({"model_service_timeout_seconds": 1201})
+
+
+def test_video_v1_3_cell_pins_timeout_and_frozen_harness() -> None:
+    config = _yaml(REPO / "configs/experiments/blind-3family-video-v1.3.yaml")
+    harness_path = REPO / str(config["harness_manifest"])
+    _validate_harness_manifest_hash(config, harness_path)
+    harness = load_harness(harness_path)
+    assert harness.harness_id == "blind-harness-v1.3"
+    assert _model_service_timeout_seconds(config) == 1200
+    assert harness.model_service_timeout_seconds == 1200
 
 
 def test_archive_deployment_revision_is_fail_closed(

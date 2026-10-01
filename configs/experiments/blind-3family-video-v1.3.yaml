@@ -1,0 +1,14 @@
+experiment_id: blind-3family-validation-v1.3-video
+harness_manifest: configs/experiments/blind-harness-v1.3.yaml
+harness_manifest_sha256: 26bd5c37e73052c820b7a5d9ab69dfe3c52d9ff25278d51042b9c2e712ad97d6
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+fresh_environment_config: configs/experiments/blind-3family-video-environment-v1.3.yaml
+task: video-long-payload
+run_id: 11-video-long-payload-blind-harness-v1.3
+model_service_timeout_seconds: 1200
+execution:
+  network: native_unshaped
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false
