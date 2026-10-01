@@ -44,6 +44,7 @@ from infra_joint.control.verification import (
     BlindVerifier,
     OpenAIAgentsBlindVerifier,
     VerificationContext,
+    VerificationResult,
     VerificationTelemetry,
     VerifierActionView,
     VerifierBudgetView,
@@ -738,8 +739,45 @@ class OpenAIAgentsNativeRuntime:
             raise AgentLoopError(
                 f"Blind verifier failed: {type(exc).__name__}: {exc}"
             ) from exc
+        raw_verdict = telemetry.result
+        if (
+            raw_verdict.status == "complete"
+            and state.task_view.output_contract.format == OutputFormat.CHOICE
+        ):
+            raw_candidate, _ = _latest_terminal_candidate(state)
+            try:
+                _leading_declared_choice(
+                    state.task_view.output_contract,
+                    raw_candidate,
+                )
+            except AgentLoopError:
+                telemetry = telemetry.model_copy(
+                    update={
+                        "result": VerificationResult(
+                            status="ready_for_synthesis",
+                            failure_stage="none",
+                            reason=(
+                                "The semantic answer candidate exists, but it does not begin "
+                                "with exactly one declared canonical choice label. Perform "
+                                "terminal synthesis again under the declared choice contract."
+                            ),
+                            missing_requirements=(),
+                        )
+                    }
+                )
         async with state.state_lock:
             state.verification_steps.append(telemetry)
+            if raw_verdict != telemetry.result:
+                state.emit(
+                    "logical.verification.terminal_contract_enforced",
+                    {
+                        "verification_index": telemetry.verification_index,
+                        "graph_version": telemetry.graph_version,
+                        "original_status": raw_verdict.status,
+                        "effective_status": telemetry.result.status,
+                        "output_format": state.task_view.output_contract.format.value,
+                    },
+                )
             state.emit(
                 "logical.verification",
                 {
@@ -813,6 +851,12 @@ class OpenAIAgentsNativeRuntime:
         )
         arguments = _namespace_output_arguments(
             state.artifact_namespace,
+            spec.operator_id,
+            arguments,
+        )
+        arguments = _with_terminal_output_requirement(
+            state,
+            owner,
             spec.operator_id,
             arguments,
         )
@@ -1299,6 +1343,34 @@ def _with_schema_defaults(
     return normalized
 
 
+def _with_terminal_output_requirement(
+    state: _NativeState,
+    owner: str,
+    operator: str,
+    arguments: dict[str, Any],
+) -> dict[str, Any]:
+    contract = state.task_view.output_contract
+    if (
+        owner != state.root_agent.logical_agent_id
+        or operator != "invoke_model"
+        or contract.format != OutputFormat.CHOICE
+        or contract.choices is None
+    ):
+        return arguments
+    prompt = arguments.get("prompt")
+    if not isinstance(prompt, str):
+        return arguments
+    choices = json.dumps(contract.choices, ensure_ascii=False, separators=(",", ":"))
+    normalized = dict(arguments)
+    normalized["prompt"] = (
+        prompt.rstrip()
+        + "\n\nTerminal output contract: begin the response with exactly one declared "
+        + f"canonical choice label from {choices}. The label must be the first token and "
+        + "may be followed by a delimiter and concise text. Do not put prose before the label."
+    )
+    return normalized
+
+
 def _namespace_output_arguments(
     namespace: str,
     operator: str,
@@ -1508,6 +1580,25 @@ def _deterministic_terminal_answer(contract: OutputContract, answer: str) -> str
         )
         if any(re.match(pattern, stripped) is not None for pattern in patterns):
             matches.add(choice)
+    if len(matches) != 1:
+        raise AgentLoopError("terminal answer violates the choice output contract")
+    return next(iter(matches))
+
+
+def _leading_declared_choice(contract: OutputContract, answer: str) -> str:
+    choices = contract.choices
+    if contract.format != OutputFormat.CHOICE or choices is None:
+        raise AgentLoopError("terminal answer violates the choice output contract")
+    stripped = answer.strip()
+    matches = {
+        choice
+        for choice in choices
+        if re.match(
+            rf"(?s)^{re.escape(choice)}(?:$|\s|[.。:：;；,，\-–—])",
+            stripped,
+        )
+        is not None
+    }
     if len(matches) != 1:
         raise AgentLoopError("terminal answer violates the choice output contract")
     return next(iter(matches))

@@ -1211,6 +1211,122 @@ async def test_complete_verdict_deterministically_extracts_leading_choice() -> N
 
 
 @pytest.mark.asyncio
+async def test_choice_contract_rejects_prose_completion_then_allows_next_turn() -> None:
+    task = benchmark_task().model_copy(
+        update={
+            "output_contract": OutputContract(
+                format=OutputFormat.CHOICE,
+                choices=("ship", "harbor"),
+            )
+        }
+    )
+    physical = FakePhysicalService(model_text="The evidence supports ship, not harbor.")
+    verifier = FakeVerifier((complete_verdict(), complete_verdict()))
+    runtime, gateway = runtime_and_gateway(
+        task,
+        physical,
+        ("invoke_model",),
+        verifier=verifier,
+    )
+    sink = MemorySink()
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        model_tool = tool(agent, "invoke_model")
+        await reasoning_start(hooks, context, agent)
+        prose = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "prose-candidate"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Choose from the declared labels."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        first, outputs = await resolve_tool_batch(agent, ((model_tool, prose),))
+        assert not first.is_final_output
+        assert json.loads(outputs[0])["blind_verification"]["status"] == (
+            "ready_for_synthesis"
+        )
+
+        physical.model_text = "ship. The evidence supports this label."
+        await reasoning_start(hooks, context, agent)
+        labelled = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "labelled-candidate"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": "Synthesize the terminal answer."},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        second, _ = await resolve_tool_batch(agent, ((model_tool, labelled),))
+        assert second.is_final_output
+        return str(second.final_output)
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task,
+        gateway,
+        trace=WorkflowTraceRecorder("choice-contract-recovery", sink),
+    )
+
+    assert result.final_answer == "ship"
+    assert result.usage.manager_turns == 2
+    assert result.usage.tool_model_calls == 2
+    assert [step.result.status for step in result.verification_steps] == [
+        "ready_for_synthesis",
+        "complete",
+    ]
+    prompts = [
+        action.prompt
+        for action in physical.actions
+        if isinstance(action, LogicalModelAction)
+    ]
+    assert all('canonical choice label from ["ship","harbor"]' in item for item in prompts)
+    assert any(
+        item.event_type == "logical.verification.terminal_contract_enforced"
+        for item in sink.events
+    )
+
+
+@pytest.mark.asyncio
+async def test_short_text_model_prompt_is_unchanged_by_choice_contract() -> None:
+    task = benchmark_task().model_copy(
+        update={
+            "output_contract": OutputContract(format=OutputFormat.SHORT_TEXT),
+        }
+    )
+    physical = FakePhysicalService(model_text="ordinary short answer")
+    runtime, gateway = runtime_and_gateway(task, physical, ("invoke_model",))
+    original_prompt = "Answer concisely from the evidence."
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        observation = await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "short-text"),
+            json.dumps(
+                {
+                    "inputs": ["source-0"],
+                    "arguments": {"prompt": original_prompt},
+                }
+            ),
+        )
+        await reasoning_end(hooks, context, agent)
+        return str(json.loads(observation)["output"]["text"])
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+
+    assert result.final_answer == "ordinary short answer"
+    action = next(
+        item for item in physical.actions if isinstance(item, LogicalModelAction)
+    )
+    assert action.prompt == original_prompt
+
+
+@pytest.mark.asyncio
 async def test_complete_verdict_rejects_ambiguous_choice_candidate() -> None:
     task = benchmark_task()
     physical = FakePhysicalService(model_text="A or B")
