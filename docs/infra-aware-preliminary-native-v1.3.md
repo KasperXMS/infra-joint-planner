@@ -1,134 +1,204 @@
 # SDK-native Infra-Aware Preliminary v1.3
 
 Date: 2026-10-02  
-Branch: `open-ended-mas-preliminary-v1`  
-Execution revision: `205de7d9607704bcf5efaaa56eed4da6bf7f4295`
+Branch: `open-ended-mas-preliminary-v1`
 
-## Scope and controls
+## Scope and frozen controls
 
-This is the authorized one-task `Fast / Slow × Blind / Aware` preliminary. It uses
-the frozen `multihop-multisource` task, SDK-native persistent Manager, shared Blind
-Verifier, finite tool space, physical scheduler, 32K/2048 deployments, and the
-20/64/20 budget. Every cell used a fresh Worker store, one repetition, and no retry
-or replacement.
+The research question is: **How does infrastructure status change the agent
+workflow?** The pre-registered comparison is `Fast / Slow x Blind / Aware` on the
+same `multihop-multisource` task.
+
+The following remained frozen:
+
+- Manager turns / physical calls / Verifier calls: `20 / 64 / 20`;
+- model context / reserved output: `32768 / 2048` tokens;
+- Manager model and instructions, Blind Verifier, finite tool space, scheduler,
+  terminal contract, benchmark adapter, evaluator, task representation, and model
+  deployments;
+- Fast: 100 Mbps and 5 ms added RTT;
+- Slow: 3 Mbps and 50 ms added RTT; and
+- one run per cell, no semantic retry, no prompt tuning, and fresh Worker stores.
 
 The task bundle SHA-256 is
-`54ef8ddbe4a3379254345f307b3f0ef6b95fe92e0b28ac4c89124bb6b7ebfe8e`;
-the static capability contract SHA-256 is
+`54ef8ddbe4a3379254345f307b3f0ef6b95fe92e0b28ac4c89124bb6b7ebfe8e`.
+The static capability contract SHA-256 is
 `8d46d9b941a08380a00fdab1e7c151c25affd589ec4444864f3c5c925a2089a4`.
-All four counted cells use harness `blind-harness-v1.3.1`. This is the frozen v1.3
-behavior plus only the control-plane compatibility fix that permits an Aware
-Manager to share the unchanged Blind Verifier. The Verifier receives no physical
-profile.
 
-The network regimes were applied on all four machines using the existing
-transactional `tc` harness:
+Fast-Blind replicate 1 uses frozen `blind-harness-v1.3`. The other counted cells
+use `blind-harness-v1.3.1`, whose only behavior difference is that an Aware Manager
+may coexist with the same Blind Verifier. It does not change Blind inputs, Manager
+or Verifier prompts, budgets, tools, scheduler, or model/runtime behavior. The
+Verifier never receives a physical profile.
 
-- Fast: 100 Mbps, 5 ms added RTT.
-- Slow: 3 Mbps, 50 ms added RTT.
+Every counted cell has a transactional `tc` attestation. All cleanup errors are
+null, A4/A5/A28 restore to their original `mq` roots, and strong-4090 restores to
+`noqueue`. Logical privacy scans pass in all Blind traces.
 
-Each cell's attestation records the applied qdisc and successful restoration.
-Cleanup errors were null; A4/A5/A28 returned to their original `mq` roots and
-strong-4090 returned to `noqueue`.
+## Matrix
 
-Blind receives no `PhysicalProfileView`. Aware receives only the anonymous view;
-logical trace privacy checks passed in every cell and found no worker, deployment,
-IP, placement, network-value, or private benchmark identity leakage.
+The following is the counted replicate-1 matrix. The pre-existing Fast-Blind run
+specified by the protocol is retained; it was not replaced by a later trajectory.
+Initial materialization is 7,696,522 bytes in every cell. Action bytes exclude that
+fixed initial placement traffic.
 
-## Four-cell result
+| Network | Method | Run | Complete | Score / format | Manager / Verifier | Physical calls | Tool / model | Inference | Context failures | First ready | Graph nodes / edges | E2E ms | Action bytes |
+|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fast | Blind | `12-multihop-fast-blind-v1.3` | yes | 0.0 / valid | 12 / 12 | 25 | 23 / 2 | 1 | 1 | 1 | 25 / 28 | 106,405.283 | 0 |
+| Fast | Aware | `17-multihop-fast-aware-v1.3.1` | yes | 0.0 / valid | 13 / 13 | 22 | 18 / 4 | 2 | 1 | 1 | 22 / 16 | 214,865.608 | 10,006 |
+| Slow | Blind | `18-multihop-slow-blind-v1.3.1` | yes | 0.0 / valid | 9 / 9 | 23 | 21 / 2 | 1 | 1 | 1 | 23 / 13 | 303,102.954 | 33,966 |
+| Slow | Aware | `19-multihop-slow-aware-v1.3.1` | yes | 0.0 / valid | 13 / 13 | 43 | 41 / 2 | 1 | 1 | 1 | 43 / 33 | 217,485.620 | 5,598 |
 
-Initial materialization was identical at 7,696,522 bytes. “Action bytes” below
-exclude that fixed initial placement traffic; “total bytes” include it.
+Facts observed in trace:
 
-| Network | Method | Run | Completion | Score / format | Manager turns | Tool / model calls | Graph nodes / edges | E2E ms | Action bytes | Total bytes |
-|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|
-| Fast | Blind | `16-multihop-fast-blind-v1.3.1` | no | n/a | 20 | 61 / 3 | 64 / 32 | 250,465.012 | 22,194 | 7,718,716 |
-| Fast | Aware | `17-multihop-fast-aware-v1.3.1` | yes | 0.0 / valid | 13 | 18 / 4 | 22 / 16 | 214,865.608 | 10,006 | 7,706,528 |
-| Slow | Blind | `18-multihop-slow-blind-v1.3.1` | yes | 0.0 / valid | 9 | 21 / 2 | 23 / 13 | 303,102.954 | 33,966 | 7,730,488 |
-| Slow | Aware | `19-multihop-slow-aware-v1.3.1` | yes | 0.0 / valid | 13 | 41 / 2 | 43 / 33 | 217,485.620 | 5,598 | 7,702,120 |
+- all four runs completed terminal synthesis, produced format-valid short text, and
+  invoked the private evaluator;
+- all four scores are 0.0; this is a semantic-quality outcome, not a harness
+  failure;
+- none of the four used a specialist or a same-decision parallel action batch; and
+- every run first reached `ready_for_synthesis` at Verifier call 1, later returned
+  to evidence collection, and eventually completed.
 
-The Fast-Blind run is a valid agent-trajectory failure, not a harness failure. It
-reached one real model inference, accumulated evidence, and exhausted the frozen
-20 Manager turns after 64 total tool/model calls. Its primary classification is
-stopping/over-expansion plus hard budget exhaustion. No evaluator was invoked.
+## Replicate-level results
 
-All three completed cells reached terminal synthesis and the private evaluator.
-Their terminal outputs were format-valid but received score 0.0. The preliminary
-therefore supplies no positive semantic-quality claim.
+The extension to `n=3` was pre-registered at commit
+`0b7149a128f223c54a49f1478da0bcafa73ab8ca`. Replicate 2 stopped at its first
+cell because the cloud Manager provider failed before processing the request.
 
-## Workflow evolution and physical execution
+| Attempt | Run | Outcome | Manager actions | Inference | E2E ms | tc cleanup / restore |
+|---|---|---|---:|---:|---:|---|
+| Fast-Blind r2 original | `20-multihop-fast-blind-v1.3.1-r2` | provider admission timeout | 0 | 0 | 902,539.784 | null / exact |
+| Fast-Blind r2 replacement 1 | `20r-multihop-fast-blind-v1.3.1-r2-replacement1` | same provider admission timeout | 0 | 0 | 902,627.122 | null / exact |
 
-The final graph operator counts were:
+Both provider payloads state that processing could not start within the provider's
+900-second timeout. Both traces stop at `logical.reasoning.started` for Manager turn
+1, before any completed Manager turn, tool/model action, workflow node, device-model
+inference, or evaluator call. Initial artifacts were materialized, but action bytes
+are zero. These are operational attempts, not semantic replicates.
 
-| Cell | Operator composition |
-|---|---|
-| Fast Blind | `bm25_retrieve` 35, `read_artifact` 16, `select_fields` 10, `invoke_model` 3 |
-| Fast Aware | `bm25_retrieve` 10, `select_fields` 4, `filter_records` 2, `read_artifact` 2, `invoke_model` 4 |
-| Slow Blind | `bm25_retrieve` 9, `filter_records` 9, `aggregate_artifacts` 1, `select_fields` 1, `read_artifact` 1, `invoke_model` 2 |
-| Slow Aware | `bm25_retrieve` 18, `top_k_records` 10, `filter_records` 5, `select_fields` 5, `read_artifact` 3, `invoke_model` 2 |
+The protocol permits at most one operational replacement. Because the replacement
+failed in the same way, this is a repeated persistent model-service failure and an
+overnight hard-stop condition. No r2 Aware/Slow cell, r3 cell, LongBench matrix, or
+Video-MME matrix was started.
 
-The Slow-Blind trajectory aggregated remote evidence on A28 before terminal model
-execution and moved 33,966 action bytes. The Slow-Aware trajectory instead grew a
-larger distributed reduction graph, including ten `top_k_records` actions, and
-moved only 5,598 action bytes before the A28 model call.
+## Workflow comparison
 
-For the same Slow condition, Aware versus Blind reduced:
+Compact final-graph signatures for the completed matrix are:
 
-- E2E by 85,617.334 ms (28.2%);
-- action-transfer bytes by 28,368 bytes (83.5%); and
-- action-transfer latency from 1,436.008 ms to 199.100 ms (86.1%).
+| Cell | Retrieval | Reduction / projection | Model | Graph snapshots / max version | Action-transfer ms |
+|---|---:|---|---:|---:|---:|
+| Fast Blind | BM25 12 | select 3, aggregate 2, filter 2, read 4 | 2 | 76 / 75 | 0.000 |
+| Fast Aware | BM25 10 | select 4, filter 2, read 2 | 4 | 67 / 66 | 222.367 |
+| Slow Blind | BM25 9 | filter 9, aggregate 1, select 1, read 1 | 2 | 70 / 69 | 1,436.008 |
+| Slow Aware | BM25 18 | top-k 10, filter 5, select 5, read 3 | 2 | 130 / 129 | 199.100 |
 
-The fixed initial materialization dominates total byte volume, so total bytes fell
-only 0.37%. Both completed with the same score (0.0), meaning the system benefit did
-not further reduce measured quality, but it also did not preserve a positive-quality
-answer.
+The observed action ordering, compacted by phase, is:
 
-Aware workflow structure changed with infrastructure: Fast ended with 22 nodes and
-Slow with 43 nodes. The Slow trajectory performed substantially more local bounded
-reduction and transferred less action data. Thus the observed relation is
-`H_fast != H_slow -> G_fast != G_slow`, and the direction is consistent with the
-anonymous profile presented to the Manager.
+- Fast Blind: distributed retrieval -> infeasible model request -> more retrieval
+  -> select/aggregate/read/filter -> terminal model;
+- Fast Aware: retrieval/model probes -> more retrieval -> select/read/filter ->
+  terminal model;
+- Slow Blind: distributed retrieval -> infeasible model request -> distributed
+  filtering -> aggregation/projection/read -> terminal model; and
+- Slow Aware: wider distributed retrieval -> infeasible model request ->
+  select/filter -> ten local top-k reductions -> more retrieval/read -> terminal
+  model.
 
-## Predicted versus actual cost signal
+Physical execution facts:
 
-The Aware Manager received one anonymous profile per physical action: 22 in Fast and
-43 in Slow. Fast profiles classified actions as `fast` or `unknown`, with predicted
-transfer upper bounds up to 226.814 ms. Slow profiles classified actions as
-`constrained` or `local`, with upper bounds up to 7,443.797 ms. For representative
-2.43–2.49 MB shard inputs, Slow predicted transfer upper bounds were approximately
-6.54–6.70 seconds; comparable Fast full-shard inputs were bounded near 0.227 seconds.
-The fast/slow ordering therefore agrees with the applied regimes and actual transfer
-pressure.
+- retrieval and reduction remained distributed over A4/A5/A28;
+- every successful terminal inference ran on A28 under the unchanged physical
+  scheduler;
+- Slow Blind aggregated remote evidence on A28 and moved 33,966 action bytes; and
+- Slow Aware used a larger distributed reduction graph and moved only 5,598 action
+  bytes before terminal inference.
 
-No service-latency profile was available in either Aware run. All 65 corresponding
-fields remained explicitly unknown; the system did not synthesize a guessed value.
-This prevents a meaningful whole-workflow predicted-versus-actual latency accuracy
-claim in this run.
+## Infra-response observations
 
-## Invalid preflight attempt retained
+Facts observed in Aware traces:
 
-Before the counted matrix, one Fast-Aware attempt failed before the Manager because
-the harness incorrectly rejected `ProfileVisibility.AWARE` whenever the shared Blind
-Verifier was enabled. It performed no logical trajectory and is excluded from the
-four cells. The evidence remains preserved under the earlier `e41f39e` deployment.
-The minimal fix removed only that erroneous construction-time coupling and added a
-regression proving that the Aware Manager sees the profile while the Verifier does
-not. No experiment evidence was overwritten.
+- Fast Aware received 22 anonymous `PhysicalProfileView` observations: 21 `fast`
+  and 1 `unknown`;
+- Slow Aware received 43 observations: 42 `constrained` and 1 `local`;
+- Fast predicted transfer upper bounds reached 226.814 ms, while Slow bounds
+  reached 7,443.797 ms;
+- all 65 service-latency fields remained explicitly unknown; no value was guessed;
+  and
+- Aware Fast and Aware Slow produced different workflows: 22 versus 43 nodes,
+  BM25 10 versus 18, and top-k reduction 0 versus 10.
 
-## Decision
+Interpretation:
 
-This preliminary shows a real, interpretable infrastructure-dependent workflow
-change and a measurable Slow-network systems benefit at equal measured quality.
-It does **not** establish a stable method advantage:
+- the Slow-Aware trajectory is consistent with responding to transfer pressure by
+  doing more bounded reduction near data; and
+- this is a workflow-response signal, but `n=1` cannot isolate infrastructure as
+  the cause because Blind Fast and Blind Slow also produced materially different
+  legal workflows without seeing infrastructure.
 
-- `n=1` trajectories are stochastic;
-- Blind Fast and Blind Slow also produced different workflows despite having no
-  network visibility;
-- Fast Blind did not complete, so the Fast method comparison is censored; and
-- every completed cell scored 0.0.
+Within Slow, Aware versus Blind reduced E2E by 85,617.334 ms (28.2%), action bytes
+by 28,368 bytes (83.5%), and action-transfer latency by 86.1%. Both scores remained
+0.0. Across Aware conditions, Slow transferred 44.1% fewer action bytes than Fast
+but had 1.2% higher E2E because it executed substantially more actions.
 
-The result is sufficient as a problem-validity signal for further controlled work,
-but not for an accuracy, robustness, or causal performance claim. Per the stopping
-rule, no additional task, repetition, bandwidth, prompt tuning, or Aware experiment
-was run.
+## Quality comparison
 
+Observed quality for the counted matrix is uniform:
+
+- completion rate: 4/4;
+- evaluator invocation rate: 4/4;
+- format-valid rate: 4/4; and
+- evaluator scores: `[0.0, 0.0, 0.0, 0.0]`.
+
+Therefore there is no observed quality difference between Blind and Aware, but
+there is also no positive-quality result in this matrix. "No degradation" here
+means equality at score 0 and must not be interpreted as preserved correct quality.
+
+## Runtime incidents
+
+All incidents and unsuccessful trajectories remain preserved:
+
+1. The original Fast-Aware construction attempt at revision `e41f39e` failed before
+   Manager execution because Aware visibility was incorrectly coupled to the Blind
+   Verifier. It is excluded from the matrix. The compatibility-only fix is frozen
+   in v1.3.1.
+2. `16-multihop-fast-blind-v1.3.1` is an already executed, valid agent trajectory
+   that exhausted 20 Manager turns / 64 calls. It is retained as a supplemental
+   run, not substituted for the protocol-designated Fast-Blind replicate 1.
+3. Before r2 execution, one Worker startup check found the required
+   `OLLAMA_API_KEY` environment variable absent. This happened before tc application
+   and task execution, created no artifact store, and consumed no experiment
+   attempt. The normal Worker environment was restored without changing a frozen
+   setting.
+4. Fast-Blind r2 original and its sole operational replacement both encountered
+   the same provider admission timeout. This triggered the required hard stop.
+
+## Evidence provenance
+
+| Run | Code revision | Config SHA-256 | Harness manifest SHA-256 |
+|---|---|---|---|
+| `12-multihop-fast-blind-v1.3` | `e41f39e8eef9028484c025786aeb14f903c300ec` | `f8c2cb2fb5b7120c3256ec86b86945cf863ba5ce21f2074fe0d698f6360c0258` | `26bd5c37e73052c820b7a5d9ab69dfe3c52d9ff25278d51042b9c2e712ad97d6` |
+| `17-multihop-fast-aware-v1.3.1` | `205de7d9607704bcf5efaaa56eed4da6bf7f4295` | `524f35cd30c52c09a8cbf1cafbbd96a34cd7b2eae83f01857b97226e0825ebbc` | `ab7f548a047bd24c97b561a564467e8c6d46f1d4380a9effa3d431469be0d643` |
+| `18-multihop-slow-blind-v1.3.1` | `205de7d9607704bcf5efaaa56eed4da6bf7f4295` | `23db715b336bdf670ce5b872616b13eb04ca6a9a6251fa3dd998f187e546e4b6` | `ab7f548a047bd24c97b561a564467e8c6d46f1d4380a9effa3d431469be0d643` |
+| `19-multihop-slow-aware-v1.3.1` | `205de7d9607704bcf5efaaa56eed4da6bf7f4295` | `9ffb22e34ccd1e9b09361a0498c759e6ea466cfbe882507a4a6eea8b7277380e` | `ab7f548a047bd24c97b561a564467e8c6d46f1d4380a9effa3d431469be0d643` |
+| `20-multihop-fast-blind-v1.3.1-r2` | `0b7149a128f223c54a49f1478da0bcafa73ab8ca` | `9d2f39b4806634dccf6e8c09bf02cc23dac6a2a22b6bcf8a102708df9e35db01` | `ab7f548a047bd24c97b561a564467e8c6d46f1d4380a9effa3d431469be0d643` |
+| `20r-multihop-fast-blind-v1.3.1-r2-replacement1` | `e642a1cfbd3f6d9147d6e9b75f6dd845890fafbb` | `1c38e29e3df92971b0e347cc4eabe4bea1845d34572632f3a3bef284442fd73d` | `ab7f548a047bd24c97b561a564467e8c6d46f1d4380a9effa3d431469be0d643` |
+
+The authoritative remote evidence retains each freeze manifest, fresh-store roots,
+trace, result, summary, evaluator outcome when applicable, and tc before/applied/
+restored snapshots. Sanitized local copies contain no private task/evaluator files.
+
+## Preliminary interpretation
+
+The completed replicate-1 matrix provides preliminary evidence that the Aware
+Manager can observe an anonymous fast/constrained distinction and generate a
+different, more reduction-heavy workflow under Slow infrastructure. In the Slow
+cell this coincided with lower action traffic and E2E at the same measured score.
+
+It does not establish a stable method advantage or causal effect. The evidence is
+limited by one completed replicate, stochastic workflow differences in Blind, all
+scores being zero, unknown service-cost profiles, and the cloud-provider outage
+that prevented r2/r3.
+
+Per the frozen protocol, no prompt, budget, model, scheduler, operator, evaluator,
+or task was changed to manufacture a result. The remaining queue is stopped rather
+than retried a third time.
