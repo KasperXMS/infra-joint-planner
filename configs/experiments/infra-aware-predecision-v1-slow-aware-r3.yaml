@@ -1,0 +1,21 @@
+experiment_id: infra-aware-predecision-v1-slow-aware-r3
+replicate_id: 3
+harness_manifest: configs/experiments/infra-aware-predecision-v1.yaml
+harness_manifest_sha256: cd184ee891e9227aa7f236e3361fc6d49a756a4429a8aa3e7070b286f144ba99
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+task: multihop-multisource
+run_id: predecision-qwen-multihop-slow-aware-r3
+profile_visibility: aware
+model_service_timeout_seconds: 1200
+network: {regime: slow, bandwidth_mbps: 3, added_rtt_ms: 50}
+worker_urls:
+  A4: http://192.168.0.104:65004
+  A5: http://192.168.0.105:65005
+  A28: http://192.168.0.128:65028
+  strong-4090: http://192.168.0.12:65112
+fresh_worker_stores:
+  A4: /mnt/ssd/heterogeneous-v1/artifacts/infra-aware-predecision-v1/matrix-r3/slow-aware/a4
+  A5: /mnt/ssd/heterogeneous-v1/artifacts/infra-aware-predecision-v1/matrix-r3/slow-aware/a5
+  A28: /mnt/ssd/heterogeneous-v1/artifacts/infra-aware-predecision-v1/matrix-r3/slow-aware/a28
+  strong-4090: /home/super/heterogeneous-v1/artifacts/infra-aware-predecision-v1/matrix-r3/slow-aware/strong-4090
+execution: {scheduler: auto_physical_locality_aware, repetitions: 1, retry: false, replacement: false}
