@@ -1,6 +1,6 @@
 # LongBench pre-decision Raw-Aware v1
 
-**IN PROGRESS.** The frozen protocol admits three distinct original multi-document
+**STOPPED AT OPERATIONAL GATE; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
 tasks, four conditions each. Selection, original context byte counts, natural
 document boundaries and initial placement are in the
 [protocol](predecision-crossbenchmark-v1-protocol.md).
@@ -10,8 +10,9 @@ choices/private gold and exact-choice evaluator remain unchanged; no workflow hi
 
 Execution commit `90cea3261c1e21f7cb528025c64729741ccc8451`, unchanged Qwen pre-decision
 harness. Three Financial cells are clean; the fourth primary is operationally
-confounded and retained, with one identical replacement pending. Family is
-**not complete**; eight other primary cells and the replacement remain pending.
+confounded and retained; its one identical replacement is also confounded. Family is
+**not complete**; eight other primary cells remain unexecuted, and Slow-Aware has
+no clean eligible result. No third identical automatic attempt is permitted.
 See [live cross-benchmark report](predecision-crossbenchmark-v1.md).
 
 ## Financial task: partial comparison
@@ -65,6 +66,12 @@ and discarded. Primary attribution is evidence selection/answer synthesis, with
 context-recovery inefficiency and Verifier readiness behavior as contributing
 factors. Causal attribution between insufficient evidence and model reasoning
 remains bounded by that evidence limitation.
+
+Durable evidence audit: remote `financial-evidence-audit-primary-001.json`, SHA-256
+`e0619dfec08b54dfba6a68e2fb6c9ddad1197b5784be261385eb288ef341f400`.
+Independent original-task/choices/output-contract/private-gold/evaluator identity
+checks all pass; retained terminal texts match original source chunk hashes.
+The audit contains metadata and producer lineage, not a repair or revised answer.
 
 First READY_FOR_SYNTHESIS occurs at Verifier calls 5/1/2 respectively. In
 Fast-Aware, full-document aggregation metadata alone led the Blind Verifier to

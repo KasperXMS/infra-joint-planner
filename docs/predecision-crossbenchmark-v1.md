@@ -1,6 +1,8 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-**Status: IN PROGRESS, not a final report.** Updated 2026-10-03 (Asia/Hong_Kong).
+**Status: STOPPED AT PERSISTENT OPERATIONAL GATE; scope incomplete.**
+Updated 2026-10-03 (Asia/Hong_Kong). Three clean cells, one confounded cell with
+its one permitted replacement also confounded; twenty primary cells unexecuted.
 
 ## Scope and frozen system
 
@@ -29,13 +31,18 @@ any Manager call. Per-cell evidence:
 All four fresh Worker roots are independently namespaced per attempt.
 
 Initial queue PID: **358408** (`queue-launch.json`); it exited at the fourth
-cell's operational audit gate. The authorized identical replacement was launched
-as PID **453741**. Never infer liveness from launch records: verify `/proc/<pid>/cmdline`
+cell's operational audit gate. The authorized identical replacement PID **453741**
+and suffix-controller PID **476338** also exited at the replacement audit gate.
+The eight Slow-Aware Worker PIDs and all three queue/controller PIDs were checked
+inactive. Never infer liveness from launch records: verify `/proc/<pid>/cmdline`
 and `queue.jsonl` before waiting or restarting.
 The queue stops at the first operational audit gate; no automatic semantic retry,
 replacement, prompt change or budget expansion. See exception policy in protocol.
 
-Read-only audit snapshots are stored remotely, e.g. `audit-progress-005.json`.
+Read-only audit snapshot `audit-progress-006.json` retains all five attempts,
+separates three effective clean records, and lists twenty unexecuted primary cells
+plus the unresolved Slow-Aware cell. `persistent-operational-stop-v1.json` records
+the stop boundary. No third automatic attempt or later cell was launched.
 Audit tool revision does not change frozen runtime/code/config or cell results.
 
 ## Partial result
@@ -46,11 +53,13 @@ Audit tool revision does not change frozen runtime/code/config or cell results.
 | Same task | Fast-Aware | yes / yes | A / 0.0 | 318.058 | 486,264 | 2 | 10 / 10 |
 | Same task | Slow-Blind | yes / yes | A / 0.0 | 278.919 | 141,047 | 1 | 14 / 14 |
 | Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
+| Same task | Slow-Aware replacement, **excluded/confounded** | yes / yes | A / 0.0 | 412.727 | 58,287 | 2 | 10 / 10 |
 
 The first three are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
-turn-6 Aware profile candidate count from four to three. Its identical operational
-replacement is pending; do not compare the excluded primary as a clean Aware result.
+turn-6 Aware profile candidate count from four to three. The replacement suffered
+the same transport error on A5/A28, marking three sources HOST_UNREACHABLE and
+rejecting its first action before selection. Do not compare either as a clean Aware result.
 See [exception audit](predecision-crossbenchmark-failure-audit-v1.md).
 
 First cell passed profile isolation, input/Verifier hash reconstruction, terminal
@@ -66,8 +75,11 @@ Fast-Aware independently passed 10/10 pre-decision profile/input hashes and 216
 Worker probes; Slow-Blind passed 14 Manager input hashes and 208 probes. Their
 terminal provenance, persistence, privacy and tc restoration checks pass.
 No complete task/family aggregate, stability, cost-rationality or cross-benchmark
-claim yet. Sequential continuation will use the unchanged frozen cell entry point
-only for the twenty unexecuted cells, after the replacement passes audit.
+claim yet. The suffix controller correctly refused continuation; its twenty-cell
+schedule remains unexecuted. A third identical operational replacement is forbidden.
+Transport root cause remains unproven; no speculative runtime repair is applied.
+Review is needed before separately versioned bug-fix/rerun work or closing at this
+operational stop. The original 24-clean-cell objective has not been achieved.
 
 ## Pending final analysis
 
@@ -79,7 +91,7 @@ analysis remains [separate](infra-aware-predecision-qwen-v1.md).
 
 Final goal requires all 24 cells executed or validly failed, operational incidents
 resolved or explicitly hard-stopped, final reports, evidence and repository audit.
-The unattended goal remains active.
+This report does not claim completion of the unattended goal.
 
 ## Offline verification
 

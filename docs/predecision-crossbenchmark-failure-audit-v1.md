@@ -48,8 +48,39 @@ Audit authorization is durable at remote root
 `operational-audit-financial-slow-aware-v1.json`. Frozen protocol permits one
 identical replacement for a connection reset/disconnect. New attempt
 `operational-replacement-1` uses unchanged execution revision 90cea32, new run ID
-and four fresh namespaces. Primary evidence and score are untouched. A second
-same-class incident triggers persistent operational stop, not a third attempt.
+and four fresh namespaces. Primary evidence and score are untouched.
+
+### Replacement: same-class persistent incident, continuation stopped
+
+Replacement completed/evaluated A / 0.0, E2E 412.727 s, 58,287 action bytes,
+10 Manager/Verifier turns, 14 tool attempts, six model attempts/two actual
+inferences, graph 20/17. This is **not an eligible clean result**.
+
+At 2026-10-02T19:14:07.247524Z/19:14:07.247616Z, A5/A28 state probes again
+failed `RemoteProtocolError` (~52 ms). Private diagnostic observation ID
+`a4964bf2-7c52-435a-b60e-e61633d8c098`, affected action
+`manager:call_c4e9e522bd13427f9baaac7b`. Three input sources were marked
+HOST_UNREACHABLE and the first action returned missing_input with no physical
+selection. The next observation recovered both workers. All 10 pre-decision
+profile events subsequently show four candidates; this does **not** erase the
+physical-action confounder between those inputs.
+
+Replacement privacy/provenance/persistence/tc checks pass, but two of 200 probes
+fail. All four logs have zero Python tracebacks and graceful shutdown; owned PIDs
+are inactive. The suffix controller stopped at its clean-boundary check and no
+academic/news/Video cell started. No third identical replacement is authorized.
+
+Idle gaps between last successful probes and disconnecting probes were 4.539 s
+for the primary and 4.966 s for both replacement failures. Installed HTTPX 0.28.1
+and Uvicorn 0.53.0 expose default five-second keep-alive settings, and the frozen
+clients/server do not override them. A stale keep-alive timing race is a plausible
+**hypothesis**, not a proven root cause. There is no packet/connection-lifecycle
+trace proving it, and no transport or observer-semantics change was made.
+
+Remote `persistent-operational-stop-v1.json` records the unresolved gate; full
+`audit-progress-006.json` retains all five attempts, not just selected clean scores.
+Twenty scheduled cells remain unexecuted. The 24-run goal is incomplete and no
+cross-family scientific conclusion can be drawn from this partial block.
 
 The read-only auditor now retains all attempts and distinguishes effective clean
 records from excluded/confounded primary records. It does not select by quality
