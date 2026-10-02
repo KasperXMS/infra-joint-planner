@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 import yaml
+from agents import ModelSettings
 
 SCRIPTS = Path(__file__).parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
@@ -16,6 +17,7 @@ from blind_3family_validation_v1 import (  # noqa: E402
 )
 from prepare_sdk_native_infra_worker_v1_3 import prepare  # noqa: E402
 from sdk_native_infra_preliminary_v1_3 import (  # noqa: E402
+    ModelRequestBodyAdapter,
     _compact_trace,
     _load_control_plane_key,
     _validate_config,
@@ -177,3 +179,55 @@ def test_control_plane_key_loader_uses_configured_provider_key(
     monkeypatch.delenv("DASHSCOPE_API_KEY", raising=False)
     _load_control_plane_key(key_file, "DASHSCOPE_API_KEY")
     assert os.environ["DASHSCOPE_API_KEY"] == "qwen-secret"
+
+
+def test_qwen38max_sanity_config_pins_requested_model() -> None:
+    config = _yaml(
+        REPO / "configs/experiments/sdk-native-infra-qwen38max-v1-sanity.yaml"
+    )
+    _validate_config(config)
+    harness_path = REPO / str(config["harness_manifest"])
+    _validate_harness_manifest_hash(config, harness_path)
+    assert config["run_id"] == "qwen38max-sanity-multihop-fast-blind-v1"
+    assert config["profile_visibility"] == "blind"
+    assert len(set(config["fresh_worker_stores"].values())) == 4
+
+
+@pytest.mark.asyncio
+async def test_model_request_body_adapter_injects_provider_option() -> None:
+    captured: dict[str, object] = {}
+
+    class FakeModel:
+        async def get_response(self, *args: object, **kwargs: object) -> str:
+            captured["settings"] = kwargs["model_settings"]
+            return "ok"
+
+    adapter = ModelRequestBodyAdapter(
+        FakeModel(),
+        {"enable_thinking": False},
+    )
+    response = await adapter.get_response(
+        model_settings=ModelSettings(parallel_tool_calls=False)
+    )
+
+    assert response == "ok"
+    settings = captured["settings"]
+    assert isinstance(settings, ModelSettings)
+    assert settings.parallel_tool_calls is False
+    assert settings.extra_body == {"enable_thinking": False}
+
+
+@pytest.mark.asyncio
+async def test_model_request_body_adapter_rejects_option_conflict() -> None:
+    class FakeModel:
+        async def get_response(self, *args: object, **kwargs: object) -> str:
+            return "unreachable"
+
+    adapter = ModelRequestBodyAdapter(
+        FakeModel(),
+        {"enable_thinking": False},
+    )
+    with pytest.raises(RuntimeError, match="enable_thinking"):
+        await adapter.get_response(
+            model_settings=ModelSettings(extra_body={"enable_thinking": True})
+        )

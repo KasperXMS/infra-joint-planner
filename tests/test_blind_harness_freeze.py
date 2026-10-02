@@ -66,6 +66,26 @@ def test_qwen_sanity_harness_changes_only_cloud_control_plane() -> None:
     assert qwen.verifier["result_transport"] == "required_function_tool"
 
 
+def test_qwen38max_sanity_harness_pins_non_thinking_tool_transport() -> None:
+    previous, environment, capabilities, operations = frozen_components()
+    qwen = load_harness(REPO / "configs/experiments/qwen-infra-sanity-v2.yaml")
+    validate_harness(qwen, environment, capabilities, operations)
+    previous_payload = previous.model_dump(mode="json")
+    qwen_payload = qwen.model_dump(mode="json")
+    for key in (
+        "harness_id",
+        "frozen_from_revision",
+        "positive_baseline_run_id",
+        "manager",
+        "verifier",
+    ):
+        previous_payload.pop(key)
+        qwen_payload.pop(key)
+    assert qwen_payload == previous_payload
+    assert qwen.manager["model"] == qwen.verifier["model"] == "qwen3.8-max"
+    assert qwen.manager["request_extra_body"] == {"enable_thinking": False}
+
+
 def test_blind_harness_v1_2_changes_only_generic_budget() -> None:
     previous = load_harness(REPO / "configs/experiments/blind-harness-v1.1.yaml")
     current = load_harness(REPO / "configs/experiments/blind-harness-v1.2.yaml")

@@ -9,7 +9,9 @@ import asyncio
 import json
 import os
 import re
+from collections.abc import AsyncIterator
 from contextlib import AsyncExitStack
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, cast
 
@@ -85,9 +87,60 @@ _SUPPORTED_HARNESS_IDS = frozenset(
         "blind-harness-v1.3",
         "blind-harness-v1.3.1",
         "qwen-infra-sanity-v1",
+        "qwen-infra-sanity-v2",
         "qwen-infra-preliminary-v1",
     }
 )
+
+
+class ModelRequestBodyAdapter:
+    """Inject frozen provider request fields without changing agent semantics."""
+
+    def __init__(self, delegate: object, extra_body: dict[str, object]) -> None:
+        self._delegate = delegate
+        self._extra_body = dict(extra_body)
+
+    def _settings(self, model_settings: Any) -> Any:
+        existing = dict(model_settings.extra_body or {})
+        conflicts = {
+            key
+            for key, value in self._extra_body.items()
+            if key in existing and existing[key] != value
+        }
+        if conflicts:
+            raise RuntimeError(
+                "provider request options conflict with agent settings: "
+                + ", ".join(sorted(conflicts))
+            )
+        return replace(
+            model_settings,
+            extra_body={**existing, **self._extra_body},
+        )
+
+    async def get_response(self, *args: Any, **kwargs: Any) -> Any:
+        values = list(args)
+        if "model_settings" in kwargs:
+            kwargs["model_settings"] = self._settings(kwargs["model_settings"])
+        elif len(values) >= 3:
+            values[2] = self._settings(values[2])
+        else:
+            raise RuntimeError("model request is missing ModelSettings")
+        method = cast(Any, self._delegate).get_response
+        return await method(*values, **kwargs)
+
+    async def stream_response(
+        self, *args: Any, **kwargs: Any
+    ) -> AsyncIterator[Any]:
+        values = list(args)
+        if "model_settings" in kwargs:
+            kwargs["model_settings"] = self._settings(kwargs["model_settings"])
+        elif len(values) >= 3:
+            values[2] = self._settings(values[2])
+        else:
+            raise RuntimeError("model request is missing ModelSettings")
+        method = cast(Any, self._delegate).stream_response
+        async for event in method(*values, **kwargs):
+            yield event
 
 
 def _load_control_plane_key(path: Path, environment_variable: str) -> None:
@@ -354,6 +407,17 @@ async def run_once(args: argparse.Namespace) -> None:
             }
         }
     )
+    request_extra_body = harness.manager.get("request_extra_body")
+    if request_extra_body is not None:
+        if not isinstance(request_extra_body, dict):
+            raise RuntimeError("manager request_extra_body must be a mapping")
+        sdk_model = ModelRequestBodyAdapter(
+            sdk_model,
+            {
+                str(key): value
+                for key, value in cast(dict[object, object], request_extra_body).items()
+            },
+        )
     async with AsyncExitStack() as stack:
         clients = await _clients(
             stack,

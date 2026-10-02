@@ -193,6 +193,7 @@ def validate_harness(
         "blind-harness-v1.3",
         "blind-harness-v1.3.1",
         "qwen-infra-sanity-v1",
+        "qwen-infra-sanity-v2",
         "qwen-infra-preliminary-v1",
     }:
         errors.append("unexpected harness_id")
