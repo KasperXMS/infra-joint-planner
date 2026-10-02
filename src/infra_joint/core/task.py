@@ -21,9 +21,17 @@ class OutputContract(ContractModel):
         serialization_alias="schema",
     )
     choices: tuple[str, ...] | None = None
+    canonical_labels: tuple[str, ...] | None = None
 
     @model_validator(mode="after")
     def validate_format_details(self) -> "OutputContract":
+        if self.canonical_labels is not None:
+            if self.format != OutputFormat.SHORT_TEXT or not self.canonical_labels:
+                raise ValueError("canonical labels require short-text output")
+            if len(set(self.canonical_labels)) != len(self.canonical_labels) or any(
+                not label or label != label.strip() for label in self.canonical_labels
+            ):
+                raise ValueError("canonical labels must be unique nonempty exact strings")
         if self.format == OutputFormat.CHOICE and not self.choices:
             raise ValueError("choice output requires non-empty choices")
         if self.format != OutputFormat.CHOICE and self.choices is not None:

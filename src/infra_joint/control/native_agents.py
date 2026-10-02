@@ -39,6 +39,12 @@ from infra_joint.control.loop import (
     PlannerStepTelemetry,
 )
 from infra_joint.control.physical import PhysicalExecutionOutcome
+from infra_joint.control.provenance import (
+    PROFILE_MESSAGE_PREFIX,
+    is_profile_message,
+    provenance_sha256,
+    semantic_input_items,
+)
 from infra_joint.control.validation import SemanticValidationError
 from infra_joint.control.verification import (
     BlindVerifier,
@@ -74,6 +80,7 @@ class _RunnerType(Protocol):
         context: object,
         max_turns: int,
         hooks: object,
+        **kwargs: Any,
     ) -> object: ...
 
 
@@ -108,6 +115,7 @@ class _NativeState:
     artifact_namespace: str
     static_capabilities: StaticCapabilityContract
     blind_verifier: BlindVerifier | None = None
+    record_input_provenance: bool = False
     observations: list[LogicalObservation] = field(
         default_factory=lambda: list[LogicalObservation]()
     )
@@ -172,7 +180,6 @@ class _NativeHooks:
         system_prompt: str | None,
         input_items: list[object],
     ) -> None:
-        del system_prompt, input_items
         owner = self._owner(context, agent)
         self._state.turn_by_agent[owner] = self._state.turn_by_agent.get(owner, 0) + 1
         self._state.llm_started[owner] = perf_counter()
@@ -180,6 +187,32 @@ class _NativeHooks:
             self._state.manager_turns += 1
         else:
             self._state.subagent_turns += 1
+        if self._state.record_input_provenance:
+            items = semantic_input_items(input_items)
+            profile = next(
+                (
+                    json.loads(item["content"][len(PROFILE_MESSAGE_PREFIX):])
+                    for item in reversed(items)
+                    if item.get("role") == "user"
+                    and isinstance(item.get("content"), str)
+                    and item["content"].startswith(PROFILE_MESSAGE_PREFIX)
+                ),
+                None,
+            )
+            self._state.emit(
+                "logical.reasoning.input",
+                {
+                    "decision_id": self._decision_id(owner),
+                    "logical_agent_id": owner,
+                    "input_items": items,
+                    "input_sha256": provenance_sha256(items),
+                    "instructions_sha256": provenance_sha256(system_prompt),
+                    "current_anonymous_profile": profile,
+                    "graph_version": self._state.graph.snapshot().version,
+                    "available_artifact_ids": sorted(self._state.accessible.get(owner, set())),
+                    "provider_private_reasoning_recorded": False,
+                },
+            )
         self._state.emit(
             "logical.reasoning.started",
             {
@@ -265,6 +298,8 @@ class OpenAIAgentsNativeRuntime:
         sdk_module: object | None = None,
         enable_blind_verifier: bool = False,
         blind_verifier: BlindVerifier | None = None,
+        predecision_profiles: bool = False,
+        record_input_provenance: bool = False,
     ) -> None:
         self._name = name
         self._instructions = instructions
@@ -274,6 +309,8 @@ class OpenAIAgentsNativeRuntime:
         self._sdk_module = sdk_module
         self._enable_blind_verifier = enable_blind_verifier or blind_verifier is not None
         self._blind_verifier = blind_verifier
+        self._predecision_profiles = predecision_profiles
+        self._record_input_provenance = record_input_provenance
         unknown = sorted(item for item in self._available_operations if item not in registry)
         if unknown:
             raise ValueError(f"native tool space references unknown operators: {unknown}")
@@ -330,6 +367,7 @@ class OpenAIAgentsNativeRuntime:
             artifact_namespace=f"derived/{uuid4().hex}",
             static_capabilities=resolved_capabilities,
             blind_verifier=verifier,
+            record_input_provenance=self._record_input_provenance,
             accessible={root.logical_agent_id: {item.artifact_id for item in task_view.artifacts}},
             produced={root.logical_agent_id: set()},
         )
@@ -375,6 +413,9 @@ class OpenAIAgentsNativeRuntime:
             tool_use_behavior=self._manager_tool_use_behavior(sdk, state),
         )
         runner = cast(_RunnerType, sdk.__dict__["Runner"])
+        run_options: dict[str, object] = {}
+        if self._predecision_profiles:
+            run_options["run_config"] = self._predecision_run_config(sdk, state)
         try:
             result = await runner.run(
                 manager,
@@ -382,6 +423,7 @@ class OpenAIAgentsNativeRuntime:
                 context=state,
                 max_turns=resolved_budget.max_manager_turns,
                 hooks=hooks,
+                **run_options,
             )
         except Exception as exc:
             if type(exc).__name__ == "MaxTurnsExceeded":
@@ -420,6 +462,38 @@ class OpenAIAgentsNativeRuntime:
             },
         )
         return loop_result
+
+    @staticmethod
+    def _predecision_run_config(sdk: object, state: _NativeState) -> object:
+        """Fresh Manager H_t via SDK input filter, without modifying the SDK loop."""
+        constructor = sdk.__dict__.get("RunConfig")
+        if constructor is None:
+            raise RuntimeError("pre-decision protocol requires SDK model-input filter APIs")
+
+        async def filter_input(data: Any) -> object:
+            model_data = data.model_data
+            items: list[Any] = list(model_data.input)
+            if (
+                state.visibility == ProfileVisibility.AWARE
+                and data.agent.name == state.root_agent.logical_agent_id
+            ):
+                decision_id = (
+                    f"{state.root_agent.logical_agent_id}:native-turn:"
+                    f"{state.turn_by_agent.get(state.root_agent.logical_agent_id, 0) + 1}"
+                )
+                profile = await state.gateway.profile_overview()
+                state.emit(
+                    "logical.profile.predecision",
+                    {"decision_id": decision_id, "profile": profile.model_dump(mode="json")},
+                )
+                items = [item for item in items if not is_profile_message(item)]
+                items.append({
+                    "role": "user",
+                    "content": PROFILE_MESSAGE_PREFIX + profile.model_dump_json(),
+                })
+            return type(model_data)(input=items, instructions=model_data.instructions)
+
+        return constructor(call_model_input_filter=filter_input, tracing_disabled=True)
 
     def _function_tool(
         self,
@@ -715,6 +789,16 @@ class OpenAIAgentsNativeRuntime:
                     "phase": context.phase,
                 },
             )
+            if state.record_input_provenance:
+                provenance = context.model_dump(mode="json")
+                state.emit(
+                    "logical.verification.input",
+                    {
+                        "verification_index": verification_index,
+                        "context": provenance,
+                        "context_sha256": provenance_sha256(provenance),
+                    },
+                )
         started = perf_counter()
         try:
             telemetry = await invoke_verifier(
@@ -740,14 +824,19 @@ class OpenAIAgentsNativeRuntime:
         raw_verdict = telemetry.result
         if (
             raw_verdict.status == "complete"
-            and state.task_view.output_contract.format == OutputFormat.CHOICE
+            and (
+                state.task_view.output_contract.format == OutputFormat.CHOICE
+                or state.task_view.output_contract.canonical_labels is not None
+            )
         ):
             raw_candidate, _ = _latest_terminal_candidate(state)
             try:
-                _leading_declared_choice(
-                    state.task_view.output_contract,
-                    raw_candidate,
-                )
+                if state.task_view.output_contract.canonical_labels is not None:
+                    _validate_answer_contract(
+                        state.task_view.output_contract, raw_candidate.strip()
+                    )
+                else:
+                    _leading_declared_choice(state.task_view.output_contract, raw_candidate)
             except AgentLoopError:
                 telemetry = telemetry.model_copy(
                     update={
@@ -755,9 +844,9 @@ class OpenAIAgentsNativeRuntime:
                             status="ready_for_synthesis",
                             failure_stage="none",
                             reason=(
-                                "The semantic answer candidate exists, but it does not begin "
-                                "with exactly one declared canonical choice label. Perform "
-                                "terminal synthesis again under the declared choice contract."
+                                "The semantic answer candidate does not satisfy the declared "
+                                "terminal label contract. Perform terminal synthesis again "
+                                "under the task's output contract."
                             ),
                             missing_requirements=(),
                         )
@@ -843,6 +932,17 @@ class OpenAIAgentsNativeRuntime:
                 f"invalid SDK tool arguments: {exc}",
             )
         inputs = tuple(str(item) for item in cast(list[object], payload.get("inputs", [])))
+        if state.record_input_provenance:
+            state.emit(
+                "logical.action.selected",
+                {
+                    "action_id": action_id,
+                    "decision_id": f"{owner}:native-turn:{state.turn_by_agent.get(owner, 1)}",
+                    "logical_agent_id": owner,
+                    "operator": spec.operator_id,
+                    "selected_tool_arguments": payload,
+                },
+            )
         arguments = _with_schema_defaults(
             spec.argument_schema,
             cast(dict[str, Any], payload.get("arguments", {})),
@@ -919,6 +1019,23 @@ class OpenAIAgentsNativeRuntime:
             )
             state.tool_model_calls += 1
             state.actions[action_id] = action
+            if state.record_input_provenance:
+                state.emit(
+                    "logical.action.prepared",
+                    {
+                        "action": action.model_dump(mode="json"),
+                        "input_lineage": {
+                            artifact_id: next(
+                                (
+                                    producer.action_id for producer in state.actions.values()
+                                    if any(o.artifact_id == artifact_id for o in producer.outputs)
+                                ),
+                                "initial_task_artifact",
+                            )
+                            for artifact_id in action.inputs
+                        },
+                    },
+                )
             pending = state.graph.add((action,))
             state.emit("workflow.graph.snapshot", pending.model_dump(mode="json"))
             running = state.graph.mark_running((action_id,))
@@ -933,6 +1050,11 @@ class OpenAIAgentsNativeRuntime:
                     "agent_state": "waiting_on_physical",
                 },
             )
+            if state.record_input_provenance:
+                state.emit("action.started", {
+                    "action_id": action_id, "decision_id": decision_id,
+                    "logical_agent_id": owner,
+                })
 
         try:
             outcomes = await state.gateway.execute_batch(
@@ -976,6 +1098,11 @@ class OpenAIAgentsNativeRuntime:
             self._emit_outcome(state, batch_id, action_id, outcome)
             if isinstance(action, LogicalModelAction):
                 self._emit_model_outcome(state, action, outcome)
+            if state.record_input_provenance:
+                state.emit("action.completed", {
+                    "action_id": action_id, "decision_id": decision_id,
+                    "logical_agent_id": owner, "succeeded": observation.succeeded,
+                })
             state.emit(
                 "logical.batch.completed",
                 {
@@ -1013,6 +1140,11 @@ class OpenAIAgentsNativeRuntime:
             finished = state.graph.mark_finished((), (action_id,))
             state.emit("workflow.graph.snapshot", finished.model_dump(mode="json"))
             state.emit("logical.observation", observation.model_dump(mode="json"))
+            if state.record_input_provenance:
+                state.emit("action.completed", {
+                    "action_id": action_id, "decision_id": decision_id,
+                    "logical_agent_id": owner, "succeeded": False,
+                })
             state.emit(
                 "logical.batch.completed",
                 {
@@ -1349,6 +1481,20 @@ def _with_terminal_output_requirement(
 ) -> dict[str, Any]:
     contract = state.task_view.output_contract
     if (
+        contract.canonical_labels is not None
+        and owner == state.root_agent.logical_agent_id
+        and operator == "invoke_model"
+        and not arguments.get("output_artifact_id")
+    ):
+        prompt = arguments.get("prompt")
+        if isinstance(prompt, str):
+            return {
+                **arguments,
+                "prompt": prompt.rstrip() + "\n\nTerminal output contract: return exactly one "
+                + f"declared label from {json.dumps(contract.canonical_labels)}. "
+                + "No punctuation, Markdown, explanation, or wrapper.",
+            }
+    if (
         owner != state.root_agent.logical_agent_id
         or operator != "invoke_model"
         or contract.format != OutputFormat.CHOICE
@@ -1603,6 +1749,10 @@ def _leading_declared_choice(contract: OutputContract, answer: str) -> str:
 
 
 def _validate_answer_contract(contract: OutputContract, answer: str) -> None:
+    if contract.canonical_labels is not None:
+        if answer not in contract.canonical_labels:
+            raise AgentLoopError("terminal answer violates the canonical-label output contract")
+        return
     if contract.format == OutputFormat.CHOICE:
         if contract.choices is None or answer not in contract.choices:
             raise AgentLoopError("terminal answer violates the choice output contract")

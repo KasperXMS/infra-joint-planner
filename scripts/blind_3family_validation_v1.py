@@ -195,6 +195,7 @@ def validate_harness(
         "qwen-infra-sanity-v1",
         "qwen-infra-sanity-v2",
         "qwen-infra-preliminary-v1",
+        "infra-aware-predecision-v1",
     }:
         errors.append("unexpected harness_id")
     if harness.profile_visibility != ProfileVisibility.BLIND.value:
@@ -205,6 +206,9 @@ def validate_harness(
         REPO / "src/infra_joint/control/native_agents.py"
     ):
         errors.append("native runtime source drift")
+    for relative_path, expected_hash in harness.runtime.get("component_sha256", {}).items():
+        if _sha256(REPO / relative_path) != expected_hash:
+            errors.append(f"runtime component source drift: {relative_path}")
     if harness.verifier.get("source_sha256") != _sha256(
         REPO / "src/infra_joint/control/verification.py"
     ):

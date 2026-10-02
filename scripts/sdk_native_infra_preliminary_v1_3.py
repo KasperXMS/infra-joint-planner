@@ -53,6 +53,7 @@ from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import LinkSpec
+from infra_joint.core.task import OutputContract, OutputFormat
 from infra_joint.evaluation.trace_audit import (
     summarize_concurrency,
     summarize_cost,
@@ -95,6 +96,7 @@ _SUPPORTED_HARNESS_IDS = frozenset(
         "qwen-infra-sanity-v1",
         "qwen-infra-sanity-v2",
         "qwen-infra-preliminary-v1",
+        "infra-aware-predecision-v1",
     }
 )
 
@@ -362,6 +364,28 @@ async def run_once(args: argparse.Namespace) -> None:
         raise RuntimeError("model-service timeout drift from frozen harness")
     base = _yaml(REPO / str(config["source_experiment_config"]))
     bundle, source_manifest = _load_bundle(config, base, args)
+    if harness.harness_id == "infra-aware-predecision-v1":
+        if harness.runtime.get("profile_timing") != "fresh_before_every_manager_turn":
+            raise RuntimeError("pre-decision profile timing drift")
+        if harness.runtime.get("record_input_provenance") is not True:
+            raise RuntimeError("pre-decision provenance recording drift")
+        if harness.runtime.get("terminal_canonical_labels") != ["Yes", "No"]:
+            raise RuntimeError("prospective terminal contract drift")
+        # Output serialization is prospectively declared, not inferred from private gold.
+        source_manifest["prospective_terminal_contract"] = {
+            "original_public_bundle_sha256": _public_bundle_digest(bundle),
+            "original_output_contract": bundle.execution.task.output_contract.model_dump(
+                mode="json"
+            ),
+            "canonical_labels": ["Yes", "No"],
+            "private_evaluator_unchanged": True,
+        }
+        task = bundle.execution.task.model_copy(update={
+            "output_contract": OutputContract(
+                format=OutputFormat.SHORT_TEXT, canonical_labels=("Yes", "No"),
+            ),
+        })
+        bundle = replace(bundle, execution=bundle.execution.model_copy(update={"task": task}))
     benchmark_environment = _environment(base, str(config["task"]), bundle)
     network = cast(dict[str, Any], config["network"])
     environment = benchmark_environment.model_copy(
@@ -447,6 +471,8 @@ async def run_once(args: argparse.Namespace) -> None:
                 registry=registry,
                 available_operations=operations,
                 enable_blind_verifier=True,
+                predecision_profiles=harness.harness_id == "infra-aware-predecision-v1",
+                record_input_provenance=harness.harness_id == "infra-aware-predecision-v1",
             ),
         )
         result = await runner.run(bundle, run_id=manifest.run_id)

@@ -1,4 +1,6 @@
+import subprocess
 import sys
+from hashlib import sha256
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -41,13 +43,28 @@ def frozen_components() -> tuple[object, EnvironmentSpec, object, tuple[str, ...
 
 def test_committed_blind_harness_v1_3_1_is_internally_consistent() -> None:
     harness, environment, capabilities, operations = frozen_components()
-    validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
+    validate_historical_harness(harness, environment, capabilities, operations)
+
+
+def validate_historical_harness(
+    harness: object, environment: EnvironmentSpec, capabilities: object,
+    operations: tuple[str, ...],
+) -> None:
+    # Historical freezes must reject a newly versioned runtime, not silently follow HEAD.
+    with pytest.raises(RuntimeError) as error:
+        validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
+    assert str(error.value) == "frozen Blind harness validation failed: native runtime source drift"
+    historical_source = subprocess.run(
+        ["git", "show", "597ac33:src/infra_joint/control/native_agents.py"],
+        cwd=REPO, check=True, capture_output=True,
+    ).stdout
+    assert sha256(historical_source).hexdigest() == harness.runtime["source_sha256"]  # type: ignore[attr-defined]
 
 
 def test_qwen_sanity_harness_changes_only_cloud_control_plane() -> None:
     previous, environment, capabilities, operations = frozen_components()
     qwen = load_harness(REPO / "configs/experiments/qwen-infra-sanity-v1.yaml")
-    validate_harness(qwen, environment, capabilities, operations)
+    validate_historical_harness(qwen, environment, capabilities, operations)
     previous_payload = previous.model_dump(mode="json")
     qwen_payload = qwen.model_dump(mode="json")
     for key in (
@@ -69,7 +86,7 @@ def test_qwen_sanity_harness_changes_only_cloud_control_plane() -> None:
 def test_qwen38max_sanity_harness_pins_non_thinking_tool_transport() -> None:
     previous, environment, capabilities, operations = frozen_components()
     qwen = load_harness(REPO / "configs/experiments/qwen-infra-sanity-v2.yaml")
-    validate_harness(qwen, environment, capabilities, operations)
+    validate_historical_harness(qwen, environment, capabilities, operations)
     previous_payload = previous.model_dump(mode="json")
     qwen_payload = qwen.model_dump(mode="json")
     for key in (
