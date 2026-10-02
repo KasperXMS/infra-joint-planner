@@ -1,183 +1,260 @@
-# SDK-native Infra-Aware Preliminary — Qwen v1
+# SDK-native Infra-Aware Preliminary — Qwen3.8-Max v1
 
 Date: 2026-10-02
 Branch: `open-ended-mas-preliminary-v1`
 
 ## Scope
 
-This block was opened to run a Qwen-cloud control plane independently from the
-existing DeepSeek pilot. The DeepSeek runs, statistics, and conclusions were not
-modified or combined with this block.
+This experiment block evaluates one frozen Qwen cloud control plane on:
 
-The required gate was one non-matrix Fast/Blind `multihop-multisource` sanity run.
-The formal Fast/Slow × Blind/Aware matrix was permitted only after that run proved
-the complete Manager → native tools → Verifier → synthesis → evaluator path.
+```text
+MultiHop multihop-multisource
+× Fast / Slow
+× Blind / Aware
+× n=3
+```
+
+The existing DeepSeek runs remain a separate pilot. No DeepSeek result is mixed
+into the Qwen statistics below. The earlier `qwen-plus-2025-12-01` diagnostic was
+the wrong candidate model; its evidence remains preserved, but it is excluded
+from this Qwen3.8-Max block.
 
 ## Qwen control-plane configuration
 
-The strong-4090 host already contained a `DASHSCOPE_API_KEY` credential and the
-following recorded OpenAI-compatible endpoint:
-
-```text
-https://llm-6tbxas81ayf65rd1.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
-```
-
-A read-only `GET /models` returned HTTP 200 and included the pinned snapshot
-`qwen-plus-2025-12-01`. That snapshot was selected instead of a moving alias. The
-[Alibaba Cloud model page](https://docs.modelstudio.console.alibabacloud.com/en/model-studio/qwen-plus)
-documents a 1,000,000-token context window and support for function calling and
-structured outputs for the Beijing service. The actual endpoint was then probed
-with synthetic, non-benchmark inputs:
-
-| Probe | Outcome | Finish reason | Latency |
-|---|---|---|---:|
-| ordinary function call | valid `echo_probe({"value":"ok"})` | `tool_calls` | 1,234.640 ms |
-| required Verifier-style function call | valid `submit_verification` JSON | `tool_calls` | 1,201.774 ms |
-
-The candidate sanity manifest therefore used:
+Both cloud roles used exactly:
 
 | Setting | Value |
 |---|---|
+| Manager | `qwen3.8-max` |
+| Blind Verifier | `qwen3.8-max` |
 | Provider | Alibaba Cloud Model Studio |
-| Manager model | `qwen-plus-2025-12-01` |
-| Verifier model | `qwen-plus-2025-12-01` |
-| Manager temperature | provider default (the frozen runtime does not set it) |
+| API | existing OpenAI-compatible Beijing endpoint |
+| Thinking mode | disabled with `enable_thinking=false` |
+| Manager temperature | provider default |
 | Verifier temperature | `0` |
-| Tool transport | OpenAI-compatible function tools |
-| Verifier transport | required function tool |
-| Client timeout | 180 seconds |
-| Client retries | 0 |
+| Client timeout / retries | 180 seconds / 0 |
 
-No key value was written to the repository or trace.
+The physical inference plane was not changed. A28 and strong-4090 continued to
+serve `qwen3.8-27b-q4km-v1` through Ollama with the frozen 32K/2048 contract.
+A4 and A5 remained operator-only Workers.
 
-## Compatibility wiring
+The endpoint's model listing contained `qwen3.8-max`. Synthetic compatibility
+probes established:
 
-Commit `603a8dd70458ebe4f40bf8f6aecddcb894002cff` added only:
+- ordinary native function calling succeeded (`finish_reason=tool_calls`);
+- required Verifier tool selection is rejected by Qwen thinking mode; and
+- the same required tool call succeeds when `enable_thinking=false`.
 
-- a provider-neutral key-file loader keyed by the harness `api_key_env`;
-- explicit admission of the Qwen sanity/future frozen harness IDs; and
-- the candidate Qwen sanity manifest and pinned run configuration.
-
-The Manager instructions, Verifier instructions/state machine, tool schemas,
-20/64/20 budget, benchmark adapter/evaluator, physical scheduler, profile
-abstraction, Worker implementation, and local Ollama deployments were unchanged.
-Tests prove that the candidate manifest differs from `blind-harness-v1.3.1` only
-in control-plane provenance/configuration fields.
-
-Validation before deployment:
-
-- full `pytest`: passed;
-- Ruff: passed;
-- targeted Qwen harness/config/key-loader tests: 23 passed;
-- configured Pyright was also run, but the local environment lacks the pre-existing
-  optional Pillow stubs and LangGraph dependency; its 21 diagnostics were confined
-  to `operators/media.py` and `planning/graph.py`, not this change.
+The only provider adapter therefore injects that frozen request option. It does
+not change Manager/Verifier instructions, task policy, tool schemas, budgets, or
+physical scheduling.
 
 ## Sanity validation
 
-The only sanity attempt was:
+The first deployment attempt at `b1d4e08` stopped before turn 1 because the
+provider adapter did not subclass the Agents SDK `Model` interface. It recorded
+zero Manager, tool, or model calls and is classified as an operational harness
+failure. The attempt is preserved and was not counted as a semantic result.
 
-| Field | Value |
-|---|---|
-| Run ID | `qwen-sanity-multihop-fast-blind-v1` |
-| Code revision | `603a8dd70458ebe4f40bf8f6aecddcb894002cff` |
-| Config SHA-256 | `3a8b7ad4dbf3e254481d355ef848989ed1a1e78051def4afa22ff4c82498e449` |
-| Candidate harness SHA-256 | `c926f78c3813004e46c57dfee087e11319c91ef6844ef1f3e376cea5b4b3f1e9` |
-| Task bundle SHA-256 | `54ef8ddbe4a3379254345f307b3f0ef6b95fe92e0b28ac4c89124bb6b7ebfe8e` |
-| Static capability SHA-256 | `8d46d9b941a08380a00fdab1e7c151c25affd589ec4444864f3c5c925a2089a4` |
-| Visibility | Blind |
-| Network | Fast: 100 Mbps + 5 ms |
-| Retry/replacement | none |
+The one permitted identical operational replacement used revision `b951ada` and
+completed the full control path:
 
-All four Worker stores were absent before startup and exposed zero artifacts at
-the preflight `/state`. A4/A5/A28/strong-4090 retained the same operator and
-deployment surfaces as the DeepSeek pilot. Benchmark files were read only on the
-strong-4090 host; none were downloaded or relayed through the development machine.
+| Run | Completion | Score | Manager / Verifier | Tool / model / inference | E2E | Action bytes |
+|---|---:|---:|---:|---:|---:|---:|
+| `qwen38max-sanity-multihop-fast-blind-replacement-1` | yes | 0 | 16 / 16 | 24 / 5 / 3 | 527.995 s | 5,204,596 |
 
-### Result
+The terminal answer was format-valid and the private evaluator ran. The score of
+zero is a valid semantic result, not a sanity-gate failure. Blind privacy passed.
 
-| Completion | Score / format | Manager / Verifier calls | Tool / model calls | Local inference | E2E | Initial / action bytes |
-|---|---|---:|---:|---:|---:|---:|
-| no — Manager-turn exhaustion | evaluator not invoked | 20 / 20 | 7 / 0 | 0 | 170,254.048 ms | 7,696,522 / 0 |
+Sanity provenance:
 
-The Qwen provider and SDK transport did work:
+- code revision: `b951adaa1c1f37648b277b0b25bbee06d0568088`;
+- sanity config SHA-256: `70a1a01c137b1e789581d9d84dd69f35c1b9b35c3126d8cfbb04b4b66989a829`;
+- sanity harness SHA-256: `3ee816c167495c8d669a53b7eea348218183b078af4931ee1200827acddcb322`;
+- task bundle SHA-256: `54ef8ddbe4a3379254345f307b3f0ef6b95fe92e0b28ac4c89124bb6b7ebfe8e`.
 
-- all 20 Manager calls returned normally;
-- all 20 Qwen Verifier calls returned schema-valid verdicts;
-- seven native BM25 actions crossed the ActionGateway and physical execution
-  service;
-- six BM25 actions succeeded and produced real artifacts; and
-- the Verifier returned `ready_for_synthesis` eight times, first at call 4.
+## Frozen protocol
 
-The compact final graph contains seven BM25 nodes (six succeeded, one failed). It
-contains no model node because no valid `invoke_model` action reached the graph.
+After sanity, `qwen-infra-preliminary-v1` was frozen with SHA-256:
 
-## Failure analysis
+```text
+23523cb2d8342b222df46af1cfdad1a43bc518eb5e9a7078b3a9dda4f2515c01
+```
 
-The primary failure is **workflow composition / artifact-reference misuse**, with
-hard Manager-turn exhaustion as the terminal condition. It is not a provider,
-wire-format, physical-runtime, context, evaluator, or network failure.
+Shared settings for all formal runs:
 
-The trajectory was:
+- SDK-native persistent Manager and bounded specialists-as-tools;
+- Blind Verifier;
+- budgets `20 Manager / 64 tool-model / 20 Verifier`;
+- identical task bundle, tool space, 32K/2048 physical deployments, scheduler,
+  benchmark adapter, evaluator, and initial placement;
+- Fast = 100 Mbps + 5 ms;
+- Slow = 3 Mbps + 50 ms;
+- fresh isolated Worker stores, one run, no retry/replacement per cell.
 
-1. Turn 1 used the invalid BM25 field `text`; the typed observation exposed that
-   the declared corpus field is `body`.
-2. Qwen recovered and produced successful Barbarian and Sorcerer retrievals.
-3. The runtime canonicalized each Manager-declared output alias under the run
-   namespace, for example:
+Blind received no physical profile. Aware received only anonymous
+`PhysicalProfileView`; raw worker, device, deployment, address, route, and private
+benchmark metadata remained unavailable to the logical layer.
 
-   ```text
-   requested alias: barbarian-guide-results-1
-   materialized ID: derived/091ea0bab7914ff8be94c9656edb2167/barbarian-guide-results-1
-   ```
+## MultiHop matrix
 
-4. On every synthesis attempt, Qwen supplied the short alias rather than the
-   exact materialized ID returned by the tool observation. The runtime correctly
-   rejected these calls as `artifact_not_materialized`.
-5. Qwen expanded retrieval across all three shards, and the Verifier repeatedly
-   confirmed that evidence was sufficient, but Qwen continued to reuse short
-   aliases. It never submitted a valid terminal `invoke_model` action.
-6. The unchanged 20-turn ceiling ended the run.
+`M/V` is Manager turns / Verifier calls. `T/M/I` is tool actions / declared model
+actions / model actions that actually reached inference. Transfer excludes the
+fixed 7,696,522-byte initial materialization.
 
-Observed typed failures were ten `artifact_not_materialized`, one BM25
-`validation_failed`, one output-ID collision `semantic_validation_failed`, and one
-`phase_restricted` call. None reached local model inference.
+| Condition | r | Completed | Score | E2E (s) | Action bytes | Transfer (s) | M/V | T/M/I | Graph N/E | Context failures |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Fast-Blind | 1 | yes | 0 | 166.909 | 5,204,596 | 1.821 | 14/14 | 25/2/1 | 27/16 | 1 |
+| Fast-Blind | 2 | yes | 0 | 238.937 | 5,204,596 | 3.067 | 4/4 | 3/1/1 | 4/4 | 0 |
+| Fast-Blind | 3 | yes | 0 | 99.892 | 5,204,596 | 1.632 | 7/7 | 8/2/1 | 10/9 | 1 |
+| Fast-Aware | 1 | yes | 0 | 228.002 | 112,712 | 0.473 | 9/9 | 19/2/1 | 21/29 | 1 |
+| Fast-Aware | 2 | yes | 0 | 194.482 | 5,204,596 | 1.428 | 5/5 | 3/1/1 | 4/4 | 0 |
+| Fast-Aware | 3 | yes | 0 | 123.737 | 57,351 | 0.182 | 5/5 | 14/2/1 | 16/18 | 1 |
+| Slow-Blind | 1 | yes | 0 | 1007.161 | 79,650 | 1.174 | 15/15 | 23/7/6 | 30/18 | 1 |
+| Slow-Blind | 2 | yes | 1 | 186.445 | 5,204,596 | 14.842 | 8/8 | 8/2/1 | 10/10 | 1 |
+| Slow-Blind | 3 | yes | 0 | 310.232 | 5,204,596 | 14.945 | 11/11 | 7/2/1 | 9/10 | 1 |
+| Slow-Aware | 1 | yes | 0 | 193.064 | 5,204,596 | 15.044 | 7/7 | 5/2/1 | 7/8 | 1 |
+| Slow-Aware | 2 | no | — | 654.509 | 171,085 | 3.284 | 20/20 | 33/6/4 | 39/37 | 2 |
+| Slow-Aware | 3 | yes | 0 | 232.591 | 5,204,596 | 14.817 | 4/4 | 3/1/1 | 4/4 | 0 |
 
-This is not safely repairable as a provider wire adapter. Making the run pass would
-require at least one prohibited semantic/harness change, such as changing the
-Manager instructions to emphasize canonical returned IDs or silently resolving
-short aliases to namespaced artifacts. The latter would be hidden action repair
-and would change the frozen harness semantics for all providers.
+Slow-Aware r2 exhausted the frozen 20-turn Manager budget after extensive legal
+retrieval/reduction/model activity. It is an eligible workflow/stopping failure,
+not an operational failure, and was neither retried nor replaced.
 
-## Isolation and cleanup
+## Aggregate results
 
-- Blind logical privacy scan passed: no worker/device/deployment identity, IP,
-  placement, `source_ref`, evaluator ID, gold, or supporting evidence appeared in
-  logical events.
-- `tc` applied the declared Fast regime and restored A4/A5/A28 to `mq` and
-  strong-4090 to `noqueue`.
-- `cleanup_error` is null.
-- All four isolated Workers were stopped after evidence persistence.
-- Fresh stores, Worker logs, full trace, result, freeze manifest, and tc
-  attestation remain preserved on strong-4090 under
-  `/home/super/xiaoming/sdk-native-infra-qwen-v1-603a8dd/`.
+| Condition | Completion | Scores | Mean / median E2E | Mean / median action bytes |
+|---|---:|---|---:|---:|
+| Fast-Blind | 3/3 | 0, 0, 0 | 168.579 / 166.909 s | 5,204,596 / 5,204,596 |
+| Fast-Aware | 3/3 | 0, 0, 0 | 182.073 / 194.482 s | 1,791,553 / 112,712 |
+| Slow-Blind | 3/3 | 0, 1, 0 | 501.279 / 310.232 s | 3,496,281 / 5,204,596 |
+| Slow-Aware | 2/3 | 0, —, 0 | 360.055 / 232.591 s | 3,526,759 / 5,204,596 |
 
-## Stop decision
+Relative to Blind:
 
-The P0 sanity gate did **not** pass because synthesis and evaluator invocation were
-not reached. This valid trajectory is not eligible for an operational replacement.
-No prompt/model/budget/tool/runtime semantic setting was changed, and no second
-sanity attempt was made.
+- Fast-Aware reduced mean action traffic by 65.6% and median traffic by 97.8%,
+  but mean E2E was 8.0% higher and median E2E was 16.5% higher.
+- Slow-Aware mean E2E was 28.2% lower and median E2E was 25.0% lower, while mean
+  traffic was 0.9% higher and median traffic was unchanged. Completion fell from
+  3/3 to 2/3.
 
-Consequently:
+These n=3 values are descriptive only. The long-tail trajectories and the one
+Aware budget failure preclude a claim that Aware improves end-to-end performance
+while preserving completion/quality.
 
-- `qwen-infra-preliminary-v1` was not frozen;
-- no formal MultiHop 4-cell run was started;
-- no n=3 extension, LongBench, or Video-MME cell was started; and
-- the DeepSeek pilot remains unchanged and statistically separate.
+## Workflow signatures
 
-The current evidence supports only this conclusion: the selected Qwen cloud model
-is transport-compatible and can drive native tools and the structured Blind
-Verifier, but under the frozen v1.3.1 semantics this one sanity trajectory did not
-complete because it repeatedly failed to reuse canonical materialized artifact
-identifiers.
+All formal runs used sequential native action batches (`parallel_batches=0`).
+Compact final-graph operator counts were:
+
+| Condition | r | Workflow signature |
+|---|---:|---|
+| Fast-Blind | 1 | BM25 18, read 6, aggregate 1, model 2 |
+| Fast-Blind | 2 | BM25 2, aggregate 1, model 1 |
+| Fast-Blind | 3 | BM25 4, read 3, aggregate 1, model 2 |
+| Fast-Aware | 1 | BM25 8, filter 6, select 2, read 1, aggregate 2, model 2 |
+| Fast-Aware | 2 | BM25 2, aggregate 1, model 1 |
+| Fast-Aware | 3 | BM25 9, read 3, aggregate 2, model 2 |
+| Slow-Blind | 1 | BM25 21, read 2, model 7 |
+| Slow-Blind | 2 | BM25 6, aggregate 2, model 2 |
+| Slow-Blind | 3 | BM25 4, select 2, aggregate 1, model 2 |
+| Slow-Aware | 1 | BM25 4, aggregate 1, model 2 |
+| Slow-Aware | 2 | BM25 20, select 6, top-k 2, filter 1, read 2, aggregate 2, model 6 |
+| Slow-Aware | 3 | BM25 2, aggregate 1, model 1 |
+
+The physical scheduler selected the A28 Qwen3.8-27B deployment for every model
+action that reached inference. This is a physical-layer decision, not a deployment
+identifier exposed to Blind/Aware logical prompts.
+
+## Infrastructure-response observations
+
+The Aware trajectories did receive and react within an anonymous profile-bearing
+control loop. Successful Aware traces recorded `fast`, `local`, or `constrained`
+network classes without identities. The raw Slow-Aware r2 trace also contains a
+`constrained` profile on its logical observations. Its compact `summary.json`
+reports zero profile observations because the summarizer reads the returned loop
+object, which is absent on loop failure; this is a post-run summary undercount,
+not missing Manager input. The reconstructable JSONL trace is authoritative.
+
+Infrastructure visibility produced materially different workflows, but the
+response was not systematic across replicates:
+
+- low-traffic reduction appeared in Fast-Aware r1/r3 but not r2;
+- it appeared in Slow-Aware r2, where over-expansion exhausted the turn budget,
+  but not in Slow-Aware r1/r3;
+- simple full-movement workflows occurred under both Fast and Slow; and
+- within-condition workflow variance was comparable to or larger than the
+  between-network difference.
+
+Therefore the experiment does **not** establish a stable implication
+`H_fast != H_slow -> W_aware,fast != W_aware,slow`. It does establish that the
+open-ended Qwen control plane can produce both aggressive reduction and full-data
+paths, and that those choices have large execution consequences.
+
+## Quality
+
+The original evaluator was used unchanged. One run scored 1.0; ten completed
+runs scored 0.0; one run did not reach evaluation. Several zero-score terminal
+answers were format-valid prose beginning with an affirmative answer, while the
+only score-1 output was the short answer `Yes`. This observed evaluator sensitivity
+means the scores are reported exactly as produced but should not be reinterpreted
+as a calibrated measure of explanatory semantic quality. No post-hoc extraction,
+gold access, or evaluator modification was applied.
+
+## Operational and integrity audit
+
+- Formal provider failures: 0/12.
+- Formal tc cleanup failures: 0/12.
+- Formal exact qdisc restorations: 12/12.
+- Formal logical privacy passes: 12/12.
+- Fresh store contamination: none observed.
+- Retries/replacements in the formal matrix: 0.
+- Worker processes were stopped after every cell and after the final run.
+- Final native qdisc: A4/A5/A28 `mq`; strong-4090 `noqueue`.
+- Full result and JSONL trace exist for every completed and failed formal run.
+
+Durable evidence remains on strong-4090 at:
+
+```text
+# Wrong qwen-plus candidate, excluded
+/home/super/xiaoming/sdk-native-infra-qwen-v1-603a8dd/
+
+# Qwen3.8-Max sanity operational failure and replacement
+/home/super/xiaoming/sdk-native-infra-qwen38max-v1-b1d4e08/evidence/sanity/
+/home/super/xiaoming/sdk-native-infra-qwen38max-v1-b951ada/evidence/sanity-replacement-1/
+
+# Formal Qwen3.8-Max matrix
+/home/super/xiaoming/sdk-native-infra-qwen38max-v1-73a1250/evidence/matrix-r1/
+/home/super/xiaoming/sdk-native-infra-qwen38max-v1-fd7acb6/evidence/matrix-r2/
+/home/super/xiaoming/sdk-native-infra-qwen38max-v1-fd7acb6/evidence/matrix-r3/
+```
+
+Each formal cell contains its freeze manifest, private evaluator inputs, result,
+full JSONL trace, summary, Worker-store provenance, and tc attestation. Benchmark
+datasets remained on strong-4090 and were never relayed through the development
+machine.
+
+## Comparison with the DeepSeek pilot
+
+The DeepSeek n=1 pilot previously showed lower E2E and traffic for Slow-Aware
+than Slow-Blind. The independent Qwen block also has lower Slow-Aware mean/median
+E2E, but it does not reproduce a stable traffic reduction and includes one Aware
+budget failure. These are separate experiment blocks and are not pooled.
+
+## Preliminary interpretation and stop decision
+
+The corrected Qwen model is **`qwen3.8-max` for both cloud Manager and Verifier**.
+It successfully drove the frozen SDK-native harness through the sanity gate and
+the complete 12-run MultiHop preliminary.
+
+The main finding is mixed:
+
+1. infrastructure-aware observations can coincide with large workflow and traffic
+   changes;
+2. those changes are not consistently aligned with Fast versus Slow;
+3. workflow stochasticity and local-model service latency dominate several cells;
+4. Aware does not yet preserve completion and quality while consistently lowering
+   cost.
+
+The requested MultiHop n=3 block is complete. No LongBench, Video-MME, additional
+provider, prompt tuning, or method change was started after this audit.
