@@ -28,12 +28,14 @@ any Manager call. Per-cell evidence:
 `evidence/<task>-<condition>/primary/{freeze,private,runs,tc-attestation.json,...}`.
 All four fresh Worker roots are independently namespaced per attempt.
 
-Queue PID at launch: **358408** (`queue-launch.json`). Never infer liveness from this
-file: verify `/proc/358408/cmdline` and `queue.jsonl` before waiting or restarting.
+Initial queue PID: **358408** (`queue-launch.json`); it exited at the fourth
+cell's operational audit gate. The authorized identical replacement was launched
+as PID **453741**. Never infer liveness from launch records: verify `/proc/<pid>/cmdline`
+and `queue.jsonl` before waiting or restarting.
 The queue stops at the first operational audit gate; no automatic semantic retry,
 replacement, prompt change or budget expansion. See exception policy in protocol.
 
-Read-only scalar audit snapshots are stored remotely, e.g. `audit-progress-002.json`.
+Read-only audit snapshots are stored remotely, e.g. `audit-progress-005.json`.
 Audit tool revision does not change frozen runtime/code/config or cell results.
 
 ## Partial result
@@ -41,6 +43,15 @@ Audit tool revision does not change frozen runtime/code/config or cell results.
 | Task | Condition | Completed / evaluated | Answer / score | E2E s | Action bytes | Model inferences | Manager / Verifier |
 | --- | --- | --- | --- | ---: | ---: | ---: | --- |
 | Financial `66f7c780bb02136c067c35e8` | Fast-Blind | yes / yes | A / 0.0 | 406.653 | 265,938 | 2 | 20 / 20 |
+| Same task | Fast-Aware | yes / yes | A / 0.0 | 318.058 | 486,264 | 2 | 10 / 10 |
+| Same task | Slow-Blind | yes / yes | A / 0.0 | 278.919 | 141,047 | 1 | 14 / 14 |
+| Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
+
+The first three are clean retained semantic quality failures. Fourth primary
+is preserved but excluded: one A4 observer transport disconnect changed the actual
+turn-6 Aware profile candidate count from four to three. Its identical operational
+replacement is pending; do not compare the excluded primary as a clean Aware result.
+See [exception audit](predecision-crossbenchmark-failure-audit-v1.md).
 
 First cell passed profile isolation, input/Verifier hash reconstruction, terminal
 answer provenance, all 320 Worker probes, artifact persistence and tc restoration.
@@ -51,8 +62,12 @@ not counted as inference. Physical model service work 113.943 s, action transfer
 work 3.760 s, Manager work 163.616 s, Verifier work 88.344 s; sums are non-additive.
 Initial placement separately moved 1,081,150 representation bytes in 0.387 s.
 
-Second cell (Financial Fast-Aware) is running as of this update. No remaining-cell
-outcome, family aggregate, stability, cost-rationality or cross-benchmark claim yet.
+Fast-Aware independently passed 10/10 pre-decision profile/input hashes and 216
+Worker probes; Slow-Blind passed 14 Manager input hashes and 208 probes. Their
+terminal provenance, persistence, privacy and tc restoration checks pass.
+No complete task/family aggregate, stability, cost-rationality or cross-benchmark
+claim yet. Sequential continuation will use the unchanged frozen cell entry point
+only for the twenty unexecuted cells, after the replacement passes audit.
 
 ## Pending final analysis
 
@@ -68,8 +83,12 @@ The unattended goal remains active.
 
 ## Offline verification
 
-Cross-benchmark admission and queue instrumentation: full pytest **426 passed**,
+Cross-benchmark admission, continuation and audit tooling: full pytest **431 passed**,
 Ruff passed, strict Pyright **0 errors / 0 warnings**, `git diff --check` passed.
-The deployed execution commit's initial suite had 424 passing tests; the two
-additional tests cover read-only audit provenance and the contract alias round-trip.
+Strict Pyright explicitly uses `.venv/Scripts/python.exe` on this workstation;
+unqualified invocation selected an unrelated interpreter and could not find installed
+LangGraph/Pillow typing dependencies. No runtime code change was needed.
+The deployed execution commit's initial suite had 424 passing tests; subsequent
+tests cover audit provenance, contract aliases, replacement eligibility and fail-closed
+suffix continuation.
 No running cell's frozen code or semantic behavior was changed by audit tooling.

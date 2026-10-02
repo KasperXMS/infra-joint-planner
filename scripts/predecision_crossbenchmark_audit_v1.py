@@ -22,6 +22,17 @@ def action_operator(action: dict[str, Any]) -> str:
     return "invoke_model" if action["action_type"] == "model" else action["operator"]
 
 
+def effective_attempt(records: list[dict[str, Any]]) -> dict[str, Any] | None:
+    """Quality is not an eligibility gate; operationally confounded attempts are retained."""
+    clean = [r for r in records if not r["validation"]["problems"]
+             and not r["probe_errors"] and r["persistence"]["pass"]
+             and r["provenance"]["pass"] and r["summary"]["logical_privacy_pass"]
+             and r["terminal_answer_provenance_pass"] is not False]
+    if len(clean) > 1:
+        raise ValueError("multiple clean attempts for one n=1 cell require protocol audit")
+    return clean[0] if clean else None
+
+
 def provenance_checks(events: list[dict[str, Any]], visibility: str) -> dict[str, Any]:
     profiles = {e["payload"]["decision_id"]: (i, e["payload"]["profile"])
                 for i, e in enumerate(events) if e["event_type"] == "logical.profile.predecision"}
@@ -130,6 +141,7 @@ def audit_cell(directory: Path) -> dict[str, Any]:
         ),
     }
     return {
+        "attempt": directory.name,
         "run_id": result["run_id"], "task_label": freeze["task_label"],
         "task_id": result["task_id"], "benchmark": result["benchmark_id"],
         "condition": freeze["network_regime"] + "-" + freeze["profile_visibility"],
@@ -169,20 +181,36 @@ def main() -> None:
     args = parser.parse_args()
     protocol = _yaml(args.root / "app/configs/experiments/predecision-crossbenchmark-v1.yaml")
     records = []
+    attempts = []
+    effective = []
     missing = []
+    unresolved = []
     for row in protocol["tasks"]:
         for condition in CONDITIONS:
             cell = f"{row['label']}-{condition}"
-            directory = args.root / "evidence" / cell / "primary"
-            if not (directory / "lightweight-validation.json").exists():
+            parent = args.root / "evidence" / cell
+            cell_attempts = [audit_cell(parent / attempt) for attempt in (
+                "primary", "operational-replacement-1",
+            ) if (parent / attempt / "lightweight-validation.json").exists()]
+            attempts.extend(cell_attempts)
+            primary = next((r for r in cell_attempts if r["attempt"] == "primary"), None)
+            if primary is None:
                 missing.append(cell)
-                continue
-            records.append(audit_cell(directory))
-    if args.require_complete and missing:
-        raise RuntimeError(f"matrix incomplete: {missing}")
+            else:
+                records.append(primary)
+            selected = effective_attempt(cell_attempts)
+            if selected is None:
+                unresolved.append(cell)
+            else:
+                effective.append(selected)
+    if args.require_complete and (missing or unresolved):
+        raise RuntimeError(f"matrix incomplete or confounded: {unresolved}")
     write_new(args.output, {"audit_source_sha256": _sha256(Path(__file__)),
-                            "records": records, "missing_primary_cells": missing})
-    print(json.dumps({"audited_primary_cells": len(records), "missing": len(missing)}))
+                            "records": records, "attempt_records": attempts,
+                            "effective_records": effective,
+                            "missing_primary_cells": missing, "unresolved_cells": unresolved})
+    print(json.dumps({"audited_primary_cells": len(records), "audited_attempts": len(attempts),
+                      "clean_cells": len(effective), "unresolved": len(unresolved)}))
 
 
 if __name__ == "__main__":
