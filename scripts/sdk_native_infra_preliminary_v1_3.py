@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import re
 from contextlib import AsyncExitStack
 from pathlib import Path
@@ -77,6 +78,36 @@ class InfraPreliminaryCellFreeze(ContractModel):
     repetitions: int
     retry: bool
     replacement: bool
+
+
+_SUPPORTED_HARNESS_IDS = frozenset(
+    {
+        "blind-harness-v1.3",
+        "blind-harness-v1.3.1",
+        "qwen-infra-sanity-v1",
+        "qwen-infra-preliminary-v1",
+    }
+)
+
+
+def _load_control_plane_key(path: Path, environment_variable: str) -> None:
+    """Load the configured provider key without assuming a DeepSeek control plane."""
+    if os.environ.get(environment_variable):
+        return
+    assignments: list[str] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped.startswith(f"{environment_variable}="):
+            assignments.append(stripped.split("=", 1)[1].strip().strip("\"'"))
+    if len(assignments) == 1 and assignments[0]:
+        os.environ[environment_variable] = assignments[0]
+        return
+    if environment_variable == "DEEPSEEK_API_KEY":
+        _load_key(path)
+        return
+    raise RuntimeError(
+        f"API key file must contain exactly one {environment_variable} assignment"
+    )
 
 
 def _validate_config(config: dict[str, Any]) -> None:
@@ -261,15 +292,18 @@ def _compact_trace(
 
 async def run_once(args: argparse.Namespace) -> None:
     validate_runtime_import_root()
-    if args.api_key_file is not None:
-        _load_key(args.api_key_file)
     config = _yaml(args.config)
     _validate_config(config)
     harness_path = REPO / str(config["harness_manifest"])
     _validate_harness_manifest_hash(config, harness_path)
     harness = load_harness(harness_path)
-    if harness.harness_id not in {"blind-harness-v1.3", "blind-harness-v1.3.1"}:
-        raise RuntimeError("preliminary requires a frozen blind-harness-v1.3 contract")
+    if harness.harness_id not in _SUPPORTED_HARNESS_IDS:
+        raise RuntimeError("preliminary requires a supported frozen harness contract")
+    if args.api_key_file is not None:
+        _load_control_plane_key(
+            args.api_key_file,
+            str(harness.manager["api_key_env"]),
+        )
     if _model_service_timeout_seconds(config) != harness.model_service_timeout_seconds:
         raise RuntimeError("model-service timeout drift from frozen harness")
     base = _yaml(REPO / str(config["source_experiment_config"]))

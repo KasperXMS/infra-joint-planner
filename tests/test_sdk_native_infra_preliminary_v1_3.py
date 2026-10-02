@@ -1,16 +1,23 @@
 import json
+import os
 import sys
 from pathlib import Path
 
+import pytest
 import yaml
 
 SCRIPTS = Path(__file__).parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-from blind_3family_validation_v1 import REPO, _yaml  # noqa: E402
+from blind_3family_validation_v1 import (  # noqa: E402
+    REPO,
+    _validate_harness_manifest_hash,
+    _yaml,
+)
 from prepare_sdk_native_infra_worker_v1_3 import prepare  # noqa: E402
 from sdk_native_infra_preliminary_v1_3 import (  # noqa: E402
     _compact_trace,
+    _load_control_plane_key,
     _validate_config,
 )
 
@@ -139,3 +146,34 @@ def test_trace_projection_reads_profiles_from_persisted_observations(
 
     assert summary["physical_profile_observations"] == 1
     assert summary["observed_network_classes"] == ["constrained"]
+
+
+def test_qwen_sanity_config_is_pinned_to_existing_provider_contract() -> None:
+    config = _yaml(
+        REPO / "configs/experiments/sdk-native-infra-qwen-v1-sanity.yaml"
+    )
+    _validate_config(config)
+    harness_path = REPO / str(config["harness_manifest"])
+    _validate_harness_manifest_hash(config, harness_path)
+    assert harness_path.name == "qwen-infra-sanity-v1.yaml"
+    assert config["profile_visibility"] == "blind"
+    assert config["network"] == {
+        "regime": "fast",
+        "bandwidth_mbps": 100,
+        "added_rtt_ms": 5,
+    }
+    assert len(set(config["fresh_worker_stores"].values())) == 4
+
+
+def test_control_plane_key_loader_uses_configured_provider_key(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    key_file = tmp_path / "keys.env"
+    key_file.write_text(
+        "DASHSCOPE_API_KEY=qwen-secret\nDeepSeek API Key: deepseek-secret\n",
+        encoding="utf-8",
+    )
+    monkeypatch.delenv("DASHSCOPE_API_KEY", raising=False)
+    _load_control_plane_key(key_file, "DASHSCOPE_API_KEY")
+    assert os.environ["DASHSCOPE_API_KEY"] == "qwen-secret"

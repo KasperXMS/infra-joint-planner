@@ -44,6 +44,28 @@ def test_committed_blind_harness_v1_3_1_is_internally_consistent() -> None:
     validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
 
 
+def test_qwen_sanity_harness_changes_only_cloud_control_plane() -> None:
+    previous, environment, capabilities, operations = frozen_components()
+    qwen = load_harness(REPO / "configs/experiments/qwen-infra-sanity-v1.yaml")
+    validate_harness(qwen, environment, capabilities, operations)
+    previous_payload = previous.model_dump(mode="json")
+    qwen_payload = qwen.model_dump(mode="json")
+    for key in (
+        "harness_id",
+        "frozen_from_revision",
+        "positive_baseline_run_id",
+        "manager",
+        "verifier",
+    ):
+        previous_payload.pop(key)
+        qwen_payload.pop(key)
+    assert qwen_payload == previous_payload
+    assert qwen.manager["model"] == qwen.verifier["model"]
+    assert qwen.manager["api_key_env"] == "DASHSCOPE_API_KEY"
+    assert qwen.manager["max_retries"] == 0
+    assert qwen.verifier["result_transport"] == "required_function_tool"
+
+
 def test_blind_harness_v1_2_changes_only_generic_budget() -> None:
     previous = load_harness(REPO / "configs/experiments/blind-harness-v1.1.yaml")
     current = load_harness(REPO / "configs/experiments/blind-harness-v1.2.yaml")
