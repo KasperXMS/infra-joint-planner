@@ -226,6 +226,38 @@ def test_qwen38max_r1_matrix_is_preregistered(
     }
 
 
+@pytest.mark.parametrize("replicate", [2, 3])
+@pytest.mark.parametrize(
+    ("condition", "visibility"),
+    [
+        ("fast-blind", "blind"),
+        ("fast-aware", "aware"),
+        ("slow-blind", "blind"),
+        ("slow-aware", "aware"),
+    ],
+)
+def test_qwen38max_followup_matrix_is_preregistered(
+    replicate: int,
+    condition: str,
+    visibility: str,
+) -> None:
+    config = _yaml(
+        REPO
+        / (
+            "configs/experiments/"
+            f"sdk-native-infra-qwen38max-v1-{condition}-r{replicate}.yaml"
+        )
+    )
+    _validate_config(config)
+    _validate_harness_manifest_hash(
+        config,
+        REPO / str(config["harness_manifest"]),
+    )
+    assert config["replicate_id"] == replicate
+    assert config["profile_visibility"] == visibility
+    assert f"matrix-r{replicate}" in config["fresh_worker_stores"]["A4"]
+
+
 @pytest.mark.asyncio
 async def test_model_request_body_adapter_injects_provider_option() -> None:
     captured: dict[str, object] = {}
