@@ -912,6 +912,51 @@ async def test_aware_manager_shares_blind_verifier_without_profile_leakage() -> 
     assert "network_class" not in json.dumps(verifier.contexts[0].model_dump(mode="json"))
 
 
+@pytest.mark.asyncio
+@pytest.mark.parametrize("visibility", [ProfileVisibility.BLIND, ProfileVisibility.AWARE])
+async def test_initial_native_input_has_no_profile_and_tool_feedback_arrives_next_turn(
+    visibility: ProfileVisibility,
+) -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    runtime, gateway = runtime_and_gateway(task, physical, ("read_artifact", "invoke_model"))
+    sink = MemorySink()
+    inspected_inputs: list[dict[str, object]] = []
+
+    async def behavior(agent: FakeAgent, input_text: str, context: object, hooks: object) -> str:
+        initial = json.loads(input_text)
+        assert set(initial) == {"task", "static_capability_contract"}
+        assert "physical_profile" not in input_text
+        assert not physical.actions
+        inspected_inputs.append(initial)
+        await hooks.on_llm_start(context, agent, None, [{"role": "user", "content": input_text}])
+        await reasoning_end(hooks, context, agent)
+        observation = await tool(agent, "read_artifact").on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        assert ("physical_profile" in json.loads(observation)) == (
+            visibility == ProfileVisibility.AWARE
+        )
+        inspected_inputs.append(json.loads(observation))
+        await hooks.on_llm_start(context, agent, None, [
+            {"type": "function_call_output", "output": observation},
+        ])
+        await reasoning_end(hooks, context, agent)
+        await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return only A."}}),
+        )
+        return "A"
+
+    FakeRunner.behavior = behavior
+    await runtime.run(task, gateway, profile_visibility=visibility,
+                      trace=WorkflowTraceRecorder("profile-timing", sink))
+    assert "physical_profile" not in json.dumps(inspected_inputs[0])
+    assert ("physical_profile" in inspected_inputs[1]) == (visibility == ProfileVisibility.AWARE)
+    assert physical.expose_profile_values == [visibility == ProfileVisibility.AWARE] * 2
+
+
 def continue_verdict(reason: str = "more evidence is required") -> VerificationResult:
     return VerificationResult(
         status="continue",

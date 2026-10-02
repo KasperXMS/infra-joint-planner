@@ -53,6 +53,11 @@ from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import LinkSpec
+from infra_joint.evaluation.trace_audit import (
+    summarize_concurrency,
+    summarize_cost,
+    summarize_profiles,
+)
 from infra_joint.operators.catalog import build_operator_catalog
 
 
@@ -266,7 +271,6 @@ def _compact_trace(
         for line in path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     ]
-    profiles: list[dict[str, Any]] = []
     action_transfer_bytes = 0
     action_transfer_latency_ms = 0.0
     trace_e2e_latency_ms: float | None = None
@@ -292,19 +296,15 @@ def _compact_trace(
                     action_transfer_bytes += raw_bytes
                 if isinstance(raw_duration, int | float):
                     action_transfer_latency_ms += float(raw_duration)
-    if result is not None:
-        loop = result.get("loop")
+    profile_events = events
+    # Compatibility for old, incomplete traces; never override an actual JSONL observation.
+    if not any(e.get("event_type") == "logical.observation" for e in events):
+        loop = None if result is None else result.get("loop")
         if isinstance(loop, dict):
-            observations = cast(dict[str, Any], loop).get("observations", [])
-            if isinstance(observations, list):
-                for raw_observation in observations:
-                    if not isinstance(raw_observation, dict):
-                        continue
-                    profile = cast(dict[str, Any], raw_observation).get(
-                        "physical_profile"
-                    )
-                    if isinstance(profile, dict):
-                        profiles.append(cast(dict[str, Any], profile))
+            profile_events = [
+                {"event_type": "logical.observation", "payload": item}
+                for item in loop.get("observations", []) if isinstance(item, dict)
+            ]
     logical_text = json.dumps(
         [event for event in events if str(event.get("event_type", "")).startswith("logical.")],
         ensure_ascii=False,
@@ -334,10 +334,10 @@ def _compact_trace(
         "reached_model_inference": extra["reached_model_inference"],
         "logical_privacy_pass": extra["logical_privacy_pass"] and not identities,
         "logical_identity_findings": identities,
-        "physical_profile_observations": len(profiles),
-        "observed_network_classes": sorted(
-            {str(item["network_class"]) for item in profiles}
-        ),
+        **summarize_profiles(profile_events),
+        "profile_summary_source": "jsonl" if profile_events is events else "result-loop-fallback",
+        **summarize_concurrency(events),
+        "cost_decomposition": summarize_cost(events),
         "trace_e2e_latency_ms": trace_e2e_latency_ms,
         "trace_action_transfer_bytes": action_transfer_bytes,
         "trace_action_transfer_latency_ms": action_transfer_latency_ms,

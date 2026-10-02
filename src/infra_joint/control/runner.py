@@ -34,6 +34,7 @@ from infra_joint.core.base import ContractModel
 from infra_joint.core.task import TaskContract
 from infra_joint.evaluation.evaluator import EvaluationResult
 from infra_joint.evaluation.trace import JsonlTraceWriter
+from infra_joint.infrastructure.diagnostics import JsonlObserverDiagnostics
 from infra_joint.infrastructure.observer import LiveWorkerObserver
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
@@ -166,7 +167,16 @@ class ControlPlaneBenchmarkRunner:
                     trace.emit(
                         "artifact.materialize.end", transfer.model_dump(mode="json")
                     )
-                observer = LiveWorkerObserver(self._config.environment, clients)
+                observer = LiveWorkerObserver(
+                    self._config.environment,
+                    clients,
+                    diagnostic_sink=JsonlObserverDiagnostics(
+                        run_directory / "private" / "observer-diagnostics.jsonl"
+                    ),
+                    expected_artifact_ids=tuple(
+                        item.artifact_id for item in bundle.execution.task.artifacts
+                    ),
+                )
                 physical = PhysicalExecutionService(
                     registry,
                     self._config.environment,

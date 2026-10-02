@@ -150,6 +150,31 @@ def test_trace_projection_reads_profiles_from_persisted_observations(
     assert summary["observed_network_classes"] == ["constrained"]
 
 
+def test_failed_trace_profile_is_authoritative_with_loop_none(tmp_path: Path) -> None:
+    trace = tmp_path / "trace.jsonl"
+    events = [
+        {
+            "event_type": "logical.observation",
+            "timestamp": "2026-10-02T00:00:00Z",
+            "payload": {
+                "succeeded": False, "failure_code": "missing_input",
+                "physical_profile": {
+                    "network_class": "constrained", "service_latency_ms_range": None,
+                },
+            },
+        },
+        {
+            "event_type": "run.failed", "timestamp": "2026-10-02T00:00:01Z",
+            "payload": {"e2e_latency_ms": 1000},
+        },
+    ]
+    trace.write_text("\n".join(json.dumps(e) for e in events) + "\n", encoding="utf-8")
+    summary = _compact_trace(trace, {"loop": None})
+    assert summary["physical_profile_observations"] == 1
+    assert summary["profile_summary_source"] == "jsonl"
+    assert summary["unknown_service_profiles"] == 1
+
+
 def test_qwen_sanity_config_is_pinned_to_existing_provider_contract() -> None:
     config = _yaml(
         REPO / "configs/experiments/sdk-native-infra-qwen-v1-sanity.yaml"

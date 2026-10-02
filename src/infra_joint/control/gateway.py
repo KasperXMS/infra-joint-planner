@@ -7,6 +7,7 @@ from uuid import uuid4
 from infra_joint.control.contracts import LogicalAction, PhysicalProfileView
 from infra_joint.control.physical import PhysicalExecutionOutcome, PhysicalExecutionService
 from infra_joint.control.validation import SemanticActionValidator
+from infra_joint.infrastructure.diagnostics import observer_diagnostic_scope
 
 
 class ActionGateway(Protocol):
@@ -57,22 +58,23 @@ class RuntimeActionGateway:
             PhysicalExecutionService,
         ):
             return await self._execute_legacy_test_double(actions, expose_profile=expose_profile)
-        before = await self._physical.observe_infrastructure()
-        prepared = self._physical.prepare_batch(
-            actions,
-            before,
-            batch_id=str(uuid4()),
-            expose_profile=expose_profile,
-        )
-        outcomes = tuple(
-            await asyncio.gather(
-                *(
-                    self._physical.execute_prepared(item, before)
-                    for item in prepared
+        with observer_diagnostic_scope(tuple(action.action_id for action in actions)):
+            before = await self._physical.observe_infrastructure()
+            prepared = self._physical.prepare_batch(
+                actions,
+                before,
+                batch_id=str(uuid4()),
+                expose_profile=expose_profile,
+            )
+            outcomes = tuple(
+                await asyncio.gather(
+                    *(
+                        self._physical.execute_prepared(item, before)
+                        for item in prepared
+                    )
                 )
             )
-        )
-        after = await self._physical.observe_infrastructure()
+            after = await self._physical.observe_infrastructure()
         outcomes = tuple(
             item.model_copy(update={"infrastructure_after": after}) for item in outcomes
         )

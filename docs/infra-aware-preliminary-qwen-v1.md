@@ -258,3 +258,13 @@ The main finding is mixed:
 
 The requested MultiHop n=3 block is complete. No LongBench, Video-MME, additional
 provider, prompt tuning, or method change was started after this audit.
+
+## Subsequent trace audit note — 2026-10-02
+
+The original tables, raw scores and interpretations above are preserved as historical
+analysis. [Qwen MultiHop Trace Audit v1](qwen-multihop-trace-audit-v1.md) corrects
+the all-sequential interpretation, separates nine affirmative serialization/metric
+mismatches from the wrong-negative trajectory, flags two physical-observer
+confounders, and establishes that first Aware actions precede profile delivery.
+Its canonical yes/no scores are secondary post-hoc audit metrics, not revised
+original benchmark scores. No formal run was repeated or historical result overwritten.
