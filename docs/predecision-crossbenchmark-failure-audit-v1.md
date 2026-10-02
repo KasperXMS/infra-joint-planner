@@ -123,6 +123,14 @@ cover the fixed non-private payload, evidence no-overwrite guard and explicit
 synthetic/not-historical/not-formal classification; they do not claim to cover
 production connection timing or provide a validated runtime fix.
 
+The final read-only stopping-boundary audit is remote
+`blocking-boundary-audit-v1.json`: five valid trace parent chains and terminal
+events, unchanged frozen runtime/component/entry/protocol hashes, all 20 owned
+Worker PIDs inactive, three clean cells, twenty untouched primary cells and one
+unresolved cell. It records the named manual replacement separately from the
+inherited `replacement:false` automatic-execution policy field. No historical
+freeze/result/trace was edited or rewritten.
+
 The read-only auditor now retains all attempts and distinguishes effective clean
 records from excluded/confounded primary records. It does not select by quality
 or E2E. A separate suffix controller invokes the **same frozen cell entry point**

@@ -98,6 +98,40 @@ Final goal requires all 24 cells executed or validly failed, operational inciden
 resolved or explicitly hard-stopped, final reports, evidence and repository audit.
 This report does not claim completion of the unattended goal.
 
+## Completion audit at the blocking boundary
+
+The original objective remains **24 clean formal cells**, not three successful
+executions or an operational-stop report. Remote `blocking-boundary-audit-v1.json`
+independently rechecks all five trace parent chains/run identities/single terminal
+events, frozen entry/protocol/native-runtime/component hashes and all 20 owned
+Worker PIDs. These checks pass; no process is still running.
+
+| Requirement | Current authoritative status |
+| --- | --- |
+| Three original LongBench and three distinct Video tasks, frozen before calls | Frozen protocol/task/source metadata exist; Video questions use two original videos, limitation declared |
+| LongBench 12 clean formal cells | 3 clean; 1 cell has two confounded attempts; 8 other cells unexecuted |
+| Video 12 clean formal cells | 0 executed; all 12 unexecuted |
+| Shared frozen Manager/Verifier/tools/budgets/profile timing/physical substrate | Integrity/provenance checks pass for retained attempts; no experimental-path change |
+| Per-attempt trace/result/config/hash/stores/observer/evaluator evidence | All five attempts retained; all five trace chains reconstruct; all completed/evaluated |
+| No unresolved observer/runtime confounder | **Not satisfied:** persistent Slow-Aware observer disconnect |
+| Privacy, artifact persistence, tc restoration and owned-process cleanup | Checks pass for all retained attempts; current roots mq/mq/mq/noqueue |
+| Task-level clean four-condition comparisons and cross-family interpretation | **Incomplete:** no task has four eligible cells; no cross-family claim |
+| No third identical operational attempt | Preserved; suffix never started |
+| Reports/git | Partial reports and exception diagnosis committed/pushed; final scientific deliverables remain incomplete |
+
+The manual operational replacement is explicitly recorded by attempt directory,
+run ID, CLI launch and audit authorization. The inherited freeze field
+`replacement: false` is a harness execution-policy flag; it must **not** be used
+to infer that this explicitly named manual attempt is a primary. The read-only
+auditor reports attempt identity separately. Original evidence is not overwritten
+to change that policy field.
+
+Continuing requires review of the persistent operational cell and authorization
+for any subsequent affected experimental run. No demonstrated historical runtime
+root cause or validated production patch currently permits an automatic bug-fix
+rerun. This is an unresolved protocol/operational gate, not proof of the user's
+permanent scientific hard-stop conditions and not achievement of the goal.
+
 ## Offline verification
 
 Cross-benchmark admission, continuation and audit/diagnostic tooling: full pytest **434 passed**,
