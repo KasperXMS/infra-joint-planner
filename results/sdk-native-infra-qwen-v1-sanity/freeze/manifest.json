@@ -1,0 +1,226 @@
+{
+  "added_rtt_ms": 5.0,
+  "bandwidth_mbps": 100.0,
+  "code_revision": "603a8dd70458ebe4f40bf8f6aecddcb894002cff",
+  "config_sha256": "3a8b7ad4dbf3e254481d355ef848989ed1a1e78051def4afa22ff4c82498e449",
+  "environment_sha256": "bdd64114bde7011c05b4e202cd6082ed7eeca6ada98da21de06681d63fc37d59",
+  "experiment_id": "sdk-native-infra-qwen-v1-sanity",
+  "fresh_worker_stores": {
+    "A28": "/mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen-v1/sanity/fast-blind/a28",
+    "A4": "/mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen-v1/sanity/fast-blind/a4",
+    "A5": "/mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen-v1/sanity/fast-blind/a5",
+    "strong-4090": "/home/super/heterogeneous-v1/artifacts/sdk-native-infra-qwen-v1/sanity/fast-blind/strong-4090"
+  },
+  "harness": {
+    "anonymous_model_contract": {
+      "context_window": 32768,
+      "image_token_cost": 2048,
+      "modalities": [
+        "text",
+        "image"
+      ],
+      "reserved_output_tokens": 2048
+    },
+    "available_operations": [
+      "aggregate_artifacts",
+      "aggregate_records",
+      "bm25_retrieve",
+      "derive_fields",
+      "extract_clip",
+      "filter_records",
+      "invoke_model",
+      "make_contact_sheet",
+      "read_artifact",
+      "sample_frames",
+      "select_fields",
+      "top_k_records"
+    ],
+    "budget": {
+      "max_active_subagents": 2,
+      "max_created_subagents": 4,
+      "max_manager_turns": 20,
+      "max_subagent_turns": 8,
+      "max_tool_model_calls": 64,
+      "max_verifier_calls": 20
+    },
+    "frozen_from_revision": "c61e1f7415e4d799da9d8ac41d02cd69c4a619fa",
+    "harness_id": "qwen-infra-sanity-v1",
+    "manager": {
+      "api_key_env": "DASHSCOPE_API_KEY",
+      "base_url": "https://llm-6tbxas81ayf65rd1.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+      "client_timeout_seconds": 180,
+      "context_window": 1000000,
+      "instructions_sha256": "68b87058ba0a90549cd93a5e18a4a8def2f690e0df089545126a78718892a56e",
+      "max_retries": 0,
+      "model": "qwen-plus-2025-12-01",
+      "provider": "Alibaba Cloud Model Studio",
+      "structured_output_support": true,
+      "temperature": "provider_default",
+      "tool_call_support": true
+    },
+    "model_service_timeout_seconds": 1200.0,
+    "positive_baseline_run_id": "pending-qwen-sanity",
+    "profile_visibility": "blind",
+    "runtime": {
+      "implementation": "OpenAIAgentsNativeRuntime",
+      "source_sha256": "02b62247fbda7d6a35bd05004a0a69cfeeeae084adef16f0dcf0dc154a830ab3"
+    },
+    "static_capability_contract_sha256": "8d46d9b941a08380a00fdab1e7c151c25affd589ec4444864f3c5c925a2089a4",
+    "verifier": {
+      "candidate_finalization": "deterministic_contract_format_extraction_from_terminal_model_output",
+      "enabled": true,
+      "model": "qwen-plus-2025-12-01",
+      "provider": "Alibaba Cloud Model Studio",
+      "result_transport": "required_function_tool",
+      "source_sha256": "6c7813735ceec02136008d74da99ae3e773ec93b95b5a50d8a8dd1fd992699e8",
+      "temperature": 0
+    }
+  },
+  "harness_manifest_sha256": "c926f78c3813004e46c57dfee087e11319c91ef6844ef1f3e376cea5b4b3f1e9",
+  "initial_placement": {
+    "full-corpus-shard-0001": "A4",
+    "full-corpus-shard-0002": "A5",
+    "full-corpus-shard-0003": "A28"
+  },
+  "model_service_timeout_seconds": 1200.0,
+  "network_regime": "fast",
+  "profile_visibility": "blind",
+  "repetitions": 1,
+  "replacement": false,
+  "retry": false,
+  "run_id": "qwen-sanity-multihop-fast-blind-v1",
+  "scheduler": "auto_physical_locality_aware",
+  "source_manifest": {
+    "multihop_corpus": {
+      "sha256": "20b61b5ab84de84a927420c5d265b7ec8d859ae49980699958a787ade9e4d28f",
+      "size_bytes": 6785567
+    },
+    "multihop_queries": {
+      "sha256": "03cfb4926461f868684903aadc8024447bdda5bb3f6804741424cce338515bff",
+      "size_bytes": 5171312
+    }
+  },
+  "static_capability_contract_sha256": "8d46d9b941a08380a00fdab1e7c151c25affd589ec4444864f3c5c925a2089a4",
+  "task_bundle_sha256": "54ef8ddbe4a3379254345f307b3f0ef6b95fe92e0b28ac4c89124bb6b7ebfe8e",
+  "task_label": "multihop-multisource",
+  "task_view": {
+    "artifacts": [
+      {
+        "artifact_id": "full-corpus-shard-0001",
+        "collection": {
+          "collection_id": "multihop-rag-train-9bae0079038050a37a1ae583:complete-corpus",
+          "completeness": "union_is_complete",
+          "partition_count": 3,
+          "partition_index": 0,
+          "partition_method": "sha256(document) modulo partition_count",
+          "partition_semantics": "non_semantic"
+        },
+        "content_schema": {
+          "codec": null,
+          "duration_seconds": null,
+          "fields": {
+            "author": "string|null",
+            "body": "string",
+            "category": "string",
+            "chunk_count": "integer",
+            "chunk_index": "integer",
+            "document_id": "string",
+            "published_at": "string",
+            "source": "string",
+            "title": "string",
+            "url": "string"
+          },
+          "kind": "record_array",
+          "max_record_bytes": 3179,
+          "record_count": 1030,
+          "text_field": "body"
+        },
+        "logical_type": "corpus_shard;fields=title,body,author,source,published_at,category,url;text_field=body",
+        "media_type": "application/json",
+        "size_bytes": 2772674
+      },
+      {
+        "artifact_id": "full-corpus-shard-0002",
+        "collection": {
+          "collection_id": "multihop-rag-train-9bae0079038050a37a1ae583:complete-corpus",
+          "completeness": "union_is_complete",
+          "partition_count": 3,
+          "partition_index": 1,
+          "partition_method": "sha256(document) modulo partition_count",
+          "partition_semantics": "non_semantic"
+        },
+        "content_schema": {
+          "codec": null,
+          "duration_seconds": null,
+          "fields": {
+            "author": "string|null",
+            "body": "string",
+            "category": "string",
+            "chunk_count": "integer",
+            "chunk_index": "integer",
+            "document_id": "string",
+            "published_at": "string",
+            "source": "string",
+            "title": "string",
+            "url": "string"
+          },
+          "kind": "record_array",
+          "max_record_bytes": 3197,
+          "record_count": 898,
+          "text_field": "body"
+        },
+        "logical_type": "corpus_shard;fields=title,body,author,source,published_at,category,url;text_field=body",
+        "media_type": "application/json",
+        "size_bytes": 2431922
+      },
+      {
+        "artifact_id": "full-corpus-shard-0003",
+        "collection": {
+          "collection_id": "multihop-rag-train-9bae0079038050a37a1ae583:complete-corpus",
+          "completeness": "union_is_complete",
+          "partition_count": 3,
+          "partition_index": 2,
+          "partition_method": "sha256(document) modulo partition_count",
+          "partition_semantics": "non_semantic"
+        },
+        "content_schema": {
+          "codec": null,
+          "duration_seconds": null,
+          "fields": {
+            "author": "string|null",
+            "body": "string",
+            "category": "string",
+            "chunk_count": "integer",
+            "chunk_index": "integer",
+            "document_id": "string",
+            "published_at": "string",
+            "source": "string",
+            "title": "string",
+            "url": "string"
+          },
+          "kind": "record_array",
+          "max_record_bytes": 3171,
+          "record_count": 919,
+          "text_field": "body"
+        },
+        "logical_type": "corpus_shard;fields=title,body,author,source,published_at,category,url;text_field=body",
+        "media_type": "application/json",
+        "size_bytes": 2491926
+      }
+    ],
+    "benchmark_id": "multihop_full_corpus",
+    "objective": "Does the Polygon Diablo 4 guide for Sorcerer builds in season 2 provide simplified versions of the builds in a similar manner to how the Polygon Diablo 4 guide for Barbarian builds does for the same season?",
+    "output_contract": {
+      "choices": null,
+      "format": "short_text",
+      "schema_definition": null
+    },
+    "task_id": "multihop-rag-train-9bae0079038050a37a1ae583"
+  },
+  "worker_urls": {
+    "A28": "http://192.168.0.128:61128",
+    "A4": "http://192.168.0.104:61104",
+    "A5": "http://192.168.0.105:61105",
+    "strong-4090": "http://192.168.0.12:61212"
+  }
+}

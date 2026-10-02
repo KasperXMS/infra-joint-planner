@@ -1,0 +1,40 @@
+{
+  "benchmark_id": "multihop_full_corpus",
+  "evaluation": null,
+  "execution_completed": false,
+  "failure": {
+    "code": "logical_loop_failed",
+    "exception_type": "AgentLoopError",
+    "message": "manager turn budget exhausted"
+  },
+  "final_answer": null,
+  "initial_transfers": [
+    {
+      "artifact_id": "full-corpus-shard-0001",
+      "bytes_transferred": 2772674,
+      "duration_ms": 412.42588497698307,
+      "source_agent_id": "controller",
+      "target_agent_id": "A4"
+    },
+    {
+      "artifact_id": "full-corpus-shard-0002",
+      "bytes_transferred": 2431922,
+      "duration_ms": 305.0392991863191,
+      "source_agent_id": "controller",
+      "target_agent_id": "A5"
+    },
+    {
+      "artifact_id": "full-corpus-shard-0003",
+      "bytes_transferred": 2491926,
+      "duration_ms": 261.12165697850287,
+      "source_agent_id": "controller",
+      "target_agent_id": "A28"
+    }
+  ],
+  "loop": null,
+  "run_id": "qwen-sanity-multihop-fast-blind-v1",
+  "setting_kind": "official_equivalent",
+  "task_id": "multihop-rag-train-9bae0079038050a37a1ae583",
+  "telemetry": null,
+  "trace_path": "/home/super/xiaoming/sdk-native-infra-qwen-v1-603a8dd/evidence/sanity/runs/qwen-sanity-multihop-fast-blind-v1/trace.jsonl"
+}

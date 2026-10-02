@@ -1,0 +1,41 @@
+{
+  "action_transfer_bytes": 0,
+  "added_rtt_ms": 5.0,
+  "bandwidth_mbps": 100.0,
+  "e2e_latency_ms": 170254.04814397916,
+  "evaluator_score": null,
+  "execution_completed": false,
+  "failure": {
+    "code": "logical_loop_failed",
+    "exception_type": "AgentLoopError",
+    "message": "manager turn budget exhausted"
+  },
+  "final_answer": null,
+  "format_valid": null,
+  "harness_id": "qwen-infra-sanity-v1",
+  "initial_transfer_bytes": 7696522,
+  "loop_usage": null,
+  "network_regime": "fast",
+  "profile_visibility": "blind",
+  "run_id": "qwen-sanity-multihop-fast-blind-v1",
+  "task_label": "multihop-multisource",
+  "total_transferred_bytes": 7696522,
+  "trace_summary": {
+    "context_failure_count": 0,
+    "graph_edges": 0,
+    "graph_nodes": 7,
+    "logical_identity_findings": [],
+    "logical_privacy_pass": true,
+    "manager_reasoning_turns": 20,
+    "model_calls": 0,
+    "observed_network_classes": [],
+    "physical_profile_observations": 0,
+    "reached_model_inference": 0,
+    "specialist_reasoning_turns": 0,
+    "subagent_calls": 0,
+    "tool_calls": 7,
+    "trace_action_transfer_bytes": 0,
+    "trace_action_transfer_latency_ms": 0.0,
+    "trace_e2e_latency_ms": 170254.04814397916
+  }
+}
