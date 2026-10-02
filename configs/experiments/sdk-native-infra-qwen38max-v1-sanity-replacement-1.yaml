@@ -1,0 +1,21 @@
+experiment_id: sdk-native-infra-qwen38max-v1-sanity
+replicate_id: sanity-operational-replacement-1
+harness_manifest: configs/experiments/qwen-infra-sanity-v2.yaml
+harness_manifest_sha256: 3ee816c167495c8d669a53b7eea348218183b078af4931ee1200827acddcb322
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+task: multihop-multisource
+run_id: qwen38max-sanity-multihop-fast-blind-replacement-1
+profile_visibility: blind
+model_service_timeout_seconds: 1200
+network: {regime: fast, bandwidth_mbps: 100, added_rtt_ms: 5}
+worker_urls:
+  A4: http://192.168.0.104:63104
+  A5: http://192.168.0.105:63105
+  A28: http://192.168.0.128:63128
+  strong-4090: http://192.168.0.12:63212
+fresh_worker_stores:
+  A4: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/sanity-replacement-1/fast-blind/a4
+  A5: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/sanity-replacement-1/fast-blind/a5
+  A28: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/sanity-replacement-1/fast-blind/a28
+  strong-4090: /home/super/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/sanity-replacement-1/fast-blind/strong-4090
+execution: {scheduler: auto_physical_locality_aware, repetitions: 1, retry: false, replacement: false}

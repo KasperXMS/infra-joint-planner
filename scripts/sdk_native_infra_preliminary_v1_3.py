@@ -15,6 +15,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, cast
 
+from agents import Model
 from blind_3family_validation_v1 import (
     REPO,
     BlindHarnessFreeze,
@@ -93,7 +94,7 @@ _SUPPORTED_HARNESS_IDS = frozenset(
 )
 
 
-class ModelRequestBodyAdapter:
+class ModelRequestBodyAdapter(Model):
     """Inject frozen provider request fields without changing agent semantics."""
 
     def __init__(self, delegate: object, extra_body: dict[str, object]) -> None:
