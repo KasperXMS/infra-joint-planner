@@ -78,6 +78,11 @@ No complete task/family aggregate, stability, cost-rationality or cross-benchmar
 claim yet. The suffix controller correctly refused continuation; its twenty-cell
 schedule remains unexecuted. A third identical operational replacement is forbidden.
 Transport root cause remains unproven; no speculative runtime repair is applied.
+A synthetic loopback diagnostic reproduces the same disconnect on a reused
+connection at the equal five-second client/server expiry boundary; a four-second
+client-expiry control opens a new connection and passes. This control is not
+deployed and does not establish historical root cause. All 20 owned Worker PIDs
+are inactive and the frozen protocol/entry hashes remain unchanged.
 Review is needed before separately versioned bug-fix/rerun work or closing at this
 operational stop. The original 24-clean-cell objective has not been achieved.
 
@@ -95,7 +100,7 @@ This report does not claim completion of the unattended goal.
 
 ## Offline verification
 
-Cross-benchmark admission, continuation and audit tooling: full pytest **431 passed**,
+Cross-benchmark admission, continuation and audit/diagnostic tooling: full pytest **434 passed**,
 Ruff passed, strict Pyright **0 errors / 0 warnings**, `git diff --check` passed.
 Strict Pyright explicitly uses `.venv/Scripts/python.exe` on this workstation;
 unqualified invocation selected an unrelated interpreter and could not find installed

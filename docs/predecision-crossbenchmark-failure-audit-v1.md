@@ -82,6 +82,47 @@ Remote `persistent-operational-stop-v1.json` records the unresolved gate; full
 Twenty scheduled cells remain unexecuted. The 24-run goal is incomplete and no
 cross-family scientific conclusion can be drawn from this partial block.
 
+### Transport-only diagnostic, no new formal attempt
+
+`scripts/diagnose_http_keepalive_v1.py` ran once on the 4090 with a synthetic
+loopback HTTP endpoint. It uses no dataset, benchmark adaptation, Worker namespace,
+model/provider call or tc operation. This is a mechanism counterexample, **not**
+a reproduction of the historical network/connection lifecycle.
+
+The endpoint returns only `{healthy: true}`. Uvicorn timeout_keep_alive=5 s;
+after the first successful response, wait 4.8 s and explicitly inject a 0.4 s
+header-write delay **after** connection checkout. The request trace shows:
+
+| Client idle expiry | Second-request TCP connects | Second request |
+| --- | ---: | --- |
+| 5 s (current default) | 0 (reused connection) | RemoteProtocolError: Server disconnected without sending a response |
+| 4 s (diagnostic control only) | 1 (fresh connection) | HTTP 200 |
+
+The production config is **not** changed to 4 s. Exact remote diagnostic artifact:
+`transport-counterexample-v1.json`, SHA-256
+`7a0cee459d372c949ab3b2aa00d204faed965c59c329d9c172623097b94507b2`.
+All three actual Jetson Worker virtualenvs report Uvicorn 0.53.0 with the same
+default five-second server keep-alive, independently checked without starting Workers.
+
+Across all five preserved attempts, 1,208 state probes include 25 probe gaps in
+[4.5,5.0) s: 22 successes and all three disconnects. The other 1,183 probes
+succeed. Remote `transport-probe-gap-audit-v1.json` records this distribution.
+These are intervals between `/state` probes, **not** authoritative connection idle
+durations: other HTTP requests can intervene. Association plus the synthetic
+counterexample strengthens the hypothesis, but neither proves historical cause.
+
+All 20 Worker PIDs across the five attempts and all three queue/controller PIDs
+are inactive. Frozen entry/protocol hashes still match the original preparation.
+No third experiment attempt was launched. This preserves the persistent-cell
+operational stop required by the protocol; the next decision needs review rather
+than treating this cell as a Planner failure or silently applying a speculative fix.
+
+Diagnostic tooling verification: full pytest **434 passed**, Ruff passed, strict
+Pyright (explicit project interpreter) **0 errors / 0 warnings**. Three new tests
+cover the fixed non-private payload, evidence no-overwrite guard and explicit
+synthetic/not-historical/not-formal classification; they do not claim to cover
+production connection timing or provide a validated runtime fix.
+
 The read-only auditor now retains all attempts and distinguishes effective clean
 records from excluded/confounded primary records. It does not select by quality
 or E2E. A separate suffix controller invokes the **same frozen cell entry point**
