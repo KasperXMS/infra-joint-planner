@@ -86,6 +86,20 @@ def test_qwen38max_sanity_harness_pins_non_thinking_tool_transport() -> None:
     assert qwen.manager["request_extra_body"] == {"enable_thinking": False}
 
 
+def test_qwen38max_preliminary_freezes_sanity_control_plane() -> None:
+    sanity = load_harness(REPO / "configs/experiments/qwen-infra-sanity-v2.yaml")
+    frozen = load_harness(REPO / "configs/experiments/qwen-infra-preliminary-v1.yaml")
+    sanity_payload = sanity.model_dump(mode="json")
+    frozen_payload = frozen.model_dump(mode="json")
+    for key in ("harness_id", "frozen_from_revision", "positive_baseline_run_id"):
+        sanity_payload.pop(key)
+        frozen_payload.pop(key)
+    assert frozen_payload == sanity_payload
+    assert frozen.positive_baseline_run_id == (
+        "qwen38max-sanity-multihop-fast-blind-replacement-1"
+    )
+
+
 def test_blind_harness_v1_2_changes_only_generic_budget() -> None:
     previous = load_harness(REPO / "configs/experiments/blind-harness-v1.1.yaml")
     current = load_harness(REPO / "configs/experiments/blind-harness-v1.2.yaml")

@@ -1,0 +1,21 @@
+experiment_id: sdk-native-infra-qwen38max-v1-slow-aware-r1
+replicate_id: 1
+harness_manifest: configs/experiments/qwen-infra-preliminary-v1.yaml
+harness_manifest_sha256: 23523cb2d8342b222df46af1cfdad1a43bc518eb5e9a7078b3a9dda4f2515c01
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+task: multihop-multisource
+run_id: qwen38max-multihop-slow-aware-r1
+profile_visibility: aware
+model_service_timeout_seconds: 1200
+network: {regime: slow, bandwidth_mbps: 3, added_rtt_ms: 50}
+worker_urls:
+  A4: http://192.168.0.104:64704
+  A5: http://192.168.0.105:64705
+  A28: http://192.168.0.128:64728
+  strong-4090: http://192.168.0.12:64812
+fresh_worker_stores:
+  A4: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/matrix-r1/slow-aware/a4
+  A5: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/matrix-r1/slow-aware/a5
+  A28: /mnt/ssd/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/matrix-r1/slow-aware/a28
+  strong-4090: /home/super/heterogeneous-v1/artifacts/sdk-native-infra-qwen38max-v1/matrix-r1/slow-aware/strong-4090
+execution: {scheduler: auto_physical_locality_aware, repetitions: 1, retry: false, replacement: false}

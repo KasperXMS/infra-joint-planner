@@ -193,6 +193,39 @@ def test_qwen38max_sanity_config_pins_requested_model() -> None:
     assert len(set(config["fresh_worker_stores"].values())) == 4
 
 
+@pytest.mark.parametrize(
+    ("condition", "visibility", "bandwidth_mbps", "added_rtt_ms"),
+    [
+        ("fast-blind", "blind", 100, 5),
+        ("fast-aware", "aware", 100, 5),
+        ("slow-blind", "blind", 3, 50),
+        ("slow-aware", "aware", 3, 50),
+    ],
+)
+def test_qwen38max_r1_matrix_is_preregistered(
+    condition: str,
+    visibility: str,
+    bandwidth_mbps: int,
+    added_rtt_ms: int,
+) -> None:
+    config = _yaml(
+        REPO
+        / f"configs/experiments/sdk-native-infra-qwen38max-v1-{condition}-r1.yaml"
+    )
+    _validate_config(config)
+    harness_path = REPO / str(config["harness_manifest"])
+    _validate_harness_manifest_hash(config, harness_path)
+    assert config["profile_visibility"] == visibility
+    assert config["network"]["bandwidth_mbps"] == bandwidth_mbps
+    assert config["network"]["added_rtt_ms"] == added_rtt_ms
+    assert config["execution"] == {
+        "scheduler": "auto_physical_locality_aware",
+        "repetitions": 1,
+        "retry": False,
+        "replacement": False,
+    }
+
+
 @pytest.mark.asyncio
 async def test_model_request_body_adapter_injects_provider_option() -> None:
     captured: dict[str, object] = {}

@@ -1,0 +1,55 @@
+harness_id: qwen-infra-preliminary-v1
+frozen_from_revision: b951adaa1c1f37648b277b0b25bbee06d0568088
+positive_baseline_run_id: qwen38max-sanity-multihop-fast-blind-replacement-1
+profile_visibility: blind
+runtime:
+  implementation: OpenAIAgentsNativeRuntime
+  source_sha256: 02b62247fbda7d6a35bd05004a0a69cfeeeae084adef16f0dcf0dc154a830ab3
+manager:
+  provider: Alibaba Cloud Model Studio
+  model: qwen3.8-max
+  base_url: https://llm-6tbxas81ayf65rd1.cn-beijing.maas.aliyuncs.com/compatible-mode/v1
+  api_key_env: DASHSCOPE_API_KEY
+  context_window: 1000000
+  temperature: provider_default
+  request_extra_body: {enable_thinking: false}
+  tool_call_support: true
+  structured_output_support: true
+  client_timeout_seconds: 180
+  max_retries: 0
+  instructions_sha256: 68b87058ba0a90549cd93a5e18a4a8def2f690e0df089545126a78718892a56e
+verifier:
+  enabled: true
+  provider: Alibaba Cloud Model Studio
+  model: qwen3.8-max
+  temperature: 0
+  result_transport: required_function_tool
+  source_sha256: 6c7813735ceec02136008d74da99ae3e773ec93b95b5a50d8a8dd1fd992699e8
+  candidate_finalization: deterministic_contract_format_extraction_from_terminal_model_output
+budget:
+  max_manager_turns: 20
+  max_subagent_turns: 8
+  max_tool_model_calls: 64
+  max_created_subagents: 4
+  max_active_subagents: 2
+  max_verifier_calls: 20
+available_operations:
+  - aggregate_artifacts
+  - aggregate_records
+  - bm25_retrieve
+  - derive_fields
+  - extract_clip
+  - filter_records
+  - invoke_model
+  - make_contact_sheet
+  - read_artifact
+  - sample_frames
+  - select_fields
+  - top_k_records
+anonymous_model_contract:
+  context_window: 32768
+  reserved_output_tokens: 2048
+  modalities: [text, image]
+  image_token_cost: 2048
+static_capability_contract_sha256: 8d46d9b941a08380a00fdab1e7c151c25affd589ec4444864f3c5c925a2089a4
+model_service_timeout_seconds: 1200
