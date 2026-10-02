@@ -20,4 +20,18 @@ needed. The fix is an instrumentation correctness fix, not semantic tuning.
 
 ## Formal attempts
 
-Pending. Preserve all primary and authorized operational replacement evidence.
+First Financial Fast-Blind completed, format-valid/evaluated score 0.0. All operational
+and persistence gates pass: this is a retained semantic/model quality failure, not
+an implementation defect. No repair/retry/replacement is authorized for that score.
+Detailed evidence-path root-cause attribution remains pending task-level audit.
+
+## Read-only audit contract alias
+
+The first post-run audit invocation incorrectly reparsed a frozen `OutputContract`
+field-name dump using aliases only (`schema_definition` vs `schema`). This affected
+only the new read-only audit tool; the live run, answer/evaluator and tc restoration
+were already complete and unchanged. Use explicit `by_name=True`, with a round-trip
+regression. The corrected audit snapshot independently verified Manager/Verifier
+hashes and terminal provenance. No affected experimental cell needs rerunning.
+
+Preserve all primary and authorized operational replacement evidence.
