@@ -28,16 +28,20 @@ def write_new(path: Path, value: object) -> None:
         json.dump(value, stream, ensure_ascii=False, indent=2)
 
 
-def validate_cell(directory: Path, run_id: str, visibility: str) -> dict[str, Any]:
+def validate_cell(
+    directory: Path, run_id: str, visibility: str,
+    canonical_labels: tuple[str, ...] = ("Yes", "No"),
+) -> dict[str, Any]:
     """Operational gates only. Wrong answers and budget/stopping failures are retained."""
     result = json.loads((directory / "runs" / run_id / "result.json").read_text())
     summary = json.loads((directory / "summary.json").read_text())
     tc = json.loads((directory / "tc-attestation.json").read_text())
     events = [json.loads(line) for line in (
         directory / "runs" / run_id / "trace.jsonl"
-    ).read_text().splitlines()]
+    ).read_text().split("\n") if line.strip()]
     diagnostics_path = directory / "runs" / run_id / "private/observer-diagnostics.jsonl"
-    diagnostics = [json.loads(line) for line in diagnostics_path.read_text().splitlines()]
+    diagnostics = [json.loads(line) for line in diagnostics_path.read_text().split("\n")
+                   if line.strip()]
     problems: list[str] = []
     if tc["cleanup_error"] is not None or tc["original_qdisc"] != tc["restored_qdisc"]:
         problems.append("tc restoration failure")
@@ -69,7 +73,7 @@ def validate_cell(directory: Path, run_id: str, visibility: str) -> dict[str, An
     if not any(e["event_type"] in {"run.end", "run.failed"} for e in events):
         problems.append("terminal run event missing")
     if result["execution_completed"] and (
-        result["final_answer"] not in {"Yes", "No"} or result["evaluation"] is None
+        result["final_answer"] not in canonical_labels or result["evaluation"] is None
     ):
         problems.append("completed terminal/evaluator contract inconsistent")
     failure = result.get("failure")

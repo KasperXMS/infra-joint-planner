@@ -7,6 +7,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 from typing import Any, cast
 from urllib.parse import urlparse
@@ -59,7 +60,10 @@ async def _snapshot(
     return {item.agent_id: value for item, value in zip(endpoints, values, strict=True)}
 
 
-async def run(args: argparse.Namespace) -> None:
+async def run(
+    args: argparse.Namespace,
+    execute_cell: Callable[[argparse.Namespace], Awaitable[None]] = run_once,
+) -> None:
     evidence = args.output / "tc-attestation.json"
     if evidence.exists():
         raise FileExistsError("tc evidence already exists; refusing retry or overwrite")
@@ -112,7 +116,7 @@ async def run(args: argparse.Namespace) -> None:
             for group in applied
             for item in group
         }
-        await run_once(args)
+        await execute_cell(args)
     except BaseException as exc:  # noqa: BLE001 - cleanup and evidence are mandatory
         run_error = exc
     finally:
