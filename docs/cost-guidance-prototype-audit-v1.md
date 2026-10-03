@@ -1,7 +1,8 @@
 # Cost-guidance prototype audit v1
 
 Date:2026-10-04. Branch:cost-guidance-exploration-v1.
-Scope: **Ledger-only-v0 implemented; no live exploration yet**.
+Scope: **Ledger-only-v0, empirical profiles and read-only ready-action consequence
+layer implemented; no live exploration yet**.
 This is an intermediate implementation audit, not the full goal's completion.
 
 ## Files and mechanism
@@ -81,9 +82,17 @@ no SDK/package upgrade was performed.
 
 ## Remaining work
 
-Freeze clean historical metadata for empirical service/transfer estimation;
-implement Quote-before-Commit with no-execution, exact-action and ownership
+Clean historical metadata is now frozen on4090:33 eligible runs,62 model/255
+operator/245 transfer samples, all198 source evidence hashes checked. Internal
+deployment/directional-surface keys prevent A28/4090 or route pooling. Numeric
+consequence cards preserve unsupported unknowns and perform no execution; see
+[estimator and freeze audit](cost-history-estimator-v0.md). This is support
+coverage, not estimator accuracy or observed method benefit.
+
+Implement SDK-native Quote-before-Commit with no-execution, exact-action and ownership
 checks; integrate a versioned live runner/manifest; verify fresh stores and
 recipient isolation; then perform the bounded cross-workload exploration.
+Latest full verification:515 pytest passed, Ruff passed, strictPyright0 errors/0
+warnings. The original native source and isolation manifest hashes are unchanged.
 Current new substantive cells0/36; cloud/model calls0; Worker launches0; tc0.
 No route ranking/effectiveness/novelty claim is promoted from these tests.

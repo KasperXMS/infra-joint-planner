@@ -54,5 +54,51 @@ physical-line parsing, source hash mismatch and evidence path confinement.
 Full pytest:508 passed. Ruff:pass. Strict Pyright:0 errors/0 warnings.
 Historical baseline source/config hash tests still pass; no substrate changed.
 
-Remote extraction result and coverage will be appended after actual execution.
-No live exploratory cells have been launched.
+## Actual remote freeze
+
+Remote source revision `00ff980`; append-only output:
+`/home/super/xiaoming/cost-guidance-history-v0-00ff980/freeze-001`.
+All198 referenced evidence hashes were verified across33 eligible runs.
+Source audits match the previously frozen hashes; three leaked MultiHop runs
+are excluded. The final valid no-answer/budget run remains eligible.
+
+| Receipt | Count | Matching bucket support >=3 | Unknown support |
+| --- | ---: | ---: | ---: |
+| Physical model service |62|54|8|
+| Operator wrapper |255|236|19|
+| Action transfer |245|238|7|
+
+These are **training-receipt bucket coverage**, not unique-bin counts, accuracy,
+validation or generalization estimates. All62 input envelopes are reconstructable;
+all model samples use output ceiling2048 and one actual model execution surface.
+No strong-4090 model inference sample exists in this freeze.
+
+`cost-history.json` SHA-256:
+`693f26bc8855f1712e22607e98ca4bc0571027e51d9db247dfe8f0012d3c392b`.
+`manifest.json` SHA-256:
+`bd10d6b146c42fe32e0888ca2138584c389d439e7e45aef186563e5bb7e15481`.
+Strict sample-field allowlists and history hash were independently checked after
+writing. The183836-byte numeric history stays on4090; only aggregate counts and
+hashes were returned to the PC. Extraction launches no Worker/model/planner/tc.
+
+## Read-only action-consequence layer
+
+`control/consequence.py` consumes the existing scheduler's prepared action and
+its exact infrastructure snapshot. It does not execute, reserve, read artifacts
+or invoke an evaluator. It returns anonymous numeric consequences only:
+ready-input movement, configured ideal serialization separately from empirical
+transfer latency, existing context envelope and supported model/operator profiles.
+Source choice follows RuntimeExecutor's first reachable lexicographic source,
+not a new cheapest-route rule. No output-reduction ratio or future LLM artifact
+size is guessed. Static-impossible requirement is distinguished from a current
+binding failure; private failure messages/selection identity are not returned.
+
+Seven synthetic tests additionally cover real scheduler preparation without
+execution, source consistency, configured versus empirical cost, local/unknown
+movement, image versus JPEG context, snapshot changes and typed static failure.
+Latest full verification with this layer:515 pytest passed, Ruff passed, strict
+Pyright0 errors/0 warnings and diff whitespace check passed. Original native
+runtime and isolation manifest hashes remain unchanged.
+This is not yet the SDK-native Quote/Commit protocol: ownership, proposal expiry,
+commit/revise tools and live runner integration still remain. No live exploratory
+cells have been launched; full exploratory objective is not complete.
