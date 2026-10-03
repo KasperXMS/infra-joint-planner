@@ -137,6 +137,12 @@ recovery is secondary. The available trace does not isolate evidence omission
 from reasoning error. Completion at a turn ceiling does not itself imply budget
 exhaustion. These valid semantic outcomes are retained without tuning.
 
+Context rejects use the frozen conservative UTF-8-byte-as-token upper bound,
+not the actual backend tokenizer. Prompt plus artifacts plus reserved2048 must
+fit32768. These are static conservative-envelope refusals before transfer and
+inference, not evidence of actual model-capacity/OOM or dynamic availability
+failure. No estimator, capability or recovery strategy is changed in this audit.
+
 Historical Financial SA primary and its identical operational replacement had
 observer transport incidents; Financial FA and News FA originals had specialist
 profile leakage. Preserve and exclude them. Transport and recipient-isolation

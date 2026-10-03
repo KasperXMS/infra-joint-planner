@@ -1,475 +1,204 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-## Current authorized recovery (2026-10-03)
-
-After user authorization, recipient-isolation repair `4a81081` was separately
-frozen/pushed as `3c3bd95`. Full 479 tests, Ruff and strict Pyright pass. All six
-task freezes are identical; four nodes match 141 source/script Git blobs. No
-prompt/model/tool/budget/scheduler/network change. Only Financial FA -> News FA
--> 795-2 SA are rerun once with fresh stores and `isolation-patch-1`, auditing
-each before the next. Financial FA passes with C/1.0, 1282.028 s and 573058
-action bytes; model service is 1106.980 s. Coverage is **22/24** under
-`3c3bd95/audit-progress-002.json`. News FA is in progress; 795-2 SA is pending. Existing
-MultiHop is not rerun and its three affected repetitions remain excluded.
-See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
-
-## Historical hard-stop snapshot (not a current process-status claim)
-
-**Status: PRIVACY-CONTRACT HARD STOP; 21/24 CLEAN CELLS; OBJECTIVE INCOMPLETE.**
-Updated 2026-10-03. Full-context audit found anonymous dynamic profiles entering
-specialist contexts through SDK tool results. Financial Fast-Aware and News
-Fast-Aware are now excluded; 795-2 Slow-Aware was interrupted. LongBench is
-10/12 admissible, Video 11/12. All 27 new attempts are retained (26 completed,
-one externally aborted); owned processes are inactive and tc is restored.
-Existing MultiHop also has three affected Aware repetitions: no rerun, no overwrite,
-and no longer a clean balanced 12-run comparison. See the
-[hard-stop audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
-
-The 23/24 declarations and complete-family statements below are historical
-snapshots, **superseded** by `5dafc43/audit-progress-005.json` and the 39-trace
-recipient-context audit. Do not use their old eligibility or full-block aggregates
-as current clean evidence. No runtime fix or additional cell follows this stop.
+Updated 2026-10-03. **23/24 effective new cells admitted; final Video 795-2
+Slow-Aware remains active.** LongBench is clean-complete, 12/12 evaluated.
+This report supersedes historical partial/hard-stop counts; old reports remain
+in Git and excluded attempts remain immutable on the remote nodes.
 
 ## Scope and frozen system
 
-Extend the existing audited MultiHop block without repeating it: three LongBench
-multi-document tasks and three Video-MME questions, four conditions each, n=1,
-24 primary cells. See [frozen protocol](predecision-crossbenchmark-v1-protocol.md).
-This is raw coarse profile visibility, not cost-guided planning or a new method.
+Three LongBench tasks and three Video-MME questions, Fast/Slow × Blind/Aware,
+n=1, 24 nominal cells. The original MultiHop 12-attempt block is not rerun.
+This is coarse raw pre-decision visibility, not a cost-guided method.
+See [protocol](predecision-crossbenchmark-v1-protocol.md),
+[LongBench audit](predecision-longbench-v1.md),
+[Video audit](predecision-videomme-v1.md) and
+[exception audit](predecision-crossbenchmark-failure-audit-v1.md).
 
-Inference/cache and order limitation: fresh Worker processes and empty artifact
-stores do **not** mean fresh Ollama model processes or cold inference caches.
-The same model servers are reused, and FB/FA/SB/SA order is fixed rather than
-randomized. With n=1 for each new cell, stochastic reasoning, service/cache state
-and order remain alternative explanations for timing and workflow differences.
-Do not attribute a single difference to profile visibility alone, or describe
-the physically available dual-4090 device as an observed model-placement reversal:
-completed physical inferences audited so far selected A28 in both groups.
+Cloud Manager and always-Blind Verifier use `qwen3.8-max`; native Agents SDK
+Manager and bounded specialists-as-tools; B0 locality-aware physical scheduler;
+finite system-owned operators. Budgets: Manager 20, physical calls 64, Verifier
+20; specialists 8 turns / 4 created / 2 active. Terminal answer is deterministically
+extracted from a successful physical model result and passed to the original
+private evaluator, with no hidden semantic finalizer.
 
-Frozen execution commit: `90cea3261c1e21f7cb528025c64729741ccc8451`.
-Harness: unchanged `infra-aware-predecision-v1`, SHA-256
-`cd184ee891e9227aa7f236e3361fc6d49a756a4429a8aa3e7070b286f144ba99`.
-Manager/Blind Verifier `qwen3.8-max`; physical contract
-`qwen3.8-27b-q4km-v1`, reported GGUF `qwen35` / 27.3B / Q4_K_M, 32K/2048;
-20/64/20 budgets; 1200 s controller-to-Worker timeout (see the
-[backend client policy audit](predecision-crossbenchmark-failure-audit-v1.md)).
-Same native loop, instructions, tools,
-scheduler, worker substrate and observer semantics. Fast 100 Mbps / configured
-5 ms, Slow 3 Mbps / configured 50 ms; Jetson netem limitation is unchanged.
+Blind receives task, semantic state and static capability contract only. Aware
+Manager additionally receives a fresh anonymous physical profile before **every**
+reasoning call, including H0. Specialists and Verifier remain Blind in both
+conditions. Dynamic profile does not include concrete IP/deployment identity;
+gold, source_ref and evaluator-private metadata never enter logical context.
 
-Model alias versus artifact: A28 and strong-4090 `/api/show` agree on tag
-`qwen3.8-27b-v1`, GGUF architecture/family `qwen35`, 27.3B, Q4_K_M, the same
-model/projector blobs and template hash. `general.name` is absent, so the tag
-alone is not independent evidence of official release branding. Metadata context
-262144 is not the formal tested deployment envelope: `num_ctx` remains 32768.
-The Modelfile default `num_predict=256` is overridden by Worker request
-`max_tokens=2048`, evidenced by the explicit 2048-token length-ended inference.
-No tag/blob/model/config was changed for this check. Durable
-`physical-model-metadata-provenance-audit-001.json` under the final patch root,
-SHA-256 `d590157ba1b14596823c88f47b9818ea62fe151854df4e4e7484cf5c595db4db`.
+Actual local artifact metadata: `qwen35`, 27.3B, Q4_K_M, same model/projector
+blobs and template on A28/strong-4090, configured alias `qwen3.8-27b-v1`.
+The alias is not independent proof of official release branding. Formal context
+32768 / output ceiling 2048, same quantization/runtime; metadata 262144 is not
+the configured context. Modelfile `num_predict=256` is overridden by Worker
+request `max_tokens=2048`. Every completed physical inference audited so far
+selected A28: no observed RTX/A28 model-placement reversal.
 
-All current dataset access/materialization/distribution and new raw evidence remain
-on remote nodes, with 4090 owning the sources. Development PC obtains bounded
-telemetry/metadata. The deployment Git archive also included already-tracked
-historical results; see the packaging audit below. Do not call that source-only;
-future bundles must exclude old result/trace evidence explicitly.
+Fast = 100 Mbps + configured 5 ms; Slow = 3 Mbps + configured 50 ms. Jetsons
+have HTB without netem; 4090 has HTB+netem. These are configured regimes, **not
+measured symmetric RTTs**. Peer/Worker/iperf/ICMP shaping excludes cloud443/SSH.
+Initial placement, models, tasks and scheduler remain unchanged. Fresh Worker
+stores/processes do not imply cold Ollama processes/caches. Fixed FB/FA/SB/SA
+order, stochastic trajectories and n=1 prevent stable or causal claims.
 
-The user authorized a transport-only mitigation after the stopping-boundary audit:
-Worker client idle keepalive expiry 5 s → 4 s, no retry and unchanged 100/20
-connection limits. Full pytest **440 passed**, Ruff passed, strict Pyright **0 errors**.
-Implementation commit `7823cdc`; separate patch freeze/execution commit
-`d43c3b37bdade20464d00e630e4f61973c7ab5ad`. New harness SHA-256
-`232a017188e4b779215c9a92f4df7ee0766f3892bbea596c5f81548e8fb8248e`.
-The logical runtime, Manager/Verifier instructions, budgets, models, static
-capability contract, tasks, representation, scheduler and observer semantics
-are unchanged. Six task freeze records match the original byte-for-byte as
-structured values. This is a transport revision difference, not a new method;
-retain the three clean old cells rather than rerun unaffected results.
+## Workload properties
 
-## Authoritative evidence and continuation
+| Task | Original source / representation bytes | Initial artifacts / sources | Semantic structure |
+| --- | --- | --- | --- |
+| Financial | 1033800 / 1081150 | 4 documents / 3 Workers | 344 ordered chunks, cross-document comparison |
+| Academic | 494456 / 514789 | 2 documents / 2 Workers | 164 chunks, GPT-4 report and Chroma |
+| News | 228792 / 242295 | 2 documents / 2 Workers | 77 chunks, two Sanofi releases |
+| Video 795-3 | 282442048 / intact MP4 | 1 / A4 | 2495.121 s, AV1+Opus, visual tool question |
+| Video 848-1 | 160083738 / intact MP4 | 1 / A4 | 2037.781 s, AV1+Opus, visual evidence question |
+| Video 795-2 | 282442048 / same intact 795 MP4 | 1 / A4 | temporal-order question; not another independent video |
+| Existing MultiHop | 7696522 corpus record bytes | 3 nonsemantic hash shards / 3 Workers | 609 documents, 2847 chunks, union is complete corpus |
 
-Remote root: `/home/super/xiaoming/predecision-crossbenchmark-v1-90cea32`.
-`protocol-freeze.json` covers all six task bundles/source files/capabilities before
-any Manager call. Per-cell evidence:
-`evidence/<task>-<condition>/primary/{freeze,private,runs,tc-attestation.json,...}`.
-All four fresh Worker roots are independently namespaced per attempt.
+LongBench source characters reconstruct exactly from ordered document chunks;
+question, options and private evaluator/gold are unchanged. Videos are original
+full sources, not smoke MJPEG representations. Agent-generated JPEG frames and
+contact sheets are explicitly lossy runtime evidence; exact decisive-pixel
+coverage is not established. `sample_frames` is cadence sampling capped by
+max_frames, **not uniform full-timeline coverage**. For example 32 frames at 5 s
+cover a nominal prefix through 155 s, not the 2495 s video.
 
-Initial queue PID: **358408** (`queue-launch.json`); it exited at the fourth
-cell's operational audit gate. The authorized identical replacement PID **453741**
-and suffix-controller PID **476338** also exited at the replacement audit gate.
-The eight Slow-Aware Worker PIDs and all three queue/controller PIDs were checked
-inactive. Never infer liveness from launch records: verify `/proc/<pid>/cmdline`
-and `queue.jsonl` before waiting or restarting.
-The queue stops at the first operational audit gate; no automatic semantic retry,
-replacement, prompt change or budget expansion. See exception policy in protocol.
+No current dataset/artifact bodies pass through the development PC. Dataset
+materialization/distribution and content hashes are computed remotely; PC receives
+bounded audit metadata. Historical archive mistakes are disclosed separately,
+not reused as current data transfer.
 
-Read-only audit snapshot `audit-progress-006.json` retains all five attempts,
-separates three effective clean records, and lists twenty unexecuted primary cells
-plus the unresolved Slow-Aware cell. `persistent-operational-stop-v1.json` records
-the stop boundary. No third automatic attempt or later cell was launched.
-Audit tool revision does not change frozen runtime/code/config or cell results.
+## Task-level comparison
 
-Authorized patch evidence root:
-`/home/super/xiaoming/predecision-crossbenchmark-v1-d43c3b3`.
-`patch-authorization-and-identity.json` and `patch-launch.json` record the scope,
-identity checks and user approval. Affected-cell PID **2709635**; gated suffix
-controller PID **2709636**. Both must be checked for actual liveness, not assumed
-active from their launch record. The controller requires a clean full audit of
-`transport-patch-1` before starting the exact twenty unexecuted cells and stops
-at any new operational gate. New evidence never overwrites either old attempt.
+Each entry = answer/score; E2E seconds; action payload bytes. All admitted rows
+are normal completions, canonical-format valid and originally evaluated. Action
+traffic excludes mandatory initial materialization, which is included in E2E.
+Do not pool incompatible benchmark scores.
 
-Patched boundary audit passed: 132/132 probes, 11/11 actual pre-decision Aware
-profiles and Manager input hashes, 11 Blind Verifier input hashes, terminal-agent
-answer provenance, 12 expected persisted artifacts, trace parent chain, Worker
-shutdown and tc restore. `audit-progress-001.json` merges six attempts from both
-roots into four effective cells; `financial-four-cell-audit-001.json` records the
-completed task comparison. The fixed suffix began with Academic Fast-Blind.
-
-## Partial result
-
-| Task | Condition | Completed / evaluated | Answer / score | E2E s | Action bytes | Model inferences | Manager / Verifier |
-| --- | --- | --- | --- | ---: | ---: | ---: | --- |
-| Financial `66f7c780bb02136c067c35e8` | Fast-Blind | yes / yes | A / 0.0 | 406.653 | 265,938 | 2 | 20 / 20 |
-| Same task | Fast-Aware, **excluded: specialist profile leakage** | yes / yes | A / 0.0 | 318.058 | 486,264 | 2 | 10 / 10 |
-| Same task | Slow-Blind | yes / yes | A / 0.0 | 278.919 | 141,047 | 1 | 14 / 14 |
-| Same task | Slow-Aware transport patch, **clean** | yes / yes | A / 0.0 | 251.831 | 486,432 | 1 | 11 / 11 |
-| Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
-| Same task | Slow-Aware replacement, **excluded/confounded** | yes / yes | A / 0.0 | 412.727 | 58,287 | 2 | 10 / 10 |
-| Academic `66f2c44e821e116aacb2b826` | Fast-Blind, clean | yes / yes | C / 1.0 | 126.426 | 63,102 | 1 | 9 / 9 |
-| Same task | Fast-Aware, clean | yes / yes | C / 1.0 | 175.840 | 243,055 | 1 | 6 / 6 |
-| Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 176.759 | 25,132 | 1 | 11 / 11 |
-| Same task | Slow-Aware, clean | yes / yes | C / 1.0 | 156.410 | 18,921 | 1 | 11 / 11 |
-| News `66faa8efbb02136c067c7357` | Fast-Blind, clean | yes / yes | C / 1.0 | 600.051 | 107,471 | 5 | 14 / 14 |
-| Same task | Fast-Aware, **excluded: specialist profile leakage** | yes / yes | A / 0.0 | 74.828 | 0 | 1 | 8 / 8 |
-| Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 507.576 | 191,727 | 4 | 13 / 13 |
-| Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 189.024 | 19,112 | 1 | 9 / 9 |
-| Video `795-3` | Fast-Blind, clean | yes / yes | B / 0.0 | 185.443 | 581,538 | 1 | 5 / 5 |
-| Same task | Fast-Aware, clean | yes / yes | A / 1.0 | 252.371 | 1,230,240 | 1 | 3 / 3 |
-| Same task | Slow-Blind, clean | yes / yes | A / 1.0 | 1069.965 | 1,562,096 | 1 | 3 / 3 |
-| Same task | Slow-Aware, clean | yes / yes | A / 1.0 | 1071.594 | 1,471,756 | 1 | 3 / 3 |
-| Video `848-1` | Fast-Blind, clean | yes / yes | B / 0.0 | 442.512 | 798,787 | 1 | 6 / 6 |
-| Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 226.982 | 380,788 | 1 | 6 / 6 |
-| Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
-| Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 711.029 | 409,154 | 1 | 6 / 6 |
-| Video `795-2` | Fast-Blind backend patch, clean | yes / yes | C / 1.0 | 692.487 | 391,212 | 1 | 8 / 8 |
-| Same task | Fast-Aware, clean | yes / yes | B / 0.0 | 1009.582 | 742,651 | 2 | 10 / 10 |
-| Same task | Slow-Blind, clean | yes / yes | B / 0.0 | 1170.017 | 915,054 | 1 | 5 / 5 |
-| Same task | Slow-Aware, **hard-stopped: specialist profile leakage** | no / no | none / none | unknown final E2E | not a valid cell total | 6 completed before stop | 4 Manager inputs; Verifier interrupted |
-
-Financial Fast-Aware is now excluded for specialist profile leakage; the other
-three effective Financial conditions are retained semantic quality failures. Fourth primary
-is preserved but excluded: one A4 observer transport disconnect changed the actual
-turn-6 Aware profile candidate count from four to three. The replacement suffered
-the same transport error on A5/A28, marking three sources HOST_UNREACHABLE and
-rejecting its first action before selection. Do not compare either as a clean Aware result.
-See [exception audit](predecision-crossbenchmark-failure-audit-v1.md).
-
-First cell passed profile isolation, input/Verifier hash reconstruction, terminal
-answer provenance, all 320 Worker probes, artifact persistence and tc restoration.
-It is a retained **valid semantic quality failure**, not a reason to tune the harness.
-Trace: 40 graph nodes / 63 edges; one specialist / 8 specialist turns; peak four
-overlapping actions. Four conservative context preflight rejections are recorded,
-not counted as inference. Physical model service work 113.943 s, action transfer
-work 3.760 s, Manager work 163.616 s, Verifier work 88.344 s; sums are non-additive.
-Initial placement separately moved 1,081,150 representation bytes in 0.387 s.
-
-Fast-Aware independently passed 10/10 pre-decision profile/input hashes and 216
-Worker probes; Slow-Blind passed 14 Manager input hashes and 208 probes. Their
-terminal provenance, persistence, privacy and tc restoration checks pass.
-No complete task/family aggregate, stability, cost-rationality or cross-benchmark
-claim yet. At the historical stopping boundary, the old suffix controller correctly
-refused continuation and all twenty suffix cells were unexecuted. A third identical
-operational replacement remains forbidden. The authorized transport patch above is
-a separately frozen affected-cell rerun; it does not retroactively validate either
-old attempt. Historical transport root cause remains unproven.
-A synthetic loopback diagnostic reproduces the same disconnect on a reused
-connection at the equal five-second client/server expiry boundary; a four-second
-client-expiry control opens a new connection and passes. The control was originally
-diagnostic-only; after explicit approval, the same limits helper passed the remote
-production-client diagnostic and was frozen in the new deployment. This does not
-establish historical root cause. All 20 **old-attempt** Worker PIDs were inactive
-at the boundary and original deployment hashes remain unchanged. The original
-24-clean-cell objective has not been achieved.
-
-## Pending final analysis
-
-Full Q1–Q6 characterization cannot be finalized at this hard-stop. The unaffected
-evidence supports only bounded answers:
-
-- Q1: workflow parameters, reduction nodes and information flow vary in admitted
-  Academic/Video trajectories; not proof that every workload responds beneficially.
-- Q2: stability/causality is unproven (new n=1, fixed order and reused model servers;
-  existing MultiHop now has incomplete clean Aware repetitions).
-- Q3: Academic Slow-Aware has one equal-quality, lower-E2E/traffic observation.
-  Video 795-3 Slow saves 5.8% action bytes without E2E benefit; shared scheduler
-  locality must not be attributed exclusively to Aware planning.
-- Q4: clean Financial Slow-Aware still aggregates/moves more than Slow-Blind;
-  Fast Video 795-2 expands evidence yet answers wrongly. A universal Slow→Reduce
-  policy is not established. Confounded Fast-Aware text cells cannot be evidence.
-- Q5: admitted text E2Es are mainly model/cloud work; Slow Video includes large
-  fixed initial transfer, separate from a few seconds of action transfer. Work sums
-  overlap and are not an additive E2E decomposition.
-- Q6: these observations do not identify a reliable network-class heuristic,
-  nor prove that no such heuristic could exist. No new heuristic/method is built.
-
-The research motivation remains a hypothesis about quality-aware action
-consequences, not a demonstrated cross-benchmark method improvement. Repair and
-resumption require a separate decision; the original 24-cell scope is not reduced.
-
-### Existing MultiHop repetition audit (read-only, no rerun)
-
-The retained one-task block has three repetitions per condition, unlike the new
-n=1 cross-benchmark cells. Sample standard deviation uses n-1; CV is descriptive,
-not a confidence bound. E2E includes each run's initial materialization.
-**Historical statistics only:** subsequent audit excludes Fast-Aware r2/r3 and
-Slow-Aware r1 for specialist profile leakage. The table is preserved to document
-the old block, not a clean balanced comparison; remaining counts are 3/1/3/2.
-
-| Condition | Individual E2E s | Mean / median s | Sample SD s / CV | Quality |
+| Task | Fast Blind | Fast Aware | Slow Blind | Slow Aware |
 | --- | --- | --- | --- | --- |
-| Fast-Blind | 156.210 / 671.796 / 145.748 | 324.585 / 156.210 | 300.739 / 92.7% | 3/3 correct |
-| Fast-Aware | 156.766 / 138.353 / 171.831 | 155.650 / 156.766 | 16.767 / 10.8% | 3/3 correct |
-| Slow-Blind | 132.646 / 270.295 / 207.437 | 203.460 / 207.437 | 68.911 / 33.9% | 2/3 correct |
-| Slow-Aware | 121.426 / 188.718 / 193.687 | 167.944 / 188.718 | 40.362 / 24.0% | 3/3 correct |
+| Financial | A/0; 406.653; 265938 | C/1; 1282.028; 573058 | A/0; 278.919; 141047 | A/0; 251.831; 486432 |
+| Academic | C/1; 126.426; 63102 | C/1; 175.840; 243055 | C/1; 176.759; 25132 | C/1; 156.410; 18921 |
+| News | C/1; 600.051; 107471 | C/1; 713.826; 99354 | C/1; 507.576; 191727 | A/0; 189.024; 19112 |
+| Video 795-3 | B/0; 185.443; 581538 | A/1; 252.371; 1230240 | A/1; 1069.965; 1562096 | A/1; 1071.594; 1471756 |
+| Video 848-1 | B/0; 442.512; 798787 | A/0; 226.982; 380788 | A/0; 871.266; 981232 | A/0; 711.029; 409154 |
+| Video 795-2 | C/1; 692.487; 391212 | B/0; 1009.582; 742651 | B/0; 1170.017; 915054 | pending isolated attempt |
 
-Fast-Aware first actions vary across the **same** network class: aggregate,
-single BM25, then six parallel BM25 calls. Slow-Aware aggregates in all three
-runs, transferring 5204596 action bytes each; two Slow-Blind runs instead
-transfer 42446 and 57351 bytes. The Fast mean advantage is outlier-sensitive:
-Fast medians are nearly equal. These observations do not establish a reliable
-"Slow -> Reduce" rule, population-level stability or an optimal policy.
-`existing-multihop-variation-readonly-audit-001.json` under the final patch root
-has SHA-256 `15d10c64a56ab11ba3e48ddc117ef1ac254197863bbd31309378f04888a94a39`;
-all values are derived from the original 12-run audit, not new executions.
+LongBench: eight correct / twelve effective completions, Blind 4/6 and Aware
+4/6, descriptive selected-set counts only. Video's family quality accounting
+remains pending the final cell. Existing MultiHop has nine eligible of twelve,
+8/9 correct, unequal condition counts FB3/FA1/SB3/SA2; **not a clean balanced
+n=3 comparison**. Three historical Aware runs are excluded for specialist
+profile exposure. Do not use the original full-block means as clean estimates.
 
-Task-level four-condition tables, workload properties, operator/reduction/sampling
-paths, evidence preservation, physical/cloud work, infra-response and quality
-will be reported after auditing all attempts. Do not pool incompatible benchmark
-scores or interpret single trajectories as stochastic stability. Existing MultiHop
-analysis remains [separate](infra-aware-predecision-qwen-v1.md).
+## Workflow response and quality-cost trade-offs
 
-Final goal requires all 24 cells executed or validly failed, operational incidents
-resolved or explicitly hard-stopped, final reports, evidence and repository audit.
-This report does not claim completion of the unattended goal.
+Financial Aware starts with aggregation in both Fast and Slow. Fast then retrieves,
+uses one Blind specialist and performs four explicit per-option model analyses
+plus terminal synthesis: five inferences, correct answer, 215% longer E2E and
+115% more bytes than Fast Blind. Slow's 486432 action bytes exceed Slow Blind's
+141047 and both are wrong. Neither supports a universal Slow -> Reduce policy.
 
-Financial task preliminary interpretation: both Aware conditions aggregate first,
-including the constrained network. Slow-Aware sends **244.9% more action bytes**
-than Slow-Blind while taking 9.7% less E2E in this single trajectory; Fast-Aware
-sends 82.8% more bytes while taking 21.8% less E2E. All four original evaluator
-scores are zero. Lower E2E is not evidence of network-efficient, quality-preserving
-adaptation: Manager/Verifier/model work differs, n=1 does not exclude stochastic
-trajectory variation, and the one transport-only revision difference is disclosed.
-No method or prompt is tuned to correct these results.
+Academic Aware switches Fast aggregation to Slow per-document retrieval.
+Slow Aware versus Slow Blind: 24.7% fewer action bytes, 11.5% lower E2E, both
+correct. This is the clearest quality-preserving **single-pair observation**,
+not proof of stable infrastructure adaptation. Fast Aware is 39.1% slower.
 
-`audit-progress-002.json` retains seven attempts and selects five effective cells.
-Academic Fast-Blind passed 112/112 probes, 9 Manager and 9 Verifier input hashes,
-terminal provenance, persistence, privacy, shutdown and tc restore. It retrieved
-first, used one specialist / 8 turns, 14 nodes / 13 edges, one context-preflight
-rejection and one actual model inference. This is a correct individual result,
-not a complete Academic task comparison or a family-level quality claim.
+News Fast Aware produces four explicit bounded model notes and a correct terminal
+answer: 7.6% fewer bytes but 19.0% longer E2E than Fast Blind. Slow Aware is much
+cheaper and wrong, while Slow Blind is correct. Reduction can lose task quality.
 
-Later `audit-progress-005.json` and `academic-four-cell-audit-001.json` complete
-the Academic task comparison: all four trace chains/terminal provenance, hashes,
-privacy, persistence, shutdown and tc restoration pass; 364/364 Worker probes.
-Aware changes aggregate-first in Fast to BM25-first in Slow. Slow-Aware has
-24.7% fewer action bytes and 11.5% lower E2E than Slow-Blind with equal correct
-quality; Fast-Aware is 39.1% slower than Fast-Blind. This is one observed
-workload-dependent response, not stochastic stability or causality. Model service
-work (10.947 / 126.845 / 103.752 / 83.875 s) dominates the transfer differences.
-See the detailed [LongBench task tables](predecision-longbench-v1.md).
+Video 795-3: all sample locally, differing cadence/frame selection; Slow Aware
+has 5.8% fewer action bytes but virtually identical E2E to Slow Blind, both
+correct. Mandatory 282 MB initial placement consumes about 789 s in each Slow
+cell, not an Agent-controlled traffic saving.
 
-### LongBench family completion
+Video 848-1: Aware converts many frames into compact sheets. Fast Aware reduces
+bytes 52.3% and E2E 48.7%; Slow Aware reduces bytes 58.3% and E2E 18.4%.
+All four answers are wrong, so these are not demonstrated quality-qualified
+benefits. Sheet organization changes visual model work much more than the few
+seconds of measured action transfer.
 
-All twelve effective cells completed/evaluated with no unresolved system confounder;
-14 historical attempts retained. Family audits verify 48 unique empty stores,
-1844 successful probes, 136 Manager / 136 Blind Verifier hashes, 55 fresh Aware
-inputs, all trace chains/terminal provenance/persistence/privacy/tc restore,
-32768/2048 deployment surfaces, 21 normal-stop inferences and 48 exited Worker PIDs.
-Selected-task scores: Financial 0/4, Academic 4/4, News 2/4. See
-`longbench-family-completion-audit-001.json`, `longbench-family-runtime-integrity-001.json`
-and the [family report](predecision-longbench-v1.md), including zero-score source audits.
-No cross-benchmark quality pooling or broad benchmark-accuracy claim.
+Video 795-2 Fast Aware explicitly widens sampling after a length-ended intermediate
+analysis, but returns the wrong temporal answer. Compared with correct Fast Blind,
+it is 45.8% slower and transfers 89.8% more bytes. Recovery and parallelism can
+occur without recovered quality. Final Slow-Aware outcome remains pending.
 
-News Aware is cheaper but wrong in both networks. Fast-Aware eventually synthesizes
-from a short prompt after specialist reads; Slow-Aware retains bounded chunks from
-both documents and still answers incorrectly. Source hashes and original evaluator
-are intact; classify semantic selection/synthesis and readiness, not runtime repair.
+Existing eligible MultiHop Aware trajectories still aggregate the shards; moving
+5204596 remote bytes onto A28 is co-location, **not compression**. Unequal retained
+repetitions and broad Blind timing variation forbid a clean balanced speedup claim.
 
-Video begins with real A4 AV1 sampling and image transfer to A28, not a smoke
-MJPEG substitute. The first two 795-3 trajectories both sample 32 frames at 5 s
-cadence; Blind rejects 16-image input then answers wrongly from four images,
-Aware answers correctly from eight images with higher model/transfer cost. This
-is a quality/cost trade-off, not uniform Aware efficiency improvement. Slow-Blind
-also completed/evaluated correctly: one inference, no context failures, 16 successful
-probes, E2E 1069.965 s. Fixed initial source materialization is 788.892 s (~74% of E2E),
-separate from 1,562,096 action bytes / 5.508 s transfer and 236.090 s model service.
-Slow-Aware also completes/evaluates correctly: 28 probes pass, E2E 1071.594 s,
-1,471,756 action bytes, 788.481 s fixed initial placement. Sampling cadence changes
-5→10 s, with terminal selected frames 8→10 versus Fast-Aware; both still sample
-32 frames locally, with the same two-node operator sequence. Relative to Slow-Blind,
-Aware action bytes are 5.8% lower but E2E is 0.15% higher: not a clear system benefit.
-The fixed 282 MB initial transfer dominates both Slow E2Es. The complete task audit
-checks 96 probes, 14 Manager / 14 Blind Verifier hashes, six fresh Aware inputs,
-16 empty initial states/exited Workers, trace provenance, persistence, privacy,
-normal model finishes and tc cleanup. See the [Video task report](predecision-videomme-v1.md).
-Eight Video conditions remain pending; current 848-1 Fast-Blind is active.
-Merged `audit-progress-011.json` records 18 preserved attempts / 16 effective cells.
+## Cost interpretation and limitations
 
-Later `audit-progress-012.json` adds 848-1 Fast-Blind: B/0, completed/evaluated,
-24 successful probes, six reconstructed Manager/Blind-Verifier inputs, terminal
-provenance, privacy/persistence and cleanup pass. It samples 31 frames at 64 s
-cadence, recovers a rejected 16-image request into 11 distributed input frames,
-then answers incorrectly. E2E 442.512 s is chiefly model (259.739 s), cloud Manager
-(72.368 s) and decode/operator (73.009 s) work, not action transfer (1.429 s).
-No semantic retry or tuning; seven Video conditions remain, Fast-Aware is active.
+LongBench action-transfer work is 0.24–3.76 s, much smaller than model/cloud work.
+Financial Fast Aware spends 1106.980 s in real physical inference; News Fast Aware
+530.521 s. More reduction branches can add expensive analysis, even with smaller
+terminal artifacts. Prompt-carried evidence matters: zero artifact inputs do not
+mean zero model input or evidence consumption.
 
-`audit-progress-013.json` adds clean 848-1 Fast-Aware: A/0, six fresh profile/input
-hashes / Blind Verifier hashes, 56 successful probes, all provenance/privacy,
-persistence/cleanup checks pass. It naturally recovers a 31-image context rejection
-by constructing a 31-frame contact sheet and using it in actual A28 inference.
-This is a genuine extra reduction node, with 52.3% fewer action bytes / 48.7% lower
-E2E than Fast-Blind, **but both wrong**, not a solved quality-preserving benefit.
-Remote image checks verify readable identical 2560×720 JPEG sheet copies on A4/A28,
-all 31 inputs, declared thumbnail/JPEG reduction; no PC image payload transfer.
-Current progress: 20 preserved attempts / 18 effective cells / six pending;
-848-1 Slow-Blind is active, not restarted during long initial materialization.
+For Slow videos, fixed initial placement is a major floor; decode and model work
+remain substantial. Model/profile/operator/service work sums are non-additive
+under parallelism; they are not an additive E2E partition. Measured action overlap
+is not a matched sequential speedup. Unknown profiles and predicted critical-path
+values remain unknown; no retrospective guessed values are inserted.
 
-`audit-progress-014.json` adds clean 848-1 Slow-Blind: A/0, 16 probes and four
-Manager/Blind-Verifier hashes, original evaluator and provenance/privacy/persistence/
-cleanup pass. It directly consumes 12 distributed frames and reaches actual inference
-without context failures. Only four turns / two charged physical calls are used;
-this is a temporal evidence-selection/synthesis zero, not a budget or feasibility
-failure. E2E 871.266 s includes 446.971 s fixed initial placement, 283.732 s model
-service and 73.003 s decode. Current: 21 attempts / 19 effective cells / five pending,
-Slow-Aware active; no semantic retry/tuning or new runtime incident.
+Context errors here are fail-closed **conservative envelope** refusals, not proof
+of actual tokenizer/OOM capacity failure. The frozen text guard counts UTF-8 bytes
+as a token upper bound; images have a static 2048-token cost. Prompt + artifacts
++ reserved output must fit 32768. Preflight-rejected requests did not reach
+inference and must not be counted as model-service calls. This guard is unchanged,
+not tuned for task completion or labeled dynamic deployment unavailability.
 
-Latest `audit-progress-015.json` adds clean 848-1 Slow-Aware and completes that
-four-cell task: all four answers are wrong, although execution/format/evaluator
-are valid. After static context rejection, Aware makes four independent eight-frame
-sheets in one parallel group and invokes the model on their outputs. Versus
-Slow-Blind, action bytes fall 58.3% and E2E falls 18.4%; lower service work, not
-network transfer alone, explains much of the difference. This is not demonstrated
-quality-preserving benefit. Task audit verifies 176 probes, 22 Manager / Blind
-Verifier hashes, 12 fresh Aware inputs, 16 initially empty stores / exited Workers
-and full operational/provenance/privacy checks. Current coverage is 20/24 effective
-cells, 22 attempts; only the four 795-2 conditions remain. Earlier active-cell
-labels and counts in this chronological history are superseded by this ledger.
+## Bugs, exclusions and provenance
 
-## Task-level workload map (provisional: five completed tasks)
+See [failure audit](predecision-crossbenchmark-failure-audit-v1.md).
+Repairs are generic and separately frozen: JSONL physical-line parsing; observer
+transport idle-expiry mitigation; physical backend explicit no-retry/1200 s read
+timeout; actual-recipient profile isolation. No instructions, Verifier, tool
+semantics, task, budget, scheduler or model requirements were tuned.
 
-This view uses the five completed four-cell tasks plus the latest clean 795-2
-Fast pair and Slow-Blind (23 effective cells), **not** excluded attempts or unfinished runs.
-Each condition entry is `score / E2E seconds / action bytes`.
-Raw artifact bytes are the actual initial execution representation; LongBench
-original text is also shown to avoid mistaking JSON overhead for new information.
+Execution revisions are preserved per row: original `90cea32`, transport
+`d43c3b3`, backend `5dafc43`, isolation `3c3bd95`. Current manifest SHA:
+`444db21f3d7aa0db13af993854e77318a29bddee1aee438f27d4a4f7c25affbf`.
+Only genuine affected cells were rerun; prior invalid attempts were never erased.
+The privacy hard-stop and authorized repair chronology are preserved in
+[incident](predecision-specialist-profile-isolation-hard-stop-v1.md) and
+[repair](predecision-specialist-profile-isolation-patch-v1.md) audits.
 
-| Task | Workload / initial sources | Fast-Blind | Fast-Aware | Slow-Blind | Slow-Aware |
-| --- | --- | --- | --- | --- | --- |
-| LongBench Financial | 1,081,150 record bytes; 1,033,800 original text bytes; 4 docs on 3 Workers | 0 / 406.653 / 265938 | **excluded: specialist profile leakage** | 0 / 278.919 / 141047 | 0 / 251.831 / 486432 |
-| LongBench Academic | 514,789 record bytes; 494,456 original text bytes; 2 docs on 2 Workers | 1 / 126.426 / 63102 | 1 / 175.840 / 243055 | 1 / 176.759 / 25132 | 1 / 156.410 / 18921 |
-| LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | **excluded: specialist profile leakage** | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
-| Video 795-3 | 282,442,048 intact AV1 bytes; 2495.121 s; 1 video on A4 | 0 / 185.443 / 581538 | 1 / 252.371 / 1230240 | 1 / 1069.965 / 1562096 | 1 / 1071.594 / 1471756 |
-| Video 848-1 | 160,083,738 intact AV1 bytes; 2037.781 s; 1 video on A4 | 0 / 442.512 / 798787 | 0 / 226.982 / 380788 | 0 / 871.266 / 981232 | 0 / 711.029 / 409154 |
-| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | 0 / 1009.582 / 742651 | 0 / 1170.017 / 915054 | **hard-stopped: specialist profile leakage; no terminal/evaluator** |
+Authoritative merged root:
+`/home/super/xiaoming/predecision-crossbenchmark-v1-3c3bd95`.
+`audit-progress-003.json` admits 23/24. Twelve LongBench traces have exact terminal/
+evaluator provenance and zero observer errors; 48 distinct store roots / 256
+actual artifact replicas verify size/SHA. All 23 effective traces' 263 prepared
+actions have derived inputs materialized before their actual owning reasoning
+input. Existing MultiHop evidence is unchanged, not repaired or replaced.
 
-The anonymous static model pool has A28 and strong-4090 deployments, but **all
-completed physical model inferences in these 23 effective cells select A28**.
-Do not present this experiment as a measured GPU/Jetson model-placement reversal
-or dual-GPU parallel inference study. Video sampling/sheet creation is on A4 in
-both methods: locality is supplied by the shared physical scheduler, not evidence
-that only the Aware logical policy knows how to reduce near data.
+## Research questions Q1–Q6
 
-Terminal artifact/input byte ratios are recorded in remote
-`cross-workload-metadata-summary-002.json` under the backend-patch root (22 cells).
-The older 001 contains 20 cells and remains preserved. These ratios are
-**not** semantic-information retention measurements: prompt-embedded evidence,
-prior successful model calls and Manager observations matter. In particular,
-zero terminal artifact bytes does not mean no evidence; a small JPEG composite
-does not establish that decisive text or temporal detail survived reduction.
+1. **Different workloads change workflows?** Observed differences include
+   aggregation/retrieval, specialist use, per-option analysis, sampling cadence,
+   frame selection and sheets. No universal adaptation direction is demonstrated.
+2. **Stable dependence on infrastructure?** Not established: n=1, stochastic
+   loops, fixed order and persistent inference state. Blind also changes across
+   Fast/Slow despite not seeing infrastructure.
+3. **Reasonable natural adaptation?** Academic Slow is a quality-preserving
+   cost signal; Video 848 sheets reduce work but all answers remain wrong.
+   These should not be conflated.
+4. **Counterexamples?** Financial Aware aggregates even in Slow and moves more
+   than Blind; eligible MultiHop Slow Aware aggregates too. Fast can expand into
+   costly retrieval/model decomposition. Slow -> Reduce is not a general rule.
+5. **Dominant costs?** LongBench model/cloud reasoning and expansion; Slow Video
+   initial placement plus visual model/decode. Action network time alone is small
+   and insufficient to explain E2E.
+6. **Simple network-class heuristic?** Not supported by this evidence; action
+   consequence, evidence preservation and model work need consideration. That is
+   a motivation for later research, not a method implemented or validated here.
 
-Three observed patterns already differ: Academic Slow has equal correct quality
-and lower Aware cost; News Aware is much cheaper but wrong; 795-3 Fast trades
-higher Aware cost for correctness. 848-1 sheet reduction lowers cost without
-solving ordering quality. These are descriptive trajectories, not final stable
-infrastructure-conditioned effects or universal benchmark-family claims.
+## Claim boundary and stop
 
-Fixed initial source transfer is included in recorded E2E but separated from
-action traffic. It dominates Slow video E2E (about 51–74% for completed cells),
-while video action transfers are only 2–6 s. LongBench model/cloud work dominates
-action-transfer differences. Sum-of-service-work is non-additive, and missing
-service profiles remain unknown. Final Q1–Q6 answers follow only after all cells
-and the final completion audit, without introducing a cost-guided method.
-
-## Historical completion audit at the blocking boundary (before authorization)
-
-The original objective remains **24 clean formal cells**, not three successful
-executions or an operational-stop report. Remote `blocking-boundary-audit-v1.json`
-independently rechecks all five trace parent chains/run identities/single terminal
-events, frozen entry/protocol/native-runtime/component hashes and all 20 owned
-Worker PIDs. These checks pass; no process is still running.
-
-| Requirement | Historical status before authorized transport patch |
-| --- | --- |
-| Three original LongBench and three distinct Video tasks, frozen before calls | Frozen protocol/task/source metadata exist; Video questions use two original videos, limitation declared |
-| LongBench 12 clean formal cells | 3 clean; 1 cell has two confounded attempts; 8 other cells unexecuted |
-| Video 12 clean formal cells | 0 executed; all 12 unexecuted |
-| Shared frozen Manager/Verifier/tools/budgets/profile timing/physical substrate | Integrity/provenance checks pass for retained attempts; no experimental-path change |
-| Per-attempt trace/result/config/hash/stores/observer/evaluator evidence | All five attempts retained; all five trace chains reconstruct; all completed/evaluated |
-| No unresolved observer/runtime confounder | **Not satisfied:** persistent Slow-Aware observer disconnect |
-| Privacy, artifact persistence, tc restoration and owned-process cleanup | Checks pass for all retained attempts; current roots mq/mq/mq/noqueue |
-| Task-level clean four-condition comparisons and cross-family interpretation | **Incomplete:** no task has four eligible cells; no cross-family claim |
-| No third identical operational attempt | Preserved; suffix never started |
-| Reports/git | Partial reports and exception diagnosis committed/pushed; final scientific deliverables remain incomplete |
-
-The manual operational replacement is explicitly recorded by attempt directory,
-run ID, CLI launch and audit authorization. The inherited freeze field
-`replacement: false` is a harness execution-policy flag; it must **not** be used
-to infer that this explicitly named manual attempt is a primary. The read-only
-auditor reports attempt identity separately. Original evidence is not overwritten
-to change that policy field.
-
-At that boundary, continuing required review and authorization for any subsequent
-affected experimental run. The user subsequently authorized the transport-only
-patch and the gated suffix recorded above. Preserve the boundary as history; do
-not interpret it as the current queue state or as achievement of the goal.
-
-## Offline verification
-
-### Latest backend-client patch boundary
-
-Primary 795-2 Fast-Blind finishes with control_plane_failed / UserError and no
-evaluator. Trace contains physical_execution_failed / ReadTimeout; external
-server evidence reveals three requests under one logical action. Its 52 probes,
-privacy, artifact persistence and tc restore pass, but cannot erase that system
-confounder. Current coverage: **20 effective cells / 23 preserved attempts / four
-unresolved conditions**, using append-only derived exclusion. Earlier clean scopes
-still have one accepted server request per traced inference.
-
-Minimal backend patch implementation `3c3d3c8`, pre-run typed-admission amendment
-`a5d1e80`, separate final execution freeze `5dafc43327a057f6a66df29d112a4e56820a65a2`.
-Full **459 pytest passed**, Ruff passed, strict Pyright 0/0. See
-[patch freeze](predecision-backend-client-patch1-freeze.md) and failure audit.
-Both actual backend constructors use retries0/read1200/connect5/write600/pool600;
-the static 32768/2048 contract is unchanged. No model/prompt/scheduler/budget change.
-
-New root `/home/super/xiaoming/predecision-crossbenchmark-v1-5dafc43` verifies
-141 tracked source/script files per node on all four nodes and exact six-task
-freeze equality before launch. Code archive 3061760 bytes, SHA-256
-`3618e6680a87c0a29bdfb5f03832433981e93214fd57b1ac11caa35cae84cd16`,
-explicitly excludes historical results/evidence/datasets. Intermediate `66a6016`
-staging performed diagnostics only, no cells. Old controller was never resumed.
-
-Affected driver PID 3305974 runs only 795-2 Fast-Blind / backend-client-patch-1;
-controller PID 3305975 waits for its audited boundary before exact FA/SB/SA.
-Launch records are not proof of continuing liveness; verify current PIDs/trace.
-All prior artifacts/evidence remain in their original namespaces.
-
-Cross-benchmark admission, continuation and audit/diagnostic tooling: full pytest **434 passed**,
-Ruff passed, strict Pyright **0 errors / 0 warnings**, `git diff --check` passed.
-Strict Pyright explicitly uses `.venv/Scripts/python.exe` on this workstation;
-unqualified invocation selected an unrelated interpreter and could not find installed
-LangGraph/Pillow typing dependencies. No runtime code change was needed.
-The deployed execution commit's initial suite had 424 passing tests; subsequent
-tests cover audit provenance, contract aliases, replacement eligibility and fail-closed
-suffix continuation.
-No running cell's frozen code or semantic behavior was changed by audit tooling.
+Current evidence supports workload-dependent, inconsistent quality-cost outcomes
+under raw profile visibility. It does not establish that raw visibility is
+universally insufficient, that Aware is causally better/worse, a crossover,
+statistical stability, a cost-guided method's superiority, or scheduler placement
+reversal. Final completion/cleanup audit awaits the one live cell; no additional
+task, repetition, sweep, semantic tuning or proposed method is started.

@@ -1,354 +1,159 @@
 # Video-MME pre-decision Raw-Aware v1
 
-## Current authorized recovery (2026-10-03)
+Updated 2026-10-03. **Eleven effective cells admitted; 795-2 Slow-Aware
+isolation-patch-1 is live.** Do not count the interrupted original as a semantic
+failure. Current report supersedes older progress snapshots; Git and remote
+evidence retain the entire chronology.
 
-Recipient-isolation repair is separately frozen as `3c3bd95` after 479 passing
-tests, Ruff and strict Pyright. Only 795-2 Slow-Aware receives one new
-`isolation-patch-1` attempt, after the two affected LongBench cells pass audits.
-Video admission remains 11/12. The interrupted original is preserved as an
-external record, not a fabricated result. No prompt, sampling strategy, task,
-video, model, tool, budget, scheduler or network change.
-See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+## Scope and benchmark-faithful representation
 
-## Historical hard-stop snapshot
+Three distinct original questions on **two**, not three, independent videos.
+Fast/Slow × Blind/Aware, n=1; original questions, choices and private gold/evaluator.
+No smoke MJPEG, offline question-conditioned sampling or strategy hints.
+Initial artifact is one intact original AV1+Opus 1280×720 MP4 on A4 per cell.
 
-**HARD STOP: 11/12 CLEAN CELLS; 795-2 SLOW-AWARE INVALID/INTERRUPTED.**
-Dynamic anonymous profile entered its specialist context through a tool result;
-no terminal answer/evaluator outcome exists. All owned processes are inactive,
-tc restored, trace and 41 expected artifacts preserved. No new run or runtime
-fix follows the objective's privacy hard-stop. See the
-[isolation audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
-Older active/PID/coverage descriptions below are historical checkpoints only.
-Queue executes all LongBench cells first, then 795-3 / 848-1 /
-795-2 in frozen order, four conditions each. Three questions on two intact original
-AV1 videos, explicitly not three independent video draws.
+| Questions | Video / duration | Original bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| 795-3 / 795-2 | D97vMwfWxvI / 2495.121 s | 282442048 | 78c7158b4ea8a29a418f84cabe77caf0a35fb0f5416c8c1592fe781b5783a4b9 |
+| 848-1 | gHXaUDx7P0Y / 2037.781 s | 160083738 | 41e26da8531c00b4ec39f03333b3f94637ec8b3ff94bc46ed2e1d01c1a38b641 |
 
-Both full videos and original question/options/private answers are frozen before
-execution. No smoke MJPEG representation, offline task-conditioned sampling or
-dataset-specific operator. Native tools decide sampling and evidence selection at
-runtime; original evaluator receives terminal canonical choice.
+Runtime sampling/sheet outputs are lossy evidence, explicitly not information-
+equivalent substitutes for the original video. The Agent chooses cadence,
+selection and sheets. FFmpeg fps sampling with max_frames is capped cadence,
+**not uniform full-timeline coverage**. Thirty-two frames at 5 s span a nominal
+155 s prefix; 10 s spans 310 s. Original source PTS and decisive evidence-pixel
+presence are not independently established by these traces.
 
-See [protocol](predecision-crossbenchmark-v1-protocol.md). The first task comparison
-is complete; the Video family and final cross-workload characterization are not.
+Cloud Manager/always-Blind Verifier `qwen3.8-max`; SDK-native loop, bounded
+specialists-as-tools; same finite tools and B0 physical locality scheduler.
+20/64/20 budgets; local model metadata `qwen35`, 27.3B Q4_K_M, alias
+`qwen3.8-27b-v1`, context32768/output2048. All completed physical inference is
+A28, sample/sheet execution A4: no model-device reversal. Resource-Blind logical
+recipients see static capability only; Aware root Manager receives a fresh
+anonymous profile per reasoning call. Specialists and Verifier remain Blind.
 
-## 795-3: completed four-cell task comparison
+Fast100Mbps/config5ms; Slow3Mbps/config50ms. Jetsons HTB without netem,
+4090 HTB+netem; configured delay is not measured symmetric RTT. Cloud/SSH
+unshaped. Fresh Worker processes and stores, native model servers reused.
+No data bodies through development PC. See [protocol](predecision-crossbenchmark-v1-protocol.md).
 
-Original 2495.121-second AV1 video, 282442048 bytes, initially on A4. All four native
-trajectories sample 32 frames: `every_seconds=5` except Slow-Aware's 10 s, using
-the original video and real AV1-capable FFmpeg. No contact sheet succeeds; all are single-Manager workflows
-without specialists (allowed, not an acceptance gate). Model-device selection is
-physical-layer A28, with actual A4→A28 image transfers and real visual inference.
+## Effective matrix
 
-| Condition | Answer / score | E2E s | Action bytes / transfer s | Initial placement s | Sampled / terminal input frames | Manager / Verifier | Model attempts / inference / context rejects | Graph N/E |
-| --- | --- | ---: | --- | ---: | --- | --- | --- | --- |
-| Fast-Blind | B / 0 | 185.443 | 581538 / 0.813 | 26.066 | 32 / 4 | 5 / 5 | 2 / 1 / 1 | 3 / 20 |
-| Fast-Aware | A / 1 | 252.371 | 1230240 / 1.908 | 24.539 | 32 / 8 | 3 / 3 | 1 / 1 / 0 | 2 / 8 |
-| Slow-Blind | A / 1 | 1069.965 | 1562096 / 5.508 | 788.892 | 32 / 10 | 3 / 3 | 1 / 1 / 0 | 2 / 10 |
-| Slow-Aware | A / 1 | 1071.594 | 1471756 / 5.507 | 788.481 | 32 / 10 | 3 / 3 | 1 / 1 / 0 | 2 / 10 |
+Every admitted row completes with canonical terminal choice, valid successful-
+model provenance and original evaluator. Action bytes exclude mandatory initial
+materialization, which is included in E2E. Times seconds. No quality pooling.
 
-Fast-Blind's first model request consumes frame IDs 1–16; the declared static
-2048-token-per-image bound alone consumes the entire 32768 context, so any prompt
-and reserved output make it impossible under the frozen contract. This is static
-capability misuse, not dynamic deployment unavailability or proof of OOM. It then
-legally requests only frames 1–4 and returns the wrong label. Fast-Aware requests
-frames 1–8 directly and returns the correct label. These are nominal frame indices
-at the declared cadence; do not claim exact original PTS measurements.
+| Task / condition | Answer / score | E2E | Initial placement | Action bytes / transfer | Manager / Verifier | Model attempts / inference / context | Graph N/E |
+| --- | --- | ---: | ---: | --- | --- | --- | --- |
+| 795-3 FB | B / 0 | 185.443 | 26.066 | 581538 / 0.813 | 5 / 5 | 2 / 1 / 1 | 3/20 |
+| 795-3 FA | A / 1 | 252.371 | 24.539 | 1230240 / 1.908 | 3 / 3 | 1 / 1 / 0 | 2/8 |
+| 795-3 SB | A / 1 | 1069.965 | 788.892 | 1562096 / 5.508 | 3 / 3 | 1 / 1 / 0 | 2/10 |
+| 795-3 SA | A / 1 | 1071.594 | 788.481 | 1471756 / 5.507 | 3 / 3 | 1 / 1 / 0 | 2/10 |
+| 848-1 FB | B / 0 | 442.512 | 13.921 | 798787 / 1.429 | 6 / 6 | 2 / 1 / 1 | 3/27 |
+| 848-1 FA | A / 0 | 226.982 | 13.973 | 380788 / 0.287 | 6 / 6 | 2 / 1 / 1 | 4/63 |
+| 848-1 SB | A / 0 | 871.266 | 446.971 | 981232 / 3.885 | 4 / 4 | 1 / 1 / 0 | 2/12 |
+| 848-1 SA | A / 0 | 711.029 | 446.992 | 409154 / 2.031 | 6 / 6 | 2 / 1 / 1 | 7/68 |
+| 795-2 FB, backend patch | C / 1 | 692.487 | 25.471 | 391212 / 0.170 | 8 / 8 | 2 / 1 / 1 | 7/68 |
+| 795-2 FA | B / 0 | 1009.582 | 24.504 | 742651 / 0.982 | 10 / 10 | 3 / 2 / 1 | 13/104 |
+| 795-2 SB | B / 0 | 1170.017 | 788.482 | 915054 / 4.172 | 5 / 5 | 2 / 1 / 1 | 3/43 |
+| 795-2 SA, isolation patch | pending | pending | pending | pending | pending | pending | pending |
 
-The wrong Blind answer is a valid visual evidence-selection / answer-synthesis
-failure, with context-recovery narrowing and Verifier/phase-restriction behavior
-as contributors. The trace does not prove exactly which sampled pixel first shows
-the decisive tool; no extra inference, task-specific repair or retry is performed.
+## Real workflow differences
 
-| Condition | Manager / Verifier work s | Visual model service s | Decode/operator s | Actual input / output tokens | Terminal artifact / prompt bytes |
-| --- | --- | ---: | ---: | --- | --- |
-| Fast-Blind | 34.884 / 17.086 | 96.867 | 8.585 | 3871 / 2 | 581538 / 685 |
-| Fast-Aware | 18.052 / 9.028 | 189.143 | 8.700 | 7562 / 2 | 1230240 / 585 |
-| Slow-Blind | 20.191 / 9.130 | 236.090 | 8.696 | 9429 / 2 | 1562096 / 670 |
-| Slow-Aware | 17.058 / 8.474 | 235.830 | 14.637 | 9402 / 2 | 1471756 / 520 |
+| Task / condition | Sampling | Successful model evidence / information flow | Ready-action parallelism |
+| --- | --- | --- | --- |
+| 795-3 FB | 32 at 5 s | 16-image request rejected -> first four images | none |
+| 795-3 FA | 32 at 5 s | first eight images | none |
+| 795-3 SB | 32 at 5 s | first ten images | none |
+| 795-3 SA | 32 at 10 s | first ten images | none |
+| 848-1 FB | 31 at 64 s | 16 selected images rejected -> eleven spread frames | none |
+| 848-1 FA | 31 at 65 s | 31-image request rejected -> one sheet of all31 | none |
+| 848-1 SB | 31 at 64 s | twelve spread frames | none |
+| 848-1 SA | 32 at 60 s | 32-image request rejected -> four eight-frame sheets | peak4 / 1.421 s overlap |
+| 795-2 FB | 32 at 75 s | 32-image request rejected -> four eight-frame sheets | peak3 / 0.428 s |
+| 795-2 FA | 32 at 10 s, then32 at 77 s | four sheets -> length-ended analysis -> four later sheets -> wrong choice | peak4 / 0.940 s |
+| 795-2 SB | 32 at 30 s | 32-image request rejected -> eleven individual frames | none |
+| 795-2 SA | live: 32 at 10 s | 16-image rejection -> four sequential eight-image analyses; final pending | pending |
 
-Both finish/evaluate with canonical choices; 24/28 probes pass, privacy/provenance,
-persistence, Worker shutdown and tc restore pass. All three Aware Manager turns
-have matching fresh profiles; Verifier remains Blind. Peak action concurrency is
-one, no overlap. Service work is non-additive. Initial materialization is included
-in E2E, not action transfer; the 282 MB original input is never hidden in the
-0.58/1.23 MB action traffic. Slow-Blind has now clean completed/evaluated with
-16/16 probes, three reconstructed Manager and Blind Verifier inputs, provenance,
-privacy, persistence and operational checks passed. Its fixed initial materialization
-took 788.892 s, approximately 74% of E2E; this must not be counted as an Agent's
-workflow-choice benefit or failure. A4→A28 transfer metadata confirms terminal
-input frames 1–10. Blind therefore also selects different evidence across Fast
-and Slow despite no dynamic profile, underscoring the n=1 stochastic-confounding
-limit. Slow-Aware has also clean completed/evaluated, with 28/28 probes and all
-three fresh anonymous profile/input hashes passing. Its terminal uses frames 1–10
-at 10 s cadence; doubled sampling spacing is an observed semantic parameter change,
-not an enforced policy. Images are transferred to A28 and consumed by inference.
+All eleven admitted workflows are single-Manager; no forced multi-agent topology.
+Handoffs and graph edges are execution-grown artifact information flow, not a
+predicted whole-plan DAG. Many fan-out edges are frame producer-consumer lineage,
+not parallel reasoning agents. Same-owner ready independent sheets truly overlap;
+no implicit same-turn dependency reordering is observed.
 
-## Task-level interpretation and validity
+795-3 Slow Aware reduces action bytes 5.8% versus Slow Blind but E2E is essentially
+equal, both correct. Roughly 789 s fixed initial placement dominates both Slow
+cells; this is not a savings achieved by the Agent. Fast Aware improves wrong
+to correct but adds model work and traffic. No universal cost/quality win.
 
-Slow-Aware transfers **5.8% fewer action bytes**, but its E2E is **0.15% higher**
-than Slow-Blind (both correct). Model service work is nearly equal; wider sampling
-increases decode/operator work. This is not a clear latency benefit. Fixed initial
-placement accounts for approximately 74% of each Slow E2E. Initial placement and
-action bytes together differ by only about 0.032% between Slow workflows.
+848-1 Aware's compact sheets reduce Fast bytes52.3%/E2E48.7% and Slow
+bytes58.3%/E2E18.4% versus matched Blind. **All answers are wrong**; quality-qualified
+benefit is not established. Inference latency drops from about260–284 s on
+individual images to58–61 s on sheets, whereas transfer time is only seconds.
+Visibility is not proven to cause those representation choices with n=1.
 
-Fast-Aware is correct while Fast-Blind is wrong, but uses 111.6% more action bytes
-and takes 36.1% longer. This is a quality-cost trade-off, not uniform efficiency.
-Aware Fast→Slow changes sampling cadence and terminal frame count (5 s / 8 frames
-→ 10 s / 10 frames), without reducing sampled-frame count or changing the two-node
-operator sequence. Both Blind and Aware sample locally in all conditions; there is
-no observed move-whole-video-versus-local-sample topology reversal. Sparse early
-sampling does not establish coverage of the whole 2495 s timeline or temporal
-evidence adequacy; do not infer exact original PTS or causal decisive-frame effects.
+795-2 FB is correct with four sheets, FA/SB wrong. FA's first analysis explicitly
+ends at output limit2048 after664.541 s, then the Manager naturally widens cadence
+10 -> 77 s and performs another inference. Recovery does not restore quality;
+versus FB it adds45.8%E2E and89.8%bytes. Intermediate output-limit saturation is
+visible, not silent input truncation. The trace does not prove missing decisive
+evidence versus interpretation/synthesis failure. Final SA remains unclassified.
 
-Durable remote `video-795-3-four-cell-audit-001.json` (SHA-256
-`7b38c083e4e41af20e3d356f753bc3f553ac072436324e1fe5a16ebc0aad25d4`)
-verifies all four unique trace chains/run IDs/single run ends, empty initial stores,
-16 exited Worker processes, shutdown and tc cleanup, shared task/capability/harness
-hashes, terminal provenance, persistence/privacy and normal-stop model finishes.
-All **96/96 probes**, **14 Manager / 14 Blind Verifier hashes** and **six fresh Aware
-inputs** pass. All model deployments expose 32768/2048; all four actual inferences
-select A28. No semantic retry or prompt/budget/scheduler change.
+## Cost decomposition
 
-Merged audit: `audit-progress-011.json` under transport-patch root: 18 preserved
-attempts / 16 effective cells / eight remaining conditions. Queue is now in 848-1
-Fast-Blind. Wait for that task and 795-2 before final cross-workload interpretation;
-n=1 cannot establish stable infrastructure-conditioned causality.
+Work sums are non-additive under parallelism, not an E2E partition. Prompt bytes
+and actual image-token usage matter; JPEG byte reduction is not itself preserved
+visual information or proportional token reduction.
 
-## 848-1: completed four-cell task comparison
+| Task / condition | Model service | Manager / Verifier work | Decode/operator work | Actual input / output tokens | Terminal artifact / prompt bytes |
+| --- | ---: | --- | ---: | --- | --- |
+| 795-3 FB | 96.867 | 34.884 / 17.086 | 8.585 | 3871 / 2 | 581538 / 685 |
+| 795-3 FA | 189.143 | 18.052 / 9.028 | 8.700 | 7562 / 2 | 1230240 / 585 |
+| 795-3 SB | 236.090 | 20.191 / 9.130 | 8.696 | 9429 / 2 | 1562096 / 670 |
+| 795-3 SA | 235.830 | 17.058 / 8.474 | 14.637 | 9402 / 2 | 1471756 / 520 |
+| 848-1 FB | 259.739 | 72.368 / 20.477 | 73.009 | 10377 / 2 | 798787 / 671 |
+| 848-1 FA | 57.891 | 59.144 / 19.791 | 74.411 | 2113 / 2 | 380788 / 1001 |
+| 848-1 SB | 283.732 | 49.939 / 12.344 | 73.003 | 11349 / 2 | 981232 / 902 |
+| 848-1 SA | 60.720 | 94.236 / 30.560 | 72.109 | 2728 / 2 | 409154 / 2402 |
+| 795-2 FB | 441.516 | 94.105 / 30.850 | 99.722 | 2290 / 1208 | 391212 / 1379 |
+| 795-2 FA | 717.318 | 103.154 / 43.871 | 117.729 | 4579 / 2050 | 362463 / 1361 |
+| 795-2 SB | 260.527 | 57.331 / 16.422 | 40.646 | 10398 / 3 | 915054 / 778 |
 
-The intact original 2037.781 s / 160083738-byte AV1 video starts on A4.
-Fast-Blind naturally samples 31 frames at 64 s cadence. Its first model request
-selects indices 1/3/5/.../31 (16 images), rejected by static context preflight;
-it recovers to indices 1/4/7/.../31 (11 images). This is temporally distributed
-input, not just the early prefix used for 795-3. Original frame PTS and decisive
-chapter-boundary visibility are not asserted by the index/cadence metadata alone.
+Unknown service/predicted critical-path profiles stay unknown. Fixed source
+transfer consumes 25–26 s Fast and~789 s Slow for795,~14/~447 s for848.
+Do not hide these payloads in the much smaller action bytes or attribute them
+to workflow adaptation. Pure operator compute/idle/harness partition is unknown.
 
-| Condition | Completion / format / score | Answer | E2E s | Initial placement s | Action bytes / transfer s | Manager / Verifier | Model attempts / inference / context rejects | Graph N/E |
-| --- | --- | --- | ---: | ---: | --- | --- | --- | --- |
-| Fast-Blind | yes / valid / 0 | B | 442.512 | 13.921 | 798787 / 1.429 | 6 / 6 | 2 / 1 / 1 | 3 / 27 |
-| Fast-Aware | yes / valid / 0 | A | 226.982 | 13.973 | 380788 / 0.287 | 6 / 6 | 2 / 1 / 1 | 4 / 63 |
-| Slow-Blind | yes / valid / 0 | A | 871.266 | 446.971 | 981232 / 3.885 | 4 / 4 | 1 / 1 / 0 | 2 / 12 |
-| Slow-Aware | yes / valid / 0 | A | 711.029 | 446.992 | 409154 / 2.031 | 6 / 6 | 2 / 1 / 1 | 7 / 68 |
+## Semantic failures and system exclusions
 
-Manager work 72.368 s, Blind Verifier 20.477 s, operator/decode 73.009 s,
-physical model service 259.739 s; terminal artifact/prompt 798787/671 bytes,
-actual input/output tokens 10377/2. No specialists or parallel action overlap.
-All 24 probes, six Manager/Blind-Verifier input hashes, privacy/persistence,
-terminal model provenance, shutdown and tc cleanup pass. Other typed observations
-are two semantic-validation and four phase-restriction failures; they are retained
-Agent trajectory behavior, not hidden retries or new runtime defects.
+Wrong canonical choices in admitted cells are valid visual evidence/temporal
+interpretation or synthesis failures. Conservative static image context refusals
+are visible recovery events, not proof of deployment unavailability/OOM.
+Verifier readiness after sampling can limit further evidence expansion; it is a
+frozen Agent/Verifier behavior, not a newly repaired code bug.
 
-This is a **valid semantic visual evidence-selection / temporal synthesis failure**,
-with context recovery and readiness/composition contributors. It completes and
-reaches the original evaluator; not a budget, format or deployment outage. The
-trace does not distinguish inadequate chapter evidence from erroneous ordering
-reasoning without inspecting decisive visual content; no repair/tuning is made.
+The original795-2 FB's hidden backend retry/read-deadline defect is excluded and
+repaired once under `5dafc43`. Original795-2 SA was interrupted at privacy
+hard-stop and separately recorded; no evaluator/normal result exists.
+Recipient-isolation `3c3bd95` reruns only that affected Video cell once.
+No task, representation, sample policy, prompt, Verifier, operator, budget,
+scheduler or model requirement is tuned. See
+[failure audit](predecision-crossbenchmark-failure-audit-v1.md).
 
-Fast-Aware samples 31 frames at 65 s cadence. An initial request for all 31 images
-fails static context preflight; the Manager naturally continues with a real
-`make_contact_sheet` call, columns 8 / cells 320×180, then invokes the model on that
-single output. This adds a semantic reduction node instead of selecting a subset
-of individual frames. It produces canonical A, also wrong. No new tool, prompt,
-heuristic, retry or hidden summary was introduced.
+Historical FA sheet integrity checks verify all eight JPEG sheets on A4/A28,
+dimensions1280×360 and exact content hashes, totaling742651 transferred bytes.
+This rules out observed copy corruption, not lossy evidence omission.
 
-Its Manager / Verifier work is 59.144 / 19.791 s, decode/sheet tool work 74.411 s,
-physical model service 57.891 s, terminal prompt 1001 bytes, actual input/output
-tokens 2113/2. One actual inference, no specialists or action overlap. All 56 probes,
-six fresh Aware Manager inputs / six Blind Verifier hashes, provenance/privacy,
-persistence and cleanup pass; two semantic-validation failures are recorded.
+## Evidence and claim boundary
 
-Contact sheet provenance was checked **on remote A4 and A28**, without transferring
-pixels to the PC: both copies are readable JPEG, 2560×720 / 380788 bytes, SHA-256
-`05534551d06425ba32eeb667fb2f8d6c934e8bc66b4d11eaf7ff11213c059a31`.
-All 31 input frames are placed row-major, downscaled into declared cells and encoded
-at generic operator JPEG quality 90. This is an explicit **lossy Agent-selected
-execution reduction**, not a modification of the intact benchmark input and not
-silent truncation. Thumbnail legibility may limit evidence, but decisive-frame
-or OCR loss as the exact error cause is not proven.
+Remote root: `/home/super/xiaoming/predecision-crossbenchmark-v1-3c3bd95`,
+merged `audit-progress-003.json`:11/12 effective Video cells.
+Full traces, graph snapshots, canonical terminal/evaluator provenance, requests,
+store states and tc attestations remain remote. No pixels/video bodies on PC.
+Old source/request/deep audits remain under earlier roots; hashes in Git history.
 
-Fast-Aware action bytes are 52.3% lower and E2E 48.7% lower than Fast-Blind; both
-scores are zero, so do not present this as successful quality-constrained adaptation.
-The major service-work saving comes from 11 individual image inputs → one composite
-image (259.739 → 57.891 s), not just the ~1.1 s transfer difference. It is a genuine
-execution-grown graph/representation difference, but not yet a Fast→Slow response.
-
-Durable partial audits: `video-848-1-fast-pair-audit-001.json` (trace/provenance and
-unchanged original task), `video-848-1-contact-sheet-content-integrity-001.json`
-(actual image metadata/checksums). Full evidence stays remote.
-Slow-Blind samples 31 frames at 64 s cadence and directly invokes the model with
-12 frames (indices 1/7/8/9/15/16/17/23/24/25/30/31). No context failure occurs;
-the terminal still returns A/0. Actual model input/output tokens 11349/2, model
-service work 283.732 s, Manager / Verifier 49.939 / 12.344 s, decode 73.003 s;
-terminal prompt 902 bytes. No specialists or overlap. All 16 probes, four input
-hashes per Manager/Blind Verifier, provenance/privacy/persistence and cleanup pass.
-Four phase restrictions / one semantic-validation rejection are retained.
-
-Its first model call is statically feasible and enters actual inference. This zero
-cannot be attributed to context rejection, budget exhaustion, backend outage or
-output format; primary class remains temporal evidence selection / synthesis.
-Sparse/selected visual evidence versus ordering-reasoning attribution remains
-unproven. Fixed initial placement accounts for 51.3% of E2E; do not call the
-446.971 s initial-transfer component an Agent-choice inefficiency.
-
-Budget accounting is read from `loop.usage`: earlier individual-frame/one-sheet
-trajectories use 2–4 charged physical calls, and Slow-Aware below uses seven,
-not the 64-call ceiling. Immediate schema/phase rejections are
-separately recorded observations, not additional model inference.
-Slow-Aware samples 32 frames at 60 s cadence. A 32-image request fails static
-context preflight; the Manager then creates four independent contact sheets,
-eight frames each, 4 columns / 320 x 180 cells. The four ready calls execute in
-one same-owner parallel group (1.421 s overlap), then a subsequent model action
-consumes all four outputs. No implicit dependent-call reordering occurs.
-One existing-output-ID collision and one phase restriction are typed observations,
-not cross-run store pollution: the stores began empty and persistence passes.
-
-The terminal is A/0, actual input/output 2728/2 tokens, normal stop. Manager /
-Verifier work 94.236 / 30.560 s, model service 60.720 s, tool work 72.109 s.
-Seven charged physical calls, no specialist. Fixed initial placement is 62.9%
-of E2E. All 80 probes and six fresh Aware / six Blind Verifier input hashes pass.
-
-Slow-Aware has 58.3% fewer action bytes and 18.4% lower E2E than Slow-Blind,
-but **both answers are wrong**. Much of the difference is lower visual model
-work (283.732 -> 60.720 s), not just transfer (3.885 -> 2.031 s). Across Fast
-and Slow, Aware uses one large versus four smaller sheets; both preserve sampled
-frames via explicit lossy composites. This is observed representation/topology
-variation, not proof that infrastructure rationally caused it or preserved
-adequate chapter evidence. All four scores are zero; no quality-qualified gain.
-
-Durable `video-848-1-four-cell-audit-001.json`, SHA-256
-`3c53b8f3a129dab5a1584174a0695aa92a5ab364f8fd8811ee9393ce1f82ab7e`,
-passes shared task/capability/harness, 176 probes, 22 Manager / 22 Blind Verifier
-inputs, 12 fresh Aware profiles, trace chains, terminal provenance, persistence,
-privacy, 16 initially empty stores / exited owned Worker processes and tc cleanup.
-
-Latest merged `audit-progress-015.json`: 22 preserved attempts / 20 effective
-cells / four pending. Video 795-2 Fast-Blind subsequently exposed a 600 s backend
-timeout and implicit SDK retry. Its current attempt is confounded; remaining
-conditions were audit-held. The preserved primary is now excluded; after minimal
-backend/admission fixes, a separately frozen `5dafc43` affected-only Fast-Blind
-rerun is active, with exactly three later cells gated on its audit. No semantic
-tuning or clean 795-2 claim is made. Historical coverage
-snapshots above are superseded by this latest ledger.
-
-Working coverage after the incident: 23 preserved attempts / 20 effective / four
-unresolved, across original / idle-transport / backend-client revisions. See
-the [failure audit](predecision-crossbenchmark-failure-audit-v1.md) and
-[backend patch freeze](predecision-backend-client-patch1-freeze.md).
-Slow-Aware's four sheets were additionally checked on remote A4/A28: eight
-copies readable JPEG 1280 x 360, exact metadata/content hashes and total 409154
-transferred bytes. Durable `video-848-1-slow-aware-sheet-content-integrity-001.json`
-passes; no pixel bodies returned to the PC.
-
-## 795-2: first clean patched cell
-
-Latest checkpoint: `audit-progress-004.json` / **26 attempts, 23 effective cells,
-one pending**. Slow-Blind completes/evaluates **B / 0 / format valid**, E2E
-1170.017 s, 915054 action bytes / 4.172 s transfer. Fixed initial source transfer
-788.482 s is 67.4% of E2E. It samples 32 at 30 s cadence, requests 32 images
-(context reject), then uses 11 individual images without contact sheets. One
-actual inference reports 10398 input / three output tokens, normal stop,
-260.527 s service time. Five Manager / five Blind Verifier turns, one tool /
-two model attempts, three nodes / 43 edges, no specialist or action overlap;
-Manager / Verifier work 57.331 / 16.422 s, operator work 40.646 s.
-
-This is a clean temporal-evidence/interpretation/synthesis failure, not budget,
-billing, missing artifact or backend failure. The nominal sample range is only
-part of the intact 2495.121 s video; decisive-evidence presence is not established
-by the trace. No semantic repair, replacement or post-hoc answer guessing occurs.
-`video-795-2-slow-blind-cell-audit-001.json`, SHA-256
-`bf5741fbefa7c6b2a91fa7c5810ba3b046a77a8ad807cdfc0a35bb6ce5c67eb5`,
-passes 24 probes, five Manager/Blind Verifier hashes, no Blind dynamic profiles,
-trace/terminal provenance, privacy/persistence, empty stores, inactive Workers and
-tc cleanup. One completed HTTP-200 backend request matches one inference.
-Final Slow-Aware driver PID 3485183 is live; do not infer completion from launch.
-
-Historical Fast-Aware checkpoint (2026-10-03 10:13 UTC; completed audit below):
-its first four-sheet inference returned HTTP 200 with 2272 input / 2048 output
-tokens, `finish_reason=length`, and 664.541 s service latency. This is explicit
-output-budget exhaustion, not evidence of silent input truncation. The Manager
-continued from the observation and sampled another 32 frames at 77 s cadence,
-after the first 32-frame / 10 s overview. No prompt, budget, tool or representation
-was manually changed. At this checkpoint answer/quality were not yet known.
-The completed request exceeded the former 600 s backend read deadline, with one
-observed HTTP-200 request; final per-run request accounting is below.
-
-### Fast-Aware: clean recovery, wrong terminal answer
-
-Latest merged `audit-progress-003.json` has **25 preserved attempts / 22 effective
-cells / two pending**. Fast-Aware completes/evaluates **B / score 0 / format valid**;
-E2E 1009.582 s, 742651 action bytes / 0.982 s transfer, initial 282442048-byte
-placement 24.504 s. It has ten Manager / ten Blind Verifier turns, no specialists,
-ten tool calls / three model attempts / two actual inferences / one context reject,
-13 nodes / 104 edges and 13 charged physical calls. Semantic-validation and
-phase-restriction observations are retained, not silently repaired.
-
-The 32-frame / 10 s overview produced four eight-frame sheets. After the first
-inference ended at its explicit 2048-token output limit, the loop continued with
-32 frames / 77 s and four more sheets. This widens the nominal temporal span;
-it is not proof of complete evidence coverage or exact source PTS. The second
-inference returned canonical B with normal stop, 2307 input / two output tokens,
-52.777 s service time. Recovery happened, but recovered quality is still wrong.
-Primary classification: temporal evidence interpretation/synthesis, with expensive
-initial evidence expansion and output-budget saturation as secondary factors.
-The trace alone does not separate missing decisive visual evidence from visual
-recognition or reasoning error; no extra LLM diagnosis or tuning is performed.
-
-Model service totals 717.318 s; Manager / Verifier work 103.154 / 43.871 s;
-operator work 117.729 s. Two ready-action parallel groups peak at four actions,
-with 0.940 s overlap. Terminal input is four later sheets / 362463 bytes plus
-1361 prompt bytes. Versus clean Fast-Blind this single trajectory is 45.8% slower,
-transfers 89.8% more action bytes, and changes correct C to wrong B. It is not
-quality-preserving system benefit or causal proof of harm from visibility.
-
-`video-795-2-fast-aware-cell-audit-001.json`, SHA-256
-`f381594e681dcb2b01bbac818b0e70e3b65bd05c56ce375900da7c7a689a3a2f`,
-passes 144 probes, ten fresh pre-decision profiles and Manager/Blind Verifier
-hashes, terminal provenance, privacy/persistence, trace chain, empty initial
-stores, all four exited Workers and tc restore. Exactly two HTTP-200 backend
-requests match two completed inferences; finish reasons are `length` and `stop`.
-There is no hidden retry or model-service failure. Slow-Blind PID 3413237 is now
-running; Slow-Aware remains scheduled, with no extra cells or repetitions.
-
-Remote-only sheet integrity audit
-`video-795-2-fast-aware-sheet-content-integrity-001.json` (SHA-256
-`8232d23fac7f8676086aba87377e2cb276cc79ed4cb47dc154be1f83a25c5431`)
-checks all eight produced sheets on A4 and A28: sixteen readable JPEG copies,
-1280 x 360 dimensions, identical content/metadata hashes, exactly 742651 total
-sheet bytes matching the recorded action transfer. No pixels were downloaded
-to the development PC. This rules out observed copy/content corruption, not
-visual evidence loss or mistaken temporal reasoning.
-
-Same intact 2495.121 s / 282442048-byte original 795 video, different temporal-order
-question. Fast-Blind under final backend patch `5dafc43` completes/evaluates:
-**C / score 1.0 / format valid**. E2E 692.487 s; action bytes 391212 / 0.170 s,
-fixed initial source transfer 25.471 s. The excluded primary and all its failed
-backend requests remain preserved; do not compare their invalid latency as if
-they were a valid Blind baseline.
-
-Natural trajectory: sample 32 at 75 s cadence -> reject 32-image model request
-by static context preflight -> create four eight-frame contact sheets -> invoke
-model on all four -> deterministic terminal extraction -> original evaluator.
-One sheet is created separately; the remaining three overlap in one ready group
-(peak 3 actions, 0.428 s overlap). No specialist. Graph 7 nodes / 68 edges;
-eight Manager / eight Blind Verifier turns, seven charged physical calls,
-five tool calls / two model attempts / one actual inference / one context reject.
-Two semantic-validation and one phase-restriction observations are retained.
-
-Model service 441.516 s; reported input/output tokens 2290/1208, normal stop.
-Manager / Verifier work 94.105 / 30.850 s, tool/decode work 99.722 s. Terminal
-artifact inputs 391212 bytes, prompt 1379 bytes. The canonical C is extracted
-from the successful physical model output, not newly reasoned by a finalizer.
-
-Durable `video-795-2-fast-blind-patch-audit-001.json`, SHA-256
-`7c714139b46699f4e8dfea1a03441a5a99349484513e4f6d4de989ad569f932d`,
-passes 56 probes, all eight Manager/Blind Verifier input hashes, trace chain and
-single run end, terminal provenance, privacy/persistence, four empty initial stores,
-four exited Worker processes and tc cleanup. Exactly **one** completed Ollama
-request in its window, HTTP 200: no observed hidden retry.
-
-The new stochastic native trajectory samples at 75 s versus excluded primary's
-30 s; successful completion does **not** isolate the timeout patch as the cause
-of improved quality. The service call itself finished in less than 600 s.
-No prompt, sampling rule, model or budget was tuned. Fast-Aware is running;
-only Slow-Blind and Slow-Aware follow it. Latest merged `audit-progress-002.json`
-under `5dafc43`: **24 preserved attempts / 21 effective cells / three unresolved**.
+Final full-family SHA/recipient-context/request-count/cleanup checks await the
+one live cell. Do not declare 12/12 from a launch or analyze its quality before
+its evaluator returns. No additional experiment follows family completion.
+These n=1 observations cannot establish stable causal visibility benefits,
+a generic Slow -> Reduce heuristic or official full-benchmark quality.
