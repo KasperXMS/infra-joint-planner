@@ -1,0 +1,66 @@
+experiment_id: predecision-crossbenchmark-v1
+harness_manifest: configs/experiments/infra-aware-predecision-v1-isolation-patch1.yaml
+harness_manifest_sha256: 444db21f3d7aa0db13af993854e77318a29bddee1aee438f27d4a4f7c25affbf
+environment_config: configs/experiments/blind-baseline-environment-v2.yaml
+source_experiment_config: configs/experiments/blind-baseline-6task-semantic-cleanup-v1.yaml
+model_service_timeout_seconds: 1200
+condition_order: [fast-blind, fast-aware, slow-blind, slow-aware]
+network_regimes:
+  fast: {regime: fast, bandwidth_mbps: 100, added_rtt_ms: 5}
+  slow: {regime: slow, bandwidth_mbps: 3, added_rtt_ms: 50}
+network_limitation: Jetsons use HTB without netem; configured delay is not symmetric measured RTT
+worker_urls:
+  A4: http://192.168.0.104:65004
+  A5: http://192.168.0.105:65005
+  A28: http://192.168.0.128:65028
+  strong-4090: http://192.168.0.12:65112
+sources:
+  longbench_samples: /home/super/xiaoming/infra-bench/scenario-mining/data/longbench_v2/selected.jsonl
+  video_tasks: /home/super/xiaoming/mas_validity_v1/infra-bench/configs/calibration_v0/tasks.yaml
+  video_answers: /home/super/xiaoming/mas_validity_v1/infra-bench/configs/calibration_v0/evaluator_only/answers.json
+  video_sources: /home/super/xiaoming/calibration_v0/source
+tasks:
+  - label: longbench-multidoc-financial
+    family: longbench_multidoc
+    source_task_id: 66f7c780bb02136c067c35e8
+    boundary_lines: [0, 3277, 9091, 17721]
+    initial_placement: [A4, A5, A28, A5]
+    selection_reason: Existing hard long multi-document case comparing four years of financial ESG reports; complete 1.03 MB context
+  - label: longbench-multidoc-academic
+    family: longbench_multidoc
+    source_task_id: 66f2c44e821e116aacb2b826
+    boundary_lines: [0, 5712]
+    initial_placement: [A4, A5]
+    selection_reason: Hard medium cross-document comparison of GPT-4 report including its appended system card and Chroma paper; complete 494 KB context
+  - label: longbench-multidoc-news
+    family: longbench_multidoc
+    source_task_id: 66faa8efbb02136c067c7357
+    boundary_lines: [0, 4068]
+    initial_placement: [A4, A5]
+    selection_reason: Hard medium comparison of Sanofi Q4 and Q2 press releases requiring cross-source pipeline aggregation and recency; complete 229 KB context
+  - label: video-mme-795-3
+    family: video_mme
+    source_task_id: video_mme:795
+    question_id: 795-3
+    source_filename: D97vMwfWxvI.mp4
+    initial_placement: [A4]
+    selection_reason: Previously validated original 41.6-minute video; fine visual recognition of the tool in the first magic
+  - label: video-mme-848-1
+    family: video_mme
+    source_task_id: video_mme:848
+    question_id: 848-1
+    source_filename: gHXaUDx7P0Y.mp4
+    initial_placement: [A4]
+    selection_reason: Original 34-minute video with chapter-order evidence distributed across the timeline
+  - label: video-mme-795-2
+    family: video_mme
+    source_task_id: video_mme:795
+    question_id: 795-2
+    source_filename: D97vMwfWxvI.mp4
+    initial_placement: [A4]
+    selection_reason: Distinct question requiring temporal ordering of four visually described magic events, not just an early-frame recognition; deliberately shares the intact video with 795-3
+execution:
+  scheduler: auto_physical_locality_aware
+  repetitions: 1
+  retry: false
+  replacement: false
