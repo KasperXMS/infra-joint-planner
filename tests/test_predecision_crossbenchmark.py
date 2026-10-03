@@ -114,6 +114,38 @@ def test_operational_attempt_has_new_identity_and_namespace() -> None:
     assert replacement["execution"]["retry"] is False
 
 
+def test_transport_patch_freeze_changes_only_transport_provenance() -> None:
+    original = protocol()
+    patched = _yaml(
+        REPO / "configs/experiments/predecision-crossbenchmark-v1-transport-patch1.yaml",
+    )
+    validate_protocol(patched)
+    assert {k: v for k, v in original.items() if not k.startswith("harness_manifest")} == {
+        k: v for k, v in patched.items() if not k.startswith("harness_manifest")
+    }
+    original_harness = _yaml(REPO / original["harness_manifest"])
+    patched_harness = _yaml(REPO / patched["harness_manifest"])
+    assert {k: v for k, v in original_harness.items() if k not in {
+        "runtime", "frozen_from_revision",
+    }} == {k: v for k, v in patched_harness.items() if k not in {
+        "runtime", "frozen_from_revision",
+    }}
+    old_runtime, new_runtime = original_harness["runtime"], patched_harness["runtime"]
+    assert {k: new_runtime[k] for k in old_runtime if k != "component_sha256"} == {
+        k: v for k, v in old_runtime.items() if k != "component_sha256"
+    }
+    assert new_runtime["worker_http_keepalive_expiry_seconds"] == 4
+    for path, digest in old_runtime["component_sha256"].items():
+        assert new_runtime["component_sha256"][path] == digest
+    primary = cell_config(original, original["tasks"][0], "slow-aware")
+    patch = cell_config(patched, patched["tasks"][0], "slow-aware", "transport-patch-1")
+    assert primary["run_id"] != patch["run_id"]
+    assert not set(primary["fresh_worker_stores"].values()) & set(
+        patch["fresh_worker_stores"].values()
+    )
+    assert patch["execution"] == primary["execution"]
+
+
 def test_dataset_entry_refuses_development_pc() -> None:
     with pytest.raises(RuntimeError):
         ensure_remote(Path("C:/datasets"))
