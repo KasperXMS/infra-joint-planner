@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 AND 848-1 COMPLETE; 795-2 FAST-BLIND CLEAN; 3/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 AND 848-1 COMPLETE; BOTH 795-2 FAST CELLS CLEAN; 2/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -221,6 +221,53 @@ transferred bytes. Durable `video-848-1-slow-aware-sheet-content-integrity-001.j
 passes; no pixel bodies returned to the PC.
 
 ## 795-2: first clean patched cell
+
+Historical Fast-Aware checkpoint (2026-10-03 10:13 UTC; completed audit below):
+its first four-sheet inference returned HTTP 200 with 2272 input / 2048 output
+tokens, `finish_reason=length`, and 664.541 s service latency. This is explicit
+output-budget exhaustion, not evidence of silent input truncation. The Manager
+continued from the observation and sampled another 32 frames at 77 s cadence,
+after the first 32-frame / 10 s overview. No prompt, budget, tool or representation
+was manually changed. At this checkpoint answer/quality were not yet known.
+The completed request exceeded the former 600 s backend read deadline, with one
+observed HTTP-200 request; final per-run request accounting is below.
+
+### Fast-Aware: clean recovery, wrong terminal answer
+
+Latest merged `audit-progress-003.json` has **25 preserved attempts / 22 effective
+cells / two pending**. Fast-Aware completes/evaluates **B / score 0 / format valid**;
+E2E 1009.582 s, 742651 action bytes / 0.982 s transfer, initial 282442048-byte
+placement 24.504 s. It has ten Manager / ten Blind Verifier turns, no specialists,
+ten tool calls / three model attempts / two actual inferences / one context reject,
+13 nodes / 104 edges and 13 charged physical calls. Semantic-validation and
+phase-restriction observations are retained, not silently repaired.
+
+The 32-frame / 10 s overview produced four eight-frame sheets. After the first
+inference ended at its explicit 2048-token output limit, the loop continued with
+32 frames / 77 s and four more sheets. This widens the nominal temporal span;
+it is not proof of complete evidence coverage or exact source PTS. The second
+inference returned canonical B with normal stop, 2307 input / two output tokens,
+52.777 s service time. Recovery happened, but recovered quality is still wrong.
+Primary classification: temporal evidence interpretation/synthesis, with expensive
+initial evidence expansion and output-budget saturation as secondary factors.
+The trace alone does not separate missing decisive visual evidence from visual
+recognition or reasoning error; no extra LLM diagnosis or tuning is performed.
+
+Model service totals 717.318 s; Manager / Verifier work 103.154 / 43.871 s;
+operator work 117.729 s. Two ready-action parallel groups peak at four actions,
+with 0.940 s overlap. Terminal input is four later sheets / 362463 bytes plus
+1361 prompt bytes. Versus clean Fast-Blind this single trajectory is 45.8% slower,
+transfers 89.8% more action bytes, and changes correct C to wrong B. It is not
+quality-preserving system benefit or causal proof of harm from visibility.
+
+`video-795-2-fast-aware-cell-audit-001.json`, SHA-256
+`f381594e681dcb2b01bbac818b0e70e3b65bd05c56ce375900da7c7a689a3a2f`,
+passes 144 probes, ten fresh pre-decision profiles and Manager/Blind Verifier
+hashes, terminal provenance, privacy/persistence, trace chain, empty initial
+stores, all four exited Workers and tc restore. Exactly two HTTP-200 backend
+requests match two completed inferences; finish reasons are `length` and `stop`.
+There is no hidden retry or model-service failure. Slow-Blind PID 3413237 is now
+running; Slow-Aware remains scheduled, with no extra cells or repetitions.
 
 Same intact 2495.121 s / 282442048-byte original 795 video, different temporal-order
 question. Fast-Blind under final backend patch `5dafc43` completes/evaluates:

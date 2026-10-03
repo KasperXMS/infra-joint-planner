@@ -2,11 +2,12 @@
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
-795-3 cells, all four 848-1 cells and patched 795-2 Fast-Blind are clean effective results (21/24). The two old
+795-3 cells, all four 848-1 cells and both 795-2 Fast cells are clean effective results (22/24). The two old
 Financial confounded attempts remain preserved/excluded. Video 795-2 Fast-Blind
 primary failed with an observed backend timeout/hidden-retry confounder and is
 preserved/excluded. Affected-only rerun passed under new freeze `5dafc43`;
-the exact remaining three-cell suffix is now running, Fast-Aware first.
+Fast-Aware subsequently completed/evaluated B/0 without an operational incident;
+the remaining two-cell suffix is running, Slow-Blind first.
 
 ## Scope and frozen system
 
@@ -14,6 +15,15 @@ Extend the existing audited MultiHop block without repeating it: three LongBench
 multi-document tasks and three Video-MME questions, four conditions each, n=1,
 24 primary cells. See [frozen protocol](predecision-crossbenchmark-v1-protocol.md).
 This is raw coarse profile visibility, not cost-guided planning or a new method.
+
+Inference/cache and order limitation: fresh Worker processes and empty artifact
+stores do **not** mean fresh Ollama model processes or cold inference caches.
+The same model servers are reused, and FB/FA/SB/SA order is fixed rather than
+randomized. With n=1 for each new cell, stochastic reasoning, service/cache state
+and order remain alternative explanations for timing and workflow differences.
+Do not attribute a single difference to profile visibility alone, or describe
+the physically available dual-4090 device as an observed model-placement reversal:
+completed physical inferences audited so far selected A28 in both groups.
 
 Frozen execution commit: `90cea3261c1e21f7cb528025c64729741ccc8451`.
 Harness: unchanged `infra-aware-predecision-v1`, SHA-256
@@ -275,7 +285,7 @@ original text is also shown to avoid mistaking JSON overhead for new information
 | LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | 0 / 74.828 / 0 | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
 | Video 795-3 | 282,442,048 intact AV1 bytes; 2495.121 s; 1 video on A4 | 0 / 185.443 / 581538 | 1 / 252.371 / 1230240 | 1 / 1069.965 / 1562096 | 1 / 1071.594 / 1471756 |
 | Video 848-1 | 160,083,738 intact AV1 bytes; 2037.781 s; 1 video on A4 | 0 / 442.512 / 798787 | 0 / 226.982 / 380788 | 0 / 871.266 / 981232 | 0 / 711.029 / 409154 |
-| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | running | unexecuted | unexecuted |
+| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | 0 / 1009.582 / 742651 | running | unexecuted |
 
 The anonymous static model pool has A28 and strong-4090 deployments, but **all
 completed physical model inferences in these 21 effective cells select A28**.

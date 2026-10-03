@@ -1,5 +1,15 @@
 # Cross-benchmark exception audit v1
 
+Latest clean semantic boundary: 795-2 Fast-Aware completes/evaluates B/0 with two
+successful backend requests, one explicitly output-limited intermediate inference
+and one normal-stop terminal inference. After observing the first output it widens
+sampling from 10 s to 77 s cadence and continues. No timeout, hidden retry, missing
+artifact, profile leak, invalid evaluator mapping or store collision is observed.
+The wrong terminal temporal-order answer is retained as an evidence interpretation /
+synthesis result, not repaired as a runtime defect. Ten turns / 13 physical calls
+remain below the frozen budget; expensive recovery did not restore quality.
+See `video-795-2-fast-aware-cell-audit-001.json` under the final patch root.
+
 ## Pre-run JSONL diagnostic regression
 
 Before formal runs, the source pool was audited on the 4090. A diagnostic using
