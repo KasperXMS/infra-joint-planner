@@ -27,6 +27,7 @@ from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.ledger import LEDGER_MESSAGE_PREFIX, SpentCostLedger
 from infra_joint.control.ledger_native import LedgerNativeRuntime
 from infra_joint.control.loop import AgentLoopBudget, AgentLoopError, AgentLoopUsage
+from infra_joint.control.method_usage import MeasuredLedgerRuntime
 from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.provenance import semantic_input_items
@@ -171,7 +172,7 @@ async def test_real_sdk_manager_ledger_is_fresh_and_preserves_parallel_execution
     model = ParallelLedgerModel()
     verifier = FakeVerifier((ready_verdict(), complete_verdict()))
     sink = MemorySink()
-    runtime_class = LedgerNativeRuntime if enabled else OpenAIAgentsNativeRuntime
+    runtime_class = MeasuredLedgerRuntime if enabled else OpenAIAgentsNativeRuntime
     runtime = runtime_class(
         name="manager", instructions="Solve faithfully.", model=model, registry=registry,
         available_operations=operations, blind_verifier=verifier,
@@ -201,6 +202,11 @@ async def test_real_sdk_manager_ledger_is_fresh_and_preserves_parallel_execution
     assert [event.payload["input_items"] for event in inputs] == model.inputs
     for private in ("source_ref", "evaluator_id", "deployment_id", "network_class", "192.168."):
         assert private not in json.dumps(model.inputs)
+    metered = [event for event in sink.events
+               if event.event_type == "logical.method.reasoning_usage"]
+    assert len(metered) == (2 if enabled else 0)
+    assert all(event.payload["input_tokens"] == 20 and event.payload["output_tokens"] == 10
+               for event in metered)
 
 
 @pytest.mark.asyncio

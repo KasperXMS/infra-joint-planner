@@ -1,8 +1,8 @@
 # Cost-guidance prototype audit v1
 
 Date:2026-10-04. Branch:cost-guidance-exploration-v1.
-Scope: **Ledger-only-v0, empirical profiles and read-only ready-action consequence
-layer implemented; no live exploration yet**.
+Scope: **Ledger-only-v0, empirical profiles, ready-action consequences and
+SDK-native Quote-before-Commit-v0 implemented; no live exploration yet**.
 This is an intermediate implementation audit, not the full goal's completion.
 
 ## Files and mechanism
@@ -89,10 +89,14 @@ consequence cards preserve unsupported unknowns and perform no execution; see
 [estimator and freeze audit](cost-history-estimator-v0.md). This is support
 coverage, not estimator accuracy or observed method benefit.
 
-Implement SDK-native Quote-before-Commit with no-execution, exact-action and ownership
-checks; integrate a versioned live runner/manifest; verify fresh stores and
+SDK-native Quote/Commit is now implemented in isolated modules, with exact action,
+ownership/single-use/staleness guards, Blind specialist/Verifier isolation and
+shared A/C usage accounting. See [quote audit](quote-before-commit-v0-audit.md).
+Eleven new protocol/real-SDK tests pass; no live positive result is claimed.
+
+Integrate a versioned live runner/manifest; verify fresh stores and
 recipient isolation; then perform the bounded cross-workload exploration.
-Latest full verification:515 pytest passed, Ruff passed, strictPyright0 errors/0
+Latest full verification:526 pytest passed, Ruff passed, strictPyright0 errors/0
 warnings. The original native source and isolation manifest hashes are unchanged.
 Current new substantive cells0/36; cloud/model calls0; Worker launches0; tc0.
 No route ranking/effectiveness/novelty claim is promoted from these tests.

@@ -51,6 +51,8 @@ class ActionConsequence(ContractModel):
     output_size_basis: Literal["unknown"] = "unknown"
     predicts_answer_quality: Literal[False] = False
     reservation_or_execution_performed: Literal[False] = False
+    current_queue_and_cache_effects_modeled: Literal[False] = False
+    operator_parameters_conditioned: Literal[False] = False
 
 
 class ActionConsequenceEstimator:
