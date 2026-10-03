@@ -1,4 +1,5 @@
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -65,3 +66,16 @@ def test_private_artifact_audit_waits_for_live_owned_controllers(tmp_path: Path)
         assert_queue_inactive(root, proc_root=proc)
     cmd.write_bytes(b"python\0unrelated-project/app/server.py")
     assert_queue_inactive(root, proc_root=proc)
+
+
+def test_node_scan_helper_does_not_import_an_old_editable_install(tmp_path: Path) -> None:
+    script = Path(__file__).parents[1] / "scripts/cost_guidance_private_multihop_audit_v1.py"
+    result = subprocess.run(
+        [sys.executable, "-S", str(script), "--scan-store"],
+        input=json.dumps({"store_root": str(tmp_path), "namespace": "experiment",
+                          "supports": [], "artifacts": []}),
+        capture_output=True, text=True, check=False, timeout=10,
+    )
+    assert result.returncode != 0
+    assert "private scan outside exact existing experimental store" in result.stderr
+    assert "ModuleNotFoundError" not in result.stderr

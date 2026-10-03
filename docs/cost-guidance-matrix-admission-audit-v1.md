@@ -67,3 +67,47 @@ support12; these are descriptive profiles, not bounds or quality guarantees.
 The fourth model action is live. Do not label its whole elapsed time a single
 timeout or count unfinished actions as successful inferences. Final quality and
 cost comparison require terminal execution/evaluation and remaining Slow cells.
+
+## Fourteenth completed cell:Video Fast Quote
+
+Fast Quote subsequently completes, score0.0, format valid and operational gates
+passing. E2E1467.875s; action bytes2646929/transfer work1.813s; model service1116.263s;
+tool work148.566s; Manager work85.053s; specialist work55.454s; Verifier work40.291s.
+There are18 Manager/8 specialist reasoning turns,15 action nodes,7 successful
+physical inferences and one recovered semantic_validation_failed observation.
+All model finish reasons are stop; no context/backend timeout is observed.
+
+Actual trajectory:sample32 frames -> four sequential8-frame analyses -> delegate
+one Blind specialist -> resample31 frames/two contact sheets/model -> extract a
+60-second prefix clip/sample30 clip frames/contact sheet -> Manager read_artifact
+and two further model calls -> terminal. All eight Manager quotes are visible
+and consumed; the specialist retains unquoted Blind tools. The root's four raw-
+frame inferences alone take870.912s despite available274.468s p50 price per call.
+Timed quote-control work2.943s excludes the much larger cloud reasoning overhead.
+
+Both Fast methods are wrong; C is4.20x the E2E and2.68x action bytes of A. This is
+not a quality-preserving benefit, not one15-minute hanging request, not a retry
+of the benchmark run, and not a budget-exhaustion/system defect. The semantic
+loop chooses additional evidence/analysis and specialist recovery, but that
+expansion does not improve this score. Slow cells remain unfinished.
+
+### Inherited presentation-contract coupling
+
+Read-only `model-choice-format-audit-001.json` records that the frozen native
+helper appends global multiple-choice leading-label requirements to Manager
+model calls, including materialized intermediate analyses outside synthesis.
+All six quoted Manager models in this cell request materialized text/plain;
+four receive the prefix outside synthesis. Keyword flags alone do not prove
+semantic intent, and leading labels can coexist with plain-text analysis. No
+JSON intermediate/schema failure is observed here, so this does **not** establish
+a harness-caused invalid cell or the cause of the wrong answer. Nonetheless,
+formatting and semantic planning are coupled; do not attribute all note quality
+or trajectory effects solely to cost feedback. No prompt/harness modification,
+post-hoc answer guessing or replacement follows from this audit.
+
+Format-audit SHA256:
+`74823b46bb17133a58e50880886ed92b3b7758dbf89a57d56e19ae7c9d52310d`.
+It is retained remotely alongside the original trace/result;
+the source is the same frozen native helper, not a new finalizer. A future claim
+about intermediate-answer adequacy would need stronger evidence than quote
+visibility and token counts. The current original cohort remains immutable.

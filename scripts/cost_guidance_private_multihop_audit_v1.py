@@ -16,9 +16,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from infra_joint.benchmarks.multihop_rag import MultiHopCorpusDocument
-from infra_joint.evaluation.trace import JsonlTraceWriter
-
 
 def normalize(text: str) -> str:
     return " ".join(text.casefold().split())
@@ -76,6 +73,8 @@ def scan_store(request: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def support_mapping(private: dict[str, Any], corpus: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    from infra_joint.benchmarks.multihop_rag import MultiHopCorpusDocument
+
     result = []
     for evidence in private["supporting_evidence"]:
         matched = [MultiHopCorpusDocument.model_validate(row).stable_id() for row in corpus
@@ -104,6 +103,8 @@ def assert_queue_inactive(root: Path, *, proc_root: Path = Path("/proc")) -> Non
 
 
 def audit_cell(directory: Path, root: Path, corpus_path: Path) -> dict[str, Any]:
+    from infra_joint.evaluation.trace import JsonlTraceWriter
+
     private_path = directory / "private/private-evaluation.json"
     private = json.loads(private_path.read_text(encoding="utf-8"))
     freeze = json.loads((directory / "freeze/manifest.json").read_text())

@@ -35,3 +35,19 @@ identity after projection/paraphrase, unsafe/nonexperimental store rejection and
 live-controller load isolation. Full545 pytest passed; Ruff pass; strict Pyright
 0 errors/0 warnings; git diff check pass. This is analysis tooling only; the frozen
 47fbe3b execution remains unchanged.
+
+## Node helper import isolation
+
+Benchmark/trace imports are now lazy and limited to the4090-side full audit. The
+owning-node `--scan-store` helper uses only the standard library, preventing the
+shared historical virtualenv's editable-package path from selecting an unrelated
+project install during a scan. A subprocess regression runs Python with `-S`
+(no site packages) and proves the real confinement check is reached rather than
+a project/dependency import failure. No Agent, Worker or model-serving source is
+changed. The private audit still refuses any live owned queue handle and has not
+yet scanned the real stores while Video runs.
+
+Verification after this helper-only correction:full556 pytest passed,Ruff pass,
+strict project Pyright0 errors/0 warnings; git diff check pass. Historical Agent
+and isolation-manifest source hashes remain unchanged. No substantive cell is
+rerun because the change is outside the execution path.

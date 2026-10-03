@@ -1,7 +1,7 @@
 # Cost-guidance free exploration v1
 
 Date: 2026-10-04. Status: **live exploration; partial results, no route winner**.
-Branch: cost-guidance-exploration-v1. Completed primary cells:12/16;
+Branch: cost-guidance-exploration-v1. Completed primary cells:14/16;
 global substantive cap:36. The Video block is still running at this checkpoint.
 Baseline evidence: execution freeze3c3bd95, reports02518c7.
 See [literature map](method-literature-map-v1.md),
@@ -296,3 +296,22 @@ Read-only action-level receipts, actual-input visibility and estimator errors:
 Private MultiHop coverage audit remains deferred until all live queue handles
 exit, to avoid adding artifact-scanning load during experiments. Final ranking,
 Q1-Q10 and the next-method recommendation remain unfinished.
+
+## Video Fast checkpoint
+
+Both Fast Video848-1 cells now complete with score0.0, valid terminal format and
+passing operational gates. Ledger:E2E349.878s/action986799 bytes/one inference;
+Quote:E2E1467.875s/action2646929 bytes/seven inferences. Manager/specialist turns
+are3/0 versus18/8; model-service work227.249s versus1116.263s. Initial160083738
+video bytes are separate from action traffic and included in E2E.
+
+Ledger uses29 frames and three contact sheets; Quote uses four raw8-frame
+analyses, then a Blind specialist with resampling/sheets/clip work, followed by
+additional Manager model calls. All eight root quotes reach actual Manager
+inputs and are consumed. High model prices are visible, but expansion still
+dominates. No quality improvement offsets the higher cost in this Fast pair.
+The original global-choice formatting helper also conditions intermediate
+Manager model calls; this inherited coupling is audited, not tuned away or
+claimed as a proven cause of the wrong answer. See the
+[matrix and Video checkpoint](cost-guidance-matrix-admission-audit-v1.md).
+The final two Slow cells and private coverage audit remain pending.
