@@ -216,6 +216,7 @@ def main() -> None:
             cell_attempts = [audit_cell(root / "evidence" / cell / attempt)
                              for root in roots for attempt in (
                                  "primary", "operational-replacement-1", "transport-patch-1",
+                                 "backend-client-patch-1",
                              ) if (root / "evidence" / cell / attempt
                                    / "lightweight-validation.json").exists()]
             attempts.extend(cell_attempts)

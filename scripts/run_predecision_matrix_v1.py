@@ -20,6 +20,10 @@ from prepare_sdk_native_infra_worker_v1_3 import prepare
 HOSTS = {"A4": "edge@192.168.0.104", "A5": "edge@192.168.0.105",
          "A28": "edge@192.168.0.128", "strong-4090": None}
 CONDITIONS = ("fast-blind", "fast-aware", "slow-blind", "slow-aware")
+SEMANTIC_FAILURE_CODES = frozenset({
+    "phase_restricted", "artifact_not_materialized", "context_limit_exceeded",
+    "semantic_validation_failed", "artifact_too_large",
+})
 
 
 def write_new(path: Path, value: object) -> None:
@@ -77,6 +81,11 @@ def validate_cell(
     ):
         problems.append("completed terminal/evaluator contract inconsistent")
     failure = result.get("failure")
+    for event in events:
+        if event["event_type"] == "logical.observation" and not event["payload"]["succeeded"]:
+            code = event["payload"]["failure_code"]
+            if code not in SEMANTIC_FAILURE_CODES:
+                problems.append(f"typed execution failure {code}; requires audit")
     if failure is not None:
         text = (failure.get("exception_type", "") + " " + failure.get("message", "")).lower()
         if any(term in text for term in (

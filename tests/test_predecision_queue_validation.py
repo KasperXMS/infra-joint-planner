@@ -78,3 +78,29 @@ def test_queue_gate_stops_on_tc_leakage(tmp_path: Path) -> None:
     tc["restored_qdisc"] = {"host": "shaped"}
     path.write_text(json.dumps(tc))
     assert "tc restoration failure" in validate_cell(tmp_path, "test", "blind")["problems"]
+
+
+@pytest.mark.parametrize("code", [
+    "phase_restricted", "artifact_not_materialized", "context_limit_exceeded",
+    "semantic_validation_failed", "artifact_too_large", "physical_execution_failed",
+    "unknown_execution_incident",
+])
+def test_queue_gate_uses_typed_observation_not_wrapped_sdk_exception(
+    tmp_path: Path, code: str,
+) -> None:
+    fixture(tmp_path, failure="Error running tool invoke_model: ")
+    result_path = tmp_path / "runs/test/result.json"
+    result = json.loads(result_path.read_text())
+    result["failure"]["exception_type"] = "UserError"
+    result_path.write_text(json.dumps(result))
+    trace = tmp_path / "runs/test/trace.jsonl"
+    with trace.open("a") as stream:
+        stream.write("\n" + json.dumps({
+            "event_type": "logical.observation",
+            "payload": {"succeeded": False, "failure_code": code},
+        }))
+    problems = validate_cell(tmp_path, "test", "blind")["problems"]
+    if code in {"physical_execution_failed", "unknown_execution_incident"}:
+        assert f"typed execution failure {code}; requires audit" in problems
+    else:
+        assert problems == []

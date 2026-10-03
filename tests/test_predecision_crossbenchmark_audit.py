@@ -115,13 +115,14 @@ def test_no_clean_attempt_remains_unresolved_and_two_clean_attempts_rejected() -
         effective_attempt([clean_record(), clean_record()])
 
 
+@pytest.mark.parametrize("patch_attempt", ["transport-patch-1", "backend-client-patch-1"])
 def test_cross_revision_audit_preserves_old_attempts_and_selects_authorized_patch(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, patch_attempt: str,
 ) -> None:
     old_root, new_root = tmp_path / "old", tmp_path / "patch"
     cell = "longbench-multidoc-financial-slow-aware"
     for root, attempt in ((old_root, "primary"), (old_root, "operational-replacement-1"),
-                          (new_root, "transport-patch-1")):
+                          (new_root, patch_attempt)):
         directory = root / "evidence" / cell / attempt
         directory.mkdir(parents=True)
         (directory / "lightweight-validation.json").write_text("{}")
@@ -129,7 +130,7 @@ def test_cross_revision_audit_preserves_old_attempts_and_selects_authorized_patc
     def audit(directory: Path) -> dict[str, Any]:
         record = clean_record()
         record["attempt"] = directory.name
-        if directory.name != "transport-patch-1":
+        if directory.name != patch_attempt:
             record["probe_errors"] = [{"probe_error_type": "RemoteProtocolError"}]
         return record
 
@@ -145,7 +146,7 @@ def test_cross_revision_audit_preserves_old_attempts_and_selects_authorized_patc
     assert len(merged["attempt_records"]) == 3
     assert len(merged["records"]) == len(merged["effective_records"]) == 1
     assert merged["records"][0]["attempt"] == "primary"
-    assert merged["effective_records"][0]["attempt"] == "transport-patch-1"
+    assert merged["effective_records"][0]["attempt"] == patch_attempt
     assert merged["scope_roots"] == [str(old_root), str(new_root)]
     assert len(merged["unresolved_cells"]) == 23
 
