@@ -1,5 +1,16 @@
 # Cross-benchmark completion audit at privacy hard-stop
 
+## Authorized recovery addendum (2026-10-03)
+
+The user subsequently authorized genuine-bug repair. Recipient-isolation repair
+`4a81081` and independent freeze `3c3bd95` are pushed; full 479 tests, Ruff and
+strict Pyright pass. Only the three affected new cells are scheduled once in
+their original relative order. Other 21 admitted cells and all historical
+attempts remain intact. Existing MultiHop is not rerun. Coverage remains 21/24
+until new immediate and full-context gates pass. The table below is the preserved
+**pre-repair hard-stop snapshot**, not a claim that no repair or process exists
+after this new authorization.
+
 2026-10-03. **Not achieved: 24 clean new formal cells.** This audit preserves
 the original objective; it does not redefine completion as the admitted subset.
 The explicit privacy hard-stop is reached, so no further execution or repair is

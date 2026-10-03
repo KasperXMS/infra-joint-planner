@@ -1,5 +1,17 @@
 # Video-MME pre-decision Raw-Aware v1
 
+## Current authorized recovery (2026-10-03)
+
+Recipient-isolation repair is separately frozen as `3c3bd95` after 479 passing
+tests, Ruff and strict Pyright. Only 795-2 Slow-Aware receives one new
+`isolation-patch-1` attempt, after the two affected LongBench cells pass audits.
+Video admission remains 11/12. The interrupted original is preserved as an
+external record, not a fabricated result. No prompt, sampling strategy, task,
+video, model, tool, budget, scheduler or network change.
+See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+
+## Historical hard-stop snapshot
+
 **HARD STOP: 11/12 CLEAN CELLS; 795-2 SLOW-AWARE INVALID/INTERRUPTED.**
 Dynamic anonymous profile entered its specialist context through a tool result;
 no terminal answer/evaluator outcome exists. All owned processes are inactive,

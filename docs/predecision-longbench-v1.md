@@ -1,5 +1,16 @@
 # LongBench pre-decision Raw-Aware v1
 
+## Current authorized recovery (2026-10-03)
+
+Recipient-isolation repair is separately frozen as `3c3bd95` after 479 passing
+tests, Ruff and strict Pyright. Only Financial and News Fast-Aware receive one
+new `isolation-patch-1` attempt each with fresh stores. Admission remains 10/12
+pending audits. Prompts, models, tools, budgets, task representations, scheduler
+and network are unchanged. Old attempts below remain excluded and preserved.
+See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+
+## Historical hard-stop snapshot
+
 **HARD STOP: 10/12 ADMISSIBLE CELLS; FAMILY NOT CLEAN-COMPLETE.** Financial
 Fast-Aware and News Fast-Aware were retrospectively invalidated by specialist
 dynamic-profile leakage through tool results. Earlier complete-family claims and

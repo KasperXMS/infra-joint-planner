@@ -1,5 +1,17 @@
 # Cross-benchmark exception audit v1
 
+## Authorized isolation repair addendum (2026-10-03)
+
+User-authorized recipient-boundary repair `4a81081`, separately frozen/pushed as
+`3c3bd95`, prevents specialist tool-result profiles and checks actual accumulated
+SDK context. Full 479 tests, Ruff and strict Pyright pass. Only Financial FA,
+News FA and 795-2 SA get one affected-cell attempt each, with fresh stores and
+unchanged semantics. Historical exclusions and the external hard-stop result
+remain intact; existing MultiHop is not rerun. See the
+[patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+
+## Historical audit snapshots
+
 Latest clean semantic boundary: 795-2 Fast-Aware completes/evaluates B/0 with two
 successful backend requests, one explicitly output-limited intermediate inference
 and one normal-stop terminal inference. After observing the first output it widens

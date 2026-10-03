@@ -1,5 +1,18 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
+## Current authorized recovery (2026-10-03)
+
+After user authorization, recipient-isolation repair `4a81081` was separately
+frozen/pushed as `3c3bd95`. Full 479 tests, Ruff and strict Pyright pass. All six
+task freezes are identical; four nodes match 141 source/script Git blobs. No
+prompt/model/tool/budget/scheduler/network change. Only Financial FA -> News FA
+-> 795-2 SA are rerun once with fresh stores and `isolation-patch-1`, auditing
+each before the next. Coverage remains 21/24 until new gates pass. Existing
+MultiHop is not rerun and its three affected repetitions remain excluded.
+See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+
+## Historical hard-stop snapshot (not a current process-status claim)
+
 **Status: PRIVACY-CONTRACT HARD STOP; 21/24 CLEAN CELLS; OBJECTIVE INCOMPLETE.**
 Updated 2026-10-03. Full-context audit found anonymous dynamic profiles entering
 specialist contexts through SDK tool results. Financial Fast-Aware and News
