@@ -170,3 +170,14 @@ named `transport-patch-1`, with an explicit bug-fix attempt provenance sidecar.
 It is a new-patch affected-cell rerun, **not** a third identical operational
 replacement. Only a clean audited boundary permits the twenty-cell fixed suffix.
 No corrected formal result has been claimed at the time of this patch freeze.
+
+### Affected-cell result after patch freeze
+
+Financial Slow-Aware `transport-patch-1` completed and evaluated: terminal `A`,
+score 0.0, E2E 251.831 s, action bytes 486432. All 132 state probes pass; all
+11 Manager/pre-decision profile and 11 Blind Verifier input hashes reconstruct.
+Terminal provenance, trace parent chain, twelve expected artifacts, Worker
+shutdown and tc restoration pass. This establishes a clean affected sample,
+not historical proof of the disconnect mechanism or guaranteed future transport
+reliability. The two old excluded attempts are preserved. The gated suffix
+continued to Academic Fast-Blind without retry or logical behavior changes.

@@ -1,9 +1,9 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-**Status: AUTHORIZED TRANSPORT-PATCH RERUN IN PROGRESS; scope incomplete.**
-Updated 2026-10-03 (Asia/Hong_Kong). Three clean cells retained; Financial Slow-Aware
-is being rerun under a separate, tested transport patch. Its two old confounded
-attempts are preserved; twenty primary cells wait for the clean boundary.
+**Status: FINANCIAL FOUR-CELL AUDIT CLEAN; FIXED SUFFIX RUNNING; scope incomplete.**
+Updated 2026-10-03 (Asia/Hong_Kong). Four Financial conditions have clean effective
+results. The authorized Slow-Aware transport-patch rerun completed; its two old
+confounded attempts remain preserved. Academic Fast-Blind is the next active cell.
 
 ## Scope and frozen system
 
@@ -67,6 +67,13 @@ active from their launch record. The controller requires a clean full audit of
 `transport-patch-1` before starting the exact twenty unexecuted cells and stops
 at any new operational gate. New evidence never overwrites either old attempt.
 
+Patched boundary audit passed: 132/132 probes, 11/11 actual pre-decision Aware
+profiles and Manager input hashes, 11 Blind Verifier input hashes, terminal-agent
+answer provenance, 12 expected persisted artifacts, trace parent chain, Worker
+shutdown and tc restore. `audit-progress-001.json` merges six attempts from both
+roots into four effective cells; `financial-four-cell-audit-001.json` records the
+completed task comparison. The fixed suffix began with Academic Fast-Blind.
+
 ## Partial result
 
 | Task | Condition | Completed / evaluated | Answer / score | E2E s | Action bytes | Model inferences | Manager / Verifier |
@@ -74,10 +81,11 @@ at any new operational gate. New evidence never overwrites either old attempt.
 | Financial `66f7c780bb02136c067c35e8` | Fast-Blind | yes / yes | A / 0.0 | 406.653 | 265,938 | 2 | 20 / 20 |
 | Same task | Fast-Aware | yes / yes | A / 0.0 | 318.058 | 486,264 | 2 | 10 / 10 |
 | Same task | Slow-Blind | yes / yes | A / 0.0 | 278.919 | 141,047 | 1 | 14 / 14 |
+| Same task | Slow-Aware transport patch, **clean** | yes / yes | A / 0.0 | 251.831 | 486,432 | 1 | 11 / 11 |
 | Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
 | Same task | Slow-Aware replacement, **excluded/confounded** | yes / yes | A / 0.0 | 412.727 | 58,287 | 2 | 10 / 10 |
 
-The first three are clean retained semantic quality failures. Fourth primary
+All four effective conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
 turn-6 Aware profile candidate count from four to three. The replacement suffered
 the same transport error on A5/A28, marking three sources HOST_UNREACHABLE and
@@ -97,16 +105,19 @@ Fast-Aware independently passed 10/10 pre-decision profile/input hashes and 216
 Worker probes; Slow-Blind passed 14 Manager input hashes and 208 probes. Their
 terminal provenance, persistence, privacy and tc restoration checks pass.
 No complete task/family aggregate, stability, cost-rationality or cross-benchmark
-claim yet. The suffix controller correctly refused continuation; its twenty-cell
-schedule remains unexecuted. A third identical operational replacement is forbidden.
-Transport root cause remains unproven; no speculative runtime repair is applied.
+claim yet. At the historical stopping boundary, the old suffix controller correctly
+refused continuation and all twenty suffix cells were unexecuted. A third identical
+operational replacement remains forbidden. The authorized transport patch above is
+a separately frozen affected-cell rerun; it does not retroactively validate either
+old attempt. Historical transport root cause remains unproven.
 A synthetic loopback diagnostic reproduces the same disconnect on a reused
 connection at the equal five-second client/server expiry boundary; a four-second
-client-expiry control opens a new connection and passes. This control is not
-deployed and does not establish historical root cause. All 20 owned Worker PIDs
-are inactive and the frozen protocol/entry hashes remain unchanged.
-Review is needed before separately versioned bug-fix/rerun work or closing at this
-operational stop. The original 24-clean-cell objective has not been achieved.
+client-expiry control opens a new connection and passes. The control was originally
+diagnostic-only; after explicit approval, the same limits helper passed the remote
+production-client diagnostic and was frozen in the new deployment. This does not
+establish historical root cause. All 20 **old-attempt** Worker PIDs were inactive
+at the boundary and original deployment hashes remain unchanged. The original
+24-clean-cell objective has not been achieved.
 
 ## Pending final analysis
 
@@ -120,7 +131,16 @@ Final goal requires all 24 cells executed or validly failed, operational inciden
 resolved or explicitly hard-stopped, final reports, evidence and repository audit.
 This report does not claim completion of the unattended goal.
 
-## Completion audit at the blocking boundary
+Financial task preliminary interpretation: both Aware conditions aggregate first,
+including the constrained network. Slow-Aware sends **244.9% more action bytes**
+than Slow-Blind while taking 9.7% less E2E in this single trajectory; Fast-Aware
+sends 82.8% more bytes while taking 21.8% less E2E. All four original evaluator
+scores are zero. Lower E2E is not evidence of network-efficient, quality-preserving
+adaptation: Manager/Verifier/model work differs, n=1 does not exclude stochastic
+trajectory variation, and the one transport-only revision difference is disclosed.
+No method or prompt is tuned to correct these results.
+
+## Historical completion audit at the blocking boundary (before authorization)
 
 The original objective remains **24 clean formal cells**, not three successful
 executions or an operational-stop report. Remote `blocking-boundary-audit-v1.json`
@@ -128,7 +148,7 @@ independently rechecks all five trace parent chains/run identities/single termin
 events, frozen entry/protocol/native-runtime/component hashes and all 20 owned
 Worker PIDs. These checks pass; no process is still running.
 
-| Requirement | Current authoritative status |
+| Requirement | Historical status before authorized transport patch |
 | --- | --- |
 | Three original LongBench and three distinct Video tasks, frozen before calls | Frozen protocol/task/source metadata exist; Video questions use two original videos, limitation declared |
 | LongBench 12 clean formal cells | 3 clean; 1 cell has two confounded attempts; 8 other cells unexecuted |
@@ -148,11 +168,10 @@ to infer that this explicitly named manual attempt is a primary. The read-only
 auditor reports attempt identity separately. Original evidence is not overwritten
 to change that policy field.
 
-Continuing requires review of the persistent operational cell and authorization
-for any subsequent affected experimental run. No demonstrated historical runtime
-root cause or validated production patch currently permits an automatic bug-fix
-rerun. This is an unresolved protocol/operational gate, not proof of the user's
-permanent scientific hard-stop conditions and not achievement of the goal.
+At that boundary, continuing required review and authorization for any subsequent
+affected experimental run. The user subsequently authorized the transport-only
+patch and the gated suffix recorded above. Preserve the boundary as history; do
+not interpret it as the current queue state or as achievement of the goal.
 
 ## Offline verification
 

@@ -1,6 +1,6 @@
 # LongBench pre-decision Raw-Aware v1
 
-**AUTHORIZED TRANSPORT-PATCH RERUN IN PROGRESS; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
+**FINANCIAL FOUR-CELL AUDIT CLEAN; FIXED SUFFIX RUNNING; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
 tasks, four conditions each. Selection, original context byte counts, natural
 document boundaries and initial placement are in the
 [protocol](predecision-crossbenchmark-v1-protocol.md).
@@ -8,11 +8,13 @@ document boundaries and initial placement are in the
 Representation is byte-reconstructable ordered text records. Original questions,
 choices/private gold and exact-choice evaluator remain unchanged; no workflow hints.
 
-Execution commit `90cea3261c1e21f7cb528025c64729741ccc8451`, unchanged Qwen pre-decision
-harness. Three Financial cells are clean; the fourth primary is operationally
-confounded and retained; its one identical replacement is also confounded. Family is
-**not complete**; eight other primary cells remain unexecuted, and Slow-Aware has
-no clean eligible result. No third identical automatic attempt is permitted.
+Original execution commit `90cea3261c1e21f7cb528025c64729741ccc8451`, unchanged Qwen
+pre-decision harness. At the historical stopping boundary, three Financial cells
+were clean; the fourth primary and its one identical replacement were confounded.
+Both are retained and excluded. Family is **not complete**; the separately frozen
+transport patch now supplies a clean Slow-Aware result and the remaining eight
+LongBench conditions follow the fixed schedule. No third identical automatic
+attempt is permitted.
 See [live cross-benchmark report](predecision-crossbenchmark-v1.md).
 
 The stopping boundary above is preserved as history. After user authorization,
@@ -22,7 +24,35 @@ started as `transport-patch-1` with fresh stores. Only a clean audit permits the
 unchanged remaining schedule. The three old clean cells remain retained; their
 wrong answers are not tuned away.
 
-## Financial task: partial comparison
+## Financial task: completed effective comparison
+
+The authorized `transport-patch-1` Slow-Aware run has now completed cleanly;
+the historical confounded primary/replacement above remain excluded. All four
+effective conditions are trace-reconstructable and completed/evaluated; all
+score 0. The remaining eight LongBench cells follow the original schedule.
+
+| Condition | E2E s | Action bytes | Model service s | Manager / Verifier | Score |
+| --- | ---: | ---: | ---: | --- | ---: |
+| Fast-Blind (original revision) | 406.653 | 265938 | 113.943 | 20 / 20 | 0 |
+| Fast-Aware (original revision) | 318.058 | 486264 | 117.735 | 10 / 10 | 0 |
+| Slow-Blind (original revision) | 278.919 | 141047 | 51.549 | 14 / 14 | 0 |
+| Slow-Aware (transport patch) | 251.831 | 486432 | 96.379 | 11 / 11 | 0 |
+
+Patched Slow-Aware: aggregate first; aggregate_artifacts 2, BM25 5, model attempts
+4 / actual inference 1 / context preflight rejects 3. No specialist; graph 11 nodes,
+13 edges, peak 3 parallel actions / 0.699 s overlap. Terminal model input artifact
+15938 bytes (1.47% of raw record representation), prompt 1310 bytes; actual input
+tokens 4105, output tokens 2. Manager service work 93.553 s, Verifier work 47.222 s,
+operator work 1.750 s, action transfer 1.912 s; initial placement separately 3.598 s.
+All 132 probes, 11 Manager/profile and 11 Verifier hashes, terminal provenance,
+12-artifact persistence, trace chain, tc restore and Worker shutdown pass.
+
+Both Aware conditions aggregate before retrieval despite different network classes;
+Slow-Aware traffic exceeds Slow-Blind by 244.9%, even though its E2E is 9.7% lower.
+This is not a network benefit claim: service/reasoning paths differ, quality is zero
+in all four conditions, and there is only one trajectory per condition. No semantic
+quality failure is repaired or replaced. Remote `financial-four-cell-audit-001.json`
+records the task audit and the disclosed transport revision difference.
 
 Original context: 1,033,800 UTF-8 bytes, four natural documents. Lossless record
 representation: 1,081,150 bytes, 344 chunks, initially on A4/A5/A28/A5.
