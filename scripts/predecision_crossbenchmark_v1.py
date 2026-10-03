@@ -406,7 +406,9 @@ def main(args: argparse.Namespace) -> None:
             write_new(output / "attempt-provenance.json", {
                 "attempt": args.attempt,
                 "kind": ("authorized_transport_bug_fix_rerun"
-                         if args.attempt == "transport-patch-1" else args.attempt),
+                         if args.attempt == "transport-patch-1" else
+                         "authorized_backend_client_bug_fix_rerun"
+                         if args.attempt == "backend-client-patch-1" else args.attempt),
                 "run_id": config["run_id"], "execution_revision": _revision(),
                 "automatic_retry": False,
             })
@@ -452,7 +454,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--only-cell")
     parser.add_argument("--attempt", choices=(
-        "primary", "operational-replacement-1", "transport-patch-1",
+        "primary", "operational-replacement-1", "transport-patch-1", "backend-client-patch-1",
     ),
                         default="primary")
     return parser.parse_args()

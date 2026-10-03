@@ -39,6 +39,11 @@ def prepare(cell_path: Path, agent_id: str, output: Path) -> None:
         raise ValueError(f"Worker URL must declare an HTTP port: {worker_urls[agent_id]}")
     worker["port"] = url.port
     worker["artifact_root"] = stores[agent_id]
+    if "model_service_timeout_seconds" in cell:
+        for deployment in worker.get("deployments", {}).values():
+            backend = deployment["model"]
+            if backend["backend"] == "openai_compatible":
+                backend["request_timeout_seconds"] = cell["model_service_timeout_seconds"]
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         yaml.safe_dump(worker, sort_keys=False, allow_unicode=True),

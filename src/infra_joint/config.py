@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from typing import Annotated, Literal
 
+import httpx
 import yaml
 from openai import AsyncOpenAI
 from pydantic import Field, model_validator
@@ -25,6 +26,7 @@ class OpenAIBackendConfig(ContractModel):
     base_url: str = Field(min_length=1)
     model: str = Field(min_length=1)
     api_key_env: str = Field(default="OPENAI_API_KEY", min_length=1)
+    request_timeout_seconds: float = Field(default=600, gt=0)
     reasoning_effort: Literal["none", "low", "medium", "high"] | None = None
     temperature: float | None = Field(default=None, ge=0, le=2)
 
@@ -104,7 +106,10 @@ def build_model_backend(config: BackendConfig) -> tuple[ModelBackend, AsyncOpenA
         raise RuntimeError(
             f"required API key environment variable is not set: {config.api_key_env}"
         ) from exc
-    client = AsyncOpenAI(api_key=api_key, base_url=config.base_url)
+    client = AsyncOpenAI(
+        api_key=api_key, base_url=config.base_url, max_retries=0,
+        timeout=httpx.Timeout(600, connect=5, read=config.request_timeout_seconds),
+    )
     return (
         OpenAICompatibleModelBackend(
             client,

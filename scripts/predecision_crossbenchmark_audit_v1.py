@@ -22,6 +22,19 @@ def action_operator(action: dict[str, Any]) -> str:
     return "invoke_model" if action["action_type"] == "model" else action["operator"]
 
 
+def audited_validation(directory: Path, run_id: str) -> dict[str, Any]:
+    """Include append-only external execution evidence without rewriting original results."""
+    validation = json.loads((directory / "lightweight-validation.json").read_text())
+    path = directory / "private/execution-incidents.json"
+    if path.exists():
+        incident = json.loads(path.read_text())
+        if incident["run_id"] != run_id:
+            raise ValueError("external execution incident run identity mismatch")
+        for item in incident["incidents"]:
+            validation["problems"].append(f"external execution incident: {item['code']}")
+    return validation
+
+
 def effective_attempt(records: list[dict[str, Any]]) -> dict[str, Any] | None:
     """Quality is not an eligibility gate; operationally confounded attempts are retained."""
     clean = [r for r in records if not r["validation"]["problems"]
@@ -165,12 +178,16 @@ def audit_cell(directory: Path) -> dict[str, Any]:
         "terminal_answer_provenance_pass": terminal_matches,
         "provenance": provenance_checks(events, freeze["profile_visibility"]),
         "probe_count": len(probes), "probe_errors": [p for p in probes if not p["probe_success"]],
-        "validation": json.loads((directory / "lightweight-validation.json").read_text()),
+        "validation": audited_validation(directory, result["run_id"]),
         "persistence": json.loads((directory / "private/artifact-persistence.json").read_text()),
         "evidence_hashes": {str(p.relative_to(directory)): _sha256(p) for p in (
             path, trace, diagnostics_path, directory / "tc-attestation.json",
             directory / "freeze/manifest.json", directory / "summary.json",
         )},
+        "external_execution_incidents_sha256": (
+            _sha256(directory / "private/execution-incidents.json")
+            if (directory / "private/execution-incidents.json").exists() else None
+        ),
     }
 
 

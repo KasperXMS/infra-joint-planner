@@ -8,6 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 from predecision_crossbenchmark_audit_v1 import (  # noqa: E402
+    audited_validation,
     effective_attempt,
     provenance_checks,
 )
@@ -23,6 +24,31 @@ from test_predecision_crossbenchmark import protocol  # noqa: E402
 from infra_joint.control.native_agents import _deterministic_terminal_answer
 from infra_joint.control.provenance import provenance_sha256
 from infra_joint.core.task import OutputContract, OutputFormat
+
+
+def test_external_backend_retry_evidence_excludes_without_rewriting_result(tmp_path: Path) -> None:
+    original = {"problems": []}
+    validation = tmp_path / "lightweight-validation.json"
+    validation.write_text(json.dumps(original))
+    assert audited_validation(tmp_path, "run-1") == original
+    (tmp_path / "private").mkdir()
+    (tmp_path / "private/execution-incidents.json").write_text(json.dumps({
+        "run_id": "run-1", "incidents": [{"code": "hidden_backend_retry"}],
+    }))
+    record = clean_record()
+    record["validation"] = audited_validation(tmp_path, "run-1")
+    assert effective_attempt([record]) is None
+    assert json.loads(validation.read_text()) == original
+
+
+def test_external_incident_wrong_run_identity_fails_closed(tmp_path: Path) -> None:
+    (tmp_path / "lightweight-validation.json").write_text(json.dumps({"problems": []}))
+    (tmp_path / "private").mkdir()
+    (tmp_path / "private/execution-incidents.json").write_text(json.dumps({
+        "run_id": "wrong-run", "incidents": [{"code": "hidden_backend_retry"}],
+    }))
+    with pytest.raises(ValueError, match="identity mismatch"):
+        audited_validation(tmp_path, "run-1")
 
 
 def test_crossbenchmark_audit_verifies_actual_profile_timing_and_semantic_hashes() -> None:

@@ -81,6 +81,7 @@ def test_worker_config_is_deterministically_derived_from_frozen_contract(
     assert deployment["context_window"] == 32768
     assert deployment["reserved_output_tokens"] == 2048
     assert deployment["model"]["model"] == "qwen3.8-27b-v1"
+    assert deployment["model"]["request_timeout_seconds"] == 1200
 
 
 def test_trace_projection_recovers_failed_run_costs(tmp_path: Path) -> None:
