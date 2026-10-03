@@ -29,7 +29,7 @@ wrong answers are not tuned away.
 The authorized `transport-patch-1` Slow-Aware run has now completed cleanly;
 the historical confounded primary/replacement above remain excluded. All four
 effective conditions are trace-reconstructable and completed/evaluated; all
-score 0. The remaining eight LongBench cells follow the original schedule.
+score 0. The other eight LongBench cells have since completed in the original schedule.
 
 | Condition | E2E s | Action bytes | Model service s | Manager / Verifier | Score |
 | --- | ---: | ---: | ---: | --- | ---: |
@@ -62,18 +62,21 @@ representation: 1,081,150 bytes, 344 chunks, initially on A4/A5/A28/A5.
 | Fast-Blind | clean evaluated / 0 | four parallel BM25 | 40/63 | 20/5/5/4 | 6/2/4 | 1/8 | 406.653 / 265,938 |
 | Fast-Aware | clean evaluated / 0 | aggregate | 22/31 | 9/2/6/0 | 5/2/3 | 2/16 | 318.058 / 486,264 |
 | Slow-Blind | clean evaluated / 0 | BM25 | 26/29 | 16/4/0/1 | 5/1/4 | 1/8 | 278.919 / 141,047 |
-| Slow-Aware primary | excluded observer confounder / 0 | aggregate | 28/27 | 8/2/13/0 | 5/2/3 | 3/23 | 311.743 / 486,420 |
+| Slow-Aware transport patch | clean evaluated / 0 | aggregate | 11/13 | 5/2/0/0 | 4/1/3 | 0/0 | 251.831 / 486,432 |
 
 Reduction counts are generic top-k/projection attempts; model attempts are not
 actual inference counts. Real action overlap peaks at four for both clean Blind
-runs and one for Fast-Aware. Initial placement transfer is separately 0.387 /
-0.356 / 3.314 s for the three clean runs and is included in E2E.
+runs, one for Fast-Aware and three for patched Slow-Aware. Initial placement transfer
+is separately 0.387 / 0.356 / 3.314 / 3.598 s and is included in E2E. The excluded
+Slow-Aware primary/replacement remain in the historical exception audit, not in
+this four-effective-cell comparison.
 
 | Clean condition | Manager / specialist / Verifier work s | Physical model work s | Tool work s | Action transfer work s | Terminal artifact / prompt bytes |
 | --- | --- | ---: | ---: | ---: | --- |
 | Fast-Blind | 163.616 / 31.116 / 88.344 | 113.943 | 1.220 | 3.760 | 9,765 / 781 |
 | Fast-Aware | 98.946 / 51.610 / 40.736 | 117.735 | 1.304 | 1.374 | 15,770 / 812 |
 | Slow-Blind | 114.288 / 39.624 / 59.527 | 51.549 | 2.214 | 2.150 | 9,604 / 3,076 |
+| Slow-Aware transport patch | 93.553 / 0 / 47.222 | 96.379 | 1.750 | 1.912 | 15,938 / 1,310 |
 
 These are non-additive work sums, not a partition of wall time. Each terminal
 answer is canonical A; the unchanged private gold label is C. No evaluator or

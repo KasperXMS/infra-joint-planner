@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: FIRST THREE 795-3 CELLS CLEAN; 9/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 FOUR-CELL TASK COMPLETE; 8/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -9,14 +9,14 @@ execution. No smoke MJPEG representation, offline task-conditioned sampling or
 dataset-specific operator. Native tools decide sampling and evidence selection at
 runtime; original evaluator receives terminal canonical choice.
 
-See [protocol](predecision-crossbenchmark-v1-protocol.md). No completed Video
-task/family comparison or final quality/cost claim exists for this block yet.
+See [protocol](predecision-crossbenchmark-v1-protocol.md). The first task comparison
+is complete; the Video family and final cross-workload characterization are not.
 
-## 795-3: first three clean trajectories
+## 795-3: completed four-cell task comparison
 
-Original 2495.121-second AV1 video, 282442048 bytes, initially on A4. Both native
-trajectories sample 32 frames with `every_seconds=5`, using the original video and
-real AV1-capable FFmpeg. No contact sheet succeeds; both are single-Manager workflows
+Original 2495.121-second AV1 video, 282442048 bytes, initially on A4. All four native
+trajectories sample 32 frames: `every_seconds=5` except Slow-Aware's 10 s, using
+the original video and real AV1-capable FFmpeg. No contact sheet succeeds; all are single-Manager workflows
 without specialists (allowed, not an acceptance gate). Model-device selection is
 physical-layer A28, with actual A4→A28 image transfers and real visual inference.
 
@@ -25,6 +25,7 @@ physical-layer A28, with actual A4→A28 image transfers and real visual inferen
 | Fast-Blind | B / 0 | 185.443 | 581538 / 0.813 | 26.066 | 32 / 4 | 5 / 5 | 2 / 1 / 1 | 3 / 20 |
 | Fast-Aware | A / 1 | 252.371 | 1230240 / 1.908 | 24.539 | 32 / 8 | 3 / 3 | 1 / 1 / 0 | 2 / 8 |
 | Slow-Blind | A / 1 | 1069.965 | 1562096 / 5.508 | 788.892 | 32 / 10 | 3 / 3 | 1 / 1 / 0 | 2 / 10 |
+| Slow-Aware | A / 1 | 1071.594 | 1471756 / 5.507 | 788.481 | 32 / 10 | 3 / 3 | 1 / 1 / 0 | 2 / 10 |
 
 Fast-Blind's first model request consumes frame IDs 1–16; the declared static
 2048-token-per-image bound alone consumes the entire 32768 context, so any prompt
@@ -44,6 +45,7 @@ the decisive tool; no extra inference, task-specific repair or retry is performe
 | Fast-Blind | 34.884 / 17.086 | 96.867 | 8.585 | 3871 / 2 | 581538 / 685 |
 | Fast-Aware | 18.052 / 9.028 | 189.143 | 8.700 | 7562 / 2 | 1230240 / 585 |
 | Slow-Blind | 20.191 / 9.130 | 236.090 | 8.696 | 9429 / 2 | 1562096 / 670 |
+| Slow-Aware | 17.058 / 8.474 | 235.830 | 14.637 | 9402 / 2 | 1471756 / 520 |
 
 Both finish/evaluate with canonical choices; 24/28 probes pass, privacy/provenance,
 persistence, Worker shutdown and tc restore pass. All three Aware Manager turns
@@ -57,10 +59,38 @@ took 788.892 s, approximately 74% of E2E; this must not be counted as an Agent's
 workflow-choice benefit or failure. A4→A28 transfer metadata confirms terminal
 input frames 1–10. Blind therefore also selects different evidence across Fast
 and Slow despite no dynamic profile, underscoring the n=1 stochastic-confounding
-limit. Slow-Aware is now materializing the same intact
-source under 3 Mbps; do not mistake this live transfer for a stopped agent loop.
+limit. Slow-Aware has also clean completed/evaluated, with 28/28 probes and all
+three fresh anonymous profile/input hashes passing. Its terminal uses frames 1–10
+at 10 s cadence; doubled sampling spacing is an observed semantic parameter change,
+not an enforced policy. Images are transferred to A28 and consumed by inference.
 
-Remote merged audit: `audit-progress-010.json` under transport-patch root.
-The two Fast trajectories do not establish rational network adaptation: Aware's
-correct answer uses more frames, bytes and model service work. Wait for all four
-conditions and the other two questions before cross-workload interpretation.
+## Task-level interpretation and validity
+
+Slow-Aware transfers **5.8% fewer action bytes**, but its E2E is **0.15% higher**
+than Slow-Blind (both correct). Model service work is nearly equal; wider sampling
+increases decode/operator work. This is not a clear latency benefit. Fixed initial
+placement accounts for approximately 74% of each Slow E2E. Initial placement and
+action bytes together differ by only about 0.032% between Slow workflows.
+
+Fast-Aware is correct while Fast-Blind is wrong, but uses 111.6% more action bytes
+and takes 36.1% longer. This is a quality-cost trade-off, not uniform efficiency.
+Aware Fast→Slow changes sampling cadence and terminal frame count (5 s / 8 frames
+→ 10 s / 10 frames), without reducing sampled-frame count or changing the two-node
+operator sequence. Both Blind and Aware sample locally in all conditions; there is
+no observed move-whole-video-versus-local-sample topology reversal. Sparse early
+sampling does not establish coverage of the whole 2495 s timeline or temporal
+evidence adequacy; do not infer exact original PTS or causal decisive-frame effects.
+
+Durable remote `video-795-3-four-cell-audit-001.json` (SHA-256
+`7b38c083e4e41af20e3d356f753bc3f553ac072436324e1fe5a16ebc0aad25d4`)
+verifies all four unique trace chains/run IDs/single run ends, empty initial stores,
+16 exited Worker processes, shutdown and tc cleanup, shared task/capability/harness
+hashes, terminal provenance, persistence/privacy and normal-stop model finishes.
+All **96/96 probes**, **14 Manager / 14 Blind Verifier hashes** and **six fresh Aware
+inputs** pass. All model deployments expose 32768/2048; all four actual inferences
+select A28. No semantic retry or prompt/budget/scheduler change.
+
+Merged audit: `audit-progress-011.json` under transport-patch root: 18 preserved
+attempts / 16 effective cells / eight remaining conditions. Queue is now in 848-1
+Fast-Blind. Wait for that task and 795-2 before final cross-workload interpretation;
+n=1 cannot establish stable infrastructure-conditioned causality.

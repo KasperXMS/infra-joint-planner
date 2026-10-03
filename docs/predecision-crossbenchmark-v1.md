@@ -1,9 +1,9 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
-Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells and the first two Video
-cells plus Video 795-3 Slow-Blind are clean effective results (15/24). The two old
-Financial confounded attempts remain preserved/excluded. Video 795-3 Slow-Aware is active.
+Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells and all four Video
+795-3 cells are clean effective results (16/24). The two old Financial confounded
+attempts remain preserved/excluded. Video 848-1 Fast-Blind is active.
 
 ## Scope and frozen system
 
@@ -98,8 +98,9 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Video `795-3` | Fast-Blind, clean | yes / yes | B / 0.0 | 185.443 | 581,538 | 1 | 5 / 5 |
 | Same task | Fast-Aware, clean | yes / yes | A / 1.0 | 252.371 | 1,230,240 | 1 | 3 / 3 |
 | Same task | Slow-Blind, clean | yes / yes | A / 1.0 | 1069.965 | 1,562,096 | 1 | 3 / 3 |
+| Same task | Slow-Aware, clean | yes / yes | A / 1.0 | 1071.594 | 1,471,756 | 1 | 3 / 3 |
 
-All four effective conditions are clean retained semantic quality failures. Fourth primary
+All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
 turn-6 Aware profile candidate count from four to three. The replacement suffered
 the same transport error on A5/A28, marking three sources HOST_UNREACHABLE and
@@ -196,8 +197,17 @@ is a quality/cost trade-off, not uniform Aware efficiency improvement. Slow-Blin
 also completed/evaluated correctly: one inference, no context failures, 16 successful
 probes, E2E 1069.965 s. Fixed initial source materialization is 788.892 s (~74% of E2E),
 separate from 1,562,096 action bytes / 5.508 s transfer and 236.090 s model service.
-Nine Video conditions remain pending; current Slow-Aware is in initial materialization.
-Merged `audit-progress-010.json` records 17 preserved attempts / 15 effective cells.
+Slow-Aware also completes/evaluates correctly: 28 probes pass, E2E 1071.594 s,
+1,471,756 action bytes, 788.481 s fixed initial placement. Sampling cadence changes
+5→10 s, with terminal selected frames 8→10 versus Fast-Aware; both still sample
+32 frames locally, with the same two-node operator sequence. Relative to Slow-Blind,
+Aware action bytes are 5.8% lower but E2E is 0.15% higher: not a clear system benefit.
+The fixed 282 MB initial transfer dominates both Slow E2Es. The complete task audit
+checks 96 probes, 14 Manager / 14 Blind Verifier hashes, six fresh Aware inputs,
+16 empty initial states/exited Workers, trace provenance, persistence, privacy,
+normal model finishes and tc cleanup. See the [Video task report](predecision-videomme-v1.md).
+Eight Video conditions remain pending; current 848-1 Fast-Blind is active.
+Merged `audit-progress-011.json` records 18 preserved attempts / 16 effective cells.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 
