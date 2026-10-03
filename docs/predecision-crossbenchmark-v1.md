@@ -3,8 +3,8 @@
 **Status: FINANCIAL FOUR-CELL AUDIT CLEAN; FIXED SUFFIX RUNNING; scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Four Financial conditions have clean effective
 results. The authorized Slow-Aware transport-patch rerun completed; its two old
-confounded attempts remain preserved. Academic Fast-Blind also completed cleanly
-with score 1; Academic Fast-Aware is active (five effective cells so far).
+confounded attempts remain preserved. All four Academic conditions completed
+cleanly with score 1; News Fast-Blind is active (eight effective cells so far).
 
 ## Scope and frozen system
 
@@ -86,6 +86,9 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
 | Same task | Slow-Aware replacement, **excluded/confounded** | yes / yes | A / 0.0 | 412.727 | 58,287 | 2 | 10 / 10 |
 | Academic `66f2c44e821e116aacb2b826` | Fast-Blind, clean | yes / yes | C / 1.0 | 126.426 | 63,102 | 1 | 9 / 9 |
+| Same task | Fast-Aware, clean | yes / yes | C / 1.0 | 175.840 | 243,055 | 1 | 6 / 6 |
+| Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 176.759 | 25,132 | 1 | 11 / 11 |
+| Same task | Slow-Aware, clean | yes / yes | C / 1.0 | 156.410 | 18,921 | 1 | 11 / 11 |
 
 All four effective conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -148,6 +151,16 @@ terminal provenance, persistence, privacy, shutdown and tc restore. It retrieved
 first, used one specialist / 8 turns, 14 nodes / 13 edges, one context-preflight
 rejection and one actual model inference. This is a correct individual result,
 not a complete Academic task comparison or a family-level quality claim.
+
+Later `audit-progress-005.json` and `academic-four-cell-audit-001.json` complete
+the Academic task comparison: all four trace chains/terminal provenance, hashes,
+privacy, persistence, shutdown and tc restoration pass; 364/364 Worker probes.
+Aware changes aggregate-first in Fast to BM25-first in Slow. Slow-Aware has
+24.7% fewer action bytes and 11.5% lower E2E than Slow-Blind with equal correct
+quality; Fast-Aware is 39.1% slower than Fast-Blind. This is one observed
+workload-dependent response, not stochastic stability or causality. Model service
+work (10.947 / 126.845 / 103.752 / 83.875 s) dominates the transfer differences.
+See the detailed [LongBench task tables](predecision-longbench-v1.md).
 
 ## Historical completion audit at the blocking boundary (before authorization)
 

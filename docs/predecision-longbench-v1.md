@@ -1,6 +1,6 @@
 # LongBench pre-decision Raw-Aware v1
 
-**FINANCIAL FOUR-CELL AUDIT CLEAN; FIXED SUFFIX RUNNING; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
+**FINANCIAL / ACADEMIC FOUR-CELL AUDITS CLEAN; NEWS RUNNING; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
 tasks, four conditions each. Selection, original context byte counts, natural
 document boundaries and initial placement are in the
 [protocol](predecision-crossbenchmark-v1-protocol.md).
@@ -115,3 +115,49 @@ Fast-Aware, full-document aggregation metadata alone led the Blind Verifier to
 declare readiness before a model could consume it. Phase-restricted attempts,
 future-artifact references and within-run output-ID reuse remain recorded Agent
 behavior under the frozen contract; they are not repaired as harness bugs.
+
+## Academic task: completed effective comparison
+
+Original GPT-4 report/system card and Chroma paper: 494456 source-text bytes,
+514789 lossless record bytes, two natural documents initially on A4/A5.
+All four conditions completed, emitted `C`, and scored 1.0 with the unchanged
+private evaluator. No retry, replacement or task-specific modification.
+
+| Condition | First action | E2E s | Action bytes / transfer s | Manager / Verifier | Tools / model attempts / actual inference | Context rejects | Graph N/E |
+| --- | --- | ---: | --- | --- | --- | ---: | --- |
+| Fast-Blind | BM25 | 126.426 | 63102 / 0.818 | 9 / 9 | 12 / 2 / 1 | 1 | 14 / 13 |
+| Fast-Aware | aggregate | 175.840 | 243055 / 0.630 | 6 / 6 | 3 / 2 / 1 | 1 | 5 / 4 |
+| Slow-Blind | BM25 | 176.759 | 25132 / 0.402 | 11 / 11 | 6 / 3 / 1 | 2 | 9 / 6 |
+| Slow-Aware | BM25 | 156.410 | 18921 / 0.241 | 11 / 11 | 6 / 3 / 1 | 2 | 9 / 6 |
+
+Fast-Blind uses one specialist (8 reasoning turns), seven BM25 calls, one aggregate
+and four reads. Fast-Aware aggregates both documents, then retrieves twice.
+Both Slow trajectories retrieve six times without full-document aggregation;
+their two preflight failures and phase/readiness failures remain valid recovery
+behavior. Peak physical action concurrency is one in all four conditions.
+
+| Condition | Manager / specialist / Verifier work s | Physical model work s | Tool work s | Initial placement s | Terminal artifact / prompt bytes |
+| --- | --- | ---: | ---: | ---: | --- |
+| Fast-Blind | 45.807 / 23.778 / 41.113 | 10.947 | 0.465 | 0.165 | 0 / 2117 |
+| Fast-Aware | 27.541 / 0 / 18.105 | 126.845 | 0.216 | 0.422 | 25497 / 1047 |
+| Slow-Blind | 35.849 / 0 / 30.455 | 103.752 | 0.904 | 1.642 | 25132 / 933 |
+| Slow-Aware | 30.907 / 0 / 33.058 | 83.875 | 0.883 | 1.604 | 18921 / 859 |
+
+Zero terminal artifact bytes in Fast-Blind means a prompt-only terminal call;
+it does not mean the Manager had no retrieved evidence. Include prompt bytes
+when interpreting input reduction. Service-work sums are non-additive.
+
+All 112/64/72/116 probes pass in fixed condition order, as do privacy, 9/6/11/11
+Manager/Blind-Verifier input hashes, terminal provenance, trace chains, artifact
+persistence, Worker shutdown and tc restore. Every Aware Manager input has a
+fresh matching anonymous profile (6 Fast, 11 Slow). Remote evidence:
+`academic-four-cell-audit-001.json` and merged `audit-progress-005.json` under
+the new transport-patch root; eight clean effective cells, ten total attempts.
+
+Observed Aware Fast→Slow change is aggregate-first→local BM25, unlike Financial
+and existing MultiHop. Slow-Aware uses 24.7% fewer action bytes and 11.5% less
+E2E than Slow-Blind while preserving this task's score. Fast-Aware is 39.1%
+slower than Fast-Blind and moves more bytes. These are paired **n=1 trajectory
+observations**, not stable/causal superiority: the Blind trajectories also change
+between networks and the major E2E differences arise in model/reasoning work,
+not the sub-second action transfers. No cost-guided mechanism is added.
