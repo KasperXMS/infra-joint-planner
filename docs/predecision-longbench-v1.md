@@ -1,6 +1,6 @@
 # LongBench pre-decision Raw-Aware v1
 
-**STOPPED AT OPERATIONAL GATE; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
+**AUTHORIZED TRANSPORT-PATCH RERUN IN PROGRESS; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
 tasks, four conditions each. Selection, original context byte counts, natural
 document boundaries and initial placement are in the
 [protocol](predecision-crossbenchmark-v1-protocol.md).
@@ -14,6 +14,13 @@ confounded and retained; its one identical replacement is also confounded. Famil
 **not complete**; eight other primary cells remain unexecuted, and Slow-Aware has
 no clean eligible result. No third identical automatic attempt is permitted.
 See [live cross-benchmark report](predecision-crossbenchmark-v1.md).
+
+The stopping boundary above is preserved as history. After user authorization,
+transport patch `d43c3b3` was deployed separately (4 s idle Worker keepalive, no
+retry), all six task freeze records verified identical, and Financial Slow-Aware
+started as `transport-patch-1` with fresh stores. Only a clean audit permits the
+unchanged remaining schedule. The three old clean cells remain retained; their
+wrong answers are not tuned away.
 
 ## Financial task: partial comparison
 

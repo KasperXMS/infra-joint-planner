@@ -1,8 +1,9 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-**Status: STOPPED AT PERSISTENT OPERATIONAL GATE; scope incomplete.**
-Updated 2026-10-03 (Asia/Hong_Kong). Three clean cells, one confounded cell with
-its one permitted replacement also confounded; twenty primary cells unexecuted.
+**Status: AUTHORIZED TRANSPORT-PATCH RERUN IN PROGRESS; scope incomplete.**
+Updated 2026-10-03 (Asia/Hong_Kong). Three clean cells retained; Financial Slow-Aware
+is being rerun under a separate, tested transport patch. Its two old confounded
+attempts are preserved; twenty primary cells wait for the clean boundary.
 
 ## Scope and frozen system
 
@@ -21,6 +22,18 @@ scheduler, worker substrate and observer semantics. Fast 100 Mbps / configured
 
 All dataset access/materialization/distribution and raw evidence remain on the
 4090. Development PC only sends code and obtains bounded telemetry/metadata.
+
+The user authorized a transport-only mitigation after the stopping-boundary audit:
+Worker client idle keepalive expiry 5 s → 4 s, no retry and unchanged 100/20
+connection limits. Full pytest **440 passed**, Ruff passed, strict Pyright **0 errors**.
+Implementation commit `7823cdc`; separate patch freeze/execution commit
+`d43c3b37bdade20464d00e630e4f61973c7ab5ad`. New harness SHA-256
+`232a017188e4b779215c9a92f4df7ee0766f3892bbea596c5f81548e8fb8248e`.
+The logical runtime, Manager/Verifier instructions, budgets, models, static
+capability contract, tasks, representation, scheduler and observer semantics
+are unchanged. Six task freeze records match the original byte-for-byte as
+structured values. This is a transport revision difference, not a new method;
+retain the three clean old cells rather than rerun unaffected results.
 
 ## Authoritative evidence and continuation
 
@@ -44,6 +57,15 @@ separates three effective clean records, and lists twenty unexecuted primary cel
 plus the unresolved Slow-Aware cell. `persistent-operational-stop-v1.json` records
 the stop boundary. No third automatic attempt or later cell was launched.
 Audit tool revision does not change frozen runtime/code/config or cell results.
+
+Authorized patch evidence root:
+`/home/super/xiaoming/predecision-crossbenchmark-v1-d43c3b3`.
+`patch-authorization-and-identity.json` and `patch-launch.json` record the scope,
+identity checks and user approval. Affected-cell PID **2709635**; gated suffix
+controller PID **2709636**. Both must be checked for actual liveness, not assumed
+active from their launch record. The controller requires a clean full audit of
+`transport-patch-1` before starting the exact twenty unexecuted cells and stops
+at any new operational gate. New evidence never overwrites either old attempt.
 
 ## Partial result
 
