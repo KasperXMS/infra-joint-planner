@@ -296,4 +296,19 @@ audit-gated. Source bundle excludes historical results and benchmark bodies.
 Earlier `66a6016` staging is diagnostics-only; no formal cells executed there.
 See [freeze note](predecision-backend-client-patch1-freeze.md). Existing 20 effective
 cells remain unchanged; the new excluded attempt is preserved, not replaced
-in-place. Current working ledger: 23 attempts / 20 effective / four unresolved.
+in-place. Historical repair-boundary ledger: 23 attempts / 20 effective / four unresolved.
+
+### Clean affected-cell boundary after backend patch
+
+795-2 Fast-Blind / backend-client-patch-1 completed/evaluated C/1.0, format valid,
+E2E 692.487 s. All 56 probes, eight Manager / Blind Verifier hashes, trace/terminal
+provenance, privacy/persistence, four empty initial stores / exited owned Workers
+and tc restoration pass. Ollama window contains exactly one HTTP-200 request;
+service 441.516 s, finish stop. The no-hidden-retry incident is absent in this
+new sample. Old failed attempt is retained/excluded via incident sidecar.
+
+Do not claim timeout expansion caused correct reasoning: new native sampling
+75 s versus prior 30 s differs stochastically, and the successful service call
+finishes below 600 s. This is a clean corrected execution boundary, not a paired
+mechanistic quality comparison. Only the exact remaining three cells continue.
+Latest `5dafc43/audit-progress-002.json`: 24 attempts / 21 effective / three pending.

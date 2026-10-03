@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 AND 848-1 COMPLETE; 4/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 AND 848-1 COMPLETE; 795-2 FAST-BLIND CLEAN; 3/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -219,3 +219,40 @@ Slow-Aware's four sheets were additionally checked on remote A4/A28: eight
 copies readable JPEG 1280 x 360, exact metadata/content hashes and total 409154
 transferred bytes. Durable `video-848-1-slow-aware-sheet-content-integrity-001.json`
 passes; no pixel bodies returned to the PC.
+
+## 795-2: first clean patched cell
+
+Same intact 2495.121 s / 282442048-byte original 795 video, different temporal-order
+question. Fast-Blind under final backend patch `5dafc43` completes/evaluates:
+**C / score 1.0 / format valid**. E2E 692.487 s; action bytes 391212 / 0.170 s,
+fixed initial source transfer 25.471 s. The excluded primary and all its failed
+backend requests remain preserved; do not compare their invalid latency as if
+they were a valid Blind baseline.
+
+Natural trajectory: sample 32 at 75 s cadence -> reject 32-image model request
+by static context preflight -> create four eight-frame contact sheets -> invoke
+model on all four -> deterministic terminal extraction -> original evaluator.
+One sheet is created separately; the remaining three overlap in one ready group
+(peak 3 actions, 0.428 s overlap). No specialist. Graph 7 nodes / 68 edges;
+eight Manager / eight Blind Verifier turns, seven charged physical calls,
+five tool calls / two model attempts / one actual inference / one context reject.
+Two semantic-validation and one phase-restriction observations are retained.
+
+Model service 441.516 s; reported input/output tokens 2290/1208, normal stop.
+Manager / Verifier work 94.105 / 30.850 s, tool/decode work 99.722 s. Terminal
+artifact inputs 391212 bytes, prompt 1379 bytes. The canonical C is extracted
+from the successful physical model output, not newly reasoned by a finalizer.
+
+Durable `video-795-2-fast-blind-patch-audit-001.json`, SHA-256
+`7c714139b46699f4e8dfea1a03441a5a99349484513e4f6d4de989ad569f932d`,
+passes 56 probes, all eight Manager/Blind Verifier input hashes, trace chain and
+single run end, terminal provenance, privacy/persistence, four empty initial stores,
+four exited Worker processes and tc cleanup. Exactly **one** completed Ollama
+request in its window, HTTP 200: no observed hidden retry.
+
+The new stochastic native trajectory samples at 75 s versus excluded primary's
+30 s; successful completion does **not** isolate the timeout patch as the cause
+of improved quality. The service call itself finished in less than 600 s.
+No prompt, sampling rule, model or budget was tuned. Fast-Aware is running;
+only Slow-Blind and Slow-Aware follow it. Latest merged `audit-progress-002.json`
+under `5dafc43`: **24 preserved attempts / 21 effective cells / three unresolved**.

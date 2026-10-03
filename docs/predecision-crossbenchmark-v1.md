@@ -2,11 +2,11 @@
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
-795-3 cells and all four 848-1 cells are clean effective results (20/24). The two old
+795-3 cells, all four 848-1 cells and patched 795-2 Fast-Blind are clean effective results (21/24). The two old
 Financial confounded attempts remain preserved/excluded. Video 795-2 Fast-Blind
 primary failed with an observed backend timeout/hidden-retry confounder and is
-preserved/excluded. Affected-only rerun is active under new freeze `5dafc43`;
-the exact remaining three-cell suffix is gated on its clean audit.
+preserved/excluded. Affected-only rerun passed under new freeze `5dafc43`;
+the exact remaining three-cell suffix is now running, Fast-Aware first.
 
 ## Scope and frozen system
 
@@ -108,6 +108,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 226.982 | 380,788 | 1 | 6 / 6 |
 | Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
 | Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 711.029 | 409,154 | 1 | 6 / 6 |
+| Video `795-2` | Fast-Blind backend patch, clean | yes / yes | C / 1.0 | 692.487 | 391,212 | 1 | 8 / 8 |
 | Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
 
 All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
@@ -273,7 +274,7 @@ original text is also shown to avoid mistaking JSON overhead for new information
 | LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | 0 / 74.828 / 0 | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
 | Video 795-3 | 282,442,048 intact AV1 bytes; 2495.121 s; 1 video on A4 | 0 / 185.443 / 581538 | 1 / 252.371 / 1230240 | 1 / 1069.965 / 1562096 | 1 / 1071.594 / 1471756 |
 | Video 848-1 | 160,083,738 intact AV1 bytes; 2037.781 s; 1 video on A4 | 0 / 442.512 / 798787 | 0 / 226.982 / 380788 | 0 / 871.266 / 981232 | 0 / 711.029 / 409154 |
-| Video 795-2 | Different temporal-order question on the same intact 795 video | pending patch audit | unexecuted | unexecuted | unexecuted |
+| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | running | unexecuted | unexecuted |
 
 The anonymous static model pool has A28 and strong-4090 deployments, but **all
 completed physical model inferences in these 20 effective cells select A28**.
