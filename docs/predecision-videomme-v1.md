@@ -171,8 +171,9 @@ Sparse/selected visual evidence versus ordering-reasoning attribution remains
 unproven. Fixed initial placement accounts for 51.3% of E2E; do not call the
 446.971 s initial-transfer component an Agent-choice inefficiency.
 
-Budget accounting is read from `loop.usage`: all current Video cells use 2–4 charged
-physical calls, not the 64-call ceiling. Immediate schema/phase rejections are
+Budget accounting is read from `loop.usage`: earlier individual-frame/one-sheet
+trajectories use 2–4 charged physical calls, and Slow-Aware below uses seven,
+not the 64-call ceiling. Immediate schema/phase rejections are
 separately recorded observations, not additional model inference.
 Slow-Aware samples 32 frames at 60 s cadence. A 32-image request fails static
 context preflight; the Manager then creates four independent contact sheets,

@@ -259,6 +259,49 @@ and full operational/provenance/privacy checks. Current coverage is 20/24 effect
 cells, 22 attempts; only the four 795-2 conditions remain. Earlier active-cell
 labels and counts in this chronological history are superseded by this ledger.
 
+## Task-level workload map (provisional: five completed tasks)
+
+This view uses the 20 audited effective cells, **not** the excluded attempts or
+unfinished 795-2 rerun. Each condition entry is `score / E2E seconds / action bytes`.
+Raw artifact bytes are the actual initial execution representation; LongBench
+original text is also shown to avoid mistaking JSON overhead for new information.
+
+| Task | Workload / initial sources | Fast-Blind | Fast-Aware | Slow-Blind | Slow-Aware |
+| --- | --- | --- | --- | --- | --- |
+| LongBench Financial | 1,081,150 record bytes; 1,033,800 original text bytes; 4 docs on 3 Workers | 0 / 406.653 / 265938 | 0 / 318.058 / 486264 | 0 / 278.919 / 141047 | 0 / 251.831 / 486432 |
+| LongBench Academic | 514,789 record bytes; 494,456 original text bytes; 2 docs on 2 Workers | 1 / 126.426 / 63102 | 1 / 175.840 / 243055 | 1 / 176.759 / 25132 | 1 / 156.410 / 18921 |
+| LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | 0 / 74.828 / 0 | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
+| Video 795-3 | 282,442,048 intact AV1 bytes; 2495.121 s; 1 video on A4 | 0 / 185.443 / 581538 | 1 / 252.371 / 1230240 | 1 / 1069.965 / 1562096 | 1 / 1071.594 / 1471756 |
+| Video 848-1 | 160,083,738 intact AV1 bytes; 2037.781 s; 1 video on A4 | 0 / 442.512 / 798787 | 0 / 226.982 / 380788 | 0 / 871.266 / 981232 | 0 / 711.029 / 409154 |
+| Video 795-2 | Different temporal-order question on the same intact 795 video | pending patch audit | unexecuted | unexecuted | unexecuted |
+
+The anonymous static model pool has A28 and strong-4090 deployments, but **all
+completed physical model inferences in these 20 effective cells select A28**.
+Do not present this experiment as a measured GPU/Jetson model-placement reversal
+or dual-GPU parallel inference study. Video sampling/sheet creation is on A4 in
+both methods: locality is supplied by the shared physical scheduler, not evidence
+that only the Aware logical policy knows how to reduce near data.
+
+Terminal artifact/input byte ratios are recorded in remote
+`cross-workload-metadata-summary-001.json` under the backend-patch root. They are
+**not** semantic-information retention measurements: prompt-embedded evidence,
+prior successful model calls and Manager observations matter. In particular,
+zero terminal artifact bytes does not mean no evidence; a small JPEG composite
+does not establish that decisive text or temporal detail survived reduction.
+
+Three observed patterns already differ: Academic Slow has equal correct quality
+and lower Aware cost; News Aware is much cheaper but wrong; 795-3 Fast trades
+higher Aware cost for correctness. 848-1 sheet reduction lowers cost without
+solving ordering quality. These are descriptive trajectories, not final stable
+infrastructure-conditioned effects or universal benchmark-family claims.
+
+Fixed initial source transfer is included in recorded E2E but separated from
+action traffic. It dominates Slow video E2E (about 51–74% for completed cells),
+while video action transfers are only 2–6 s. LongBench model/cloud work dominates
+action-transfer differences. Sum-of-service-work is non-additive, and missing
+service profiles remain unknown. Final Q1–Q6 answers follow only after all cells
+and the final completion audit, without introducing a cost-guided method.
+
 ## Historical completion audit at the blocking boundary (before authorization)
 
 The original objective remains **24 clean formal cells**, not three successful
