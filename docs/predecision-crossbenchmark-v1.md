@@ -7,7 +7,9 @@ frozen/pushed as `3c3bd95`. Full 479 tests, Ruff and strict Pyright pass. All si
 task freezes are identical; four nodes match 141 source/script Git blobs. No
 prompt/model/tool/budget/scheduler/network change. Only Financial FA -> News FA
 -> 795-2 SA are rerun once with fresh stores and `isolation-patch-1`, auditing
-each before the next. Coverage remains 21/24 until new gates pass. Existing
+each before the next. Financial FA passes with C/1.0, 1282.028 s and 573058
+action bytes; model service is 1106.980 s. Coverage is **22/24** under
+`3c3bd95/audit-progress-002.json`. News FA is in progress; 795-2 SA is pending. Existing
 MultiHop is not rerun and its three affected repetitions remain excluded.
 See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
 

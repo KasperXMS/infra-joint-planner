@@ -4,10 +4,52 @@
 
 Recipient-isolation repair is separately frozen as `3c3bd95` after 479 passing
 tests, Ruff and strict Pyright. Only Financial and News Fast-Aware receive one
-new `isolation-patch-1` attempt each with fresh stores. Admission remains 10/12
-pending audits. Prompts, models, tools, budgets, task representations, scheduler
+new `isolation-patch-1` attempt each with fresh stores. Admission is now 11/12
+after Financial FA passed; News FA is in progress. Prompts, models, tools, budgets, task representations, scheduler
 and network are unchanged. Old attempts below remain excluded and preserved.
 See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+
+## Current Financial four-cell comparison: isolation patch admitted
+
+Financial Fast-Aware `isolation-patch-1` completes with canonical **C**, score
+**1.0**, format valid. The original profile-bearing FA attempt remains excluded.
+This table overrides the older all-zero Financial historical snapshots below.
+
+| Condition | Answer / score | E2E s | Action bytes / transfer s | Model service s | Manager / Verifier | Model attempts / inference / context rejects |
+| --- | --- | ---: | --- | ---: | --- | --- |
+| Fast-Blind | A / 0 | 406.653 | 265938 / 3.760 | 113.943 | 20 / 20 | 6 / 2 / 4 |
+| Fast-Aware, isolation patch | C / 1 | 1282.028 | 573058 / 1.264 | 1106.980 | 14 / 14 | 8 / 5 / 3 |
+| Slow-Blind | A / 0 | 278.919 | 141047 / 2.150 | 51.549 | 14 / 14 | 5 / 1 / 4 |
+| Slow-Aware, transport patch | A / 0 | 251.831 | 486432 / 1.912 | 96.379 | 11 / 11 | 4 / 1 / 3 |
+
+New FA first aggregates all four documents (1081147-byte output), then encounters
+context preflight failures. Ten BM25 calls and one bounded `verify_option_a`
+specialist supply evidence. Three model attempts reject before inference,
+including the specialist's 63943-byte aggregate. Manager materializes four
+distinct per-option analysis notes (669, 1588, 3602 and 713 bytes), then synthesizes
+from their 6572-byte union. This is purposeful decomposition/recovery, not proof
+of four repeated identical verifications. Terminal prompt is 1289 bytes, output C.
+
+Eight specialist turns remain Blind in actual accumulated SDK tool-result
+context. Fourteen Aware Manager inputs have fresh profiles; fourteen Verifier
+inputs remain Blind. All 216 probes pass. Graph 20 nodes / 28 edges, one
+three-action parallel group, 0.477 s overlap; five sequential real inferences
+consume 29605 input / 1968 output tokens, all normal `stop`.
+
+Manager/specialist/Verifier work is 89.938 / 24.451 / 53.292 s, operator work
+1.133 s; initial placement is 0.398 s (1081150 bytes). Work sums are non-additive.
+Model service is about 86% of E2E; action transfer is about 0.1%. New FA costs
+215% more E2E and 115% more traffic than FB while answering correctly rather
+than incorrectly: a quality-cost trade-off, not a latency win. No n=1 causal
+attribution to visibility or to the implementation fix is established.
+
+Evidence: new root `audit-progress-002.json` admits 22/24 cells. Detailed audit
+`financial-fast-aware-isolation-deep-audit-001.json`, SHA-256
+`757ebdfa72a5f2958057f1b35947994b4040b18227651326d72a6f2661d16371`,
+passes trace/terminal/context hashes, persistence, empty stores, owned Worker
+exits, tc restore and exactly five corresponding A28 HTTP-200 requests.
+Task/capability hashes are unchanged; frozen harness SHA-256 is
+`444db21f3d7aa0db13af993854e77318a29bddee1aee438f27d4a4f7c25affbf`.
 
 ## Historical hard-stop snapshot
 
