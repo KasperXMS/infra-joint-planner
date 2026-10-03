@@ -29,12 +29,24 @@ completed physical inferences audited so far selected A28 in both groups.
 Frozen execution commit: `90cea3261c1e21f7cb528025c64729741ccc8451`.
 Harness: unchanged `infra-aware-predecision-v1`, SHA-256
 `cd184ee891e9227aa7f236e3361fc6d49a756a4429a8aa3e7070b286f144ba99`.
-Manager/Blind Verifier `qwen3.8-max`; physical Qwen3.8-27B Q4_K_M 32K/2048;
+Manager/Blind Verifier `qwen3.8-max`; physical contract
+`qwen3.8-27b-q4km-v1`, reported GGUF `qwen35` / 27.3B / Q4_K_M, 32K/2048;
 20/64/20 budgets; 1200 s controller-to-Worker timeout (see the
 [backend client policy audit](predecision-crossbenchmark-failure-audit-v1.md)).
 Same native loop, instructions, tools,
 scheduler, worker substrate and observer semantics. Fast 100 Mbps / configured
 5 ms, Slow 3 Mbps / configured 50 ms; Jetson netem limitation is unchanged.
+
+Model alias versus artifact: A28 and strong-4090 `/api/show` agree on tag
+`qwen3.8-27b-v1`, GGUF architecture/family `qwen35`, 27.3B, Q4_K_M, the same
+model/projector blobs and template hash. `general.name` is absent, so the tag
+alone is not independent evidence of official release branding. Metadata context
+262144 is not the formal tested deployment envelope: `num_ctx` remains 32768.
+The Modelfile default `num_predict=256` is overridden by Worker request
+`max_tokens=2048`, evidenced by the explicit 2048-token length-ended inference.
+No tag/blob/model/config was changed for this check. Durable
+`physical-model-metadata-provenance-audit-001.json` under the final patch root,
+SHA-256 `d590157ba1b14596823c88f47b9818ea62fe151854df4e4e7484cf5c595db4db`.
 
 All current dataset access/materialization/distribution and new raw evidence remain
 on remote nodes, with 4090 owning the sources. Development PC obtains bounded
@@ -120,7 +132,8 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
 | Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 711.029 | 409,154 | 1 | 6 / 6 |
 | Video `795-2` | Fast-Blind backend patch, clean | yes / yes | C / 1.0 | 692.487 | 391,212 | 1 | 8 / 8 |
-| Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
+| Same task | Fast-Aware, clean | yes / yes | B / 0.0 | 1009.582 | 742,651 | 2 | 10 / 10 |
+| Same task | Slow-Blind, clean | yes / yes | B / 0.0 | 1170.017 | 915,054 | 1 | 5 / 5 |
 
 All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
