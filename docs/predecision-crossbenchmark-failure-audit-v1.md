@@ -147,3 +147,26 @@ regression. The corrected audit snapshot independently verified Manager/Verifier
 hashes and terminal provenance. No affected experimental cell needs rerunning.
 
 Preserve all primary and authorized operational replacement evidence.
+
+## Authorized transport patch (2026-10-03)
+
+After reviewing the stopping boundary, the user authorized continuing with the
+transport-only mitigation. The shared SDK-native Worker HTTP client now expires
+idle pooled connections after **4 s**, below the verified Uvicorn 5 s server
+timeout. Connection limits remain HTTPX defaults (100 total / 20 idle); model
+service timeout remains 1200 s. There is no HTTP retry, new failure classification,
+fallback, observer relaxation, prompt change, budget change, or scheduler change.
+The mechanism remains a hypothesis for historical incidents, not proven root cause.
+
+Regression coverage checks production client construction, unchanged concurrency,
+single-attempt failure propagation, and real-Uvicorn idle expiry. Additional
+tests cover the unchanged logical/protocol freeze and cross-revision audit merging
+without discarding either excluded attempt. Full pytest: **440 passed**; Ruff and
+strict Pyright pass after style cleanup.
+
+New manifests use the `*-transport-patch1.yaml` suffix; original manifests and the
+original deployment/evidence stay untouched. The Financial Slow-Aware rerun is
+named `transport-patch-1`, with an explicit bug-fix attempt provenance sidecar.
+It is a new-patch affected-cell rerun, **not** a third identical operational
+replacement. Only a clean audited boundary permits the twenty-cell fixed suffix.
+No corrected formal result has been claimed at the time of this patch freeze.

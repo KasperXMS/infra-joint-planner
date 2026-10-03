@@ -42,13 +42,16 @@ def main() -> None:
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--after-cell", required=True)
     parser.add_argument("--boundary-attempt", required=True,
-                        choices=("primary", "operational-replacement-1"))
+                        choices=("primary", "operational-replacement-1", "transport-patch-1"))
+    parser.add_argument("--protocol", type=Path)
     parser.add_argument("--wait-pid", type=int)
     parser.add_argument("--api-key-file", type=Path, required=True)
     args = parser.parse_args()
     root = args.root.resolve()
     ensure_remote(root)
-    protocol_path = root / "app/configs/experiments/predecision-crossbenchmark-v1.yaml"
+    protocol_path = args.protocol or (
+        root / "app/configs/experiments/predecision-crossbenchmark-v1.yaml"
+    )
     protocol = _yaml(protocol_path)
     freeze = json.loads((root / "protocol-freeze.json").read_text())
     entry = root / "app/scripts/predecision_crossbenchmark_v1.py"
@@ -85,7 +88,8 @@ def main() -> None:
                     raise RuntimeError("frozen entry changed during continuation")
                 command = [str(root / "app/.venv/bin/python"), str(entry),
                            "--deployment-root", str(root), "--api-key-file",
-                           str(args.api_key_file), "--only-cell", cell]
+                           str(args.api_key_file), "--protocol", str(protocol_path),
+                           "--only-cell", cell]
                 record({"event": "cell_started", "cell": cell})
                 with (root / f"continuation-{cell}.log").open("x") as log:
                     subprocess.run(command, cwd=root / "app", env=env,

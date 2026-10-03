@@ -403,6 +403,13 @@ def main(args: argparse.Namespace) -> None:
                 raise FileExistsError(f"attempt already exists: {output}; inspect, never overwrite")
             output.mkdir(parents=True)
             config = cell_config(protocol, row, condition, args.attempt)
+            write_new(output / "attempt-provenance.json", {
+                "attempt": args.attempt,
+                "kind": ("authorized_transport_bug_fix_rerun"
+                         if args.attempt == "transport-patch-1" else args.attempt),
+                "run_id": config["run_id"], "execution_revision": _revision(),
+                "automatic_retry": False,
+            })
             cell_path = root / "cell-configs" / f"{cell}-{args.attempt}.yaml"
             cell_path.parent.mkdir(exist_ok=True)
             with cell_path.open("x", encoding="utf-8") as stream:
@@ -444,7 +451,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--endpoint-config", type=Path, default=DEFAULT_ENDPOINTS)
     parser.add_argument("--prepare", action="store_true")
     parser.add_argument("--only-cell")
-    parser.add_argument("--attempt", choices=("primary", "operational-replacement-1"),
+    parser.add_argument("--attempt", choices=(
+        "primary", "operational-replacement-1", "transport-patch-1",
+    ),
                         default="primary")
     return parser.parse_args()
 

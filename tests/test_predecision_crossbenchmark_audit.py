@@ -11,6 +11,9 @@ from predecision_crossbenchmark_audit_v1 import (  # noqa: E402
     effective_attempt,
     provenance_checks,
 )
+from predecision_crossbenchmark_audit_v1 import (
+    main as audit_main,
+)
 from predecision_crossbenchmark_continue_v1 import (  # noqa: E402
     remaining_cells,
     require_clean_attempt,
@@ -84,6 +87,41 @@ def test_no_clean_attempt_remains_unresolved_and_two_clean_attempts_rejected() -
     assert effective_attempt([record]) is None
     with pytest.raises(ValueError, match="multiple clean attempts"):
         effective_attempt([clean_record(), clean_record()])
+
+
+def test_cross_revision_audit_preserves_old_attempts_and_selects_authorized_patch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    old_root, new_root = tmp_path / "old", tmp_path / "patch"
+    cell = "longbench-multidoc-financial-slow-aware"
+    for root, attempt in ((old_root, "primary"), (old_root, "operational-replacement-1"),
+                          (new_root, "transport-patch-1")):
+        directory = root / "evidence" / cell / attempt
+        directory.mkdir(parents=True)
+        (directory / "lightweight-validation.json").write_text("{}")
+
+    def audit(directory: Path) -> dict[str, Any]:
+        record = clean_record()
+        record["attempt"] = directory.name
+        if directory.name != "transport-patch-1":
+            record["probe_errors"] = [{"probe_error_type": "RemoteProtocolError"}]
+        return record
+
+    output = tmp_path / "merged.json"
+    monkeypatch.setattr("predecision_crossbenchmark_audit_v1.audit_cell", audit)
+    monkeypatch.setattr("predecision_crossbenchmark_audit_v1._yaml", lambda _: protocol())
+    monkeypatch.setattr(sys, "argv", [
+        "audit", "--root", str(new_root), "--previous-root", str(old_root),
+        "--protocol", "new-protocol.yaml", "--output", str(output),
+    ])
+    audit_main()
+    merged = json.loads(output.read_text())
+    assert len(merged["attempt_records"]) == 3
+    assert len(merged["records"]) == len(merged["effective_records"]) == 1
+    assert merged["records"][0]["attempt"] == "primary"
+    assert merged["effective_records"][0]["attempt"] == "transport-patch-1"
+    assert merged["scope_roots"] == [str(old_root), str(new_root)]
+    assert len(merged["unresolved_cells"]) == 23
 
 
 def test_continuation_is_exact_unexecuted_suffix_not_a_matrix_rerun() -> None:

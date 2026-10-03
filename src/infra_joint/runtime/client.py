@@ -14,6 +14,21 @@ from infra_joint.worker.server import (
     WorkerStateResponse,
 )
 
+WORKER_HTTP_KEEPALIVE_EXPIRY_SECONDS = 4.0
+
+
+def worker_http_limits() -> httpx.Limits:
+    """Expire idle Worker connections before the server's five-second timeout.
+
+    Preserve HTTPX's concurrency defaults. This avoids an idle-reuse boundary;
+    it never retries requests or changes how observer failures are classified.
+    """
+    return httpx.Limits(
+        max_connections=100,
+        max_keepalive_connections=20,
+        keepalive_expiry=WORKER_HTTP_KEEPALIVE_EXPIRY_SECONDS,
+    )
+
 
 class WorkerClient(Protocol):
     agent_id: str

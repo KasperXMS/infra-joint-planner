@@ -22,7 +22,9 @@ async def healthy_app(scope: dict[str, Any], receive: Any, send: Any) -> None:
     await send({"type": "http.response.body", "body": b'{"healthy":true}'})
 
 
-async def probe_pair(*, client_expiry: float) -> dict[str, Any]:
+async def probe_pair(
+    *, client_expiry: float, limits: httpx.Limits | None = None,
+) -> dict[str, Any]:
     """Compare idle reuse with/without client expiry; delayed write is explicit."""
     sock = socket.socket()
     sock.bind(("127.0.0.1", 0))
@@ -43,7 +45,7 @@ async def probe_pair(*, client_expiry: float) -> dict[str, Any]:
             raise RuntimeError("diagnostic server did not start")
         async with httpx.AsyncClient(
             base_url=f"http://127.0.0.1:{port}", trust_env=False, timeout=2,
-            limits=httpx.Limits(keepalive_expiry=client_expiry),
+            limits=limits if limits is not None else httpx.Limits(keepalive_expiry=client_expiry),
         ) as client:
             first = await client.get("/state")
             first.raise_for_status()
@@ -80,13 +82,24 @@ async def probe_pair(*, client_expiry: float) -> dict[str, Any]:
 async def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--production-worker-limits", action="store_true")
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError("diagnostic evidence must not be overwritten")
-    results = [await probe_pair(client_expiry=value) for value in (5, 4)]
+    if args.production_worker_limits:
+        from infra_joint.runtime.client import (
+            WORKER_HTTP_KEEPALIVE_EXPIRY_SECONDS,
+            worker_http_limits,
+        )
+        results = [await probe_pair(client_expiry=5), await probe_pair(
+            client_expiry=WORKER_HTTP_KEEPALIVE_EXPIRY_SECONDS, limits=worker_http_limits(),
+        )]
+    else:
+        results = [await probe_pair(client_expiry=value) for value in (5, 4)]
     evidence = {"classification": "synthetic mechanism diagnostic, not historical root-cause proof",
                 "real_network_shaping": False, "benchmark_calls": 0,
                 "model_calls": 0, "formal_attempts": 0, "results": results,
+                "production_worker_limits": args.production_worker_limits,
                 "httpx_version": httpx.__version__, "uvicorn_version": uvicorn.__version__}
     with args.output.open("x", encoding="utf-8") as stream:
         json.dump(evidence, stream, indent=2)

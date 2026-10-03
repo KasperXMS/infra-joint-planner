@@ -142,6 +142,7 @@ def audit_cell(directory: Path) -> dict[str, Any]:
     }
     return {
         "attempt": directory.name,
+        "attempt_evidence_directory": str(directory),
         "run_id": result["run_id"], "task_label": freeze["task_label"],
         "task_id": result["task_id"], "benchmark": result["benchmark_id"],
         "condition": freeze["network_regime"] + "-" + freeze["profile_visibility"],
@@ -178,8 +179,15 @@ def main() -> None:
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--require-complete", action="store_true")
+    parser.add_argument("--previous-root", type=Path, action="append", default=[])
+    parser.add_argument("--protocol", type=Path)
     args = parser.parse_args()
-    protocol = _yaml(args.root / "app/configs/experiments/predecision-crossbenchmark-v1.yaml")
+    protocol = _yaml(args.protocol or (
+        args.root / "app/configs/experiments/predecision-crossbenchmark-v1.yaml"
+    ))
+    roots = [*args.previous_root, args.root]
+    if len(set(roots)) != len(roots):
+        raise ValueError("duplicate audit roots")
     records = []
     attempts = []
     effective = []
@@ -188,10 +196,11 @@ def main() -> None:
     for row in protocol["tasks"]:
         for condition in CONDITIONS:
             cell = f"{row['label']}-{condition}"
-            parent = args.root / "evidence" / cell
-            cell_attempts = [audit_cell(parent / attempt) for attempt in (
-                "primary", "operational-replacement-1",
-            ) if (parent / attempt / "lightweight-validation.json").exists()]
+            cell_attempts = [audit_cell(root / "evidence" / cell / attempt)
+                             for root in roots for attempt in (
+                                 "primary", "operational-replacement-1", "transport-patch-1",
+                             ) if (root / "evidence" / cell / attempt
+                                   / "lightweight-validation.json").exists()]
             attempts.extend(cell_attempts)
             primary = next((r for r in cell_attempts if r["attempt"] == "primary"), None)
             if primary is None:
@@ -206,6 +215,7 @@ def main() -> None:
     if args.require_complete and (missing or unresolved):
         raise RuntimeError(f"matrix incomplete or confounded: {unresolved}")
     write_new(args.output, {"audit_source_sha256": _sha256(Path(__file__)),
+                            "scope_roots": [str(root) for root in roots],
                             "records": records, "attempt_records": attempts,
                             "effective_records": effective,
                             "missing_primary_cells": missing, "unresolved_cells": unresolved})

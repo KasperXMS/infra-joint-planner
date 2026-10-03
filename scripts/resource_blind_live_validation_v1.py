@@ -33,7 +33,7 @@ from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
 from infra_joint.core.base import ContractModel
 from infra_joint.operators.catalog import build_operator_catalog
-from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
+from infra_joint.runtime.client import HttpWorkerClient, WorkerClient, worker_http_limits
 
 REPO = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = REPO / "configs/experiments/resource-blind-live-validation-v1.yaml"
@@ -198,6 +198,7 @@ async def _clients(
                 base_url=url,
                 timeout=timeout_seconds,
                 trust_env=False,
+                limits=worker_http_limits(),
             )
         )
         result[agent_id] = HttpWorkerClient(agent_id, http)
