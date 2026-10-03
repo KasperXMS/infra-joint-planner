@@ -1,7 +1,8 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-Updated 2026-10-03. **23/24 effective new cells admitted; final Video 795-2
-Slow-Aware remains active.** LongBench is clean-complete, 12/12 evaluated.
+Updated 2026-10-03. **24/24 effective cells audited: 23 normal completions and
+one valid Manager-budget failure.** LongBench:12/12 evaluated; Video:11 evaluated
+plus one no-answer result. No remaining cell or additional experiment.
 This report supersedes historical partial/hard-stop counts; old reports remain
 in Git and excluded attempts remain immutable on the remote nodes.
 
@@ -70,8 +71,9 @@ not reused as current data transfer.
 
 ## Task-level comparison
 
-Each entry = answer/score; E2E seconds; action payload bytes. All admitted rows
-are normal completions, canonical-format valid and originally evaluated. Action
+Each entry = answer/score; E2E seconds; action payload bytes. Twenty-three rows
+complete with canonical-format valid answers and original evaluation; the final
+795-2 SA is a valid no-answer budget failure, not an evaluated score of zero. Action
 traffic excludes mandatory initial materialization, which is included in E2E.
 Do not pool incompatible benchmark scores.
 
@@ -82,11 +84,13 @@ Do not pool incompatible benchmark scores.
 | News | C/1; 600.051; 107471 | C/1; 713.826; 99354 | C/1; 507.576; 191727 | A/0; 189.024; 19112 |
 | Video 795-3 | B/0; 185.443; 581538 | A/1; 252.371; 1230240 | A/1; 1069.965; 1562096 | A/1; 1071.594; 1471756 |
 | Video 848-1 | B/0; 442.512; 798787 | A/0; 226.982; 380788 | A/0; 871.266; 981232 | A/0; 711.029; 409154 |
-| Video 795-2 | C/1; 692.487; 391212 | B/0; 1009.582; 742651 | B/0; 1170.017; 915054 | pending isolated attempt |
+| Video 795-2 | C/1; 692.487; 391212 | B/0; 1009.582; 742651 | B/0; 1170.017; 915054 | no answer/no evaluation; 4289.335; 7012950 |
 
 LongBench: eight correct / twelve effective completions, Blind 4/6 and Aware
-4/6, descriptive selected-set counts only. Video's family quality accounting
-remains pending the final cell. Existing MultiHop has nine eligible of twelve,
+4/6, descriptive selected-set counts only. Video has four correct and seven wrong
+evaluated answers, plus one budget failure without an evaluator score. Blind has
+two correct of six evaluated; Aware two correct of five evaluated plus one failed
+attempt. Missing evaluation is **not silently scored zero**. Existing MultiHop has nine eligible of twelve,
 8/9 correct, unequal condition counts FB3/FA1/SB3/SA2; **not a clean balanced
 n=3 comparison**. Three historical Aware runs are excluded for specialist
 profile exposure. Do not use the original full-block means as clean estimates.
@@ -122,11 +126,34 @@ seconds of measured action transfer.
 Video 795-2 Fast Aware explicitly widens sampling after a length-ended intermediate
 analysis, but returns the wrong temporal answer. Compared with correct Fast Blind,
 it is 45.8% slower and transfers 89.8% more bytes. Recovery and parallelism can
-occur without recovered quality. Final Slow-Aware outcome remains pending.
+occur without recovered quality. Slow Aware expands to94 sampled frames across
+the prefix and four clips, consumes88 images in11 inferences, but uses all20
+Manager turns while still collecting evidence. No terminal synthesis/answer;
+4289.335s,7012950 action bytes. Compared with Slow Blind this is3.67x E2E and
+7.66x traffic, with no quality-qualified benefit. No retry or budget increase.
 
 Existing eligible MultiHop Aware trajectories still aggregate the shards; moving
 5204596 remote bytes onto A28 is co-location, **not compression**. Unequal retained
 repetitions and broad Blind timing variation forbid a clean balanced speedup claim.
+
+Eligible existing MultiHop results only (times seconds; no reruns):
+
+| Condition / repetition | Answer / score | E2E | Action bytes / transfer | Model service |
+| --- | --- | ---: | --- | ---: |
+| FB1 | Yes/1 | 156.210 | 5204596 / 1.121 | 107.131 |
+| FB2 | Yes/1 | 671.796 | 5204596 / 1.630 | 588.661 |
+| FB3 | Yes/1 | 145.748 | 5204596 / 2.133 | 82.015 |
+| FA1 | Yes/1 | 156.766 | 5204596 / 1.530 | 84.109 |
+| SB1 | Yes/1 | 132.646 | 5204596 / 14.830 | 6.936 |
+| SB2 | No/0 | 270.295 | 42446 / 0.602 | 125.554 |
+| SB3 | Yes/1 | 207.437 | 57351 / 0.953 | 11.009 |
+| SA2 | Yes/1 | 188.718 | 5204596 / 14.771 | 80.962 |
+| SA3 | Yes/1 | 193.687 | 5204596 / 15.047 | 83.843 |
+
+Slow Blind sometimes reduces locally (one correct, one wrong); eligible Aware
+still moves the complete remote shards. Cost differences also reflect model/cloud
+work, not a consistent network-class policy. Unequal retained repetitions limit
+comparison; excluded FA2/FA3/SA1 are not put back into averages.
 
 ## Cost interpretation and limitations
 
@@ -141,6 +168,12 @@ remain substantial. Model/profile/operator/service work sums are non-additive
 under parallelism; they are not an additive E2E partition. Measured action overlap
 is not a matched sequential speedup. Unknown profiles and predicted critical-path
 values remain unknown; no retrospective guessed values are inserted.
+
+Final Slow Video Aware model service3120.961s, initial placement788.484s,
+Manager142.812s, Verifier128.870s, operator74.033s and action transfer33.226s.
+Its795.187s unclassified wall residual includes the separately measured initial
+placement: the activity-union counter covers reasoning/actions, not materialization.
+It must not be described as795s of idle/recovery or a timeout.
 
 Context errors here are fail-closed **conservative envelope** refusals, not proof
 of actual tokenizer/OOM capacity failure. The frozen text guard counts UTF-8 bytes
@@ -167,11 +200,17 @@ The privacy hard-stop and authorized repair chronology are preserved in
 
 Authoritative merged root:
 `/home/super/xiaoming/predecision-crossbenchmark-v1-3c3bd95`.
-`audit-progress-003.json` admits 23/24. Twelve LongBench traces have exact terminal/
-evaluator provenance and zero observer errors; 48 distinct store roots / 256
-actual artifact replicas verify size/SHA. All 23 effective traces' 263 prepared
-actions have derived inputs materialized before their actual owning reasoning
-input. Existing MultiHop evidence is unchanged, not repaired or replaced.
+`audit-final-001.json` with `--require-complete` admits24/24, no missing/unresolved
+cells. Twenty-three successful terminal/evaluator provenances and one explicit
+budget-failure record; zero observer errors in effective cells. All96 store roots
+were initially empty;256 LongBench plus702 Video replicas pass actual size/SHA.
+All24 traces/284 prepared actions have derived inputs ready before consuming
+reasoning input. All51 completed A28 inferences match HTTP200/zero-truncation
+records. All owned Workers/controllers are inactive; live qdiscs match originals.
+Thirty preserved attempts =24 effective + five excluded finalized + one aborted.
+Existing MultiHop's72 files and the original new block's156 hashed files are
+unchanged. See [completion audit](predecision-crossbenchmark-completion-audit-v1.md)
+for requirement-by-requirement proof and exact evidence hashes.
 
 ## Research questions Q1–Q6
 
@@ -200,5 +239,5 @@ Current evidence supports workload-dependent, inconsistent quality-cost outcomes
 under raw profile visibility. It does not establish that raw visibility is
 universally insufficient, that Aware is causally better/worse, a crossover,
 statistical stability, a cost-guided method's superiority, or scheduler placement
-reversal. Final completion/cleanup audit awaits the one live cell; no additional
-task, repetition, sweep, semantic tuning or proposed method is started.
+reversal. Final audits and cleanup pass. Stop here: no additional task, repetition,
+sweep, semantic tuning or proposed method is started.

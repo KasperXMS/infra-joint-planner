@@ -1,8 +1,8 @@
 # Video-MME pre-decision Raw-Aware v1
 
-Updated 2026-10-03. **Eleven effective cells admitted; 795-2 Slow-Aware
-isolation-patch-1 is live.** Do not count the interrupted original as a semantic
-failure. Current report supersedes older progress snapshots; Git and remote
+Updated 2026-10-03. **12/12 effective cells: eleven evaluated completions and
+one valid Manager-turn budget failure.** Do not count the interrupted original as
+a semantic failure or the final no-answer outcome as an evaluated zero. Git and remote
 evidence retain the entire chronology.
 
 ## Scope and benchmark-faithful representation
@@ -39,8 +39,9 @@ No data bodies through development PC. See [protocol](predecision-crossbenchmark
 
 ## Effective matrix
 
-Every admitted row completes with canonical terminal choice, valid successful-
-model provenance and original evaluator. Action bytes exclude mandatory initial
+Eleven rows complete with canonical terminal choice, valid successful-model
+provenance and original evaluator. The final SA has no terminal answer/evaluation.
+Action bytes exclude mandatory initial
 materialization, which is included in E2E. Times seconds. No quality pooling.
 
 | Task / condition | Answer / score | E2E | Initial placement | Action bytes / transfer | Manager / Verifier | Model attempts / inference / context | Graph N/E |
@@ -56,7 +57,7 @@ materialization, which is included in E2E. Times seconds. No quality pooling.
 | 795-2 FB, backend patch | C / 1 | 692.487 | 25.471 | 391212 / 0.170 | 8 / 8 | 2 / 1 / 1 | 7/68 |
 | 795-2 FA | B / 0 | 1009.582 | 24.504 | 742651 / 0.982 | 10 / 10 | 3 / 2 / 1 | 13/104 |
 | 795-2 SB | B / 0 | 1170.017 | 788.482 | 915054 / 4.172 | 5 / 5 | 2 / 1 / 1 | 3/43 |
-| 795-2 SA, isolation patch | pending | pending | pending | pending | pending | pending | pending |
+| 795-2 SA, isolation patch | no answer / no evaluation | 4289.335 | 788.484 | 7012950 / 33.226 | 20 / 20 | 12 / 11 / 1 | 21/108 |
 
 ## Real workflow differences
 
@@ -73,9 +74,9 @@ materialization, which is included in E2E. Times seconds. No quality pooling.
 | 795-2 FB | 32 at 75 s | 32-image request rejected -> four eight-frame sheets | peak3 / 0.428 s |
 | 795-2 FA | 32 at 10 s, then32 at 77 s | four sheets -> length-ended analysis -> four later sheets -> wrong choice | peak4 / 0.940 s |
 | 795-2 SB | 32 at 30 s | 32-image request rejected -> eleven individual frames | none |
-| 795-2 SA | live: 32 at 10 s | 16-image rejection -> four sequential eight-image analyses; final pending | pending |
+| 795-2 SA | 94 frames across prefix and four clips | 16-image rejection -> eight-image analyses; 88 unique images consumed; no synthesis | peak2 / 19.876 s overlap |
 
-All eleven admitted workflows are single-Manager; no forced multi-agent topology.
+All twelve admitted workflows are single-Manager; no forced multi-agent topology.
 Handoffs and graph edges are execution-grown artifact information flow, not a
 predicted whole-plan DAG. Many fan-out edges are frame producer-consumer lineage,
 not parallel reasoning agents. Same-owner ready independent sheets truly overlap;
@@ -97,7 +98,23 @@ ends at output limit2048 after664.541 s, then the Manager naturally widens caden
 10 -> 77 s and performs another inference. Recovery does not restore quality;
 versus FB it adds45.8%E2E and89.8%bytes. Intermediate output-limit saturation is
 visible, not silent input truncation. The trace does not prove missing decisive
-evidence versus interpretation/synthesis failure. Final SA remains unclassified.
+evidence versus interpretation/synthesis failure.
+
+Final 795-2 SA terminates with `logical_loop_failed / AgentLoopError / manager
+turn budget exhausted`. It uses 20 Manager and 20 Verifier calls, but only21 of64
+physical calls (nine tools, twelve model attempts). All11 real inferences finish
+normally; one static image-context refusal is recovered. There is no timeout,
+terminal synthesis or evaluator score. Last phase remains evidence_collection;
+first two Verifier verdicts are ready_for_synthesis, subsequent18 are continue.
+
+The Manager samples32 frames at10s from the prefix, then clips600–900,
+1200–1500,1800–2100 and320–600s, sampling16/16/16/14 frames at10/15/15/20s.
+Only the first eight frames of the final clip reach the last inference. Total94
+sampled/88 consumed images, eleven materialized notes totaling11805bytes.
+This is evidence-expansion/stopping failure at the hard reasoning horizon; it
+does not prove evidence was sufficient or more budget would solve the task.
+E2E is3.67x and action traffic7.66x Slow Blind, with no quality-qualified gain.
+The failed result,427-event trace and21-node graph are retained without retry.
 
 ## Cost decomposition
 
@@ -118,11 +135,15 @@ visual information or proportional token reduction.
 | 795-2 FB | 441.516 | 94.105 / 30.850 | 99.722 | 2290 / 1208 | 391212 / 1379 |
 | 795-2 FA | 717.318 | 103.154 / 43.871 | 117.729 | 4579 / 2050 | 362463 / 1361 |
 | 795-2 SB | 260.527 | 57.331 / 16.422 | 40.646 | 10398 / 3 | 915054 / 778 |
+| 795-2 SA | 3120.961 | 142.812 / 128.870 | 74.033 | 84022 / 3192 | no terminal; last analysis607769 / 1139 |
 
 Unknown service/predicted critical-path profiles stay unknown. Fixed source
 transfer consumes 25–26 s Fast and~789 s Slow for795,~14/~447 s for848.
 Do not hide these payloads in the much smaller action bytes or attribute them
 to workflow adaptation. Pure operator compute/idle/harness partition is unknown.
+SA's token totals sum eleven inferences, not one context. Its795.187s
+unclassified-wall residual includes788.484s initial materialization because the
+activity union covers reasoning/actions only; it is not795s of idle/recovery.
 
 ## Semantic failures and system exclusions
 
@@ -147,13 +168,18 @@ This rules out observed copy corruption, not lossy evidence omission.
 ## Evidence and claim boundary
 
 Remote root: `/home/super/xiaoming/predecision-crossbenchmark-v1-3c3bd95`,
-merged `audit-progress-003.json`:11/12 effective Video cells.
+merged `audit-final-001.json` with require-complete:12/12 effective Video cells.
 Full traces, graph snapshots, canonical terminal/evaluator provenance, requests,
 store states and tc attestations remain remote. No pixels/video bodies on PC.
 Old source/request/deep audits remain under earlier roots; hashes in Git history.
 
-Final full-family SHA/recipient-context/request-count/cleanup checks await the
-one live cell. Do not declare 12/12 from a launch or analyze its quality before
-its evaluator returns. No additional experiment follows family completion.
+Final audits pass:48 initially empty stores/702 actual replicas; every effective
+trace passes recipient-context, producer-readiness and physical-selection checks.
+All completed inferences match HTTP200/zero-input-truncation records; all owned
+processes are inactive and live qdiscs match originals. Four evaluated answers
+are correct, seven wrong, one run unevaluated: Blind2/6; Aware2/5 evaluated plus
+one budget failure. Exact evidence hashes are in the
+[completion audit](predecision-crossbenchmark-completion-audit-v1.md).
+No additional experiment follows family completion.
 These n=1 observations cannot establish stable causal visibility benefits,
 a generic Slow -> Reduce heuristic or official full-benchmark quality.

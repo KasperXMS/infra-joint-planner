@@ -2,7 +2,7 @@
 
 Updated 2026-10-03. **Twelve effective cells completed and audited; all evaluator
 contracts pass. Eight answers are correct.** Excluded attempts remain immutable;
-the interrupted/new Video block is separate and not yet complete.
+the Video block separately ends with eleven completions and one valid budget failure.
 
 ## Frozen scope and representation
 
@@ -164,7 +164,7 @@ Execution revisions retain the original, transport and isolation provenance;
 latest runtime freeze `3c3bd95`, harness SHA
 `444db21f3d7aa0db13af993854e77318a29bddee1aee438f27d4a4f7c25affbf`.
 
-- `audit-progress-003.json`: 23/24 new cells admitted; final Video SA pending.
+- `audit-final-001.json`:24/24 effective new cells;23 completed and one budget failure.
 - `longbench-twelve-effective-cell-audit-002.json`:
   `795b53345e838d7660d5f361e2523dd905d86c7342c238fda2c8c9ce06839d64`.
   Revision 002 corrects a read-only projection field name, not formal evidence.

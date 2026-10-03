@@ -1,6 +1,7 @@
 # Cross-benchmark exception audit v1
 
-Updated 2026-10-03. Current admission: 23/24; final isolated Video SA is live.
+Updated 2026-10-03. Final admission:24/24;23 normal completions and one valid
+Manager-turn budget failure. No unresolved cell or active experiment remains.
 Historical attempts, logs, incident sidecars and reports remain immutable or
 versioned in Git. This note supersedes earlier checkpoint status claims, not
 their evidence. Repairs below do not tune semantic behavior.
@@ -16,8 +17,8 @@ their evidence. Repairs below do not tune semantic behavior.
 | Same exposure in existing MultiHop | FA r2/r3, SA r1 | Excluded, not rerun; nine eligible, unequal counts |
 | User-reported Qwen balance exhaustion | Completed, interrupted and active new-block traces/logs checked | No observed billing failure; no replacement/API probe authorized on that basis |
 
-Expected final new-block inventory if the live cell passes: 30 attempts =
-24 admitted completions + five excluded completions + one excluded interruption.
+Final new-block inventory:30 attempts =23 admitted completions + one admitted
+budget failure + five excluded finalized attempts + one excluded interruption.
 Do not fabricate a normal result or run.end for the interrupted primary.
 No semantic retry, task replacement, score-based rerun or full-family replay.
 
@@ -100,7 +101,8 @@ Financial FA -> News FA -> 795-2 SA. Existing MultiHop is not rerun.
 
 Financial FA patch: C/1, 1282.028 s, five genuine inferences; News FA patch:
 C/1, 713.826 s, five inferences. All actual specialist SDK contexts remain
-Blind, all Manager profiles fresh. Final Video patched attempt remains live.
+Blind, all Manager profiles fresh. Final Video patched attempt ends in a valid
+20-turn budget failure, not a repeat privacy defect; full isolation gates pass.
 See [repair audit](predecision-specialist-profile-isolation-patch-v1.md).
 
 ## Billing investigation
@@ -119,11 +121,29 @@ indicator in failure/error events; latest actual Blind Verifier completed
 This does not independently attest balance, errors that were never logged, or
 future availability. No account status is guessed.
 
+Final14:57 UTC follow-up covers all30 retained traces after the final run.
+No logged billing/arrearage failure;397 logical reasoning completions and273
+Verifier completions (all attempts/recipients, not Manager-only counts), latest
+Verifier14:45:37 UTC. Final failure is AgentLoopError/budget exhaustion.
+`qwen-billing-failure-event-final-audit-003.json`, SHA:
+`017453d70aa1950619fbea450cdd02cf4ecc331a3aec571232ba7ec612b93b82`.
+No cloud probe, account-balance claim or replacement follows the scan.
+
 ## Valid Agent/model failures, not repaired
 
-All current admitted samples have terminal answers and private evaluations.
+Twenty-three admitted samples have terminal answers and private evaluations.
 Wrong answers: Financial FB/SB/SA; News SA; Video 795-3 FB; all four 848-1;
-795-2 FA/SB. Final SA is not classified before completion.
+795-2 FA/SB. Final795-2 SA has no answer/evaluation, not a wrong scored choice.
+
+Its primary cause is hard Manager-turn exhaustion, with stopping/workflow
+over-expansion as contributors:20 reasoning turns/20 Verifier calls,21 physical
+calls with43 remaining, no terminal synthesis, last phase evidence_collection.
+It samples94 frames/consumes88 images and performs11 successful inferences
+after one recovered static image-context refusal. All real inference requests
+finish HTTP200/normal stop; last398s request is not a timeout. Two initial
+ready_for_synthesis verdicts are followed by18 continue verdicts. The evidence
+does not establish sufficiency or that more budget would finish. Preserve the
+427-event trace,21-node/108-edge graph and typed failure; no semantic rerun.
 
 Primary category is evidence selection/interpretation and terminal synthesis.
 Trace does not uniquely distinguish missing decisive evidence from reasoning
@@ -155,6 +175,18 @@ Historical hard-stop verification retains 156 original new-attempt files and
 Per-cell result/trace/graph, observer diagnostics, tc attestations, empty-store
 state, model request/selection telemetry and terminal provenance remain remote.
 Full LongBench content-hash verification covers 48 roots/256 replicas.
-Final family-wide Video content, fresh profile, request-count and cleanup checks
-await the active cell. Fixed order, persistent inference state and n=1 limit
+Final family-wide Video audit verifies48 roots/702 replicas; all24 effective
+traces have284 prepared actions ready before their consuming reasoning input,
+and51 completed A28 inferences match actual HTTP200/slot truncated=0 records.
+All owned processes are inactive and actual qdiscs match original state.
+Fixed order, persistent inference state and n=1 limit
 causal interpretation even when implementation confounders are removed.
+
+An exploratory server keyword scan matched truncated=0/cache-making-room text:
+these are not truncation/OOM evidence. Final pairing uses the nearest preceding
+slot release by HTTP-log line index, retaining old cancelled/orphan releases
+without assigning them to a future request. Audit003 passes all51 windows.
+Existing residual-wall accounting excludes initial placement from activity
+union, so final SA's795.187s residual includes measured788.484s materialization.
+This is a disclosed interpretation limit, not an unexplained idle interval or
+reason to modify profiling/replay the experiment.
