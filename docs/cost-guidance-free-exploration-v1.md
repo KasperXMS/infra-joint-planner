@@ -1,7 +1,8 @@
 # Cost-guidance free exploration v1
 
-Date: 2026-10-04. Status: **design/protocol; no new experimental results**.
-Branch: cost-guidance-exploration-v1. Substantive cells:0/36.
+Date: 2026-10-04. Status: **live exploration; partial results, no route winner**.
+Branch: cost-guidance-exploration-v1. Completed primary cells:12/16;
+global substantive cap:36. The Video block is still running at this checkpoint.
 Baseline evidence: execution freeze3c3bd95, reports02518c7.
 See [literature map](method-literature-map-v1.md),
 [collision audit](method-novelty-collision-v1.md) and
@@ -31,7 +32,8 @@ train RL, add semantic repair, or insert task-specific strategies.
 | E: trace-distilled heuristics | Separately versioned generic guidance from clean contrasting trajectories | Support/counterexamples yield transferable guidance | EnumGRPO collision, task memorization, quality hindsight | Conditional; do not inject initially |
 
 These routes alter feedback/decision protocol, not executable primitives.
-No route is a winner at this design checkpoint.
+No route is a winner at this partial-results checkpoint. The design below remains
+the frozen initial protocol; observed results are recorded separately at the end.
 
 ## Exposure contract
 
@@ -212,7 +214,7 @@ bad-first-proposal/ignored-quote pattern, not a default new search mechanism.
 E requires supporting/counterexamples/scope/overfit records and a separate
 variant; do not use correct-answer labels as runtime guidance.
 
-## Prototype checkpoint: Ledger-only-v0
+## Historical prototype checkpoint: Ledger-only-v0
 
 The spent-only accountant and separate LedgerNativeRuntime adapter are
 implemented and tested with the installed real SDK and deterministic synthetic
@@ -233,3 +235,64 @@ recommendation/prototype audits will explicitly mark untested routes, failure
 cases and estimator limitations. Stop at authorized success/useful-negative/
 major-collision/persistent-blocker/36-cell conditions, not at a convenient
 positive task or a literature-only checkpoint.
+
+## Live checkpoint:12 primary cells
+
+Execution is frozen at47fbe3b14196ea2b90c84597b75fa27f148b0b74 under
+`/home/super/xiaoming/cost-guidance-exploration-v1-47fbe3b`. Protocol SHA256:
+`f18bfff202a0314c29bdd673158ddcd875a08b084118df6a2b9df109bf1eec66`.
+The controller has completed MultiHop, Academic and Financial blocks and entered
+Video848-1. This supersedes the historical no-live-results prototype status,
+not the frozen design or any retained evidence. Each cell has n=1/no replacement.
+
+| Workload | H | Feedback | Completed/score | E2E seconds | Action bytes | Manager/specialist turns | Graph nodes |
+| --- | --- | --- | --- | ---: | ---: | --- | ---: |
+| MultiHop | Fast | Ledger | true/1.0 |250.012|57445|9/8|16|
+| MultiHop | Fast | Quote | true/0.0 |203.999|27774|18/0|7|
+| MultiHop | Slow | Ledger | true/1.0 |201.631|5204596|4/0|4|
+| MultiHop | Slow | Quote | true/0.0 |228.329|27774|19/0|7|
+| Academic | Fast | Ledger | true/1.0 |114.371|233303|7/0|5|
+| Academic | Fast | Quote | true/1.0 |185.066|233323|18/0|5|
+| Academic | Slow | Ledger | true/1.0 |162.897|28303|12/8|16|
+| Academic | Slow | Quote | true/1.0 |61.482|0|14/0|3|
+| Financial | Fast | Ledger | true/0.0 |243.291|495883|14/0|20|
+| Financial | Fast | Quote | true/0.0 |97.570|470494|16/0|2|
+| Financial | Slow | Ledger | true/0.0 |191.421|19116|8/0|15|
+| Financial | Slow | Quote | true/0.0 |83.587|470494|10/0|2|
+
+All12 complete with valid terminal format and original evaluator invocation.
+The independently adjudicated first MultiHop schema misuse remains retained,
+with its original gate stop preserved. Other completed cells pass operational
+gates. No semantic failure is repaired or replaced. Action bytes exclude initial
+placement:7696522/514789/1081150 bytes for MultiHop/Academic/Financial respectively.
+E2E includes initial placement; transfer/service/reasoning work is not additive.
+
+The useful-looking Academic Slow Quote result needs an important qualification:
+its terminal model has **zero artifact inputs**, no read_artifact occurred, and
+the two BM25 results expose metadata, not document bodies. After two context-
+infeasible quotes were discarded, it invoked a prompt-only model and scored1.0.
+This is a valid scored trajectory, not yet evidence of quality-preserving semantic
+reduction or cost-caused first-action adaptation. Financial Quote takes the same
+prompt-only escape in both networks and scores0.0. Do not rename these as bounded
+evidence flows or successful information reduction.
+
+The6 completed Quote cells create38 quotes; all38 exact cards appear in actual
+subsequent Manager inputs before first commit/discard (or while still pending).
+26 are consumed,10 discarded,2 pending. Thirteen proposals disclose context
+selection failure:10 discarded,2 pending,1 knowingly committed and then rejected
+before inference. This shows feasible-request feedback and occasional ignored
+feedback, not reliable economic optimization. MultiHop C drops six proposed
+input artifacts to two after a context refusal and loses quality in both H.
+
+Fast Academic Quote adds substantial Manager work (96.515s versus21.251s Ledger)
+without reducing traffic or graph size. Financial Quote reduces physical model
+input/service but not demonstrated quality:both methods score0.0; Slow Quote
+moves470494 bytes versus19116 Ledger despite being faster overall. Costs cannot
+be reduced to network bytes. No causality, statistical significance or winner
+is claimed from this fixed-order, cache-uncontrolled n=1 checkpoint.
+
+Read-only action-level receipts, actual-input visibility and estimator errors:
+[quote decision audit](cost-guidance-quote-decision-audit-v1.md).
+Private MultiHop coverage audit remains deferred until all live queue handles
+exit, to avoid adding artifact-scanning load during experiments. Final ranking,
+Q1-Q10 and the next-method recommendation remain unfinished.
