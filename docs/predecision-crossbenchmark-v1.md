@@ -157,6 +157,29 @@ at the boundary and original deployment hashes remain unchanged. The original
 
 ## Pending final analysis
 
+### Existing MultiHop repetition audit (read-only, no rerun)
+
+The retained one-task block has three repetitions per condition, unlike the new
+n=1 cross-benchmark cells. Sample standard deviation uses n-1; CV is descriptive,
+not a confidence bound. E2E includes each run's initial materialization.
+
+| Condition | Individual E2E s | Mean / median s | Sample SD s / CV | Quality |
+| --- | --- | --- | --- | --- |
+| Fast-Blind | 156.210 / 671.796 / 145.748 | 324.585 / 156.210 | 300.739 / 92.7% | 3/3 correct |
+| Fast-Aware | 156.766 / 138.353 / 171.831 | 155.650 / 156.766 | 16.767 / 10.8% | 3/3 correct |
+| Slow-Blind | 132.646 / 270.295 / 207.437 | 203.460 / 207.437 | 68.911 / 33.9% | 2/3 correct |
+| Slow-Aware | 121.426 / 188.718 / 193.687 | 167.944 / 188.718 | 40.362 / 24.0% | 3/3 correct |
+
+Fast-Aware first actions vary across the **same** network class: aggregate,
+single BM25, then six parallel BM25 calls. Slow-Aware aggregates in all three
+runs, transferring 5204596 action bytes each; two Slow-Blind runs instead
+transfer 42446 and 57351 bytes. The Fast mean advantage is outlier-sensitive:
+Fast medians are nearly equal. These observations do not establish a reliable
+"Slow -> Reduce" rule, population-level stability or an optimal policy.
+`existing-multihop-variation-readonly-audit-001.json` under the final patch root
+has SHA-256 `15d10c64a56ab11ba3e48ddc117ef1ac254197863bbd31309378f04888a94a39`;
+all values are derived from the original 12-run audit, not new executions.
+
 Task-level four-condition tables, workload properties, operator/reduction/sampling
 paths, evidence preservation, physical/cloud work, infra-response and quality
 will be reported after auditing all attempts. Do not pool incompatible benchmark

@@ -269,6 +269,15 @@ requests match two completed inferences; finish reasons are `length` and `stop`.
 There is no hidden retry or model-service failure. Slow-Blind PID 3413237 is now
 running; Slow-Aware remains scheduled, with no extra cells or repetitions.
 
+Remote-only sheet integrity audit
+`video-795-2-fast-aware-sheet-content-integrity-001.json` (SHA-256
+`8232d23fac7f8676086aba87377e2cb276cc79ed4cb47dc154be1f83a25c5431`)
+checks all eight produced sheets on A4 and A28: sixteen readable JPEG copies,
+1280 x 360 dimensions, identical content/metadata hashes, exactly 742651 total
+sheet bytes matching the recorded action transfer. No pixels were downloaded
+to the development PC. This rules out observed copy/content corruption, not
+visual evidence loss or mistaken temporal reasoning.
+
 Same intact 2495.121 s / 282442048-byte original 795 video, different temporal-order
 question. Fast-Blind under final backend patch `5dafc43` completes/evaluates:
 **C / score 1.0 / format valid**. E2E 692.487 s; action bytes 391212 / 0.170 s,

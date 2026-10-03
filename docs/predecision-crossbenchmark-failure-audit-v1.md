@@ -10,6 +10,17 @@ synthesis result, not repaired as a runtime defect. Ten turns / 13 physical call
 remain below the frozen budget; expensive recovery did not restore quality.
 See `video-795-2-fast-aware-cell-audit-001.json` under the final patch root.
 
+User-reported Qwen balance exhaustion/recharge check (2026-10-03 10:27 UTC):
+26 cross-benchmark trace files and recent controller/driver logs were inspected
+read-only, with no extra provider/Planner probe. No billing/arrearage/balance/quota
+error was found in failure events or recent logs. The last successful cloud event
+is Fast-Aware's Blind Verifier verdict at 10:16:35.999829 UTC, followed by run end.
+Slow-Blind is still in initial video transfer, before its first Manager call;
+there is therefore no observed billing-confounded attempt to replace. This does
+not independently attest account balance or future availability. The next existing
+scheduled call will test actual service access. Preserve
+`qwen-billing-interruption-audit-001.json` under the final patch root.
+
 ## Pre-run JSONL diagnostic regression
 
 Before formal runs, the source pool was audited on the 4090. A diagnostic using
