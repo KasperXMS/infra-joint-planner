@@ -1,9 +1,9 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
-Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells and all four Video
-795-3 cells are clean effective results (16/24). The two old Financial confounded
-attempts remain preserved/excluded. Video 848-1 Fast-Blind is active.
+Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
+795-3 cells and 848-1 Fast-Blind are clean effective results (17/24). The two old
+Financial confounded attempts remain preserved/excluded. Video 848-1 Fast-Aware is active.
 
 ## Scope and frozen system
 
@@ -99,6 +99,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Fast-Aware, clean | yes / yes | A / 1.0 | 252.371 | 1,230,240 | 1 | 3 / 3 |
 | Same task | Slow-Blind, clean | yes / yes | A / 1.0 | 1069.965 | 1,562,096 | 1 | 3 / 3 |
 | Same task | Slow-Aware, clean | yes / yes | A / 1.0 | 1071.594 | 1,471,756 | 1 | 3 / 3 |
+| Video `848-1` | Fast-Blind, clean | yes / yes | B / 0.0 | 442.512 | 798,787 | 1 | 6 / 6 |
 
 All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -208,6 +209,14 @@ checks 96 probes, 14 Manager / 14 Blind Verifier hashes, six fresh Aware inputs,
 normal model finishes and tc cleanup. See the [Video task report](predecision-videomme-v1.md).
 Eight Video conditions remain pending; current 848-1 Fast-Blind is active.
 Merged `audit-progress-011.json` records 18 preserved attempts / 16 effective cells.
+
+Later `audit-progress-012.json` adds 848-1 Fast-Blind: B/0, completed/evaluated,
+24 successful probes, six reconstructed Manager/Blind-Verifier inputs, terminal
+provenance, privacy/persistence and cleanup pass. It samples 31 frames at 64 s
+cadence, recovers a rejected 16-image request into 11 distributed input frames,
+then answers incorrectly. E2E 442.512 s is chiefly model (259.739 s), cloud Manager
+(72.368 s) and decode/operator (73.009 s) work, not action transfer (1.429 s).
+No semantic retry or tuning; seven Video conditions remain, Fast-Aware is active.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 

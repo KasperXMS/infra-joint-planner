@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 FOUR-CELL TASK COMPLETE; 8/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 COMPLETE; 848-1 FAST-BLIND CLEAN; 7/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -94,3 +94,34 @@ Merged audit: `audit-progress-011.json` under transport-patch root: 18 preserved
 attempts / 16 effective cells / eight remaining conditions. Queue is now in 848-1
 Fast-Blind. Wait for that task and 795-2 before final cross-workload interpretation;
 n=1 cannot establish stable infrastructure-conditioned causality.
+
+## 848-1: first clean trajectory (task comparison pending)
+
+The intact original 2037.781 s / 160083738-byte AV1 video starts on A4.
+Fast-Blind naturally samples 31 frames at 64 s cadence. Its first model request
+selects indices 1/3/5/.../31 (16 images), rejected by static context preflight;
+it recovers to indices 1/4/7/.../31 (11 images). This is temporally distributed
+input, not just the early prefix used for 795-3. Original frame PTS and decisive
+chapter-boundary visibility are not asserted by the index/cadence metadata alone.
+
+| Condition | Completion / format / score | Answer | E2E s | Initial placement s | Action bytes / transfer s | Manager / Verifier | Model attempts / inference / context rejects | Graph N/E |
+| --- | --- | --- | ---: | ---: | --- | --- | --- | --- |
+| Fast-Blind | yes / valid / 0 | B | 442.512 | 13.921 | 798787 / 1.429 | 6 / 6 | 2 / 1 / 1 | 3 / 27 |
+
+Manager work 72.368 s, Blind Verifier 20.477 s, operator/decode 73.009 s,
+physical model service 259.739 s; terminal artifact/prompt 798787/671 bytes,
+actual input/output tokens 10377/2. No specialists or parallel action overlap.
+All 24 probes, six Manager/Blind-Verifier input hashes, privacy/persistence,
+terminal model provenance, shutdown and tc cleanup pass. Other typed observations
+are two semantic-validation and four phase-restriction failures; they are retained
+Agent trajectory behavior, not hidden retries or new runtime defects.
+
+This is a **valid semantic visual evidence-selection / temporal synthesis failure**,
+with context recovery and readiness/composition contributors. It completes and
+reaches the original evaluator; not a budget, format or deployment outage. The
+trace does not distinguish inadequate chapter evidence from erroneous ordering
+reasoning without inspecting decisive visual content; no repair/tuning is made.
+
+Merged `audit-progress-012.json`: 19 preserved attempts / 17 effective cells / seven
+pending. 848-1 Fast-Aware is active. The four-condition task audit follows only
+after all four cells complete or validly fail.
