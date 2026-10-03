@@ -1,6 +1,6 @@
 # LongBench pre-decision Raw-Aware v1
 
-**FINANCIAL / ACADEMIC FOUR-CELL AUDITS CLEAN; NEWS RUNNING; FAMILY INCOMPLETE.** The frozen protocol admits three distinct original multi-document
+**FAMILY COMPLETE: 12 CLEAN EFFECTIVE CELLS; VIDEO CONTINUES.** The frozen protocol admits three distinct original multi-document
 tasks, four conditions each. Selection, original context byte counts, natural
 document boundaries and initial placement are in the
 [protocol](predecision-crossbenchmark-v1-protocol.md).
@@ -11,9 +11,9 @@ choices/private gold and exact-choice evaluator remain unchanged; no workflow hi
 Original execution commit `90cea3261c1e21f7cb528025c64729741ccc8451`, unchanged Qwen
 pre-decision harness. At the historical stopping boundary, three Financial cells
 were clean; the fourth primary and its one identical replacement were confounded.
-Both are retained and excluded. Family is **not complete**; the separately frozen
-transport patch now supplies a clean Slow-Aware result and the remaining eight
-LongBench conditions follow the fixed schedule. No third identical automatic
+Both are retained and excluded. The separately frozen transport patch supplies
+a clean Slow-Aware result; all remaining LongBench conditions completed in fixed
+order. No third identical automatic
 attempt is permitted.
 See [live cross-benchmark report](predecision-crossbenchmark-v1.md).
 
@@ -161,3 +161,87 @@ slower than Fast-Blind and moves more bytes. These are paired **n=1 trajectory
 observations**, not stable/causal superiority: the Blind trajectories also change
 between networks and the major E2E differences arise in model/reasoning work,
 not the sub-second action transfers. No cost-guided mechanism is added.
+
+## News task: completed effective comparison
+
+Original Sanofi Q4/Q2 press releases: 228792 source-text bytes, 242295 lossless
+record bytes, two natural documents initially on A4/A5. Every condition completed
+and reached the unchanged private evaluator. Both Blind answers are `C` / score 1;
+both Aware answers are `A` / score 0. The wrong answers are retained.
+
+| Condition | First action | E2E s | Action bytes / transfer s | Manager / Verifier | Tools / model attempts / actual inference | Context rejects | Graph N/E |
+| --- | --- | ---: | --- | --- | --- | ---: | --- |
+| Fast-Blind | BM25 | 600.051 | 107471 / 1.652 | 14 / 14 | 16 / 8 / 5 | 3 | 24 / 26 |
+| Fast-Aware | read (size reject) | 74.828 | 0 / 0 | 8 / 8 | 5 / 2 / 1 | 1 | 7 / 4 |
+| Slow-Blind | aggregate | 507.576 | 191727 / 0.945 | 13 / 13 | 19 / 7 / 4 | 3 | 26 / 31 |
+| Slow-Aware | read (size reject) | 189.024 | 19112 / 0.220 | 9 / 9 | 7 / 3 / 1 | 2 | 10 / 6 |
+
+| Condition | Manager / specialist / Verifier work s | Physical model work s | Tool work s | Initial placement s | Terminal artifact / prompt bytes |
+| --- | --- | ---: | ---: | ---: | --- |
+| Fast-Blind | 60.914 / 26.026 / 54.215 | 449.079 | 3.059 | 0.146 | 19 / 1865 |
+| Fast-Aware | 30.270 / 11.693 / 25.105 | 4.372 | 0.290 | 0.109 | 0 / 406 |
+| Slow-Blind | 84.473 / 50.226 / 44.655 | 455.067 | 2.243 | 0.789 | 0 / 1343 |
+| Slow-Aware | 49.800 / 0 / 29.645 | 103.674 | 0.628 | 0.827 | 19112 / 1747 |
+
+Operator counts in fixed order: BM25 14/2/14/6; aggregate 2/0/3/0; read 0/3/2/1.
+Specialist calls 1/1/4/0, specialist turns 8/3/15/0; peak action concurrency 2/1/4/2,
+overlap wall time 3.052/0/111.120/1.355 s. Slow-Blind includes cross-owner overlap;
+service sums are not additive wall time. Fewer Aware model calls accompany lower
+E2E **and wrong quality**, not a quality-preserving system improvement.
+
+### Semantic failure audit
+
+Fast-Aware: initial full-artifact read fails its declared size limit; two BM25
+outputs are materialized (32615 and 31738 bytes), but the first Verifier readiness
+decision precedes successful plaintext evidence reads. The combined model request
+fails context preflight. A specialist then reads both artifacts; the terminal call
+is prompt-only (406 bytes, 94 actual input tokens) and returns the wrong label.
+This establishes recovery followed by wrong synthesis and questionable readiness,
+not proof that the specialist's retrieved facts were irrelevant.
+
+Slow-Aware: read-size and two context failures are followed by legal bounded
+retrieval. The terminal model consumes three records from **each** original document,
+total 19112 artifact bytes plus a 1747-byte prompt (6014 actual input tokens), yet
+returns the wrong label. Every retained record matches its original chunk hash;
+this is not wrong-source placement, document loss, corruption, or evaluator mismatch.
+Exact evidence-relevance versus reasoning attribution remains unproven.
+
+Primary class for both zeros: **semantic evidence selection / answer synthesis**;
+secondary: context-recovery composition and premature Verifier readiness. All
+read-size, static context and phase restrictions are explicit; no silent truncation
+or infrastructure failure is observed. Do not modify the frozen harness to fix them.
+
+Remote audits: `news-fast-aware-semantic-audit-001.json` and
+`longbench-zero-score-source-provenance-001.json`. The latter also checks the
+patched Financial terminal's five supplier records from documents 1/3/4 against
+original source hashes. Artifact bodies are read only on remote nodes; only
+coordinates, byte counts and hashes are returned to the development PC.
+
+## Family completion and bounded conclusions
+
+`longbench-family-completion-audit-001.json` and
+`longbench-family-runtime-integrity-001.json` verify:
+
+- 12 clean effective completed/evaluated cells from 14 preserved attempts;
+  the two old Financial transport incidents remain excluded, not deleted.
+- Same task/public-bundle and capability hash within every task's four cells;
+  48 unique effective Worker-store roots and 48 empty initial Worker states.
+- 1844/1844 probes pass; 136 Manager and 136 Blind Verifier input hashes pass;
+  all 55 Aware Manager turns have matching fresh pre-decision profiles.
+- All 12 terminal answers originate from successful manager-owned physical model
+  output; trace chains, persistence, privacy, tc restoration and shutdown pass.
+- All 24 pre-run deployment states expose 32768/2048; all 21 completed physical
+  inferences have finish_reason `stop`. All 48 finished-family Worker PIDs are inactive.
+
+Selected-task quality: Financial 0/4, Academic 4/4, News 2/4 (6/12), **not** an
+official LongBench population accuracy estimate. Blind 4/6 and Aware 2/6 are
+descriptive counts on these three preregistered tasks, not a superiority test.
+
+No universal network-class rule emerges: Financial Aware aggregates in both
+networks; Academic Aware aggregates in Fast and retrieves locally in Slow;
+News Aware tries local reads in both. Blind also changes workflow across networks.
+Physical model service and cloud reasoning dominate these sampled E2Es, while
+action transfers are seconds/sub-seconds. Cost and quality must be assessed jointly;
+cheaper wrong answers and n=1 variations do not establish rational adaptation.
+The first three Financial cells use the original transport revision; all others
+use the disclosed transport-only patch, with logical behavior unchanged.

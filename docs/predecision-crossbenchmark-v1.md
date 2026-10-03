@@ -1,10 +1,9 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-**Status: FINANCIAL FOUR-CELL AUDIT CLEAN; FIXED SUFFIX RUNNING; scope incomplete.**
-Updated 2026-10-03 (Asia/Hong_Kong). Four Financial conditions have clean effective
-results. The authorized Slow-Aware transport-patch rerun completed; its two old
-confounded attempts remain preserved. All four Academic conditions completed
-cleanly with score 1; News Fast-Blind is active (eight effective cells so far).
+**Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
+Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells and the first two Video
+cells are clean effective results (14/24). The two old Financial confounded attempts
+remain preserved/excluded. Video 795-3 Slow-Blind is active.
 
 ## Scope and frozen system
 
@@ -21,8 +20,11 @@ Manager/Blind Verifier `qwen3.8-max`; physical Qwen3.8-27B Q4_K_M 32K/2048;
 scheduler, worker substrate and observer semantics. Fast 100 Mbps / configured
 5 ms, Slow 3 Mbps / configured 50 ms; Jetson netem limitation is unchanged.
 
-All dataset access/materialization/distribution and raw evidence remain on the
-4090. Development PC only sends code and obtains bounded telemetry/metadata.
+All current dataset access/materialization/distribution and new raw evidence remain
+on remote nodes, with 4090 owning the sources. Development PC obtains bounded
+telemetry/metadata. The deployment Git archive also included already-tracked
+historical results; see the packaging audit below. Do not call that source-only;
+future bundles must exclude old result/trace evidence explicitly.
 
 The user authorized a transport-only mitigation after the stopping-boundary audit:
 Worker client idle keepalive expiry 5 s → 4 s, no retry and unchanged 100/20
@@ -89,6 +91,12 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Fast-Aware, clean | yes / yes | C / 1.0 | 175.840 | 243,055 | 1 | 6 / 6 |
 | Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 176.759 | 25,132 | 1 | 11 / 11 |
 | Same task | Slow-Aware, clean | yes / yes | C / 1.0 | 156.410 | 18,921 | 1 | 11 / 11 |
+| News `66faa8efbb02136c067c7357` | Fast-Blind, clean | yes / yes | C / 1.0 | 600.051 | 107,471 | 5 | 14 / 14 |
+| Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 74.828 | 0 | 1 | 8 / 8 |
+| Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 507.576 | 191,727 | 4 | 13 / 13 |
+| Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 189.024 | 19,112 | 1 | 9 / 9 |
+| Video `795-3` | Fast-Blind, clean | yes / yes | B / 0.0 | 185.443 | 581,538 | 1 | 5 / 5 |
+| Same task | Fast-Aware, clean | yes / yes | A / 1.0 | 252.371 | 1,230,240 | 1 | 3 / 3 |
 
 All four effective conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -161,6 +169,30 @@ quality; Fast-Aware is 39.1% slower than Fast-Blind. This is one observed
 workload-dependent response, not stochastic stability or causality. Model service
 work (10.947 / 126.845 / 103.752 / 83.875 s) dominates the transfer differences.
 See the detailed [LongBench task tables](predecision-longbench-v1.md).
+
+### LongBench family completion
+
+All twelve effective cells completed/evaluated with no unresolved system confounder;
+14 historical attempts retained. Family audits verify 48 unique empty stores,
+1844 successful probes, 136 Manager / 136 Blind Verifier hashes, 55 fresh Aware
+inputs, all trace chains/terminal provenance/persistence/privacy/tc restore,
+32768/2048 deployment surfaces, 21 normal-stop inferences and 48 exited Worker PIDs.
+Selected-task scores: Financial 0/4, Academic 4/4, News 2/4. See
+`longbench-family-completion-audit-001.json`, `longbench-family-runtime-integrity-001.json`
+and the [family report](predecision-longbench-v1.md), including zero-score source audits.
+No cross-benchmark quality pooling or broad benchmark-accuracy claim.
+
+News Aware is cheaper but wrong in both networks. Fast-Aware eventually synthesizes
+from a short prompt after specialist reads; Slow-Aware retains bounded chunks from
+both documents and still answers incorrectly. Source hashes and original evaluator
+are intact; classify semantic selection/synthesis and readiness, not runtime repair.
+
+Video begins with real A4 AV1 sampling and image transfer to A28, not a smoke
+MJPEG substitute. The first two 795-3 trajectories both sample 32 frames at 5 s
+cadence; Blind rejects 16-image input then answers wrongly from four images,
+Aware answers correctly from eight images with higher model/transfer cost. This
+is a quality/cost trade-off, not uniform Aware efficiency improvement. Ten Video
+conditions remain pending; current Slow-Blind is in large initial materialization.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 
