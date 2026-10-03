@@ -74,3 +74,30 @@ unknown usage, supported/unsupported estimate errors, work-versus-wall semantics
 and context preflight agreement. Analysis code does not alter the47fbe3b frozen
 execution and is separately versioned. No new literature/novelty claim follows
 from this checkpoint; exploration and final ranking remain incomplete.
+
+## Second admitted cell and provisional comparison
+
+Fast/Quote completed with all gates passing, score0.0,203.999s E2E,27774 action
+bytes,0.066s action-transfer work,127.532s physical model service,18 Manager turns,
+no specialists and one actual inference. Eight quotes were created; seven were
+consumed/executed (six BM25 and one model), one model proposal remained pending.
+Do not count that uncommitted proposal as an inference. Timed propose/authorize
+work1.035s, separately from Manager reasoning/control overhead.
+
+Manager measured input/output tokens: Ledger109106/2837 versus Quote246545/3712;
+Ledger additionally used eight specialist turns. All seven consumed quotes match
+actual transferred bytes. The supported model estimate (ten historical receipts)
+had p50 error−50.285s/p90 error−192.608s: actual service was lower than these
+coarse empirical estimates. Context predicted feasible and actual preflight passed.
+These are observed signed errors, not calibrated confidence bounds.
+
+Quote is18.4% faster and transfers51.7% fewer action bytes in this single Fast
+pair, but quality drops1→0 and Manager horizon/token overhead increases. Therefore
+this is **not a quality-preserving method benefit**. No task/prompt/budget/tool
+change or replacement is warranted. Later cross-workload results are still needed.
+
+The read-only resumption controller preserves already admitted cells and launches
+only not-yet-started cells in the original order. Existing incomplete/audit-required
+cells stop it; independently adjudicated cells require exact retained result/trace
+hashes. A stopped child is never automatically rerun. This changes controller
+resumption only, not the frozen47fbe3b Agent/cell execution.
