@@ -2,8 +2,8 @@
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells and the first two Video
-cells are clean effective results (14/24). The two old Financial confounded attempts
-remain preserved/excluded. Video 795-3 Slow-Blind is active.
+cells plus Video 795-3 Slow-Blind are clean effective results (15/24). The two old
+Financial confounded attempts remain preserved/excluded. Video 795-3 Slow-Aware is active.
 
 ## Scope and frozen system
 
@@ -97,6 +97,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 189.024 | 19,112 | 1 | 9 / 9 |
 | Video `795-3` | Fast-Blind, clean | yes / yes | B / 0.0 | 185.443 | 581,538 | 1 | 5 / 5 |
 | Same task | Fast-Aware, clean | yes / yes | A / 1.0 | 252.371 | 1,230,240 | 1 | 3 / 3 |
+| Same task | Slow-Blind, clean | yes / yes | A / 1.0 | 1069.965 | 1,562,096 | 1 | 3 / 3 |
 
 All four effective conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -191,8 +192,12 @@ Video begins with real A4 AV1 sampling and image transfer to A28, not a smoke
 MJPEG substitute. The first two 795-3 trajectories both sample 32 frames at 5 s
 cadence; Blind rejects 16-image input then answers wrongly from four images,
 Aware answers correctly from eight images with higher model/transfer cost. This
-is a quality/cost trade-off, not uniform Aware efficiency improvement. Ten Video
-conditions remain pending; current Slow-Blind is in large initial materialization.
+is a quality/cost trade-off, not uniform Aware efficiency improvement. Slow-Blind
+also completed/evaluated correctly: one inference, no context failures, 16 successful
+probes, E2E 1069.965 s. Fixed initial source materialization is 788.892 s (~74% of E2E),
+separate from 1,562,096 action bytes / 5.508 s transfer and 236.090 s model service.
+Nine Video conditions remain pending; current Slow-Aware is in initial materialization.
+Merged `audit-progress-010.json` records 17 preserved attempts / 15 effective cells.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 
