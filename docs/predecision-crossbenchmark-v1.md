@@ -16,7 +16,8 @@ Frozen execution commit: `90cea3261c1e21f7cb528025c64729741ccc8451`.
 Harness: unchanged `infra-aware-predecision-v1`, SHA-256
 `cd184ee891e9227aa7f236e3361fc6d49a756a4429a8aa3e7070b286f144ba99`.
 Manager/Blind Verifier `qwen3.8-max`; physical Qwen3.8-27B Q4_K_M 32K/2048;
-20/64/20 budgets; 1200 s controller-to-Worker timeout (backend SDK policy below).
+20/64/20 budgets; 1200 s controller-to-Worker timeout (see the
+[backend client policy audit](predecision-crossbenchmark-failure-audit-v1.md)).
 Same native loop, instructions, tools,
 scheduler, worker substrate and observer semantics. Fast 100 Mbps / configured
 5 ms, Slow 3 Mbps / configured 50 ms; Jetson netem limitation is unchanged.

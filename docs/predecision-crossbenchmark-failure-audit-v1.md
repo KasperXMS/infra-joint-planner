@@ -221,6 +221,14 @@ that never reached server logging remain unobservable. Do not claim SDK retries
 were disabled or silently alter the ongoing freeze. Extend request-count
 coverage after the remaining cells, preserving this audit unchanged.
 
+Append-only audit `backend-client-policy-and-request-count-audit-002.json`
+extends coverage to 20 effective crossbenchmark cells, both exclusions and all
+12 existing MultiHop runs: **34 preserved attempts, 47 traced inferences,
+47 completed HTTP-200 requests**, one match per action. No rerun or network/model
+configuration change. SHA-256
+`4cfdf7686883aafef5bfe315b2d71be209d5dbbbc39752dfe6ddba435eed63f3`.
+This still excludes unfinished 795-2 cells and retains the pre-server limitation.
+
 Worker inference max output is the deployment's reserved 2048 tokens. The
 inherited harness annotation `terminal_canonical_labels=[Yes,No]` is not the
 multiple-choice task contract: per-task A-D labels and original evaluator wiring
