@@ -154,7 +154,7 @@ After reviewing the stopping boundary, the user authorized continuing with the
 transport-only mitigation. The shared SDK-native Worker HTTP client now expires
 idle pooled connections after **4 s**, below the verified Uvicorn 5 s server
 timeout. Connection limits remain HTTPX defaults (100 total / 20 idle); model
-service timeout remains 1200 s. There is no HTTP retry, new failure classification,
+controller-to-Worker timeout remains 1200 s. There is no Worker HTTP retry, new failure classification,
 fallback, observer relaxation, prompt change, budget change, or scheduler change.
 The mechanism remains a hypothesis for historical incidents, not proven root cause.
 
@@ -195,3 +195,33 @@ running freeze; future bundles must explicitly exclude historical result/trace
 evidence, with any needed immutable profile metadata allowlisted separately.
 This is an avoidable packaging/transfer issue, not grounds to replace clean
 semantic outcomes or modify the experiment path.
+
+### Frozen source and backend client policy audit
+
+Read-only `execution-source-integrity-audit-001.json` verifies all 141 tracked
+`src/` and `scripts/` files against Git blob hashes from `d43c3b3` on all four
+nodes: no missing files or mismatches. Controller/driver use that frozen source
+and revision environment. This does not attest dependency or model blob hashes.
+
+The 1200 s timeout is the **controller -> Worker** request limit, not the
+Worker -> Ollama SDK timeout. Frozen `build_model_backend()` creates AsyncOpenAI
+without overrides: its effective defaults are **max_retries=2**, timeout
+connect=5 / read=600 / write=600 / pool=600 s. Cloud Manager/Verifier clients
+explicitly use max_retries=0 and timeout=180 s. No settings are changed here;
+the earlier unqualified "no HTTP retry" statement applies only to Worker HTTP
+transport and explicit cell/semantic repetition, not every client layer.
+
+`backend-client-policy-and-request-count-audit-001.json` maps 21 completed
+attempt windows (19 effective plus two excluded) to A28 Ollama access logs,
+accounting for its UTC+8 clock. All **32 traced actual inferences match exactly
+32 completed server requests, each HTTP 200**, with no observed duplicates.
+The two historical HTTP 500 entries are outside these windows. This supports
+one accepted inference per action in the checked scope; connection attempts
+that never reached server logging remain unobservable. Do not claim SDK retries
+were disabled or silently alter the ongoing freeze. Extend request-count
+coverage after the remaining cells, preserving this audit unchanged.
+
+Worker inference max output is the deployment's reserved 2048 tokens. The
+inherited harness annotation `terminal_canonical_labels=[Yes,No]` is not the
+multiple-choice task contract: per-task A-D labels and original evaluator wiring
+remain authoritative and validated. Do not alter the frozen manifest in-flight.

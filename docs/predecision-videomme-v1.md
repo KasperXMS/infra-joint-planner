@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 COMPLETE; FIRST THREE 848-1 CELLS CLEAN; 5/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 AND 848-1 COMPLETE; 4/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -95,7 +95,7 @@ attempts / 16 effective cells / eight remaining conditions. Queue is now in 848-
 Fast-Blind. Wait for that task and 795-2 before final cross-workload interpretation;
 n=1 cannot establish stable infrastructure-conditioned causality.
 
-## 848-1: first three clean cells (four-condition comparison pending)
+## 848-1: completed four-cell task comparison
 
 The intact original 2037.781 s / 160083738-byte AV1 video starts on A4.
 Fast-Blind naturally samples 31 frames at 64 s cadence. Its first model request
@@ -109,6 +109,7 @@ chapter-boundary visibility are not asserted by the index/cadence metadata alone
 | Fast-Blind | yes / valid / 0 | B | 442.512 | 13.921 | 798787 / 1.429 | 6 / 6 | 2 / 1 / 1 | 3 / 27 |
 | Fast-Aware | yes / valid / 0 | A | 226.982 | 13.973 | 380788 / 0.287 | 6 / 6 | 2 / 1 / 1 | 4 / 63 |
 | Slow-Blind | yes / valid / 0 | A | 871.266 | 446.971 | 981232 / 3.885 | 4 / 4 | 1 / 1 / 0 | 2 / 12 |
+| Slow-Aware | yes / valid / 0 | A | 711.029 | 446.992 | 409154 / 2.031 | 6 / 6 | 2 / 1 / 1 | 7 / 68 |
 
 Manager work 72.368 s, Blind Verifier 20.477 s, operator/decode 73.009 s,
 physical model service 259.739 s; terminal artifact/prompt 798787/671 bytes,
@@ -173,6 +174,33 @@ unproven. Fixed initial placement accounts for 51.3% of E2E; do not call the
 Budget accounting is read from `loop.usage`: all current Video cells use 2–4 charged
 physical calls, not the 64-call ceiling. Immediate schema/phase rejections are
 separately recorded observations, not additional model inference.
-Merged `audit-progress-014.json`: 21 preserved attempts / 19 effective cells / five
-pending. 848-1 Slow-Aware is active. The four-condition task audit follows only
-after its completion or valid failure.
+Slow-Aware samples 32 frames at 60 s cadence. A 32-image request fails static
+context preflight; the Manager then creates four independent contact sheets,
+eight frames each, 4 columns / 320 x 180 cells. The four ready calls execute in
+one same-owner parallel group (1.421 s overlap), then a subsequent model action
+consumes all four outputs. No implicit dependent-call reordering occurs.
+One existing-output-ID collision and one phase restriction are typed observations,
+not cross-run store pollution: the stores began empty and persistence passes.
+
+The terminal is A/0, actual input/output 2728/2 tokens, normal stop. Manager /
+Verifier work 94.236 / 30.560 s, model service 60.720 s, tool work 72.109 s.
+Seven charged physical calls, no specialist. Fixed initial placement is 62.9%
+of E2E. All 80 probes and six fresh Aware / six Blind Verifier input hashes pass.
+
+Slow-Aware has 58.3% fewer action bytes and 18.4% lower E2E than Slow-Blind,
+but **both answers are wrong**. Much of the difference is lower visual model
+work (283.732 -> 60.720 s), not just transfer (3.885 -> 2.031 s). Across Fast
+and Slow, Aware uses one large versus four smaller sheets; both preserve sampled
+frames via explicit lossy composites. This is observed representation/topology
+variation, not proof that infrastructure rationally caused it or preserved
+adequate chapter evidence. All four scores are zero; no quality-qualified gain.
+
+Durable `video-848-1-four-cell-audit-001.json`, SHA-256
+`3c53b8f3a129dab5a1584174a0695aa92a5ab364f8fd8811ee9393ce1f82ab7e`,
+passes shared task/capability/harness, 176 probes, 22 Manager / 22 Blind Verifier
+inputs, 12 fresh Aware profiles, trace chains, terminal provenance, persistence,
+privacy, 16 initially empty stores / exited owned Worker processes and tc cleanup.
+
+Latest merged `audit-progress-015.json`: 22 preserved attempts / 20 effective
+cells / four pending. Video 795-2 Fast-Blind is active. Historical coverage
+snapshots above are superseded by this latest ledger.
