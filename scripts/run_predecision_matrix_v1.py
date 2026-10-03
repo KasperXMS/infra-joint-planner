@@ -17,6 +17,8 @@ import httpx
 import yaml
 from prepare_sdk_native_infra_worker_v1_3 import prepare
 
+from infra_joint.control.provenance import blind_input_profile_findings
+
 HOSTS = {"A4": "edge@192.168.0.104", "A5": "edge@192.168.0.105",
          "A28": "edge@192.168.0.128", "strong-4090": None}
 CONDITIONS = ("fast-blind", "fast-aware", "slow-blind", "slow-aware")
@@ -74,6 +76,15 @@ def validate_cell(
                 problems.append(f"late profile: {decision_id}")
         elif before is not None or actual is not None:
             problems.append(f"Blind predecision profile leakage: {decision_id}")
+    for event in events:
+        if event["event_type"] != "logical.reasoning.input":
+            continue
+        payload = event["payload"]
+        owner = payload["logical_agent_id"]
+        if ((owner != "manager" or visibility == "blind")
+                and (payload.get("current_anonymous_profile") is not None
+                     or blind_input_profile_findings(payload.get("input_items", [])))):
+            problems.append(f"Blind recipient profile leakage: {owner}/{payload['decision_id']}")
     if not any(e["event_type"] in {"run.end", "run.failed"} for e in events):
         problems.append("terminal run event missing")
     if result["execution_completed"] and (

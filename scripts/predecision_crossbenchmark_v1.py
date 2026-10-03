@@ -408,7 +408,9 @@ def main(args: argparse.Namespace) -> None:
                 "kind": ("authorized_transport_bug_fix_rerun"
                          if args.attempt == "transport-patch-1" else
                          "authorized_backend_client_bug_fix_rerun"
-                         if args.attempt == "backend-client-patch-1" else args.attempt),
+                         if args.attempt == "backend-client-patch-1" else
+                         "authorized_profile_isolation_bug_fix_rerun"
+                         if args.attempt == "isolation-patch-1" else args.attempt),
                 "run_id": config["run_id"], "execution_revision": _revision(),
                 "automatic_retry": False,
             })
@@ -455,6 +457,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--only-cell")
     parser.add_argument("--attempt", choices=(
         "primary", "operational-replacement-1", "transport-patch-1", "backend-client-patch-1",
+        "isolation-patch-1",
     ),
                         default="primary")
     return parser.parse_args()

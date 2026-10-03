@@ -1,13 +1,18 @@
 # pyright: reportPrivateUsage=false
 import json
 from collections.abc import AsyncIterator
+from types import SimpleNamespace
 from typing import Any
 
 import pytest
 from agents import Model
 from agents.items import ModelResponse
 from agents.usage import Usage
-from openai.types.responses import ResponseFunctionToolCall
+from openai.types.responses import (
+    ResponseFunctionToolCall,
+    ResponseOutputMessage,
+    ResponseOutputText,
+)
 from test_native_agents import (
     FakePhysicalService,
     FakeVerifier,
@@ -133,6 +138,116 @@ async def test_actual_sdk_predecision_input_provenance_and_private_isolation(
         assert private not in logical_json
     if not expected:
         assert "network_class" not in logical_json
+
+
+@pytest.mark.asyncio
+async def test_real_sdk_specialist_continuation_does_not_receive_tool_result_profile() -> None:
+    class DelegatingSDKModel(SyntheticSDKModel):
+        def __init__(self) -> None:
+            super().__init__()
+            self.manager_calls = 0
+            self.specialist_calls = 0
+            self.specialist_inputs: list[list[dict[str, Any]]] = []
+
+        async def get_response(self, *args: Any, **kwargs: Any) -> ModelResponse:
+            items = semantic_input_items(kwargs.get("input", args[1] if len(args) > 1 else []))
+            specialist = False
+            for item in items:
+                if item.get("role") == "user" and isinstance(item.get("content"), str):
+                    try:
+                        message = json.loads(item["content"])
+                    except json.JSONDecodeError:
+                        continue
+                    specialist |= isinstance(message, dict) and "assignment" in message
+            self.inputs.append(items)
+            if specialist:
+                self.specialist_calls += 1
+                self.specialist_inputs.append(items)
+                assert "network_class" not in json.dumps(items)
+                if self.specialist_calls == 3:
+                    return ModelResponse(output=[ResponseOutputMessage(
+                        id="specialist-final", type="message", role="assistant", status="completed",
+                        content=[ResponseOutputText(type="output_text", text="evidence ready",
+                                                    annotations=[])],
+                    )], usage=Usage(requests=1, input_tokens=20, output_tokens=10),
+                        response_id=None)
+                name = "read_artifact" if self.specialist_calls == 1 else "invoke_model"
+                payload = {"inputs": ["source-0"], "arguments": (
+                    {} if self.specialist_calls == 1 else {
+                        "prompt": "Extract evidence.", "output_artifact_id": "evidence-note",
+                        "output_semantic_type": "evidence_note", "output_media_type": "text/plain",
+                    }
+                )}
+            else:
+                self.manager_calls += 1
+                if self.manager_calls == 1:
+                    name = "consult_specialist"
+                    payload = {"logical_agent_id": "evidence-specialist",
+                               "role": "evidence analyst",
+                               "objective": "extract evidence", "instruction": "Produce a note.",
+                               "input_artifacts": ["source-0"]}
+                else:
+                    delegated = next(json.loads(item["output"]) for item in items
+                                     if item.get("type") == "function_call_output")
+                    name = "invoke_model"
+                    payload = {"inputs": [delegated["produced_artifact_ids"][0]],
+                               "arguments": {"prompt": "Return only A."}}
+            index = len(self.inputs)
+            return ModelResponse(output=[ResponseFunctionToolCall(
+                id=f"fc-{index}", call_id=f"call-{index}", type="function_call",
+                name=name, arguments=json.dumps(payload),
+            )], usage=Usage(requests=1, input_tokens=20, output_tokens=10), response_id=None)
+
+    task = benchmark_task()
+    registry = build_operator_catalog()
+    operations = ("read_artifact", "invoke_model")
+    physical = SnapshotPhysical("A")
+    gateway = RuntimeActionGateway(
+        SemanticActionValidator(task, registry, operations), physical,  # type: ignore[arg-type]
+    )
+    model = DelegatingSDKModel()
+    verifier = FakeVerifier((ready_verdict(), complete_verdict()))
+    sink = MemorySink()
+    runtime = OpenAIAgentsNativeRuntime(
+        name="manager", instructions="Solve faithfully.", model=model, registry=registry,
+        available_operations=operations, blind_verifier=verifier,
+        predecision_profiles=True, record_input_provenance=True,
+    )
+    result = await runtime.run(task, gateway, profile_visibility=ProfileVisibility.AWARE,
+                               trace=WorkflowTraceRecorder("specialist-isolation", sink))
+    assert result.final_answer == "A"
+    assert model.manager_calls == 2 and model.specialist_calls == 3
+    assert physical.expose_profile_values == [False, False, True]
+    assert physical.snapshot_calls == 2
+    assert len([e for e in sink.events if e.event_type == "logical.profile.predecision"]) == 2
+    assert "network_class" not in json.dumps([c.model_dump(mode="json") for c in verifier.contexts])
+    specialist_json = json.dumps(model.specialist_inputs)
+    for forbidden in ("network_class", "private://", "private-evaluator", "source_ref",
+                      "evaluator_id", "worker_id", "deployment_id", "192.168."):
+        assert forbidden not in specialist_json
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("owner,visibility", [
+    ("bounded_specialist", ProfileVisibility.AWARE), ("manager", ProfileVisibility.BLIND),
+])
+@pytest.mark.parametrize("route", ["tool-result", "profile-message"])
+async def test_sdk_input_filter_rejects_blind_recipient_dynamic_profile_before_model(
+    owner: str, visibility: ProfileVisibility, route: str,
+) -> None:
+    sdk = SimpleNamespace(RunConfig=lambda **kwargs: SimpleNamespace(**kwargs))
+    state = SimpleNamespace(visibility=visibility,
+                            root_agent=SimpleNamespace(logical_agent_id="manager"))
+    config = OpenAIAgentsNativeRuntime._predecision_run_config(sdk, state)  # type: ignore[arg-type]
+    item = ({"type": "function_call_output", "call_id": "call-1", "output": json.dumps({
+        "physical_profile": {"network_class": "constrained"},
+    })} if route == "tool-result" else
+        {"role": "user", "content": PROFILE_MESSAGE_PREFIX + '{"network_class":"constrained"}'})
+    data = SimpleNamespace(agent=SimpleNamespace(name=owner), model_data=SimpleNamespace(
+        input=[item], instructions="unchanged",
+    ))
+    with pytest.raises(AgentLoopError, match="Blind recipient dynamic profile isolation"):
+        await config.call_model_input_filter(data)
 
 
 @pytest.mark.asyncio

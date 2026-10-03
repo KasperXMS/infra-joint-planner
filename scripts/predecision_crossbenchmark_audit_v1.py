@@ -13,7 +13,7 @@ from predecision_crossbenchmark_v1 import CONDITIONS, summarize_run_trace
 from run_predecision_matrix_v1 import write_new
 
 from infra_joint.control.native_agents import _deterministic_terminal_answer
-from infra_joint.control.provenance import provenance_sha256
+from infra_joint.control.provenance import blind_input_profile_findings, provenance_sha256
 from infra_joint.core.task import OutputContract
 from infra_joint.evaluation.trace import JsonlTraceWriter
 
@@ -46,6 +46,24 @@ def effective_attempt(records: list[dict[str, Any]]) -> dict[str, Any] | None:
     return clean[0] if clean else None
 
 
+def audit_external_hard_stop(directory: Path) -> dict[str, Any]:
+    """Retain an interrupted attempt without manufacturing normal finalization."""
+    path = directory / "hard-stop-result.json"
+    result = json.loads(path.read_text())
+    if (result["result_type"] != "external_hard_stop_record_not_a_normal_benchmark_result"
+            or result["failure_class"] != "system/harness confounder"
+            or result["execution_completed"] is not False
+            or result["evaluation"] is not None):
+        raise ValueError("invalid external hard-stop provenance")
+    trace = directory / "runs" / result["run_id"] / "trace.jsonl"
+    cleanup = directory / "private/hard-stop-artifact-and-cleanup-audit.json"
+    if (_sha256(trace) != result["trace_sha256"]
+            or _sha256(cleanup) != result["cleanup_audit_sha256"]):
+        raise ValueError("external hard-stop evidence hash mismatch")
+    return {"attempt": directory.name, "attempt_evidence_directory": str(directory),
+            "result": result, "external_result_sha256": _sha256(path)}
+
+
 def provenance_checks(events: list[dict[str, Any]], visibility: str) -> dict[str, Any]:
     profiles = {e["payload"]["decision_id"]: (i, e["payload"]["profile"])
                 for i, e in enumerate(events) if e["event_type"] == "logical.profile.predecision"}
@@ -56,6 +74,10 @@ def provenance_checks(events: list[dict[str, Any]], visibility: str) -> dict[str
         if event["event_type"] == "logical.reasoning.input":
             if provenance_sha256(payload["input_items"]) != payload["input_sha256"]:
                 failures.append("reasoning input hash mismatch")
+            if ((payload["logical_agent_id"] != "manager" or visibility == "blind")
+                    and (payload.get("current_anonymous_profile") is not None
+                         or blind_input_profile_findings(payload["input_items"]))):
+                failures.append("Blind recipient tool-result/profile leakage")
             if payload["logical_agent_id"] == "manager":
                 manager_count += 1
                 before = profiles.get(payload["decision_id"])
@@ -207,6 +229,7 @@ def main() -> None:
         raise ValueError("duplicate audit roots")
     records = []
     attempts = []
+    aborted = []
     effective = []
     missing = []
     unresolved = []
@@ -217,13 +240,18 @@ def main() -> None:
                              for root in roots for attempt in (
                                  "primary", "operational-replacement-1", "transport-patch-1",
                                  "backend-client-patch-1",
+                                 "isolation-patch-1",
                              ) if (root / "evidence" / cell / attempt
                                    / "lightweight-validation.json").exists()]
             attempts.extend(cell_attempts)
+            cell_aborted = [audit_external_hard_stop(root / "evidence" / cell / "primary")
+                            for root in roots if (root / "evidence" / cell / "primary"
+                                                  / "hard-stop-result.json").exists()]
+            aborted.extend(cell_aborted)
             primary = next((r for r in cell_attempts if r["attempt"] == "primary"), None)
-            if primary is None:
+            if primary is None and not cell_aborted:
                 missing.append(cell)
-            else:
+            elif primary is not None:
                 records.append(primary)
             selected = effective_attempt(cell_attempts)
             if selected is None:
@@ -235,6 +263,7 @@ def main() -> None:
     write_new(args.output, {"audit_source_sha256": _sha256(Path(__file__)),
                             "scope_roots": [str(root) for root in roots],
                             "records": records, "attempt_records": attempts,
+                            "aborted_attempt_records": aborted,
                             "effective_records": effective,
                             "missing_primary_cells": missing, "unresolved_cells": unresolved})
     print(json.dumps({"audited_primary_cells": len(records), "audited_attempts": len(attempts),

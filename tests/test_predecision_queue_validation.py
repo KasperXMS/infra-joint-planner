@@ -80,6 +80,27 @@ def test_queue_gate_stops_on_tc_leakage(tmp_path: Path) -> None:
     assert "tc restoration failure" in validate_cell(tmp_path, "test", "blind")["problems"]
 
 
+@pytest.mark.parametrize("succeeded", [True, False])
+def test_queue_gate_rejects_specialist_tool_profile_despite_null_direct_field(
+    tmp_path: Path, succeeded: bool,
+) -> None:
+    fixture(tmp_path, aware=True)
+    trace = tmp_path / "runs/test/trace.jsonl"
+    with trace.open("a") as stream:
+        stream.write("\n" + json.dumps({
+            "event_type": "logical.reasoning.input", "payload": {
+                "logical_agent_id": "specialist", "decision_id": "specialist:2",
+                "current_anonymous_profile": None,
+                "input_items": [{"type": "function_call_output", "call_id": "call-1",
+                                 "output": json.dumps({"succeeded": succeeded,
+                                     "physical_profile": {"network_class": "constrained"}})}],
+            },
+        }))
+    assert "Blind recipient profile leakage: specialist/specialist:2" in validate_cell(
+        tmp_path, "test", "aware",
+    )["problems"]
+
+
 @pytest.mark.parametrize("code", [
     "phase_restricted", "artifact_not_materialized", "context_limit_exceeded",
     "semantic_validation_failed", "artifact_too_large", "physical_execution_failed",

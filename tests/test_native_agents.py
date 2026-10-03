@@ -914,6 +914,99 @@ async def test_aware_manager_shares_blind_verifier_without_profile_leakage() -> 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("visibility", [ProfileVisibility.BLIND, ProfileVisibility.AWARE])
+@pytest.mark.parametrize("fail_first_read", [False, True])
+async def test_specialist_tool_results_stay_blind_and_manager_continues(
+    visibility: ProfileVisibility, fail_first_read: bool,
+) -> None:
+    class FailureProfilePhysicalService(FakePhysicalService):
+        async def execute(
+            self, action: object, *, expose_profile: bool,
+        ) -> PhysicalExecutionOutcome:
+            outcome = await super().execute(action, expose_profile=expose_profile)
+            if expose_profile and not outcome.observation.succeeded:
+                return outcome.model_copy(update={"observation": outcome.observation.model_copy(
+                    update={"physical_profile": PhysicalProfileView(
+                        candidate_count=2, input_bytes=10, network_class="constrained",
+                        remote_input_count_range=(0, 1),
+                    )},
+                )})
+            return outcome
+
+    task = benchmark_task()
+    physical = FailureProfilePhysicalService(fail_read_once=fail_first_read)
+    verifier = FakeVerifier((complete_verdict(),))
+    runtime, gateway = runtime_and_gateway(
+        task, physical, ("read_artifact", "invoke_model"), verifier=verifier,
+    )
+    specialist_results: list[str] = []
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        if agent.name == "bounded_specialist":
+            read = await tool(agent, "read_artifact").on_invoke_tool(
+                tool_context(agent, context, "specialist-read"),
+                json.dumps({"inputs": ["source-0"], "arguments": {}}),
+            )
+            specialist_results.append(read)
+            assert "physical_profile" not in json.loads(read)
+            if fail_first_read:
+                assert json.loads(read)["failure_code"] == "artifact_too_large"
+                await reasoning_end(hooks, context, agent)
+                await reasoning_start(hooks, context, agent)
+                read = await tool(agent, "read_artifact").on_invoke_tool(
+                    tool_context(agent, context, "specialist-recovery"),
+                    json.dumps({"inputs": ["source-0"], "arguments": {}}),
+                )
+                specialist_results.append(read)
+                assert "physical_profile" not in json.loads(read)
+            await reasoning_end(hooks, context, agent)
+            await reasoning_start(hooks, context, agent)
+            model = await tool(agent, "invoke_model").on_invoke_tool(
+                tool_context(agent, context, "specialist-model"),
+                json.dumps({"inputs": ["source-0"], "arguments": {
+                    "prompt": "Extract evidence.", "output_artifact_id": "evidence-note",
+                    "output_semantic_type": "evidence_note", "output_media_type": "text/plain",
+                }}),
+            )
+            specialist_results.append(model)
+            assert "physical_profile" not in json.loads(model)
+            assert "network_class" not in json.dumps(specialist_results)
+            await reasoning_end(hooks, context, agent)
+            return "evidence ready"
+
+        delegated = await tool(agent, "consult_specialist").on_invoke_tool(
+            tool_context(agent, context, "delegate"),
+            json.dumps({"logical_agent_id": "evidence-specialist", "role": "evidence specialist",
+                        "objective": "extract evidence", "instruction": "Produce a note.",
+                        "input_artifacts": ["source-0"]}),
+        )
+        note = json.loads(delegated)["produced_artifact_ids"][0]
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        answer = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "manager-terminal"),
+            json.dumps({"inputs": [note], "arguments": {"prompt": "Return only A."}}),
+        )
+        assert ("physical_profile" in json.loads(answer)) == (visibility == ProfileVisibility.AWARE)
+        await reasoning_end(hooks, context, agent)
+        final, _ = await resolve_tool_batch(agent, ((model_tool, answer),))
+        assert final.is_final_output
+        return str(final.final_output)
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway, profile_visibility=visibility)
+    assert result.final_answer == "A"
+    assert physical.expose_profile_values == [False] * (3 if fail_first_read else 2) + [
+        visibility == ProfileVisibility.AWARE,
+    ]
+    assert all(o.physical_profile is None for o in result.observations
+               if o.owner_agent_id != "manager")
+    assert "network_class" not in json.dumps(verifier.contexts[0].model_dump(mode="json"))
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("visibility", [ProfileVisibility.BLIND, ProfileVisibility.AWARE])
 async def test_initial_native_input_has_no_profile_and_tool_feedback_arrives_next_turn(
     visibility: ProfileVisibility,
 ) -> None:

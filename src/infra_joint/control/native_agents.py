@@ -41,6 +41,7 @@ from infra_joint.control.loop import (
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.provenance import (
     PROFILE_MESSAGE_PREFIX,
+    blind_input_profile_findings,
     is_profile_message,
     provenance_sha256,
     semantic_input_items,
@@ -473,10 +474,11 @@ class OpenAIAgentsNativeRuntime:
         async def filter_input(data: Any) -> object:
             model_data = data.model_data
             items: list[Any] = list(model_data.input)
-            if (
+            aware_manager = (
                 state.visibility == ProfileVisibility.AWARE
                 and data.agent.name == state.root_agent.logical_agent_id
-            ):
+            )
+            if aware_manager:
                 decision_id = (
                     f"{state.root_agent.logical_agent_id}:native-turn:"
                     f"{state.turn_by_agent.get(state.root_agent.logical_agent_id, 0) + 1}"
@@ -491,6 +493,8 @@ class OpenAIAgentsNativeRuntime:
                     "role": "user",
                     "content": PROFILE_MESSAGE_PREFIX + profile.model_dump_json(),
                 })
+            elif blind_input_profile_findings(semantic_input_items(items)):
+                raise AgentLoopError("Blind recipient dynamic profile isolation violated")
             return type(model_data)(input=items, instructions=model_data.instructions)
 
         return constructor(call_model_input_filter=filter_input, tracing_disabled=True)
@@ -1056,9 +1060,13 @@ class OpenAIAgentsNativeRuntime:
                     "logical_agent_id": owner,
                 })
 
+        expose_profile = (
+            state.visibility == ProfileVisibility.AWARE
+            and owner == state.root_agent.logical_agent_id
+        )
         try:
             outcomes = await state.gateway.execute_batch(
-                (action,), expose_profile=state.visibility == ProfileVisibility.AWARE
+                (action,), expose_profile=expose_profile,
             )
         except asyncio.CancelledError:
             await self._close_interrupted_action(
@@ -1083,6 +1091,10 @@ class OpenAIAgentsNativeRuntime:
             )
             raise
         outcome = outcomes[0]
+        if not expose_profile and outcome.observation.physical_profile is not None:
+            outcome = outcome.model_copy(update={
+                "observation": outcome.observation.model_copy(update={"physical_profile": None}),
+            })
         observation = outcome.observation
         async with state.state_lock:
             state.observations.append(observation)

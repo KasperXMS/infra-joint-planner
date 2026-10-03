@@ -8,6 +8,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 from predecision_crossbenchmark_audit_v1 import (  # noqa: E402
+    audit_external_hard_stop,
     audited_validation,
     effective_attempt,
     provenance_checks,
@@ -24,6 +25,59 @@ from test_predecision_crossbenchmark import protocol  # noqa: E402
 from infra_joint.control.native_agents import _deterministic_terminal_answer
 from infra_joint.control.provenance import provenance_sha256
 from infra_joint.core.task import OutputContract, OutputFormat
+
+
+def test_external_hard_stop_is_preserved_and_hash_validated(tmp_path: Path) -> None:
+    from hashlib import sha256
+
+    directory = tmp_path / "primary"
+    trace = directory / "runs/run-1/trace.jsonl"
+    trace.parent.mkdir(parents=True)
+    trace.write_bytes(b"{}\n")
+    cleanup = directory / "private/hard-stop-artifact-and-cleanup-audit.json"
+    cleanup.parent.mkdir()
+    cleanup.write_bytes(b"{}")
+    result = {
+        "result_type": "external_hard_stop_record_not_a_normal_benchmark_result",
+        "run_id": "run-1", "failure_class": "system/harness confounder",
+        "execution_completed": False, "evaluation": None,
+        "trace_sha256": sha256(trace.read_bytes()).hexdigest(),
+        "cleanup_audit_sha256": sha256(cleanup.read_bytes()).hexdigest(),
+    }
+    (directory / "hard-stop-result.json").write_text(json.dumps(result))
+    assert audit_external_hard_stop(directory)["result"] == result
+    trace.write_bytes(b"changed")
+    with pytest.raises(ValueError, match="hash mismatch"):
+        audit_external_hard_stop(directory)
+
+
+def test_complete_matrix_accepts_preserved_aborted_primary_not_a_fake_result(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = tmp_path / "root"
+    cell = "longbench-multidoc-financial-fast-blind"
+    primary = root / "evidence" / cell / "primary"
+    patch = root / "evidence" / cell / "isolation-patch-1"
+    primary.mkdir(parents=True)
+    patch.mkdir()
+    (primary / "hard-stop-result.json").write_text("{}")
+    (patch / "lightweight-validation.json").write_text("{}")
+    one_cell_protocol = {"tasks": [{"label": "longbench-multidoc-financial"}]}
+    output = tmp_path / "merged.json"
+    monkeypatch.setattr("predecision_crossbenchmark_audit_v1.CONDITIONS", ("fast-blind",))
+    monkeypatch.setattr("predecision_crossbenchmark_audit_v1._yaml", lambda _: one_cell_protocol)
+    monkeypatch.setattr("predecision_crossbenchmark_audit_v1.audit_cell",
+                        lambda _: {**clean_record(), "attempt": "isolation-patch-1"})
+    monkeypatch.setattr("predecision_crossbenchmark_audit_v1.audit_external_hard_stop",
+                        lambda _: {"attempt": "primary", "result": {"evaluation": None}})
+    monkeypatch.setattr(sys, "argv", [
+        "audit", "--root", str(root), "--output", str(output), "--require-complete",
+    ])
+    audit_main()
+    merged = json.loads(output.read_text())
+    assert merged["records"] == []  # No fabricated normal primary result.
+    assert len(merged["effective_records"]) == len(merged["aborted_attempt_records"]) == 1
+    assert merged["missing_primary_cells"] == merged["unresolved_cells"] == []
 
 
 def test_external_backend_retry_evidence_excludes_without_rewriting_result(tmp_path: Path) -> None:
@@ -84,6 +138,28 @@ def test_frozen_choice_contract_field_name_roundtrip_is_not_schema_alias_failure
     assert _deterministic_terminal_answer(restored, "A") == "A"
 
 
+@pytest.mark.parametrize("owner,visibility", [
+    ("specialist", "aware"), ("specialist", "blind"), ("manager", "blind"),
+])
+@pytest.mark.parametrize("profile", [None, {"network_class": "constrained"}])
+def test_audit_checks_tool_result_context_not_only_direct_profile(
+    owner: str, visibility: str, profile: dict[str, str] | None,
+) -> None:
+    items = [{"type": "function_call_output", "call_id": "call-1", "output": json.dumps({
+        "succeeded": True, "physical_profile": profile,
+    })}]
+    events = [{"event_type": "logical.reasoning.input", "payload": {
+        "logical_agent_id": "manager", "decision_id": "manager:1", "input_items": [],
+        "input_sha256": provenance_sha256([]), "current_anonymous_profile": None,
+    }}, {"event_type": "logical.reasoning.input", "payload": {
+        "logical_agent_id": owner, "decision_id": "owner:1", "input_items": items,
+        "input_sha256": provenance_sha256(items), "current_anonymous_profile": None,
+    }}]
+    # Manager timing is a separate gate; focus on recipient isolation finding here.
+    failures = provenance_checks(events, visibility)["failures"]
+    assert ("Blind recipient tool-result/profile leakage" in failures) == (profile is not None)
+
+
 def clean_record() -> dict[str, Any]:
     return {"attempt": "primary", "validation": {"problems": []}, "probe_errors": [],
             "persistence": {"pass": True}, "provenance": {"pass": True},
@@ -115,7 +191,9 @@ def test_no_clean_attempt_remains_unresolved_and_two_clean_attempts_rejected() -
         effective_attempt([clean_record(), clean_record()])
 
 
-@pytest.mark.parametrize("patch_attempt", ["transport-patch-1", "backend-client-patch-1"])
+@pytest.mark.parametrize("patch_attempt", [
+    "transport-patch-1", "backend-client-patch-1", "isolation-patch-1",
+])
 def test_cross_revision_audit_preserves_old_attempts_and_selects_authorized_patch(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, patch_attempt: str,
 ) -> None:

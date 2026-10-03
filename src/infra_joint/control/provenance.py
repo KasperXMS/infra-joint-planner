@@ -52,3 +52,24 @@ def is_profile_message(item: object) -> bool:
     return value.get("role") == "user" and isinstance(content, str) and content.startswith(
         PROFILE_MESSAGE_PREFIX
     )
+
+
+def blind_input_profile_findings(items: list[dict[str, Any]]) -> tuple[str, ...]:
+    """Inspect actual SDK context, including accumulated logical tool results."""
+    findings: list[str] = []
+    for index, item in enumerate(items):
+        if is_profile_message(item):
+            findings.append(f"input item {index}: explicit dynamic profile message")
+        if item.get("type") != "function_call_output":
+            continue
+        output = item.get("output")
+        if not isinstance(output, str):
+            continue
+        try:
+            parsed = json.loads(output)
+        except json.JSONDecodeError:
+            continue
+        if (isinstance(parsed, dict)
+                and cast(dict[str, Any], parsed).get("physical_profile") is not None):
+            findings.append(f"input item {index}: tool-result dynamic physical profile")
+    return tuple(findings)

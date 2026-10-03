@@ -20,7 +20,9 @@ from sdk_native_infra_preliminary_v1_3 import _validate_config  # noqa: E402
 
 def test_predecision_harness_preserves_shared_models_prompts_tools_and_budgets() -> None:
     old = load_harness(REPO / "configs/experiments/qwen-infra-preliminary-v1.yaml")
-    new = load_harness(REPO / "configs/experiments/infra-aware-predecision-v1.yaml")
+    new = load_harness(REPO / (
+        "configs/experiments/infra-aware-predecision-v1-isolation-patch1.yaml"
+    ))
     for name in ("manager", "verifier", "budget", "available_operations",
                  "anonymous_model_contract", "static_capability_contract_sha256",
                  "model_service_timeout_seconds"):

@@ -43,7 +43,7 @@ def main() -> None:
     parser.add_argument("--after-cell", required=True)
     parser.add_argument("--boundary-attempt", required=True,
                         choices=("primary", "operational-replacement-1", "transport-patch-1",
-                                 "backend-client-patch-1"))
+                                 "backend-client-patch-1", "isolation-patch-1"))
     parser.add_argument("--protocol", type=Path)
     parser.add_argument("--wait-pid", type=int)
     parser.add_argument("--api-key-file", type=Path, required=True)
