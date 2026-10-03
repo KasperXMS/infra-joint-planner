@@ -181,3 +181,17 @@ shutdown and tc restoration pass. This establishes a clean affected sample,
 not historical proof of the disconnect mechanism or guaranteed future transport
 reliability. The two old excluded attempts are preserved. The gated suffix
 continued to Academic Fast-Blind without retry or logical behavior changes.
+
+### Deployment archive scope audit
+
+The transport-patch deployment used `git archive HEAD`, 36669440 bytes. It includes
+669 already-tracked historical `results/` files despite ignore rules for new
+results; the earlier "code-only archive" shorthand was inaccurate. No current
+benchmark dataset was downloaded/materialized/distributed through the development
+PC: all six sources are the frozen external 4090 paths; execution uses new isolated
+Worker stores, not historical archived results. Current logical privacy checks
+pass. No API-key/device-info file is tracked. Preserve the existing copies and
+running freeze; future bundles must explicitly exclude historical result/trace
+evidence, with any needed immutable profile metadata allowlisted separately.
+This is an avoidable packaging/transfer issue, not grounds to replace clean
+semantic outcomes or modify the experiment path.
