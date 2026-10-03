@@ -2,8 +2,8 @@
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
-795-3 cells and the 848-1 Fast pair are clean effective results (18/24). The two old
-Financial confounded attempts remain preserved/excluded. Video 848-1 Slow-Blind is active.
+795-3 cells and the first three 848-1 cells are clean effective results (19/24). The two old
+Financial confounded attempts remain preserved/excluded. Video 848-1 Slow-Aware is active.
 
 ## Scope and frozen system
 
@@ -101,6 +101,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Aware, clean | yes / yes | A / 1.0 | 1071.594 | 1,471,756 | 1 | 3 / 3 |
 | Video `848-1` | Fast-Blind, clean | yes / yes | B / 0.0 | 442.512 | 798,787 | 1 | 6 / 6 |
 | Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 226.982 | 380,788 | 1 | 6 / 6 |
+| Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
 
 All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -229,6 +230,15 @@ Remote image checks verify readable identical 2560×720 JPEG sheet copies on A4/
 all 31 inputs, declared thumbnail/JPEG reduction; no PC image payload transfer.
 Current progress: 20 preserved attempts / 18 effective cells / six pending;
 848-1 Slow-Blind is active, not restarted during long initial materialization.
+
+`audit-progress-014.json` adds clean 848-1 Slow-Blind: A/0, 16 probes and four
+Manager/Blind-Verifier hashes, original evaluator and provenance/privacy/persistence/
+cleanup pass. It directly consumes 12 distributed frames and reaches actual inference
+without context failures. Only four turns / two charged physical calls are used;
+this is a temporal evidence-selection/synthesis zero, not a budget or feasibility
+failure. E2E 871.266 s includes 446.971 s fixed initial placement, 283.732 s model
+service and 73.003 s decode. Current: 21 attempts / 19 effective cells / five pending,
+Slow-Aware active; no semantic retry/tuning or new runtime incident.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 

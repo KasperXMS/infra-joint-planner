@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 COMPLETE; 848-1 FAST PAIR CLEAN; 6/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 COMPLETE; FIRST THREE 848-1 CELLS CLEAN; 5/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -95,7 +95,7 @@ attempts / 16 effective cells / eight remaining conditions. Queue is now in 848-
 Fast-Blind. Wait for that task and 795-2 before final cross-workload interpretation;
 n=1 cannot establish stable infrastructure-conditioned causality.
 
-## 848-1: clean Fast pair (four-condition comparison pending)
+## 848-1: first three clean cells (four-condition comparison pending)
 
 The intact original 2037.781 s / 160083738-byte AV1 video starts on A4.
 Fast-Blind naturally samples 31 frames at 64 s cadence. Its first model request
@@ -108,6 +108,7 @@ chapter-boundary visibility are not asserted by the index/cadence metadata alone
 | --- | --- | --- | ---: | ---: | --- | --- | --- | --- |
 | Fast-Blind | yes / valid / 0 | B | 442.512 | 13.921 | 798787 / 1.429 | 6 / 6 | 2 / 1 / 1 | 3 / 27 |
 | Fast-Aware | yes / valid / 0 | A | 226.982 | 13.973 | 380788 / 0.287 | 6 / 6 | 2 / 1 / 1 | 4 / 63 |
+| Slow-Blind | yes / valid / 0 | A | 871.266 | 446.971 | 981232 / 3.885 | 4 / 4 | 1 / 1 / 0 | 2 / 12 |
 
 Manager work 72.368 s, Blind Verifier 20.477 s, operator/decode 73.009 s,
 physical model service 259.739 s; terminal artifact/prompt 798787/671 bytes,
@@ -154,6 +155,24 @@ execution-grown graph/representation difference, but not yet a Fast→Slow respo
 Durable partial audits: `video-848-1-fast-pair-audit-001.json` (trace/provenance and
 unchanged original task), `video-848-1-contact-sheet-content-integrity-001.json`
 (actual image metadata/checksums). Full evidence stays remote.
-Merged `audit-progress-013.json`: 20 preserved attempts / 18 effective cells / six
-pending. 848-1 Slow-Blind is active. The four-condition task audit follows only
-after all four cells complete or validly fail.
+Slow-Blind samples 31 frames at 64 s cadence and directly invokes the model with
+12 frames (indices 1/7/8/9/15/16/17/23/24/25/30/31). No context failure occurs;
+the terminal still returns A/0. Actual model input/output tokens 11349/2, model
+service work 283.732 s, Manager / Verifier 49.939 / 12.344 s, decode 73.003 s;
+terminal prompt 902 bytes. No specialists or overlap. All 16 probes, four input
+hashes per Manager/Blind Verifier, provenance/privacy/persistence and cleanup pass.
+Four phase restrictions / one semantic-validation rejection are retained.
+
+Its first model call is statically feasible and enters actual inference. This zero
+cannot be attributed to context rejection, budget exhaustion, backend outage or
+output format; primary class remains temporal evidence selection / synthesis.
+Sparse/selected visual evidence versus ordering-reasoning attribution remains
+unproven. Fixed initial placement accounts for 51.3% of E2E; do not call the
+446.971 s initial-transfer component an Agent-choice inefficiency.
+
+Budget accounting is read from `loop.usage`: all current Video cells use 2–4 charged
+physical calls, not the 64-call ceiling. Immediate schema/phase rejections are
+separately recorded observations, not additional model inference.
+Merged `audit-progress-014.json`: 21 preserved attempts / 19 effective cells / five
+pending. 848-1 Slow-Aware is active. The four-condition task audit follows only
+after its completion or valid failure.
