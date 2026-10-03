@@ -1,316 +1,177 @@
-# LongBench pre-decision Raw-Aware v1
+# LongBench-v2 pre-decision Raw-Aware v1
 
-## Current authorized recovery (2026-10-03)
+Updated 2026-10-03. **Twelve effective cells completed and audited; all evaluator
+contracts pass. Eight answers are correct.** Excluded attempts remain immutable;
+the interrupted/new Video block is separate and not yet complete.
 
-Recipient-isolation repair is separately frozen as `3c3bd95` after 479 passing
-tests, Ruff and strict Pyright. Only Financial and News Fast-Aware receive one
-new `isolation-patch-1` attempt each with fresh stores. Admission is now 11/12
-after Financial FA passed; News FA is in progress. Prompts, models, tools, budgets, task representations, scheduler
-and network are unchanged. Old attempts below remain excluded and preserved.
-See [patch audit](predecision-specialist-profile-isolation-patch-v1.md).
+## Frozen scope and representation
 
-## Current Financial four-cell comparison: isolation patch admitted
+Three original multi-document tasks, Fast/Slow × Blind/Aware, n=1. Fixed original
+order FB -> FA -> SB -> SA; genuine-bug reruns retain this relative order.
+No semantic retry, prompt/budget tuning, task replacement or proposed method.
 
-Financial Fast-Aware `isolation-patch-1` completes with canonical **C**, score
-**1.0**, format valid. The original profile-bearing FA attempt remains excluded.
-This table overrides the older all-zero Financial historical snapshots below.
+| Task | Source task ID | Original UTF-8 bytes | Record bytes / chunks | Documents / initial placement |
+| --- | --- | ---: | --- | --- |
+| Financial | 66f7c780bb02136c067c35e8 | 1033800 | 1081150 / 344 | 4 / A4, A5, A28, A5 |
+| Academic | 66f2c44e821e116aacb2b826 | 494456 | 514789 / 164 | 2 / A4, A5 |
+| News | 66faa8efbb02136c067c7357 | 228792 | 242295 / 77 | 2 / A4, A5 |
 
-| Condition | Answer / score | E2E s | Action bytes / transfer s | Model service s | Manager / Verifier | Model attempts / inference / context rejects |
-| --- | --- | ---: | --- | ---: | --- | --- |
-| Fast-Blind | A / 0 | 406.653 | 265938 / 3.760 | 113.943 | 20 / 20 | 6 / 2 / 4 |
-| Fast-Aware, isolation patch | C / 1 | 1282.028 | 573058 / 1.264 | 1106.980 | 14 / 14 | 8 / 5 / 3 |
-| Slow-Blind | A / 0 | 278.919 | 141047 / 2.150 | 51.549 | 14 / 14 | 5 / 1 / 4 |
-| Slow-Aware, transport patch | A / 0 | 251.831 | 486432 / 1.912 | 96.379 | 11 / 11 | 4 / 1 / 3 |
+Natural document boundaries and ordered chunks reconstruct every original source
+character; source/reconstruction SHA equality is frozen. Original question,
+choices, private gold and exact-choice evaluator are unchanged. No task strategy
+or supporting evidence is supplied. See the [protocol](predecision-crossbenchmark-v1-protocol.md).
 
-New FA first aggregates all four documents (1081147-byte output), then encounters
-context preflight failures. Ten BM25 calls and one bounded `verify_option_a`
-specialist supply evidence. Three model attempts reject before inference,
-including the specialist's 63943-byte aggregate. Manager materializes four
-distinct per-option analysis notes (669, 1588, 3602 and 713 bytes), then synthesizes
-from their 6572-byte union. This is purposeful decomposition/recovery, not proof
-of four repeated identical verifications. Terminal prompt is 1289 bytes, output C.
+Cloud Manager and always-Blind Verifier: `qwen3.8-max`; SDK-native Manager plus
+bounded specialists, same B0 locality scheduler and finite generic tools.
+Budgets: 20 Manager / 64 physical calls / 20 Verifier, specialists 8 turns /
+4 created / 2 active. Physical context 32768, output ceiling 2048. Actual metadata
+reports `qwen35`, 27.3B, Q4_K_M under alias `qwen3.8-27b-v1`, not independent
+proof of release branding. **Every completed physical inference selected A28**;
+the available dual-4090 device is not an observed placement reversal.
 
-Eight specialist turns remain Blind in actual accumulated SDK tool-result
-context. Fourteen Aware Manager inputs have fresh profiles; fourteen Verifier
-inputs remain Blind. All 216 probes pass. Graph 20 nodes / 28 edges, one
-three-action parallel group, 0.477 s overlap; five sequential real inferences
-consume 29605 input / 1968 output tokens, all normal `stop`.
+Fast: 100 Mbps + configured 5 ms; Slow: 3 Mbps + configured 50 ms. Jetsons use
+HTB without netem, so configured delay is not measured symmetric RTT. Cloud/SSH
+are unshaped. Data bodies stay on remote nodes; PC receives bounded metadata only.
 
-Manager/specialist/Verifier work is 89.938 / 24.451 / 53.292 s, operator work
-1.133 s; initial placement is 0.398 s (1081150 bytes). Work sums are non-additive.
-Model service is about 86% of E2E; action transfer is about 0.1%. New FA costs
-215% more E2E and 115% more traffic than FB while answering correctly rather
-than incorrectly: a quality-cost trade-off, not a latency win. No n=1 causal
-attribution to visibility or to the implementation fix is established.
+## Effective matrix
 
-Evidence: new root `audit-progress-002.json` admits 22/24 cells. Detailed audit
-`financial-fast-aware-isolation-deep-audit-001.json`, SHA-256
-`757ebdfa72a5f2958057f1b35947994b4040b18227651326d72a6f2661d16371`,
-passes trace/terminal/context hashes, persistence, empty stores, owned Worker
-exits, tc restore and exactly five corresponding A28 HTTP-200 requests.
-Task/capability hashes are unchanged; frozen harness SHA-256 is
+All rows completed, format-valid, terminal-provenance-valid and evaluated.
+Action bytes mean artifact payload, not measured wire bytes. Initial placement
+is separately reported and included in E2E. Times are seconds; service/work sums
+are non-additive and must not be added into a wall-time partition.
+
+| Task / condition | Answer / score | E2E | Initial placement | Action bytes / transfer | Model service | Manager / Verifier / specialist turns |
+| --- | --- | ---: | ---: | --- | ---: | --- |
+| Financial FB | A / 0 | 406.653 | 0.387 | 265938 / 3.760 | 113.943 | 20 / 20 / 8 |
+| Financial FA, isolation patch | C / 1 | 1282.028 | 0.398 | 573058 / 1.264 | 1106.980 | 14 / 14 / 8 |
+| Financial SB | A / 0 | 278.919 | 3.314 | 141047 / 2.150 | 51.549 | 14 / 14 / 8 |
+| Financial SA, transport patch | A / 0 | 251.831 | 3.598 | 486432 / 1.912 | 96.379 | 11 / 11 / 0 |
+| Academic FB | C / 1 | 126.426 | 0.165 | 63102 / 0.818 | 10.947 | 9 / 9 / 8 |
+| Academic FA | C / 1 | 175.840 | 0.422 | 243055 / 0.630 | 126.845 | 6 / 6 / 0 |
+| Academic SB | C / 1 | 176.759 | 1.642 | 25132 / 0.402 | 103.752 | 11 / 11 / 0 |
+| Academic SA | C / 1 | 156.410 | 1.604 | 18921 / 0.241 | 83.875 | 11 / 11 / 0 |
+| News FB | C / 1 | 600.051 | 0.146 | 107471 / 1.652 | 449.079 | 14 / 14 / 8 |
+| News FA, isolation patch | C / 1 | 713.826 | 0.083 | 99354 / 0.948 | 530.521 | 16 / 16 / 8 |
+| News SB | C / 1 | 507.576 | 0.789 | 191727 / 0.945 | 455.067 | 13 / 13 / 15 |
+| News SA | A / 0 | 189.024 | 0.827 | 19112 / 0.220 | 103.674 | 9 / 9 / 0 |
+
+Within this selected set only: Blind 4/6 and Aware 4/6 correct; all 12 execution
+completions are valid. This is not official benchmark accuracy or a significance
+test. No scores are pooled with other benchmarks.
+
+## Workflow and information movement
+
+BM = BM25; AG = aggregation; RD = read; RED = top-k/projection. Counts describe
+actual prepared actions; unsuccessful argument/phase calls need not grow a node.
+Model attempts include context rejections and are **not** inference counts.
+
+| Task / condition | First action | BM / AG / RD / RED | Model attempts / inference / context | Graph N/E | Created specialists | Peak actions / overlap s | Terminal artifact / prompt bytes |
+| --- | --- | --- | --- | --- | ---: | --- | --- |
+| Financial FB | four parallel BM | 20 / 5 / 5 / 4 | 6 / 2 / 4 | 40/63 | 1 | 4 / 3.110 | 9765 / 781 |
+| Financial FA | AG | 10 / 2 / 0 / 0 | 8 / 5 / 3 | 20/28 | 1 | 3 / 0.477 | 6572 / 1289 |
+| Financial SB | BM | 16 / 4 / 0 / 1 | 5 / 1 / 4 | 26/29 | 1 | 4 / 1.198 | 9604 / 3076 |
+| Financial SA | AG | 5 / 2 / 0 / 0 | 4 / 1 / 3 | 11/13 | 0 | 3 / 0.699 | 15938 / 1310 |
+| Academic FB | BM | 7 / 1 / 4 / 0 | 2 / 1 / 1 | 14/13 | 1 | 1 / 0 | 0 / 2117 |
+| Academic FA | AG | 2 / 1 / 0 / 0 | 2 / 1 / 1 | 5/4 | 0 | 1 / 0 | 25497 / 1047 |
+| Academic SB | BM | 6 / 0 / 0 / 0 | 3 / 1 / 2 | 9/6 | 0 | 1 / 0 | 25132 / 933 |
+| Academic SA | BM | 6 / 0 / 0 / 0 | 3 / 1 / 2 | 9/6 | 0 | 1 / 0 | 18921 / 859 |
+| News FB | BM | 14 / 2 / 0 / 0 | 8 / 5 / 3 | 24/26 | 1 | 2 / 3.052 | 19 / 1865 |
+| News FA | BM | 11 / 1 / 0 / 0 | 9 / 5 / 4 | 21/25 | 1 | 1 / 0 | 1174 / 1140 |
+| News SB | AG | 14 / 3 / 2 / 0 | 7 / 4 / 3 | 26/31 | 4 | 4 / 111.120 | 0 / 1343 |
+| News SA | RD | 6 / 0 / 1 / 0 | 3 / 1 / 2 | 10/6 | 0 | 2 / 1.355 | 19112 / 1747 |
+
+Seven cells naturally create specialists; five remain single-Manager. No topology
+is forced. Terminal artifact bytes alone are not a total-context/reduction metric:
+zero-input artifact calls can carry evidence in their prompt, and upstream
+analyses can contain more information than the final note size.
+
+Financial FA: full four-document aggregation -> context rejection -> retrieval
+and one Blind `verify_option_a` specialist -> four explicit per-option model
+notes (669/1588/3602/713 bytes) -> terminal C. This is purposeful decomposition,
+not four identical repeated verifications. All five real calls stop normally,
+29605 input / 1968 output tokens. E2E is 215% greater and traffic 115% greater than
+FB while quality improves from wrong to correct. About 86% of E2E is model service;
+this is a quality-cost trade-off, not a system-latency win.
+
+Academic Aware changes from Fast aggregation to Slow local BM25. Slow Aware
+versus Slow Blind: 24.7% fewer action bytes, 11.5% lower E2E, same correct answer.
+This is the most useful observed quality-preserving cost signal, but n=1 is not
+proof of causal or stable infrastructure adaptation. Fast Aware takes 39.1%
+longer than Fast Blind despite the same quality.
+
+News FA: BM25 plus one Blind `sanofi-analyst`; context recovery and four explicit
+bounded model notes (412/151/298/313 bytes), then terminal C. Five normal-stop
+inferences, 23936 input / 359 output tokens. Versus FB: 7.6% fewer transferred
+bytes, but 19.0% longer E2E, both correct. Slow Aware uses only one inference and
+much less traffic than Slow Blind, but answers incorrectly; it is cheaper, not a
+quality-preserving benefit.
+
+## Cost decomposition
+
+| Task / condition | Manager / specialist / Verifier work s | Operator work s | Model input / output tokens |
+| --- | --- | ---: | --- |
+| Financial FB | 163.616 / 31.116 / 88.344 | 1.220 | 5217 / 4 |
+| Financial FA | 89.938 / 24.451 / 53.292 | 1.133 | 29605 / 1968 |
+| Financial SB | 114.288 / 39.624 / 59.527 | 2.214 | 2911 / 2 |
+| Financial SA | 93.553 / 0 / 47.222 | 1.750 | 4105 / 2 |
+| Academic FB | 45.807 / 23.778 / 41.113 | 0.465 | 472 / 2 |
+| Academic FA | 27.541 / 0 / 18.105 | 0.216 | 7335 / 2 |
+| Academic SB | 35.849 / 0 / 30.455 | 0.904 | 6015 / 2 |
+| Academic SA | 30.907 / 0 / 33.058 | 0.883 | 4818 / 2 |
+| News FB | 60.914 / 26.026 / 54.215 | 3.059 | 25583 / 14 |
+| News FA | 77.285 / 30.068 / 67.460 | 0.769 | 23936 / 359 |
+| News SB | 84.473 / 50.226 / 44.655 | 2.243 | 12342 / 412 |
+| News SA | 49.800 / 0 / 29.645 | 0.628 | 6014 / 2 |
+
+The 0.24–3.76 s action-transfer work is small relative to model/cloud reasoning.
+Network-class reduction alone therefore cannot predict E2E. Parallel overlap is
+measured, not a proven speedup against a matched sequential workflow. Unknown
+service profiles, pure operator compute, idle and other harness decomposition
+remain unknown; no guessed values or predicted-critical-path claim is introduced.
+
+## Failure audit and validity
+
+Four effective wrong answers: Financial FB/SB/SA and News SA. Primary category is
+evidence selection/interpretation and synthesis; context/argument/readiness
+recovery is secondary. The available trace does not isolate evidence omission
+from reasoning error. Completion at a turn ceiling does not itself imply budget
+exhaustion. These valid semantic outcomes are retained without tuning.
+
+Historical Financial SA primary and its identical operational replacement had
+observer transport incidents; Financial FA and News FA originals had specialist
+profile leakage. Preserve and exclude them. Transport and recipient-isolation
+repairs are separately frozen; only affected cells are rerun. Original files are
+not rewritten. [Failure audit](predecision-crossbenchmark-failure-audit-v1.md)
+and [privacy incident](predecision-specialist-profile-isolation-hard-stop-v1.md)
+retain the chronology.
+
+All 12 effective traces have valid parent chains, terminal provenance, evaluator,
+provenance/privacy gates and zero observer errors. All 48 distinct store roots
+were initially empty; actual size/SHA and stored metadata now verify **256 artifact
+replicas**, remotely, without sending bodies through the PC. Models' blob,
+template, parameters and metadata remain identical on A28 and strong-4090.
+
+## Authoritative evidence
+
+Root: `/home/super/xiaoming/predecision-crossbenchmark-v1-3c3bd95`.
+Execution revisions retain the original, transport and isolation provenance;
+latest runtime freeze `3c3bd95`, harness SHA
 `444db21f3d7aa0db13af993854e77318a29bddee1aee438f27d4a4f7c25affbf`.
 
-## Historical hard-stop snapshot
+- `audit-progress-003.json`: 23/24 new cells admitted; final Video SA pending.
+- `longbench-twelve-effective-cell-audit-002.json`:
+  `795b53345e838d7660d5f361e2523dd905d86c7342c238fda2c8c9ce06839d64`.
+  Revision 002 corrects a read-only projection field name, not formal evidence.
+- `longbench-actual-artifact-store-hash-audit-001.json`:
+  `e1f8f8b2aeacf5b1568df49d6edf0393ea3fcfe232d86a373df98b1c8e43e2a2`.
+- Financial FA deep audit:
+  `757ebdfa72a5f2958057f1b35947994b4040b18227651326d72a6f2661d16371`.
+- News FA deep audit:
+  `eb0739f479f11a387a03e57aad083d58cb0fb30c32d21224591a98c26c6fdf07`.
+- Physical model parity audit:
+  `682ed9a2121d466f35edffc59b69a557aa37d4e275562242904015c9d004c4d1`.
 
-**HARD STOP: 10/12 ADMISSIBLE CELLS; FAMILY NOT CLEAN-COMPLETE.** Financial
-Fast-Aware and News Fast-Aware were retrospectively invalidated by specialist
-dynamic-profile leakage through tool results. Earlier complete-family claims and
-quality totals below are preserved historical snapshots, not current eligibility.
-See the [39-trace isolation audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
-No resumption, semantic tuning or replacement follows this privacy hard-stop.
-The frozen protocol admits three distinct original multi-document
-tasks, four conditions each. Selection, original context byte counts, natural
-document boundaries and initial placement are in the
-[protocol](predecision-crossbenchmark-v1-protocol.md).
-
-Representation is byte-reconstructable ordered text records. Original questions,
-choices/private gold and exact-choice evaluator remain unchanged; no workflow hints.
-
-Original execution commit `90cea3261c1e21f7cb528025c64729741ccc8451`, unchanged Qwen
-pre-decision harness. At the historical stopping boundary, three Financial cells
-were clean; the fourth primary and its one identical replacement were confounded.
-Both are retained and excluded. The separately frozen transport patch supplies
-a clean Slow-Aware result; all remaining LongBench conditions completed in fixed
-order. No third identical automatic
-attempt is permitted.
-See [live cross-benchmark report](predecision-crossbenchmark-v1.md).
-
-The stopping boundary above is preserved as history. After user authorization,
-transport patch `d43c3b3` was deployed separately (4 s idle Worker keepalive, no
-retry), all six task freeze records verified identical, and Financial Slow-Aware
-started as `transport-patch-1` with fresh stores. Only a clean audit permits the
-unchanged remaining schedule. The three old clean cells remain retained; their
-wrong answers are not tuned away.
-
-## Financial task: completed effective comparison
-
-The authorized `transport-patch-1` Slow-Aware run has now completed cleanly;
-the historical confounded primary/replacement above remain excluded. All four
-effective conditions are trace-reconstructable and completed/evaluated; all
-score 0. The other eight LongBench cells have since completed in the original schedule.
-
-| Condition | E2E s | Action bytes | Model service s | Manager / Verifier | Score |
-| --- | ---: | ---: | ---: | --- | ---: |
-| Fast-Blind (original revision) | 406.653 | 265938 | 113.943 | 20 / 20 | 0 |
-| Fast-Aware (original revision; **excluded: profile leakage**) | 318.058 | 486264 | 117.735 | 10 / 10 | 0 |
-| Slow-Blind (original revision) | 278.919 | 141047 | 51.549 | 14 / 14 | 0 |
-| Slow-Aware (transport patch) | 251.831 | 486432 | 96.379 | 11 / 11 | 0 |
-
-Patched Slow-Aware: aggregate first; aggregate_artifacts 2, BM25 5, model attempts
-4 / actual inference 1 / context preflight rejects 3. No specialist; graph 11 nodes,
-13 edges, peak 3 parallel actions / 0.699 s overlap. Terminal model input artifact
-15938 bytes (1.47% of raw record representation), prompt 1310 bytes; actual input
-tokens 4105, output tokens 2. Manager service work 93.553 s, Verifier work 47.222 s,
-operator work 1.750 s, action transfer 1.912 s; initial placement separately 3.598 s.
-All 132 probes, 11 Manager/profile and 11 Verifier hashes, terminal provenance,
-12-artifact persistence, trace chain, tc restore and Worker shutdown pass.
-
-Both Aware conditions aggregate before retrieval despite different network classes;
-Slow-Aware traffic exceeds Slow-Blind by 244.9%, even though its E2E is 9.7% lower.
-This is not a network benefit claim: service/reasoning paths differ, quality is zero
-in all four conditions, and there is only one trajectory per condition. No semantic
-quality failure is repaired or replaced. Remote `financial-four-cell-audit-001.json`
-records the task audit and the disclosed transport revision difference.
-
-Original context: 1,033,800 UTF-8 bytes, four natural documents. Lossless record
-representation: 1,081,150 bytes, 344 chunks, initially on A4/A5/A28/A5.
-
-| Condition | Status / score | First action | Graph N/E | BM25 / aggregate / read / reduction | Model attempts / inference / context rejects | Specialists / turns | E2E s / action bytes |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| Fast-Blind | clean evaluated / 0 | four parallel BM25 | 40/63 | 20/5/5/4 | 6/2/4 | 1/8 | 406.653 / 265,938 |
-| Fast-Aware | **excluded: specialist profile leakage** / 0 | aggregate | 22/31 | 9/2/6/0 | 5/2/3 | 2/16 | 318.058 / 486,264 |
-| Slow-Blind | clean evaluated / 0 | BM25 | 26/29 | 16/4/0/1 | 5/1/4 | 1/8 | 278.919 / 141,047 |
-| Slow-Aware transport patch | clean evaluated / 0 | aggregate | 11/13 | 5/2/0/0 | 4/1/3 | 0/0 | 251.831 / 486,432 |
-
-Reduction counts are generic top-k/projection attempts; model attempts are not
-actual inference counts. Real action overlap peaks at four for both clean Blind
-runs, one for Fast-Aware and three for patched Slow-Aware. Initial placement transfer
-is separately 0.387 / 0.356 / 3.314 / 3.598 s and is included in E2E. The excluded
-Slow-Aware primary/replacement remain in the historical exception audit, not in
-this four-effective-cell comparison.
-
-| Clean condition | Manager / specialist / Verifier work s | Physical model work s | Tool work s | Action transfer work s | Terminal artifact / prompt bytes |
-| --- | --- | ---: | ---: | ---: | --- |
-| Fast-Blind | 163.616 / 31.116 / 88.344 | 113.943 | 1.220 | 3.760 | 9,765 / 781 |
-| Fast-Aware | 98.946 / 51.610 / 40.736 | 117.735 | 1.304 | 1.374 | 15,770 / 812 |
-| Slow-Blind | 114.288 / 39.624 / 59.527 | 51.549 | 2.214 | 2.150 | 9,604 / 3,076 |
-| Slow-Aware transport patch | 93.553 / 0 / 47.222 | 96.379 | 1.750 | 1.912 | 15,938 / 1,310 |
-
-These are non-additive work sums, not a partition of wall time. Each terminal
-answer is canonical A; the unchanged private gold label is C. No evaluator or
-adapter repair, semantic retry, budget increase or prompt tuning follows these zeros.
-
-### Evidence-path audit (preliminary attribution)
-
-- Fast-Blind retrieves all four thematic branches across all four documents,
-  then repeatedly encounters conservative context preflight. The terminal call
-  uses only `top-supplier`: three records, document/chunk coordinates (3,3),
-  (3,13), (4,19), 9,018 source-text bytes. The other three bounded branches are
-  absent from terminal artifact inputs. Two actual model calls return A.
-- Fast-Aware aggregates full documents, recovers through specialist retrieval,
-  then narrows the terminal artifact to `search_negative_list`: five records
-  from documents 1/2/3, including a duplicated (2,31) chunk; 15,130 text bytes.
-  It answers A after three preflight failures. Less cloud work and fewer nodes
-  accompany **more** transferred bytes than Fast-Blind, not improved quality.
-- Slow-Blind searches/reduces all documents, but the terminal call consumes only
-  `tiny-01`: three records from document 1, chunks 43/44/27, 9,094 text bytes.
-  Its combined four-document bounded artifact still failed context preflight.
-
-Artifact bodies were inspected only on the 4090 through retained Worker stores;
-only byte/count/coordinate metadata reached the development workstation. These
-paths establish narrow terminal artifact coverage and wrong synthesis; they do
-not alone prove that decisive gold-consistent evidence was previously retrieved
-and discarded. Primary attribution is evidence selection/answer synthesis, with
-context-recovery inefficiency and Verifier readiness behavior as contributing
-factors. Causal attribution between insufficient evidence and model reasoning
-remains bounded by that evidence limitation.
-
-Durable evidence audit: remote `financial-evidence-audit-primary-001.json`, SHA-256
-`e0619dfec08b54dfba6a68e2fb6c9ddad1197b5784be261385eb288ef341f400`.
-Independent original-task/choices/output-contract/private-gold/evaluator identity
-checks all pass; retained terminal texts match original source chunk hashes.
-The audit contains metadata and producer lineage, not a repair or revised answer.
-
-First READY_FOR_SYNTHESIS occurs at Verifier calls 5/1/2 respectively. In
-Fast-Aware, full-document aggregation metadata alone led the Blind Verifier to
-declare readiness before a model could consume it. Phase-restricted attempts,
-future-artifact references and within-run output-ID reuse remain recorded Agent
-behavior under the frozen contract; they are not repaired as harness bugs.
-
-## Academic task: completed effective comparison
-
-Original GPT-4 report/system card and Chroma paper: 494456 source-text bytes,
-514789 lossless record bytes, two natural documents initially on A4/A5.
-All four conditions completed, emitted `C`, and scored 1.0 with the unchanged
-private evaluator. No retry, replacement or task-specific modification.
-
-| Condition | First action | E2E s | Action bytes / transfer s | Manager / Verifier | Tools / model attempts / actual inference | Context rejects | Graph N/E |
-| --- | --- | ---: | --- | --- | --- | ---: | --- |
-| Fast-Blind | BM25 | 126.426 | 63102 / 0.818 | 9 / 9 | 12 / 2 / 1 | 1 | 14 / 13 |
-| Fast-Aware | aggregate | 175.840 | 243055 / 0.630 | 6 / 6 | 3 / 2 / 1 | 1 | 5 / 4 |
-| Slow-Blind | BM25 | 176.759 | 25132 / 0.402 | 11 / 11 | 6 / 3 / 1 | 2 | 9 / 6 |
-| Slow-Aware | BM25 | 156.410 | 18921 / 0.241 | 11 / 11 | 6 / 3 / 1 | 2 | 9 / 6 |
-
-Fast-Blind uses one specialist (8 reasoning turns), seven BM25 calls, one aggregate
-and four reads. Fast-Aware aggregates both documents, then retrieves twice.
-Both Slow trajectories retrieve six times without full-document aggregation;
-their two preflight failures and phase/readiness failures remain valid recovery
-behavior. Peak physical action concurrency is one in all four conditions.
-
-| Condition | Manager / specialist / Verifier work s | Physical model work s | Tool work s | Initial placement s | Terminal artifact / prompt bytes |
-| --- | --- | ---: | ---: | ---: | --- |
-| Fast-Blind | 45.807 / 23.778 / 41.113 | 10.947 | 0.465 | 0.165 | 0 / 2117 |
-| Fast-Aware | 27.541 / 0 / 18.105 | 126.845 | 0.216 | 0.422 | 25497 / 1047 |
-| Slow-Blind | 35.849 / 0 / 30.455 | 103.752 | 0.904 | 1.642 | 25132 / 933 |
-| Slow-Aware | 30.907 / 0 / 33.058 | 83.875 | 0.883 | 1.604 | 18921 / 859 |
-
-Zero terminal artifact bytes in Fast-Blind means a prompt-only terminal call;
-it does not mean the Manager had no retrieved evidence. Include prompt bytes
-when interpreting input reduction. Service-work sums are non-additive.
-
-All 112/64/72/116 probes pass in fixed condition order, as do privacy, 9/6/11/11
-Manager/Blind-Verifier input hashes, terminal provenance, trace chains, artifact
-persistence, Worker shutdown and tc restore. Every Aware Manager input has a
-fresh matching anonymous profile (6 Fast, 11 Slow). Remote evidence:
-`academic-four-cell-audit-001.json` and merged `audit-progress-005.json` under
-the new transport-patch root; eight clean effective cells, ten total attempts.
-
-Observed Aware Fast→Slow change is aggregate-first→local BM25, unlike Financial
-and existing MultiHop. Slow-Aware uses 24.7% fewer action bytes and 11.5% less
-E2E than Slow-Blind while preserving this task's score. Fast-Aware is 39.1%
-slower than Fast-Blind and moves more bytes. These are paired **n=1 trajectory
-observations**, not stable/causal superiority: the Blind trajectories also change
-between networks and the major E2E differences arise in model/reasoning work,
-not the sub-second action transfers. No cost-guided mechanism is added.
-
-## News task: completed effective comparison
-
-Original Sanofi Q4/Q2 press releases: 228792 source-text bytes, 242295 lossless
-record bytes, two natural documents initially on A4/A5. Every condition completed
-and reached the unchanged private evaluator. Both Blind answers are `C` / score 1;
-both Aware answers are `A` / score 0. The wrong answers are retained.
-
-| Condition | First action | E2E s | Action bytes / transfer s | Manager / Verifier | Tools / model attempts / actual inference | Context rejects | Graph N/E |
-| --- | --- | ---: | --- | --- | --- | ---: | --- |
-| Fast-Blind | BM25 | 600.051 | 107471 / 1.652 | 14 / 14 | 16 / 8 / 5 | 3 | 24 / 26 |
-| Fast-Aware (**excluded: specialist profile leakage**) | read (size reject) | 74.828 | 0 / 0 | 8 / 8 | 5 / 2 / 1 | 1 | 7 / 4 |
-| Slow-Blind | aggregate | 507.576 | 191727 / 0.945 | 13 / 13 | 19 / 7 / 4 | 3 | 26 / 31 |
-| Slow-Aware | read (size reject) | 189.024 | 19112 / 0.220 | 9 / 9 | 7 / 3 / 1 | 2 | 10 / 6 |
-
-| Condition | Manager / specialist / Verifier work s | Physical model work s | Tool work s | Initial placement s | Terminal artifact / prompt bytes |
-| --- | --- | ---: | ---: | ---: | --- |
-| Fast-Blind | 60.914 / 26.026 / 54.215 | 449.079 | 3.059 | 0.146 | 19 / 1865 |
-| Fast-Aware | 30.270 / 11.693 / 25.105 | 4.372 | 0.290 | 0.109 | 0 / 406 |
-| Slow-Blind | 84.473 / 50.226 / 44.655 | 455.067 | 2.243 | 0.789 | 0 / 1343 |
-| Slow-Aware | 49.800 / 0 / 29.645 | 103.674 | 0.628 | 0.827 | 19112 / 1747 |
-
-Operator counts in fixed order: BM25 14/2/14/6; aggregate 2/0/3/0; read 0/3/2/1.
-Specialist calls 1/1/4/0, specialist turns 8/3/15/0; peak action concurrency 2/1/4/2,
-overlap wall time 3.052/0/111.120/1.355 s. Slow-Blind includes cross-owner overlap;
-service sums are not additive wall time. Fewer Aware model calls accompany lower
-E2E **and wrong quality**, not a quality-preserving system improvement.
-
-### Semantic failure audit
-
-Fast-Aware: initial full-artifact read fails its declared size limit; two BM25
-outputs are materialized (32615 and 31738 bytes), but the first Verifier readiness
-decision precedes successful plaintext evidence reads. The combined model request
-fails context preflight. A specialist then reads both artifacts; the terminal call
-is prompt-only (406 bytes, 94 actual input tokens) and returns the wrong label.
-This establishes recovery followed by wrong synthesis and questionable readiness,
-not proof that the specialist's retrieved facts were irrelevant.
-
-Slow-Aware: read-size and two context failures are followed by legal bounded
-retrieval. The terminal model consumes three records from **each** original document,
-total 19112 artifact bytes plus a 1747-byte prompt (6014 actual input tokens), yet
-returns the wrong label. Every retained record matches its original chunk hash;
-this is not wrong-source placement, document loss, corruption, or evaluator mismatch.
-Exact evidence-relevance versus reasoning attribution remains unproven.
-
-Primary class for both zeros: **semantic evidence selection / answer synthesis**;
-secondary: context-recovery composition and premature Verifier readiness. All
-read-size, static context and phase restrictions are explicit; no silent truncation
-or infrastructure failure is observed. Do not modify the frozen harness to fix them.
-
-Remote audits: `news-fast-aware-semantic-audit-001.json` and
-`longbench-zero-score-source-provenance-001.json`. The latter also checks the
-patched Financial terminal's five supplier records from documents 1/3/4 against
-original source hashes. Artifact bodies are read only on remote nodes; only
-coordinates, byte counts and hashes are returned to the development PC.
-
-## Family completion and bounded conclusions
-
-**Retraction:** the historical twelve-cell audit below checked direct profile
-fields but missed specialist tool-result context. It is not a current family
-completion proof. `5dafc43/audit-progress-005.json` now admits ten LongBench cells,
-with two unresolved Fast-Aware conditions. Their wrong answers remain preserved
-but are not valid Agent-failure comparisons. The four Academic cells and Financial/
-News Slow comparisons remain individually admissible under the retrospective scan.
-
-`longbench-family-completion-audit-001.json` and
-`longbench-family-runtime-integrity-001.json` verify:
-
-- 12 clean effective completed/evaluated cells from 14 preserved attempts;
-  the two old Financial transport incidents remain excluded, not deleted.
-- Same task/public-bundle and capability hash within every task's four cells;
-  48 unique effective Worker-store roots and 48 empty initial Worker states.
-- 1844/1844 probes pass; 136 Manager and 136 Blind Verifier input hashes pass;
-  all 55 Aware Manager turns have matching fresh pre-decision profiles.
-- All 12 terminal answers originate from successful manager-owned physical model
-  output; trace chains, persistence, privacy, tc restoration and shutdown pass.
-- All 24 pre-run deployment states expose 32768/2048; all 21 completed physical
-  inferences have finish_reason `stop`. All 48 finished-family Worker PIDs are inactive.
-
-Selected-task quality: Financial 0/4, Academic 4/4, News 2/4 (6/12), **not** an
-official LongBench population accuracy estimate. Blind 4/6 and Aware 2/6 are
-descriptive counts on these three preregistered tasks, not a superiority test.
-
-No universal network-class rule emerges: Financial Aware aggregates in both
-networks; Academic Aware aggregates in Fast and retrieves locally in Slow;
-News Aware tries local reads in both. Blind also changes workflow across networks.
-Physical model service and cloud reasoning dominate these sampled E2Es, while
-action transfers are seconds/sub-seconds. Cost and quality must be assessed jointly;
-cheaper wrong answers and n=1 variations do not establish rational adaptation.
-The first three Financial cells use the original transport revision; all others
-use the disclosed transport-only patch, with logical behavior unchanged.
+Full trace/results, graph snapshots, requests, private evaluator/source material,
+store roots and tc attestations remain on remote nodes. Historical report versions
+remain in Git. No method or extra repetitions are started. Fixed order, persistent
+Ollama/cache state, stochastic reasoning and n=1 limit causal/stability claims.
