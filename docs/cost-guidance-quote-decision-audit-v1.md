@@ -1,8 +1,9 @@
 # Quote-before-Commit decision audit v1
 
-2026-10-04. Read-only analysis of the12 completed primary cells. No new Agent,
-Planner, Verifier, evaluator or physical action is invoked. The Video block is
-still live; this is not the final exploration report or a method recommendation.
+2026-10-04. Read-only analysis;16-cell final reconciliation appears below.
+The original12-cell section is retained with corrected pending/discarded counts.
+No new Agent,Planner,Verifier,evaluator or physical action is invoked. The queue
+is terminal;[final report](cost-guidance-final-results-v1.md) is authoritative.
 
 Execution remains47fbe3b14196ea2b90c84597b75fa27f148b0b74. The source for the
 current analysis is separately hashed:
@@ -29,13 +30,13 @@ private chain-of-thought**. Provider-private reasoning is not recorded.
 | Academic Fast |7|5|2|0|7|1|
 | Academic Slow |5|3|2|0|5|0|
 | Financial Fast |6|2|4|0|6|0|
-| Financial Slow |4|2|2|0|4|0|
+| Financial Slow |4|2|0|2|4|0|
 
 Consumed quotes include failed physical attempts, not just inferences. All six
 cells perform exactly one successful physical inference. Quote-only proposals,
 discarded/pending models and context refusals are not counted as inference.
-All38 cards are visible;26 consumed/10 discarded/2 pending. Thirteen cards expose
-context_limit_exceeded; ten are discarded, two pending, one committed despite
+All38 cards are visible;26 consumed/8 discarded/4 pending. Thirteen cards expose
+context_limit_exceeded; eight are discarded, four pending, one committed despite
 that warning. This is genuine Agent behavior; no hidden rejection/repair policy
 is added after observing it.
 
@@ -66,8 +67,8 @@ was generated or that the response is evidence-grounded. The first proposal
 already differs before its first quote, so this comparison does not causally
 attribute first-action choice to subsequent quote feedback.
 
-Financial both networks:full aggregate,discard context-infeasible model proposals
-(four Fast/two Slow),then prompt-only inference. No retrieval/read_artifact or
+Financial both networks:full aggregate;four context-infeasible model proposals
+discarded Fast/two left pending Slow;then prompt-only inference. No retrieval/read_artifact or
 artifact-backed inference is performed by C; both scores0.0. Fast model input336
 tokens/service8.370s,Slow727 tokens/15.334s. Ledger consumes retrieved evidence,
 performs iterative context recovery and also scores0.0. Faster wrong answers do
@@ -120,3 +121,19 @@ The frozen native runtime, tools, instructions, Verifier, budget, scheduler and
 benchmark/evaluator are unchanged. No cell is retried or replaced. Final route
 ranking requires the Video block and private failure-path audit; do not promote
 the Academic Slow result into a method win at this stage.
+
+## Final16-cell reconciliation
+
+Full matrix analysis now includes both Video conditions.49 created cards all
+reach actual Manager input;37 consumed,8 discarded,4 pending. Earlier12-cell
+checkpoint totals must read26 consumed,8 discarded,4 pending,not26/10/2:
+Financial Slow's two infeasible proposals remain pending,not explicitly discarded.
+The original trace/lifecycle receipts are authoritative and unchanged.
+
+36 quoted actions execute successfully;one known-infeasible commit is refused.
+All36 movement-byte errors are zero;13 model context classifications agree with
+actual preflight,9 model-service estimates supported and4 unknown. Final Video
+Slow service remains unknown despite successful30.335s inference;no backfill.
+Its nonlocal transfer predicts0.511/0.694s work,observes0.825s. Remaining latency
+errors,overhead/parallelism and evidence coverage are in the
+[final results](cost-guidance-final-results-v1.md). No route promotion follows.

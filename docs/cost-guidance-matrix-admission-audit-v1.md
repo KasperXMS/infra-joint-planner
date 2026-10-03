@@ -111,3 +111,16 @@ It is retained remotely alongside the original trace/result;
 the source is the same frozen native helper, not a new finalizer. A future claim
 about intermediate-answer adequacy would need stronger evidence than quote
 visibility and token counts. The current original cohort remains immutable.
+
+## Final16-cell audit
+
+Video Slow Ledger/Quote complete:E2E785.337/556.145s,action682425/231020 bytes,
+one inference each,both score0/format valid. Initial video placement446.958/446.972s.
+No final-cell operational gate or privacy finding. Queue terminal;owned controller
+and child absent. Full guarded matrix CLI completes:16 cells,64 distinct initially
+empty roots,zero findings. Shutdown and tc restoration receipts pass across all16.
+Read-only output:`matrix-admission-audit-001.json`,SHA
+`32a12869dae88fd3025fc3beb2421305bcb089a6e11b9137512f27edfdf76a8b`.
+This is admission/parity/trace evidence,not statistical significance or proof of
+semantic planning quality. Private MH postqueue audit is now complete;see
+[final report](cost-guidance-final-results-v1.md).

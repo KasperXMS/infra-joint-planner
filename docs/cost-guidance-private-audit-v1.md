@@ -51,3 +51,15 @@ Verification after this helper-only correction:full556 pytest passed,Ruff pass,
 strict project Pyright0 errors/0 warnings; git diff check pass. Historical Agent
 and isolation-manifest source hashes remain unchanged. No substantive cell is
 rerun because the change is outside the execution path.
+
+## Completed real postqueue audit
+
+All four original MH cells are scanned after queue exit,with original corpus/
+private-evaluation/trace/result SHA and owning-node artifact SHA verification.
+Fast A/C audit14/10 artifacts;Slow A/C7/10 artifacts;two support annotations each.
+Both C runs' shard-3 retrievals retain both support documents/literal cues,but
+their terminal inputs are only the shard-1 pair,which retains neither. Both A
+terminal model inputs retain both. This localizes C's evidence-selection/composition
+failure without showing private annotation text or invoking any evaluator/model.
+Exact receipts and hashes are in [final results](cost-guidance-final-results-v1.md).
+Earlier not-yet-scanned statements are historical checkpoints,not current status.

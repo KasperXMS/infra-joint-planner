@@ -74,8 +74,8 @@ Declarative separation, heterogeneous profiles, SLOs and adaptive execution
 already exist. Configuration knobs can change tasks/frame counts/debate;
 calling it physical-only would be wrong. Evidence-conditioned open-ended
 tool decisions and no-execution action quotes are not established in the read
-version. The published OSDI version still needs version comparison before any
-strong absence claim; this is an explicit novelty-audit limitation.
+version. The published-version check below now closes the preprint-only limitation;
+no strong absence claim follows from a version comparison alone.
 
 ### Flow/AFlow and LLMCompiler: graph evolution/search collision
 
@@ -151,7 +151,7 @@ inspired. RouteLLM/FrugalGPT are model-routing lineage, not permission to add
 model substitution or correctness prediction. Meta-tools motivates overhead
 accounting, not a vocabulary expansion in this exploration.
 
-## Audit disposition
+## Historical pre-experiment disposition
 
 Broad novelty collisions are real. They do not yet prove that the full narrow
 method is already covered, so the authorized literature-collision stop condition
@@ -159,3 +159,16 @@ is **not established**. Proceed to a small, falsifiable Ledger/Quote prototype
 comparison. Do not declare a primary method or novel contribution before actual
 cross-workload tests. Complete the closest published-version comparison before
 final recommendation; retain unresolved evidence as unresolved.
+
+## Final published-version and experimental disposition
+
+The [published Murakkab paper](https://www.usenix.org/system/files/osdi26-chaudhry.pdf)
+is now read. Dynamic request compositions and test-driven coding loops strengthen
+the collision with broad workflow-evolution claims. Its profiled configuration/
+MILP mechanism is not demonstrated equivalent to ready-action quoting. Full22-page
+reading and Figure5/Table1 verification are recorded in the literature map.
+
+The16-cell experiment does not establish useful semantic adaptation from mandatory
+quotes. Narrow-interface novelty cannot substitute for quality/overhead benefit.
+No primary method is promoted. [Final recommendation](next-method-recommendation-v1.md)
+keeps Ledger as baseline and optional consequences as an untested next hypothesis.

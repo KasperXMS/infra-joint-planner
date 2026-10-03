@@ -14,7 +14,7 @@ absence of a feature in the read version is not proof of global novelty.
 | 3 | CostBench | Main text/appendices/references and published prompt pages read; prompt pages visually inspected |
 | 4 | Budget-Aware Tool-Use Enables Effective Agent Scaling | Main text/appendices/references and embedded prompts/cases read; prompt/case pages visually inspected |
 | 5 | INFRAMIND | Original HTML through appendix/references read; figures pending |
-| 6 | Murakkab | Full v2 preprint HTML read; published OSDI PDF/version comparison pending |
+| 6 | Murakkab | Full v2 preprint and published OSDI PDF read; Figure5/Table1 visually checked; version caveat updated below |
 | 7 | Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs | Original HTML through references read; figures pending |
 | 8 | From Intent to Infrastructure | Original HTML through references read; figures pending |
 | 9 | LLMCompiler | Main text/appendices/references and published prompt pages read; remaining figures pending |
@@ -639,8 +639,19 @@ from rendering; source warnings are not treated as failed experimental actions.
 
 All21 comparison entries now cover the requested fields. Code unavailable or
 unverified is explicitly distinguished from a verified repository. Reading
-coverage does not establish exhaustive related-work coverage. Murakkab's OSDI
-version, DocETL's published version and FrugalGPT's later TMLR revision have not
+coverage does not establish exhaustive related-work coverage. DocETL's published
+version and FrugalGPT's later TMLR revision have not
 been compared against the read originals; do not claim version equivalence.
 Remaining visual checks are listed above. The novelty audit must use these
 qualified findings, not infer missing functionality from a title or abstract.
+
+## Murakkab published-version check,2026-10-04
+
+The [OSDI PDF](https://www.usenix.org/system/files/osdi26-chaudhry.pdf),all22
+physical pages including references/appendix,was read;Figure5/Table1 rendered.
+SHA:`9c9aa888b675c7849467d5b594e640996fee57f32b79fc9cf443fb549587c0e0`.
+Sections2.2/4.4 add dynamic coding with optional review and test-driven iterations;
+Table1 distinguishes per-query graph construction,epoch optimization and runtime
+dispatch. It is not fixed-DAG-only. Section3.3 profiles quality and solves MILP;
+no equivalence to our per-ready-action non-executing distributed quote is established.
+The earlier preprint-only limitation is closed,not a claim of version identity.

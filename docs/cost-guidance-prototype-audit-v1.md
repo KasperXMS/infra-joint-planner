@@ -2,8 +2,9 @@
 
 Date:2026-10-04. Branch:cost-guidance-exploration-v1.
 Scope: **Ledger-only-v0, empirical profiles, ready-action consequences and
-SDK-native Quote-before-Commit-v0 implemented; no live exploration yet**.
-This is an intermediate implementation audit, not the full goal's completion.
+SDK-native Quote-before-Commit-v0 implemented;16 live exploratory cells audited**.
+Earlier implementation checkpoints below are historical. Current live results and
+limitations:[final results](cost-guidance-final-results-v1.md).
 
 ## Files and mechanism
 
@@ -80,7 +81,7 @@ remote benchmark execution. Official SDK overview:
 Exact input-filter behavior was also checked in installed `agents/run_config.py`;
 no SDK/package upgrade was performed.
 
-## Remaining work
+## Historical implementation checkpoint
 
 Clean historical metadata is now frozen on4090:33 eligible runs,62 model/255
 operator/245 transfer samples, all198 source evidence hashes checked. Internal
@@ -100,3 +101,31 @@ Latest full verification:526 pytest passed, Ruff passed, strictPyright0 errors/0
 warnings. The original native source and isolation manifest hashes are unchanged.
 Current new substantive cells0/36; cloud/model calls0; Worker launches0; tc0.
 No route ranking/effectiveness/novelty claim is promoted from these tests.
+
+## Final implementation and execution audit
+
+The versioned live runner/manifests,fresh store/process controller,tc attestation,
+durable36-cell reservation guard and no-overwrite resumer are implemented.16 cells
+use unchanged47fbe3b cell execution;analysis-only updates do not alter completed
+evidence or trigger substantive reruns. All16 complete/evaluate;one original gate
+stop is independently adjudicated recovered Agent schema misuse,not an auto-repair.
+
+Additional read-only tooling:actual-input quote visibility/model-evidence analyzer,
+private owning-node MultiHop document-coverage scanner and whole-matrix admission/
+freeze/trace auditor. Private scanner is postqueue only;remote node helper imports
+are lazy/stdlib-only. No model/evaluator invocation is performed by these audits.
+Source helper updates on stopped Workers do not change the frozen execution path.
+
+Final matrix evidence:16 cells,64 distinct initially empty stores,zero audit findings;
+all49 quotes visible;36 successful quoted actions,one committed preflight refusal.
+Worker shutdown/tc restoration/source parity/pass-through telemetry/isolation are
+checked across every cell. No failed answer is replaced or counted as quality success.
+Actual model-service prediction support remains partial;future outputs/queue/cache
+remain unknown. The prototype does not estimate answer correctness.
+
+Latest full verification before final documentation:556 pytest passed,Ruff pass,
+strict Pyright0 errors/0 warnings. The documented Python virtualenv command is
+required;an unrelated standalone pyright interpreter's missing-package reports are
+not project failures. Final rerun results are recorded in the completion audit.
+Native source and historical isolation manifest hashes above remain unchanged.
+See [route ranking](next-method-recommendation-v1.md);no tested method is promoted.

@@ -58,7 +58,7 @@ physical inferences selected A28; there is no observed model-device reversal.
 Datasets and artifact bodies must remain on the 4090/Workers. The development
 PC receives only bounded metadata. Existing evidence roots are not cleared.
 
-## Current execution ledger
+## Historical intake execution ledger
 
 | Activity | Count / status |
 | --- | --- |
@@ -133,3 +133,24 @@ integration remain pending.
 No exploratory cell, Planner call, Worker launch or shaping has been added.
 Research-source PDF processing is read-only on the 4090; benchmark data remains
 on its owning infrastructure. Small research page images only are copied for QA.
+
+## Final execution ledger (supersedes intake checkpoints)
+
+16/16 primary cells complete;16 unique substantive reservations/36 cap. A=Ledger,
+C=Quote;4 tasks × Fast/Slow ×2 methods,n=1,no retry/replacement. Final queue terminal,
+owned parent/final child absent;all shutdown/tc restoration receipts audited.
+No more cells scheduled. The exact latest full regression is556 tests;
+Ruff/strict Pyright pass. [Completion audit](cost-guidance-completion-audit-v1.md)
+records final verification and requirement evidence.
+
+Both prototypes have real cross-workload traces;not code-only completion. All16
+reach evaluator,including wrong answers.49 quotes reach actual Manager input;
+the complete audit has zero findings. Private MH coverage identifies retrieved
+support documents discarded before terminal inference. No Agent/runtime tuning
+follows from bad method behavior. All substantive/model/worker/network operations
+are counted in retained remote run evidence,not zero as at intake.
+
+Useful-negative disposition for tested A/C;untested B/D/E remain distinguished.
+Standalone B is the next design hypothesis,A the recommended lean baseline,current
+mandatory C not promoted. Full results and Q1-Q10/ranking/next formal experiment are
+written. No merge to main,no deleted evidence,no dataset transfers through PC.

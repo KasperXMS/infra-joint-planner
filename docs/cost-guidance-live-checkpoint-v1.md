@@ -1,6 +1,9 @@
 # Cost-guidance live checkpoint v1
 
-2026-10-04. Incomplete exploration, not a method recommendation or final result.
+2026-10-04. Historical first-cell checkpoint,not the current queue status.
+All16 primary cells are now complete/audited;see
+[final results](cost-guidance-final-results-v1.md) and
+[recommendation](next-method-recommendation-v1.md).
 Execution source:47fbe3b14196ea2b90c84597b75fa27f148b0b74.
 Source frozen under `/home/super/xiaoming/cost-guidance-exploration-v1-47fbe3b`.
 Protocol-freeze SHA256:

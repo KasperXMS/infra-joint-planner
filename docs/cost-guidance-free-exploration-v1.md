@@ -1,8 +1,11 @@
 # Cost-guidance free exploration v1
 
-Date: 2026-10-04. Status: **live exploration; partial results, no route winner**.
-Branch: cost-guidance-exploration-v1. Completed primary cells:14/16;
-global substantive cap:36. The Video block is still running at this checkpoint.
+Date: 2026-10-04. Status: **16 primary cells complete and audited; no promoted method**.
+Branch: cost-guidance-exploration-v1. Completed primary cells:16/16;
+global reservations:16/36. The queue is terminal; no new cells are scheduled.
+Authoritative final results: [16-cell report](cost-guidance-final-results-v1.md).
+Recommendation: [route ranking and Q1-Q10](next-method-recommendation-v1.md).
+Earlier checkpoints below are retained as history, not current queue status.
 Baseline evidence: execution freeze3c3bd95, reports02518c7.
 See [literature map](method-literature-map-v1.md),
 [collision audit](method-novelty-collision-v1.md) and
@@ -278,8 +281,8 @@ evidence flows or successful information reduction.
 
 The6 completed Quote cells create38 quotes; all38 exact cards appear in actual
 subsequent Manager inputs before first commit/discard (or while still pending).
-26 are consumed,10 discarded,2 pending. Thirteen proposals disclose context
-selection failure:10 discarded,2 pending,1 knowingly committed and then rejected
+26 are consumed,8 discarded,4 pending. Thirteen proposals disclose context
+selection failure:8 discarded,4 pending,1 knowingly committed and then rejected
 before inference. This shows feasible-request feedback and occasional ignored
 feedback, not reliable economic optimization. MultiHop C drops six proposed
 input artifacts to two after a context refusal and loses quality in both H.
@@ -314,4 +317,41 @@ The original global-choice formatting helper also conditions intermediate
 Manager model calls; this inherited coupling is audited, not tuned away or
 claimed as a proven cause of the wrong answer. See the
 [matrix and Video checkpoint](cost-guidance-matrix-admission-audit-v1.md).
-The final two Slow cells and private coverage audit remain pending.
+The final two Slow cells and private coverage audit were pending at this checkpoint.
+
+## Final audited disposition
+
+All16 cells have now completed, with valid format and original evaluator records.
+The read-only final matrix audit checks all16,64 distinct initially empty stores,
+frozen sources/configs/profiles, trace chains, method isolation, Worker shutdown
+and tc restoration; findings are empty. Original first-cell gate/adjudication
+remain unchanged. Matrix-audit SHA256:
+`32a12869dae88fd3025fc3beb2421305bcb089a6e11b9137512f27edfdf76a8b`.
+
+Video Slow Ledger:E2E785.337s/action682425 bytes/one inference; Quote:556.145s/
+231020 bytes/one inference. Both score0.0. Initial placement alone takes446.958/
+446.972s. Ledger recovers a31-image context refusal by using eight spaced frames
+(indices1,5,9,13,17,21,25,29); Quote samples16 at64s intervals and builds one
+contact sheet. The latter is prefix-limited by the explicit max_frames argument,
+not full-timeline uniform sampling. No evidence that this reduction preserves
+task adequacy or causes the wrong answer by itself is asserted.
+
+Private postqueue MultiHop analysis resolves the earlier coverage question:
+both Quote runs retrieve supporting documents in shard-3 outputs but consume
+only shard-1 outputs in terminal inference, omitting both annotated documents.
+Ledger terminal inputs retain both documents. This identifies an evidence-selection/
+composition failure, not failed retrieval or historical-store pollution. Private
+facts never enter the Agent, quote layer or exported development metadata.
+
+Across C:49 created/exactly visible cards,37 consumed,8 discarded,4 pending;
+36 successful quoted executions,one committed preflight refusal. All successful
+quoted movement-byte estimates match receipts; unsupported service profiles
+remain unknown. Extra cloud reasoning and serial trajectories materially limit
+the current mandatory Quote protocol. Academic Slow's correct prompt-only result
+is not promoted as a grounded reduction win. No new prompt, estimator fitting,
+task-specific patch, matched control, D/E trial or substantive rerun follows.
+
+The useful-negative stop applies to the **tested A/C formulations**, not to all
+possible cost guidance. B/D/E remain untested. Recommend A as the lean comparison
+baseline and investigate lower-overhead, optional B-style consequences only in a
+separately frozen next stage; no empirical primary method has earned promotion.
