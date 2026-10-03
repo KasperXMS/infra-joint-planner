@@ -262,8 +262,9 @@ labels and counts in this chronological history are superseded by this ledger.
 
 ## Task-level workload map (provisional: five completed tasks)
 
-This view uses the 20 audited effective cells, **not** the excluded attempts or
-unfinished 795-2 rerun. Each condition entry is `score / E2E seconds / action bytes`.
+This view uses the five completed four-cell tasks plus the latest clean 795-2
+Fast-Blind (21 effective cells), **not** excluded attempts or unfinished runs.
+Each condition entry is `score / E2E seconds / action bytes`.
 Raw artifact bytes are the actual initial execution representation; LongBench
 original text is also shown to avoid mistaking JSON overhead for new information.
 
@@ -277,7 +278,7 @@ original text is also shown to avoid mistaking JSON overhead for new information
 | Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | running | unexecuted | unexecuted |
 
 The anonymous static model pool has A28 and strong-4090 deployments, but **all
-completed physical model inferences in these 20 effective cells select A28**.
+completed physical model inferences in these 21 effective cells select A28**.
 Do not present this experiment as a measured GPU/Jetson model-placement reversal
 or dual-GPU parallel inference study. Video sampling/sheet creation is on A4 in
 both methods: locality is supplied by the shared physical scheduler, not evidence
