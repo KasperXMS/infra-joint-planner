@@ -105,3 +105,25 @@ resumption only, not the frozen47fbe3b Agent/cell execution.
 Resumption verification:540 pytest passed; Ruff pass; strict Pyright0 errors/0
 warnings; diff check pass. Existing terminal result/trace files must exist before
 a cell is skipped; independent adjudications must match their exact hashes.
+
+## MultiHop primary block complete
+
+All four MultiHop cells finished and are retained. Ledger Slow:score1.0,
+201.631s E2E,5204596 action bytes,14.941s transfer work,136.496s physical model
+service,4 Manager turns,0 specialist turns,4 graph nodes. Its aggregate→BM25×2
+→model trajectory still moves the complete remote shard payload under Slow.
+
+Quote Slow:score0.0,228.329s E2E,27774 action bytes,0.180s transfer work,
+125.679s model service,19 Manager turns,0 specialists,7 graph nodes. Like Fast,
+it creates8 quotes and executes7 (BM25×6+one model), leaving one model proposal
+pending. It recovers one phase-restricted call. Quote work2.849s; Manager input/
+output tokens263201/3517. No quote/readiness/physical inference defect is observed.
+All consumed byte estimates equal actual bytes; the supported model p50/p90
+errors are−52.137/−194.460s. Such work sums remain non-additive to E2E.
+
+Thus Quote saves traffic but loses quality in both MultiHop network regimes;
+its Slow E2E is13.2% higher than Ledger. The same observed Quote operator pattern
+and byte count across Fast/Slow do not demonstrate infrastructure-dependent
+structure adaptation. Ledger varies despite not receiving current H, reminding
+us that stochastic trajectory differences are not causality. No prompt/budget/
+task tuning or replacement follows. Academic cells now execute in original order.
