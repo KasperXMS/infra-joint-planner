@@ -24,6 +24,7 @@ from test_native_agents import (
 
 from infra_joint.control.contracts import PhysicalProfileView, ProfileVisibility
 from infra_joint.control.gateway import RuntimeActionGateway
+from infra_joint.control.ledger_native import LedgerNativeRuntime
 from infra_joint.control.loop import AgentLoopError
 from infra_joint.control.native_agents import (
     OpenAIAgentsNativeRuntime,
@@ -141,7 +142,10 @@ async def test_actual_sdk_predecision_input_provenance_and_private_isolation(
 
 
 @pytest.mark.asyncio
-async def test_real_sdk_specialist_continuation_does_not_receive_tool_result_profile() -> None:
+@pytest.mark.parametrize("ledger_only", [False, True])
+async def test_real_sdk_specialist_continuation_does_not_receive_tool_result_profile(
+    ledger_only: bool,
+) -> None:
     class DelegatingSDKModel(SyntheticSDKModel):
         def __init__(self) -> None:
             super().__init__()
@@ -208,22 +212,27 @@ async def test_real_sdk_specialist_continuation_does_not_receive_tool_result_pro
     model = DelegatingSDKModel()
     verifier = FakeVerifier((ready_verdict(), complete_verdict()))
     sink = MemorySink()
-    runtime = OpenAIAgentsNativeRuntime(
+    runtime_class = LedgerNativeRuntime if ledger_only else OpenAIAgentsNativeRuntime
+    runtime = runtime_class(
         name="manager", instructions="Solve faithfully.", model=model, registry=registry,
         available_operations=operations, blind_verifier=verifier,
         predecision_profiles=True, record_input_provenance=True,
     )
-    result = await runtime.run(task, gateway, profile_visibility=ProfileVisibility.AWARE,
+    visibility = ProfileVisibility.BLIND if ledger_only else ProfileVisibility.AWARE
+    result = await runtime.run(task, gateway, profile_visibility=visibility,
                                trace=WorkflowTraceRecorder("specialist-isolation", sink))
     assert result.final_answer == "A"
     assert model.manager_calls == 2 and model.specialist_calls == 3
-    assert physical.expose_profile_values == [False, False, True]
-    assert physical.snapshot_calls == 2
-    assert len([e for e in sink.events if e.event_type == "logical.profile.predecision"]) == 2
+    assert physical.expose_profile_values == [False, False, not ledger_only]
+    assert physical.snapshot_calls == (0 if ledger_only else 2)
+    assert len([e for e in sink.events if e.event_type == "logical.profile.predecision"]) == (
+        0 if ledger_only else 2
+    )
     assert "network_class" not in json.dumps([c.model_dump(mode="json") for c in verifier.contexts])
     specialist_json = json.dumps(model.specialist_inputs)
     for forbidden in ("network_class", "private://", "private-evaluator", "source_ref",
-                      "evaluator_id", "worker_id", "deployment_id", "192.168."):
+                      "evaluator_id", "worker_id", "deployment_id", "192.168.",
+                      "spent-cost-ledger", "Measured execution spending so far"):
         assert forbidden not in specialist_json
 
 

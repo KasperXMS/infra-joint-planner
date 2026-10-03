@@ -1,8 +1,9 @@
 # Method literature map v1
 
-Status: **incomplete reading ledger**, 2026-10-04. Not a finished review.
-Only verified original-text findings are entered below. Pending entries are not
-treated as evidence for method selection or absence of competing work.
+Status: **21 requested original bodies read**, 2026-10-04. Comparative review v1.
+Representative visual checks are recorded, not claimed for every figure.
+Published-version differences and remaining figure checks stay explicit;
+absence of a feature in the read version is not proof of global novelty.
 
 ## Reading coverage
 
@@ -28,7 +29,7 @@ treated as evidence for method selection or absence of competing work.
 | 18 | Optimizing Agentic Workflows using Meta-tools | Complete 17-page v2 original read; framework and appendix result tables visually inspected |
 | 19 | RouteLLM | Complete 16-page ICLR-marked v4 original read; evaluation curves visually inspected |
 | 20 | FrugalGPT | Complete specified 13-page 2023 original read; strategy figure visually inspected; later TMLR revision not compared |
-| 21 | Adaptive Query Processing | Author-hosted original obtained; physical PDF pages 1-30 (printed pages 1-60) read; remaining 31-70 pending |
+| 21 | Adaptive Query Processing | Complete author-hosted original: all 70 physical / 140 printed pages read; Figure 3.3 and Table 8.1 visually inspected |
 
 ## 1. Cost-Aware Optimization for Agentic Query Execution
 
@@ -142,8 +143,8 @@ William Yang Wang, Tomas Pfister, Chen-Yu Lee. COLM 2026 (arXiv v2 comments).
 Reading: embedded Budget Tracker/BATS prompts and cases now read in PDF;
 pp. 24-28 and 30 visually inspected. Tracker includes budget-tier strategy
 guidance, not just balances. Our spent-only Ledger intentionally omits it.
-HTML table/reference gaps closed; the other pending papers still keep the
-overall 21-paper review gate open.
+HTML table/reference gaps closed; this was an earlier reading checkpoint.
+Current overall coverage is recorded in the table at the start of this document.
 
 ## 5. INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration
 
@@ -573,7 +574,7 @@ can invoke every model unnecessarily. Do not import model substitution or a
 correctness predictor. Later OpenReview access returned browser verification;
 updated findings are not substituted for the specified original.
 
-## 21. Adaptive Query Processing: reading in progress
+## 21. Adaptive Query Processing
 
 Authors: Amol Deshpande, Zachary Ives, Vijayshankar Raman.
 Foundations and Trends in Databases 1(1), pp. 1-140, 2007;
@@ -585,16 +586,26 @@ This is the author's two-pages-per-sheet version: 70 physical PDF pages,
 140 printed pages. Not the similarly titled two-page VLDB tutorial.
 No single code repository verified for this survey.
 
-Only physical pages 1-30 have been read. The complete comparison entry and
-method-selection gate remain pending; no novelty conclusion is drawn from an
-abstract or substituted tutorial.
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Uncertain query execution; relational plans, tuple routing, intermediate state |
+| State / actions | Cardinalities, costs, memory/network, remote delays; reorder, reoptimize, bind, migrate state |
+| Dynamic infra / locality | Remote-source delays and distributed routing explicitly considered |
+| Semantic change / upfront plan | Runtime plan changes; not exclusively upfront optimization |
+| Cost / quality | Response time, work, monitoring/planning/actuation overhead; relational correctness |
+| Method / timing | Survey of online adaptive mechanisms and policies; not one learned optimizer |
+| Workloads / baselines | Compares research systems; no single benchmark campaign |
+| Assumptions | Valid routing/equivalence and controlled state reuse, varying by technique |
+| Overlap / collision | Feedback loops, resource-sensitive adaptation and state reuse are established |
+| Difference | No LLM answer-quality guarantee or semantic-agent consequence interface |
+| Reuse / baseline | Account adaptation overhead/uncertainty; conceptual systems lineage |
 
-Verified provisional lineage from chapters 1-4: runtime feedback, cost models,
-measurement/planning overhead, distributed selection and the distinction between
-response time and total work are established. AQP correctness relies on valid
-operator routing/equivalence; this is not an answer-quality guarantee for LLM
-semantic reductions. Remaining join-adaptation chapters must be read before
-completing the comparison.
+Reading: all pages, including references. Figure 3.3 (printed36) and Table8.1
+(119) inspected. Chapters6-8 distinguish routing history, intermediate reuse,
+checkpoints and delay-triggered operator synthesis. Reoptimization can regress;
+monitoring and switching are not free. Relational equivalence does not guarantee
+quality after LLM evidence reduction. No competitive/optimality theorem is
+transferred to our Agent.
 
 ## Original PDF provenance
 
@@ -624,11 +635,12 @@ are copied for visual inspection. Remote scratch:
 Budget-Aware Poppler metadata-string warnings did not prevent inspected pages
 from rendering; source warnings are not treated as failed experimental actions.
 
-## Remaining entry requirements
+## Coverage limitations and next audit
 
-For every pending work record authors/year/venue, canonical/PDF/code URLs,
-problem, representation, observed state, action space, dynamic infra, locality,
-semantic changes, upfront-plan requirement, cost and quality treatment,
-search/learning, online/offline phase, workloads, baselines, assumptions,
-overlap/difference/collision, reusable mechanism and possible baseline role.
-Missing or inaccessible details remain explicit, not inferred from the title.
+All21 comparison entries now cover the requested fields. Code unavailable or
+unverified is explicitly distinguished from a verified repository. Reading
+coverage does not establish exhaustive related-work coverage. Murakkab's OSDI
+version, DocETL's published version and FrugalGPT's later TMLR revision have not
+been compared against the read originals; do not claim version equivalence.
+Remaining visual checks are listed above. The novelty audit must use these
+qualified findings, not infer missing functionality from a title or abstract.

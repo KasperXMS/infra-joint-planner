@@ -65,7 +65,7 @@ PC receives only bounded metadata. Existing evidence roots are not cleared.
 | New substantive exploratory cells | 0 / 36 |
 | New Planner/model inference calls for exploration | 0 |
 | New Worker processes / tc shaping | 0 |
-| Implemented variants | None yet; literature gate in progress |
+| Implemented variants | Ledger-only-v0 SDK adapter; synthetic contract tests only; no live cell |
 | Historical Raw-Aware baseline reruns | 0 |
 
 ## Required final outputs
@@ -82,9 +82,10 @@ paper value. No winner is chosen at this intake checkpoint.
 
 ## Verified reading progress, 2026-10-04
 
-Entries 1-20 now have original-body findings, with explicit residual visual or
-published-version gaps in the reading ledger. Entry 21 is partially read;
-method implementation/selection gate is not satisfied. CostBench and Budget-Aware
+Entries 1-21 now have original-body findings, with explicit residual visual or
+published-version gaps in the reading ledger. The specified-original reading
+gate is satisfied; this does not establish novelty or experimental success.
+CostBench and Budget-Aware
 reference/table gaps were closed. LLMCompiler/Flow/AFlow embedded prompts and
 DynTaskMAS's full published paper were read, with representative visual checks.
 
@@ -112,15 +113,22 @@ establish open-ended infrastructure-conditioned semantic evolution. Their
 control/learning expense is relevant, not a reason to import quality oracles.
 
 The complete AQP survey was located on its author's site, rather than replacing
-it with a two-page tutorial: 70 physical pages / 140 printed pages. Physical
-pages 1-30 are read; pages 31-70 remain. No full-literature completion claim or
-method selection is made at this checkpoint.
+it with a two-page tutorial: all70 physical / 140 printed pages are read.
+Figure3.3 and Table8.1 were rendered and inspected. Specified original-body
+coverage is complete; residual visual/version gaps are not silently closed.
 
-AQP's read chapters already distinguish response time from total work and
+AQP distinguishes response time from total work and
 explicitly account for measurement/planning/actuation overhead. These concepts
 are systems lineage, not novelty claims. They reinforce separately reporting
 quote overhead, uncertainty and semantic quality rather than copying an
 equivalence-preserving relational rewrite guarantee.
+
+The novelty audit and five-route protocol are now written. Ledger-only-v0 is
+implemented as a separate experimental adapter; original native source and all
+historical manifests remain byte-for-byte unchanged. Full486 tests/Ruff/strict
+Pyright pass at the prototype checkpoint. No candidate is declared effective
+before actual cross-workload exploration. Quote/estimator and live runner
+integration remain pending.
 
 No exploratory cell, Planner call, Worker launch or shaping has been added.
 Research-source PDF processing is read-only on the 4090; benchmark data remains
