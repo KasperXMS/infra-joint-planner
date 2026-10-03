@@ -82,8 +82,8 @@ paper value. No winner is chosen at this intake checkpoint.
 
 ## Verified reading progress, 2026-10-04
 
-Entries 1-12 now have original-body findings, with explicit residual visual or
-published-version gaps in the reading ledger. Entries 13-21 remain unread;
+Entries 1-17 now have original-body findings, with explicit residual visual or
+published-version gaps in the reading ledger. Entries 18-21 remain unread;
 method implementation/selection gate is not satisfied. CostBench and Budget-Aware
 reference/table gaps were closed. LLMCompiler/Flow/AFlow embedded prompts and
 DynTaskMAS's full published paper were read, with representative visual checks.
@@ -97,6 +97,13 @@ Important corrections to simplistic related-work positioning:
   feedback; absence of our exact quote interface is not proof of broad novelty.
 - Budget Tracker includes strategy guidance; a spent-only Ledger is a narrower,
   explicitly attributed baseline rather than a reproduction of BATS.
+- GPTSwarm already claims online graph improvement; MasRouter jointly selects
+  collaboration/roles/models under quality-cost feedback. Neither is evidence
+  that our distributed action-consequence interface is already demonstrated.
+- ADAS searches whole agent code with validation before deployment; the read
+  paper's primary objective is performance, not cost. Palimpzest executes sentinel
+  samples rather than merely quoting. DocETL already rewrites semantic pipelines,
+  but can substantially increase model/validation cost to improve accuracy.
 
 No exploratory cell, Planner call, Worker launch or shaping has been added.
 Research-source PDF processing is read-only on the 4090; benchmark data remains

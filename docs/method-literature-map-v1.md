@@ -20,11 +20,11 @@ treated as evidence for method selection or absence of competing work.
 | 10 | Flow | Main text and complete PDF appendices/references read; workflow-update figure visually inspected |
 | 11 | AFlow | Main text/appendices/references and PDF-embedded code/prompts read; optimizer prompt visually inspected |
 | 12 | DynTaskMAS | Complete published nine-page PDF read; architecture visually inspected |
-| 13 | GPTSwarm | Pending |
-| 14 | MasRouter | Pending |
-| 15 | Automated Design of Agentic Systems | Pending |
-| 16 | Palimpzest | Pending |
-| 17 | DocETL | Pending |
+| 13 | GPTSwarm | Complete published PDF read; graph representation visually inspected |
+| 14 | MasRouter | Complete published PDF, profiles/cases/algorithm read; framework visually inspected |
+| 15 | Automated Design of Agentic Systems | Complete ICLR-marked v2 PDF read, including code/prompts; search architecture visually inspected |
+| 16 | Palimpzest | Complete v2 PDF read, including plan examples/references; optimizer architecture visually inspected |
+| 17 | DocETL | Complete 22-page v3 original read; optimization graph visually inspected; published-version comparison pending |
 | 18 | Optimizing Agentic Workflows using Meta-tools | Pending |
 | 19 | RouteLLM | Pending |
 | 20 | FrugalGPT | Pending |
@@ -351,6 +351,144 @@ Reading: complete published PDF, Figure 1 visually inspected. Do not call it
 resource-blind. A measured heterogeneous-link semantic-adaptation experiment
 is not established by its aggregate throughput tables.
 
+## 13. GPTSwarm: Language Agents as Optimizable Graphs
+
+Authors: Mingchen Zhuge, Wenyi Wang, Louis Kirsch, Francesco Faccio,
+Dmitrii Khizbullin, Jürgen Schmidhuber. ICML 2024, PMLR 235, pp. 62743-62767.
+[Canonical](https://proceedings.mlr.press/v235/zhuge24a.html),
+[published PDF](https://raw.githubusercontent.com/mlresearch/v235/main/assets/zhuge24a/zhuge24a.pdf),
+[code](https://github.com/metauto-ai/GPTSwarm).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Modular agents/compositions as operation DAGs |
+| State / actions | Task, evaluation utility; node prompts and inter-agent edges |
+| Dynamic infra / locality | No deployment/link/artifact-locality feedback demonstrated |
+| Semantic change / full plan | Optimizable graphs; predefined operations and candidate inter-agent edges |
+| Cost / quality | Tokens/time; task reward and benchmark correctness |
+| Method / timing | Edge REINFORCE; prompt demonstration optimization/UCB; online improvement claimed |
+| Workloads / baselines | MMLU, crosswords, HumanEval, GAIA; IO, random/full graphs, debate, DyLAN |
+| Assumptions | Evaluated rewards; fixed candidate nodes/edges, cycles rejected |
+| Overlap / collision | Graph composition and online graph improvement already exist |
+| Difference | No infrastructure-conditioned, no-execution action consequence feedback |
+| Reuse / baseline | Separate optimization from inference cost; conceptual graph-optimization comparator |
+
+Reading: all 25 published pages, including appendices; Figure 1 inspected.
+GAIA demonstrates composition without node/edge optimization. Crosswords include
+equal-density random comparisons. Do not portray the paper as purely offline,
+or assume all reported improvements include search/training expense.
+
+## 14. MasRouter: Learning to Route LLMs for Multi-Agent Systems
+
+Authors: Yanwei Yue, Guibin Zhang, Boyang Liu, Guancheng Wan, Kun Wang,
+Dawei Cheng, Yiyan Qi. ACL 2025, pp. 15549-15572.
+[Canonical](https://aclanthology.org/2025.acl-long.757/),
+[published PDF](https://aclanthology.org/2025.acl-long.757.pdf),
+[code](https://github.com/yanweiyue/masrouter).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Query-conditioned MAS configuration; mode/role/model pools |
+| State / actions | Query and semantic profiles; collaboration mode, agent count, roles, model routing |
+| Dynamic infra / locality | No current deployment/queue/network/artifact-locality state demonstrated |
+| Semantic change / full plan | Per-query configuration, not evidence-driven execution-grown revision |
+| Cost / quality | API/token dollars; task correctness minus weighted cost |
+| Method / timing | Cascaded variational controller and policy-gradient training; query-time routing |
+| Workloads / baselines | MMLU, GSM8K, MATH, HumanEval, MBPP; GPTSwarm, AFlow, pruning, single-model routers |
+| Assumptions | Finite profiles/modes; evaluated training tasks; agent-count ceiling |
+| Overlap / collision | Joint collaboration/role/model quality-cost selection already exists |
+| Difference | No action-level dynamic distributed consequence estimator |
+| Reuse / baseline | Explicit training/inference accounting; conceptual finite-routing comparator |
+
+Reading: all 24 published pages, including routing algorithm, task graphs,
+cost tables and embedded profiles; Figure 2 inspected. Profiles include model
+prices/benchmark capabilities, not measured current system state. More agents
+can add substantial expense for marginal quality; not a new observation of ours.
+
+## 15. Automated Design of Agentic Systems
+
+Authors: Shengran Hu, Cong Lu, Jeff Clune. ICLR 2025.
+[Canonical](https://proceedings.iclr.cc/paper_files/paper/2025/hash/36b7acf6f6010652b3f2a433774a66fe-Abstract-Conference.html),
+[read PDF v2](https://arxiv.org/pdf/2408.08435v2),
+[published PDF](https://proceedings.iclr.cc/paper_files/paper/2025/file/36b7acf6f6010652b3f2a433774a66fe-Paper-Conference.pdf),
+[code](https://github.com/ShengranHu/ADAS).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Automated system design; Python forward functions |
+| State / actions | Archive, validation scores/errors; code/prompt/workflow generation and refinement |
+| Dynamic infra / locality | No measured current network/device/artifact-locality feedback |
+| Semantic change / full plan | Whole agent program searched before deployment; programs may loop/decompose |
+| Cost / quality | Main objective task performance; search expense reported separately |
+| Method / timing | Offline meta-agent proposal, reflection, validation and archive updates |
+| Workloads / baselines | ARC, DROP, MGSM, MMLU, GPQA; CoT, consistency, refinement, debate, OPRO |
+| Assumptions | Validation evaluation; code execution; domain/model transfer tests |
+| Overlap / collision | Open code-space agent/workflow design already exists |
+| Difference | No online distributed action-consequence mechanism demonstrated |
+| Reuse / baseline | Scope/counterexample-aware archive analysis; conceptual offline design comparator |
+
+Reading: all 34 v2 pages, marked ICLR; Figure 1 inspected. Multi-objective and
+online continual design are future work. Reported search/evaluation costs about
+$300-$500 are not free optimization. Do not import its generated primitives,
+runtime retries or validation access into our finite-tool online experiment.
+
+## 16. A Declarative System for Optimizing AI Workloads / Palimpzest
+
+Authors: Chunwei Liu, Matthew Russo, Michael Cafarella, Lei Cao, Peter Baille
+Chen, Zui Chen, Michael Franklin, Tim Kraska, Samuel Madden, Gerardo Vitagliano.
+2024 preprint; this entry concerns the specified early system, not Abacus.
+[Canonical](https://arxiv.org/abs/2405.14696),
+[read PDF v2](https://arxiv.org/pdf/2405.14696v2),
+[code](https://github.com/mitdbg/palimpzest).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Semantic analytics; typed relational programs with convert |
+| State / actions | Samples/statistics/preferences; reorder, model selection, synthesis, prompt packing, token reduction |
+| Dynamic infra / locality | Dataset names initially local; current distributed link/locality adaptation not demonstrated |
+| Semantic change / full plan | User logical program; equivalent logical/physical candidates before main execution |
+| Cost / quality | Time/dollars; champion-model quality estimates, final labeled evaluation |
+| Method / timing | Executed sentinel samples, candidate scoring, Pareto selection |
+| Workloads / baselines | Legal discovery, real estate, medical schema matching; naive GPT-4/3.5/Mixtral |
+| Assumptions | Declared dependencies; sample extrapolation and champion proxy |
+| Overlap / collision | Logical/physical separation and quality-cost rewrites already exist |
+| Difference | No no-execution quote to persistent semantic Manager |
+| Reuse / baseline | Provenance/uncertainty; conceptual declarative optimizer comparator |
+
+Reading: all 29 pages; Figure 1 inspected. Sentinel sampling executes work and
+costs money. Reported parallel speedups compare against single-threaded baselines;
+not pure optimizer gains. Failed conversions are dropped in this prototype,
+unsuitable for our fail-closed contract.
+
+## 17. DocETL: Agentic Query Rewriting and Evaluation for Complex Document Processing
+
+Authors: Shreya Shankar, Tristan Chambers, Tarak Shah,
+Aditya G. Parameswaran, Eugene Wu. PVLDB 18(9), pp. 3035-3048, 2025;
+DOI 10.14778/3746405.3746426. Findings below concern the fully read v3 preprint.
+[Canonical](https://arxiv.org/abs/2410.12189),
+[read PDF v3](https://arxiv.org/pdf/2410.12189v3),
+[published PDF](https://www.vldb.org/pvldb/vol18/p3035-shankar.pdf),
+[code](https://github.com/ucbepic/docetl).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Complex document quality; YAML operator pipelines |
+| State / actions | Prompts, samples/results; 13 directives synthesizing decomposition/aggregation/representation |
+| Dynamic infra / locality | No measured network/device/artifact-locality adaptation demonstrated |
+| Semantic change / full plan | Recursively rewritten full pipeline before primary execution |
+| Cost / quality | Primarily accuracy; synthesized validators, sampled ratings/pairwise comparisons |
+| Method / timing | Top-down opportunistic generation/validation; context-size heuristics |
+| Workloads / baselines | CUAD, game reviews, declassified articles, Biodex, police case; LOTUS, Palimpzest, Aryn, NLP |
+| Assumptions | LLM-judge reliability; dependent operator quality; samples may miss full-data limits |
+| Overlap / collision | Semantic decomposition and representation are optimization objects already |
+| Difference | No pre-execution system-cost quote to an online Manager |
+| Reuse / baseline | Expose expansion/validation expense; conceptual quality-first rewrite comparator |
+
+Reading: all 22 v3 pages, algorithms and embedded prompts; Figure 1 inspected.
+Shared generation/validation bias is acknowledged. Truncation/retries occur in
+this system, not allowed in ours. More accurate plans can cost more; optimization
+expense must not disappear. Published-version changes remain unverified.
+
 ## Original PDF provenance
 
 Read-only research sources are downloaded/rendered on the 4090, not benchmark
@@ -366,6 +504,11 @@ are copied for visual inspection. Remote scratch:
 | Flow, arXiv v2 | 6c729ba58bc8beafb951adb8b27d247c1945804b1419b58f256053ddce6d75f7 |
 | AFlow, arXiv v3 / ICLR-marked PDF | 8d18d9ce80b78ef6dd8e9e3974020a9f45f41a8ba2e3e95be7e3a66053c60bb1 |
 | DynTaskMAS, published ICAPS PDF | 193d914347827c04f73ca7f3004f4ac23f82b1585d1dda445a7bacb738575482 |
+| GPTSwarm, published PMLR PDF | 63aab69835f124fd1bee714a21433a696c4d8d36da9f7883e0b5b01b836fd6ed |
+| MasRouter, published ACL PDF | 1bf45eaa68515ae2a6d3de2e2240ac321fef37a46ba831718aacee52bb12f457 |
+| ADAS, arXiv v2 / ICLR-marked PDF | 32eb1c1a6888e35fae0f618e33c58698b54d9c49bc063fef91ee591719fca376 |
+| Palimpzest, arXiv v2 | f853718e273a6330aa4fde3ce79fbe23bf457d90c18d4d1f009de2adaca5deaf |
+| DocETL, arXiv v3 | dda098a6be8b61b4cad5096f05d1de43fcd01b0a81da03d8c33ec80cc3810601 |
 
 Budget-Aware Poppler metadata-string warnings did not prevent inspected pages
 from rendering; source warnings are not treated as failed experimental actions.
