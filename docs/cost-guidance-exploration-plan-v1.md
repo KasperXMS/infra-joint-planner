@@ -82,8 +82,8 @@ paper value. No winner is chosen at this intake checkpoint.
 
 ## Verified reading progress, 2026-10-04
 
-Entries 1-17 now have original-body findings, with explicit residual visual or
-published-version gaps in the reading ledger. Entries 18-21 remain unread;
+Entries 1-20 now have original-body findings, with explicit residual visual or
+published-version gaps in the reading ledger. Entry 21 is partially read;
 method implementation/selection gate is not satisfied. CostBench and Budget-Aware
 reference/table gaps were closed. LLMCompiler/Flow/AFlow embedded prompts and
 DynTaskMAS's full published paper were read, with representative visual checks.
@@ -104,6 +104,23 @@ Important corrections to simplistic related-work positioning:
   paper's primary objective is performance, not cost. Palimpzest executes sentinel
   samples rather than merely quoting. DocETL already rewrites semantic pipelines,
   but can substantially increase model/validation cost to improve accuracy.
+
+Meta-tools, RouteLLM and the specified 2023 FrugalGPT original are fully read,
+including appendices/references and representative visual checks. Meta-tools
+has model-dependent latency/quality regressions; routing/cascade work does not
+establish open-ended infrastructure-conditioned semantic evolution. Their
+control/learning expense is relevant, not a reason to import quality oracles.
+
+The complete AQP survey was located on its author's site, rather than replacing
+it with a two-page tutorial: 70 physical pages / 140 printed pages. Physical
+pages 1-30 are read; pages 31-70 remain. No full-literature completion claim or
+method selection is made at this checkpoint.
+
+AQP's read chapters already distinguish response time from total work and
+explicitly account for measurement/planning/actuation overhead. These concepts
+are systems lineage, not novelty claims. They reinforce separately reporting
+quote overhead, uncertainty and semantic quality rather than copying an
+equivalence-preserving relational rewrite guarantee.
 
 No exploratory cell, Planner call, Worker launch or shaping has been added.
 Research-source PDF processing is read-only on the 4090; benchmark data remains

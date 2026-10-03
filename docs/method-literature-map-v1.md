@@ -25,10 +25,10 @@ treated as evidence for method selection or absence of competing work.
 | 15 | Automated Design of Agentic Systems | Complete ICLR-marked v2 PDF read, including code/prompts; search architecture visually inspected |
 | 16 | Palimpzest | Complete v2 PDF read, including plan examples/references; optimizer architecture visually inspected |
 | 17 | DocETL | Complete 22-page v3 original read; optimization graph visually inspected; published-version comparison pending |
-| 18 | Optimizing Agentic Workflows using Meta-tools | Pending |
-| 19 | RouteLLM | Pending |
-| 20 | FrugalGPT | Pending |
-| 21 | Adaptive Query Processing | Pending |
+| 18 | Optimizing Agentic Workflows using Meta-tools | Complete 17-page v2 original read; framework and appendix result tables visually inspected |
+| 19 | RouteLLM | Complete 16-page ICLR-marked v4 original read; evaluation curves visually inspected |
+| 20 | FrugalGPT | Complete specified 13-page 2023 original read; strategy figure visually inspected; later TMLR revision not compared |
+| 21 | Adaptive Query Processing | Author-hosted original obtained; physical PDF pages 1-30 (printed pages 1-60) read; remaining 31-70 pending |
 
 ## 1. Cost-Aware Optimization for Agentic Query Execution
 
@@ -489,6 +489,113 @@ Shared generation/validation bias is acknowledged. Truncation/retries occur in
 this system, not allowed in ours. More accurate plans can cost more; optimization
 expense must not disappear. Published-version changes remain unverified.
 
+## 18. Optimizing Agentic Workflows using Meta-tools
+
+Authors: Sami Abuzakuk, Anne-Marie Kermarrec, Rishi Sharma,
+Rasmus Moorits Veski, Martijn de Vos. 2026 preprint; venue unverified.
+[Canonical](https://arxiv.org/abs/2601.22037),
+[read PDF v2](https://arxiv.org/pdf/2601.22037v2).
+Code URL withheld in this original for double-blind review; unavailable here.
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Redundant reasoning; weighted trajectory-state graphs |
+| State / actions | Historical tool sequences; merge equivalent states, extract deterministic composites |
+| Dynamic infra / locality | No current device/link/artifact-locality conditioning demonstrated |
+| Semantic change / full plan | Expanded tool set; agent still composes workflows online |
+| Cost / quality | Calls/tokens/dollars/latency; benchmark success, not guaranteed equivalence |
+| Method / timing | Offline expert-guided horizontal merging and greedy chain compression |
+| Workloads / baselines | AppWorld, VisualWebArena; original ReAct tools; GPT-5.1, Claude, GPT-OSS |
+| Assumptions | Representative traces; domain-specific equivalence and implementable composites |
+| Overlap / collision | Trace-guided orchestration-overhead reduction already exists |
+| Difference | Changes executable vocabulary, not anonymous consequence feedback |
+| Reuse / baseline | Separate control overhead; conceptual tool-fusion comparator, not current variant |
+
+Reading: all 17 pages; Figure 4 and appendix tables inspected.
+Fewer calls need not reduce latency; GPT-OSS becomes less efficient.
+Automated merge-rule verification remains unresolved. Main/appendix Claude call
+counts differ. Do not import benchmark-specific merging or new primitives.
+
+## 19. RouteLLM: Learning to Route LLMs with Preference Data
+
+Authors: Isaac Ong, Amjad Almahairi, Vincent Wu, Wei-Lin Chiang, Tianhao Wu,
+Joseph E. Gonzalez, M Waleed Kadous, Ion Stoica. ICLR 2025.
+Proceedings use "from Preference Data" in the title.
+[Canonical](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5503a7c69d48a2f86fc00b3dc09de686-Abstract-Conference.html),
+[read PDF v4](https://arxiv.org/pdf/2406.18665v4),
+[published PDF](https://proceedings.iclr.cc/paper_files/paper/2025/file/5503a7c69d48a2f86fc00b3dc09de686-Paper-Conference.pdf),
+[code](https://github.com/lm-sys/RouteLLM).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Quality-cost routing; independent query, binary strong/weak choice |
+| State / actions | Query/preferences; predicted win probability and cost threshold select one model |
+| Dynamic infra / locality | No current load/link/locality conditioning demonstrated |
+| Semantic change / full plan | No tool graph; one selected generator per query |
+| Cost / quality | Strong-call fraction/dollars; preference or benchmark quality; router overhead separate |
+| Method / timing | Offline classifiers/factorization; similarity-weighted ranking solves online |
+| Workloads / baselines | MT Bench, MMLU, GSM8K; random routing, commercial routers |
+| Assumptions | Preference distribution coverage; strong/weak classes; short single-turn price assumptions |
+| Overlap / collision | Quality-cost model routing is established |
+| Difference | No execution-grown semantic changes or distributed action consequences |
+| Reuse / baseline | Account control overhead; conceptual model-routing comparator |
+
+Reading: all 16 pages; appendix curves inspected. Arena-only routers approach
+random on MMLU/GSM8K; augmentation matters. Gold/judge training does not justify
+a quality oracle in our estimator. Router throughput is not full-workflow latency.
+
+## 20. FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance
+
+Authors: Lingjiao Chen, Matei Zaharia, James Zou. Specified 2023 preprint;
+official code identifies a later TMLR 2024 publication, not read as this version.
+[Canonical requested original](https://arxiv.org/abs/2305.05176),
+[read PDF v1](https://arxiv.org/pdf/2305.05176v1),
+[later publication PDF](https://openreview.net/pdf?id=cSimKw5p6R),
+[code](https://github.com/stanford-futuredata/FrugalGPT).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Budget-constrained API use; learned model cascade |
+| State / actions | Query and generated-answer reliability; accept or invoke next API |
+| Dynamic infra / locality | Static API pricing; current links/load/locality not modeled |
+| Semantic change / full plan | Offline cascade selected; conditional invocation online, not tool-workflow evolution |
+| Cost / quality | Input/output/fixed request fees; supervised correctness-scoring regression |
+| Method / timing | Budget-constrained chain/threshold optimization; pruning/interpolation; length three evaluated |
+| Workloads / baselines | Headlines, Overruling, adapted CoQA; twelve APIs and best individual model |
+| Assumptions | Labeled representative training data; amortized learning; scorer reliability |
+| Overlap / collision | Quality-cost cascades and response-dependent selection established |
+| Difference | No runtime distributed consequence interface; latency optimization future work |
+| Reuse / baseline | Expose learning/inference expense; conceptual cascade comparator |
+
+Reading: all 13 pages; Figure 2 inspected. Prompt adaptation/approximation are
+broader proposed strategies, not all evaluated mechanisms. Reliability errors
+can invoke every model unnecessarily. Do not import model substitution or a
+correctness predictor. Later OpenReview access returned browser verification;
+updated findings are not substituted for the specified original.
+
+## 21. Adaptive Query Processing: reading in progress
+
+Authors: Amol Deshpande, Zachary Ives, Vijayshankar Raman.
+Foundations and Trends in Databases 1(1), pp. 1-140, 2007;
+DOI 10.1561/1900000001.
+[Canonical requested page](https://research.ibm.com/publications/adaptive-query-processing),
+[author publication page](https://www.cs.umd.edu/~amol/pubs-qp.html),
+[author-hosted original PDF](https://www.cs.umd.edu/~amol/papers/fnt-aqp.pdf).
+This is the author's two-pages-per-sheet version: 70 physical PDF pages,
+140 printed pages. Not the similarly titled two-page VLDB tutorial.
+No single code repository verified for this survey.
+
+Only physical pages 1-30 have been read. The complete comparison entry and
+method-selection gate remain pending; no novelty conclusion is drawn from an
+abstract or substituted tutorial.
+
+Verified provisional lineage from chapters 1-4: runtime feedback, cost models,
+measurement/planning overhead, distributed selection and the distinction between
+response time and total work are established. AQP correctness relies on valid
+operator routing/equivalence; this is not an answer-quality guarantee for LLM
+semantic reductions. Remaining join-adaptation chapters must be read before
+completing the comparison.
+
 ## Original PDF provenance
 
 Read-only research sources are downloaded/rendered on the 4090, not benchmark
@@ -509,6 +616,10 @@ are copied for visual inspection. Remote scratch:
 | ADAS, arXiv v2 / ICLR-marked PDF | 32eb1c1a6888e35fae0f618e33c58698b54d9c49bc063fef91ee591719fca376 |
 | Palimpzest, arXiv v2 | f853718e273a6330aa4fde3ce79fbe23bf457d90c18d4d1f009de2adaca5deaf |
 | DocETL, arXiv v3 | dda098a6be8b61b4cad5096f05d1de43fcd01b0a81da03d8c33ec80cc3810601 |
+| Meta-tools, arXiv v2 | 97f856b6c45a66870a9323359f260d8df8b8f66785b0ae96837b8672ccd140ff |
+| RouteLLM, arXiv v4 / ICLR-marked PDF | c9bc9c8171cab95bb3832cde8767c6b5e0925cd62930e51ddbd60d7cb2616741 |
+| FrugalGPT, specified arXiv v1 | 035ae8b90333dad8b7817fc8f55e7c4cbca435368c5c1a4dbf7bba9e5db87473 |
+| Adaptive Query Processing, author-hosted two-up original | 9307f20bd31e92583f63279b32ae560f899fc080554551134785d9b0785ed48e |
 
 Budget-Aware Poppler metadata-string warnings did not prevent inspected pages
 from rendering; source warnings are not treated as failed experimental actions.
