@@ -202,5 +202,19 @@ inputs, 12 fresh Aware profiles, trace chains, terminal provenance, persistence,
 privacy, 16 initially empty stores / exited owned Worker processes and tc cleanup.
 
 Latest merged `audit-progress-015.json`: 22 preserved attempts / 20 effective
-cells / four pending. Video 795-2 Fast-Blind is active. Historical coverage
+cells / four pending. Video 795-2 Fast-Blind subsequently exposed a 600 s backend
+timeout and implicit SDK retry. Its current attempt is confounded; remaining
+conditions were audit-held. The preserved primary is now excluded; after minimal
+backend/admission fixes, a separately frozen `5dafc43` affected-only Fast-Blind
+rerun is active, with exactly three later cells gated on its audit. No semantic
+tuning or clean 795-2 claim is made. Historical coverage
 snapshots above are superseded by this latest ledger.
+
+Working coverage after the incident: 23 preserved attempts / 20 effective / four
+unresolved, across original / idle-transport / backend-client revisions. See
+the [failure audit](predecision-crossbenchmark-failure-audit-v1.md) and
+[backend patch freeze](predecision-backend-client-patch1-freeze.md).
+Slow-Aware's four sheets were additionally checked on remote A4/A28: eight
+copies readable JPEG 1280 x 360, exact metadata/content hashes and total 409154
+transferred bytes. Durable `video-848-1-slow-aware-sheet-content-integrity-001.json`
+passes; no pixel bodies returned to the PC.

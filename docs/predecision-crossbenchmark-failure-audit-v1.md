@@ -233,3 +233,67 @@ Worker inference max output is the deployment's reserved 2048 tokens. The
 inherited harness annotation `terminal_canonical_labels=[Yes,No]` is not the
 multiple-choice task contract: per-task A-D labels and original evaluator wiring
 remain authoritative and validated. Do not alter the frozen manifest in-flight.
+
+### 795-2 Fast-Blind: newly observed backend timeout / hidden retry
+
+At 2026-10-03 09:28:48 UTC, A28 Ollama recorded HTTP 500 after exactly 10 minutes
+for the pending visual model request (server task 334), cancellation with
+`truncated=0`, then a second request (task 837) without any new logical action.
+The Worker client inherits max_retries=2 and read timeout=600 s, while the cell's
+declared service timeout is 1200 s. The exact server-versus-client cancellation
+origin is not established solely by the access log; the **additional backend
+request under one logical action is directly observed**.
+
+This is a genuine no-hidden-retry / timeout-propagation contract defect and an
+invalid baseline attempt, not a Planner reasoning failure. It does not retroactively
+invalidate the earlier scopes with one matched HTTP-200 request per inference.
+The suffix controller PID 2709636 was ownership-verified and SIGSTOP-held before
+any later condition; atomic driver PID 3197880 continues to preserve/cleanup its
+attempt. Original results/traces/configs remain untouched. Append-only evidence:
+`backend-timeout-hidden-retry-incident-001.json` and affected attempt's
+`private/execution-incidents.json`. Do not resume the old controller.
+
+Minimal fix implementation `3c3d3c8`: backend factory explicitly disables SDK
+retries; configurable read timeout retains the legacy 600 s default, while formal
+Worker preparation propagates the already-declared 1200 s service timeout.
+Connect 5 / write 600 / pool 600 s stay unchanged. No reasoning-effort, temperature,
+model, context, output budget, Manager/Verifier instructions, tools, scheduler or
+network change. Read-only auditor incorporates run-bound external incidents into
+derived eligibility without overwriting historical validation/result files.
+
+Four initial regression tests fail against the old factory: max_retries=2 and
+three actual requests for a simulated 500, timeout or disconnect. All pass after
+the fix, with exactly one request and typed error propagation. Full implementation
+suite: **449 passed**, Ruff passed, strict Pyright **0 errors / 0 warnings**.
+New patch manifests use `*-backend-client-patch1.yaml`; frozen semantics and
+task/network matrices are unchanged. Affected-only bug-fix rerun and exact three-cell
+suffix require a separate patch freeze, clean current-attempt cleanup and audit.
+No corrected 795-2 outcome is claimed yet.
+
+Atomic attempt subsequently ended at the outer 1200 s timeout: result
+control_plane_failed / UserError, no terminal/evaluator. Actual typed observation
+is physical_execution_failed / ReadTimeout. First and second server requests
+return HTTP 500 at 600 s; third SDK request starts before owned Worker shutdown.
+Append-only incident addendum preserves these logs and process identity. The
+held controller was ownership-verified and terminated without starting another
+cell; the lingering owned A28 Worker received a second shutdown signal. Ollama
+server was not killed/restarted. All four old Worker ports are closed; tc matches
+its original state. 52 state probes, persistence and privacy still pass; none
+makes this a valid result. Failed-inference/transfer cost must not be inferred
+from successful-only service counters; external request evidence is authoritative.
+
+Additional generic admission defect: SDK UserError wrapper drops the timeout
+text, so old failure-string matching allowed this system failure through. Two
+red regression cases reproduce the missed physical/unknown typed failure gate;
+five semantic/readiness/context cases continue to pass. Fix `a5d1e80` checks typed
+observations, not just wrapped strings, and enumerates backend-patch attempts in
+cross-revision audit. This is an audit gate, not an Agent behavior change.
+
+Final execution freeze `5dafc43327a057f6a66df29d112a4e56820a65a2`; full 459 tests,
+Ruff and strict Pyright pass. New deployment/task/source checks pass on all nodes.
+Only affected Fast-Blind is launched anew, then the three-cell suffix is
+audit-gated. Source bundle excludes historical results and benchmark bodies.
+Earlier `66a6016` staging is diagnostics-only; no formal cells executed there.
+See [freeze note](predecision-backend-client-patch1-freeze.md). Existing 20 effective
+cells remain unchanged; the new excluded attempt is preserved, not replaced
+in-place. Current working ledger: 23 attempts / 20 effective / four unresolved.

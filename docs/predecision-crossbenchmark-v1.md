@@ -3,7 +3,10 @@
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
 795-3 cells and all four 848-1 cells are clean effective results (20/24). The two old
-Financial confounded attempts remain preserved/excluded. Video 795-2 Fast-Blind is active.
+Financial confounded attempts remain preserved/excluded. Video 795-2 Fast-Blind
+primary failed with an observed backend timeout/hidden-retry confounder and is
+preserved/excluded. Affected-only rerun is active under new freeze `5dafc43`;
+the exact remaining three-cell suffix is gated on its clean audit.
 
 ## Scope and frozen system
 
@@ -103,6 +106,8 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Aware, clean | yes / yes | A / 1.0 | 1071.594 | 1,471,756 | 1 | 3 / 3 |
 | Video `848-1` | Fast-Blind, clean | yes / yes | B / 0.0 | 442.512 | 798,787 | 1 | 6 / 6 |
 | Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 226.982 | 380,788 | 1 | 6 / 6 |
+| Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
+| Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 711.029 | 409,154 | 1 | 6 / 6 |
 | Same task | Slow-Blind, clean | yes / yes | A / 0.0 | 871.266 | 981,232 | 1 | 4 / 4 |
 
 All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
@@ -242,6 +247,18 @@ failure. E2E 871.266 s includes 446.971 s fixed initial placement, 283.732 s mod
 service and 73.003 s decode. Current: 21 attempts / 19 effective cells / five pending,
 Slow-Aware active; no semantic retry/tuning or new runtime incident.
 
+Latest `audit-progress-015.json` adds clean 848-1 Slow-Aware and completes that
+four-cell task: all four answers are wrong, although execution/format/evaluator
+are valid. After static context rejection, Aware makes four independent eight-frame
+sheets in one parallel group and invokes the model on their outputs. Versus
+Slow-Blind, action bytes fall 58.3% and E2E falls 18.4%; lower service work, not
+network transfer alone, explains much of the difference. This is not demonstrated
+quality-preserving benefit. Task audit verifies 176 probes, 22 Manager / Blind
+Verifier hashes, 12 fresh Aware inputs, 16 initially empty stores / exited Workers
+and full operational/provenance/privacy checks. Current coverage is 20/24 effective
+cells, 22 attempts; only the four 795-2 conditions remain. Earlier active-cell
+labels and counts in this chronological history are superseded by this ledger.
+
 ## Historical completion audit at the blocking boundary (before authorization)
 
 The original objective remains **24 clean formal cells**, not three successful
@@ -276,6 +293,35 @@ patch and the gated suffix recorded above. Preserve the boundary as history; do
 not interpret it as the current queue state or as achievement of the goal.
 
 ## Offline verification
+
+### Latest backend-client patch boundary
+
+Primary 795-2 Fast-Blind finishes with control_plane_failed / UserError and no
+evaluator. Trace contains physical_execution_failed / ReadTimeout; external
+server evidence reveals three requests under one logical action. Its 52 probes,
+privacy, artifact persistence and tc restore pass, but cannot erase that system
+confounder. Current coverage: **20 effective cells / 23 preserved attempts / four
+unresolved conditions**, using append-only derived exclusion. Earlier clean scopes
+still have one accepted server request per traced inference.
+
+Minimal backend patch implementation `3c3d3c8`, pre-run typed-admission amendment
+`a5d1e80`, separate final execution freeze `5dafc43327a057f6a66df29d112a4e56820a65a2`.
+Full **459 pytest passed**, Ruff passed, strict Pyright 0/0. See
+[patch freeze](predecision-backend-client-patch1-freeze.md) and failure audit.
+Both actual backend constructors use retries0/read1200/connect5/write600/pool600;
+the static 32768/2048 contract is unchanged. No model/prompt/scheduler/budget change.
+
+New root `/home/super/xiaoming/predecision-crossbenchmark-v1-5dafc43` verifies
+141 tracked source/script files per node on all four nodes and exact six-task
+freeze equality before launch. Code archive 3061760 bytes, SHA-256
+`3618e6680a87c0a29bdfb5f03832433981e93214fd57b1ac11caa35cae84cd16`,
+explicitly excludes historical results/evidence/datasets. Intermediate `66a6016`
+staging performed diagnostics only, no cells. Old controller was never resumed.
+
+Affected driver PID 3305974 runs only 795-2 Fast-Blind / backend-client-patch-1;
+controller PID 3305975 waits for its audited boundary before exact FA/SB/SA.
+Launch records are not proof of continuing liveness; verify current PIDs/trace.
+All prior artifacts/evidence remain in their original namespaces.
 
 Cross-benchmark admission, continuation and audit/diagnostic tooling: full pytest **434 passed**,
 Ruff passed, strict Pyright **0 errors / 0 warnings**, `git diff --check` passed.
