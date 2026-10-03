@@ -1,6 +1,13 @@
 # Infra-Aware Pre-decision Qwen v1
 
-Date: 2026-10-02. Status: **completed and audited; experiments stopped**.
+2026-10-03 retrospective correction: **not a clean balanced n=3 comparison**.
+Specialist tool-result contexts leaked anonymous dynamic profiles in Fast-Aware
+r2/r3 and Slow-Aware r1. Retain every original result/trace without rerunning;
+exclude these three from clean comparison. Remaining counts FB/FA/SB/SA are
+3/1/3/2. Historical totals and conclusions below do not override this correction.
+See the [39-trace hard-stop audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
+
+Historical date: 2026-10-02. Status then: **completed and audited; experiments stopped**.
 Twelve primary runs completed/evaluated; original score 1 in 11 runs, score 0 in
 Slow-Blind r2. No replacements, retries or execution-path changes during the block.
 Pre-decision timing is verified, but the desired Slow-local-first behavior is not.

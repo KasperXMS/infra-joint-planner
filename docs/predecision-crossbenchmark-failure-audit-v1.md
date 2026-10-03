@@ -340,3 +340,29 @@ Do not claim timeout expansion caused correct reasoning: new native sampling
 finishes below 600 s. This is a clean corrected execution boundary, not a paired
 mechanistic quality comparison. Only the exact remaining three cells continue.
 Latest `5dafc43/audit-progress-002.json`: 24 attempts / 21 effective / three pending.
+
+## Recipient-context profile leakage: hard-stop, superseding prior clean counts
+
+At 2026-10-03 11:19:45.791355 UTC, the last 795-2 Slow-Aware attempt was stopped
+for specialist dynamic-profile leakage. Gateway exposure used run-level AWARE
+visibility, and the wrapper returned full observations to specialists. SDK tool
+outputs therefore supplied network/transfer/queue ranges even with the direct
+specialist profile field null. This is a genuine isolation implementation defect,
+not inefficiency, reasoning failure or an operational replacement candidate.
+
+Full 39-trace scan invalidates previously admitted Financial Fast-Aware and News
+Fast-Aware, three existing MultiHop Aware repetitions, and the interrupted Video
+cell. Two already excluded old Financial Slow-Aware attempts also have the defect.
+New coverage is **21/24**, not 23/24; existing MultiHop is not a clean balanced n=3
+block. Detailed affected-run IDs, input hashes, source mechanism and durable
+evidence are in the [hard-stop report](predecision-specialist-profile-isolation-hard-stop-v1.md).
+
+Driver/controller and all four owned Workers are inactive; tc restoration passes
+with cleanup_error null. No evidence was overwritten/deleted. Interrupted trace
+ends at Verifier input before the stop record, after six completed inferences;
+no normal result/run.end exists, so a separately typed external hard-stop result
+preserves failure/cleanup facts without pretending benchmark completion.
+
+The previous direct-field-only isolation audit was too weak. Full 459 tests/Ruff/
+strict Pyright remain green but do not cover this live recipient-context invariant.
+No automatic code fix/resume is made under the explicit privacy hard-stop.

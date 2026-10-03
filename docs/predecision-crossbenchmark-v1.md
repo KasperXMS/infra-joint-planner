@@ -1,14 +1,19 @@
 # Pre-decision Raw-Aware cross-benchmark characterization v1
 
-**Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
-Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
-795-3 cells, all four 848-1 cells and three 795-2 cells are clean effective results (23/24). The two old
-Financial confounded attempts remain preserved/excluded. Video 795-2 Fast-Blind
-primary failed with an observed backend timeout/hidden-retry confounder and is
-preserved/excluded. Affected-only rerun passed under new freeze `5dafc43`;
-Fast-Aware subsequently completed/evaluated B/0 without an operational incident;
-Slow-Blind also completed/evaluated B/0 without an operational incident;
-only the final Slow-Aware cell is now running.
+**Status: PRIVACY-CONTRACT HARD STOP; 21/24 CLEAN CELLS; OBJECTIVE INCOMPLETE.**
+Updated 2026-10-03. Full-context audit found anonymous dynamic profiles entering
+specialist contexts through SDK tool results. Financial Fast-Aware and News
+Fast-Aware are now excluded; 795-2 Slow-Aware was interrupted. LongBench is
+10/12 admissible, Video 11/12. All 27 new attempts are retained (26 completed,
+one externally aborted); owned processes are inactive and tc is restored.
+Existing MultiHop also has three affected Aware repetitions: no rerun, no overwrite,
+and no longer a clean balanced 12-run comparison. See the
+[hard-stop audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
+
+The 23/24 declarations and complete-family statements below are historical
+snapshots, **superseded** by `5dafc43/audit-progress-005.json` and the 39-trace
+recipient-context audit. Do not use their old eligibility or full-block aggregates
+as current clean evidence. No runtime fix or additional cell follows this stop.
 
 ## Scope and frozen system
 
@@ -110,7 +115,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Task | Condition | Completed / evaluated | Answer / score | E2E s | Action bytes | Model inferences | Manager / Verifier |
 | --- | --- | --- | --- | ---: | ---: | ---: | --- |
 | Financial `66f7c780bb02136c067c35e8` | Fast-Blind | yes / yes | A / 0.0 | 406.653 | 265,938 | 2 | 20 / 20 |
-| Same task | Fast-Aware | yes / yes | A / 0.0 | 318.058 | 486,264 | 2 | 10 / 10 |
+| Same task | Fast-Aware, **excluded: specialist profile leakage** | yes / yes | A / 0.0 | 318.058 | 486,264 | 2 | 10 / 10 |
 | Same task | Slow-Blind | yes / yes | A / 0.0 | 278.919 | 141,047 | 1 | 14 / 14 |
 | Same task | Slow-Aware transport patch, **clean** | yes / yes | A / 0.0 | 251.831 | 486,432 | 1 | 11 / 11 |
 | Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
@@ -120,7 +125,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 176.759 | 25,132 | 1 | 11 / 11 |
 | Same task | Slow-Aware, clean | yes / yes | C / 1.0 | 156.410 | 18,921 | 1 | 11 / 11 |
 | News `66faa8efbb02136c067c7357` | Fast-Blind, clean | yes / yes | C / 1.0 | 600.051 | 107,471 | 5 | 14 / 14 |
-| Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 74.828 | 0 | 1 | 8 / 8 |
+| Same task | Fast-Aware, **excluded: specialist profile leakage** | yes / yes | A / 0.0 | 74.828 | 0 | 1 | 8 / 8 |
 | Same task | Slow-Blind, clean | yes / yes | C / 1.0 | 507.576 | 191,727 | 4 | 13 / 13 |
 | Same task | Slow-Aware, clean | yes / yes | A / 0.0 | 189.024 | 19,112 | 1 | 9 / 9 |
 | Video `795-3` | Fast-Blind, clean | yes / yes | B / 0.0 | 185.443 | 581,538 | 1 | 5 / 5 |
@@ -134,8 +139,10 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Video `795-2` | Fast-Blind backend patch, clean | yes / yes | C / 1.0 | 692.487 | 391,212 | 1 | 8 / 8 |
 | Same task | Fast-Aware, clean | yes / yes | B / 0.0 | 1009.582 | 742,651 | 2 | 10 / 10 |
 | Same task | Slow-Blind, clean | yes / yes | B / 0.0 | 1170.017 | 915,054 | 1 | 5 / 5 |
+| Same task | Slow-Aware, **hard-stopped: specialist profile leakage** | no / no | none / none | unknown final E2E | not a valid cell total | 6 completed before stop | 4 Manager inputs; Verifier interrupted |
 
-All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
+Financial Fast-Aware is now excluded for specialist profile leakage; the other
+three effective Financial conditions are retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
 turn-6 Aware profile candidate count from four to three. The replacement suffered
 the same transport error on A5/A28, marking three sources HOST_UNREACHABLE and
@@ -171,11 +178,37 @@ at the boundary and original deployment hashes remain unchanged. The original
 
 ## Pending final analysis
 
+Full Q1–Q6 characterization cannot be finalized at this hard-stop. The unaffected
+evidence supports only bounded answers:
+
+- Q1: workflow parameters, reduction nodes and information flow vary in admitted
+  Academic/Video trajectories; not proof that every workload responds beneficially.
+- Q2: stability/causality is unproven (new n=1, fixed order and reused model servers;
+  existing MultiHop now has incomplete clean Aware repetitions).
+- Q3: Academic Slow-Aware has one equal-quality, lower-E2E/traffic observation.
+  Video 795-3 Slow saves 5.8% action bytes without E2E benefit; shared scheduler
+  locality must not be attributed exclusively to Aware planning.
+- Q4: clean Financial Slow-Aware still aggregates/moves more than Slow-Blind;
+  Fast Video 795-2 expands evidence yet answers wrongly. A universal Slow→Reduce
+  policy is not established. Confounded Fast-Aware text cells cannot be evidence.
+- Q5: admitted text E2Es are mainly model/cloud work; Slow Video includes large
+  fixed initial transfer, separate from a few seconds of action transfer. Work sums
+  overlap and are not an additive E2E decomposition.
+- Q6: these observations do not identify a reliable network-class heuristic,
+  nor prove that no such heuristic could exist. No new heuristic/method is built.
+
+The research motivation remains a hypothesis about quality-aware action
+consequences, not a demonstrated cross-benchmark method improvement. Repair and
+resumption require a separate decision; the original 24-cell scope is not reduced.
+
 ### Existing MultiHop repetition audit (read-only, no rerun)
 
 The retained one-task block has three repetitions per condition, unlike the new
 n=1 cross-benchmark cells. Sample standard deviation uses n-1; CV is descriptive,
 not a confidence bound. E2E includes each run's initial materialization.
+**Historical statistics only:** subsequent audit excludes Fast-Aware r2/r3 and
+Slow-Aware r1 for specialist profile leakage. The table is preserved to document
+the old block, not a clean balanced comparison; remaining counts are 3/1/3/2.
 
 | Condition | Individual E2E s | Mean / median s | Sample SD s / CV | Quality |
 | --- | --- | --- | --- | --- |
@@ -317,12 +350,12 @@ original text is also shown to avoid mistaking JSON overhead for new information
 
 | Task | Workload / initial sources | Fast-Blind | Fast-Aware | Slow-Blind | Slow-Aware |
 | --- | --- | --- | --- | --- | --- |
-| LongBench Financial | 1,081,150 record bytes; 1,033,800 original text bytes; 4 docs on 3 Workers | 0 / 406.653 / 265938 | 0 / 318.058 / 486264 | 0 / 278.919 / 141047 | 0 / 251.831 / 486432 |
+| LongBench Financial | 1,081,150 record bytes; 1,033,800 original text bytes; 4 docs on 3 Workers | 0 / 406.653 / 265938 | **excluded: specialist profile leakage** | 0 / 278.919 / 141047 | 0 / 251.831 / 486432 |
 | LongBench Academic | 514,789 record bytes; 494,456 original text bytes; 2 docs on 2 Workers | 1 / 126.426 / 63102 | 1 / 175.840 / 243055 | 1 / 176.759 / 25132 | 1 / 156.410 / 18921 |
-| LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | 0 / 74.828 / 0 | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
+| LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | **excluded: specialist profile leakage** | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
 | Video 795-3 | 282,442,048 intact AV1 bytes; 2495.121 s; 1 video on A4 | 0 / 185.443 / 581538 | 1 / 252.371 / 1230240 | 1 / 1069.965 / 1562096 | 1 / 1071.594 / 1471756 |
 | Video 848-1 | 160,083,738 intact AV1 bytes; 2037.781 s; 1 video on A4 | 0 / 442.512 / 798787 | 0 / 226.982 / 380788 | 0 / 871.266 / 981232 | 0 / 711.029 / 409154 |
-| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | 0 / 1009.582 / 742651 | 0 / 1170.017 / 915054 | running |
+| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | 0 / 1009.582 / 742651 | 0 / 1170.017 / 915054 | **hard-stopped: specialist profile leakage; no terminal/evaluator** |
 
 The anonymous static model pool has A28 and strong-4090 deployments, but **all
 completed physical model inferences in these 23 effective cells select A28**.

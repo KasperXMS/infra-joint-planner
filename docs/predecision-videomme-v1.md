@@ -1,6 +1,13 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 AND 848-1 COMPLETE; THREE 795-2 CELLS CLEAN; ONLY SLOW-AWARE PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**HARD STOP: 11/12 CLEAN CELLS; 795-2 SLOW-AWARE INVALID/INTERRUPTED.**
+Dynamic anonymous profile entered its specialist context through a tool result;
+no terminal answer/evaluator outcome exists. All owned processes are inactive,
+tc restored, trace and 41 expected artifacts preserved. No new run or runtime
+fix follows the objective's privacy hard-stop. See the
+[isolation audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
+Older active/PID/coverage descriptions below are historical checkpoints only.
+Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 

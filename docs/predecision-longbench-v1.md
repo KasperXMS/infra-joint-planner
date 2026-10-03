@@ -1,6 +1,12 @@
 # LongBench pre-decision Raw-Aware v1
 
-**FAMILY COMPLETE: 12 CLEAN EFFECTIVE CELLS; VIDEO CONTINUES.** The frozen protocol admits three distinct original multi-document
+**HARD STOP: 10/12 ADMISSIBLE CELLS; FAMILY NOT CLEAN-COMPLETE.** Financial
+Fast-Aware and News Fast-Aware were retrospectively invalidated by specialist
+dynamic-profile leakage through tool results. Earlier complete-family claims and
+quality totals below are preserved historical snapshots, not current eligibility.
+See the [39-trace isolation audit](predecision-specialist-profile-isolation-hard-stop-v1.md).
+No resumption, semantic tuning or replacement follows this privacy hard-stop.
+The frozen protocol admits three distinct original multi-document
 tasks, four conditions each. Selection, original context byte counts, natural
 document boundaries and initial placement are in the
 [protocol](predecision-crossbenchmark-v1-protocol.md).
@@ -34,7 +40,7 @@ score 0. The other eight LongBench cells have since completed in the original sc
 | Condition | E2E s | Action bytes | Model service s | Manager / Verifier | Score |
 | --- | ---: | ---: | ---: | --- | ---: |
 | Fast-Blind (original revision) | 406.653 | 265938 | 113.943 | 20 / 20 | 0 |
-| Fast-Aware (original revision) | 318.058 | 486264 | 117.735 | 10 / 10 | 0 |
+| Fast-Aware (original revision; **excluded: profile leakage**) | 318.058 | 486264 | 117.735 | 10 / 10 | 0 |
 | Slow-Blind (original revision) | 278.919 | 141047 | 51.549 | 14 / 14 | 0 |
 | Slow-Aware (transport patch) | 251.831 | 486432 | 96.379 | 11 / 11 | 0 |
 
@@ -60,7 +66,7 @@ representation: 1,081,150 bytes, 344 chunks, initially on A4/A5/A28/A5.
 | Condition | Status / score | First action | Graph N/E | BM25 / aggregate / read / reduction | Model attempts / inference / context rejects | Specialists / turns | E2E s / action bytes |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Fast-Blind | clean evaluated / 0 | four parallel BM25 | 40/63 | 20/5/5/4 | 6/2/4 | 1/8 | 406.653 / 265,938 |
-| Fast-Aware | clean evaluated / 0 | aggregate | 22/31 | 9/2/6/0 | 5/2/3 | 2/16 | 318.058 / 486,264 |
+| Fast-Aware | **excluded: specialist profile leakage** / 0 | aggregate | 22/31 | 9/2/6/0 | 5/2/3 | 2/16 | 318.058 / 486,264 |
 | Slow-Blind | clean evaluated / 0 | BM25 | 26/29 | 16/4/0/1 | 5/1/4 | 1/8 | 278.919 / 141,047 |
 | Slow-Aware transport patch | clean evaluated / 0 | aggregate | 11/13 | 5/2/0/0 | 4/1/3 | 0/0 | 251.831 / 486,432 |
 
@@ -175,7 +181,7 @@ both Aware answers are `A` / score 0. The wrong answers are retained.
 | Condition | First action | E2E s | Action bytes / transfer s | Manager / Verifier | Tools / model attempts / actual inference | Context rejects | Graph N/E |
 | --- | --- | ---: | --- | --- | --- | ---: | --- |
 | Fast-Blind | BM25 | 600.051 | 107471 / 1.652 | 14 / 14 | 16 / 8 / 5 | 3 | 24 / 26 |
-| Fast-Aware | read (size reject) | 74.828 | 0 / 0 | 8 / 8 | 5 / 2 / 1 | 1 | 7 / 4 |
+| Fast-Aware (**excluded: specialist profile leakage**) | read (size reject) | 74.828 | 0 / 0 | 8 / 8 | 5 / 2 / 1 | 1 | 7 / 4 |
 | Slow-Blind | aggregate | 507.576 | 191727 / 0.945 | 13 / 13 | 19 / 7 / 4 | 3 | 26 / 31 |
 | Slow-Aware | read (size reject) | 189.024 | 19112 / 0.220 | 9 / 9 | 7 / 3 / 1 | 2 | 10 / 6 |
 
@@ -221,6 +227,13 @@ original source hashes. Artifact bodies are read only on remote nodes; only
 coordinates, byte counts and hashes are returned to the development PC.
 
 ## Family completion and bounded conclusions
+
+**Retraction:** the historical twelve-cell audit below checked direct profile
+fields but missed specialist tool-result context. It is not a current family
+completion proof. `5dafc43/audit-progress-005.json` now admits ten LongBench cells,
+with two unresolved Fast-Aware conditions. Their wrong answers remain preserved
+but are not valid Agent-failure comparisons. The four Academic cells and Financial/
+News Slow comparisons remain individually admissible under the retrospective scan.
 
 `longbench-family-completion-audit-001.json` and
 `longbench-family-runtime-integrity-001.json` verify:
