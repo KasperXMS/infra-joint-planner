@@ -2,8 +2,8 @@
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
-795-3 cells and 848-1 Fast-Blind are clean effective results (17/24). The two old
-Financial confounded attempts remain preserved/excluded. Video 848-1 Fast-Aware is active.
+795-3 cells and the 848-1 Fast pair are clean effective results (18/24). The two old
+Financial confounded attempts remain preserved/excluded. Video 848-1 Slow-Blind is active.
 
 ## Scope and frozen system
 
@@ -100,6 +100,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Blind, clean | yes / yes | A / 1.0 | 1069.965 | 1,562,096 | 1 | 3 / 3 |
 | Same task | Slow-Aware, clean | yes / yes | A / 1.0 | 1071.594 | 1,471,756 | 1 | 3 / 3 |
 | Video `848-1` | Fast-Blind, clean | yes / yes | B / 0.0 | 442.512 | 798,787 | 1 | 6 / 6 |
+| Same task | Fast-Aware, clean | yes / yes | A / 0.0 | 226.982 | 380,788 | 1 | 6 / 6 |
 
 All four effective Financial conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -217,6 +218,17 @@ cadence, recovers a rejected 16-image request into 11 distributed input frames,
 then answers incorrectly. E2E 442.512 s is chiefly model (259.739 s), cloud Manager
 (72.368 s) and decode/operator (73.009 s) work, not action transfer (1.429 s).
 No semantic retry or tuning; seven Video conditions remain, Fast-Aware is active.
+
+`audit-progress-013.json` adds clean 848-1 Fast-Aware: A/0, six fresh profile/input
+hashes / Blind Verifier hashes, 56 successful probes, all provenance/privacy,
+persistence/cleanup checks pass. It naturally recovers a 31-image context rejection
+by constructing a 31-frame contact sheet and using it in actual A28 inference.
+This is a genuine extra reduction node, with 52.3% fewer action bytes / 48.7% lower
+E2E than Fast-Blind, **but both wrong**, not a solved quality-preserving benefit.
+Remote image checks verify readable identical 2560×720 JPEG sheet copies on A4/A28,
+all 31 inputs, declared thumbnail/JPEG reduction; no PC image payload transfer.
+Current progress: 20 preserved attempts / 18 effective cells / six pending;
+848-1 Slow-Blind is active, not restarted during long initial materialization.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 

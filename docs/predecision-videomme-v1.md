@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 COMPLETE; 848-1 FAST-BLIND CLEAN; 7/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 COMPLETE; 848-1 FAST PAIR CLEAN; 6/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -95,7 +95,7 @@ attempts / 16 effective cells / eight remaining conditions. Queue is now in 848-
 Fast-Blind. Wait for that task and 795-2 before final cross-workload interpretation;
 n=1 cannot establish stable infrastructure-conditioned causality.
 
-## 848-1: first clean trajectory (task comparison pending)
+## 848-1: clean Fast pair (four-condition comparison pending)
 
 The intact original 2037.781 s / 160083738-byte AV1 video starts on A4.
 Fast-Blind naturally samples 31 frames at 64 s cadence. Its first model request
@@ -107,6 +107,7 @@ chapter-boundary visibility are not asserted by the index/cadence metadata alone
 | Condition | Completion / format / score | Answer | E2E s | Initial placement s | Action bytes / transfer s | Manager / Verifier | Model attempts / inference / context rejects | Graph N/E |
 | --- | --- | --- | ---: | ---: | --- | --- | --- | --- |
 | Fast-Blind | yes / valid / 0 | B | 442.512 | 13.921 | 798787 / 1.429 | 6 / 6 | 2 / 1 / 1 | 3 / 27 |
+| Fast-Aware | yes / valid / 0 | A | 226.982 | 13.973 | 380788 / 0.287 | 6 / 6 | 2 / 1 / 1 | 4 / 63 |
 
 Manager work 72.368 s, Blind Verifier 20.477 s, operator/decode 73.009 s,
 physical model service 259.739 s; terminal artifact/prompt 798787/671 bytes,
@@ -122,6 +123,37 @@ reaches the original evaluator; not a budget, format or deployment outage. The
 trace does not distinguish inadequate chapter evidence from erroneous ordering
 reasoning without inspecting decisive visual content; no repair/tuning is made.
 
-Merged `audit-progress-012.json`: 19 preserved attempts / 17 effective cells / seven
-pending. 848-1 Fast-Aware is active. The four-condition task audit follows only
+Fast-Aware samples 31 frames at 65 s cadence. An initial request for all 31 images
+fails static context preflight; the Manager naturally continues with a real
+`make_contact_sheet` call, columns 8 / cells 320×180, then invokes the model on that
+single output. This adds a semantic reduction node instead of selecting a subset
+of individual frames. It produces canonical A, also wrong. No new tool, prompt,
+heuristic, retry or hidden summary was introduced.
+
+Its Manager / Verifier work is 59.144 / 19.791 s, decode/sheet tool work 74.411 s,
+physical model service 57.891 s, terminal prompt 1001 bytes, actual input/output
+tokens 2113/2. One actual inference, no specialists or action overlap. All 56 probes,
+six fresh Aware Manager inputs / six Blind Verifier hashes, provenance/privacy,
+persistence and cleanup pass; two semantic-validation failures are recorded.
+
+Contact sheet provenance was checked **on remote A4 and A28**, without transferring
+pixels to the PC: both copies are readable JPEG, 2560×720 / 380788 bytes, SHA-256
+`05534551d06425ba32eeb667fb2f8d6c934e8bc66b4d11eaf7ff11213c059a31`.
+All 31 input frames are placed row-major, downscaled into declared cells and encoded
+at generic operator JPEG quality 90. This is an explicit **lossy Agent-selected
+execution reduction**, not a modification of the intact benchmark input and not
+silent truncation. Thumbnail legibility may limit evidence, but decisive-frame
+or OCR loss as the exact error cause is not proven.
+
+Fast-Aware action bytes are 52.3% lower and E2E 48.7% lower than Fast-Blind; both
+scores are zero, so do not present this as successful quality-constrained adaptation.
+The major service-work saving comes from 11 individual image inputs → one composite
+image (259.739 → 57.891 s), not just the ~1.1 s transfer difference. It is a genuine
+execution-grown graph/representation difference, but not yet a Fast→Slow response.
+
+Durable partial audits: `video-848-1-fast-pair-audit-001.json` (trace/provenance and
+unchanged original task), `video-848-1-contact-sheet-content-integrity-001.json`
+(actual image metadata/checksums). Full evidence stays remote.
+Merged `audit-progress-013.json`: 20 preserved attempts / 18 effective cells / six
+pending. 848-1 Slow-Blind is active. The four-condition task audit follows only
 after all four cells complete or validly fail.
