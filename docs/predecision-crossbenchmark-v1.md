@@ -3,7 +3,8 @@
 **Status: FINANCIAL FOUR-CELL AUDIT CLEAN; FIXED SUFFIX RUNNING; scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Four Financial conditions have clean effective
 results. The authorized Slow-Aware transport-patch rerun completed; its two old
-confounded attempts remain preserved. Academic Fast-Blind is the next active cell.
+confounded attempts remain preserved. Academic Fast-Blind also completed cleanly
+with score 1; Academic Fast-Aware is active (five effective cells so far).
 
 ## Scope and frozen system
 
@@ -84,6 +85,7 @@ completed task comparison. The fixed suffix began with Academic Fast-Blind.
 | Same task | Slow-Aware transport patch, **clean** | yes / yes | A / 0.0 | 251.831 | 486,432 | 1 | 11 / 11 |
 | Same task | Slow-Aware primary, **excluded/confounded** | yes / yes | A / 0.0 | 311.743 | 486,420 | 2 | 10 / 10 |
 | Same task | Slow-Aware replacement, **excluded/confounded** | yes / yes | A / 0.0 | 412.727 | 58,287 | 2 | 10 / 10 |
+| Academic `66f2c44e821e116aacb2b826` | Fast-Blind, clean | yes / yes | C / 1.0 | 126.426 | 63,102 | 1 | 9 / 9 |
 
 All four effective conditions are clean retained semantic quality failures. Fourth primary
 is preserved but excluded: one A4 observer transport disconnect changed the actual
@@ -139,6 +141,13 @@ scores are zero. Lower E2E is not evidence of network-efficient, quality-preserv
 adaptation: Manager/Verifier/model work differs, n=1 does not exclude stochastic
 trajectory variation, and the one transport-only revision difference is disclosed.
 No method or prompt is tuned to correct these results.
+
+`audit-progress-002.json` retains seven attempts and selects five effective cells.
+Academic Fast-Blind passed 112/112 probes, 9 Manager and 9 Verifier input hashes,
+terminal provenance, persistence, privacy, shutdown and tc restore. It retrieved
+first, used one specialist / 8 turns, 14 nodes / 13 edges, one context-preflight
+rejection and one actual model inference. This is a correct individual result,
+not a complete Academic task comparison or a family-level quality claim.
 
 ## Historical completion audit at the blocking boundary (before authorization)
 
