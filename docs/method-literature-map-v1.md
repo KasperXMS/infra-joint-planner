@@ -1,0 +1,380 @@
+# Method literature map v1
+
+Status: **incomplete reading ledger**, 2026-10-04. Not a finished review.
+Only verified original-text findings are entered below. Pending entries are not
+treated as evidence for method selection or absence of competing work.
+
+## Reading coverage
+
+| # | Requested original work | Reading status |
+| --- | --- | --- |
+| 1 | Cost-Aware Optimization for Agentic Query Execution / EnumGRPO | Main text and references read; figure inspection pending |
+| 2 | Abacus | Main text and references read; PDF figure inspection pending |
+| 3 | CostBench | Main text/appendices/references and published prompt pages read; prompt pages visually inspected |
+| 4 | Budget-Aware Tool-Use Enables Effective Agent Scaling | Main text/appendices/references and embedded prompts/cases read; prompt/case pages visually inspected |
+| 5 | INFRAMIND | Original HTML through appendix/references read; figures pending |
+| 6 | Murakkab | Full v2 preprint HTML read; published OSDI PDF/version comparison pending |
+| 7 | Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs | Original HTML through references read; figures pending |
+| 8 | From Intent to Infrastructure | Original HTML through references read; figures pending |
+| 9 | LLMCompiler | Main text/appendices/references and published prompt pages read; remaining figures pending |
+| 10 | Flow | Main text and complete PDF appendices/references read; workflow-update figure visually inspected |
+| 11 | AFlow | Main text/appendices/references and PDF-embedded code/prompts read; optimizer prompt visually inspected |
+| 12 | DynTaskMAS | Complete published nine-page PDF read; architecture visually inspected |
+| 13 | GPTSwarm | Pending |
+| 14 | MasRouter | Pending |
+| 15 | Automated Design of Agentic Systems | Pending |
+| 16 | Palimpzest | Pending |
+| 17 | DocETL | Pending |
+| 18 | Optimizing Agentic Workflows using Meta-tools | Pending |
+| 19 | RouteLLM | Pending |
+| 20 | FrugalGPT | Pending |
+| 21 | Adaptive Query Processing | Pending |
+
+## 1. Cost-Aware Optimization for Agentic Query Execution
+
+Authors: Lunyiu Nie, Yilin Xia, Yiren Liu, Christopher Jermaine, Swarat Chaudhuri.
+2026 arXiv preprint; an accepted venue is **not verified**.
+[Canonical](https://arxiv.org/abs/2606.03152),
+[original HTML v1](https://arxiv.org/html/2606.03152v1),
+[PDF](https://arxiv.org/pdf/2606.03152),
+[code](https://github.com/Flitternie/EnumGRPO).
+
+| Field | Original-text finding / comparison |
+| --- | --- |
+| Problem / representation | Cost-aware agentic queries; evolving relational workspace |
+| State / actions | Query, schemas, samples, statistics, trace; SQL/LLM/auxiliary operations |
+| Dynamic infra / locality | Distributed runtime network/locality optimization not demonstrated |
+| Semantic change / full plan | Stepwise observation-conditioned actions; no upfront fixed full plan required |
+| Cost / quality | Operator tokens/dollars; reference-based tuple/cell quality during training |
+| Method / timing | Offline axis enumeration and contrastive in-context heuristic learning; online execution without enumeration |
+| Workloads / baselines | SWAN, four SQLite databases; AgenticText2SQL, AgenticBlendSQL, base agent |
+| Assumptions | Training references; cloud models; reported single CPU/cloud testbed |
+| Overlap / collision | Cost-aware evolving semantics and logical/physical distinction already present |
+| Difference | Dynamic distributed artifact movement and separate device scheduler are not established here |
+| Reusable mechanism | Contrastive distillation with scope/counterexamples; separately versioned if used |
+| Baseline role | Close semantic cost-aware comparator, not direct hardware-placement baseline |
+
+Reading locators: HTML sections 2-5 and conclusion/references. Its operator
+placement axis concerns semantic pre/post-aggregation ordering, not GPU placement.
+
+## 2. Abacus: A Cost-Based Optimizer for Semantic Operator Systems
+
+Authors: Matthew Russo, Chunwei Liu, Sivaprasad Sudhir, Gerardo Vitagliano,
+Michael Cafarella, Tim Kraska, Samuel Madden.
+PVLDB 19(5), 1060-1073, 2026; DOI 10.14778/3796195.3796215.
+[Canonical](https://arxiv.org/abs/2505.14661),
+[original HTML v3](https://arxiv.org/html/2505.14661v3),
+[PDF](https://arxiv.org/pdf/2505.14661v3),
+[code](https://github.com/mitdbg/palimpzest).
+
+| Field | Original-text finding / comparison |
+| --- | --- |
+| Problem / representation | Constrained semantic-operator optimization; developer logical pipelines |
+| State / actions | Sampled quality/cost/latency, priors; implementation and rewrite rules |
+| Dynamic infra / locality | Runtime distributed locality/network adaptation not demonstrated |
+| Semantic change / full plan | Reordering/reduced-context implementations; optimize before primary execution |
+| Cost / quality | Dollars/latency; labels or model judge, per-operator estimates |
+| Method / timing | Pareto-Cascades plus bandit sampling during optimization |
+| Workloads / baselines | BioDEX, CUAD, MMQA; LOTUS, DocETL, no-context model |
+| Assumptions | Approximate operator independence; product quality, additive costs, max-path latency |
+| Overlap / collision | Profile-guided quality-cost workflow optimization is not new |
+| Difference | Not an open-ended online Manager operating on changing distributed infrastructure |
+| Reusable mechanism | Uncertainty/support-aware operator estimates; no private quality oracle for our estimator |
+| Baseline role | Declarative optimizer comparator, not drop-in unrestricted online Agent |
+
+Reading locators: HTML sections 2-4, algorithms 1-5. Optimization samples execute
+operators; they are not no-execution quotes. MMQA corpus filtering uses ground
+truth related-item coverage, unsuitable to copy into our faithful adapter.
+Abstract and section 4.3 numerical summaries differ; no headline speedup is
+adopted here pending PDF verification.
+
+## 3. CostBench: Evaluating Multi-Turn Cost-Optimal Planning and Adaptation in Dynamic Environments for LLM Tool-Use Agents
+
+Authors: Jiayu Liu, Cheng Qian, Zhaochen Su, Qing Zong, Shijue Huang,
+Bingxiang He, Yi R. (May) Fung. ACL 2026, pp. 12826-12858.
+[Canonical](https://aclanthology.org/2026.acl-long.584/),
+[published PDF](https://aclanthology.org/2026.acl-long.584.pdf),
+[HTML v3](https://arxiv.org/html/2511.02734v3),
+[code](https://github.com/JiayuJeff/CostBench).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Dynamic cost-sensitive tool planning; ordered typed pipelines |
+| State / actions | Query, costs, history, blocking events; atomic/composite tools |
+| Dynamic infra / locality | Synthetic tool-cost changes; no measured network/locality |
+| Semantic change / full plan | Iterative path changes; fixed equivalent paths |
+| Cost / quality | Synthetic expenses, coverage and completion |
+| Method / timing | Online LLM decisions; Dijkstra oracle and greedy comparator |
+| Workloads / baselines | Six synthetic domains, ten models; static/dynamic scenarios |
+| Assumptions | Composite tools, guaranteed reachable goals, enumerated equivalent paths |
+| Overlap / collision | Cost visibility does not guarantee rational adaptation |
+| Difference | No real distributed consequence estimation or uncertain semantic equivalence |
+| Reuse / baseline | Motivation; not a new workload in this exploration |
+
+Reading: HTML main/appendices; published PDF pp. 28-33, prompt pages 32-33
+visually inspected. Cost/path metrics condition on goal completion; invalid calls
+are not charged. Our accounting must retain failures and their real work.
+
+## 4. Budget-Aware Tool-Use Enables Effective Agent Scaling
+
+Authors: Tengxiao Liu, Zifeng Wang, Jin Miao, I-Hung Hsu, Jun Yan, Jiefeng Chen,
+Rujun Han, Fangyuan Xu, Yanfei Chen, Ke Jiang, Samira Daruki, Yi Liang,
+William Yang Wang, Tomas Pfister, Chen-Yu Lee. COLM 2026 (arXiv v2 comments).
+[Canonical](https://arxiv.org/abs/2511.17006),
+[HTML v2](https://arxiv.org/html/2511.17006v2),
+[PDF](https://arxiv.org/pdf/2511.17006v2),
+[code](https://github.com/google-research/budget-aware-agent).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Budget-conditioned tool scaling; ReAct trajectories or BATS tree/checklist |
+| State / actions | Used/remaining tool budgets, history; search/browse and domain tools |
+| Dynamic infra / locality | No distributed network/artifact locality model demonstrated |
+| Semantic change / upfront plan | Iterative decisions; BATS updates plans and pivots |
+| Cost / quality | Calls and token/API expenses; benchmark correctness |
+| Method / timing | Online Budget Tracker; BATS verification, restarts, summary and answer selection |
+| Workloads / baselines | BrowseComp, Chinese variant, HLE Search; ReAct, SLIM, parallel scaling; appendix coding/retail |
+| Assumptions | Budget guidance and context management; tool-call budget is not complete system cost |
+| Overlap / difference | Ledger motivation already established; our ledger adds measured distributed execution work |
+| Collision / reuse | Not novel to expose remaining budget; reuse only spent-budget accounting |
+| Baseline role | Simple attributed Ledger; do not import BATS retries/summaries/new verifier |
+
+Reading: embedded Budget Tracker/BATS prompts and cases now read in PDF;
+pp. 24-28 and 30 visually inspected. Tracker includes budget-tier strategy
+guidance, not just balances. Our spent-only Ledger intentionally omits it.
+HTML table/reference gaps closed; the other pending papers still keep the
+overall 21-paper review gate open.
+
+## 5. INFRAMIND: Infrastructure-Aware Multi-Agent Orchestration
+
+Authors: Ahasan Kabir, Jiaqi Xue, Mengxin Zheng, Qian Lou. 2026 preprint;
+accepted venue and code URL unverified.
+[Canonical](https://arxiv.org/abs/2606.11440),
+[HTML](https://arxiv.org/html/2606.11440v1),
+[PDF](https://arxiv.org/pdf/2606.11440).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Latency/quality-constrained MAS; arrival-time topology/role assignment |
+| State / actions | Queues, cache, time remaining; five models times three reasoning strategies |
+| Dynamic infra / locality | Shared serving load; distributed artifact locality not demonstrated |
+| Semantic change / upfront plan | Initial topology committed; runtime topology revision explicitly future work |
+| Cost / quality | Latency; task reward with quality constraint |
+| Method / timing | Hierarchical CMDP; planner REINFORCE, executor PPO, shared multiplier; online EDF |
+| Workloads / baselines | Math/code/MMLU-Pro; MoA, GPTSwarm, MasRouter; two B200 GPUs |
+| Assumptions | Fixed serving pool, trained policies, selected inference strategies |
+| Overlap / collision | Infrastructure-aware MAS and structure conditioned on initial load already exist |
+| Difference | No demonstrated online evidence-conditioned retrieval/reduction graph evolution |
+| Reuse / baseline | Separate initial structural choice from runtime execution routing; conceptual infra-aware comparator |
+
+Original-text locator: sections 3-6 and appendices. Do not describe its entire
+planner action space as finite solely from the executor's fifteen choices.
+
+## 6. Murakkab: Resource-Efficient Agentic Workflow Orchestration in Cloud Platforms
+
+Authors: Gohar Irfan Chaudhry, Esha Choukse, Haoran Qiu, Inigo Goiri,
+Rodrigo Fonseca, Adam Belay, Ricardo Bianchini. OSDI 2026, pp. 567-587.
+[Canonical](https://www.usenix.org/conference/osdi26/presentation/chaudhry),
+[published PDF](https://www.usenix.org/system/files/osdi26-chaudhry.pdf),
+[preprint HTML v2](https://arxiv.org/html/2508.18298v2).
+Code URL unverified.
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Declarative task dependencies, reusable workflow components/configuration knobs |
+| State / actions | Demand, resource availability, profiles; workflow knobs, models, hardware, instances |
+| Dynamic infra / locality | Adaptive demand/resources; distributed artifact-link costing not demonstrated |
+| Semantic change / upfront plan | Configuration can alter enabled tasks/frames/debate; query composition supported |
+| Cost / quality | Cost, latency, energy, quality/SLO; offline ground-truth workload profiles |
+| Method / timing | Offline profiles, periodic MILP optimization, online dispatch/autoscaling |
+| Workloads / baselines | Video QA, code debate, math reflection; manually configured runtime and ablations |
+| Assumptions | Registered components/configurations and reusable hardware/service profiles |
+| Overlap / collision | Strong cross-layer/profile-guided heterogeneous orchestration overlap |
+| Difference | Not demonstrated continuous evidence-driven Manager decisions with per-action no-execution quotes |
+| Reuse / baseline | Separate workload-quality profiles from hardware service profiles; systems comparator |
+
+This entry describes the fully read v2 preprint. Published PDF differences remain
+unverified. **Not** accurately characterized as physical-only or immutable-DAG.
+
+## 7. Latency-Aware Orchestration for Multi-Agent LLM Workflows on Heterogeneous GPUs
+
+Authors: Jinghao Wang, Yifeng Zhang, Xiao Zhou, Yao Lu, Yihui Zhang, Xiaoyang
+Sun, Tianyu Wo, Xu Wang, Chunming Hu, Renyu Yang. September 2026 preprint;
+venue/code release unverified.
+[Canonical](https://arxiv.org/abs/2609.03335),
+[HTML](https://arxiv.org/html/2609.03335v1),
+[PDF](https://arxiv.org/pdf/2609.03335).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Incrementally exposed logical graph; physical execution graph/window |
+| State / actions | Device/residency/memory/load; placement, fusion, lease, prefetch, reclamation |
+| Dynamic infra / locality | Heterogeneous GPU lifecycle and concurrent demand; artifact-link modeling not demonstrated |
+| Semantic change / upfront plan | Preserves logical semantics/model assignments; logical graph may emerge incrementally |
+| Cost / quality | Completion latency/memory; semantics preservation rather than quality optimization |
+| Method / timing | Offline device-aware GNN predictor; online ready-window heuristic and lifecycle decisions |
+| Workloads / baselines | GSM8K ensemble, MBPP repair, QMSum; Parrot, Kairos, predictor ablations |
+| Assumptions | Operator/model profiles; resolved ready/future demands; V100/A100 serving pool |
+| Overlap / collision | Logical/physical separation and incremental graph scheduling already exist |
+| Difference | Physical rewrites, not evidence-dependent semantic workflow revisions |
+| Reuse / baseline | Validate decision ordering, not just estimator error; strong physical-optimization comparator |
+
+## 8. From Intent to Infrastructure: LLM-Driven Agent Compilers for ISAC Networks
+
+Authors: Lijie Zheng, Xudong Zhong, Baoquan Ren, Xiangwu Gong, Xinghui Zhu,
+Ji He. July 2026 preprint; venue/code URL unverified.
+[Canonical](https://arxiv.org/abs/2607.16269),
+[HTML](https://arxiv.org/html/2607.16269v1),
+[PDF](https://arxiv.org/pdf/2607.16269).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Intent compilation into ISAC policy graph with constraints/feedback edges |
+| State / actions | Capabilities/channel/environment; task decomposition, mapping, parameter/recompilation decisions |
+| Dynamic infra / locality | Network/environment changes; artifact-locality costing not demonstrated |
+| Semantic change / upfront plan | Compiled graph; fast parameter, partial and full recompilation tiers |
+| Cost / quality | Mission utility, control latency, energy; simulated detection/communication outcomes |
+| Method / timing | Slow LLM compiler plus deterministic fast solvers; runtime tiered adaptation |
+| Workloads / baselines | UAV rescue simulation; Fixed Rule, MADDPG, Direct LLM |
+| Assumptions | ISAC library/capability database and simulation models |
+| Overlap / collision | Cross-layer compilation and infrastructure-conditioned graph revision already exist |
+| Difference | Not measured data-intensive Agent tool/model action-consequence feedback |
+| Reuse / baseline | Separate adaptation timescales; conceptual lineage, not drop-in benchmark baseline |
+
+## 9. An LLM Compiler for Parallel Function Calling
+
+Authors: Sehoon Kim, Suhong Moon, Ryan Tabrizi, Nicholas Lee,
+Michael W. Mahoney, Kurt Keutzer, Amir Gholami. ICML 2024,
+PMLR 235, pp. 24370-24391.
+[Canonical](https://proceedings.mlr.press/v235/kim24y.html),
+[published PDF](https://raw.githubusercontent.com/mlresearch/v235/main/assets/kim24y/kim24y.pdf),
+[HTML v3](https://arxiv.org/html/2312.04511v3),
+[code](https://github.com/SqueezeAILab/LLMCompiler).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Parallel function calls; dependency DAG and placeholders |
+| State / actions | Tools, history, executor observations; calls and finish/replan |
+| Dynamic infra / locality | Network, device locality and load not modeled |
+| Semantic change / full plan | Supports iterative replanning, not solely one-shot compilation |
+| Cost / quality | Tokens/dollars, latency, benchmark correctness |
+| Method / timing | Online streamed planning, readiness dispatch, result-conditioned replanning |
+| Workloads / baselines | QA, MovieRec, ParallelQA, Game24, WebShop; ReAct, parallel calling, TPTU |
+| Assumptions | Declared tools; curated tool access; benchmark-specific demonstrations |
+| Overlap / collision | Parallel dynamic logical graphs already exist |
+| Difference | No infrastructure-conditioned semantic consequence feedback |
+| Reuse / baseline | Readiness dispatch; resource-oblivious conceptual comparator |
+
+Reading: HTML main/appendices, published PDF references and pp. 19-22 prompts;
+p. 20 visually inspected. Section 3.4 explicitly replans from observations.
+Streaming analysis assumes timing relationships; it is not a general critical-path
+formula for heterogeneous stragglers.
+
+## 10. Flow: Modularized Agentic Workflow Automation
+
+Authors: Boye Niu, Yiliao Song, Kai Lian, Yifan Shen, Yu Yao,
+Kun Zhang, Tongliang Liu. ICLR 2025.
+[Canonical](https://proceedings.iclr.cc/paper_files/paper/2025/hash/ba84da6921f3040b74ee163aa7451f53-Abstract-Conference.html),
+[PDF](https://arxiv.org/pdf/2501.07834v2),
+[HTML](https://arxiv.org/html/2501.07834v2),
+[code](https://github.com/tmllab/2025_ICLR_FLOW).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Modular collaboration; activity-on-vertex DAG |
+| State / actions | Status/results/global requirements; add/delete/edit/rerun/reassign tasks |
+| Dynamic infra / locality | No measured deployment/network/locality optimization |
+| Semantic change / full plan | Initial graph, then execution-result-driven revisions |
+| Cost / quality | Execution time; task success and human ratings |
+| Method / timing | LLM candidate graphs ranked by parallelism then degree dispersion |
+| Workloads / baselines | Website, Gobang, slides; AutoGen, CAMEL, MetaGPT |
+| Assumptions | Global inspection; generated roles; cloning parallel agents |
+| Overlap / collision | Dynamic semantic graph refinement already established |
+| Difference | Structural modularity, not physical action-consequence optimization |
+| Reuse / baseline | Account for revision overhead; conceptual dynamic Blind comparator |
+
+Reading: HTML main; PDF pp. 12-36, including all appendix algorithms/prompts and
+proof; Figure 3 visually inspected. Evaluations wait for running tasks before
+updates. Revision adds overhead; parallelism metrics are not measured speedup.
+
+## 11. AFlow: Automating Agentic Workflow Generation
+
+Authors: Jiayi Zhang, Jinyu Xiang, Zhaoyang Yu, Fengwei Teng, Xiong-Hui Chen,
+Jiaqi Chen, Mingchen Zhuge, Xin Cheng, Sirui Hong, Jinlin Wang,
+Bingnan Zheng, Bang Liu, Yuyu Luo, Chenglin Wu. ICLR 2025.
+[Canonical](https://proceedings.iclr.cc/paper_files/paper/2025/hash/5492ecbce4439401798dcd2c90be94cd-Abstract-Conference.html),
+[PDF](https://arxiv.org/pdf/2410.10762v3),
+[HTML](https://arxiv.org/html/2410.10762v3),
+[code](https://github.com/geekan/MetaGPT).
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Automated workflows; code edges, LLM nodes, reusable operators |
+| State / actions | Validation results and experience; code/prompt edits |
+| Dynamic infra / locality | No runtime distributed resource/locality adaptation |
+| Semantic change / full plan | Whole workflow searched offline; code can contain loops/conditionals |
+| Cost / quality | Token dollars and benchmark scores; reported Pareto frontier |
+| Method / timing | MCTS variant, LLM expansion, repeated validation and backpropagation |
+| Workloads / baselines | Six QA/math/code benchmarks; manual approaches and ADAS |
+| Assumptions | Validation evaluator; model/temperature/format fixed in primary search |
+| Overlap / collision | Open code topology and semantic optimization already exist |
+| Difference | Not online execution-grown resource-conditioned action quoting |
+| Reuse / baseline | Explicit optimization overhead; conceptual offline-search comparator |
+
+Reading: HTML plus PDF pp. 7-38; embedded optimizer prompt/code read, p. 15
+visually inspected. Cost frontier is execution expense, not total search cost.
+Open-ended-task appendix uses judges; not permission to expose our evaluator.
+
+## 12. DynTaskMAS: A Dynamic Task Graph-driven Framework for Asynchronous and Parallel LLM-based Multi-Agent Systems
+
+Authors: Junwei Yu, Yepeng Ding, Hiroyuki Sato. ICAPS 2025, 35(1), pp. 288-296;
+DOI 10.1609/icaps.v35i1.36130.
+[Canonical](https://ojs.aaai.org/index.php/ICAPS/article/view/36130),
+[published PDF](https://ojs.aaai.org/index.php/ICAPS/article/download/36130/38284).
+Code URL unverified.
+
+| Field | Finding / comparison |
+| --- | --- |
+| Problem / representation | Adaptive collaboration; weighted dynamic task DAG |
+| State / actions | Task progress, context, latency/utilization; graph changes and resource allocation |
+| Dynamic infra / locality | Load-aware; distributed context and transfer weights, not explicit artifact-route estimates |
+| Semantic change / full plan | Recursive initial decomposition and ongoing graph updates |
+| Cost / quality | Computation/context-transfer estimates; performance, no benchmark-quality objective shown |
+| Method / timing | Online priority scheduling, candidate configuration evaluation, greedy allocation |
+| Workloads / baselines | Complexity/scaling tests and travel; serial comparator, four RTX3090 GPUs |
+| Assumptions | Complexity/transfer estimators and candidate generator not fully specified |
+| Overlap / collision | Dynamic graphs plus resource/context-transfer feedback already claimed |
+| Difference | No demonstrated anonymous no-execution action quote to semantic Manager |
+| Reuse / baseline | Computation/communication distinction; conceptual close systems comparator |
+
+Reading: complete published PDF, Figure 1 visually inspected. Do not call it
+resource-blind. A measured heterogeneous-link semantic-adaptation experiment
+is not established by its aggregate throughput tables.
+
+## Original PDF provenance
+
+Read-only research sources are downloaded/rendered on the 4090, not benchmark
+data transferred through the development PC. Only selected small page images
+are copied for visual inspection. Remote scratch:
+`/home/super/xiaoming/cost-guidance-literature-gnhlgaeb`.
+
+| Source | SHA-256 of downloaded original |
+| --- | --- |
+| CostBench, published ACL PDF | f226078662745d4c450fdb3fd1b5dd6f32326da7b99bff52752b96d232dbdf3f |
+| Budget-Aware, arXiv v2 | 33de6a06ad58c90e5b3c526af1b750c1fae16a38b9dd2fc3cc4f23bbdb340333 |
+| LLMCompiler, published PMLR PDF | 36dde899ed8abe0df728215e054aab21d1699add719afeb0ddadbb4e4eb23263 |
+| Flow, arXiv v2 | 6c729ba58bc8beafb951adb8b27d247c1945804b1419b58f256053ddce6d75f7 |
+| AFlow, arXiv v3 / ICLR-marked PDF | 8d18d9ce80b78ef6dd8e9e3974020a9f45f41a8ba2e3e95be7e3a66053c60bb1 |
+| DynTaskMAS, published ICAPS PDF | 193d914347827c04f73ca7f3004f4ac23f82b1585d1dda445a7bacb738575482 |
+
+Budget-Aware Poppler metadata-string warnings did not prevent inspected pages
+from rendering; source warnings are not treated as failed experimental actions.
+
+## Remaining entry requirements
+
+For every pending work record authors/year/venue, canonical/PDF/code URLs,
+problem, representation, observed state, action space, dynamic infra, locality,
+semantic changes, upfront-plan requirement, cost and quality treatment,
+search/learning, online/offline phase, workloads, baselines, assumptions,
+overlap/difference/collision, reusable mechanism and possible baseline role.
+Missing or inaccessible details remain explicit, not inferred from the title.
