@@ -24,6 +24,9 @@ def admitted(directory: Path) -> bool:
     if not validation_path.is_file():
         raise RuntimeError("existing cell incomplete; audit, never resume or replace its execution")
     validation: dict[str, Any] = json.loads(validation_path.read_text())
+    results = list(directory.glob("runs/*/result.json"))
+    if len(results) != 1 or not (results[0].parent / "trace.jsonl").is_file():
+        raise RuntimeError("admission evidence missing; never skip an unproven cell")
     if not validation["problems"]:
         return True
     # Explicit independent postrun adjudication, not a permissive error-code whitelist.
@@ -31,7 +34,6 @@ def admitted(directory: Path) -> bool:
     if not audit_path.is_file():
         raise RuntimeError("existing cell requires an independent operational/semantic audit")
     audit = json.loads(audit_path.read_text())
-    results = list(directory.glob("runs/*/result.json"))
     if (len(results) != 1 or not audit.get("effective_cell_retained")
             or audit.get("rerun") is not False or not audit.get("remaining_operational_gates_pass")
             or audit.get("runtime_or_semantic_behavior_changed") is not False
@@ -71,7 +73,9 @@ def main(args: argparse.Namespace) -> None:
             if return_code != 0:
                 journal(root, {"event": "resume_audit_required", "cell": cell,
                                "child_return_code": return_code})
-                raise RuntimeError("child audit stop; preserve evidence and diagnose before continuing")
+                raise RuntimeError(
+                    "child audit stop; preserve evidence and diagnose before continuing",
+                )
             if not admitted(directory):
                 raise RuntimeError("child exited without an admitted result")
     journal(root, {"event": "all_primary_cells_finished", "primary_cells": 16})

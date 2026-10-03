@@ -101,3 +101,7 @@ only not-yet-started cells in the original order. Existing incomplete/audit-requ
 cells stop it; independently adjudicated cells require exact retained result/trace
 hashes. A stopped child is never automatically rerun. This changes controller
 resumption only, not the frozen47fbe3b Agent/cell execution.
+
+Resumption verification:540 pytest passed; Ruff pass; strict Pyright0 errors/0
+warnings; diff check pass. Existing terminal result/trace files must exist before
+a cell is skipped; independent adjudications must match their exact hashes.
