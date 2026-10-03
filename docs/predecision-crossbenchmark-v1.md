@@ -2,12 +2,13 @@
 
 **Status: LONGBENCH COMPLETE; VIDEO RUNNING; overall scope incomplete.**
 Updated 2026-10-03 (Asia/Hong_Kong). Twelve LongBench cells, all four Video
-795-3 cells, all four 848-1 cells and both 795-2 Fast cells are clean effective results (22/24). The two old
+795-3 cells, all four 848-1 cells and three 795-2 cells are clean effective results (23/24). The two old
 Financial confounded attempts remain preserved/excluded. Video 795-2 Fast-Blind
 primary failed with an observed backend timeout/hidden-retry confounder and is
 preserved/excluded. Affected-only rerun passed under new freeze `5dafc43`;
 Fast-Aware subsequently completed/evaluated B/0 without an operational incident;
-the remaining two-cell suffix is running, Slow-Blind first.
+Slow-Blind also completed/evaluated B/0 without an operational incident;
+only the final Slow-Aware cell is now running.
 
 ## Scope and frozen system
 
@@ -296,7 +297,7 @@ labels and counts in this chronological history are superseded by this ledger.
 ## Task-level workload map (provisional: five completed tasks)
 
 This view uses the five completed four-cell tasks plus the latest clean 795-2
-Fast-Blind (21 effective cells), **not** excluded attempts or unfinished runs.
+Fast pair and Slow-Blind (23 effective cells), **not** excluded attempts or unfinished runs.
 Each condition entry is `score / E2E seconds / action bytes`.
 Raw artifact bytes are the actual initial execution representation; LongBench
 original text is also shown to avoid mistaking JSON overhead for new information.
@@ -308,17 +309,18 @@ original text is also shown to avoid mistaking JSON overhead for new information
 | LongBench News | 242,295 record bytes; 228,792 original text bytes; 2 docs on 2 Workers | 1 / 600.051 / 107471 | 0 / 74.828 / 0 | 1 / 507.576 / 191727 | 0 / 189.024 / 19112 |
 | Video 795-3 | 282,442,048 intact AV1 bytes; 2495.121 s; 1 video on A4 | 0 / 185.443 / 581538 | 1 / 252.371 / 1230240 | 1 / 1069.965 / 1562096 | 1 / 1071.594 / 1471756 |
 | Video 848-1 | 160,083,738 intact AV1 bytes; 2037.781 s; 1 video on A4 | 0 / 442.512 / 798787 | 0 / 226.982 / 380788 | 0 / 871.266 / 981232 | 0 / 711.029 / 409154 |
-| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | 0 / 1009.582 / 742651 | running | unexecuted |
+| Video 795-2 | Different temporal-order question on the same intact 795 video | 1 / 692.487 / 391212 | 0 / 1009.582 / 742651 | 0 / 1170.017 / 915054 | running |
 
 The anonymous static model pool has A28 and strong-4090 deployments, but **all
-completed physical model inferences in these 21 effective cells select A28**.
+completed physical model inferences in these 23 effective cells select A28**.
 Do not present this experiment as a measured GPU/Jetson model-placement reversal
 or dual-GPU parallel inference study. Video sampling/sheet creation is on A4 in
 both methods: locality is supplied by the shared physical scheduler, not evidence
 that only the Aware logical policy knows how to reduce near data.
 
 Terminal artifact/input byte ratios are recorded in remote
-`cross-workload-metadata-summary-001.json` under the backend-patch root. They are
+`cross-workload-metadata-summary-002.json` under the backend-patch root (22 cells).
+The older 001 contains 20 cells and remains preserved. These ratios are
 **not** semantic-information retention measurements: prompt-embedded evidence,
 prior successful model calls and Manager observations matter. In particular,
 zero terminal artifact bytes does not mean no evidence; a small JPEG composite

@@ -21,6 +21,13 @@ not independently attest account balance or future availability. The next existi
 scheduled call will test actual service access. Preserve
 `qwen-billing-interruption-audit-001.json` under the final patch root.
 
+Append-only follow-up: the next **already-scheduled** Slow-Blind Manager call
+completed successfully at 10:30:37.666347 UTC, then submitted `sample_frames`.
+No extra API probe/retry/replacement was made. Service access is demonstrated by
+that actual reasoning completion, not by assuming the recharge propagated.
+`qwen-billing-interruption-followup-001.json`, SHA-256
+`c219a45c890d957e1ac967b81d526a674aa8d42145323f5bfc4c23b7f5125d44`.
+
 ## Pre-run JSONL diagnostic regression
 
 Before formal runs, the source pool was audited on the 4090. A diagnostic using

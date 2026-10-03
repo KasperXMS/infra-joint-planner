@@ -1,6 +1,6 @@
 # Video-MME pre-decision Raw-Aware v1
 
-**RUNNING: 795-3 AND 848-1 COMPLETE; BOTH 795-2 FAST CELLS CLEAN; 2/12 CONDITIONS PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
+**RUNNING: 795-3 AND 848-1 COMPLETE; THREE 795-2 CELLS CLEAN; ONLY SLOW-AWARE PENDING.** Queue executes all LongBench cells first, then 795-3 / 848-1 /
 795-2 in frozen order, four conditions each. Three questions on two intact original
 AV1 videos, explicitly not three independent video draws.
 
@@ -221,6 +221,27 @@ transferred bytes. Durable `video-848-1-slow-aware-sheet-content-integrity-001.j
 passes; no pixel bodies returned to the PC.
 
 ## 795-2: first clean patched cell
+
+Latest checkpoint: `audit-progress-004.json` / **26 attempts, 23 effective cells,
+one pending**. Slow-Blind completes/evaluates **B / 0 / format valid**, E2E
+1170.017 s, 915054 action bytes / 4.172 s transfer. Fixed initial source transfer
+788.482 s is 67.4% of E2E. It samples 32 at 30 s cadence, requests 32 images
+(context reject), then uses 11 individual images without contact sheets. One
+actual inference reports 10398 input / three output tokens, normal stop,
+260.527 s service time. Five Manager / five Blind Verifier turns, one tool /
+two model attempts, three nodes / 43 edges, no specialist or action overlap;
+Manager / Verifier work 57.331 / 16.422 s, operator work 40.646 s.
+
+This is a clean temporal-evidence/interpretation/synthesis failure, not budget,
+billing, missing artifact or backend failure. The nominal sample range is only
+part of the intact 2495.121 s video; decisive-evidence presence is not established
+by the trace. No semantic repair, replacement or post-hoc answer guessing occurs.
+`video-795-2-slow-blind-cell-audit-001.json`, SHA-256
+`bf5741fbefa7c6b2a91fa7c5810ba3b046a77a8ad807cdfc0a35bb6ce5c67eb5`,
+passes 24 probes, five Manager/Blind Verifier hashes, no Blind dynamic profiles,
+trace/terminal provenance, privacy/persistence, empty stores, inactive Workers and
+tc cleanup. One completed HTTP-200 backend request matches one inference.
+Final Slow-Aware driver PID 3485183 is live; do not infer completion from launch.
 
 Historical Fast-Aware checkpoint (2026-10-03 10:13 UTC; completed audit below):
 its first four-sheet inference returned HTTP 200 with 2272 input / 2048 output
