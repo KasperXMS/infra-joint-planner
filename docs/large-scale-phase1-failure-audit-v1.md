@@ -358,3 +358,27 @@ it must fail or that quote visibility caused improvement. Both original private
 evaluators run; no operational incident or additional adjudication is needed.
 Snapshot-017 contains twenty admitted samples and the queue moves to original
 Video position 2. No outcome-driven skipping or pruning is performed.
+
+## Video position 2: ordinary typed recovery, not another decoder defect
+
+Video 131-3 / DeepSeek / Fast / E, Qwen / Slow / B0 and DeepSeek / Slow / B1
+all complete with valid canonical output, original score 1.0 and no admission
+finding. Each executes sample_frames successfully and reaches one physical model
+inference with normal stop. There is no decoder, backend, store-collision or
+terminal exception in these settled runs. E and B1 each prepare two actions;
+B0 prepares three because one model request is context-rejected before inference.
+Those rejected requests are not counted as inference.
+
+Semantic/schema and phase-restricted calls remain typed observations, not hidden
+repairs. E attempts make_contact_sheet but does not successfully execute it:
+its actual prepared sequence is sample_frames -> invoke_model. The model can
+consume frame artifacts directly; no automatic contact-sheet insertion occurred.
+E rules and optional interface are visible in four actual Manager inputs, with
+zero optional queries. Correct completion proves neither rule adoption nor
+cost-induced topology change. B0/B1/E here differ in Planner and/or network;
+their costs are not a matched awareness effect.
+
+Snapshot-019 independently verifies 23 effective admissions, two preserved exact
+JSON adjudications, one original implementation-confounded attempt and zero
+operational exclusions. Failure-specific private evidence coverage remains
+deferred until the complete Phase I post-run audit. Formal execution is unchanged.
