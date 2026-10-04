@@ -2,8 +2,11 @@ import importlib
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
+
+from infra_joint.control.provenance import provenance_sha256
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 analysis = importlib.import_module("large_scale_snapshot_v1")
@@ -77,3 +80,28 @@ def test_read_only_snapshot_does_not_initialize_missing_ledger(tmp_path: Path) -
     with pytest.raises(RuntimeError, match="cannot initialize"):
         analysis.snapshot(tmp_path)
     assert not (tmp_path / "phase1-attempts.jsonl").exists()
+
+
+def test_settled_result_uses_admissions_canonical_hash_not_formatted_file_hash(
+    tmp_path: Path,
+) -> None:
+    directory = tmp_path / "evidence/cell/attempt1"
+    run = directory / "runs/run"
+    run.mkdir(parents=True)
+    result = {"execution_completed": True, "final_answer": "synthetic answer", "loop": None,
+              "evaluation": {"benchmark_score": 0.0, "format_valid": True}}
+    path = run / "result.json"
+    path.write_text(json.dumps(result, indent=4))
+    (run / "trace.jsonl").write_text("")
+    admission = {"disposition": "valid", "result_sha256": provenance_sha256(result)}
+    (directory / "admission.json").write_text(json.dumps(admission))
+    attempt = SimpleNamespace(attempt_index=1, run_id="run", execution_sha256="a" * 64,
+                              receipt_sha256=provenance_sha256(admission),
+                              disposition="valid", reason="passed")
+    value = analysis.settled_attempt(tmp_path, "cell", attempt)
+    assert value["benchmark_score"] == 0.0 and value["execution_completed"]
+    assert "synthetic answer" not in json.dumps(value)
+    result["final_answer"] = "tampered"
+    path.write_text(json.dumps(result))
+    with pytest.raises(RuntimeError, match="result/admission drift"):
+        analysis.settled_attempt(tmp_path, "cell", attempt)

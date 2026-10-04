@@ -133,8 +133,8 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
         raise RuntimeError("settled admission/ledger drift")
     result_path = directory / "runs" / attempt.run_id / "result.json"
     result = json.loads(result_path.read_text())
-    if admission.get("result_sha256") is not None and hashlib.sha256(
-        result_path.read_bytes()).hexdigest() != admission["result_sha256"]:
+    if (admission.get("result_sha256") is not None
+            and provenance_sha256(result) != admission["result_sha256"]):
         raise RuntimeError("settled result/admission drift")
     events = [json.loads(line) for line in result_path.with_name("trace.jsonl").read_text(
         encoding="utf-8").splitlines()]
