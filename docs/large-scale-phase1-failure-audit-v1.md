@@ -450,3 +450,21 @@ artifact transfer does not prove absence of cloud information movement. No
 semantic recovery rule, prompt/budget change or manual action repair is added.
 Parent1978333 advances to original Academic / DeepSeek / Slow / A child1987511,
 both verified live. The settled-case hash and all counters are in results.
+
+## Failed-run measured costs recovered without editing the failed result
+
+The provider-refused Academic B0 attempt's original result.telemetry remains
+null. Frozen runner source and original trace establish explicit run.failed
+E2E102.942 s, two completed initial placements totaling514,789 bytes /0.334 s,
+zero action transfers and0.953 s successful operator work. Its sole failed
+physical action stops at selection; all17 prepared actions have physical receipts.
+No unmeasured execution-stage failure is present. These actual receipt values
+are available even though there is no terminal/evaluation/AgentLoopResult.
+
+Separate failed-cost-audit-001 binds trace/result/frozen runner/collector hashes.
+No original file, prompt or online ledger is changed. It does not impute failed
+cloud-call tokens or USD: those still remain unknown. Complete-movement unknown
+rules also protect the older post-inference JSON failures; a failed action
+interval is not an inference-service measurement. Audit file SHA-256:
+0484e67c66df93ca5a326816d892821d10ff0fdfbeac6d113871bd1f3f234dd3.
+Full pytest793 passed (19.72 s), Ruff, strict Pyright and diff check pass.

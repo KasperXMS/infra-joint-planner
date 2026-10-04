@@ -68,6 +68,21 @@ artifact payload, not packet-level wire overhead. Summed transfer/operator/model
 cloud service work can overlap. invoke_model operator time includes model service;
 do not add these into a purported E2E decomposition. No scalar objective is formed.
 
+For failed runs, original result telemetry can be absent although the frozen
+runner records explicit run.failed.e2e_latency_ms. A separate offline
+trace_cost_receipts projection reports that persisted clock value, completed
+initial-materialization receipts, successful execution transfer/operator receipts
+and their completeness. Never derive elapsed time from arbitrary first/last trace
+timestamps. Missing endpoints stay unknown; multiple endings or duplicate
+physical receipts fail closed. Missing prepared-action outcomes or execution-stage
+failures make complete movement unknown even when successful receipt subtotals
+exist. A selection-only failure occurs before execution and adds no guessed
+movement. Partial initial receipts are not assumed to equal requested placement.
+Original result/trace/admission are not filled in or edited, and the projection
+does not enter Agent feedback. Twelve synthetic regressions bring the full suite
+to 793 passed, Ruff/strict Pyright/diff pass. Collector source SHA-256:
+62da5882ff1d83ecc38b9df38475be896c643581eaf65b69735da0b1f04ee561.
+
 ## Admission, interpretation and stage gates
 
 Every settled attempt remains visible, including the original excluded attempt.
