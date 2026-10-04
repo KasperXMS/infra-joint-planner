@@ -252,7 +252,10 @@ Stop after the frozen Phase II block and audit; no new method/model/benchmark/N.
   LongBench source counts and evidence-span proxies; do not invent those values.
 - Historical E holdout mapping: actual rule-source labels/hash verified; all eighteen
   identities are disjoint, and the historical source video is also excluded.
-- Pricing and per-recipient monetary usage coverage: pending implementation/admission.
+- Regional alias prices, dated ECB FX and raw-provider monetary arithmetic are
+  frozen and checked against the six existing synthetic responses; see
+  [accounting readiness](large-scale-api-accounting-readiness-v1.md). Pass-through
+  collection across every formal method/recipient remains pending admission.
 - Deterministic schedule/Phase II guards: tested; actual 168-cell ordered schedule
   frozen with all eighteen task identities. Remote reservation/full recipient audit/
   runner integration: pending verification; no formal execution admission yet.
