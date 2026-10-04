@@ -82,6 +82,33 @@ def test_read_only_snapshot_does_not_initialize_missing_ledger(tmp_path: Path) -
     assert not (tmp_path / "phase1-attempts.jsonl").exists()
 
 
+def test_classified_provider_failure_keeps_quality_usage_and_cost_unknown(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    directory = tmp_path / "evidence/cell/attempt1"
+    run = directory / "runs/run"
+    run.mkdir(parents=True)
+    result = {"execution_completed": False, "final_answer": None, "loop": None,
+              "evaluation": None, "telemetry": None,
+              "failure": {"code": "logical_loop_failed", "exception_type": "AgentLoopError"}}
+    (run / "result.json").write_text(json.dumps(result))
+    (run / "trace.jsonl").write_text("")
+    (directory / "api-accounting.json").write_text(json.dumps({"roles": {
+        "all": {"known_usd_subtotal": "0.1", "complete_usd_total": None}}}))
+    admission = {"disposition": "valid", "result_sha256": provenance_sha256(result),
+                 "failure_class": "provider_input_policy", "problems": []}
+    monkeypatch.setattr(analysis, "effective_admission", lambda root, attempt: admission)
+    attempt = SimpleNamespace(run_id="run", attempt_index=1, execution_sha256="b" * 64,
+                              receipt_sha256=provenance_sha256(admission), disposition="valid",
+                              reason="audited_provider_input_policy_failure")
+    value = analysis.settled_attempt(tmp_path, "cell", attempt)
+    assert value["provider_policy_failure"]
+    assert value["benchmark_score"] is None and value["format_valid"] is None
+    assert value["terminal_answer_sha256"] is None
+    assert value["loop_usage"] is None and value["telemetry"] is None
+    assert value["api_accounting"]["roles"]["all"]["complete_usd_total"] is None
+
+
 def test_completion_membership_verifies_once_per_calculation_not_per_168_cells(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -94,7 +121,7 @@ def test_completion_membership_verifies_once_per_calculation_not_per_168_cells(
         reads.append(self)
         return (SimpleNamespace(cell_id="cell0", disposition="valid" if valid else None),)
 
-    monkeypatch.setattr(analysis.AdjudicatedAttemptLedger, "attempts", property(checked_attempts))
+    monkeypatch.setattr(analysis.ClassifiedAttemptLedger, "attempts", property(checked_attempts))
     assert ledger.completed_cells == ("cell0",)
     assert len(reads) == 1
     valid = False
@@ -104,7 +131,7 @@ def test_completion_membership_verifies_once_per_calculation_not_per_168_cells(
     def failed_verification(self: object) -> tuple:
         raise RuntimeError("original adjudicated evidence drift")
 
-    monkeypatch.setattr(analysis.AdjudicatedAttemptLedger, "attempts",
+    monkeypatch.setattr(analysis.ClassifiedAttemptLedger, "attempts",
                         property(failed_verification))
     with pytest.raises(RuntimeError, match="evidence drift"):
         _ = ledger.completed_cells
@@ -153,6 +180,7 @@ def test_snapshot_counts_use_one_verified_attempt_population(
     assert result["pending_count"] == result["confounded_attempts"] == 1
     assert result["original_confounded_attempts"] == 2
     assert result["adjudicated_attempts"] == 1
+    assert result["provider_policy_adjudicated_attempts"] == 0
     assert not result["phase1_complete"] and not result["method_pruning_authorized"]
 
 

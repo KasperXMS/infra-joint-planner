@@ -15,8 +15,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from large_scale_adjudication_v1 import (
-    AdjudicatedAttemptLedger,
+from large_scale_provider_policy_review_v1 import (
+    ClassifiedAttemptLedger,
     effective_admission,
 )
 
@@ -25,7 +25,7 @@ from infra_joint.control.provenance import provenance_sha256
 ROOT = Path("/home/super/xiaoming/large-scale-cost-guidance-v1")
 
 
-class SnapshotAttemptLedger(AdjudicatedAttemptLedger):
+class SnapshotAttemptLedger(ClassifiedAttemptLedger):
     """Check effective evidence once per membership calculation, not per cell.
 
     Journal replay still uses the independently verified admission view. This
@@ -303,6 +303,7 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
         "disposition": attempt.disposition, "admission_reason": attempt.reason,
         "admission_problems": admission.get("problems", []),
         "original_rejection_preserved": adjudication is not None,
+        "provider_policy_failure": admission.get("failure_class") == "provider_input_policy",
         "adjudication_sha256": provenance_sha256(adjudication) if adjudication else None,
         "confirmed_post_inference_json_failures": len(adjudication["proof"])
         if adjudication else 0,
@@ -356,6 +357,8 @@ def snapshot(root: Path) -> dict[str, Any]:
                                                 for x in original_attempts),
             "adjudicated_attempts": sum(x.reason == "audited_post_inference_model_json_failure"
                                          for x in attempts),
+            "provider_policy_adjudicated_attempts": sum(
+                x.reason == "audited_provider_input_policy_failure" for x in attempts),
             "operational_excluded_attempts": sum(x.disposition == "operational_excluded"
                                                  for x in attempts),
             "phase1_complete": len(admitted) == len(cell_ids),
