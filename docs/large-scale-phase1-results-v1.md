@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **15 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **16 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -26,10 +26,12 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | B | 1 | yes / valid / 1.0 | 138.709 | 7,696,522 / 1.004 | 12,185 / 0.593 | 6 / 0 / 6 | 12 | 0.163738 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | A | 1 | yes / valid / 0.0 | 985.729 | 7,696,522 / 22.035 | 67,507 / 1.474 | 14 / 0 / 14 | 28 | 0.492382 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 0.0 | 319.257 | 7,696,522 / 22.249 | 5,204,596 / 14.943 | 9 / 0 / 9 | 18 | 0.120485 |
+| MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 847.052 | 7,696,522 / 1.588 | 15,051 / 0.035 | 15 / 0 / 15 | 30 | 0.744879 |
 
-All fifteen effective admissions have no unresolved findings. Original private evaluators ran.
-The latest E cell has a separately audited admission sidecar; its original
-validation gate rejection remains intact. It was not repeated or repaired.
+All sixteen effective admissions have no unresolved findings. Original private evaluators ran.
+Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
+separately audited admission sidecars; their original validation gate rejections
+remain intact. Neither was repeated or repaired.
 Qwen/Fast/B1 attempt1's score 1.0 is excluded: repeated missing H.264 decoder
 failures and an order-dependent accounting aggregate. It is not in this table.
 Full exclusion/repair provenance is in the failure audit.
@@ -264,6 +266,51 @@ Graph-audit-002 file SHA-256:
 3a30d7e08f2d82625f962a0f5977f398234dc0f17126e2fe34ce6d46a96d668c.
 Helper SHA-256 remains
 46a65142801f09faaf8cf47e4b8ffe1d1a77800e426d165cbd3021d569ca147f.
+
+## Fourth settled MultiHop condition: Blind recovery and exact review
+
+MultiHop-1 / DeepSeek / Fast / B0 completes with original score 1.0 and valid
+format after fifteen Manager / fifteen Verifier turns, no specialists and
+34 physical actions. Twenty-five tools succeed. Nine physical model attempts
+comprise three context rejects, five successful inference telemetry receipts
+and one exact post-inference invalid-JSON failure. At least six requests reached
+inference; known service work is 791.199 s, but failed-inference time/tokens are
+unknown. Normal stop is recorded for all five returned successful inferences.
+The graph has 34 action nodes / 33 information edges. E2E is 847.052 s and action
+transfer only 15,051 bytes / 0.035 s; work counters can overlap and are not an
+additive E2E explanation. No timeout or hidden output repair occurred.
+
+The thirty cloud requests estimate USD 0.744879 (Manager 0.145307 / fixed Blind
+Verifier 0.599572). Correctness is retained alongside substantial inference and
+control work, not represented as efficient execution or a matched method effect.
+
+The conservative validation gate stopped the queue. Both owned parent1660678
+and child1745464 were confirmed exited. Independent full admission reproduced
+the original receipt, with only the exact model JSON-output failure finding.
+The existing reviewer, Worker parsing proof and source are unchanged. The
+already tested sidecar-aware queue ledger was supplied to the existing offline
+review creator so earlier reviews can be replayed without rewriting rejection
+history. The creator checked all recipients and bound **143** original evidence
+file hashes; no action, artifact or answer was changed and no run was repeated.
+
+- New sidecar canonical SHA-256: 732bc77c79ff31acfd4d66670b61108ee42814900718455c5a76f8d81ad7ccdb.
+- Original rejected admission canonical SHA-256: f434fec30fba61d62e5d505ec21b5138ad98b294209cd10baff7b811a27ed70d.
+- Snapshot-013 file SHA-256: e0ee940359ab9d1b7c7db99cf8fcc255e916dad7a2de748e169bbc613f907f2f.
+- Queue-control-freeze-003 canonical SHA-256: 13556506e90d4ba40de611ce927ea52e581f9206c5e653026a8a832b4bf50c52.
+
+Snapshot-013 covers sixteen valid / one original confounded / zero pending
+attempts (seventeen total), two adjudications and zero operational exclusions.
+Full pytest **761 passed**, Ruff/strict Pyright/diff pass, including regression
+for two independent reviews, unchanged first receipt/journal, no repeated valid
+cell, next-cell-only advance and tamper rejection. Formal source remains94c9bac;
+only the supplemental offline control receipt set changed. A first offline
+freeze invocation omitted the archive revision environment variable and failed
+before creating a receipt or launching a cell; supplying the unchanged required
+94c9bac revision completed the freeze, with no experiment replacement.
+
+New parent1810614 and owned child1811077 were verified live at original next cell
+MultiHop-2 / DeepSeek / Fast / B1 attempt1. Prior controls, processes, sidecars,
+results, journals and evidence remain intact; no pruning or Phase II.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
