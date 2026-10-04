@@ -1,7 +1,8 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twenty-four effective valid Phase I samples at the latest checkpoint. This is not the completed
+Twenty-five classified nominal Phase I samples: 24 completed/evaluated and one
+provider-policy failure with unknown quality. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -403,5 +404,41 @@ subtotal 0.150407; failed-call billing/usage is unknown, not assumed free.
 
 No task text is censored, no prompt or provider is changed, and no identical
 replacement is authorized for deterministic policy refusal. Classification
-needs a narrow, independently reproduced offline receipt before the queue can
-continue; current status is 24 admitted and one additional unresolved rejection.
+requires a narrow, independently reproduced offline receipt, not a generic 400
+allowlist. At snapshot-020 it remains unresolved; the next section records its
+subsequent exact classification without changing the original rejection.
+
+## Provider-policy classification reproduced; same failed attempt retained
+
+The separate offline reviewer reproduces the complete original admission,
+including actual accumulated contexts for Manager/specialists/Verifier, with
+only the exact API-policy finding. Two raw request/response/usage pairs prove
+HTTP400 data_inspection_failed. Terminal failure carries that provider code;
+there is no original evaluator result or normal completion. A new sidecar binds
+all **95** original evidence files and the reviewer source. Existing JSON review
+code, both JSON sidecars, original admission and hash-linked journal are intact.
+
+Effective disposition is a classified nominal provider failure, not a semantic
+wrong answer or a successful execution. Quality/format remain unknown; failed
+call usage and full API USD remain unknown. No censorship, provider substitution,
+automatic recovery or replacement is authorized. The task counts once; failure
+classification will stay separate in the final cross-Planner analysis.
+
+Nineteen new classification/ledger/controller regressions and one unknown-result
+snapshot regression cover unrelated 400/schema/quota/outage/leakage rejection,
+unknown quality/cost, original evidence preservation, mixed JSON/policy reviews,
+tamper/cache invalidation, no replacement and next-unstarted-only queue advance.
+Full pytest **781 passed** (20.63 s); Ruff, strict Pyright (zero errors/warnings)
+and diff check pass. These are offline tools, not semantic/runtime changes.
+
+- Policy sidecar canonical SHA-256: 20b78858e8c4b34a7a8942fd4a1a25523eccda51b249c8b9d1af7dd003102955.
+- Policy reviewer source SHA-256: 7d3e6906bea3ec47d5c0368723da3e7f81e52aecefc0a301ed1d922e34cf35b2.
+- Classified controller source SHA-256: c49d14eef62d6bdad0cf415eb3e4af400383819a8816f669b9c91e01f48f4ea3.
+- Control-freeze-004 canonical SHA-256: 12e68fb0d64e9edba060de4ecebb292904837851631a19fbb3e69419da728317.
+
+The new isolated offline folder links unchanged prior JSON sources. Its control
+freeze's previous_json_control equals original control-freeze-003 exactly;
+execution-freeze-002/formal94c9bac remain unchanged. Only after old owned parent/
+child are absent and exclusive review completes, parent1978333 resumes original
+next cell Academic / Qwen / Slow / B1, owned child1978912, both verified live.
+The provider-refused B0 cell is not repeated, skipped or given a guessed answer.
