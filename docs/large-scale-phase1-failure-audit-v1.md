@@ -72,8 +72,37 @@ Remote receipts:
 - A28 environment-repair-001/build-completed.json
 - Original failed bootstrap and successful build process/log receipts are retained.
 
-**Still required before resumption:** make formal generated Worker configs use the
-repaired binary, update the accounting implementation provenance without changing
-prices, freeze/audit the repaired execution, authorize only the affected cell's
-new attempt, then continue the unchanged 168-cell order. The repair is not yet
-verified through a formal Worker run. No second nominal cell or Phase II has run.
+## Repaired execution freeze and queue resumption
+
+Execution revision 94c9bac62daa30d70ed319d741a17c54e6ec96cd adds only the formal
+environment/accounting repair bridge. Generated Jetson configs change only the
+FFmpeg executable; the strong-4090 config is unchanged. All model/operator
+contracts, timeouts, budgets, Agent instructions, methods, scheduler and task
+representations remain frozen. Eight additional regression tests bring the full
+suite to **711 passed**; Ruff, strict Pyright and diff check passed.
+
+All four new source deployments match (364 source/script/config files). The
+original 5ca3fff applications remain separately preserved. A receipt-helper
+import error happened after deployment had completed; independent hash
+reconciliation established completion and no deployment was repeated.
+
+- New execution freeze: execution-freeze-002.json, canonical SHA-256
+  50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
+- New calculator provenance: preparation/pricing-002/price-freeze.json, file SHA-256
+  74b74f0809b88fb01798287bc1bfb999622db4379acd76b387e82c159b76900a.
+  Original price/FX/date/source receipts are unchanged; pricing-001 is preserved.
+- Independent repair audit: readiness/generic-repair-audit-001.json, canonical
+  SHA-256 5f1532dc6ae4416f882b49e4941049d12c0b122bb27e0e6035c610340f41d18e.
+  It binds the original admission and all original evidence hashes, source-change
+  allowlist, unchanged control/physical contracts, tests and actual codec probes.
+- Original 32 raw HTTP calls pass the repaired per-call usage/cost and recipient
+  scans. Original order-dependent aggregate output is not overwritten.
+- Strong-4090 also passed real H.264 and AV1 JPEG extraction. No Agent/model call
+  or tc shaping occurred during repair verification.
+- The append-only ledger authorizes a generic repair rerun for only the original
+  confounded cell. It does not authorize replacing ordinary semantic failures.
+
+At the resumption checkpoint, actual queue PID 1344958 and attempt2 child PID
+1345330 were verified live. The queue retains the original 168-cell order and
+requires admission after every attempt. This is a launch checkpoint, **not proof
+that the repaired cell passed**. No Phase II gate or method pruning is authorized.
