@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twenty effective valid Phase I samples at the latest checkpoint. This is not the completed
+Twenty-four effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -382,3 +382,26 @@ Snapshot-019 independently verifies 23 effective admissions, two preserved exact
 JSON adjudications, one original implementation-confounded attempt and zero
 operational exclusions. Failure-specific private evidence coverage remains
 deferred until the complete Phase I post-run audit. Formal execution is unchanged.
+
+## New API gate: exact provider input-policy rejection, not an outage
+
+The next Academic / DeepSeek / Fast / B0 attempt stops without completion or
+evaluation. Original admission's only finding is
+unclassified_API_failure_requires_audit. Parent1810614 and child1919950 are both
+confirmed absent, so this is a real terminal stop rather than an observation
+timeout. The original result, 18 cloud receipts and full contexts are retained.
+
+Two actual HTTP 400 responses, one DeepSeek specialist and one fixed Qwen
+Verifier, contain exact error code/type data_inspection_failed and provider
+message "Input text data may contain inappropriate content." Sixteen other
+requests return metered usage. This is provider input-policy rejection, not
+evidence of insufficient credit, a connection failure, schema fault or physical
+32K overflow. The one prepared physical model request was context-rejected;
+none reaches physical inference. Sixteen tools succeed; two specialists are
+created. Score/format are unknown, not zero. API USD is incomplete: known
+subtotal 0.150407; failed-call billing/usage is unknown, not assumed free.
+
+No task text is censored, no prompt or provider is changed, and no identical
+replacement is authorized for deterministic policy refusal. Classification
+needs a narrow, independently reproduced offline receipt before the queue can
+continue; current status is 24 admitted and one additional unresolved rejection.

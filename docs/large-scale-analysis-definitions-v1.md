@@ -121,6 +121,19 @@ parallelism is therefore observable without claiming multi-agent topology.
 Status-snapshot counts (43/79/22) differ from structural additions (14/26/7).
 No private supporting-reference audit or semantic feedback is performed here.
 
+Graph-audit-003 extends the unchanged helper to all 23 admissions of snapshot-019.
+Original result/admission hashes and trace event counts are checked; reviewed
+JSON attempts also retain their exact sidecar hashes. All graphs have closed
+action intervals, terminal node states and no dependency-order violations.
+MultiHop-2 / DeepSeek / Fast / B1 and Slow / B have equal creation-order
+descriptors (eight nodes / six edges), while Qwen / Slow / A and Fast / C also
+share a descriptor (three nodes / two edges). These pairs vary method and
+network, and descriptor equality says nothing about query/prompt equivalence.
+Their existence is not an infra-induced revision or a matched policy effect.
+Video position 2's three settled graphs have one owner and physical peak one,
+with zero observed action overlap. No architecture/topology acceptance gate is
+added. File SHA-256: a67eb833056d4adcd1b73a6a35236a3c71686769f841b0d1805918c8b15f54db.
+
 The live queue is not stopped for ordinary wrong answers, unadopted interfaces or
 poor stopping. It stops for unresolved confounders/operational incidents according
 to the preregistered repair/replacement rules. Original evidence is immutable.
