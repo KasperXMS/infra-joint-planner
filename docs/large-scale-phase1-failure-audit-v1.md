@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirteen effective valid Phase I samples at the latest checkpoint. This is not the completed
+Fourteen effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -261,3 +261,16 @@ The superseded owned stdin collector was stopped only after exact process/env
 checks; the queue and formal cell were untouched. Original evidence and prior
 collectors/checkpoints remain intact. New collector v1-6, snapshot-010 hashes
 and the latest pending condition are in the results report. No experiment rerun.
+
+## First MultiHop wrong answer: not an execution defect
+
+MultiHop-1 / DeepSeek / Slow / A completes and reaches its original evaluator,
+score 0.0. There is no terminal failure or admission finding. Fourteen Manager
+turns and 26 physical calls do not exhaust the 20/64 horizon. Two model context
+rejects are followed by three successful inferences (all normal stop); no service
+timeout or operational incident is observed. Twenty-one tools succeed. Model
+work is 789.002 s and cloud API estimate USD 0.492382; costly/wrong is not hidden
+or replaced. Fine-grained primary semantic cause remains unassigned until the
+full Phase I evidence audit. Snapshot-011 and current next-cell proof are in
+results; no prompt, budget, stopping or retrieval change is authorized by this
+ordinary quality failure.
