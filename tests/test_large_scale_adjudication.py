@@ -69,8 +69,10 @@ def test_review_is_not_a_blanket_validation_or_other_confounds_bypass(damage: st
         reviewer.review_model_json_failures(receipt, trace)
 
 
-def fixture(tmp_path: Path) -> tuple[Path, AttemptLedger, Path]:
-    ledger = AttemptLedger(tmp_path / "phase1-attempts.jsonl", ("cell1", "cell2"), "a" * 64)
+def fixture(
+    tmp_path: Path, cells: tuple[str, ...] = ("cell1", "cell2"),
+) -> tuple[Path, AttemptLedger, Path]:
+    ledger = AttemptLedger(tmp_path / "phase1-attempts.jsonl", cells, "a" * 64)
     directory = tmp_path / "evidence/cell1/attempt1"
     run = directory / "runs/run1"
     run.mkdir(parents=True)
@@ -225,3 +227,46 @@ def test_queue_completion_view_avoids_rehash_per_cell_but_sidecar_drift_invalida
     path.write_text(json.dumps(value))
     with pytest.raises(RuntimeError):
         _ = view.completed_cells
+
+
+def test_multiple_exact_reviews_replay_original_journal_and_only_advance_next_cell(
+    tmp_path: Path,
+) -> None:
+    controller = importlib.import_module("large_scale_adjudicated_queue_v1")
+    first, ledger, _ = fixture(tmp_path, ("cell1", "cell2", "cell3"))
+    first_bytes = first.read_bytes()
+    view = controller.QueueAdmissionView(ledger.path, ledger.cells, ledger.schedule_sha256)
+    view.reserve("cell2", "run2", "b" * 64)
+    directory = tmp_path / "evidence/cell2/attempt1"
+    run = directory / "runs/run2"
+    run.mkdir(parents=True)
+    receipt = original(1)
+    (directory / "admission.json").write_text(json.dumps(receipt))
+    (run / "trace.jsonl").write_text("\n".join(json.dumps(x) for x in events()))
+    view.settle("run2", "confounder", reviewer.GATE_PROBLEM, provenance_sha256(receipt))
+    preserved = ledger.path.read_bytes()
+    review = reviewer.review_model_json_failures(receipt, events())
+    value = {"run_id": "run2", "original_admission_sha256": provenance_sha256(receipt),
+             "original_execution_sha256": "b" * 64,
+             "worker_source_sha256": reviewer.sha256(
+                 tmp_path / "app/src/infra_joint/worker/server.py"),
+             "reviewer_source_sha256": reviewer.sha256(Path(reviewer.__file__)),
+             "original_evidence_file_sha256": {str(p.relative_to(directory)): reviewer.sha256(p)
+                                                for p in directory.rglob("*") if p.is_file()},
+             **review, "reviewed_admission_sha256": provenance_sha256(review["reviewed_admission"])}
+    second = tmp_path / "adjudications/run2.json"
+    second.write_text(json.dumps(value))
+    reloaded = controller.QueueAdmissionView(ledger.path, ledger.cells, ledger.schedule_sha256)
+    assert reloaded.completed_cells == ("cell1", "cell2")
+    assert all(item.disposition == "confounder" for item in reloaded.original_attempts)
+    assert ledger.path.read_bytes() == preserved and first.read_bytes() == first_bytes
+    with pytest.raises(RuntimeError, match="must not be repeated"):
+        reloaded.reserve("cell2", "forbidden-retry", "b" * 64)
+    reloaded.reserve("cell3", "run3", "b" * 64)
+    final = controller.QueueAdmissionView(ledger.path, ledger.cells, ledger.schedule_sha256)
+    assert final.pending[0].run_id == "run3"
+    assert first.read_bytes() == first_bytes
+    value["proof"][0]["reached_model_inference"] = False
+    second.write_text(json.dumps(value))
+    with pytest.raises(RuntimeError):
+        _ = final.completed_cells
