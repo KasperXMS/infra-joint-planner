@@ -201,3 +201,27 @@ def test_duplicate_failed_observations_do_not_inflate_inference_count() -> None:
     trace.append(trace[1])
     with pytest.raises(RuntimeError, match="duplicate"):
         reviewer.review_model_json_failures(original(), trace)
+
+
+def test_queue_completion_view_avoids_rehash_per_cell_but_sidecar_drift_invalidates(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    controller = importlib.import_module("large_scale_adjudicated_queue_v1")
+    path, ledger, _ = fixture(tmp_path)
+    calls = []
+    delegate = reviewer.verify_sidecar
+
+    def verify(path: Path, attempt: object) -> dict:
+        calls.append(path)
+        return delegate(path, attempt)
+
+    monkeypatch.setattr(reviewer, "verify_sidecar", verify)
+    view = controller.QueueAdmissionView(ledger.path, ledger.cells, ledger.schedule_sha256)
+    for _ in range(200):
+        assert view.completed_cells == ("cell1",)
+    assert len(calls) == 1
+    value = json.loads(path.read_text())
+    value["proof"][0]["reached_model_inference"] = False
+    path.write_text(json.dumps(value))
+    with pytest.raises(RuntimeError):
+        _ = view.completed_cells

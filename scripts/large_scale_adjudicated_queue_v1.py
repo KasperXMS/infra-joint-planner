@@ -17,6 +17,27 @@ from large_scale_adjudication_v1 import ROOT, AdjudicatedAttemptLedger, sha256
 from infra_joint.control.provenance import provenance_sha256
 
 
+class QueueAdmissionView(AdjudicatedAttemptLedger):
+    """Verify proofs once per completion view, not once per scheduled cell.
+
+    Direct attempts access still verifies full evidence. The frozen parent journal
+    methods invoke that access during reservation/settlement. Only the repeated
+    completed-cells membership calculation is memoized against journal state and
+    sidecar contents; this is outside measured task execution.
+    """
+
+    @property
+    def completed_cells(self) -> tuple[str, ...]:
+        receipts = tuple((p.name, sha256(p)) for p in sorted(
+            (self.path.parent / "adjudications").glob("*.json")))
+        key = (self.original_attempts, receipts)
+        if getattr(self, "_completion_key", None) != key:
+            admitted = {item.cell_id for item in self.attempts if item.disposition == "valid"}
+            self._completion_value = tuple(cell for cell in self.cells if cell in admitted)
+            self._completion_key = key
+        return self._completion_value
+
+
 def control_freeze() -> dict[str, Any]:
     import large_scale_queue_v1 as frozen
 
@@ -44,7 +65,7 @@ def run(control_path: Path) -> None:
         raise RuntimeError("queue-control/adjudication provenance drift")
     # This adapter changes only the offline nominal-admission view. The frozen
     # queue's child command still launches its original source/entry point.
-    frozen.AttemptLedger = AdjudicatedAttemptLedger
+    frozen.AttemptLedger = QueueAdmissionView
     frozen.run_queue(ROOT / "execution-freeze-002.json")
 
 
