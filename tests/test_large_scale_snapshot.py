@@ -16,6 +16,73 @@ def event(kind: str, **payload: object) -> dict:
     return {"event_type": kind, "payload": payload}
 
 
+def test_failed_run_costs_use_persisted_receipts_not_timestamp_difference() -> None:
+    events = [event("task.start", private="PRIVATE-TASK"),
+              event("artifact.materialize.end", bytes_transferred=50, duration_ms=3),
+              event("logical.action.prepared", action={"action_id": "ok"}),
+              event("logical.action.prepared", action={"action_id": "reject"}),
+              event("physical.execution", action_id="ok", execution={
+                  "operator_latency_ms": 7, "output": "PRIVATE-BODY", "transfers": []}),
+              event("physical.execution", action_id="reject", failure={"stage": "selection"}),
+              event("run.failed", e2e_latency_ms=123, failure="PRIVATE-ERROR")]
+    value = analysis.trace_cost_receipts(events)
+    assert value["recorded_e2e_latency_ms"] == 123
+    assert value["initial_completed_bytes"] == 50
+    assert value["initial_completed_transfer_work_ms"] == 3
+    assert value["action_transfer_complete_bytes"] == 0
+    assert value["operator_successful_receipts_work_ms"] == 7
+    assert not value["original_result_modified"]
+    assert "PRIVATE" not in json.dumps(value)
+
+
+@pytest.mark.parametrize("stage", ["execution", "unknown"])
+def test_failed_execution_movement_is_unknown_not_successful_subtotal(stage: str) -> None:
+    events = [event("physical.execution", action_id="ok", execution={
+        "operator_latency_ms": 7, "transfers": [{"bytes_transferred": 100, "duration_ms": 8}]}),
+        event("physical.execution", action_id="failed", failure={"stage": stage})]
+    value = analysis.trace_cost_receipts(events)
+    assert value["recorded_e2e_latency_ms"] is None
+    assert value["action_transfer_successful_receipts_bytes"] == 100
+    assert value["action_transfer_complete_bytes"] is None
+    assert value["action_transfer_complete_work_ms"] is None
+
+
+def test_missing_action_receipt_makes_complete_movement_unknown() -> None:
+    value = analysis.trace_cost_receipts([
+        event("logical.action.prepared", action={"action_id": "missing"})])
+    assert value["prepared_without_physical_receipt"] == 1
+    assert value["action_transfer_complete_bytes"] is None
+    assert value["recorded_e2e_latency_ms"] is None
+
+
+@pytest.mark.parametrize("bad", [None, True, -1, float("inf"), "123"])
+def test_unmeasured_or_invalid_cost_receipts_are_unknown(bad: object) -> None:
+    value = analysis.trace_cost_receipts([
+        event("run.failed", e2e_latency_ms=bad),
+        event("artifact.materialize.end", bytes_transferred=bad, duration_ms=bad)])
+    assert value["recorded_e2e_latency_ms"] is None
+    assert value["initial_completed_bytes"] is None
+    assert value["initial_completed_transfer_work_ms"] is None
+
+
+def test_multiple_endings_cannot_silently_select_a_favorable_timing() -> None:
+    with pytest.raises(RuntimeError, match="multiple run endings"):
+        analysis.trace_cost_receipts([event("run.end", e2e_latency_ms=100),
+                                      event("run.failed", e2e_latency_ms=200)])
+
+
+def test_duplicate_physical_receipt_is_not_double_charged() -> None:
+    receipt = event("physical.execution", action_id="same", execution={"transfers": []})
+    with pytest.raises(RuntimeError, match="duplicate physical receipt"):
+        analysis.trace_cost_receipts([receipt, receipt])
+
+
+def test_physical_receipt_without_execution_or_failure_is_unknown() -> None:
+    value = analysis.trace_cost_receipts([event("physical.execution", action_id="missing-outcome")])
+    assert value["unmeasured_execution_failures"] == 1
+    assert value["action_transfer_complete_bytes"] is None
+
+
 def test_missing_measurement_remains_unknown_not_zero() -> None:
     assert analysis.measured_total([]) == 0
     assert analysis.measured_total([2, 3]) == 5

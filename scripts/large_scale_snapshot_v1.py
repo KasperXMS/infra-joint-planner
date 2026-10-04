@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 from collections import Counter
 from datetime import datetime
@@ -44,6 +45,58 @@ def measured_total(values: list[Any]) -> int | float | None:
     if any(not isinstance(value, int | float) or isinstance(value, bool) for value in values):
         return None
     return sum(values)
+
+
+def trace_cost_receipts(events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Project actual persisted receipts, never infer missing work from elapsed time.
+
+    Keep this separate from the original result telemetry. Failed execution can
+    have unmeasured movement/service; successful receipt sums are then incomplete.
+    """
+    endings = [e["payload"] for e in events if e["event_type"] in {"run.end", "run.failed"}]
+    if len(endings) > 1:
+        raise RuntimeError("multiple run endings cannot yield unambiguous recorded E2E")
+
+    def total(values: list[Any]) -> int | float | None:
+        if any(not isinstance(v, int | float) or isinstance(v, bool)
+               or not math.isfinite(v) or v < 0 for v in values):
+            return None
+        return sum(values)
+
+    initial = [e["payload"] for e in events if e["event_type"] == "artifact.materialize.end"]
+    prepared = {e["payload"]["action"]["action_id"] for e in events
+                if e["event_type"] == "logical.action.prepared"}
+    physical = [e["payload"] for e in events if e["event_type"] == "physical.execution"]
+    if len(physical) != len({p["action_id"] for p in physical}):
+        raise RuntimeError("duplicate physical receipt cannot be summed as independent work")
+    missing = prepared - {p["action_id"] for p in physical}
+    executions = [p["execution"] for p in physical if p.get("execution")]
+    transfers = [t for execution in executions for t in execution.get("transfers", [])]
+    uncertain = sum(bool(p.get("failure")) and p["failure"].get("stage") != "selection"
+                    for p in physical)
+    uncertain += sum(not p.get("execution") and not p.get("failure") for p in physical)
+    bytes_subtotal = total([t.get("bytes_transferred") for t in transfers])
+    time_subtotal = total([t.get("duration_ms") for t in transfers])
+    end_value = endings[0].get("e2e_latency_ms") if endings else None
+    return {
+        "recorded_e2e_latency_ms": total([end_value]) if endings else None,
+        "e2e_source": "explicit run.end/run.failed receipt" if endings else "unknown",
+        "initial_completed_receipt_count": len(initial),
+        "initial_completed_bytes": total([p.get("bytes_transferred") for p in initial]),
+        "initial_completed_transfer_work_ms": total([p.get("duration_ms") for p in initial]),
+        "initial_scope": "completed materialization receipts, not inferred requested totals",
+        "action_transfer_receipt_count": len(transfers),
+        "action_transfer_successful_receipts_bytes": bytes_subtotal,
+        "action_transfer_successful_receipts_work_ms": time_subtotal,
+        "action_transfer_complete_bytes": None if uncertain or missing else bytes_subtotal,
+        "action_transfer_complete_work_ms": None if uncertain or missing else time_subtotal,
+        "unmeasured_execution_failures": uncertain,
+        "prepared_without_physical_receipt": len(missing),
+        "operator_successful_receipts_work_ms": total([
+            p.get("operator_latency_ms") for p in executions]),
+        "original_result_modified": False,
+        "timing_scope": "persisted receipt work; overlapping work is not an E2E decomposition",
+    }
 
 
 def root_function_receipts(api_root: Path, events: list[dict[str, Any]]) -> dict[str, Any]:
@@ -326,6 +379,7 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
                                "reasoning_output_tokens")}
             for role in ("manager", "specialist", "verifier", "all")},
         "trace_metrics": event_metrics(events),
+        "trace_cost_receipts": trace_cost_receipts(events),
         "actual_manager_function_receipts": root_function_receipts(
             directory / "private/api", events),
     }
