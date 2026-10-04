@@ -82,6 +82,80 @@ def test_read_only_snapshot_does_not_initialize_missing_ledger(tmp_path: Path) -
     assert not (tmp_path / "phase1-attempts.jsonl").exists()
 
 
+def test_completion_membership_verifies_once_per_calculation_not_per_168_cells(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    ledger = object.__new__(analysis.SnapshotAttemptLedger)
+    ledger.cells = tuple(f"cell{i}" for i in range(168))
+    reads = []
+    valid = True
+
+    def checked_attempts(self: object) -> tuple:
+        reads.append(self)
+        return (SimpleNamespace(cell_id="cell0", disposition="valid" if valid else None),)
+
+    monkeypatch.setattr(analysis.AdjudicatedAttemptLedger, "attempts", property(checked_attempts))
+    assert ledger.completed_cells == ("cell0",)
+    assert len(reads) == 1
+    valid = False
+    assert ledger.completed_cells == ()
+    assert len(reads) == 2  # No persistent cache hides a changed admission.
+
+    def failed_verification(self: object) -> tuple:
+        raise RuntimeError("original adjudicated evidence drift")
+
+    monkeypatch.setattr(analysis.AdjudicatedAttemptLedger, "attempts",
+                        property(failed_verification))
+    with pytest.raises(RuntimeError, match="evidence drift"):
+        _ = ledger.completed_cells
+
+
+def test_snapshot_counts_use_one_verified_attempt_population(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    folder = tmp_path / "preparation/task-freeze-002"
+    folder.mkdir(parents=True)
+    (folder / "manifest.json").write_text(json.dumps({"phase1_schedule_sha256": "a" * 64}))
+    (folder / "phase1-schedule.json").write_text(json.dumps([
+        {"cell_id": f"cell{i}"} for i in range(168)]))
+    (tmp_path / "phase1-attempts.jsonl").write_text("synthetic journal placeholder\n")
+    attempts = tuple(SimpleNamespace(cell_id=f"cell{i}", run_id=f"run{i}",
+                                     disposition=status, reason=reason)
+                     for i, status, reason in [
+                         (0, "valid", "audited_post_inference_model_json_failure"),
+                         (1, "valid", "completed_or_valid_semantic_failure"),
+                         (2, "confounder", "preserved"), (3, None, None)])
+    reads = []
+
+    class OnePopulation:
+        def __init__(self, *args: object) -> None:
+            pass
+
+        @property
+        def attempts(self) -> tuple:
+            reads.append("effective")
+            return attempts
+
+        @property
+        def original_attempts(self) -> tuple:
+            reads.append("original")
+            return (SimpleNamespace(disposition="confounder"),
+                    SimpleNamespace(disposition="confounder"),
+                    SimpleNamespace(disposition="valid"), SimpleNamespace(disposition=None))
+
+    monkeypatch.setattr(analysis, "SnapshotAttemptLedger", OnePopulation)
+    monkeypatch.setattr(analysis, "settled_attempt", lambda root, cell, attempt: {
+        "run_id": attempt.run_id, "disposition": attempt.disposition})
+    result = analysis.snapshot(tmp_path)
+    assert reads == ["effective", "original"]
+    assert result["scheduled_cells"] == 168
+    assert result["admitted_cells"] == 2
+    assert result["pending_count"] == result["confounded_attempts"] == 1
+    assert result["original_confounded_attempts"] == 2
+    assert result["adjudicated_attempts"] == 1
+    assert not result["phase1_complete"] and not result["method_pruning_authorized"]
+
+
 def test_settled_result_uses_admissions_canonical_hash_not_formatted_file_hash(
     tmp_path: Path,
 ) -> None:

@@ -16,13 +16,27 @@ from pathlib import Path
 from typing import Any
 
 from large_scale_adjudication_v1 import (
-    AdjudicatedAttemptLedger as AttemptLedger,
+    AdjudicatedAttemptLedger,
+    effective_admission,
 )
-from large_scale_adjudication_v1 import effective_admission
 
 from infra_joint.control.provenance import provenance_sha256
 
 ROOT = Path("/home/super/xiaoming/large-scale-cost-guidance-v1")
+
+
+class SnapshotAttemptLedger(AdjudicatedAttemptLedger):
+    """Check effective evidence once per membership calculation, not per cell.
+
+    Journal replay still uses the independently verified admission view. This
+    only removes the base property's repeated proof checks inside its cell loop;
+    no cached/unverified admission is introduced.
+    """
+
+    @property
+    def completed_cells(self) -> tuple[str, ...]:
+        admitted = {item.cell_id for item in self.attempts if item.disposition == "valid"}
+        return tuple(cell for cell in self.cells if cell in admitted)
 
 
 def measured_total(values: list[Any]) -> int | float | None:
@@ -322,9 +336,11 @@ def snapshot(root: Path) -> dict[str, Any]:
     cell_ids = tuple(row["cell_id"] for row in schedule)
     if not (root / "phase1-attempts.jsonl").is_file():
         raise RuntimeError("read-only collector cannot initialize a missing attempt ledger")
-    ledger = AttemptLedger(root / "phase1-attempts.jsonl", cell_ids,
-                           manifest["phase1_schedule_sha256"])
+    ledger = SnapshotAttemptLedger(root / "phase1-attempts.jsonl", cell_ids,
+                                  manifest["phase1_schedule_sha256"])
     attempts = ledger.attempts
+    admitted = {item.cell_id for item in attempts if item.disposition == "valid"}
+    original_attempts = ledger.original_attempts
     rows = []
     for cell in schedule:
         matched = [x for x in attempts if x.cell_id == cell["cell_id"]]
@@ -333,16 +349,16 @@ def snapshot(root: Path) -> dict[str, Any]:
                                   if x.disposition is not None],
                      "pending_run_ids": [x.run_id for x in matched if x.disposition is None]})
     return {"version": "large-scale-settled-telemetry-v1", "scheduled_cells": len(cell_ids),
-            "admitted_cells": len(ledger.completed_cells), "attempt_count": len(attempts),
-            "pending_count": len(ledger.pending),
+            "admitted_cells": len(admitted), "attempt_count": len(attempts),
+            "pending_count": sum(x.disposition is None for x in attempts),
             "confounded_attempts": sum(x.disposition == "confounder" for x in attempts),
             "original_confounded_attempts": sum(x.disposition == "confounder"
-                                                for x in ledger.original_attempts),
+                                                for x in original_attempts),
             "adjudicated_attempts": sum(x.reason == "audited_post_inference_model_json_failure"
                                          for x in attempts),
             "operational_excluded_attempts": sum(x.disposition == "operational_excluded"
                                                  for x in attempts),
-            "phase1_complete": len(ledger.completed_cells) == len(cell_ids),
+            "phase1_complete": len(admitted) == len(cell_ids),
             "method_pruning_authorized": False, "score_aggregation": "not performed",
             "source_payload_exported": False, "rows": rows}
 
