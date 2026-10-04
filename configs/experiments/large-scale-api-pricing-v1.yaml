@@ -1,0 +1,37 @@
+version: large-scale-api-list-price-v1
+observed_date: '2026-10-05'
+provider: aliyun-model-studio
+region: cn-beijing
+currency: CNY
+invoice_claim: false
+scope: published nonbatch alias list prices; no promotional/account discount inference
+raw_sources_root: /home/super/xiaoming/large-scale-cost-guidance-v1/preparation/pricing-001
+models:
+  deepseek-v4-pro:
+    input_per_million: '12'
+    cached_input_per_million: '1'
+    output_per_million: '24'
+    source_url: https://help.aliyun.com/zh/model-studio/deepseek-v4-pro
+    source_sha256: f0dcf47598a782e3c9585539751d66fd9291e83a4d0dd24c21c5ed100835e381
+  qwen3.8-max:
+    input_per_million: '12'
+    cached_input_per_million: '1.5'
+    output_per_million: '36'
+    source_url: https://help.aliyun.com/zh/model-studio/qwen3-8-max
+    source_sha256: 834d42b4fc828d0c643cc32035b152c76129938ab06dbbc331080a36421e62bf
+fx:
+  provider_currency: CNY
+  reference_currency: EUR
+  target_currency: USD
+  provider_units_per_reference: '7.5259'
+  usd_per_reference: '1.1225'
+  rate_date: '2026-10-02'
+  source_url: https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml
+  source_sha256: d16ef240d4d97a953b925cbf81451c812c559cd33f2ebe07b08b51e4085709e2
+notes:
+  - These prices apply to Alibaba-hosted requested aliases, not DeepSeek direct API.
+  - Do not substitute deepseek-v4-pro-0813 peak/off-peak prices for the requested alias.
+  - Only implicit cache-hit pricing is included; explicit-cache creation is not enabled.
+  - All methods and Planners share the same fixed Qwen Verifier and frozen FX reference.
+  - Missing raw usage or cache split is unknown, not SDK-default zero.
+  - USD is a reproducible reference-rate list-price estimate, not actual invoiced USD.
