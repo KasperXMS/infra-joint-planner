@@ -268,3 +268,15 @@ Stop after the frozen Phase II block and audit; no new method/model/benchmark/N.
   passed, and the 168-cell queue has started. Live per-cell admission is still
   pending; no completed formal result is claimed at launch. See
   [queue/admission checkpoint](large-scale-queue-admission-readiness-v1.md).
+
+## Subsequent execution checkpoint (not a protocol change)
+
+The launch-readiness bullets above describe the original freeze checkpoint.
+Generic decoder/accounting repair subsequently preserved the original excluded
+attempt and generated execution-freeze-002. Its affected-cell rerun and the next
+DeepSeek/Slow/B0 cell have valid admissions (2/168 at this report checkpoint).
+No method is pruned and Phase II remains gated. Current outcomes and provenance
+are maintained in [Phase I results](large-scale-phase1-results-v1.md) and
+[failure audit](large-scale-phase1-failure-audit-v1.md). Offline reporting semantics
+are in [analysis definitions](large-scale-analysis-definitions-v1.md), not Agent
+instructions or an online optimization objective.
