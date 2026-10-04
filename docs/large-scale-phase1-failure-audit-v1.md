@@ -468,3 +468,10 @@ rules also protect the older post-inference JSON failures; a failed action
 interval is not an inference-service measurement. Audit file SHA-256:
 0484e67c66df93ca5a326816d892821d10ff0fdfbeac6d113871bd1f3f234dd3.
 Full pytest793 passed (19.72 s), Ruff, strict Pyright and diff check pass.
+
+Snapshot-022 confirms that two read-artifact execution failures in Academic /
+DeepSeek / Slow / B1 also make complete movement unknown. Successful transfer
+receipts still measure28,379 bytes /0.910 s; no zero is imputed to unmeasured failed
+execution. The JSON-failure runs likewise have partial movement receipts. These
+measurement limits are explicit in results and do not justify semantic retries
+or changing the frozen Agent feedback. All original files remain immutable.
