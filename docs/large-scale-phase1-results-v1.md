@@ -1,7 +1,8 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **24 / 168 nominal samples admitted at this checkpoint.** One original
-confounded attempt remains separately preserved. This is not the completed Phase I
+2026-10-05. **26 / 168 nominal samples classified/admitted at this checkpoint:**
+25 completed/evaluated, one provider-policy failure with unknown quality. One original
+implementation-confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
 Execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
@@ -35,8 +36,12 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | Video 131-3 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 264.157 | 7,037,220 / 19.880 | 982,507 / 4.184 | 6 / 0 / 6 | 12 | 0.136968 |
 | Video 131-3 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 193.476 | 7,037,220 / 19.874 | 707,555 / 2.859 | 3 / 0 / 3 | 6 | 0.065295 |
 | Video 131-3 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 173.698 | 7,037,220 / 0.636 | 707,555 / 0.255 | 4 / 0 / 4 | 8 | 0.083134 |
+| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | B0 | 1 | no / unknown / unknown; provider policy | unknown | unknown | unknown | 6 / 6 / 6 started | 18 | unknown; known subtotal 0.150407 |
+| LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 1.0 | 93.422 | 514,789 / 1.570 | 0 / 0 | 10 / 0 / 10 | 20 | 0.424423 |
 
-All twenty-four effective admissions have no unresolved findings. Original private evaluators ran.
+The 25 completed samples have no unresolved findings and original private evaluators ran.
+The separately classified provider-policy failure did not complete or invoke the
+evaluator: its score/format/cost totals stay unknown and it is not a semantic zero.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
 separately audited admission sidecars; their original validation gate rejections
 remain intact. Neither was repeated or repaired.
@@ -456,3 +461,42 @@ two earlier JSON adjudications and zero operational exclusions. This is not
 168-cell completion or permission to prune. Separately, graph-audit-003 covers
 all 23 previous snapshot-019 admissions with no graph/timing/dependency findings;
 file SHA-256 a67eb833056d4adcd1b73a6a35236a3c71686769f841b0d1805918c8b15f54db.
+
+## Classified provider failure and next original completion
+
+Independent full re-audit reproduces the original B0 rejection, binds all 95
+original evidence hashes and proves two exact HTTP400 data_inspection_failed
+responses. The new offline sidecar classifies the original attempt as provider
+input-policy failure, not a successful/semantic run. Original evaluation remains
+absent; no task text or prompt is changed and no replacement is authorized.
+Policy sidecar canonical SHA-256:
+20b78858e8c4b34a7a8942fd4a1a25523eccda51b249c8b9d1af7dd003102955;
+original admission canonical SHA-256:
+1166880b52371b46dd924a10112f349dcb1eeda699c23fb4c9a66c9778be1b23.
+
+Snapshot-021 verifies 25 classified nominal cells, one original implementation
+confounder, one pending (27 attempts), two JSON reviews, one policy review and
+zero operational exclusions. File SHA-256:
+6efc3356e462b91e9d196bb6487c0765443fac72315f146bf1d672db1147b8c6.
+New control-freeze-004 binds the separate offline reviewer/controller and keeps
+its previous_json_control equal to original003. Formal94c9bac/execution002,
+Manager/Verifier/tools/prices/tasks/order/Worker/model/network rules are unchanged.
+Full pytest781 / Ruff / strict Pyright / diff check pass before resuming.
+
+The original next condition Academic / Qwen / Slow / B1 completes correctly:
+ten Manager/Verifier turns, no specialist, eleven physical actions. Eight tools
+succeed (five BM25 and three reads), three model attempts include two context
+preflight failures and one actual inference (8.933 s, 388 input / 2 output tokens,
+stop). Semantic/phase rejects also remain. Graph: eleven nodes / nine edges.
+API USD estimate0.424423 (Manager0.135926 / Verifier0.288497); Manager/Verifier
+work46.176 / 30.990 s, action-artifact transfer0. No physical transfer is not no
+RPC/cloud traffic; correct score alone does not prove grounded reduction or an
+awareness benefit. Evidence sufficiency remains a post-Phase-I private audit.
+
+Remote settled-case-audit-001 binds the canonical admission/result and trace,
+using the unchanged tested metrics with the new classified admission view.
+File SHA-256: c1482b4dae1b0cd6bb8aa2058056edf1c5e799a9aa85a93d7f2aa424718fdfd4.
+Collector source SHA-256: c3b9d7502147462994081344ab8677f44fd4f045bd357fb304bd12b16f49ab4f.
+At the process check parent1978333 and next child1987511 are verified live on
+Academic / DeepSeek / Slow / A. None of the 26 classified cells is replaced or
+outcome-pruned. Full168 audit, method screening/pruning and Phase II remain pending.
