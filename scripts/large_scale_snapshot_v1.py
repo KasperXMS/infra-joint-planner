@@ -166,11 +166,39 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
                   if e["event_type"] == "physical.execution" and "execution" in e["payload"]]
     model = [x["model_telemetry"] for x in executions if x.get("model_telemetry") is not None]
     outcomes = [e["payload"] for e in events if e["event_type"] == "logical.model.outcome"]
-    uncertain_model_work = sum(
-        x.get("succeeded") is False and x.get("physical_selection_succeeded") is True
-        and not x["reached_model_inference"] and x.get("failure_code") not in {
-            "context_limit_exceeded", "unsupported_modality", "deployment_required",
-        } for x in outcomes)
+    model_action_ids = {x["action_id"] for x in prepared if x["action_type"] == "model"}
+    physical_by_id = {e["payload"]["action_id"]: e["payload"] for e in events
+                      if e["event_type"] == "physical.execution"
+                      and "action_id" in e["payload"]}
+    preflight_codes = {"context_limit_exceeded", "unsupported_modality", "deployment_required"}
+    no_inference_ids = {x["action_id"] for x in observations + outcomes
+                        if "action_id" in x and x.get("succeeded") is False
+                        and (x.get("failure_code") in preflight_codes
+                             or x.get("physical_selection_succeeded") is False)}
+    no_inference_ids.update(action_id for action_id, p in physical_by_id.items()
+                            if (p.get("failure") or {}).get("stage") == "selection")
+    # Transport exceptions can close a logical action without emitting either a
+    # physical receipt or model.outcome. Do not turn their absence into zero work.
+    uncertain_model_ids = set()
+    anonymous_uncertain_outcomes = 0
+    for x in outcomes:
+        if (x.get("succeeded") is False and x.get("physical_selection_succeeded") is True
+                and not x.get("reached_model_inference")
+                and x.get("failure_code") not in preflight_codes):
+            if "action_id" in x:
+                uncertain_model_ids.add(x["action_id"])
+            else:
+                anonymous_uncertain_outcomes += 1
+    for x in observations:
+        action_id = x.get("action_id")
+        if (x.get("succeeded") is False and action_id in model_action_ids
+                and action_id not in no_inference_ids
+                and not (physical_by_id.get(action_id, {}).get("execution") or {}).get(
+                    "model_telemetry")):
+            uncertain_model_ids.add(action_id)
+    missing_model_receipts = model_action_ids - physical_by_id.keys() - no_inference_ids
+    uncertain_model_work = len(uncertain_model_ids) + anonymous_uncertain_outcomes
+    unknown_model_work = bool(uncertain_model_work or missing_model_receipts)
     reasoning = [e["payload"] for e in events if e["event_type"] == "logical.reasoning.completed"]
     graph = next((e["payload"] for e in reversed(events)
                   if e["event_type"] == "workflow.graph.snapshot"), None)
@@ -207,7 +235,6 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             if (isinstance(value, dict) and value.get("succeeded") is False
                     and isinstance(value.get("failure_code"), str)):
                 sdk_failures[p["logical_agent_id"], item["call_id"]] = value["failure_code"]
-    model_action_ids = {x["action_id"] for x in prepared if x["action_type"] == "model"}
     failed = [x for x in observations if not x["succeeded"]]
     # Denominator is observable selected-ready opportunities, not unobserved
     # counterfactual actions or every thought/finish turn. Readiness is established
@@ -265,7 +292,8 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         "model_service_work_scope": "returned inference telemetry only; "
         "excludes unmeasured failures",
         "unmeasured_failed_model_outcomes": uncertain_model_work,
-        "model_service_work_complete_total_ms": None if uncertain_model_work else measured_total(
+        "unmeasured_model_actions_missing_physical_receipt": len(missing_model_receipts),
+        "model_service_work_complete_total_ms": None if unknown_model_work else measured_total(
             [x.get("service_latency_ms") for x in model]),
         "failed_physical_execution_work_ms": measured_total([
             e["payload"]["failure"].get("duration_ms") for e in events

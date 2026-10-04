@@ -390,3 +390,70 @@ def test_failed_model_work_is_unknown_unless_failure_proves_preflight(
     assert value["unmeasured_failed_model_outcomes"] == int(unknown)
     assert value["model_service_work_complete_total_ms"] == (None if unknown else 0)
     assert value["failed_physical_execution_work_ms"] == 25
+
+
+@pytest.mark.parametrize("code", ["physical_execution_failed", "action_cancelled"])
+def test_interrupted_model_without_physical_receipt_keeps_service_total_unknown(code: str) -> None:
+    events = [event("logical.action.prepared", action={
+        "action_id": "missing", "action_type": "model", "prompt": "PRIVATE-PROMPT"}),
+        event("logical.observation", action_id="missing", succeeded=False,
+              failure_code=code, failure_message="PRIVATE-ENDPOINT"),
+        event("physical.execution", action_id="ok", execution={
+            "operator": "invoke_model", "model_telemetry": {
+                "service_latency_ms": 100, "input_tokens": 10, "output_tokens": 2}})]
+    value = analysis.event_metrics(events)
+    assert value["successful_inference_telemetry_count"] == 1
+    assert value["model_service_work_ms"] == 100
+    assert value["unmeasured_failed_model_outcomes"] == 1
+    assert value["model_service_work_complete_total_ms"] is None
+    assert "PRIVATE" not in json.dumps(value)
+
+
+def test_model_failure_seen_in_both_outcome_and_observation_is_counted_once() -> None:
+    events = [event("logical.action.prepared", action={
+        "action_id": "failed", "action_type": "model"}),
+        event("logical.model.outcome", action_id="failed", succeeded=False,
+              physical_selection_succeeded=True, reached_model_inference=False,
+              failure_code="validation_failed"),
+        event("logical.observation", action_id="failed", succeeded=False,
+              failure_code="validation_failed"),
+        event("physical.execution", action_id="failed", failure={
+            "stage": "execution", "duration_ms": 25})]
+    value = analysis.event_metrics(events)
+    assert value["unmeasured_failed_model_outcomes"] == 1
+    assert value["model_service_work_complete_total_ms"] is None
+
+
+@pytest.mark.parametrize("code", ["context_limit_exceeded", "unsupported_modality",
+                                 "deployment_required"])
+def test_missing_preflight_receipt_does_not_invent_inference_work(code: str) -> None:
+    events = [event("logical.action.prepared", action={
+        "action_id": "preflight", "action_type": "model"}),
+        event("logical.observation", action_id="preflight", succeeded=False, failure_code=code)]
+    value = analysis.event_metrics(events)
+    assert value["unmeasured_failed_model_outcomes"] == 0
+    assert value["model_service_work_complete_total_ms"] == 0
+
+
+def test_selection_only_failure_proves_no_inference_without_model_outcome() -> None:
+    events = [event("logical.action.prepared", action={
+        "action_id": "selection", "action_type": "model"}),
+        event("logical.observation", action_id="selection", succeeded=False,
+              failure_code="physical_feasibility_failed"),
+        event("physical.execution", action_id="selection", failure={
+            "stage": "selection", "duration_ms": 1})]
+    assert analysis.event_metrics(events)["model_service_work_complete_total_ms"] == 0
+
+
+def test_tool_transport_failure_does_not_invent_unknown_model_work() -> None:
+    events = [event("logical.action.prepared", action={
+        "action_id": "tool", "action_type": "tool", "operator": "read_artifact"}),
+        event("logical.observation", action_id="tool", succeeded=False,
+              failure_code="physical_execution_failed")]
+    assert analysis.event_metrics(events)["unmeasured_failed_model_outcomes"] == 0
+
+
+def test_prepared_model_without_any_outcome_cannot_prove_zero_service_work() -> None:
+    value = analysis.event_metrics([event("logical.action.prepared", action={
+        "action_id": "unobserved", "action_type": "model"})])
+    assert value["model_service_work_complete_total_ms"] is None
