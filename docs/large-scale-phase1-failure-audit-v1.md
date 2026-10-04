@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Eighteen effective valid Phase I samples at the latest checkpoint. This is not the completed
+Twenty effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -345,3 +345,16 @@ phase-restricted SDK rejection and no physical model failure. Neither cell has
 an operational incident, artifact collision or terminal exception. Costs, calls
 and information movement are recorded separately; no method claim from these
 nonmatched Planner/network/method conditions. Original queue continues.
+
+## MultiHop-2 B and C complete without new system findings
+
+DeepSeek / Slow / B retains ordinary semantic/phase/context rejects and then
+completes correctly. Its optional query interface is visible in seven real
+Manager requests but not used. This is a valid interface-adoption observation,
+not an implementation failure or a prompt-tuning target. Qwen / Fast / C
+completes correctly with three consumed quotes, three commits, no revision and
+no typed failure. C is retained as diagnostic/negative control, without assuming
+it must fail or that quote visibility caused improvement. Both original private
+evaluators run; no operational incident or additional adjudication is needed.
+Snapshot-017 contains twenty admitted samples and the queue moves to original
+Video position 2. No outcome-driven skipping or pruning is performed.
