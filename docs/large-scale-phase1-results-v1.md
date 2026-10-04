@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **11 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **12 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -22,8 +22,11 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 123.583 | 514,789 / 0.205 | 18,852 / 1.016 | 7 / 0 / 7 | 14 | 0.082493 |
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 343.549 | 514,789 / 1.570 | 28,379 / 0.910 | 13 / 16 / 13 | 42 | 0.827349 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 218.928 | 514,789 / 1.552 | 88,537 / 1.835 | 10 / 8 / 10 | 28 | 0.297327 |
+| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 755.092 | 514,789 / 0.201 | 18,934 / 0.289 | 11 / 9 / 11 | 31 | 0.340510 |
 
-All eleven admissions have no unresolved findings. Original private evaluators ran.
+All twelve effective admissions have no unresolved findings. Original private evaluators ran.
+The latest E cell has a separately audited admission sidecar; its original
+validation gate rejection remains intact. It was not repeated or repaired.
 Qwen/Fast/B1 attempt1's score 1.0 is excluded: repeated missing H.264 decoder
 failures and an order-dependent accounting aggregate. It is not in this table.
 Full exclusion/repair provenance is in the failure audit.
@@ -123,6 +126,36 @@ The helper is outside the 94c9bac app; no execution component changed. Twelve ne
 offline regression cases bring the full suite to **737 passed**; Ruff, strict
 Pyright and diff check pass. Missing timing stays unknown; descriptors never
 export artifact IDs/bodies, prompts, questions or private evaluation metadata.
+
+## Exact post-inference JSON failure: preserved and adjudicated
+
+Academic / DeepSeek / Fast / E completes correctly after six physical model
+attempts: two context rejects, three successful inference telemetry receipts
+(375.323 s service subtotal) and one post-inference JSON-output parse failure.
+Thus at least four calls reached inference, not three. Failed inference tokens
+and model service time are unknown; the known subtotal is **not** complete work.
+The Worker rejected invalid JSON before materializing its requested JSON artifact;
+no hidden correction or malformed artifact was passed as successful evidence.
+Two specialists were created (peak active one), with nine combined turns;
+the graph has 22 action nodes / 12 edges. Rules and query interface were visible
+in all eleven Manager requests; zero optional queries across six selected-ready
+decisions. Completion and low action movement do not demonstrate an E benefit.
+
+The queue stopped on the conservative validation_failed gate. Independent full
+re-audit confirmed only this model-output behavior, with no other findings.
+A sidecar binds all 147 original evidence hashes and frozen Worker code. Original
+journal/admission/result/trace stay intact; there is no rerun or output repair.
+
+- Sidecar canonical SHA-256: 2937c8c41ebd486e1b3ea0417bc6a51db6f5c1270504d3f712e003c305faa996.
+- Snapshot-009 file SHA-256: cd527a9da8c3db8172f330db85cc92e3a2786a9489a20d2df958ef28cd142339.
+- Supplemental queue-control freeze-002 canonical SHA-256:
+  932ad827c2d7c89991480356a576ce1e762b3d4c7df7f4aecf71d660a4e0ae14.
+
+Only an offline admission-view adapter (316400f) is new. Agent/Worker/scheduler/
+operator/benchmark/model/instructions and execution-freeze-002 remain exactly
+94c9bac. Full pytest **758 passed**, Ruff/strict Pyright/diff pass. Parent1660678
+and child1661081 were verified live on the next original MultiHop-1 / Qwen / Fast /
+B attempt1. No Phase II or pruning. Earlier progress paragraphs are checkpoints.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
