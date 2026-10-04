@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **12 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **13 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -23,8 +23,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 343.549 | 514,789 / 1.570 | 28,379 / 0.910 | 13 / 16 / 13 | 42 | 0.827349 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 218.928 | 514,789 / 1.552 | 88,537 / 1.835 | 10 / 8 / 10 | 28 | 0.297327 |
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 755.092 | 514,789 / 0.201 | 18,934 / 0.289 | 11 / 9 / 11 | 31 | 0.340510 |
+| MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | B | 1 | yes / valid / 1.0 | 138.709 | 7,696,522 / 1.004 | 12,185 / 0.593 | 6 / 0 / 6 | 12 | 0.163738 |
 
-All twelve effective admissions have no unresolved findings. Original private evaluators ran.
+All thirteen effective admissions have no unresolved findings. Original private evaluators ran.
 The latest E cell has a separately audited admission sidecar; its original
 validation gate rejection remains intact. It was not repeated or repaired.
 Qwen/Fast/B1 attempt1's score 1.0 is excluded: repeated missing H.264 decoder
@@ -156,6 +157,34 @@ operator/benchmark/model/instructions and execution-freeze-002 remain exactly
 94c9bac. Full pytest **758 passed**, Ruff/strict Pyright/diff pass. Parent1660678
 and child1661081 were verified live on the next original MultiHop-1 / Qwen / Fast /
 B attempt1. No Phase II or pruning. Earlier progress paragraphs are checkpoints.
+
+## First settled MultiHop condition
+
+MultiHop position 1 / Qwen / Fast / B completes with original score 1.0, valid
+terminal format and clean admission. Twelve successful BM25 executions and two
+physical model attempts form a 14-node / 12-edge graph. The first model attempt
+has a context reject; a later inference succeeds (4,920 input / 2 output tokens,
+finish_reason=stop, 85.969 s service work). The run has no created specialist.
+Phase/semantic typed failures are preserved, without changing tool or prompt.
+
+The optional query interface is visible in all six actual Manager requests,
+but zero queries/cards are generated across four observed selected-ready
+decisions. Its successful score alone does not demonstrate a cost-query benefit.
+The twelve cloud HTTP calls comprise six Manager and six fixed Blind Verifier
+requests, estimated USD 0.075002 / 0.088736 respectively. These are frozen-list-price
+estimates, not invoices; physical service and cloud inference are separate.
+
+Remote snapshot-010 file SHA-256:
+b9df34a5eaa55b0ca6e2719ea8b21bac2c8b15fa4ec149523a088af727c491e7.
+It contains thirteen effective valid / one confounded / one pending attempts
+(fifteen total), with one immutable adjudication and no operational exclusions.
+Offline collector v1-6 source SHA-256:
+9278026ce0846445c752963ae048ea2e6a149a61dd42ed80d288c7f433571849.
+It checks the same evidence once per membership calculation and derives all
+counts from one verified population, avoiding repeated proof checks per cell.
+Full pytest **760 passed**, Ruff/strict Pyright/diff pass; the execution app and
+queue-control freeze remain unchanged. Parent1660678 and child1671569 were
+verified live on MultiHop-1 / DeepSeek / Slow / A. No Phase II or pruning.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis

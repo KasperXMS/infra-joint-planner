@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twelve effective valid Phase I samples at the latest checkpoint. This is not the completed
+Thirteen effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -240,3 +240,24 @@ Full pytest758/Ruff/strict Pyright/diff pass. The new offline controller and its
 supplemental freeze sit outside unchanged formal app94c9bac. Hashes are in results.
 Parent1660678 / child1661081 were verified live on the next original MultiHop-1 /
 Qwen / Fast / B. Full Phase I/II gates remain unsatisfied.
+
+## First MultiHop admission and offline collector cost
+
+MultiHop-1 / Qwen / Fast / B is a valid, normally completed score-1 sample. A
+context rejection is followed by natural additional retrieval and successful
+terminal inference. All twelve BM25 actions succeed; no historical artifact
+collision, admission finding or operational incident is recorded. SDK phase
+rejects remain ordinary recorded trajectory behavior, not tuning opportunities.
+Private supporting-evidence coverage and primary semantic diagnoses still wait
+for the complete Phase I audit; no supporting bodies enter live feedback.
+
+The read-only snapshot collector inherited a membership property that reran
+sidecar proof checks separately for every scheduled cell during journal replay.
+This made the diagnostic unnecessarily slow, not the frozen Agent execution.
+The new offline-only collector verifies once per membership calculation and uses
+one checked attempt population for counts. Regression proves no persistent cache
+hides drift and proof errors still propagate; all 760 tests/Ruff/Pyright pass.
+The superseded owned stdin collector was stopped only after exact process/env
+checks; the queue and formal cell were untouched. Original evidence and prior
+collectors/checkpoints remain intact. New collector v1-6, snapshot-010 hashes
+and the latest pending condition are in the results report. No experiment rerun.
