@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **20 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **23 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -31,8 +31,11 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Slow | A | 1 | yes / valid / 1.0 | 197.772 | 7,696,522 / 22.590 | 5,204,596 / 15.249 | 4 / 0 / 4 | 8 | 0.045111 |
 | MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Slow | B | 1 | yes / valid / 1.0 | 203.924 | 7,696,522 / 22.142 | 18,056 / 0.426 | 7 / 0 / 7 | 14 | 0.099525 |
 | MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Fast | C | 1 | yes / valid / 1.0 | 159.229 | 7,696,522 / 0.757 | 5,204,596 / 1.177 | 6 / 0 / 3 | 9 | 0.058330 |
+| Video 131-3 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 182.859 | 7,037,220 / 0.647 | 736,569 / 1.025 | 4 / 0 / 4 | 8 | 0.087707 |
+| Video 131-3 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 264.157 | 7,037,220 / 19.880 | 982,507 / 4.184 | 6 / 0 / 6 | 12 | 0.136968 |
+| Video 131-3 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 193.476 | 7,037,220 / 19.874 | 707,555 / 2.859 | 3 / 0 / 3 | 6 | 0.065295 |
 
-All twenty effective admissions have no unresolved findings. Original private evaluators ran.
+All twenty-three effective admissions have no unresolved findings. Original private evaluators ran.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
 separately audited admission sidecars; their original validation gate rejections
 remain intact. Neither was repeated or repaired.
@@ -392,3 +395,39 @@ task/placement/order/operator/models/instructions are unchanged; no Phase II.
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
 definitions for query denominator, last-turn accounting and unknown-value rules.
+
+## First three settled conditions of Video position 2
+
+The source remains the original full-timeline MP4 for Video 131-3 (77.996 s,
+7,037,220 bytes), initially on A4 in every condition. DeepSeek / Fast / E,
+Qwen / Slow / B0 and DeepSeek / Slow / B1 all complete, format-valid, score 1.0.
+Each has one successful sample_frames and one successful model inference, without
+a specialist or explicit cross-agent handoff. E/B1 have two prepared nodes and
+six information-flow edges; B0 has three nodes / 23 edges including one failed
+model preflight. E/B1 service work is 143.839 / 142.887 s respectively; B0 service
+work is 190.245 s. All returned inferences finish normally with stop.
+
+E has one semantic reject and one phase-restricted SDK call. Its contact-sheet
+request is not a successful execution; prepared actions are sample_frames then
+invoke_model. Two selected-ready decisions produce zero optional queries/cards;
+the interface and identical frozen rules appear in all four actual Manager
+requests. Rule visibility is not proof of internal rule use or causal savings.
+B0 retains two semantic rejects, one phase-restricted call and one context reject;
+it naturally continues to inference. B1 retains one semantic reject. None is a
+terminal or system failure, and no prompt/action/environment repair was made.
+
+Cloud API list-price estimates are E USD 0.087707 (Manager 0.040411 / Verifier
+0.047296), B0 USD 0.136968 (0.053269 / 0.083699) and B1 USD 0.065295 (0.023150 /
+0.042145). Measured work counters overlap; they are not additive E2E components.
+Different Planner/method/network conditions prevent a matched benefit claim.
+
+- Snapshot-018 file SHA-256: 3e0ab0315fd69726bcbb2b2f0f61de6f43a8ee614e9ae0a89258a00f7c7a95c3.
+- Snapshot-019 file SHA-256: 2f60ce2079f09e7d59c6c49c23cbb299c7fbc2a3580b7c8e43d2be8fc5e1b1cb.
+
+Snapshot-019 covers 23 valid / one original confounded / one pending attempts
+(25 total), two exact model-output JSON adjudications and no operational
+exclusions. Its pending condition is Video 131-3 / Qwen / Fast / A. At the later
+process check, parent1810614 remains live and the owned next child1919950 runs
+original Academic / DeepSeek / Fast / B0; results beyond snapshot-019 are not yet
+claimed in this table. Formal94c9bac, control003 and all task/order/physical/
+semantic freezes remain unchanged. No screening, pruning or Phase II yet.
