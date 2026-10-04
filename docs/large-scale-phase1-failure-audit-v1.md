@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Sixteen effective valid Phase I samples at the latest checkpoint. This is not the completed
+Eighteen effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -323,3 +323,25 @@ freeze call initially lacked the required archive revision env and failed
 before file creation or experiment launch; it was corrected without any cell
 replacement. New parent1810614/child1811077 run the original next condition,
 MultiHop-2 / DeepSeek / Fast / B1. All evidence and control hashes are in results.
+
+## MultiHop-2 readiness misuse is not a lost initial artifact
+
+DeepSeek / Fast / B1 completes, format-valid, score 1.0 and no admission finding.
+Its artifact_not_materialized event is not dismissed solely by error-code
+allowlisting. Original trace and frozen native source are checked: three initial
+artifacts materialize normally. The rejected invoke_model references three
+names that match neither initial inputs nor previously declared outputs; it has
+no prepared physical action or physical execution receipt. The source matches
+execution-freeze-002 and rejects these inaccessible inputs before the gateway.
+This is call-level workflow composition/readiness misuse, not missing Worker
+data. No hidden repair, alias remapping, retry or prompt change. A later inference
+succeeds after typed context/semantic/phase failures; the task is not a failed run.
+
+Remote settled-readiness-audit-001 binds original trace/native source hashes and
+bounded proof without artifact identities, bodies or supporting evidence. Its
+file SHA-256 is in results. Private coverage/sufficiency still awaits full Phase I.
+Qwen / Slow / A subsequently completes the same task, score 1.0, with only a
+phase-restricted SDK rejection and no physical model failure. Neither cell has
+an operational incident, artifact collision or terminal exception. Costs, calls
+and information movement are recorded separately; no method claim from these
+nonmatched Planner/network/method conditions. Original queue continues.
