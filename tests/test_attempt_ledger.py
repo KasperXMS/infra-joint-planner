@@ -111,3 +111,43 @@ def test_lease_ownership_drift_requires_explicit_reconciliation(tmp_path: Path) 
     with pytest.raises(RuntimeError, match="ownership changed"), QueueLease(path):
         path.write_text('{"pid": "changed"}')
     assert path.exists()
+
+
+def test_generic_repair_is_append_only_affected_only_and_bound_to_new_freeze(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "attempts.jsonl"
+    value = ledger(path)
+    value.reserve("cell-1", "broken", "b" * 64)
+    value.settle("broken", "confounder", "decoder_missing", "c" * 64)
+    original = path.read_bytes()
+    value.authorize_generic_repair("broken", original_admission_sha256="c" * 64,
+                                   repair_audit_sha256="d" * 64,
+                                   new_execution_sha256="e" * 64)
+    assert path.read_bytes().startswith(original)
+    assert value.attempts[0].disposition == "confounder"
+    assert not value.completed_cells
+    resumed = ledger(path)
+    with pytest.raises(RuntimeError, match="order"):
+        resumed.reserve("cell-2", "skip-broken", "e" * 64)
+    with pytest.raises(RuntimeError, match="audited new freeze"):
+        resumed.reserve("cell-1", "wrong-revision", "b" * 64)
+    resumed.reserve("cell-1", "fixed", "e" * 64)
+    resumed.settle("fixed", "valid", "wrong_answer", "f" * 64)
+    assert ledger(path).completed_cells == ("cell-1",)
+    assert len(ledger(path).attempts) == 2
+
+
+@pytest.mark.parametrize("invalid", ["ordinary_failure", "wrong_receipt", "unchanged_freeze"])
+def test_repair_cannot_be_used_to_rescue_semantic_failure_or_bypass_audit(
+    tmp_path: Path, invalid: str,
+) -> None:
+    value = ledger(tmp_path / "attempts.jsonl")
+    value.reserve("cell-1", "first", "b" * 64)
+    value.settle("first", "valid" if invalid == "ordinary_failure" else "confounder",
+                 "failure", "c" * 64)
+    with pytest.raises(RuntimeError, match="repair requires"):
+        value.authorize_generic_repair(
+            "first", original_admission_sha256="a" * 64 if invalid == "wrong_receipt" else "c" * 64,
+            repair_audit_sha256="d" * 64,
+            new_execution_sha256="b" * 64 if invalid == "unchanged_freeze" else "e" * 64)

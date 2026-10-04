@@ -182,7 +182,19 @@ def summarize_api_costs(receipts: Sequence[APICostReceipt]) -> dict[str, APICost
         selected = [row for row in receipts if recipient == "all" or row.recipient == recipient]
         amounts = [row.cost.usd_amount for row in selected if row.cost.usd_amount is not None]
         with localcontext() as ctx:
-            ctx.prec = 40
+            # Each frozen per-call FX result has already been rounded once. Sum
+            # those finite Decimal receipts exactly: a second fixed-precision
+            # rounding made totals depend on HTTP completion versus audit order.
+            # Align to the smallest exponent and reserve carry digits for N terms.
+            # This changes no prices, FX, per-call charge or logical feedback.
+            if amounts:
+                smallest_exponent = min(cast(int, amount.as_tuple().exponent)
+                                        for amount in amounts)
+                largest_position = max(amount.adjusted() for amount in amounts)
+                ctx.prec = max(40, largest_position - smallest_exponent + 1
+                               + len(str(len(amounts))) + 1)
+            else:
+                ctx.prec = 40
             subtotal = sum(amounts, Decimal(0))
         unknown = len(selected) - len(amounts)
         result[recipient] = APICostSummary(

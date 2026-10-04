@@ -160,3 +160,26 @@ def test_frozen_price_cards_use_actual_aliases_same_region_and_fx() -> None:
         assert card.model_id in {"deepseek-v4-pro", "qwen3.8-max"}
         assert card.region == "cn-beijing" and card.input_per_million == 12
     assert FXReference.model_validate(raw["fx"]).rate_date == date(2026, 10, 2)
+
+
+def test_API_summary_is_exact_and_order_independent_beyond_40_digit_FX_precision() -> None:
+    # These terms force different last-place rounding under a fixed 40-digit
+    # accumulator. Provider completion order and UUID-sorted offline audit must
+    # produce the same exact sum of already-frozen per-call receipts.
+    values = [
+        Decimal("0.1234567890123456789012345678901234567890"),
+        Decimal("0.00000000000000000000000000000000000000006"),
+        Decimal("0.00000000000000000000000000000000000000006"),
+    ]
+    expected = Decimal("0.12345678901234567890123456789012345678912")
+    base = estimate(raw_usage())
+    receipts = [APICostReceipt(call_id=f"m{index}", recipient="manager",
+                               cost=base.model_copy(update={"usd_amount": value}))
+                for index, value in enumerate(values)]
+    from itertools import permutations
+
+    for ordering in permutations(receipts):
+        result = summarize_api_costs(ordering)
+        assert result["manager"].complete_usd_total == expected
+        assert result["all"].complete_usd_total == expected
+        assert result["manager"].calls == 3

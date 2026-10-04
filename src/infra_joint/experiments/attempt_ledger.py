@@ -59,6 +59,7 @@ class AttemptLedger:
         self.path, self.cells, self.schedule_sha256 = path, cells, schedule_sha256
         self._records: list[dict[str, object]] = []
         self._attempts: dict[str, Attempt] = {}
+        self._repairs: dict[str, str] = {}
         if path.exists():
             self._load()
         else:
@@ -116,8 +117,16 @@ class AttemptLedger:
                 raise RuntimeError("attempt index drift")
             execution = str(record["execution_sha256"])
             _require_digest(execution)
-            if prior and prior[-1].execution_sha256 != execution:
-                raise RuntimeError("operational replacement must use identical execution freeze")
+            if prior:
+                previous = prior[-1]
+                authorized = self._repairs.get(previous.run_id)
+                if authorized is not None:
+                    if execution != authorized:
+                        raise RuntimeError(
+                            "affected-only repair rerun must use the audited new freeze")
+                elif previous.execution_sha256 != execution:
+                    raise RuntimeError(
+                        "operational replacement must use identical execution freeze")
             self._attempts[run] = Attempt(cell, run, len(prior) + 1, execution)
         elif event == "settled":
             run = str(record["run_id"])
@@ -135,6 +144,19 @@ class AttemptLedger:
                 current.cell_id, run, current.attempt_index, current.execution_sha256,
                 cast(Disposition, disposition), reason, receipt,
             )
+        elif event == "generic_repair":
+            run = str(record["run_id"])
+            original = self._attempts.get(run)
+            new_execution = str(record["new_execution_sha256"])
+            _require_digest(str(record["repair_audit_sha256"]))
+            _require_digest(new_execution)
+            if (original is None or original.disposition != "confounder"
+                    or run in self._repairs
+                    or record["original_admission_sha256"] != original.receipt_sha256
+                    or new_execution == original.execution_sha256):
+                raise RuntimeError(
+                    "repair requires an unresolved confounder and new audited freeze")
+            self._repairs[run] = new_execution
         else:
             raise RuntimeError("unknown journal event")
 
@@ -157,14 +179,16 @@ class AttemptLedger:
             raise ValueError("task replacement/new cell is outside the frozen schedule")
         if self.pending:
             raise RuntimeError("outstanding attempt: verify its process and reconcile evidence")
-        if any(item.disposition == "confounder" for item in self.attempts):
+        if any(item.disposition == "confounder" and item.run_id not in self._repairs
+               for item in self.attempts):
             raise RuntimeError("unresolved system confounder prohibits queue continuation")
         if cell_id in self.completed_cells:
             raise RuntimeError("valid nominal cell must not be repeated")
         prior = [item for item in self.attempts if item.cell_id == cell_id]
-        if len(prior) >= 2:
+        if sum(item.disposition == "operational_excluded" for item in prior) >= 2:
             raise RuntimeError("one operational replacement exhausted; stop affected block")
-        if prior and prior[-1].disposition != "operational_excluded":
+        if (prior and prior[-1].disposition != "operational_excluded"
+                and prior[-1].run_id not in self._repairs):
             raise RuntimeError("only an audited operational exclusion allows replacement")
         remaining = [cell for cell in self.cells if cell not in self.completed_cells]
         if not remaining or cell_id != remaining[0]:
@@ -182,6 +206,25 @@ class AttemptLedger:
                receipt_sha256: str) -> None:
         self._append({"event": "settled", "run_id": run_id, "disposition": disposition,
                       "reason": reason, "receipt_sha256": receipt_sha256})
+
+    def authorize_generic_repair(
+        self, run_id: str, *, original_admission_sha256: str,
+        repair_audit_sha256: str, new_execution_sha256: str,
+    ) -> None:
+        """Bind an independent bug/regression/full-test/new-freeze audit.
+
+        The original attempt/admission stays unchanged. This is not authority to
+        repeat ordinary semantic failures or completed wrong answers. Caller must
+        verify the actual audit evidence; the ledger enforces its immutable links.
+        """
+        if self.pending:
+            raise RuntimeError("cannot repair a possibly live attempt")
+        self._append({
+            "event": "generic_repair", "run_id": run_id,
+            "original_admission_sha256": original_admission_sha256,
+            "repair_audit_sha256": repair_audit_sha256,
+            "new_execution_sha256": new_execution_sha256,
+        })
 
 
 class QueueLease:
