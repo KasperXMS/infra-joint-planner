@@ -237,6 +237,34 @@ immutable adjudication, zero operational exclusions. Original frozen schedule
 continues to MultiHop-1 / DeepSeek / Fast / B0 attempt1, child1745464; parent
 1660678 remains live. Formal execution 94c9bac is unchanged; no pruning/Phase II.
 
+## Fifteen-run graph checkpoint
+
+Remote `analysis/settled-graph-audit-002.json` binds snapshot-012, the unchanged
+offline graph helper and per-run trace SHA-256 values. Original admission/journal
+and canonical result hashes are checked; the model-JSON sidecar remains separate.
+All fifteen admitted graphs have complete action lifetimes, append-only history,
+finite operators, acyclic dependencies and no dependency-order violation.
+This is a structural/timing audit, not private semantic sufficiency analysis.
+
+| MultiHop condition | Status snapshots / structure additions | Action nodes / edges | Logical owners | Physical-action peak | Overlap wall s | Action-edge dependency path s |
+|---|---:|---:|---:|---:|---:|---:|
+| Qwen / Fast / B | 43 / 14 | 14 / 12 | 1 | 6 | 1.450 | 87.786 |
+| DeepSeek / Slow / A | 79 / 26 | 26 / 30 | 1 | 6 | 3.264 | 671.083 |
+| Qwen / Slow / B1 | 22 / 7 | 7 / 8 | 1 | 1 | 0 | 244.318 |
+
+The first two demonstrate real same-owner physical-action parallelism, not six
+logical agents. Parallel graph width or these short overlaps do not establish
+an E2E advantage; the cells differ in Planner/network/method. The dependency path
+excludes Manager/Verifier/SDK information flow, gaps and initial placement and is
+not complete E2E. Academic / DeepSeek / Fast / E also has closed failed-action
+intervals (22 nodes; peak four), while failed model service/tokens remain unknown.
+No profile is inferred from missing telemetry; no online feedback changes.
+
+Graph-audit-002 file SHA-256:
+3a30d7e08f2d82625f962a0f5977f398234dc0f17126e2fe34ce6d46a96d668c.
+Helper SHA-256 remains
+46a65142801f09faaf8cf47e4b8ffe1d1a77800e426d165cbd3021d569ca147f.
+
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
 definitions for query denominator, last-turn accounting and unknown-value rules.
