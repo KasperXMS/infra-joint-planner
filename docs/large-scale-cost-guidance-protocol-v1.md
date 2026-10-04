@@ -246,9 +246,14 @@ Stop after the frozen Phase II block and audit; no new method/model/benchmark/N.
   original DeepSeek toy-format failure preserved separately. See
   [provider readiness](large-scale-provider-readiness-v1.md). Full native-method
   runtime integration/admission is still pending.
-- Eighteen task identities/representations/placement: pending remote stratified freeze.
-- Historical E holdout mapping: identified; full manifest verification pending.
+- Eighteen task identities/representations/placement: frozen remotely, with complete
+  original sources and six distinct videos; task preparation audit has no findings.
+  See [task selection](large-scale-task-selection-v1.md) for unknown original
+  LongBench source counts and evidence-span proxies; do not invent those values.
+- Historical E holdout mapping: actual rule-source labels/hash verified; all eighteen
+  identities are disjoint, and the historical source video is also excluded.
 - Pricing and per-recipient monetary usage coverage: pending implementation/admission.
-- Pure deterministic schedule/Phase II guards: tested (no actual task schedule frozen).
-  Remote reservation/audit/runner integration: pending verification.
+- Deterministic schedule/Phase II guards: tested; actual 168-cell ordered schedule
+  frozen with all eighteen task identities. Remote reservation/full recipient audit/
+  runner integration: pending verification; no formal execution admission yet.
 - Formal execution permission gate: **not passed; cells = 0**.
