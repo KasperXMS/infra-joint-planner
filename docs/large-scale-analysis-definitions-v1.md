@@ -43,6 +43,11 @@ successful tools, successful models, reported inference reach and successful
 model-service telemetry. A context/binding/readiness reject is not model inference.
 Keep failed calls and their typed codes; model-service failures can have incomplete
 token/work information and must not be silently treated as measured zero work.
+SDK-only failures (for example a phase-restricted specialist request) can occur
+without a prepared physical action. Deduplicate typed function-output receipts
+per logical recipient/call ID and report them separately as lower bounds. They
+can overlap logical observations or quote rejections and must not be added as
+new physical calls. Last-turn outputs absent from a later input are unobserved.
 
 Provider raw usage supplies Manager/specialist/Verifier token counts and API USD.
 Missing tokens/cache/price/FX remain unknown; zero calls have zero executed work.
