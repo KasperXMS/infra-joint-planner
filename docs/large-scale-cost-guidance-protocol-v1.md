@@ -1,10 +1,15 @@
 # Large-scale cost-guidance characterization v1
 
 2026-10-05. Branch `large-scale-cost-guidance-v1`, derived from `420d196`.
-Status: **prospective design; not an execution freeze; zero formal cells launched**.
-Task identities, provider compatibility, monetary metering and runtime admission
-must all be frozen before the queue can start. This document does not authorize
-running an incomplete substitute for the requested study.
+Status: **execution frozen; Phase I in progress; Phase II not authorized yet**.
+The original prospective sections below are retained as preregistration, not
+claims that execution has not started. Task identities, provider compatibility,
+pricing, runtime and deterministic order have been frozen and checked. Current
+admission counts and outcomes are maintained in
+[Phase I results](large-scale-phase1-results-v1.md) and
+[failure audit](large-scale-phase1-failure-audit-v1.md).
+This status correction changes no protocol, gate, task or run configuration and
+does not authorize an incomplete substitute for the requested study.
 
 ## Question and scope
 
