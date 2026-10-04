@@ -77,7 +77,8 @@ def distillation_examples(manifest: dict[str, Any]) -> list[dict[str, Any]]:
                 if any(label in r["run_id"] for label in TRAIN_TASKS)]
     if any(any(label in r["run_id"] for label in TASKS) for r in selected) or not selected:
         raise ValueError("distillation/test task overlap or empty independent history")
-    return [anonymized_cost_trace(verified_trace(Path(r["evidence_directory"]), r), r["run_id"])
+    return [anonymized_cost_trace(verified_trace(
+        Path(r["evidence_directory"]), {**r, "evidence_hashes": r["source_hashes"]}), r["run_id"])
             for r in selected]
 
 

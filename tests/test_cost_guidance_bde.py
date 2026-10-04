@@ -30,13 +30,14 @@ def test_prospective_bde_scope_cap_and_isolated_store_namespaces() -> None:
 
 def test_distillation_selects_only_disjoint_prespecified_history_not_scores() -> None:
     selected = {"run_id": "crossbenchmark-v1-longbench-multidoc-financial-fast-blind",
-                "evidence_directory": "/owned/history", "score": 0}
+                "evidence_directory": "/owned/history", "score": 0, "source_hashes": {"x": "y"}}
     heldout = {"run_id": "crossbenchmark-v1-longbench-multidoc-academic-fast-blind",
                "evidence_directory": "/owned/test", "score": 1}
     with patch.object(bde, "verified_trace", return_value=[]) as read, patch.object(
         bde, "anonymized_cost_trace", return_value={"example_id": "x"},
     ):
         assert bde.distillation_examples({"runs": [selected, heldout]}) == [{"example_id": "x"}]
-        assert read.call_count == 1 and read.call_args.args[1] is selected
+        assert read.call_count == 1
+        assert read.call_args.args[1]["evidence_hashes"] == selected["source_hashes"]
     with pytest.raises(ValueError, match="empty"):
         bde.distillation_examples({"runs": [heldout]})
