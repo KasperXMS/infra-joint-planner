@@ -1,9 +1,13 @@
 import importlib
+import json
 import sys
 from pathlib import Path
 
 import pytest
 
+from infra_joint.agents.context import AgentTaskView
+from infra_joint.benchmarks.base import AdaptedExecutionCase
+from infra_joint.benchmarks.longbench_v2 import LongBenchV2Sample
 from infra_joint.experiments.large_scale_protocol import SelectedTask, validate_task_set
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
@@ -44,3 +48,21 @@ def test_selection_rejects_local_storage_before_source_or_rules_access(tmp_path:
     with pytest.raises(RuntimeError, match="4090 preparation root"):
         selection.freeze(tmp_path / "out", tmp_path, tmp_path / "absent-rules")
     assert not (tmp_path / "out").exists()
+
+
+def test_frozen_task_and_agent_view_are_strictly_reloadable(tmp_path: Path) -> None:
+    sample = LongBenchV2Sample(
+        sample_id="synthetic", domain="Multi-Document QA", sub_domain="synthetic",
+        difficulty="hard", length="medium", question="synthetic query",
+        choice_A="first", choice_B="second", choice_C="third", choice_D="fourth",
+        answer="A", context="lossless synthetic context\n",
+    )
+    bundle = selection._longbench_multidoc_bundle(sample, "synthetic-revision", (0,))
+    selection.persist_bundle(tmp_path, SelectedTask("longbench_v2", "synthetic", 1),
+                             bundle, {"source": "synthetic"}, ("A4",))
+    folder = tmp_path / "longbench_v2-1"
+    execution = AdaptedExecutionCase.model_validate(json.loads(
+        (folder / "execution.json").read_text()))
+    agent = AgentTaskView.model_validate(json.loads((folder / "agent-task-view.json").read_text()))
+    assert execution == bundle.execution
+    assert agent == AgentTaskView.from_contract(bundle.execution.task)

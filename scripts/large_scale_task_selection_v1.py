@@ -143,10 +143,11 @@ def persist_bundle(
     if len(placements) != len(bundle.prepared_artifacts):
         raise RuntimeError("Every initial artifact needs one frozen placement")
     private = bundle.private_evaluation
-    private_value = private.model_dump(mode="json")  # type: ignore[attr-defined]
+    private_value = private.model_dump(mode="json", by_alias=True)  # type: ignore[attr-defined]
     write_new(folder / "private-evaluation.json", private_value)
-    write_new(folder / "execution.json", bundle.execution.model_dump(mode="json"))
-    agent_view = AgentTaskView.from_contract(bundle.execution.task).model_dump(mode="json")
+    write_new(folder / "execution.json", bundle.execution.model_dump(mode="json", by_alias=True))
+    agent_view = AgentTaskView.from_contract(bundle.execution.task).model_dump(
+        mode="json", by_alias=True)
     write_new(folder / "agent-task-view.json", agent_view)
     prepared = []
     for item, owner in zip(bundle.prepared_artifacts, placements, strict=True):
@@ -168,7 +169,8 @@ def persist_bundle(
         "evaluator_implementation_sha256": _sha256(Path(evaluator_file)),
         "source": source, "artifacts": prepared,
         "initial_bytes": sum(item["bytes"] for item in prepared),
-        "output_contract": bundle.execution.task.output_contract.model_dump(mode="json"),
+        "output_contract": bundle.execution.task.output_contract.model_dump(
+            mode="json", by_alias=True),
         "validity": bundle.execution.validity.model_dump(mode="json"),
         "candidate_reduction_ratio": None,
     }
