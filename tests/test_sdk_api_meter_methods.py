@@ -31,6 +31,7 @@ from infra_joint.control.physical import PhysicalExecutionService
 from infra_joint.control.provenance import PROFILE_MESSAGE_PREFIX
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.control.verification import OpenAIAgentsBlindVerifier
+from infra_joint.experiments.recipient_audit import audit_effective_inputs
 from infra_joint.experiments.sdk_api_meter import metered_sdk
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.workflow.trace import WorkflowTraceRecorder
@@ -108,6 +109,8 @@ async def test_all_seven_frozen_native_variants_meter_manager_and_fixed_qwen_ver
             profile_visibility=ProfileVisibility.AWARE if method == "B1"
             else ProfileVisibility.BLIND), timeout=5)
     assert result.final_answer == "A"
+    assert not audit_effective_inputs(
+        [event.model_dump(mode="json") for event in sink.events], method)["problems"]
     manager_receipts = [row for row in meter.receipts if row.recipient == "manager"]
     verifier_receipts = [row for row in meter.receipts if row.recipient == "verifier"]
     assert len(manager_receipts) == result.usage.manager_turns
