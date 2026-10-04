@@ -10,7 +10,7 @@ execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
 Task/placement/order/model/Verifier/method freezes are unchanged.
 
-| Task | Planner | Network | Method | Attempt | Complete / format / score | E2E s | Initial bytes / s | Action bytes / transfer work s | Manager / specialist / Verifier turns | Cloud HTTP | API USD |
+| Task | Planner | Network | Method | Attempt | Complete / format / score | E2E s | Initial bytes / s | Recorded action bytes / transfer work s | Manager / specialist / Verifier turns | Cloud HTTP | API USD |
 |---|---|---|---|---:|---|---:|---|---|---|---:|---:|
 | Video 602-2 | Qwen3.8-Max | Fast | B1 | 2 | yes / valid / 1.0 | 229.841 | 213,739,837 / 18.605 | 772,094 / 0.907 | 5 / 0 / 5 | 10 | 0.227857 |
 | Video 602-2 | DeepSeek V4 Pro | Slow | B0 | 1 | yes / valid / 1.0 | 808.533 | 213,739,837 / 596.688 | 718,415 / 2.755 | 5 / 0 / 5 | 10 | 0.133623 |
@@ -21,13 +21,13 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f94f9ebb02136c067c4fde | DeepSeek V4 Pro | Slow | A | 1 | yes / valid / 0.0 | 180.078 | 2,119,778 / 5.989 | 15,904 / 0.139 | 10 / 0 / 10 | 20 | 0.146186 |
 | LongBench 66f94f9ebb02136c067c4fde | Qwen3.8-Max | Fast | B | 1 | yes / valid / 0.0 | 188.625 | 2,119,778 / 0.481 | 25,392 / 0.150 | 10 / 0 / 10 | 20 | 0.184718 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 123.583 | 514,789 / 0.205 | 18,852 / 1.016 | 7 / 0 / 7 | 14 | 0.082493 |
-| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 343.549 | 514,789 / 1.570 | 28,379 / 0.910 | 13 / 16 / 13 | 42 | 0.827349 |
+| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 343.549 | 514,789 / 1.570 | 28,379 / 0.910 subtotal; full unknown | 13 / 16 / 13 | 42 | 0.827349 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 218.928 | 514,789 / 1.552 | 88,537 / 1.835 | 10 / 8 / 10 | 28 | 0.297327 |
-| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 755.092 | 514,789 / 0.201 | 18,934 / 0.289 | 11 / 9 / 11 | 31 | 0.340510 |
+| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 755.092 | 514,789 / 0.201 | 18,934 / 0.289 subtotal; full unknown | 11 / 9 / 11 | 31 | 0.340510 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | B | 1 | yes / valid / 1.0 | 138.709 | 7,696,522 / 1.004 | 12,185 / 0.593 | 6 / 0 / 6 | 12 | 0.163738 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | A | 1 | yes / valid / 0.0 | 985.729 | 7,696,522 / 22.035 | 67,507 / 1.474 | 14 / 0 / 14 | 28 | 0.492382 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 0.0 | 319.257 | 7,696,522 / 22.249 | 5,204,596 / 14.943 | 9 / 0 / 9 | 18 | 0.120485 |
-| MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 847.052 | 7,696,522 / 1.588 | 15,051 / 0.035 | 15 / 0 / 15 | 30 | 0.744879 |
+| MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 847.052 | 7,696,522 / 1.588 | 15,051 / 0.035 subtotal; full unknown | 15 / 0 / 15 | 30 | 0.744879 |
 | MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Fast | B1 | 1 | yes / valid / 1.0 | 190.097 | 7,696,522 / 0.811 | 18,073 / 0.093 | 8 / 0 / 8 | 16 | 0.103885 |
 | MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Slow | A | 1 | yes / valid / 1.0 | 197.772 | 7,696,522 / 22.590 | 5,204,596 / 15.249 | 4 / 0 / 4 | 8 | 0.045111 |
 | MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Slow | B | 1 | yes / valid / 1.0 | 203.924 | 7,696,522 / 22.142 | 18,056 / 0.426 | 7 / 0 / 7 | 14 | 0.099525 |
@@ -42,6 +42,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 The 25 completed samples have no unresolved findings and original private evaluators ran.
 The separately classified provider-policy failure did not complete or invoke the
 evaluator: its score/format/cost totals stay unknown and it is not a semantic zero.
+Action movement is recorded receipt work. The three explicitly marked rows have
+execution-stage failures without complete movement telemetry; their numeric
+successful-receipt subtotals are not full transfer totals or savings evidence.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
 separately audited admission sidecars; their original validation gate rejections
 remain intact. Neither was repeated or repaired.
@@ -511,3 +514,16 @@ failed-cost-audit-001 binds the original trace/result/frozen runner and tested
 collector. File SHA-256:
 0484e67c66df93ca5a326816d892821d10ff0fdfbeac6d113871bd1f3f234dd3.
 This offline projection changes neither admission nor any online cost feedback.
+
+Snapshot-022 file SHA-256:
+7aa9372506facb21116eaca77324745e7f22d26c330c3d511064902f79fddc45.
+It independently verifies26 classified / one original implementation confounder /
+one pending (28 attempts), two JSON adjudications, one policy adjudication and
+zero operational exclusions. It includes separate trace receipt projections;
+original result telemetry is never replaced. Academic / DeepSeek / Slow / B1's
+two execution-stage read failures and the two reviewed JSON-failure trajectories
+have unknown complete movement, with successful-receipt subtotals28,379 /18,934 /
+15,051 bytes respectively. Their valid completion is unaffected, but resource
+claims must preserve that measurement limitation. Parent1978333/child1987511
+remain verified live on Academic / DeepSeek / Slow / A; there is no terminal
+event at this checkpoint. No restart, tuning, replacement or Phase II.
