@@ -26,6 +26,27 @@ def returned_cards(value: Any) -> list[dict[str, Any]]:
     return [c for item in value.get("candidates", []) for c in returned_cards(item)]
 
 
+def sdk_call_receipts(events: list[dict[str, Any]]) -> dict[str, dict[str, int]]:
+    """Count distinct real calls in effective input, including rejected cost queries.
+
+    This is a lower bound if a last-turn call never reaches another model input;
+    it is not an execution or inference count. Replayed SDK history is deduplicated.
+    """
+    calls: dict[tuple[str, str], str] = {}
+    for event in events:
+        if event["event_type"] != "logical.reasoning.input":
+            continue
+        p = event["payload"]
+        for item in p["input_items"]:
+            if (item.get("type") == "function_call"
+                    and isinstance(item.get("call_id"), str)
+                    and isinstance(item.get("name"), str)):
+                calls[(p["logical_agent_id"], item["call_id"])] = item["name"]
+    owners = {owner for owner, _ in calls}
+    return {owner: dict(Counter(name for (agent, _), name in calls.items() if agent == owner))
+            for owner in sorted(owners)}
+
+
 def feedback_visibility(events: list[dict[str, Any]]) -> list[dict[str, Any]]:
     created: dict[str, tuple[int, dict[str, Any]]] = {}
     visible: dict[str, list[int]] = {}
@@ -119,6 +140,7 @@ def analyze(events: list[dict[str, Any]]) -> dict[str, Any]:
                                      if e["event_type"] == "logical.cost_quote.control_timing"),
         "query_rejections": dict(Counter(e["payload"]["failure_code"] for e in events
                                          if e["event_type"] == "logical.cost_quote.rejected")),
+        "sdk_call_receipts_lower_bound": sdk_call_receipts(events),
         "feedback": feedback_visibility(events),
     }
 

@@ -1,5 +1,10 @@
 # Cost-guidance exploration v1: objective completion audit
 
+Follow-up notice: this document audits the historical 16-cell A/C stage. The user
+subsequently authorized B/D/E; [their separate 18-cell report](cost-guidance-bde-results-v1.md)
+records completed runs, private coverage, 72 fresh stores and restored tc, bringing
+the global count to 34. Old evidence is preserved, not replaced by the follow-up.
+
 2026-10-04. This audit checks the original35-section request,not a reduced coding
 checkpoint. Source request attachment:
 `2a612fc4-e3c4-46d3-8fd6-f6132a80aa53/pasted-text-1.txt`,fully reread at finalization.

@@ -7,6 +7,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 audit = importlib.import_module("audit_cost_guidance_bde_v1")
 
 
+def test_rejected_query_attempt_and_replayed_sdk_history_are_not_successful_cards() -> None:
+    item = {"type": "function_call", "call_id": "call-1", "name": "estimate_invoke_model"}
+    event = {"event_type": "logical.reasoning.input", "payload": {
+        "logical_agent_id": "manager", "input_items": [item,
+            {"type": "message", "content": "estimate_invoke_model was mentioned"}]}}
+    assert audit.sdk_call_receipts([event, event]) == {
+        "manager": {"estimate_invoke_model": 1}}
+    assert audit.feedback_visibility([event, event]) == []
+
+
 def test_optional_card_exposure_must_precede_exact_executed_action() -> None:
     quote = {"quote_id": "q", "consequence": {"model_service": None}}
     action = {"action_id": "proposed", "operator": "bm25_retrieve", "inputs": [], "outputs": []}

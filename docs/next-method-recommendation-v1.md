@@ -1,5 +1,13 @@
 # Next-method recommendation v1
 
+Historical A/C-stage recommendation, preserved below. The subsequently authorized
+B/D/E follow-up is now complete: **18/18** new cells, 34 total reservations.
+[B/D/E results and updated disposition](cost-guidance-bde-results-v1.md) supersede
+the *untested* status and stop recommendation for those routes, not the old data.
+B returned no valid optional cards (one invalid query attempt); D used only one
+single-candidate comparison; E reproduced a low-traffic evidence-discard failure.
+None is promoted as a validated quality-preserving method.
+
 2026-10-04. Decision after the audited16-cell A/C exploration: **do not promote
 mandatory Quote-before-Commit as the primary method**. Retain Ledger as the lean
 comparison baseline. The next design hypothesis is an optional,amortized B-style
