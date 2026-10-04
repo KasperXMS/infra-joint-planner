@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Eleven valid Phase I samples at the latest checkpoint. This is not the completed
+Twelve effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -207,3 +207,36 @@ pytest to 737 passed; Ruff/strict Pyright/diff pass. Formal code remains 94c9bac
 
 Snapshot-008 and graph-audit-001 hashes are in the results report. All Phase I/II
 gates remain unsatisfied until all 168 nominal samples and full audits complete.
+
+## Exact model JSON failure is not a harness repair or replacement
+
+Academic / DeepSeek / Fast / E attempt1 completed, format-valid, score1.0, but
+the conservative gate stopped on validation_failed. A specialist requested one
+materialized application/json model output. Frozen Worker code awaited backend
+completion, then json.loads rejected its text. This is model-format behavior,
+not a broken parser, missing operator or evaluator mismatch. The Agent recovered.
+
+Independent full admission re-audit reproduced the original receipt and confirmed
+no other findings/incidents across 31 actual HTTP contexts/model/usage/price
+receipts, event chain, observer, persistence, Worker shutdown and tc cleanup.
+No supporting evidence or gold was used. A sidecar binds 147 original evidence
+hashes, the unchanged execution freeze and Worker implementation; original
+admission canonical SHA is dd9762e620283a5cc7276fed3de290363b39462106148b1c93da21ed289a9d0b.
+
+The exact-case review cannot waive other validation, privacy, physical or service
+failures. Original journal settlement/admission/result/trace remain intact. The
+effective view has twelve valid samples and one original decoder confounder;
+two original gate rejections remain visible. No cell is repeated or repaired.
+
+Three successful model telemetry receipts plus one proved post-inference parse
+failure establish at least four inferences. Failed inference tokens/service work
+remain unknown. Frozen reached_model_inference=false is not universal evidence
+of no inference; the spent ledger already retained unknown work/inference for
+this failure. No online feedback or Agent/physical behavior is changed.
+
+Regression covers quality-independent narrow admission, immutable evidence,
+sidecar/source tampering, next-cell-only resumption and bounded proof hashing.
+Full pytest758/Ruff/strict Pyright/diff pass. The new offline controller and its
+supplemental freeze sit outside unchanged formal app94c9bac. Hashes are in results.
+Parent1660678 / child1661081 were verified live on the next original MultiHop-1 /
+Qwen / Fast / B. Full Phase I/II gates remain unsatisfied.

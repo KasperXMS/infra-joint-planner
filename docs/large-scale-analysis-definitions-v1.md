@@ -43,6 +43,14 @@ successful tools, successful models, reported inference reach and successful
 model-service telemetry. A context/binding/readiness reject is not model inference.
 Keep failed calls and their typed codes; model-service failures can have incomplete
 token/work information and must not be silently treated as measured zero work.
+Post-inference invalid-JSON model output can lose returned telemetry. The frozen
+inference flag is then false despite a proved completed backend call; report its
+successful-telemetry lower bound and separately audited post-inference failures.
+Failed model tokens/service remain unknown, not zero; successful service subtotal
+is not complete total work. Failed physical lifetime/work is separate, not a
+substitute measurement of model service. Online spent ledger already marks such
+incomplete inference/work unknown; reporting does not alter it.
+
 SDK-only failures (for example a phase-restricted specialist request) can occur
 without a prepared physical action. Deduplicate typed function-output receipts
 per logical recipient/call ID and report them separately as lower bounds. They
