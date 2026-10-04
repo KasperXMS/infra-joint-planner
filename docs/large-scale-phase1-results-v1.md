@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **16 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **18 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -27,8 +27,10 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | A | 1 | yes / valid / 0.0 | 985.729 | 7,696,522 / 22.035 | 67,507 / 1.474 | 14 / 0 / 14 | 28 | 0.492382 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 0.0 | 319.257 | 7,696,522 / 22.249 | 5,204,596 / 14.943 | 9 / 0 / 9 | 18 | 0.120485 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 847.052 | 7,696,522 / 1.588 | 15,051 / 0.035 | 15 / 0 / 15 | 30 | 0.744879 |
+| MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Fast | B1 | 1 | yes / valid / 1.0 | 190.097 | 7,696,522 / 0.811 | 18,073 / 0.093 | 8 / 0 / 8 | 16 | 0.103885 |
+| MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Slow | A | 1 | yes / valid / 1.0 | 197.772 | 7,696,522 / 22.590 | 5,204,596 / 15.249 | 4 / 0 / 4 | 8 | 0.045111 |
 
-All sixteen effective admissions have no unresolved findings. Original private evaluators ran.
+All eighteen effective admissions have no unresolved findings. Original private evaluators ran.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
 separately audited admission sidecars; their original validation gate rejections
 remain intact. Neither was repeated or repaired.
@@ -311,6 +313,43 @@ before creating a receipt or launching a cell; supplying the unchanged required
 New parent1810614 and owned child1811077 were verified live at original next cell
 MultiHop-2 / DeepSeek / Fast / B1 attempt1. Prior controls, processes, sidecars,
 results, journals and evidence remain intact; no pruning or Phase II.
+
+## First two settled conditions of MultiHop position 2
+
+DeepSeek / Fast / B1 completes with original score 1.0 and clean admission, eight
+Manager / eight Verifier turns, no specialists and eight prepared physical
+actions. Six tools succeed; one context-rejected model attempt is followed by
+one successful inference (7,064 input / 3 output tokens, normal stop, 123.002 s
+service). Graph: eight nodes / six information edges. Sixteen cloud calls cost
+an estimated USD 0.103885 (Manager 0.045476 / Verifier 0.058409).
+
+A typed artifact_not_materialized observation is independently checked against
+the frozen native source and original trace: the attempted invoke_model names
+three inputs, none matching the three initial materializations or any previously
+declared output. It fails in the logical accessibility check before preparation
+or gateway/Worker execution. It is an unavailable-reference/composition error,
+not evidence of a missing initial artifact or Worker-store pollution. The Agent
+continues naturally. This call-level diagnosis is not private evidence audit.
+
+Qwen / Slow / A also completes with original score 1.0 and clean admission,
+four Manager / four Verifier turns, no specialists and three physical actions.
+Two tools succeed and one inference returns normally (7,951 input / 3 output
+tokens, 137.713 s service); a phase-restricted SDK call is retained. Graph: three
+nodes / two edges. Eight cloud requests estimate USD 0.045111 (Manager 0.026674 /
+Verifier 0.018437). Action transfer is 5,204,596 bytes / 15.249 s, versus the first
+condition's 18,073 bytes / 0.093 s. Both retain the same fixed source/initial
+placement, but Planner, method and network all differ. These observed footprints
+do not establish a causal cost-guidance benefit, task-wide evidence preservation
+or a stable model preference. No score pooling, tuning or replacement.
+
+- Snapshot-014 file SHA-256: b0fd8494775be93d3e1ba33f1972870462678c34f6dfbf45bc7669c27be27db1.
+- Snapshot-015 file SHA-256: cf6592cc681d291255fa99a7aac7afaa7268141077994b6ffd8588ab6c70ba11.
+- Remote settled-readiness-audit-001 file SHA-256: b24dc3f0a674d7a1a3152ef8f8b0dc9dbe37e5d3101b57035e5afe6a744e0eff.
+
+Snapshot-015 covers eighteen valid / one original confounded / one pending
+attempts (twenty total), two immutable adjudications and no operational exclusions.
+Parent1810614 remains live, next child1837696 is original MultiHop-2 / DeepSeek /
+Slow / B attempt1. Formal execution/controls remain unchanged; no pruning/Phase II.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
