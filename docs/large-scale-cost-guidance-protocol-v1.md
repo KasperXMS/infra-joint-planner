@@ -242,9 +242,13 @@ Stop after the frozen Phase II block and audit; no new method/model/benchmark/N.
 - Full requested research reading: complete.
 - Existing endpoint model-list check: complete; exact identifiers advertised.
 - New experiment branch: created; old evidence and code untouched.
-- Fixed-Qwen/DeepSeek native tool compatibility: pending live diagnostic.
+- Fixed-Qwen/DeepSeek native tool compatibility: synthetic live chain admitted;
+  original DeepSeek toy-format failure preserved separately. See
+  [provider readiness](large-scale-provider-readiness-v1.md). Full native-method
+  runtime integration/admission is still pending.
 - Eighteen task identities/representations/placement: pending remote stratified freeze.
 - Historical E holdout mapping: identified; full manifest verification pending.
 - Pricing and per-recipient monetary usage coverage: pending implementation/admission.
-- Balanced schedule/gates/reservation/audit/runner integration: pending verification.
+- Pure deterministic schedule/Phase II guards: tested (no actual task schedule frozen).
+  Remote reservation/audit/runner integration: pending verification.
 - Formal execution permission gate: **not passed; cells = 0**.
