@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **18 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **20 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -29,8 +29,10 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 847.052 | 7,696,522 / 1.588 | 15,051 / 0.035 | 15 / 0 / 15 | 30 | 0.744879 |
 | MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Fast | B1 | 1 | yes / valid / 1.0 | 190.097 | 7,696,522 / 0.811 | 18,073 / 0.093 | 8 / 0 / 8 | 16 | 0.103885 |
 | MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Slow | A | 1 | yes / valid / 1.0 | 197.772 | 7,696,522 / 22.590 | 5,204,596 / 15.249 | 4 / 0 / 4 | 8 | 0.045111 |
+| MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Slow | B | 1 | yes / valid / 1.0 | 203.924 | 7,696,522 / 22.142 | 18,056 / 0.426 | 7 / 0 / 7 | 14 | 0.099525 |
+| MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Fast | C | 1 | yes / valid / 1.0 | 159.229 | 7,696,522 / 0.757 | 5,204,596 / 1.177 | 6 / 0 / 3 | 9 | 0.058330 |
 
-All eighteen effective admissions have no unresolved findings. Original private evaluators ran.
+All twenty effective admissions have no unresolved findings. Original private evaluators ran.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
 separately audited admission sidecars; their original validation gate rejections
 remain intact. Neither was repeated or repaired.
@@ -350,6 +352,42 @@ Snapshot-015 covers eighteen valid / one original confounded / one pending
 attempts (twenty total), two immutable adjudications and no operational exclusions.
 Parent1810614 remains live, next child1837696 is original MultiHop-2 / DeepSeek /
 Slow / B attempt1. Formal execution/controls remain unchanged; no pruning/Phase II.
+
+## Remaining first-round conditions of MultiHop position 2
+
+DeepSeek / Slow / B completes correctly with seven Manager / seven Verifier
+turns, no specialists and eight prepared physical actions. Six tools succeed;
+one context-rejected model attempt precedes one successful inference (123.127 s,
+normal stop). Other semantic/phase rejects remain recorded. Graph: eight nodes /
+six edges. Fourteen cloud requests estimate USD 0.099525 (Manager 0.047606 /
+Verifier 0.051919). The optional cost-query tool is present in all seven actual
+Manager requests, but zero queries/cards occur across four observed ready
+decisions. Its correct completion therefore does not prove optional cost
+information was used or produced savings.
+
+Qwen / Fast / C also completes correctly, with six Manager / three Verifier turns,
+no specialists and three prepared physical actions. Two tools and one inference
+succeed (138.685 s service, normal stop), without typed failures. Three proposals
+produce three quotes and three commits; all final quote states are consumed,
+none discarded/stale/pending. Gateway quote-control work is 0.708 s. There is no
+observed revision; causal quote-induced semantic change remains unproven, not
+inferred from successful execution. Graph: three nodes / two edges. Nine cloud
+requests estimate USD 0.058330 (Manager 0.043389 / Verifier 0.014941).
+
+Qwen / Slow / A and Qwen / Fast / C both move 5,204,596 action bytes and execute
+three physical actions, but network and method differ. Faster C E2E cannot be
+attributed to quote guidance. Comparisons of control costs, identical structure,
+quality and movement will be performed on fully matched cells after all Phase I
+audits; no method is pruned from these partial observations.
+
+- Snapshot-016 file SHA-256: 63cfcac996e92383d1cb2957311da60509e6c7941a3d8696f63e6d8b301c1532.
+- Snapshot-017 file SHA-256: d4b46ec110dbaf9c4494f4df7b929883e1af70be8d16698546adc218688ca26d.
+
+Snapshot-017 covers twenty valid / one original confounded / one pending attempts
+(twenty-two total), two independent adjudications and zero operational exclusions.
+Parent1810614 and owned child1863157 are verified live on original Video-MME
+position 2 (131-3) / DeepSeek / Fast / E attempt1. Formal94c9bac, queue-control003,
+task/placement/order/operator/models/instructions are unchanged; no Phase II.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
