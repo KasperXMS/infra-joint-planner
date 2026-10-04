@@ -254,8 +254,12 @@ Stop after the frozen Phase II block and audit; no new method/model/benchmark/N.
   identities are disjoint, and the historical source video is also excluded.
 - Regional alias prices, dated ECB FX and raw-provider monetary arithmetic are
   frozen and checked against the six existing synthetic responses; see
-  [accounting readiness](large-scale-api-accounting-readiness-v1.md). Pass-through
-  collection across every formal method/recipient remains pending admission.
+  [accounting readiness](large-scale-api-accounting-readiness-v1.md). Recipient-
+  scoped pass-through collection and all-seven-method native SDK integration have
+  synthetic test coverage, including concurrent specialists and fixed Qwen
+  Verifier. The common loader also passed all eighteen frozen remote task reloads;
+  see [SDK accounting/readiness](large-scale-sdk-accounting-readiness-v1.md).
+  Live formal collection/recipient admission remains pending.
 - Deterministic schedule/Phase II guards: tested; actual 168-cell ordered schedule
   frozen with all eighteen task identities. Remote reservation/full recipient audit/
   runner integration: pending verification; no formal execution admission yet.
