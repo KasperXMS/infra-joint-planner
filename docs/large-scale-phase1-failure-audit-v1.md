@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-One valid Phase I sample at this checkpoint. This is not the required completed
+Four valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -135,3 +135,18 @@ method comparison** and do not prove cost improvement.
 The queue proceeded to the original second scheduled cell: Video 602-2,
 DeepSeek V4 Pro, Slow, B0 Blind, attempt1. No task/method/order replacement or
 prompt/budget tuning occurred. It was verified live, not adjudicated completed.
+
+## Subsequent valid admissions
+
+The DeepSeek/Slow/B0 cell subsequently completed with format validity and score
+1.0, followed by Qwen/Slow/E and DeepSeek/Fast/D, also valid completed score-1.0
+samples. All four valid admissions have no unresolved implementation/recipient/
+cleanup findings; original attempt1 remains excluded and unchanged. These are
+four conditions on one video question, not four independent tasks or a global
+accuracy claim. Exact telemetry and mechanism use are in Phase I results.
+
+E did not query; D did not perform a multi-candidate comparison. D's two
+phase-restricted proposal failures and discarded quote are ordinary frozen
+control behavior, not reasons to retry/tune. The next original LongBench-2 /
+DeepSeek / Fast / B0 cell is live and has typed context/semantic recovery events;
+no conclusion is made before its terminal result/admission. Phase II is gated.
