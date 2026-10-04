@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Fourteen effective valid Phase I samples at the latest checkpoint. This is not the completed
+Fifteen effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -274,3 +274,17 @@ or replaced. Fine-grained primary semantic cause remains unassigned until the
 full Phase I evidence audit. Snapshot-011 and current next-cell proof are in
 results; no prompt, budget, stopping or retrieval change is authorized by this
 ordinary quality failure.
+
+## Raw-profile MultiHop wrong completion: retain, do not tune
+
+MultiHop-1 / Qwen / Slow / B1 completes with original score 0.0 and clean
+admission. It uses nine Manager / nine Verifier turns and seven physical actions:
+five tools succeed, one model context reject is followed by one successful
+inference (normal stop). No terminal exception, runtime incident, budget
+exhaustion or artifact-store pollution is recorded. Physical action transfer
+is 5,204,596 bytes / 14.943 s; fixed initial placement is reported separately.
+This wrong completion remains a valid sample. Specific primary retrieval,
+evidence-selection, synthesis or stopping cause is not assigned from counters
+alone; complete private evidence-path audit is still pending. No prompt, model,
+network, budget, scheduler or tool change; no retry/replacement. Snapshot-012
+and next original condition are recorded in results.
