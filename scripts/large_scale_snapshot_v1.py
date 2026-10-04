@@ -15,8 +15,12 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from large_scale_adjudication_v1 import (
+    AdjudicatedAttemptLedger as AttemptLedger,
+)
+from large_scale_adjudication_v1 import effective_admission
+
 from infra_joint.control.provenance import provenance_sha256
-from infra_joint.experiments.attempt_ledger import AttemptLedger
 
 ROOT = Path("/home/super/xiaoming/large-scale-cost-guidance-v1")
 
@@ -95,6 +99,11 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
                   if e["event_type"] == "physical.execution" and "execution" in e["payload"]]
     model = [x["model_telemetry"] for x in executions if x.get("model_telemetry") is not None]
     outcomes = [e["payload"] for e in events if e["event_type"] == "logical.model.outcome"]
+    uncertain_model_work = sum(
+        x.get("succeeded") is False and x.get("physical_selection_succeeded") is True
+        and not x["reached_model_inference"] and x.get("failure_code") not in {
+            "context_limit_exceeded", "unsupported_modality", "deployment_required",
+        } for x in outcomes)
     reasoning = [e["payload"] for e in events if e["event_type"] == "logical.reasoning.completed"]
     graph = next((e["payload"] for e in reversed(events)
                   if e["event_type"] == "workflow.graph.snapshot"), None)
@@ -180,8 +189,21 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         "successful_tool_executions": sum(x.get("operator") != "invoke_model"
                                            for x in executions),
         "reported_reached_model_inference": sum(x["reached_model_inference"] for x in outcomes),
+        "inference_flag_is_complete_measurement": False,
+        "inference_flag_note": "frozen flag confirms returned model telemetry; a failed "
+        "post-inference output parse can lack telemetry. "
+        "False is not universal proof of no inference",
         "successful_inference_telemetry_count": len(model),
         "model_service_work_ms": measured_total([x.get("service_latency_ms") for x in model]),
+        "model_service_work_scope": "returned inference telemetry only; "
+        "excludes unmeasured failures",
+        "unmeasured_failed_model_outcomes": uncertain_model_work,
+        "model_service_work_complete_total_ms": None if uncertain_model_work else measured_total(
+            [x.get("service_latency_ms") for x in model]),
+        "failed_physical_execution_work_ms": measured_total([
+            e["payload"]["failure"].get("duration_ms") for e in events
+            if e["event_type"] == "physical.execution" and e["payload"].get("failure")
+            and e["payload"]["failure"].get("stage") == "execution"]),
         "physical_model_input_tokens": measured_total([x.get("input_tokens") for x in model]),
         "physical_model_output_tokens": measured_total([x.get("output_tokens") for x in model]),
         "finish_reasons": dict(Counter(x.get("finish_reason", "unknown") for x in model)),
@@ -243,8 +265,7 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
 
 def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
     directory = root / "evidence" / cell_id / f"attempt{attempt.attempt_index}"
-    admission_path = directory / "admission.json"
-    admission = json.loads(admission_path.read_text())
+    admission = effective_admission(root, attempt)
     if (provenance_sha256(admission) != attempt.receipt_sha256
             or admission["disposition"] != attempt.disposition):
         raise RuntimeError("settled admission/ledger drift")
@@ -260,11 +281,18 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
     account_path = directory / "api-accounting.json"
     usage = [json.loads(path.read_text())["cost_receipt"] for path in
              (directory / "private/api").glob("*-usage.json")]
+    adjudication_path = root / "adjudications" / (attempt.run_id + ".json")
+    adjudication = json.loads(adjudication_path.read_text()) if adjudication_path.exists() else None
     return {
         "run_id": attempt.run_id, "attempt_index": attempt.attempt_index,
         "execution_sha256": attempt.execution_sha256,
         "disposition": attempt.disposition, "admission_reason": attempt.reason,
         "admission_problems": admission.get("problems", []),
+        "original_rejection_preserved": adjudication is not None,
+        "adjudication_sha256": provenance_sha256(adjudication) if adjudication else None,
+        "confirmed_post_inference_json_failures": len(adjudication["proof"])
+        if adjudication else 0,
+        "post_inference_failed_service_tokens": None if adjudication else 0,
         "execution_completed": result["execution_completed"],
         "benchmark_score": evaluation.get("benchmark_score") if evaluation else None,
         "format_valid": evaluation.get("format_valid") if evaluation else None,
@@ -308,6 +336,10 @@ def snapshot(root: Path) -> dict[str, Any]:
             "admitted_cells": len(ledger.completed_cells), "attempt_count": len(attempts),
             "pending_count": len(ledger.pending),
             "confounded_attempts": sum(x.disposition == "confounder" for x in attempts),
+            "original_confounded_attempts": sum(x.disposition == "confounder"
+                                                for x in ledger.original_attempts),
+            "adjudicated_attempts": sum(x.reason == "audited_post_inference_model_json_failure"
+                                         for x in attempts),
             "operational_excluded_attempts": sum(x.disposition == "operational_excluded"
                                                  for x in attempts),
             "phase1_complete": len(ledger.completed_cells) == len(cell_ids),

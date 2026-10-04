@@ -95,7 +95,8 @@ def test_settled_result_uses_admissions_canonical_hash_not_formatted_file_hash(
     (run / "trace.jsonl").write_text("")
     admission = {"disposition": "valid", "result_sha256": provenance_sha256(result)}
     (directory / "admission.json").write_text(json.dumps(admission))
-    attempt = SimpleNamespace(attempt_index=1, run_id="run", execution_sha256="a" * 64,
+    attempt = SimpleNamespace(cell_id="cell", attempt_index=1, run_id="run",
+                              execution_sha256="a" * 64,
                               receipt_sha256=provenance_sha256(admission),
                               disposition="valid", reason="passed")
     value = analysis.settled_attempt(tmp_path, "cell", attempt)
@@ -202,3 +203,21 @@ def test_sdk_failure_ids_are_scoped_by_logical_recipient() -> None:
               for owner in ("manager", "specialist-1")]
     assert analysis.event_metrics(events)["sdk_function_failure_receipts_lower_bound"] == {
         "semantic_validation_failed": 2}
+
+
+@pytest.mark.parametrize(("code", "unknown"), [
+    ("validation_failed", True), ("context_limit_exceeded", False),
+])
+def test_failed_model_work_is_unknown_unless_failure_proves_preflight(
+    code: str, unknown: bool,
+) -> None:
+    events = [event("logical.model.outcome", succeeded=False,
+                    physical_selection_succeeded=True, reached_model_inference=False,
+                    failure_code=code),
+              event("physical.execution", failure={"stage": "execution", "duration_ms": 25})]
+    value = analysis.event_metrics(events)
+    assert value["reported_reached_model_inference"] == 0
+    assert not value["inference_flag_is_complete_measurement"]
+    assert value["unmeasured_failed_model_outcomes"] == int(unknown)
+    assert value["model_service_work_complete_total_ms"] == (None if unknown else 0)
+    assert value["failed_physical_execution_work_ms"] == 25
