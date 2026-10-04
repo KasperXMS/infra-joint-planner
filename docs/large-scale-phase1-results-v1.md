@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **14 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **15 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -25,8 +25,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 755.092 | 514,789 / 0.201 | 18,934 / 0.289 | 11 / 9 / 11 | 31 | 0.340510 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | B | 1 | yes / valid / 1.0 | 138.709 | 7,696,522 / 1.004 | 12,185 / 0.593 | 6 / 0 / 6 | 12 | 0.163738 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | A | 1 | yes / valid / 0.0 | 985.729 | 7,696,522 / 22.035 | 67,507 / 1.474 | 14 / 0 / 14 | 28 | 0.492382 |
+| MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 0.0 | 319.257 | 7,696,522 / 22.249 | 5,204,596 / 14.943 | 9 / 0 / 9 | 18 | 0.120485 |
 
-All fourteen effective admissions have no unresolved findings. Original private evaluators ran.
+All fifteen effective admissions have no unresolved findings. Original private evaluators ran.
 The latest E cell has a separately audited admission sidecar; its original
 validation gate rejection remains intact. It was not repeated or repaired.
 Qwen/Fast/B1 attempt1's score 1.0 is excluded: repeated missing H.264 decoder
@@ -211,6 +212,30 @@ Fourteen effective valid, one original confounded and one pending attempts
 (sixteen total); one independently adjudicated original rejection remains intact.
 Parent1660678 is still live; the next owned child1725706 is MultiHop-1 / Qwen /
 Slow / B1, attempt1. No unresolved admission issue, method pruning or Phase II.
+
+## Third settled MultiHop condition: raw-profile wrong completion
+
+MultiHop-1 / Qwen / Slow / B1 completes with valid terminal format, original score
+0.0 and clean admission. Nine Manager / nine Verifier turns, no specialists and
+seven prepared physical actions remain within the frozen horizon. Five tools
+succeed; two model attempts comprise one context rejection and one successful
+inference (7,527 input / 325 output tokens, normal stop, 226.378 s service work).
+Phase/semantic rejects remain recorded. Graph: seven nodes / eight information
+edges. E2E is 319.257 s, with 5,204,596 action-transfer bytes / 14.943 s work and
+7,696,522 fixed initial-placement bytes / 22.249 s. Raw infra visibility does not
+by itself demonstrate correct evidence selection or efficient information flow.
+
+Eighteen cloud requests estimate USD 0.120485 (Manager 0.055717 / fixed Blind
+Verifier 0.064768), not invoice cost. The wrong score is retained, not a harness
+bug, a retry target or a reason to tune prompts. Primary semantic attribution
+and quality-conditioned matched comparisons await the complete Phase I audit.
+
+Snapshot-012 file SHA-256:
+eff3cd1bf29165e8c8dac0da0abef4bbe50fb4836a797b3b6a813a38b2c24c79.
+Fifteen valid / one confounded / one pending attempts (seventeen total), one
+immutable adjudication, zero operational exclusions. Original frozen schedule
+continues to MultiHop-1 / DeepSeek / Fast / B0 attempt1, child1745464; parent
+1660678 remains live. Formal execution 94c9bac is unchanged; no pruning/Phase II.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
