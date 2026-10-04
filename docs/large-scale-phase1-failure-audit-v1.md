@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Ten valid Phase I samples at the latest checkpoint. This is not the completed
+Eleven valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -188,3 +188,22 @@ Ruff/strict Pyright passed; formal execution stays 94c9bac.
 Snapshot-007 binds this checkpoint (hash in the results report). The next original
 Academic / Qwen / Slow / B0 attempt and its parent queue were verified live.
 Ten of 168 nominal samples is incomplete: no method pruning or Phase II.
+
+## Eleven-admission checkpoint and offline graph audit
+
+Academic / Qwen / Slow / B0 also completes with score 1.0, clean admission and one
+created specialist. Four context failures and other typed semantic/phase failures
+remain visible; one physical inference succeeds and the original evaluator runs.
+No method/Planner/task replacement occurs. The next Academic / DeepSeek / Fast /
+E attempt and parent queue are confirmed owned/live, not presumed complete.
+
+All eleven admitted traces have append-only DAGs, complete action lifetimes and
+zero dependency-order violations in a separate read-only structural audit. This
+does not resolve semantic adequacy, private evidence retention or quote-induced
+revision. It does prevent counting status snapshots as workflow evolution or
+mistaking dependency width for measured concurrency. Source/data remain remote;
+only bounded scalar/hash metadata enter reports. Twelve offline tests bring full
+pytest to 737 passed; Ruff/strict Pyright/diff pass. Formal code remains 94c9bac.
+
+Snapshot-008 and graph-audit-001 hashes are in the results report. All Phase I/II
+gates remain unsatisfied until all 168 nominal samples and full audits complete.

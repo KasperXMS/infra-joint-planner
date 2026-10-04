@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **10 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **11 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -21,8 +21,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f94f9ebb02136c067c4fde | Qwen3.8-Max | Fast | B | 1 | yes / valid / 0.0 | 188.625 | 2,119,778 / 0.481 | 25,392 / 0.150 | 10 / 0 / 10 | 20 | 0.184718 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 123.583 | 514,789 / 0.205 | 18,852 / 1.016 | 7 / 0 / 7 | 14 | 0.082493 |
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 343.549 | 514,789 / 1.570 | 28,379 / 0.910 | 13 / 16 / 13 | 42 | 0.827349 |
+| LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 218.928 | 514,789 / 1.552 | 88,537 / 1.835 | 10 / 8 / 10 | 28 | 0.297327 |
 
-All ten admissions have no unresolved findings. Original private evaluators ran.
+All eleven admissions have no unresolved findings. Original private evaluators ran.
 Qwen/Fast/B1 attempt1's score 1.0 is excluded: repeated missing H.264 decoder
 failures and an order-dependent accounting aggregate. It is not in this table.
 Full exclusion/repair provenance is in the failure audit.
@@ -89,14 +90,39 @@ work in a successful trajectory, not an invoice or a matched B1 overhead effect.
 Do not infer the benefit of subagents or network awareness from these two rows,
 which change Planner, method and network together. No inference cache was reset.
 
-The next original cell is Academic / Qwen / Slow / B0, attempt1. Queue PID 1344958
-and owned child PID 1546948 were verified live at this checkpoint. No task is
-replaced, and no semantic tuning is performed.
+Academic / Qwen / Slow / B0 subsequently completes with score 1.0. It creates one
+specialist (eight turns), uses 22 physical calls including five model attempts
+and one inference (114.581 s), and records one handoff. Four context failures plus
+phase/semantic rejects are preserved. Blind also naturally creates specialists;
+MAS topology is neither forced nor evidence of awareness by itself.
 
-Remote read-only checkpoint: analysis/settled-snapshot-007.json, file SHA-256
-c6d8be9f3e6e2b6caaddd9b18e73c57ceb77394a4e115db6765ec55ca56576a5.
-There are ten valid, one original confounded and one pending attempts; no
+The next original cell is Academic / DeepSeek / Fast / E, attempt1. Queue PID
+1344958 and owned child PID 1561358 were verified live at this checkpoint. No
+task is replaced, and no semantic tuning is performed.
+
+Remote read-only checkpoint: analysis/settled-snapshot-008.json, file SHA-256
+2997b29dedbeab09e8fe2bfdd85a53d6d257e07371994e703910a85eab455dab.
+There are eleven valid, one original confounded and one pending attempts; no
 operational exclusions. No score aggregation, screening or Phase II is authorized.
+
+## Offline structure/parallelism checkpoint
+
+All eleven settled valid traces pass append-only graph/integrity and complete
+interval checks with no dependency-order violations. Academic / DeepSeek / Slow /
+B1 has 187 status snapshots but **62** actual structural growth events and three
+owners with actions. Actual physical-action peak is eight, overlap wall time
+9.665 s; its artifact/control-edge path is 130.790 s, **not** full E2E 343.549 s.
+Academic / Qwen / Slow / B0 has 67 snapshots / 22 additions / two owners, peak
+four physical actions and 1.338 s overlap. Different task/Planner/method inputs
+and unrecorded reasoning dependencies prevent a causal parallelism benefit claim.
+
+Remote analysis/settled-graph-audit-001.json, file SHA-256
+f5fc0a27eb38873e58755c0ee7f6fc22ab787a7b51ea03a64ce3b83b8c95951d;
+offline helper SHA-256 46a65142801f09faaf8cf47e4b8ffe1d1a77800e426d165cbd3021d569ca147f.
+The helper is outside the 94c9bac app; no execution component changed. Twelve new
+offline regression cases bring the full suite to **737 passed**; Ruff, strict
+Pyright and diff check pass. Missing timing stays unknown; descriptors never
+export artifact IDs/bodies, prompts, questions or private evaluation metadata.
 
 Analysis is remote-only and read-only, exports bounded telemetry and structural
 metadata, and does not feed observations back to Agents. See the offline analysis
