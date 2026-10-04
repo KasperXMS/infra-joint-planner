@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Fifteen effective valid Phase I samples at the latest checkpoint. This is not the completed
+Sixteen effective valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -288,3 +288,38 @@ evidence-selection, synthesis or stopping cause is not assigned from counters
 alone; complete private evidence-path audit is still pending. No prompt, model,
 network, budget, scheduler or tool change; no retry/replacement. Snapshot-012
 and next original condition are recorded in results.
+
+## Second exact model-JSON gate stop: same attempt retained
+
+MultiHop-1 / DeepSeek / Fast / B0 completes, format-valid, score 1.0, but the
+queue stops on its sole admission problem: validation_failed. The failing
+action is a model invocation with one materialized application/json output,
+one input, successful deployment selection and exact Worker message
+"model output is not valid JSON" at execution stage. Frozen Worker code
+establishes this occurs after backend completion, not before inference. The
+Agent naturally continues; no malformed output is materialized or repaired.
+
+Actual parent1660678 and child1745464 are absent before review. Independent full
+admission reproduces the original rejection hash with no other finding or
+operational incident. An exclusive new sidecar binds all 143 original evidence
+files and the unchanged reviewer/Worker source; the original journal/admission
+and earlier E sidecar are not edited. This is valid model format behavior,
+not a serialization/runtime/evaluator bug or a rerun authorization.
+
+Five returned telemetry receipts plus the proven post-inference JSON failure
+mean at least six actual inferences, versus nine attempts with three context
+rejects. Failed inference tokens/service remain unknown; known service subtotal
+791.199 s is not complete work. Fifteen turns / 34 actions are within the frozen
+horizon. Correct completion coexists with considerable model/Verifier work.
+
+The unchanged, hash-checked queue admission view is supplied to the existing
+review creator for replay of prior adjudications; no new broad validation
+allowlist or Agent code is introduced. A new synthetic regression checks two
+exact reviews, unchanged previous receipt and journal, next-only reservation,
+no valid-cell repeat and tamper detection. All 761 tests, Ruff, strict Pyright
+and diff check pass. Supplemental control-freeze-003 includes both receipt
+hashes and keeps execution-freeze-002/source94c9bac unchanged. A metadata-only
+freeze call initially lacked the required archive revision env and failed
+before file creation or experiment launch; it was corrected without any cell
+replacement. New parent1810614/child1811077 run the original next condition,
+MultiHop-2 / DeepSeek / Fast / B1. All evidence and control hashes are in results.
