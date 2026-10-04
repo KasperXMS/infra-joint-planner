@@ -1,7 +1,8 @@
 # Phase I failure audit — in progress
 
-2026-10-05. **One attempted cell, zero admitted formal samples.** This is a
-checkpoint, not the required completed 168-cell audit. No method pruning is allowed.
+2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
+One valid Phase I sample at this checkpoint. This is not the required completed
+168-cell audit. No method pruning is allowed.
 
 ## First attempt
 
@@ -106,3 +107,31 @@ At the resumption checkpoint, actual queue PID 1344958 and attempt2 child PID
 1345330 were verified live. The queue retains the original 168-cell order and
 requires admission after every attempt. This is a launch checkpoint, **not proof
 that the repaired cell passed**. No Phase II gate or method pruning is authorized.
+
+## Affected-cell attempt2: admitted
+
+The same frozen cell's attempt2 subsequently completed with original evaluator
+score 1.0 and valid terminal format. Admission reports no problems. Real Worker
+sample_frames executed successfully, followed by one physical model inference.
+One context rejection and other typed semantic failures are retained as ordinary
+Agent continuation/recovery, not implementation confounders.
+
+| Metric | Repaired attempt2 |
+|---|---:|
+| E2E | 229.841 s |
+| Initial placement bytes / time | 213,739,837 / 18.605 s |
+| Action transfer bytes / work | 772,094 / 0.907 s |
+| Manager / specialist / Verifier turns | 5 / 0 / 5 |
+| Budget-counted tool/model calls | 3 |
+| Physical inference calls / service work | 1 / 119.155 s |
+| Cloud HTTP calls | 10 |
+| List-price API USD | 0.227856507527338922919517931410196787095255 |
+| Admission / original score | valid / 1.0 |
+
+Original attempt1 result, raw trace and accounting remain unchanged. These two
+stochastic trajectories across a genuine environment repair are **not a paired
+method comparison** and do not prove cost improvement.
+
+The queue proceeded to the original second scheduled cell: Video 602-2,
+DeepSeek V4 Pro, Slow, B0 Blind, attempt1. No task/method/order replacement or
+prompt/budget tuning occurred. It was verified live, not adjudicated completed.
