@@ -36,7 +36,7 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | Video 131-3 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 264.157 | 7,037,220 / 19.880 | 982,507 / 4.184 | 6 / 0 / 6 | 12 | 0.136968 |
 | Video 131-3 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 193.476 | 7,037,220 / 19.874 | 707,555 / 2.859 | 3 / 0 / 3 | 6 | 0.065295 |
 | Video 131-3 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 173.698 | 7,037,220 / 0.636 | 707,555 / 0.255 | 4 / 0 / 4 | 8 | 0.083134 |
-| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | B0 | 1 | no / unknown / unknown; provider policy | unknown | unknown | unknown | 6 / 6 / 6 started | 18 | unknown; known subtotal 0.150407 |
+| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | B0 | 1 | no / unknown / unknown; provider policy | 102.942 (trace) | 514,789 / 0.334 (trace) | 0 / 0 (trace) | 6 / 6 / 6 started | 18 | unknown; known subtotal 0.150407 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 1.0 | 93.422 | 514,789 / 1.570 | 0 / 0 | 10 / 0 / 10 | 20 | 0.424423 |
 
 The 25 completed samples have no unresolved findings and original private evaluators ran.
@@ -500,3 +500,14 @@ Collector source SHA-256: c3b9d7502147462994081344ab8677f44fd4f045bd357fb304bd12
 At the process check parent1978333 and next child1987511 are verified live on
 Academic / DeepSeek / Slow / A. None of the 26 classified cells is replaced or
 outcome-pruned. Full168 audit, method screening/pruning and Phase II remain pending.
+
+The provider-refused B0 row's numeric costs now use original persisted receipts,
+not imputation: run.failed explicitly records E2E102.942 s; two initial placement
+receipts total514,789 bytes /0.334 s. All17 prepared actions have physical receipts:
+16 tools succeed, the model failure is selection-only, action transfer0 and
+successful operator work0.953 s. Original result.telemetry stays null; original
+evaluation/format and failed-call API usage/cost remain unknown. A separate
+failed-cost-audit-001 binds the original trace/result/frozen runner and tested
+collector. File SHA-256:
+0484e67c66df93ca5a326816d892821d10ff0fdfbeac6d113871bd1f3f234dd3.
+This offline projection changes neither admission nor any online cost feedback.
