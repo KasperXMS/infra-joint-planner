@@ -172,3 +172,33 @@ def test_raw_function_receipts_separate_specialists_and_unknown_manager_response
     value = analysis.root_function_receipts(tmp_path, [])
     assert value["unknown_manager_responses"] == 1
     assert value["optional_query_attempts"] == 0
+
+
+def test_sdk_failure_receipts_include_nonphysical_specialist_reject_and_deduplicate() -> None:
+    item = {"type": "function_call_output", "call_id": "rejected-specialist",
+            "output": json.dumps({"succeeded": False, "failure_code": "phase_restricted",
+                                  "failure_message": "PRIVATE-INSTRUCTION"})}
+    events = [event("logical.reasoning.input", logical_agent_id="manager", input_items=[item]),
+              event("logical.reasoning.input", logical_agent_id="manager", input_items=[item])]
+    value = analysis.event_metrics(events)
+    assert value["sdk_function_failure_receipts_lower_bound"] == {"phase_restricted": 1}
+    assert value["prepared_physical_actions"] == 0
+    assert value["successful_inference_telemetry_count"] == 0
+    assert "PRIVATE" not in json.dumps(value)
+
+
+def test_sdk_function_failure_analysis_does_not_treat_artifact_body_as_tool_failure() -> None:
+    item = {"type": "function_call_output", "call_id": "read",
+            "output": json.dumps({"succeeded": True, "output": {
+                "succeeded": False, "failure_code": "private-document-text"}})}
+    events = [event("logical.reasoning.input", logical_agent_id="manager", input_items=[item])]
+    assert analysis.event_metrics(events)["sdk_function_failure_receipts_lower_bound"] == {}
+
+
+def test_sdk_failure_ids_are_scoped_by_logical_recipient() -> None:
+    item = {"type": "function_call_output", "call_id": "same-id",
+            "output": '{"succeeded":false,"failure_code":"semantic_validation_failed"}'}
+    events = [event("logical.reasoning.input", logical_agent_id=owner, input_items=[item])
+              for owner in ("manager", "specialist-1")]
+    assert analysis.event_metrics(events)["sdk_function_failure_receipts_lower_bound"] == {
+        "semantic_validation_failed": 2}

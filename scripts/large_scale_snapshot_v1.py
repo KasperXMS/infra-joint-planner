@@ -115,6 +115,22 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
                     and isinstance(item.get("name"), str)):
                 calls[p["logical_agent_id"], item["call_id"]] = item["name"]
     root_calls = Counter(name for (owner, _), name in calls.items() if owner == "manager")
+    sdk_failures: dict[tuple[str, str], str] = {}
+    for event in events:
+        if event["event_type"] != "logical.reasoning.input":
+            continue
+        p = event["payload"]
+        for item in p.get("input_items", []):
+            if (item.get("type") != "function_call_output"
+                    or not isinstance(item.get("call_id"), str)):
+                continue
+            try:
+                value = json.loads(item.get("output", ""))
+            except (ValueError, TypeError):
+                continue
+            if (isinstance(value, dict) and value.get("succeeded") is False
+                    and isinstance(value.get("failure_code"), str)):
+                sdk_failures[p["logical_agent_id"], item["call_id"]] = value["failure_code"]
     model_action_ids = {x["action_id"] for x in prepared if x["action_type"] == "model"}
     failed = [x for x in observations if not x["succeeded"]]
     # Denominator is observable selected-ready opportunities, not unobserved
@@ -170,6 +186,9 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
         "physical_model_output_tokens": measured_total([x.get("output_tokens") for x in model]),
         "finish_reasons": dict(Counter(x.get("finish_reason", "unknown") for x in model)),
         "failure_codes": dict(Counter(x.get("failure_code", "unknown") for x in failed)),
+        "sdk_function_failure_receipts_lower_bound": dict(Counter(sdk_failures.values())),
+        "sdk_failure_source_note": "deduplicated effective SDK tool outputs; may overlap logical "
+        "observations/quote rejects; final-turn outputs without later input remain unobserved",
         "operator_sequence": [x.get("operator", "invoke_model") for x in prepared],
         "selected_operator_sequence": [x["operator"] for x in selected],
         "model_requirements_classifications": dict(Counter(e["payload"]["classification"]
