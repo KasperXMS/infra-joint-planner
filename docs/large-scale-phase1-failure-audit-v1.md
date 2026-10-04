@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twenty-five classified nominal Phase I samples: 24 completed/evaluated and one
+Twenty-six classified nominal Phase I samples: 25 completed/evaluated and one
 provider-policy failure with unknown quality. This is not the completed
 168-cell audit. No method pruning is allowed.
 
@@ -442,3 +442,11 @@ execution-freeze-002/formal94c9bac remain unchanged. Only after old owned parent
 child are absent and exclusive review completes, parent1978333 resumes original
 next cell Academic / Qwen / Slow / B1, owned child1978912, both verified live.
 The provider-refused B0 cell is not repeated, skipped or given a guessed answer.
+
+The original next Qwen / Slow / B1 cell then completes, format-valid, score1.0.
+It retains two typed model context rejects followed by one real inference,
+semantic/phase rejects and no system or provider-policy finding. Zero action
+artifact transfer does not prove absence of cloud information movement. No
+semantic recovery rule, prompt/budget change or manual action repair is added.
+Parent1978333 advances to original Academic / DeepSeek / Slow / A child1987511,
+both verified live. The settled-case hash and all counters are in results.
