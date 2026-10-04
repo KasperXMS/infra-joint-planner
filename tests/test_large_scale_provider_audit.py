@@ -25,3 +25,10 @@ async def test_local_or_old_namespace_is_rejected_before_credentials_and_calls(
     with pytest.raises(RuntimeError, match="new 4090 namespace"):
         await audit.probe(tmp_path / "probe", tmp_path / "missing-key")
     assert not (tmp_path / "probe").exists()
+
+
+def test_native_compatibility_is_not_toy_answer_format_compliance() -> None:
+    assert audit.continuation_compatible([7], ["continue"], "The recorded value is 7.")
+    assert not audit.continuation_compatible([], ["continue"], "7")
+    assert not audit.continuation_compatible([7], [], "7")
+    assert not audit.continuation_compatible([7], ["continue"], "")
