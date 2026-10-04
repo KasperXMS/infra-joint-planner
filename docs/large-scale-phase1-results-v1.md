@@ -1,6 +1,6 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **23 / 168 nominal samples admitted at this checkpoint.** One original
+2026-10-05. **24 / 168 nominal samples admitted at this checkpoint.** One original
 confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
 
@@ -34,8 +34,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | Video 131-3 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 182.859 | 7,037,220 / 0.647 | 736,569 / 1.025 | 4 / 0 / 4 | 8 | 0.087707 |
 | Video 131-3 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 264.157 | 7,037,220 / 19.880 | 982,507 / 4.184 | 6 / 0 / 6 | 12 | 0.136968 |
 | Video 131-3 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 193.476 | 7,037,220 / 19.874 | 707,555 / 2.859 | 3 / 0 / 3 | 6 | 0.065295 |
+| Video 131-3 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 173.698 | 7,037,220 / 0.636 | 707,555 / 0.255 | 4 / 0 / 4 | 8 | 0.083134 |
 
-All twenty-three effective admissions have no unresolved findings. Original private evaluators ran.
+All twenty-four effective admissions have no unresolved findings. Original private evaluators ran.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
 separately audited admission sidecars; their original validation gate rejections
 remain intact. Neither was repeated or repaired.
@@ -431,3 +432,27 @@ process check, parent1810614 remains live and the owned next child1919950 runs
 original Academic / DeepSeek / Fast / B0; results beyond snapshot-019 are not yet
 claimed in this table. Formal94c9bac, control003 and all task/order/physical/
 semantic freezes remain unchanged. No screening, pruning or Phase II yet.
+
+## Twenty-fourth admission and a terminal API-policy gate
+
+Video 131-3 / Qwen / Fast / A completes, format-valid, score 1.0, with four
+Manager / four Verifier turns, no specialist and two physical actions. Successful
+sample_frames precedes one successful inference (143.776 s, 5,762 input / 2 output
+tokens, stop); semantic/phase rejects remain observations. Graph: two nodes /
+six edges. Eight cloud requests estimate USD 0.083134 (Manager 0.034932 /
+Verifier 0.048202). No model-service or environment change was made.
+
+The next Academic / DeepSeek / Fast / B0 stops at an unclassified API finding.
+Actual specialist and Verifier responses are HTTP400 data_inspection_failed,
+not transport/outage or physical context errors. Result is not completed,
+evaluation/format unknown. Its known API USD subtotal is 0.150407, with two
+failed-call usage receipts unknown; do not report it as the complete cost.
+The original attempt is preserved and not repeated. Parent1810614/child1919950
+are verified absent; the queue is stopped pending exact classification audit.
+
+Snapshot-020 file SHA-256: bc3912ad33b8a6a8c5b08a4d4eef12d77d34b89319534b3d5668b5948d243967.
+It covers 24 valid, two effective confounded, zero pending (26 total attempts),
+two earlier JSON adjudications and zero operational exclusions. This is not
+168-cell completion or permission to prune. Separately, graph-audit-003 covers
+all 23 previous snapshot-019 admissions with no graph/timing/dependency findings;
+file SHA-256 a67eb833056d4adcd1b73a6a35236a3c71686769f841b0d1805918c8b15f54db.
