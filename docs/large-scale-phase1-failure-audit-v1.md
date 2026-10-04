@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Six valid Phase I samples at the latest checkpoint. This is not the completed
+Ten valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -164,3 +164,27 @@ Their exact primary semantic/evidence/stopping cause is not inferred from score
 alone; comprehensive private evidence/terminal-path audit remains required after
 the 168-cell block. The next original LongBench-2 / DeepSeek / Slow / A cell was
 verified live at this checkpoint. Full Phase I/II gates remain unsatisfied.
+
+## Ten-admission checkpoint: ordinary failure/recovery remains valid
+
+Government / DeepSeek / Slow / A and Qwen / Fast / B subsequently also completed
+with score 0.0 and clean admission. Both reached one physical inference after
+typed context/semantic recovery. No answer repair or replacement occurred.
+
+Academic / Qwen / Fast / A and DeepSeek / Slow / B1 completed with score 1.0.
+The DeepSeek trajectory naturally created two simultaneously active specialists,
+used 62 physical calls and recovered from artifact-size/context/semantic failures.
+Completion does not erase those failed calls, and success near the 64-call guard
+does not authorize increasing the budget or modifying stopping logic.
+
+All ten admissions have no unresolved findings. The one original excluded attempt
+is unchanged. Detailed evidence adequacy, quality-failure causes and causal
+method use await the post-block audit; no supporting-reference bodies are read
+for online strategy. The collector reads settled evidence only and exports
+bounded cost/count/hash metadata. It neither controls the queue nor supplies
+feedback to recipients. Latest local regression remains 725 tests passed,
+Ruff/strict Pyright passed; formal execution stays 94c9bac.
+
+Snapshot-007 binds this checkpoint (hash in the results report). The next original
+Academic / Qwen / Slow / B0 attempt and its parent queue were verified live.
+Ten of 168 nominal samples is incomplete: no method pruning or Phase II.
