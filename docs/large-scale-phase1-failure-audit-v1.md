@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Four valid Phase I samples at the latest checkpoint. This is not the completed
+Six valid Phase I samples at the latest checkpoint. This is not the completed
 168-cell audit. No method pruning is allowed.
 
 ## First attempt
@@ -150,3 +150,17 @@ phase-restricted proposal failures and discarded quote are ordinary frozen
 control behavior, not reasons to retry/tune. The next original LongBench-2 /
 DeepSeek / Fast / B0 cell is live and has typed context/semantic recovery events;
 no conclusion is made before its terminal result/admission. Phase II is gated.
+
+## LongBench quality failures are retained, not repaired
+
+LongBench position 2 / DeepSeek / Fast / B0 and Qwen / Slow / B1 both completed
+with valid terminal format, original evaluation score 0.0 and clean admission.
+Each recovered from typed context/semantic failures and reached one successful
+physical inference. There is no known implementation confounder in these samples;
+they are retained as wrong answers. No retry, replacement, instruction/strategy
+change or budget increase is authorized on this basis.
+
+Their exact primary semantic/evidence/stopping cause is not inferred from score
+alone; comprehensive private evidence/terminal-path audit remains required after
+the 168-cell block. The next original LongBench-2 / DeepSeek / Slow / A cell was
+verified live at this checkpoint. Full Phase I/II gates remain unsatisfied.
