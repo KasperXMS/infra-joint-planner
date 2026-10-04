@@ -105,3 +105,70 @@ def test_settled_result_uses_admissions_canonical_hash_not_formatted_file_hash(
     path.write_text(json.dumps(result))
     with pytest.raises(RuntimeError, match="result/admission drift"):
         analysis.settled_attempt(tmp_path, "cell", attempt)
+
+
+def test_eligible_decisions_use_ready_frontier_not_all_reasoning_turns() -> None:
+    events = [
+        event("logical.reasoning.started", logical_agent_id="manager", decision_id="d1"),
+        event("logical.batch.validation", logical_agent_id="manager", decision_id="d1",
+              status="rejected", all_inputs_materialized=False),
+        event("logical.reasoning.started", logical_agent_id="manager", decision_id="d2"),
+        event("logical.batch.validation", logical_agent_id="manager", decision_id="d2",
+              status="accepted", all_inputs_materialized=True),
+        # Multiple ready actions in the same decision count as one opportunity.
+        event("logical.batch.validation", logical_agent_id="manager", decision_id="d2",
+              status="accepted", all_inputs_materialized=True),
+        event("logical.reasoning.started", logical_agent_id="manager", decision_id="d3"),
+        event("logical.cost_quote.created", action={"owner_agent_id": "manager"},
+              quote={"quote_id": "q1"}),
+        event("logical.cost_card.returned", card_id="q1"),
+        event("logical.reasoning.started", logical_agent_id="manager", decision_id="finish"),
+    ]
+    result = analysis.event_metrics(events)["method_interface"]
+    assert result["eligible_high_impact_decisions"] == 2
+    assert result["valid_optional_query_decisions"] == 1
+    assert result["valid_query_adoption_rate"] == 0.5
+    assert analysis.event_metrics([])["method_interface"]["valid_query_adoption_rate"] is None
+
+
+def test_quote_states_and_authorization_are_distinct_from_execution_and_causal_revision() -> None:
+    events = [event("logical.cost_quote.commit_authorized", quote_id="q"),
+              event("logical.cost_quote.discarded", quote_id="not-chosen"),
+              event("logical.cost_quote.run.end", proposal_attempts=4,
+                    quote_states={"authorized": 1, "discarded": 1, "pending": 2})]
+    result = analysis.event_metrics(events)["method_interface"]
+    assert result["commits_authorized"] == 1
+    assert result["quotes_observed"] == 0
+    assert result["quote_final_states"]["pending"] == 2
+    assert result["quote_induced_revision_rate"] is None
+
+
+def test_raw_function_receipts_capture_last_turn_without_exporting_arguments(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "id-usage.json").write_text(json.dumps({
+        "recipient": "manager", "call_id": "id", "status": 200,
+        "started_utc": "2026-10-05T01:00:00+00:00"}))
+    (tmp_path / "id-request.json").write_text(json.dumps({"tools": [
+        {"function": {"name": "estimate_bm25_retrieve"}}]}))
+    (tmp_path / "id-response.json").write_text(json.dumps({"choices": [{"message": {
+        "content": "PRIVATE-ANSWER", "tool_calls": [{"function": {
+            "name": "estimate_bm25_retrieve", "arguments": "PRIVATE-QUERY"}}]}}]}))
+    events = [event("logical.reasoning.started", logical_agent_id="manager", decision_id="d")]
+    events[0]["timestamp"] = "2026-10-05T01:00:00Z"
+    value = analysis.root_function_receipts(tmp_path, events)
+    assert value["optional_query_attempts"] == 1
+    assert value["optional_query_decision_ids"] == ["d"]
+    assert value["manager_requests_with_optional_query_interface"] == 1
+    assert "PRIVATE" not in json.dumps(value)
+
+
+def test_raw_function_receipts_separate_specialists_and_unknown_manager_responses(
+    tmp_path: Path,
+) -> None:
+    (tmp_path / "s-usage.json").write_text(json.dumps({"recipient": "specialist"}))
+    (tmp_path / "m-usage.json").write_text(json.dumps({
+        "recipient": "manager", "call_id": "m", "status": 500}))
+    value = analysis.root_function_receipts(tmp_path, [])
+    assert value["unknown_manager_responses"] == 1
+    assert value["optional_query_attempts"] == 0

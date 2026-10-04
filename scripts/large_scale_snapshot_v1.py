@@ -11,6 +11,7 @@ import hashlib
 import json
 import sys
 from collections import Counter
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +26,65 @@ def measured_total(values: list[Any]) -> int | float | None:
     if any(not isinstance(value, int | float) or isinstance(value, bool) for value in values):
         return None
     return sum(values)
+
+
+def root_function_receipts(api_root: Path, events: list[dict[str, Any]]) -> dict[str, Any]:
+    """Actual response calls include the final turn absent from accumulated SDK input.
+
+    Correlate on the controller's event/request UTC timestamps,
+    not UUID order. Only counts/names leave this function; argument/body text never
+    does. Responses from specialists/Verifier are deliberately separate.
+    """
+    starts = sorted((datetime.fromisoformat(e["timestamp"].replace("Z", "+00:00")),
+                     e["payload"]["decision_id"]) for e in events
+                    if e["event_type"] == "logical.reasoning.started"
+                    and e["payload"]["logical_agent_id"] == "manager" and "timestamp" in e)
+    names: Counter[str] = Counter()
+    query_decisions = set()
+    malformed = unknown_responses = unmapped_queries = optional_interface_requests = 0
+    for path in api_root.glob("*-usage.json"):
+        usage = json.loads(path.read_text())
+        if usage["recipient"] != "manager":
+            continue
+        request_path = api_root / f"{usage['call_id']}-request.json"
+        if request_path.exists():
+            request = json.loads(request_path.read_text())
+            if any(tool.get("function", {}).get("name", "").startswith("estimate_")
+                   for tool in request.get("tools", [])):
+                optional_interface_requests += 1
+        response_path = api_root / f"{usage['call_id']}-response.json"
+        if not response_path.exists() or usage["status"] != 200:
+            unknown_responses += 1
+            continue
+        response = json.loads(response_path.read_text())
+        choices = response.get("choices") if isinstance(response, dict) else None
+        if not isinstance(choices, list) or len(choices) != 1:
+            unknown_responses += 1
+            continue
+        started = datetime.fromisoformat(usage["started_utc"].replace("Z", "+00:00"))
+        candidates = [decision for timestamp, decision in starts if timestamp <= started]
+        decision_id = candidates[-1] if candidates else None
+        message = choices[0].get("message", {})
+        for call in message.get("tool_calls") or []:
+            function = call.get("function", {})
+            name = function.get("name")
+            if not isinstance(name, str):
+                malformed += 1
+                continue
+            names[name] += 1
+            if name.startswith("estimate_"):
+                if decision_id is None:
+                    unmapped_queries += 1
+                else:
+                    query_decisions.add(decision_id)
+    return {"function_calls": dict(names),
+            "optional_query_attempts": sum(n for name, n in names.items()
+                                           if name.startswith("estimate_")),
+            "optional_query_decision_ids": sorted(query_decisions),
+            "unknown_manager_responses": unknown_responses,
+            "manager_requests_with_optional_query_interface": optional_interface_requests,
+            "unmapped_optional_queries": unmapped_queries, "malformed_function_calls": malformed,
+            "count_source": "actual raw provider response, not replayed SDK history"}
 
 
 def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
@@ -57,6 +117,30 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     root_calls = Counter(name for (owner, _), name in calls.items() if owner == "manager")
     model_action_ids = {x["action_id"] for x in prepared if x["action_type"] == "model"}
     failed = [x for x in observations if not x["succeeded"]]
+    # Denominator is observable selected-ready opportunities, not unobserved
+    # counterfactual actions or every thought/finish turn. Readiness is established
+    # by the frozen gateway; no measured-cost cutoff or task-specific threshold.
+    eligible_decisions = set()
+    query_eligible_decisions = set()
+    active_root_decision = None
+    quoted_ids = set()
+    for e in events:
+        kind, p = e["event_type"], e["payload"]
+        if kind == "logical.reasoning.started" and p["logical_agent_id"] == "manager":
+            active_root_decision = p["decision_id"]
+        elif (kind == "logical.batch.validation" and p["logical_agent_id"] == "manager"
+              and p["status"] == "accepted" and p.get("all_inputs_materialized") is True):
+            eligible_decisions.add(p["decision_id"])
+        elif (kind == "logical.cost_quote.created"
+              and p["action"]["owner_agent_id"] == "manager"
+              and active_root_decision is not None):
+            quoted_ids.add(p["quote"]["quote_id"])
+            eligible_decisions.add(active_root_decision)
+        elif (kind == "logical.cost_card.returned" and p["card_id"] in quoted_ids
+              and active_root_decision is not None):
+            query_eligible_decisions.add(active_root_decision)
+    final_quote = next((e["payload"] for e in reversed(events)
+                        if e["event_type"] == "logical.cost_quote.run.end"), None)
     return {
         "reasoning_started": {
             "manager": sum(e["event_type"] == "logical.reasoning.started"
@@ -108,6 +192,14 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             "matched_optional_cards": types["logical.cost_card.matched"],
             "quotes": len(quotes),
             "quotes_observed": types["logical.cost_quote.observed"],
+            "commits_authorized": types["logical.cost_quote.commit_authorized"],
+            "discarded_quotes": types["logical.cost_quote.discarded"],
+            "stale_quotes": types["logical.cost_quote.stale"],
+            "quote_final_states": final_quote.get("quote_states") if final_quote else None,
+            "quote_proposal_attempts": final_quote.get("proposal_attempts")
+            if final_quote else None,
+            "quote_induced_revision_rate": None,
+            "revision_note": "discard/staleness observable; causal semantic revision needs audit",
             "quote_rejection_codes": dict(Counter(e["payload"]["failure_code"] for e in events
                 if e["event_type"] == "logical.cost_quote.rejected")),
             "candidate_counts": [len(p["candidates"]) for p in comparisons],
@@ -118,8 +210,14 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
             "quote_control_work_ms": measured_total([e["payload"].get("control_work_ms")
                 for e in events if e["event_type"] == "logical.cost_quote.control_timing"]),
             "rules_internal_use": "not observable",
-            "eligible_high_impact_decisions": None,
-            "eligibility_note": "requires readiness/owner/frontier audit, not every reasoning turn",
+            "eligible_selected_ready_decisions": len(eligible_decisions),
+            "eligible_high_impact_decisions": len(eligible_decisions),
+            "valid_optional_query_decisions": len(query_eligible_decisions),
+            "valid_query_adoption_rate": len(query_eligible_decisions) / len(eligible_decisions)
+            if eligible_decisions else None,
+            "eligibility_note": "observed schema-valid ready root-action opportunities; all native "
+            "physical operators/models, no scalar cost threshold; excludes pure reasoning/finish "
+            "and rejected readiness. Not a count of unobserved counterfactual decisions",
         },
     }
 
@@ -166,6 +264,8 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
                                "reasoning_output_tokens")}
             for role in ("manager", "specialist", "verifier", "all")},
         "trace_metrics": event_metrics(events),
+        "actual_manager_function_receipts": root_function_receipts(
+            directory / "private/api", events),
     }
 
 
