@@ -110,6 +110,17 @@ B1 has 187 snapshots but 62 structural additions, peak eight physical actions an
 eight simultaneous reasoning agents. Twelve synthetic regression cases cover
 integrity, unknown timing, identity-free descriptors and overlap/path accounting.
 
+The subsequent graph-audit-002 covers all fifteen admissions in snapshot-012,
+including the independently adjudicated invalid-JSON model-output trajectory.
+Every action has a closed interval and no dependency-order violation is found.
+This does not fill missing failed-inference token/service telemetry: a measured
+physical action lifetime is not interchangeable with backend service time.
+The three MultiHop trajectories have one logical action owner each, yet two
+reach a physical-action concurrency peak of six. Same-owner ready-action
+parallelism is therefore observable without claiming multi-agent topology.
+Status-snapshot counts (43/79/22) differ from structural additions (14/26/7).
+No private supporting-reference audit or semantic feedback is performed here.
+
 The live queue is not stopped for ordinary wrong answers, unadopted interfaces or
 poor stopping. It stops for unresolved confounders/operational incidents according
 to the preregistered repair/replacement rules. Original evidence is immutable.
