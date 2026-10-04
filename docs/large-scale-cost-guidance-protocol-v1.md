@@ -263,4 +263,8 @@ Stop after the frozen Phase II block and audit; no new method/model/benchmark/N.
 - Deterministic schedule/Phase II guards: tested; actual 168-cell ordered schedule
   frozen with all eighteen task identities. Remote reservation/full recipient audit/
   runner integration: pending verification; no formal execution admission yet.
-- Formal execution permission gate: **not passed; cells = 0**.
+- Formal queue/attempt ledger and recipient admission are implemented; full tests
+  passed (696). Source/config execution freeze and four-node source deployment
+  passed, and the 168-cell queue has started. Live per-cell admission is still
+  pending; no completed formal result is claimed at launch. See
+  [queue/admission checkpoint](large-scale-queue-admission-readiness-v1.md).
