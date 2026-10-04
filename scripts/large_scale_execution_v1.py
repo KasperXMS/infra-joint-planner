@@ -134,7 +134,7 @@ def cell_config(cell: ScheduledCell, run_id: str, reference: dict[str, Any]) -> 
 def build_native_runtime(
     method: str, *, model: object, verifier: object, sdk: object, registry: object,
     operations: tuple[str, ...], environment: object, history: object,
-    network: str, rules: dict[str, Any] | None,
+    network: str, rules: dict[str, Any] | None, physical: object | None = None,
 ) -> OpenAIAgentsNativeRuntime:
     options = dict(name="sdk-native-manager", instructions=MANAGER_INSTRUCTIONS, model=model,
                    sdk_module=sdk, registry=registry, available_operations=operations,
@@ -143,7 +143,7 @@ def build_native_runtime(
         return OpenAIAgentsNativeRuntime(**options, predecision_profiles=True)
     if method == "A":
         return MeasuredLedgerRuntime(**options)
-    extra = dict(environment=environment, cost_history=history,
+    extra = dict(physical=physical, environment=environment, cost_history=history,
                  network_category="fast" if network == "fast" else "constrained",
                  reachable_workers=frozenset(frozen.HOSTS))
     if method == "C":

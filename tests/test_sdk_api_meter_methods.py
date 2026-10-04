@@ -1,8 +1,11 @@
 """Real native SDK runners/gateway tools, synthetic physical/backend executions."""
 
 import asyncio
+import importlib
 import json
+import sys
 from collections.abc import AsyncIterator
+from pathlib import Path
 from typing import Any
 
 import agents
@@ -19,21 +22,21 @@ from test_native_agents import MemorySink, benchmark_task, complete_verdict, rea
 from test_native_predecision import SnapshotPhysical, SyntheticSDKModel
 from test_sdk_api_meter import build_meter, usage
 
-from infra_joint.control.bde_native import BDENativeRuntime
 from infra_joint.control.capabilities import build_static_capability_contract
 from infra_joint.control.consequence_profiles import CostHistory
 from infra_joint.control.contracts import ProfileVisibility
 from infra_joint.control.gateway import RuntimeActionGateway
-from infra_joint.control.method_usage import MeasuredLedgerRuntime
 from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.physical import PhysicalExecutionService
 from infra_joint.control.provenance import PROFILE_MESSAGE_PREFIX
-from infra_joint.control.quote_native import QuoteNativeRuntime
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.control.verification import OpenAIAgentsBlindVerifier
 from infra_joint.experiments.sdk_api_meter import metered_sdk
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.workflow.trace import WorkflowTraceRecorder
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+formal = importlib.import_module("large_scale_execution_v1")
 
 
 class HTTPMeasuredDelegate(agents.Model):
@@ -92,20 +95,13 @@ async def test_all_seven_frozen_native_variants_meter_manager_and_fixed_qwen_ver
             HTTPMeasuredDelegate(client, verifier_source, "qwen3.8-max"),
             recipient="verifier", agent_name="blind_evidence_verifier",
             requested_model="qwen3.8-max"))
-        options = dict(name="manager", instructions="Solve faithfully.", model=model,
-                       registry=registry, available_operations=operations,
-                       sdk_module=metered_sdk(agents, meter, manager_model="deepseek-v4-pro"),
-                       blind_verifier=verifier, record_input_provenance=True)
-        if method in {"B0", "B1"}:
-            runtime = OpenAIAgentsNativeRuntime(**options, predecision_profiles=True)
-        elif method == "A":
-            runtime = MeasuredLedgerRuntime(**options)
-        else:
-            extra = dict(physical=physical, environment=environment(), cost_history=CostHistory(),
-                         network_category="fast", reachable_workers=frozenset({"private-A"}))
-            runtime = (QuoteNativeRuntime(**options, **extra) if method == "C" else
-                       BDENativeRuntime(**options, **extra, route=method,
-                                        rules=rules() if method == "E" else None))
+        runtime = formal.build_native_runtime(
+            method, model=model, verifier=verifier,
+            sdk=metered_sdk(agents, meter, manager_model="deepseek-v4-pro"),
+            registry=registry, operations=operations, physical=physical,
+            environment=environment(), history=CostHistory(), network="fast",
+            rules=rules() if method == "E" else None,
+        )
         result = await asyncio.wait_for(runtime.run(
             task, gateway, static_capabilities=build_static_capability_contract(
                 environment(), registry, operations), trace=WorkflowTraceRecorder("meter", sink),
