@@ -29,7 +29,9 @@ def configure_queue(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> tuple:
     monkeypatch.setattr(queue, "require_remote", lambda root: None)
     monkeypatch.setattr(queue.frozen, "validate_runtime_import_root", lambda: None)
     monkeypatch.setattr(queue, "schedule", lambda: cells)
-    monkeypatch.setattr(queue, "verify_execution_freeze", lambda: "a" * 64)
+    monkeypatch.setattr(queue, "verify_execution_freeze", lambda path=None: "a" * 64)
+    monkeypatch.setattr(queue, "verified_prices",
+                        lambda root, app: (tmp_path / "prices.json", "b" * 64))
     return cells
 
 
@@ -97,6 +99,7 @@ def test_queue_stops_after_invalid_attempt_without_automatic_retry_or_next_cell(
     with pytest.raises(RuntimeError):
         queue.run_queue()
     assert len(starts) == 1
+    assert "--execution-freeze" in starts[0]
     assert not (tmp_path / "phase1-queue-completed.json").exists()
     assert not (tmp_path / "queue-lease.json").exists()
     journal = AttemptLedger(tmp_path / "phase1-attempts.jsonl",

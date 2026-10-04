@@ -19,7 +19,6 @@ import httpx
 import yaml
 from large_scale_admission_v1 import admit
 from large_scale_execution_v1 import (
-    PRICE_FREEZE_SHA256,
     ROOT,
     TASK_FREEZE_SHA256,
     cell_config,
@@ -27,8 +26,14 @@ from large_scale_execution_v1 import (
     frozen,
     require_remote,
 )
+from large_scale_repair_freeze_v1 import (
+    environment_fingerprint,
+    original_attempt,
+    prepare,
+    prepare_prices,
+    verified_prices,
+)
 from predecision_crossbenchmark_v1 import audit_artifact_persistence
-from prepare_sdk_native_infra_worker_v1_3 import prepare
 from run_predecision_matrix_v1 import HOSTS, remote_python, start_worker, stop_worker, write_new
 from run_sdk_native_infra_cell_with_tc_v1_3 import DEFAULT_ENDPOINTS
 from run_sdk_native_infra_cell_with_tc_v1_3 import run as run_shaped
@@ -45,7 +50,6 @@ from infra_joint.experiments.large_scale_protocol import (
 from infra_joint.workflow.trace import WorkflowTraceRecorder
 
 SELECTION = ROOT / "preparation/task-freeze-002"
-PRICES = ROOT / "preparation/pricing-001/price-freeze.json"
 HISTORY = Path("/home/super/xiaoming/cost-guidance-history-v0-00ff980/freeze-001")
 RULES = Path("/home/super/xiaoming/cost-guidance-exploration-v1-bde-17b8bf0"
              "/rules/rules-freeze.json")
@@ -73,27 +77,32 @@ def execution_freeze() -> dict[str, Any]:
              for path in (app / folder).rglob("*")
              if path.is_file() and "__pycache__" not in path.parts and path.suffix != ".pyc"]
     hashes = {str(path.relative_to(app)): frozen._sha256(path) for path in sorted(paths)}
-    for path, digest in ((PRICES, PRICE_FREEZE_SHA256),
-                         (HISTORY / "cost-history.json", frozen.HISTORY_SHA256),
+    _, pricing_sha256 = verified_prices(ROOT, app)
+    for path, digest in ((HISTORY / "cost-history.json", frozen.HISTORY_SHA256),
                          (HISTORY / "manifest.json", frozen.HISTORY_MANIFEST_SHA256)):
         if frozen._sha256(path) != digest:
             raise RuntimeError("shared pricing/history freeze drift")
     manifest = json.loads((SELECTION / "manifest.json").read_text())
     if frozen._sha256(RULES) != manifest["e_rules_manifest_sha256"]:
         raise RuntimeError("shared E rules freeze drift")
-    return {"version": "large-scale-execution-v1", "commit_sha": frozen._revision(),
+    return {"version": "large-scale-execution-repair-v1", "commit_sha": frozen._revision(),
             "source_sha256": hashes, "task_selection_sha256": TASK_FREEZE_SHA256,
-            "pricing_sha256": PRICE_FREEZE_SHA256,
+            "pricing_sha256": pricing_sha256,
             "history_sha256": frozen.HISTORY_SHA256,
             "history_manifest_sha256": frozen.HISTORY_MANIFEST_SHA256,
             "rules_sha256": manifest["e_rules_manifest_sha256"],
             "phase1_schedule_sha256": schedule_sha256(schedule()),
             "fixed_verifier": "qwen3.8-max", "Phase_I_cells": 168,
-            "formal_runs_at_execution_freeze": 0}
+            "formal_runs_at_execution_freeze": 0,
+            "repair_lineage": original_attempt(ROOT),
+            "environment_repair": environment_fingerprint(ROOT)}
 
 
-def verify_execution_freeze() -> str:
-    saved = json.loads((ROOT / "execution-freeze.json").read_text())
+def verify_execution_freeze(path: Path | None = None) -> str:
+    path = path or ROOT / "execution-freeze-002.json"
+    if path.resolve().parent != ROOT.resolve() or path.name != "execution-freeze-002.json":
+        raise RuntimeError("repaired execution freeze must have a new owned namespace")
+    saved = json.loads(path.read_text())
     if saved != execution_freeze():
         raise RuntimeError("execution/config/model/protocol drift; queue stopped")
     return provenance_sha256(saved)
@@ -207,18 +216,19 @@ def fallback_failure(args: argparse.Namespace, error: BaseException) -> None:
 async def attempt(args: argparse.Namespace) -> None:
     require_remote(args.deployment_root)
     try:
-        verify_execution_freeze()
+        verify_execution_freeze(args.execution_freeze)
         await run_shaped(args, execute_cell=with_workers)
     except BaseException as error:
         fallback_failure(args, error)
         raise
 
 
-def run_queue() -> None:
+def run_queue(execution_freeze_path: Path | None = None) -> None:
     require_remote(ROOT)
     frozen.validate_runtime_import_root()
     cells = schedule()
-    freeze_hash = verify_execution_freeze()
+    freeze_hash = verify_execution_freeze(execution_freeze_path)
+    prices_path, _ = verified_prices(ROOT, Path(__file__).resolve().parents[1])
     with QueueLease(ROOT / "queue-lease.json"):
         ledger = AttemptLedger(ROOT / "phase1-attempts.jsonl",
                                tuple(cell.cell_id for cell in cells), schedule_sha256(cells))
@@ -228,7 +238,7 @@ def run_queue() -> None:
         for cell in cells:
             if cell.cell_id in ledger.completed_cells:
                 continue
-            verify_execution_freeze()
+            verify_execution_freeze(execution_freeze_path)
             index = 1 + sum(item.cell_id == cell.cell_id for item in ledger.attempts)
             run_id = f"{ROOT.name}-{cell.cell_id}-attempt{index}"
             directory = ROOT / "evidence" / cell.cell_id / f"attempt{index}"
@@ -244,13 +254,15 @@ def run_queue() -> None:
                 process = subprocess.Popen([
                     sys.executable, str(Path(__file__).resolve()), "--attempt",
                     "--config", str(config_path), "--output", str(directory),
+                    "--execution-freeze", str(execution_freeze_path or
+                                              ROOT / "execution-freeze-002.json"),
                 ], stdout=log, stderr=subprocess.STDOUT, env=dict(os.environ))
                 write_new(directory / "process.json", {"pid": process.pid, "run_id": run_id})
                 returncode = process.wait()
             write_new(directory / "process-exit.json", {
                 "pid": process.pid, "returncode": returncode})
             try:
-                receipt = admit(directory, config, PRICES)
+                receipt = admit(directory, config, prices_path)
             except Exception as error:
                 receipt = {"disposition": "confounder",
                            "reason": "admission_unverifiable",
@@ -280,8 +292,11 @@ def parse_args() -> argparse.Namespace:
     modes.add_argument("--freeze", action="store_true")
     modes.add_argument("--queue", action="store_true")
     modes.add_argument("--attempt", action="store_true")
+    modes.add_argument("--prepare-repair", action="store_true")
     parser.add_argument("--config", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--execution-freeze", type=Path,
+                        default=ROOT / "execution-freeze-002.json")
     value = parser.parse_args()
     value.deployment_root = ROOT
     value.endpoint_config = DEFAULT_ENDPOINTS
@@ -298,8 +313,12 @@ if __name__ == "__main__":
     arguments = parse_args()
     require_remote(ROOT)
     if arguments.freeze:
-        write_new(ROOT / "execution-freeze.json", execution_freeze())
+        if arguments.execution_freeze != ROOT / "execution-freeze-002.json":
+            raise RuntimeError("do not overwrite original execution freeze")
+        write_new(arguments.execution_freeze, execution_freeze())
+    elif arguments.prepare_repair:
+        prepare_prices(ROOT, Path(__file__).resolve().parents[1])
     elif arguments.queue:
-        run_queue()
+        run_queue(arguments.execution_freeze)
     else:
         asyncio.run(attempt(arguments))

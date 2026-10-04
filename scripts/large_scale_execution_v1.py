@@ -19,6 +19,7 @@ from typing import Any
 import agents
 import cost_guidance_exploration_v1 as frozen
 import httpx
+from large_scale_repair_freeze_v1 import verified_prices
 from openai import AsyncOpenAI
 from resource_blind_live_validation_v1 import MANAGER_INSTRUCTIONS, _clients
 from run_predecision_matrix_v1 import write_new
@@ -55,7 +56,6 @@ from infra_joint.operators.catalog import build_operator_catalog
 
 ROOT = Path("/home/super/xiaoming/large-scale-cost-guidance-v1")
 TASK_FREEZE_SHA256 = "25e65b22b452bc164efe61ad895d20e5fcf3c8d407e4e9c7380a204bbec9b3ad"
-PRICE_FREEZE_SHA256 = "279d993cca0fd6b3206cbdb8eb5c1aab5008c3b35ed0424bec5d7587552122b6"
 
 
 def require_remote(root: Path) -> None:
@@ -191,9 +191,7 @@ async def execute_once(args: argparse.Namespace) -> None:
     if (frozen._sha256(args.rules_manifest) != manifest["e_rules_manifest_sha256"]
             or provenance_sha256(rules["rules"]) != manifest["e_rules_sha256"]):
         raise RuntimeError("independent shared E rule freeze drift")
-    prices_path = ROOT / "preparation/pricing-001/price-freeze.json"
-    if frozen._sha256(prices_path) != PRICE_FREEZE_SHA256:
-        raise RuntimeError("price/FX freeze drift")
+    prices_path, pricing_sha256 = verified_prices(ROOT, Path(__file__).resolve().parents[1])
     price_data = json.loads(prices_path.read_text())
     price_cards = {name: APIPriceCard.model_validate(value)
                    for name, value in price_data["prices"].items()}
@@ -201,7 +199,7 @@ async def execute_once(args: argparse.Namespace) -> None:
     write_new(args.output / "attempt-freeze.json", {
         "code_revision": frozen._revision(), "config_sha256": frozen._sha256(args.config),
         "task_selection_sha256": TASK_FREEZE_SHA256, "task_receipt": row,
-        "pricing_sha256": PRICE_FREEZE_SHA256, "capability_sha256": frozen._capability_sha256(
+        "pricing_sha256": pricing_sha256, "capability_sha256": frozen._capability_sha256(
             capability), "static_capability_contract": capability.model_dump(mode="json"),
         "harness": harness.model_dump(mode="json"), "manager_model": config["planner"],
         "verifier_model": "qwen3.8-max", "fresh_worker_stores": config["fresh_worker_stores"],
