@@ -1,0 +1,38 @@
+# User-directed restart, 2026-10-05. Calibration only until live gates pass.
+schema_version: 1
+decision: close_old_block_and_restart_with_resident_diverse_pool
+pool_manifest: configs/preparation/resident-model-pool-v1.yaml
+pool_manifest_sha256: 573da289dea85410873e204bedf0c9aa3b49963d96853a1d3fba1c80b5ef4e14
+old_experiment_root: /home/super/xiaoming/large-scale-cost-guidance-v1
+new_experiment_root: /home/super/xiaoming/large-scale-cost-guidance-resident-v1
+old_nominal_samples_retained: 42
+old_implementation_confounded_attempts_retained: 2
+old_samples_count_toward_global_cap: true
+old_new_environment_results_pooled: false
+calibration_services_allowed: true
+benchmark_execution_allowed: false
+phase1_new_cells: 168
+phase1_methods: [B0, B1, A, B, C, D, E]
+phase2_cells_per_method: 48
+phase2_max_full_methods_with_remaining_budget: 4
+phase2_method_selection: after_new_phase1_completion_and_full_audit
+global_substantive_cap: 420
+task_set_changed: false
+planner_verifier_prompts_changed: false
+model_routing_method_added: false
+resident_service:
+  runtime_version: '0.34.0'
+  OLLAMA_KEEP_ALIVE: '-1'
+  OLLAMA_NUM_PARALLEL: '1'
+  OLLAMA_MAX_LOADED_MODELS: '1'
+  OLLAMA_KV_CACHE_TYPE: q8_0
+  OLLAMA_FLASH_ATTENTION: '1'
+  context_window_target: 32768
+  reserved_output_tokens_target: 2048
+  client_timeout_seconds: 1200
+  client_max_retries: 0
+  reasoning_effort: none
+  temperature: 0
+  new_tag_only: true
+  source_weights_quantization_template_preserved: true
+  setup_warmup_outside_benchmark_clock: true
