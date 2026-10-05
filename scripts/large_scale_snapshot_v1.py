@@ -65,13 +65,26 @@ def trace_cost_receipts(events: list[dict[str, Any]]) -> dict[str, Any]:
         return sum(values)
 
     initial = [e["payload"] for e in events if e["event_type"] == "artifact.materialize.end"]
-    prepared = {e["payload"]["action"]["action_id"] for e in events
-                if e["event_type"] == "logical.action.prepared"}
+    prepared_actions = {e["payload"]["action"]["action_id"]: e["payload"]["action"] for e in events
+                        if e["event_type"] == "logical.action.prepared"}
+    prepared = set(prepared_actions)
     physical = [e["payload"] for e in events if e["event_type"] == "physical.execution"]
     if len(physical) != len({p["action_id"] for p in physical}):
         raise RuntimeError("duplicate physical receipt cannot be summed as independent work")
     missing = prepared - {p["action_id"] for p in physical}
     executions = [p["execution"] for p in physical if p.get("execution")]
+    tool_executions = [p["execution"] for p in physical if p.get("execution")
+                       and prepared_actions.get(p["action_id"], {}).get("action_type") == "tool"]
+    model_executions = [p["execution"] for p in physical if p.get("execution")
+                        and prepared_actions.get(p["action_id"], {}).get("action_type") == "model"]
+    unknown_execution_kind = len(executions) - len(tool_executions) - len(model_executions)
+    uncertain_tool_work = any(
+        prepared_actions.get(p["action_id"], {}).get("action_type") == "tool"
+        and not p.get("execution")
+        and (not p.get("failure") or p["failure"].get("stage") != "selection") for p in physical)
+    uncertain_tool_work |= any(
+        prepared_actions[aid].get("action_type") == "tool" for aid in missing)
+    tool_work = total([p.get("operator_latency_ms") for p in tool_executions])
     transfers = [t for execution in executions for t in execution.get("transfers", [])]
     uncertain = sum(bool(p.get("failure")) and p["failure"].get("stage") != "selection"
                     for p in physical)
@@ -95,6 +108,15 @@ def trace_cost_receipts(events: list[dict[str, Any]]) -> dict[str, Any]:
         "prepared_without_physical_receipt": len(missing),
         "operator_successful_receipts_work_ms": total([
             p.get("operator_latency_ms") for p in executions]),
+        "operator_receipt_scope": "all successful Worker action receipts, including invoke_model",
+        "successful_tool_execution_work_ms": tool_work,
+        "complete_tool_execution_work_ms": None
+        if unknown_execution_kind or uncertain_tool_work else tool_work,
+        "successful_model_action_execution_work_ms": total([
+            p.get("operator_latency_ms") for p in model_executions]),
+        "execution_kind_unknown_receipts": unknown_execution_kind,
+        "exclusive_work_scope": "logical action type; model-action execution is not additional "
+        "backend service work and must not be double-counted",
         "original_result_modified": False,
         "timing_scope": "persisted receipt work; overlapping work is not an E2E decomposition",
     }
