@@ -95,8 +95,10 @@ def test_no_partial_gate_waiver_or_unrelated_failure_admission(
         review.review_compound(receipt, trace, tmp_path / "api")
 
 
-def compound_fixture(tmp_path: Path) -> tuple[Path, AttemptLedger, Path, Path, Path]:
-    first, ledger, _ = json_fixture(tmp_path, ("cell1", "cell2", "cell3", "cell4"))
+def compound_fixture(
+    tmp_path: Path, cells: tuple[str, ...] = ("cell1", "cell2", "cell3", "cell4"),
+) -> tuple[Path, AttemptLedger, Path, Path, Path]:
+    first, ledger, _ = json_fixture(tmp_path, cells)
     view = control.CompoundQueueView(ledger.path, ledger.cells, ledger.schedule_sha256)
     view.reserve("cell2", "run2", "b" * 64)
     directory = tmp_path / "evidence/cell2/attempt1"
