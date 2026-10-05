@@ -22,6 +22,11 @@ flash attention, parallel1, max-loaded1, infinite keep-alive. The two4090servers
 disable Vulkan discovery and use separate actual GPU UUIDs. Jetsons use CUDA
 on their integrated Orin GPUs. Both4090runner PCI addresses/GPU memory ownership
 match their intended UUIDs. No CPU/software-renderer inference is admitted.
+The workstation also has two pre-existing GPUStack `llama-box-rpc-server`
+processes (PIDs3763/3764), each allocating386MiB on its GPU. These are not desktop
+processes or experiment model instances. They are retained, separately recorded
+in pre/post compute-process attestations, and not counted as part of the five
+models. Point-in-time GPU utilization is unavailable (`-`), not assumed zero.
 
 Requests use the **unchanged frozen Worker model backend/preflight source**
 SHA-256 `3bf978e665f8703b6f30754fffdba5b2527ba85aae48a9a3f75a5184c84fc1d5`,
@@ -117,17 +122,30 @@ processes were needed for these calibration checks.
 
 [New physical configuration](../configs/experiments/resident-diverse-environment-v1.yaml)
 is **not yet a runnable frozen block**: formal app/harness/source/profile/pricing/
-balanced schedule freezes and fresh-Worker `/state` agreement are still required.
+balanced schedule freezes are still required. Fresh-Worker `/state` agreement
+has passed: four isolated empty stores, all12 operators and all5 deployments,
+including their exact operator schemas and32768/2048/4096 contracts. The four
+readiness Worker processes were stopped and their exit verified; the five Ollama
+instances remain resident. No readiness model/tool/benchmark calls were made.
+Receipts are under the new root's `readiness/worker-surface-001` (including the
+shutdown verification). The readiness receipt preserves its original raw
+serialization hash `8c40d1aa11e8364f6609798edb96fddccd88af39c4f5701961c8d83ebba14896`.
+The formal harness uses the existing order-normalized static-capability hash:
+`1064a5e3446a1dbf0c99360751cc5e9604efa30cad9c548b650ac13d6963a4c0`.
+This normalization changes no operator schema or model-class fields.
 Per-cell pre/post residency must preserve the calibrated CUDA ownership and
 catch eviction/reload. Original18tasks, all7methods, twoPlanners/fixedBlindVerifier,
 operators, scheduler, instructions, budgets, initial placement and networks stay
 unchanged. The new block still has zero benchmark cells.
 
-Regression for this readiness snapshot:980 pytest pass in31.14s; Ruff,
+Regression for this readiness snapshot:984 pytest pass in31.23s; Ruff,
 strictPyright and diff check pass. The new environment/privacy regression proves
 three physical artifacts/five instances reduce to one anonymous semantic class,
 with no invented quality tiers or physical identity fields. No core
-logical/physical runtime source is changed.
+logical/physical runtime source is changed. The experiment protocol's cumulative
+budget guard now explicitly counts the42 retained predecessor samples: four
+complete PhaseII methods would total402, five450 and must be rejected. This does
+not prune any of the seven PhaseI methods.
 
 References: actual0.34.0 [Vulkan configuration](https://github.com/ollama/ollama/blob/v0.34.0/envconfig/config.go),
 [derived creation](https://docs.ollama.com/api/create),
