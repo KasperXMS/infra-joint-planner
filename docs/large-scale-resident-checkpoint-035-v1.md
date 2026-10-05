@@ -123,3 +123,27 @@ causal adaptation, aggregate quality or pruning claim follows.
 At `2026-10-05T20:07:49Z`, cell 37 atomic PID `2143489` was verified live on
 Video `131-3` / P2 / Fast / B, reserved at journal sequence 73. Queue 005
 continues unchanged. Re-read actual process state at the next continuation.
+
+## Later settlement: cell 37
+
+Cell 37 / Video `131-3` / P2 / Fast / B settled valid at
+`2026-10-05T20:08:48.389075Z`, sequence 74: completed, terminal format valid,
+original score 1.0, no admission problems. Original admission canonical SHA:
+`990d7050ea891b5e64dd5be961f7a97b220265ba6134648f85a950fc338e02cf`;
+admission file SHA:
+`d886ecac130c33e0be958ae1568c19114dc8422f884259c2c7a63736700fb495`.
+The admission-bound canonical result SHA is
+`5edddfe9edbd744252ccd2e6ce067c0b18769d4dbe8f963804d1ddd956329ec2`.
+
+Manager 3 / Verifier 3; zero specialists; two charged tool/model actions.
+E2E 47.011 s; initial 7,037,220 bytes / 0.652 s; returned result action artifact
+transfer 0 bytes / 0 s. Inclusive Worker operator work is 26.284 s; Manager
+reasoning work 10.895 s. This brief receipt does not separately establish backend
+inference work, complete failed-action movement or optional-query adoption;
+use the later bounded full projection before making claims about those fields.
+It is not a method-use claim or private evidence-retention audit.
+
+At `2026-10-05T20:09:16Z`, cell 38 atomic PID `2151003` was verified live on
+Video `131-3` / P1 / Slow / A, reserved at sequence 75. The 37-outcome boundary
+follows the immutable subsequent settlements, not a relabelled snapshot 017.
+Queue 005 stays active; all full-study completion gates remain unmet.
