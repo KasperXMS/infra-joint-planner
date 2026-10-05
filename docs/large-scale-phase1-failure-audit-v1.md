@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Forty classified nominal Phase I samples after case-audits009–011:36
+Forty-one classified nominal Phase I samples after case-audits009–012:37
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -101,8 +101,26 @@ are two sample_frames requests, one make_contact_sheet request and one invoke_mo
 request. Only one sampling request executes; the contact-sheet request does not.
 The original evidence/admission and other010 metrics are unchanged. Correction SHA:
 `abd3862db45d408fda2128266e6c575ba82afb08a55a63a22abe079986025947`.
-Original next MultiHop-2 / Qwen / Fast / D child2811555 is verified live under
-unchanged queue008 parent2599603. The prospective resident/diverse pool has an
+Original next MultiHop-2 / Qwen / Fast / D child2811555 was verified live under
+unchanged queue008 parent2599603. It subsequently completes, format-valid, score1
+with independently reproduced admission,63 original files bound and four empty
+stores. Three physical actions succeed, all onA28: aggregate_artifacts, BM25,
+then actual one-artifact model invocation (138.535 s,input7967/output3,stop).
+Graph three nodes/two edges/ten snapshots, one owner/no overlap, all nodes closed,
+no order/interval finding. One attempted read is phase-restricted, not executed.
+Three quotes are consumed, zero discard/revision; no multi-candidate comparison
+occurs. This is not evidence thatD's comparison mechanism is used or beneficial.
+Case-audit012 file SHA-256:
+`7ca8801a93c1e5f8bae2343fcd899dd354ae13cc2788680ce377af37e07f528d`.
+The original next DeepSeek / Slow / C MultiHop-2 also completes with format-valid
+score1, but original admission rejects three BM25 execution-stage validation
+failures, exactly `document field must be text: text`. All20 cloud responses are
+HTTP200; no operational incident is reported. This preliminary diagnosis is
+not an independent classification/admission. Original rejection/journal/evidence
+are preserved; parent2599603 and its atomic child are verified gone. Queue008
+has automatically stopped, no resume/replacement is performed. Full strict
+field/schema proof is pending; do not count this pending cell in41 or broad-waive
+the gate just because evaluation succeeds. The prospective resident/diverse pool has an
 inactive preparation manifest only; no active model/Worker/config change occurs.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
