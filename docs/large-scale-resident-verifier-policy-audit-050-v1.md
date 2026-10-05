@@ -126,6 +126,12 @@ run. Cell 050 is never retried; all five original rejected admissions and
 verified classification sidecars remain immutable. Re-read actual process state
 before inferring current liveness from these historical receipts.
 
+At `2026-10-05T21:06:47Z`, actual queue PID `2356386` and cell 51 atomic PID
+`2371437` were verified live. Cell 51 / MultiHop 1 / P2 / Slow / B was reserved
+at sequence 101, `21:04:42.490429Z`, attempt1 and the same measured execution
+freeze. Its four Workers use new isolated stores; the model pool remains
+resident. This is continuation of a never-started cell, not replacement of 050.
+
 The effective new nominal boundary is fifty, including classified failed
 provider outcomes, not fifty successful completions. Old 42 remain closed,
 unpooled and separately counted toward the global cap. Full 168-cell execution
