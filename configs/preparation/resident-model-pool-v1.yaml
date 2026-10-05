@@ -2,7 +2,7 @@
 # No runtime imports this file. Validated contracts must be generated separately.
 schema_version: 1
 pool_id: resident-model-pool-v1
-status: proposed_not_deployed
+status: assets_prepared_not_deployed
 activation_allowed: false
 old_experiment_pool_modified: false
 matrix_replacement_authorized: false
@@ -38,9 +38,13 @@ artifacts:
     quantization: Q4_K_M
     parameter_count: 8767123696
     metadata_context_limit: 262144
-    source_available_on_4090: false
-    acquisition_status: pending_remote_only_download
-    full_blob_verification: pending
+    source_available_on_4090: true
+    acquisition_status: downloaded_on_4090_not_loaded_or_deployed
+    full_blob_verification: model_layer_verified_on_4090
+    separate_projector_layers_in_source_manifest: 0
+    acquisition_evidence_root: /home/super/xiaoming/resident-model-pool-v1/asset-preparation-001
+    acquisition_receipt_sha256: 0cfc6f875fa196f709cb16c33cfdc16711b600506be50250c261c623831c466f
+    content_verification_sha256: 25d8b0bafa5b92e577effbba819c32997a137758b98c2fdf07a9efb10d080540
     source: https://ollama.com/library/qwen3-vl:8b-instruct
     excluded_installed_variant:
       tag: qwen3-vl:8b

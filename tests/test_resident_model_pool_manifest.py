@@ -11,7 +11,7 @@ MANIFEST = Path(__file__).resolve().parents[1] / (
 
 def test_manifest_cannot_be_mistaken_for_an_enabled_experiment() -> None:
     manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
-    assert manifest["status"] == "proposed_not_deployed"
+    assert manifest["status"] == "assets_prepared_not_deployed"
     assert manifest["activation_allowed"] is False
     assert manifest["old_experiment_pool_modified"] is False
     assert manifest["matrix_replacement_authorized"] is False
@@ -53,7 +53,10 @@ def test_instruct_variant_is_not_installed_thinking_alias() -> None:
     assert artifact["variant"] == "instruct"
     assert excluded["variant"] == "thinking"
     assert artifact["source_manifest_sha256"] != excluded["manifest_sha256"]
-    assert artifact["source_available_on_4090"] is False
+    assert artifact["source_available_on_4090"] is True
+    assert artifact["acquisition_status"] == "downloaded_on_4090_not_loaded_or_deployed"
+    assert artifact["full_blob_verification"] == "model_layer_verified_on_4090"
+    assert len(artifact["content_verification_sha256"]) == 64
 
 
 def test_calibration_targets_are_not_claimed_as_validated_contracts() -> None:

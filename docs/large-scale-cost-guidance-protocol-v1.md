@@ -366,8 +366,8 @@ Thinking alias. It is committed separately at
 This is an inactive preparation manifest, not a runnable EnvironmentSpec, Worker
 or cell configuration: activation is false, every validated contract is null,
 and32K/2048 is only a calibration target for the new instances. Image token cost,
-quality labels and output-byte bounds remain unknown. No remote download,
-distribution, service launch or calibration has happened. Both4090 target instances
+quality labels and output-byte bounds remain unknown. At its first commit no remote
+download, distribution, service launch or calibration had happened. Both4090 target instances
 have distinct observed GPU UUIDs and server ports; binding/residency still requires
 runtime attestation. Eight manifest integrity tests guard the preparation boundary,
 variant identity, five-instance coverage, remote-only payload handling, residency
@@ -377,3 +377,22 @@ passes. Bare Pyright initially selected a different environment and reported
 missing dependency types; using `--pythonpath .venv/Scripts/python.exe` resolves
 that diagnostic without source/dependency changes. These are configuration/tests,
 not proof that the proposed five-instance pool is deployed or calibrated.
+
+After queue008 automatically stops at MultiHop-2 / DeepSeek / Slow / C's
+field-validation finding, both its parent/child are verified gone and no old
+atomic process remains. Only asset preparation is performed:4090 downloads the
+distinct8B Instruct tag via its default11434 asset library in59.286 s; all
+preexisting tag digests are unchanged. The expected0533d7... manifest matches.
+Its6,140,392,672-byte model layer is independently fully hashed on4090 and matches
+1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466.
+The source manifest has no separate projector layer. /api/ps confirms this tag is
+not loaded; no inference/deployment/benchmark call, distribution, tc change or
+formal-runtime change occurs. Manifest status now records assets prepared but
+still activation false and all validated contracts null. New immutable remote
+evidence root: `/home/super/xiaoming/resident-model-pool-v1/asset-preparation-001`.
+Download receipt SHA-256:
+`0cfc6f875fa196f709cb16c33cfdc16711b600506be50250c261c623831c466f`;
+identity/content verification SHA-256:
+`25d8b0bafa5b92e577effbba819c32997a137758b98c2fdf07a9efb10d080540`.
+The old next-cell failure audit and comparison-block cutover decision remain
+outstanding; do not resume an old frozen block using changed deployments.
