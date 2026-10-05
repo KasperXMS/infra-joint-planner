@@ -52,7 +52,7 @@ def inspect_store(store: Path, artifact_id: str, expected: dict[str, Any]) -> di
 
 
 def shapes_for(root: Path, directory: Path, events: list[dict[str, Any]]) -> dict[str, Any]:
-    assert_inactive(root)
+    assert_inactive(root, allow_current_audit_lease=True)
     run_id = json.loads((directory / "process.json").read_text())["run_id"]
     if not run_id.startswith(root.name + "-phase1-") or Path(run_id).name != run_id:
         raise RuntimeError("record scan escaped exact run")
@@ -89,7 +89,7 @@ def shapes_for(root: Path, directory: Path, events: list[dict[str, Any]]) -> dic
                                       check=True, capture_output=True, text=True, timeout=60)
             shape = json.loads(response.stdout)
         result[artifact_id] = {**shape, "owning_node": node, "store_root": str(store)}
-    assert_inactive(root)
+    assert_inactive(root, allow_current_audit_lease=True)
     return result
 
 

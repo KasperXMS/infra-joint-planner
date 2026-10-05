@@ -105,6 +105,8 @@ def control_freeze() -> dict[str, Any]:
         "controller_source_sha256": reviewer.sha256(Path(__file__)),
         "reviewer_source_sha256": reviewer.sha256(Path(reviewer.__file__)),
         "record_reviewer_source_sha256": reviewer.sha256(Path(record_review.__file__)),
+        "private_guard_source_sha256": reviewer.sha256(Path(
+            sys.modules[assert_inactive.__module__].__file__)),
         "ledger_view_source_sha256": reviewer.sha256(Path(sys.modules[
             SnapshotAttemptLedger.__module__].__file__)),
         "adjudications": {p.name: reviewer.sha256(p)

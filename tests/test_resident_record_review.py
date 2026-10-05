@@ -1,5 +1,6 @@
 import importlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -168,3 +169,28 @@ def test_record_ledger_proof_is_reproducible_and_preserves_original(
         with pytest.raises(RuntimeError, match="must not be repeated"):
             view.reserve("cell", "retry", "b" * 64)
     assert journal == ledger.path.read_bytes()
+
+
+def test_auditor_lease_does_not_waive_actual_queue_or_atomic_process(tmp_path):
+    root = tmp_path / "resident-block"
+    root.mkdir()
+    proc = tmp_path / "proc"
+    live = proc / str(os.getpid())
+    live.mkdir(parents=True)
+    (live / "cmdline").write_bytes(b"python resident-block audit.py")
+    lease = root / "queue-lease.json"
+    lease.write_text(json.dumps({"pid": os.getpid()}))
+    with pytest.raises(RuntimeError, match="inactive"):
+        reviewer.assert_inactive(root, proc_root=proc)
+    reviewer.assert_inactive(root, proc_root=proc, allow_current_audit_lease=True)
+    handle = root / "queue-process-001.json"
+    handle.write_text(json.dumps({"pid": os.getpid()}))
+    with pytest.raises(RuntimeError, match="inactive"):
+        reviewer.assert_inactive(root, proc_root=proc, allow_current_audit_lease=True)
+    handle.unlink()
+    other = proc / str(os.getpid() + 1)
+    other.mkdir()
+    (other / "cmdline").write_bytes(b"python resident-block queue.py")
+    lease.write_text(json.dumps({"pid": os.getpid() + 1}))
+    with pytest.raises(RuntimeError, match="inactive"):
+        reviewer.assert_inactive(root, proc_root=proc, allow_current_audit_lease=True)

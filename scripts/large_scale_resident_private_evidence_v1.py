@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shlex
 import subprocess
 import sys
@@ -26,7 +27,8 @@ HOSTS = {"A4": "edge@192.168.0.104", "A5": "edge@192.168.0.105",
          "A28": "edge@192.168.0.128", "strong-4090": None}
 
 
-def assert_inactive(root: Path, *, proc_root: Path = Path("/proc")) -> None:
+def assert_inactive(root: Path, *, proc_root: Path = Path("/proc"),
+                    allow_current_audit_lease: bool = False) -> None:
     """Account for this block's actual lease/process filenames, not old controllers."""
     handles = [root / "queue-lease.json", *root.glob("queue-process-*.json"),
                *root.glob("evidence/*/attempt*/process.json")]
@@ -36,6 +38,9 @@ def assert_inactive(root: Path, *, proc_root: Path = Path("/proc")) -> None:
         pid = json.loads(handle.read_text())["pid"]
         if not isinstance(pid, int) or isinstance(pid, bool) or pid <= 0:
             raise RuntimeError("private audit process handle invalid")
+        if (allow_current_audit_lease and handle.name == "queue-lease.json"
+                and pid == os.getpid()):
+            continue  # Only this auditor's lock, never an owned queue/atomic receipt.
         command = proc_root / str(pid) / "cmdline"
         if command.exists() and root.name.encode() in command.read_bytes():
             raise RuntimeError("private body audit requires inactive queue and atomic actions")
