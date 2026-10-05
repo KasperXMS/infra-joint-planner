@@ -5,12 +5,19 @@
 trajectory failure with unevaluated quality. Two implementation-confounded
 attempts remain separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
-**Latest verified state: queue006 live, one pending attempt.** The audited
+**Snapshot024 state: queue006 live, one pending attempt.** The audited
 transport-only repair has a new execution/control freeze. Academic / DeepSeek /
 Slow / A attempt2 is admitted with score1.0; attempt1's missing-receipt
 ReadTimeout confounder is preserved, not retrospectively admitted. Academic /
 Qwen / Fast / B is a valid terminal-format failure, not a replacement candidate.
 Older live/stopped paragraphs below are historical checkpoints.
+
+Subsequent actual-state check: queue006 and child2296499 have exited after the
+next MultiHop-1 / DeepSeek / Fast / B1 cell encounters both exact invalid-JSON
+model output and provider input-policy refusal. Its original admission is
+preserved pending independent compound review; no retry or answer replacement
+is authorized. Current classified count is still28, with no active experimental
+attempt. See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:

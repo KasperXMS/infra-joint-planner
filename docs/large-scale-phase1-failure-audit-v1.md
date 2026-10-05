@@ -4,9 +4,19 @@
 Twenty-eight classified nominal Phase I samples at snapshot024:26
 completed/evaluated, one provider-policy failure and one terminal-choice failure
 with unevaluated quality. This is not the completed168-cell audit. No method
-pruning is allowed. Queue006 is verified live with one pending attempt.
+pruning is allowed. Snapshot024 records queue006 live with one pending attempt;
+it subsequently exits on the new MultiHop-1 DeepSeek Fast B1 compound finding.
+The original rejection is retained while independent full compound proof is
+running; current classified count remains28 and no experimental attempt is live.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
+
+The new compound finding comprises exact post-inference invalid-JSON output
+and two exact HTTP400 input-policy refusals (specialist and Verifier), with no
+operational incidents. It is not blanket-admitted: both original strict
+component proofs and unchanged evidence/full admission must pass. No semantic
+tuning, retry, censorship or runtime changes are authorized by this diagnosis.
+See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 
 ## Repair deployment and new settled-case audit
 
