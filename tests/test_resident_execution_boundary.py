@@ -78,6 +78,16 @@ def resident_state() -> dict:
                         "expires_at": "2319-01-01T00:00:00Z"}]}
 
 
+@pytest.mark.parametrize("command,expected", [
+    (b"/isolated/lib/ollama/llama-server\0--model\0/blob\0", True),
+    (b"/isolated/bin/ollama\0runner\0--port\01234\0", True),
+    (b"/other/runner-monitor\0", False),
+    (b"/isolated/bin/ollama\0serve\0", False),
+])
+def test_installed_runner_names_not_arbitrary_substrings(command: bytes, expected: bool) -> None:
+    assert attestation.is_model_runner(command) is expected
+
+
 @pytest.mark.parametrize("field,value", [
     ("name", "other:latest"), ("context_length", 16384), ("size_vram", 0),
     ("digest", "b" * 64), ("expires_at", "2026-10-05T00:00:00Z"),

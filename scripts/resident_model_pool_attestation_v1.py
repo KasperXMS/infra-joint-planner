@@ -43,6 +43,12 @@ def process_identity(pid: int) -> dict[str, Any]:
             "environment": {key: values[key] for key in sorted(keys) if key in values}}
 
 
+def is_model_runner(command: bytes) -> bool:
+    argv = command.decode().split("\0")
+    name = Path(argv[0]).name
+    return name == "llama-server" or (name == "ollama" and argv[1:2] == ["runner"])
+
+
 def node_attestation(node: str) -> dict[str, Any]:
     if sys.platform != "linux":
         raise RuntimeError("physical attestations must run on the actual experiment nodes")
@@ -74,7 +80,7 @@ def node_attestation(node: str) -> dict[str, Any]:
                 parent = next(line.split()[1] for line in status.splitlines()
                               if line.startswith("PPid:"))
                 cmd = (child / "cmdline").read_bytes()
-                if parent == str(receipt["pid"]) and b"runner" in cmd:
+                if parent == str(receipt["pid"]) and is_model_runner(cmd):
                     children.append(process_identity(int(child.name)))
             except (FileNotFoundError, ProcessLookupError, PermissionError):
                 continue
