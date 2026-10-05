@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **33 / 168 nominal samples classified/admitted after case-audit005:**
-29 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **34 / 168 nominal samples classified/admitted after case-audit006:**
+30 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated
 corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
@@ -14,8 +14,10 @@ Snapshot026 independently verifies31 admissions /33 attempts /0 pending before
 queue008 resumes. Parent2599603 is verified actually live; original MultiHop-1 /
 Qwen / Fast / C then completes, format-valid, score1. The next original cell is
 Video602-2 / DeepSeek / Fast / E then also completes with legal format /score1,
-independently audited. Original next Video602-2 / Qwen / Slow / B0 is reserved;
-there is no replacement. See
+independently audited. Video602-2 / Qwen / Slow / B0 also completes and independently
+passes admission. Original next Video602-2 / DeepSeek / Slow / B1 is reserved;
+there is no replacement. The requested resident/diverse model pool is not yet
+deployed or part of this frozen block. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md).
 The audited
 transport-only repair has a new execution/control freeze. Academic / DeepSeek /
@@ -41,7 +43,7 @@ See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The seven latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The eight latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -81,8 +83,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | B | 1 | no / unknown / unknown; delegated field misuse + provider policy | 125.127 (trace) | 7,696,522 / 22.189 (trace) | 70,251 / 0.406 subtotal; full unknown | 5 / 16 / 5 started | 26 | unknown |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | C | 1 | yes / valid / 1.0 | 100.977 | 7,696,522 / 0.791 | 0 / 0 | 12 / 0 / 6 | 18 | 0.328267 |
 | Video 602-2 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 312.137 | 213,739,837 / 18.610 | 1,541,758 / 1.355 | 4 / 0 / 4 | 8 | 0.139266 |
+| Video 602-2 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 849.267 | 213,739,837 / 596.678 | 1,468,293 / 4.999 | 3 / 0 / 3 | 6 | 0.119453 |
 
-The 29 completed samples have no unresolved findings and original private evaluators ran.
+The 30 completed samples have no unresolved findings and original private evaluators ran.
 The separately classified policy, terminal-choice, mixed JSON/policy and
 delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
@@ -104,6 +107,32 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Case-audit006: resource-blind original-video completion
+
+Video602-2 / Qwen / Slow / B0 independently reproduces its complete original
+admission, binding47 evidence files. Four pre-run Worker stores are empty;
+privacy, cleanup and graph checks pass. It executes sample_frames on A4, then
+one invoke_model on A28 consuming eight materialized image artifacts. Both
+physical nodes succeed; the attempted make_contact_sheet is phase-restricted,
+not an executed node. Manager3 / Verifier3 / specialist0; no context reject or
+unmeasured model outcome. Returned service time190.218 s, input7616/output2,
+finish_reason=stop; complete action movement1,468,293 bytes /4.999 s. E2E849.267 s
+includes596.678 s of fixed initial full-video placement before Manager reasoning.
+All six cloud calls have usage; list-price estimateUSD0.119453 is not an invoice.
+Graph7 snapshots /2 growth events /2 nodes /8 information edges, one active
+owner and no parallel overlap; dependency-order/closure/interval findings zero.
+No substitution, retry, hidden repair or private temporal evidence audit occurs.
+The same structural descriptor as a prior E sample is not semantic equivalence
+or a controlled method effect. Model service includes request processing and
+any loading/queueing; model residency was not standardized in this block.
+
+Remote audit: `analysis/settled-case-audit-006.json`, file SHA-256
+`d356dabd35d57352ad99be370289fba0e991f0aa509b47da9f9dec86780e5813`.
+Admission canonical SHA-256:
+`ebf965007a09fbbffc9c60ec76498b0084f344faed6708fc0a60cea8a92d6321`.
+Queue008 parent2599603 and original next DeepSeek / Slow / B1 child2678470 are
+verified alive. This is not a complete168-cell snapshot or pruning decision.
 
 ### Case-audit005: full-original-video E sample completes normally
 

@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirty-three classified nominal Phase I samples after case-audit005:29
+Thirty-four classified nominal Phase I samples after case-audit006:30
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -41,6 +41,17 @@ request is not counted as an executed operator. Independent admission/55-file
 graph audit passes; no retry, model substitution or hidden repair. The original
 next Qwen / Slow / B0 Video602-2 cell is reserved. Private temporal evidence
 coverage remains unknown, not inferred from the correct label.
+That Qwen / Slow / B0 cell subsequently completes, format-valid, score1. Its
+original full admission independently reproduces; four empty stores and47 bound
+files pass graph/privacy/cleanup checks. One phase-restricted contact-sheet call
+does not become a physical node; real execution is sample_frames then an A28
+eight-image inference with normal stop. No context failure, missing receipt or
+execution confounder is observed. E2E849.267 s includes fixed initial placement
+596.678 s; these are not Blind planning delays. Case-audit006 file SHA-256:
+`d356dabd35d57352ad99be370289fba0e991f0aa509b47da9f9dec86780e5813`.
+Original next DeepSeek / Slow / B1 child2678470 is verified live under the same
+queue008; no replacement. User-requested model-pool diversity/residency is a
+prospective environment revision, not a silent modification to this block.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 
