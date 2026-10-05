@@ -301,10 +301,10 @@ Read-only inventory gives the following prospective deployment targets:
 | Device | Artifact target | Inventory / next gate |
 |---|---|---|
 | A4,32GB unified memory | Qwen3-VL4B Instruct Q4_K_M | Already installed; text/image/context/output/residency calibration pending |
-| A5,32GB unified memory | Qwen3-VL8B Q4_K_M | Present on4090; verified remote-only distribution and calibration pending |
+| A5,32GB unified memory | Qwen3-VL8B Instruct Q4_K_M | Distinct from installedThinking; remote-only acquisition/distribution and calibration pending |
 | A28,64GB unified memory | Existing qwen35 27.3B Q4_K_M | Preserve blob; explicit resident readiness pending |
 | 4090 GPU0,24GB | Same existing27.3B artifact | Independent GPU-bound server and32K/2048 resident calibration pending |
-| 4090 GPU1,24GB | Same8B artifact asA5 | Independent GPU-bound server and calibration pending |
+| 4090 GPU1,24GB | Same8B Instruct artifact asA5 | Independent GPU-bound server and calibration pending |
 
 This targets three distinct artifacts /five instances, not five distinct models.
 Same-model replicas onA5/GPU1 andA28/GPU0 separate device/locality choices from
@@ -337,7 +337,7 @@ Official8b-instruct is a different manifest
 with a different model layer (1329cd... versus installeded12a4...). The bounded
 local GGUF-header inspection reports only qwen3vl architecture, not a finetune
 name; this is not additional proof of an Instruct artifact. Therefore the
-installed8B target is **Thinking**, not silently relabeled Instruct. Decide and
+installed8B artifact is **Thinking**, not silently relabeled Instruct. Decide and
 freeze the actual variant and supported reasoning mode before calibration or
 deployment. If a nonthinking/Instruct artifact is chosen instead, obtain it only
 on4090 and record it as a distinct prospective asset, never overwrite the old tag.
@@ -359,3 +359,21 @@ need new service/transfer/concurrency calibration; old27B profiles are not8B/4B
 measurements. Benchmark payloads/model distribution remain4090-to-Workers,
 never through the development PC. No Planner/Verifier prompt, task-specific rule,
 benchmark/evaluator or budget tuning is part of this environment revision.
+
+The concrete preparation manifest now selects8B **Instruct**, not the installed
+Thinking alias. It is committed separately at
+[resident-model-pool-v1.yaml](../configs/preparation/resident-model-pool-v1.yaml).
+This is an inactive preparation manifest, not a runnable EnvironmentSpec, Worker
+or cell configuration: activation is false, every validated contract is null,
+and32K/2048 is only a calibration target for the new instances. Image token cost,
+quality labels and output-byte bounds remain unknown. No remote download,
+distribution, service launch or calibration has happened. Both4090 target instances
+have distinct observed GPU UUIDs and server ports; binding/residency still requires
+runtime attestation. Eight manifest integrity tests guard the preparation boundary,
+variant identity, five-instance coverage, remote-only payload handling, residency
+and measurement semantics. Full pytest:924 passed in31.28s; Ruff passes; strict
+Pyright with the explicit project virtualenv has0 errors/warnings; diff check
+passes. Bare Pyright initially selected a different environment and reported
+missing dependency types; using `--pythonpath .venv/Scripts/python.exe` resolves
+that diagnostic without source/dependency changes. These are configuration/tests,
+not proof that the proposed five-instance pool is deployed or calibrated.

@@ -1,0 +1,153 @@
+# Preparation manifest only. NOT a Worker/EnvironmentSpec or runnable cell config.
+# No runtime imports this file. Validated contracts must be generated separately.
+schema_version: 1
+pool_id: resident-model-pool-v1
+status: proposed_not_deployed
+activation_allowed: false
+old_experiment_pool_modified: false
+matrix_replacement_authorized: false
+
+scope:
+  distinct_model_artifacts: 3
+  physical_instances: 5
+  physical_workers: 4
+  cloud_manager_models_changed: false
+  verifier_changed: false
+  scheduler_changed: false
+  model_routing_method_added: false
+  payload_download_and_distribution_host: strong-4090
+  development_pc_payload_transfer_allowed: false
+
+artifacts:
+  vl-4b-instruct:
+    source_tag: qwen3-vl:4b-instruct
+    source_manifest_sha256: ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b
+    architecture: qwen3vl
+    variant: instruct
+    quantization: Q4_K_M
+    parameter_count: 4437815808
+    metadata_context_limit: 262144
+    source_available_on_4090: true
+    full_blob_verification: pending
+    source: https://ollama.com/library/qwen3-vl:4b-instruct
+  vl-8b-instruct:
+    source_tag: qwen3-vl:8b-instruct
+    source_manifest_sha256: 0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319
+    architecture: qwen3vl
+    variant: instruct
+    quantization: Q4_K_M
+    parameter_count: 8767123696
+    metadata_context_limit: 262144
+    source_available_on_4090: false
+    acquisition_status: pending_remote_only_download
+    full_blob_verification: pending
+    source: https://ollama.com/library/qwen3-vl:8b-instruct
+    excluded_installed_variant:
+      tag: qwen3-vl:8b
+      variant: thinking
+      manifest_sha256: 901cae73216286ea8c5aba8b46d307ff7188f737285ec500c795a12f05225d28
+      reason: different_weights_not_an_instruct_alias
+  existing-qwen35-27b:
+    source_tag: qwen3.8-27b-v1
+    source_manifest_sha256: 0ae0a0db78e8cf0656939e1fa4eabd4f4f155cbad44d4e25b0658ef301057bcd
+    architecture: qwen35
+    variant: existing_frozen_artifact
+    quantization: Q4_K_M
+    parameter_count: 27320697856
+    metadata_context_limit: 262144
+    source_available_on_4090: true
+    full_blob_verification: pending
+    source: remote_installed_model_metadata
+    tag_is_official_release_name: false
+
+# Requested calibration envelope, NOT an advertised or validated capability.
+calibration_target:
+  modalities: [text, image]
+  context_window: 32768
+  reserved_output_tokens: 2048
+  image_token_cost: null
+  quality_classes: null
+  max_output_bytes: null
+  request_timeout_seconds: 1200
+  automatic_retries: 0
+  evidence: deterministic_nonbenchmark_text_and_images
+  benchmark_gold_used: false
+  preserve_source_weights_quantization_and_template: true
+  record_effective_generation_parameters: true
+
+proposed_instances:
+  - instance_id: resident-a4-vl4b-v1
+    worker: A4
+    artifact: vl-4b-instruct
+    gpu_binding: integrated_jetson_gpu
+    dedicated_ollama_port: 11436
+    validated_contract: null
+    calibration_status: pending
+  - instance_id: resident-a5-vl8b-v1
+    worker: A5
+    artifact: vl-8b-instruct
+    gpu_binding: integrated_jetson_gpu
+    dedicated_ollama_port: 11436
+    validated_contract: null
+    calibration_status: pending
+  - instance_id: resident-a28-qwen35-27b-v1
+    worker: A28
+    artifact: existing-qwen35-27b
+    gpu_binding: integrated_jetson_gpu
+    dedicated_ollama_port: 11436
+    validated_contract: null
+    calibration_status: pending_residency_attestation
+  - instance_id: resident-4090-gpu0-qwen35-27b-v1
+    worker: strong-4090
+    artifact: existing-qwen35-27b
+    gpu_binding: GPU-eba0a381-9ae1-4752-9171-6616ee9a0880
+    dedicated_ollama_port: 11436
+    validated_contract: null
+    calibration_status: pending_gpu_bound_calibration
+  - instance_id: resident-4090-gpu1-vl8b-v1
+    worker: strong-4090
+    artifact: vl-8b-instruct
+    gpu_binding: GPU-bf1b70c4-b2d7-ed3b-54d5-95685863f06d
+    dedicated_ollama_port: 11437
+    validated_contract: null
+    calibration_status: pending_gpu_bound_calibration
+
+resident_service_target:
+  OLLAMA_KEEP_ALIVE: '-1'
+  OLLAMA_NUM_PARALLEL: '1'
+  OLLAMA_MAX_LOADED_MODELS: '1'
+  separate_server_per_instance: true
+  loaded_models_per_server: 1
+  kv_cache_type: pending_explicit_freeze
+  model_store_roots: pending_isolated_roots
+  existing_server_ports_modified: false
+  legacy_model_allocation_reconciliation_required: true
+
+activation_gates:
+  - old_queue_cutover_decision_recorded
+  - no_atomic_benchmark_run_active
+  - no_legacy_model_allocation_conflict
+  - remote_only_model_acquisition_and_distribution_verified
+  - full_model_and_projector_blob_hashes_verified
+  - source_template_and_variant_identity_frozen
+  - actual_gpu_uuid_binding_verified
+  - text_and_image_inference_calibrated_per_instance
+  - context_and_output_preflight_backend_agreement_verified
+  - no_oom_or_silent_truncation_or_cpu_weight_spill
+  - simultaneous_five_instance_residency_verified
+  - setup_load_and_warmup_recorded_outside_benchmark_clock
+  - measured_service_and_concurrency_profiles_frozen_or_explicit_unknown
+  - worker_state_matches_new_environment_spec
+  - shared_anonymous_static_contract_privacy_verified
+  - new_environment_and_comparison_block_frozen
+
+measurement_contract:
+  residency_attestation: before_and_after_each_run
+  unexpected_eviction_or_reload: experimental_confounder_not_subtracted
+  include_request_prefill_vision_queue_decode_time: true
+  subtract_guessed_startup_constant: false
+  reuse_27b_profile_for_4b_or_8b: false
+  pool_old_and_new_environment_results: false
+  force_every_task_to_use_every_instance: false
+  infer_quality_class_from_parameter_size: false
+  blind_visible_physical_identity: false
