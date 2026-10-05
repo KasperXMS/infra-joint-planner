@@ -127,16 +127,47 @@ Bounded original result: completed / valid terminal / original score 0.0,
 8 Manager / 4 Verifier turns, zero specialists, four charged physical calls,
 E2E 166.232 s. Fixed initial 7,696,522 bytes / 1.601 s; returned successful
 action movement 5,204,596 bytes / 0.689 s. Twelve actual SDK contexts passed
-admission. Full inference, complete-transfer and true multi-candidate-comparison
-accounting still require its next per-cell projection. Four charged calls do
-not establish four inferences or D comparison adoption. Private semantic cause
-remains pending; this wrong answer is retained without tuning/replacement.
+admission. Private semantic cause remains pending; this wrong answer is retained
+without tuning/replacement.
+
+The subsequent append-only `analysis/resident-cell-049-summary-001.json` file
+SHA is `9e12a822963db633ea8dd0035b8eaa6803c85c61fa90744d4237adec882593b2`.
+It binds the original journal chain, admission/result, source/trace, Worker exits
+and five-instance residency checks. All four physical nodes succeeded:
+aggregate on A28 → two separate BM25 retrievals on the aggregate → A28 resident
+27B inference with both retrieved artifacts. One inference, zero context
+rejects, zero unmeasured backend failures; actual input/output 7,596 / 2, stop.
+Complete backend work 131.667 s, tool-only work 2.173 s; complete action movement
+5,204,596 bytes / 0.689 s from two persisted receipts. Initial placement remains
+separate setup cost. Model-wrapper work includes backend time, not an additional
+quantity to add to it. Manager/Verifier work 18.564 / 10.203 s; all twelve cloud
+usages known, frozen regional list-price estimate USD 0.0758793832.
+
+Four quotes were consumed/authorized, none discarded or stale; quote-control
+work 0.943 s. **Zero actual multi-candidate comparisons** and zero post-comparison
+choices: consuming four quotes does not mean the D mechanism was exercised.
+Quote-induced causal revision rate remains unknown. Graph 4 nodes / 4 edges /
+13 snapshots, maximum fan-out/in two; actual concurrency one and no overlapping
+action intervals. The two retrieval nodes are structurally independent but did
+not execute in parallel. No specialist or additional logical owner was created.
+Correctness, evidence retention and cost rationality are separate: a normally
+completed wrong answer with this graph does not establish which decisive
+evidence was missed or lost, or why the model selected its answer.
 
 Queue 005 PID `1997584` remained live at `20:39:45Z`; cell 49 / MultiHop 1 /
 P2 / Fast / D atomic PID `2278832` was live, reserved at sequence 97. Always
 re-read actual process state rather than treating this historical PID as current.
 At `20:43:48Z`, cell 50 / MultiHop 1 / P1 / Slow / C atomic PID `2293113`
 was verified live, reserved at sequence 99; queue 005 remained unchanged.
+
+Read-only complete-block collector 019 returned failure because the journal
+advanced during collection. No `resident-snapshot-019.json` was created;
+`audit-tools/resident-policy-control-003/snapshot-console-019.log` preserves the
+failure. This is the collector's expected inconsistent-time fail-closed guard,
+not a measured action failure, an invalidation, a queue stop or a retry target.
+Snapshot 017 remains the last complete-block projection (34 outcomes); later
+individual immutable settlements/projections establish the current boundary.
+No snapshot number is relabeled to imply a newer complete audit.
 
 Full 168-cell execution, comprehensive private semantic/recipient/failure/
 adoption audit and frozen method pruning remain required. Then preregister and
