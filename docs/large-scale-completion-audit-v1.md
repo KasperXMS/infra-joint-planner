@@ -10,11 +10,12 @@ semantic behavior.
 
 ## Current authoritative proof and its limits
 
-Snapshot015 proves33new nominal admissions/1pending/0unresolved confounders,
+Snapshot020 proves64new nominal admissions/0pending/0unresolved confounders,
 not168completed cells or comprehensive private semantic auditing. File SHA:
-`6297bf1016bb8759ea06d9fd516e7a84d598c06cb1ad964cd96bcefede8f14b0`.
-Actual queue005 PID1997584 and atomic PID2039021 were confirmed live19:47:15Z
-on Video representative1/P2/Slow/B0 initial materialization. Re-read actual
+`8dc0c5a77259f809b4b992c5e1e923965699391abf1592a5be19af44550512d1`,
+captured22:24:25Z. Seven original rejections remain with exact reviewed sidecars;
+no replacement. Actual queue008 PID2678456 was launched and command-verified
+22:25:25Z undercontrol007, continuingonlynever-startedcells. Re-read actual
 process/journal state. A stale process receipt alone is not a verified wait.
 
 The389-file measured app,18-task manifest, pricing/history/E rules and five
@@ -22,7 +23,7 @@ resident-instance contracts are hash-bound by the unchanged execution freeze.
 Per-cell admissions verify effective SDK recipient contexts, original evaluator
 and artifact integrity, tc cleanup, Worker exit and residency. These checks
 support only their measured cells/invariants, not a broad completed-study claim.
-The latest1077-test suite/Ruff/strictPyright/diff pass validates offline review
+The latest1095-test suite/Ruff/strictPyright/diff pass validates offline review
 support; it does not prove unseen trajectories or causal method superiority.
 
 ## Requirement coverage / still-required evidence
@@ -36,7 +37,7 @@ Numbers refer to the source objective, retaining every section0–52.
 | 3 | Resident execution freeze/calibration/readiness, exact scheduler/runtime/source bindings | Apply approved new-pool boundary; preserve32K/2048 and no new routing; continue actual per-cell residency checks |
 | 4,5,6,29 | Same frozen18tasks/6per-family, prepared representation/evaluator/artifact hashes, task-selection report | Add final workload-property/per-task behavior analysis; no outcome-based task substitution |
 | 7,8,27,45 | Existing B0/B1/A/B/C/D/E only; raw response function receipts, query/quote/comparison/rule visibility projections | Audit adoption across complete matched cells; visibility is not use, singleton sets are not real comparisons |
-| 9,10,11,12,13,36 |168ordered PhaseI cells; only33currently admitted in the new block | Complete all168, all nominal-failure/private/recipient audits, quality-first screening and frozen pruning; no early/E2E-only pruning |
+| 9,10,11,12,13,36 |168ordered PhaseI cells;64currently admitted in snapshot020 | Complete all168, all nominal-failure/private/recipient audits, quality-first screening and frozen pruning; no early/E2E-only pruning |
 | 14,15,16,37,38 | Pure `phase_two_schedule` gate/cap/order function exists | No formal PhaseII execution controller found in current scripts; construct/hash-bind that controller after audited pruning, preregister and execute all remaining selected-method cells |
 | 17,18,22 | Actual fresh stores/processes/tc/residency receipts; fixed setup separate from action transfers | Verify every cell; resident is not cold-cache; configured delay is not symmetric RTT |
 | 19,20,21,23,24,43,44 | Actual usage/list-price USD, distinct work/transfer/model/preflight scopes, unknown preservation, original scores and output validity | Produce complete per-task/family/Planner/method and quality-conditioned descriptive tables; no score pooling, guessed missing cost or online E2E/scalar objective |

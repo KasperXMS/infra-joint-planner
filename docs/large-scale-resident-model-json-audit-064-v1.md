@@ -108,3 +108,23 @@ Old42results remain closed/unpooled. Only never-started scheduled cells may
 continue after actual ledger verification; no automatic attempt2. All168
 primary outcomes, comprehensive audit, frozen pruning, actual PhaseII and final
 reports/Q1–Q10 are still required. No completed-goal claim is made here.
+
+## Stable full-block boundary and actual continuation
+
+Read-only snapshot020 completed at `2026-10-05T22:24:25.299832Z`, proving
+64effectivevalid admissions /64attempts /0pending /0unresolvedconfounders.
+Allseven original confounded receipts remain:two exact JSON-output reviews,
+one exact materialized-record-field review andfour provider-policy reviews.
+No operational exclusion/replacement, score pooling, comprehensive-private-audit
+completion or pruning permission is inferred.
+
+- Snapshot file SHA-256: `8dc0c5a77259f809b4b992c5e1e923965699391abf1592a5be19af44550512d1`.
+- Stable journal file SHA-256: `6e47652714442981a164df233a51637372d2868959578f235a7f0482f76440d0`.
+
+Queue008 actually launched at `2026-10-05T22:25:25.110720Z`, PID2678456, with
+new exclusive `queue-process-008.json` / `queue-console-008.log` andcontrol007.
+Its real `/proc` command line was verified. Startup revalidates the ledger;
+no new cell is claimed before its reservation. The launcher bound snapshot020,
+unchanged journal, exactcontrol and executionfreeze. Measured children retain
+only frozen app imports; offline reviewer imports do not enter Agent execution.
+Check current process/journal before relying on these historical handles.
