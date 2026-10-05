@@ -1,12 +1,20 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **30 / 168 nominal samples classified/admitted at case-audit003:**
+2026-10-05. **31 / 168 nominal samples classified/admitted after exact field/policy review:**
 27 completed/evaluated, one provider-policy failure, one terminal-choice
-trajectory failure and one mixed JSON/provider-policy failure with unevaluated
+trajectory failure, one mixed JSON/provider-policy failure and one delegated
+corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
 attempts remain separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
-**Latest verified state: queue007 live; original next cell reserved.** The audited
+**Latest verified state: queue008 resumes the original next cell after full audit.** MultiHop-1 /
+DeepSeek / Slow / B's field-validation plus provider-policy rejection is now
+independently classified, binding127 original files; no Agent repair/replacement.
+Snapshot026 independently verifies31 admissions /33 attempts /0 pending before
+queue008 resumes. Parent2599603 is verified actually live, with original
+MultiHop-1 / Qwen / Fast / C next; there is no replacement. See
+[field/policy audit](large-scale-field-policy-failure-audit-v1.md).
+The audited
 transport-only repair has a new execution/control freeze. Academic / DeepSeek /
 Slow / A attempt2 is admitted with score1.0; attempt1's missing-receipt
 ReadTimeout confounder is preserved, not retrospectively admitted. Academic /
@@ -22,13 +30,15 @@ or answer replacement is authorized. Snapshot025 verifies29 classified /
 parent2448151 resumes the original next MultiHop-1 / Qwen / Slow / A child2450537,
 which subsequently completes with score0 and is admitted. The next original
 MultiHop-1 / DeepSeek / Slow / B child2471034 is verified live (33 attempts /
-1 pending). No wrong-answer repeat is allowed.
+1 pending at that earlier checkpoint). That child subsequently exits; the journal
+settles its rejected attempt, so current pending is0 and both queue/child are gone.
+No wrong-answer repeat is allowed.
 See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The four latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The five latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -65,13 +75,15 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | B | 1 | no / unknown / unknown; terminal choice invalid | 130.086 (trace) | 514,789 / 0.108 (trace) | 223,933 / 0.122 (trace) | 14 / 2 / 13 started | 29 | 0.364704 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B1 | 1 | no / unknown / unknown; JSON + provider policy | 413.573 (trace) | 7,696,522 / 0.760 (trace) | 56,806 / 0.715 subtotal; full unknown | 5 / 13 / 5 started | 23 | unknown; known subtotal 0.231155 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | A | 1 | yes / valid / 0.0 | 280.753 | 7,696,522 / 21.926 | 5,204,596 / 15.661 | 8 / 0 / 8 | 16 | 0.118184 |
+| MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | B | 1 | no / unknown / unknown; delegated field misuse + provider policy | 125.127 (trace) | 7,696,522 / 22.189 (trace) | 70,251 / 0.406 subtotal; full unknown | 5 / 16 / 5 started | 26 | unknown |
 
 The 27 completed samples have no unresolved findings and original private evaluators ran.
-The separately classified policy, terminal-choice and mixed JSON/policy failures
+The separately classified policy, terminal-choice, mixed JSON/policy and
+delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
-not zero. Both policy-failure total API costs are unknown; the terminal-choice run has complete
+not zero. All three policy-failure total API costs are unknown; the terminal-choice run has complete
 provider usage and list-price estimate. It is not an invoice.
-Action movement is recorded receipt work. The four explicitly marked rows have
+Action movement is recorded receipt work. The five explicitly marked rows have
 execution-stage failures without complete movement telemetry; their numeric
 successful-receipt subtotals are not full transfer totals or savings evidence.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
