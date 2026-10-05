@@ -1,12 +1,19 @@
 # Offline analysis definitions — Phase I in progress
 
-2026-10-05. These are reporting definitions, not Agent guidance or a method change.
-Current formal execution is fa19e0b / execution-freeze-003, following the
+2026-10-05 historical definitions, clarified2026-10-06. These are reporting
+definitions, not Agent guidance or a method change. Historical execution was
+fa19e0b / execution-freeze-003, following the
 independently audited transport-receipt-only repair. Historical executions at
 94c9bac / execution-freeze-002 remain preserved. Analysis code is deployed outside
 the frozen app. No prompt, model, tool, budget, scheduler, representation or run
-order is changed by these reporting definitions. Current progress belongs in
-[Phase I results](large-scale-phase1-results-v1.md), not this definitions document.
+order is changed by these reporting definitions. Those42results are now closed
+and unpooled. Current measured resident/diverse execution is90fd30c /
+execution-freeze-001 in the separate `large-scale-cost-guidance-resident-v1` root;
+five resident instances are three model artifacts, not five quality tiers.
+Current progress belongs in the latest top-workspace RESEARCH-STATUS and
+[new-block checkpoints](large-scale-resident-checkpoint-069-v1.md), not the
+historical [Phase I results](large-scale-phase1-results-v1.md) or this definitions
+document. Later dated checkpoints supersede counts, not immutable source hashes.
 
 ## Exposure, querying and adoption
 
@@ -28,9 +35,17 @@ order is changed by these reporting definitions. Current progress belongs in
   observed executions, discarded/stale and final pending/expired/consumed states.
   Authorization is not physical execution. Discarding an alternative is not
   automatically a semantic workflow revision or evidence of cost-induced change.
-- D: only sets with at least two candidates count as genuine multi-candidate
-  comparisons. Report candidate counts, post-comparison choices and exact feedback
-  visibility. The system does not choose a winner.
+- D: retain the frozen legacy returned-set-cardinality counter, but do not
+  interpret a returned list of length>=2 as proof of alternatives comparison.
+  Separately report submitted candidates, actual consequence cards, multi-card
+  comparisons and comparisons with multiple physically feasible alternatives.
+  An all-error three-member set is an attempted set, not three cards or an
+  exercised multi-consequence comparison. The independent tested auditor checks
+  exact created-card/member/source bindings and complete SDK tool-result equality
+  before choice; substring mentions do not establish exposure. Selection,
+  authorization and execution are separate. The system does not choose a winner.
+  See the [bounded first64 audit](large-scale-resident-comparison-partial-064-v1.md);
+  that subset does not authorize pruning or replace full168adoption analysis.
 - E: report the frozen rule-set hash and actual visibility. Do not infer internal
   rule use from prompt presence. Explicit action evidence is analyzed separately.
 
