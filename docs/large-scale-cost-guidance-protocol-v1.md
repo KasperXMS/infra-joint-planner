@@ -285,3 +285,58 @@ are maintained in [Phase I results](large-scale-phase1-results-v1.md) and
 [failure audit](large-scale-phase1-failure-audit-v1.md). Offline reporting semantics
 are in [analysis definitions](large-scale-analysis-definitions-v1.md), not Agent
 instructions or an online optimization objective.
+
+## Requested resident/diverse pool — prospective, not deployed
+
+On2026-10-05 the user requested resident models during measurement, use of the
+existing devices, and a more diverse physical model pool. This supersedes the
+single-artifact pool for a future environment revision, not retroactively for
+the existing block. Old admissions/evidence/freezes remain immutable. Do not
+change active-call residency, distribute model blobs or launch calibration while
+an old atomic benchmark run is active. The old queue transition decision is
+outstanding; no full-matrix replacement is authorized by this request.
+
+Read-only inventory gives the following prospective deployment targets:
+
+| Device | Artifact target | Inventory / next gate |
+|---|---|---|
+| A4,32GB unified memory | Qwen3-VL4B Instruct Q4_K_M | Already installed; text/image/context/output/residency calibration pending |
+| A5,32GB unified memory | Qwen3-VL8B Q4_K_M | Present on4090; verified remote-only distribution and calibration pending |
+| A28,64GB unified memory | Existing qwen35 27.3B Q4_K_M | Preserve blob; explicit resident readiness pending |
+| 4090 GPU0,24GB | Same existing27.3B artifact | Independent GPU-bound server and32K/2048 resident calibration pending |
+| 4090 GPU1,24GB | Same8B artifact asA5 | Independent GPU-bound server and calibration pending |
+
+This targets three distinct artifacts /five instances, not five distinct models.
+Same-model replicas onA5/GPU1 andA28/GPU0 separate device/locality choices from
+model substitution. Nothing requires every task to use every deployment.
+Both Blind/Aware must receive the same anonymous static feasibility contract;
+physical identities, residency, placement and latency do not become Blind input.
+Parameter size alone does not certify a quality class or a faster service.
+Do not silently merge distinct advertised quality/capability signatures or assign
+unsupported high_quality/low_latency labels; freeze their provenance after
+independent, nonbenchmark calibration. The existing physical resolver remains
+the execution mechanism, not a new routing method.
+
+4090 default-Ollama inventory contains4B Instruct digest
+`ee4b975b58c17ce268cd19d40db35d5edc64603035d2ffc1fee1968eb0947f7b`
+and8B digest
+`901cae73216286ea8c5aba8b46d307ff7188f737285ec500c795a12f05225d28`.
+The8B /api/show advertises completion/vision/tools/thinking; an exact
+Instruct/Thinking release identity is not proved by this tag. Its parameter
+count is8,767,123,696;4B is4,437,815,808. Both report qwen3vl architecture,
+262144 metadata context andQ4_K_M. Existing27B experiment tag digest
+`0ae0a0db78e8cf0656939e1fa4eabd4f4f155cbad44d4e25b0658ef301057bcd`
+reports qwen35,27,320,697,856 parameters, Q4_K_M and262144 metadata context.
+These are inventories, not validated deployment envelopes; keep variant,
+template/projector/blob identity and thinking-mode uncertainty explicit.
+
+Preload plus deterministic text/image warm-up occurs before benchmark clocks.
+Keep each instance resident with explicit pre-run and ongoing readiness checks;
+attest actual GPU allocation, GPU binding, no eviction/CPU spill, context/output
+limits and supported modalities. Setup loading/warm-up has separate telemetry;
+prefill, vision processing, queueing and generation remain request execution
+costs. Never retroactively subtract an invented startup constant. New instances
+need new service/transfer/concurrency calibration; old27B profiles are not8B/4B
+measurements. Benchmark payloads/model distribution remain4090-to-Workers,
+never through the development PC. No Planner/Verifier prompt, task-specific rule,
+benchmark/evaluator or budget tuning is part of this environment revision.
