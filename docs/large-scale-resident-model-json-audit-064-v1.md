@@ -128,3 +128,11 @@ no new cell is claimed before its reservation. The launcher bound snapshot020,
 unchanged journal, exactcontrol and executionfreeze. Measured children retain
 only frozen app imports; offline reviewer imports do not enter Agent execution.
 Check current process/journal before relying on these historical handles.
+
+At `2026-10-05T22:32:49.243891Z`, both queue008 PID2678456 andcell65atomic
+PID2702399 were verified live. Cell65 is Video602-2/P2/Fast/B, attempt1,
+reserved at22:32:04.272123Z/seq129. The real child command uses frozen
+`app/scripts/large_scale_resident_queue_v1.py --attempt`; this is actual
+continuation, not only a launched offline controller. No cell65final outcome
+is inferred. Its journal entry SHA-256 is
+`acd587890cdfc6f6226e06eccc1ce58fd870c4a88bb541a192c29f12b9b32ecb`.
