@@ -369,8 +369,10 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
     if (admission.get("result_sha256") is not None
             and provenance_sha256(result) != admission["result_sha256"]):
         raise RuntimeError("settled result/admission drift")
-    events = [json.loads(line) for line in result_path.with_name("trace.jsonl").read_text(
-        encoding="utf-8").splitlines()]
+    # JSONL boundaries are physical newlines. Unicode U+2028/U+0085 inside a
+    # valid JSON string must not split one persisted event into fragments.
+    events = [json.loads(line) for line in result_path.with_name("trace.jsonl").open(
+        encoding="utf-8")]
     evaluation = result.get("evaluation")
     terminal = result.get("final_answer")
     account_path = directory / "api-accounting.json"
@@ -413,9 +415,10 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
     }
 
 
-def snapshot(root: Path) -> dict[str, Any]:
-    manifest = json.loads((root / "preparation/task-freeze-002/manifest.json").read_text())
-    schedule = json.loads((root / "preparation/task-freeze-002/phase1-schedule.json").read_text())
+def snapshot(root: Path, *, selection_root: Path | None = None) -> dict[str, Any]:
+    selection = selection_root or root / "preparation/task-freeze-002"
+    manifest = json.loads((selection / "manifest.json").read_text())
+    schedule = json.loads((selection / "phase1-schedule.json").read_text())
     cell_ids = tuple(row["cell_id"] for row in schedule)
     if not (root / "phase1-attempts.jsonl").is_file():
         raise RuntimeError("read-only collector cannot initialize a missing attempt ledger")
