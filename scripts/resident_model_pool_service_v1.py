@@ -108,6 +108,7 @@ def verify_derived_build(
     source_show: dict[str, Any], derived_show: dict[str, Any],
     source_configuration: dict[str, Any] | None = None,
     derived_configuration: dict[str, Any] | None = None,
+    expected_source_tag: str | None = None,
 ) -> None:
     # /api/create rewrites the informational `from` provenance field. Preserve
     # layer order/multiplicity and every content-bearing or unknown field.
@@ -129,7 +130,19 @@ def verify_derived_build(
                             if key != "rootfs"}
         if semantic_source != semantic_derived:
             raise ValueError("derived config changes renderer/parser/model metadata")
-    for field in ("template", "system", "messages", "model_info", "details", "capabilities"):
+    source_details = source_show.get("details")
+    derived_details = derived_show.get("details")
+    if source_details != derived_details:
+        if not isinstance(source_details, dict) or not isinstance(derived_details, dict):
+            raise ValueError("derived show metadata drift: details")
+        canonical_parent = (expected_source_tag if expected_source_tag is None
+                            or ":" in expected_source_tag else expected_source_tag + ":latest")
+        if canonical_parent is None or derived_details.get("parent_model") != canonical_parent:
+            raise ValueError("derived parent does not match the exact source tag")
+        if ({key: value for key, value in source_details.items() if key != "parent_model"}
+                != {key: value for key, value in derived_details.items() if key != "parent_model"}):
+            raise ValueError("derived show metadata drift: details")
+    for field in ("template", "system", "messages", "model_info", "capabilities"):
         if source_show.get(field) != derived_show.get(field):
             raise ValueError(f"derived show metadata drift: {field}")
 
@@ -215,15 +228,15 @@ def bootstrap(
                 if create.get("status") != "success":
                     raise RuntimeError("derived model creation did not succeed")
             derived_show = api(port, "show", {"model": target["derived_tag"]})
+            write_new(evidence / f"{target['instance']}-derived-show.json", derived_show)
             derived_bytes = derived_file.read_bytes()
             derived = json.loads(derived_bytes)
             verify_derived_build(source, derived, original_parameters,
                                  manifest_parameters(store, derived), source_show, derived_show,
                                  manifest_json_blob(store, source["config"]),
-                                 manifest_json_blob(store, derived["config"]))
+                                 manifest_json_blob(store, derived["config"]), target["source_tag"])
             if source_file.read_bytes() != original_bytes:
                 raise RuntimeError("source tag was overwritten")
-            write_new(evidence / f"{target['instance']}-derived-show.json", derived_show)
             row = {"target": target, "pid": process.pid, "server_version": version,
                    "source_manifest_sha256": hashlib.sha256(original_bytes).hexdigest(),
                    "derived_manifest_sha256": hashlib.sha256(derived_bytes).hexdigest(),

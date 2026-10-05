@@ -100,6 +100,21 @@ def test_config_transport_rewrite_cannot_hide_renderer_or_parser_substitution() 
         verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, {}, {}, source)
 
 
+def test_derived_parent_must_be_exact_source_without_semantic_detail_drift() -> None:
+    manifest = {"layers": [{"mediaType": "model", "digest": "same"}]}
+    source = {"details": {"parent_model": "", "family": "qwen35", "format": "gguf"}}
+    derived = {"details": {**source["details"], "parent_model": "source:latest"}}
+    verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, source, derived,
+                         expected_source_tag="source")
+    with pytest.raises(ValueError, match="exact source"):
+        verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, source, derived,
+                             expected_source_tag="other")
+    with pytest.raises(ValueError, match="details"):
+        verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, source,
+                             {"details": {**derived["details"], "family": "substituted"}},
+                             expected_source_tag="source")
+
+
 def test_cutover_keeps_full_screening_and_counts_old_samples() -> None:
     root = Path(__file__).resolve().parents[1]
     config = yaml.safe_load((root / "configs/preparation/resident-model-pool-v1-cutover.yaml")
