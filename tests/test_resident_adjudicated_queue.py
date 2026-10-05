@@ -224,6 +224,8 @@ def test_resident_terminal_http_policy_review_preserves_failed_unevaluated_sampl
     monkeypatch.setattr(frozen, "admit", lambda *args: receipt)
     actual = control.create_review("run2", provider_policy=True)
     assert actual["provider_policy_failure"] and not actual["rerun"]
+    assert actual["confirmed_parse_failures"] == 0
+    assert actual["confirmed_provider_refusals"] == 1
     assert view.completed_cells == ("cell1", "cell2")
     assert view.original_attempts[1].disposition == "confounder"
     assert view.attempts[1].reason == control.policy_review.REASON
