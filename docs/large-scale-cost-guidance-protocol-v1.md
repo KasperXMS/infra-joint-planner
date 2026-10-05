@@ -330,6 +330,25 @@ reports qwen35,27,320,697,856 parameters, Q4_K_M and262144 metadata context.
 These are inventories, not validated deployment envelopes; keep variant,
 template/projector/blob identity and thinking-mode uncertainty explicit.
 
+Subsequent read-only identity audit resolves the8B variant at manifest level:
+installed digest901cae... exactly matches both official registry8b and8b-thinking.
+Official8b-instruct is a different manifest
+`0533d74300e4f9bc367d675d4e64ffd073d50ff16a2b4096cc2e8a1cf8c96319`
+with a different model layer (1329cd... versus installeded12a4...). The bounded
+local GGUF-header inspection reports only qwen3vl architecture, not a finetune
+name; this is not additional proof of an Instruct artifact. Therefore the
+installed8B target is **Thinking**, not silently relabeled Instruct. Decide and
+freeze the actual variant and supported reasoning mode before calibration or
+deployment. If a nonthinking/Instruct artifact is chosen instead, obtain it only
+on4090 and record it as a distinct prospective asset, never overwrite the old tag.
+No model is downloaded/loaded/inferred by this identity audit; full installed
+blob-content hash verification remains pending the nonconcurrent preparation
+stage. Sources: [official8b](https://ollama.com/library/qwen3-vl:8b) and
+[official8b-instruct](https://ollama.com/library/qwen3-vl:8b-instruct).
+Remote `analysis/model-pool-identity-audit-001.json` preserves all three raw
+registry manifests and their hashes; file SHA-256
+`ba40be380c6b2f436ff1980c1723997592bac05f390a8253bd3bd5acc4d3e0d4`.
+
 Preload plus deterministic text/image warm-up occurs before benchmark clocks.
 Keep each instance resident with explicit pre-run and ongoing readiness checks;
 attest actual GPU allocation, GPU binding, no eviction/CPU spill, context/output
