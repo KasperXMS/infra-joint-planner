@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import socket
 import subprocess
 import sys
@@ -88,12 +89,16 @@ def manifest_parameters(store: Path, manifest: dict[str, Any]) -> dict[str, Any]
         return {}
     if len(entries) != 1:
         raise ValueError("ambiguous parameter layers")
-    digest = entries[0]["digest"]
-    if not digest.startswith("sha256:") or len(digest) != 71:
-        raise ValueError("invalid parameter-layer digest")
+    return manifest_json_blob(store, entries[0])
+
+
+def manifest_json_blob(store: Path, descriptor: dict[str, Any]) -> dict[str, Any]:
+    digest = descriptor["digest"]
+    if re.fullmatch(r"sha256:[0-9a-f]{64}", digest) is None:
+        raise ValueError("invalid manifest blob digest")
     data = (store / "blobs" / digest.replace(":", "-")).read_bytes()
     if hashlib.sha256(data).hexdigest() != digest.removeprefix("sha256:"):
-        raise ValueError("parameter-layer content drift")
+        raise ValueError("manifest JSON blob content drift")
     return json.loads(data)
 
 
@@ -101,14 +106,29 @@ def verify_derived_build(
     source: dict[str, Any], derived: dict[str, Any],
     source_parameters: dict[str, Any], derived_parameters: dict[str, Any],
     source_show: dict[str, Any], derived_show: dict[str, Any],
+    source_configuration: dict[str, Any] | None = None,
+    derived_configuration: dict[str, Any] | None = None,
 ) -> None:
-    unchanged = lambda value: [  # noqa: E731
-        item for item in value["layers"] if not item["mediaType"].endswith(".params")
-    ]
+    # /api/create rewrites the informational `from` provenance field. Preserve
+    # layer order/multiplicity and every content-bearing or unknown field.
+    def unchanged(value: dict[str, Any]) -> list[dict[str, Any]]:
+        return [{key: field for key, field in item.items() if key != "from"}
+                for item in value["layers"] if not item["mediaType"].endswith(".params")]
     if unchanged(source) != unchanged(derived):
         raise ValueError("derived model changes source weights/template/projector/license")
     if derived_parameters != {**source_parameters, "num_ctx": 32768}:
         raise ValueError("derived parameters differ beyond num_ctx")
+    if source_configuration is not None or derived_configuration is not None:
+        if source_configuration is None or derived_configuration is None:
+            raise ValueError("both model configurations must be inspected")
+        # /api/create drops Docker transport rootfs bookkeeping, not model
+        # renderer/parser semantics. Retain every other known or unknown field.
+        semantic_source = {key: value for key, value in source_configuration.items()
+                           if key != "rootfs"}
+        semantic_derived = {key: value for key, value in derived_configuration.items()
+                            if key != "rootfs"}
+        if semantic_source != semantic_derived:
+            raise ValueError("derived config changes renderer/parser/model metadata")
     for field in ("template", "system", "messages", "model_info", "details", "capabilities"):
         if source_show.get(field) != derived_show.get(field):
             raise ValueError(f"derived show metadata drift: {field}")
@@ -129,11 +149,15 @@ def write_new(path: Path, value: object) -> None:
         json.dump(value, handle, indent=2, sort_keys=True)
 
 
-def bootstrap(node: str) -> dict[str, Any]:
+def bootstrap(
+    node: str, *, attempt: str = "start-001", reuse_verified_derived: bool = False,
+) -> dict[str, Any]:
     if sys.platform != "linux":
         raise RuntimeError("resident service bootstrap must execute on the remote nodes")
     root = POOL if node == "strong-4090" else EDGE_POOL
-    evidence = root / "services/start-001"
+    if re.fullmatch(r"start-[0-9]{3}", attempt) is None:
+        raise ValueError("invalid bootstrap evidence namespace")
+    evidence = root / "services" / attempt
     evidence.mkdir(parents=True, exist_ok=False)
     started: list[subprocess.Popen[bytes]] = []
     receipts: list[dict[str, Any]] = []
@@ -146,7 +170,7 @@ def bootstrap(node: str) -> dict[str, Any]:
                     raise RuntimeError("new resident port already occupied; refusing reuse")
             source_file = manifest_path(store, target["source_tag"])
             derived_file = manifest_path(store, target["derived_tag"])
-            if not source_file.is_file() or derived_file.exists():
+            if not source_file.is_file() or (derived_file.exists() and not reuse_verified_derived):
                 raise RuntimeError("source missing or derived tag already exists")
             original_bytes = source_file.read_bytes()
             source = json.loads(original_bytes)
@@ -182,17 +206,21 @@ def bootstrap(node: str) -> dict[str, Any]:
                 raise RuntimeError("unexpected server version or loaded model")
             source_show = api(port, "show", {"model": target["source_tag"]})
             write_new(evidence / f"{target['instance']}-source-show.json", source_show)
-            create = api(port, "create", {
-                "model": target["derived_tag"], "from": target["source_tag"],
-                "parameters": {"num_ctx": 32768}, "stream": False,
-            })
-            if create.get("status") != "success":
-                raise RuntimeError("derived model creation did not succeed")
+            reused_derived = derived_file.exists()
+            if not reused_derived:
+                create = api(port, "create", {
+                    "model": target["derived_tag"], "from": target["source_tag"],
+                    "parameters": {"num_ctx": 32768}, "stream": False,
+                })
+                if create.get("status") != "success":
+                    raise RuntimeError("derived model creation did not succeed")
             derived_show = api(port, "show", {"model": target["derived_tag"]})
             derived_bytes = derived_file.read_bytes()
             derived = json.loads(derived_bytes)
             verify_derived_build(source, derived, original_parameters,
-                                 manifest_parameters(store, derived), source_show, derived_show)
+                                 manifest_parameters(store, derived), source_show, derived_show,
+                                 manifest_json_blob(store, source["config"]),
+                                 manifest_json_blob(store, derived["config"]))
             if source_file.read_bytes() != original_bytes:
                 raise RuntimeError("source tag was overwritten")
             write_new(evidence / f"{target['instance']}-derived-show.json", derived_show)
@@ -200,6 +228,7 @@ def bootstrap(node: str) -> dict[str, Any]:
                    "source_manifest_sha256": hashlib.sha256(original_bytes).hexdigest(),
                    "derived_manifest_sha256": hashlib.sha256(derived_bytes).hexdigest(),
                    "derived_parameters": manifest_parameters(store, derived),
+                   "reused_derived_after_full_identity_validation": reused_derived,
                    "source_identity_preserved": True, "inference_calls": 0,
                    "loaded_models": api(port, "ps")["models"], "validated_contract": None}
             write_new(evidence / f"{target['instance']}-receipt.json", row)
@@ -226,4 +255,8 @@ def bootstrap(node: str) -> dict[str, Any]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--node", choices=["A4", "A5", "A28", "strong-4090"], required=True)
-    print(json.dumps(bootstrap(parser.parse_args().node), sort_keys=True))
+    parser.add_argument("--attempt", default="start-001")
+    parser.add_argument("--reuse-verified-derived", action="store_true")
+    args = parser.parse_args()
+    print(json.dumps(bootstrap(args.node, attempt=args.attempt,
+                               reuse_verified_derived=args.reuse_verified_derived), sort_keys=True))

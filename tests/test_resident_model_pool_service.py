@@ -71,6 +71,35 @@ def test_derived_build_may_change_only_context_parameter() -> None:
                              show, {**show, "template": "hidden-instructions"})
 
 
+def test_layer_provenance_rewrite_is_not_content_substitution() -> None:
+    source = {"layers": [{"mediaType": "model", "digest": "same", "size": 7,
+                          "from": "download-original"}]}
+    derived = deepcopy(source)
+    derived["layers"][0]["from"] = "local-source-tag:latest"
+    verify_derived_build(source, derived, {}, {"num_ctx": 32768}, {}, {})
+    for field, value in [("size", 8), ("unknown_execution_option", "change")]:
+        changed = deepcopy(derived)
+        changed["layers"][0][field] = value
+        with pytest.raises(ValueError, match="weights"):
+            verify_derived_build(source, changed, {}, {"num_ctx": 32768}, {}, {})
+    changed = deepcopy(derived)
+    changed["layers"].append(deepcopy(changed["layers"][0]))
+    with pytest.raises(ValueError, match="weights"):
+        verify_derived_build(source, changed, {}, {"num_ctx": 32768}, {}, {})
+
+
+def test_config_transport_rewrite_cannot_hide_renderer_or_parser_substitution() -> None:
+    manifest = {"layers": [{"mediaType": "model", "digest": "same"}]}
+    source = {"renderer": "instruct", "parser": "instruct", "rootfs": {"old": "transport"}}
+    derived = {"renderer": "instruct", "parser": "instruct"}
+    verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, {}, {}, source, derived)
+    with pytest.raises(ValueError, match="renderer"):
+        verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, {}, {},
+                             source, {**derived, "renderer": "different"})
+    with pytest.raises(ValueError, match="both"):
+        verify_derived_build(manifest, manifest, {}, {"num_ctx": 32768}, {}, {}, source)
+
+
 def test_cutover_keeps_full_screening_and_counts_old_samples() -> None:
     root = Path(__file__).resolve().parents[1]
     config = yaml.safe_load((root / "configs/preparation/resident-model-pool-v1-cutover.yaml")
