@@ -102,3 +102,59 @@ No original evidence file, observer, logical context, network regime, model
 or execution code was changed;modelcalls0,noartifactpayloadexport. This does
 not replace the final per-run tc cleanup/residency/admission checks, authorize
 a retry or establish a workflow/network adaptation benefit.
+
+## Cell66 / Video602-2 / P1 / Slow / A
+
+Attempt1 settled valid at `2026-10-05T22:48:04.427924Z`, sequence132. Completed,
+canonical terminal valid, original Video-MME score1.0. Allfive model instances
+remained resident; no startup subtraction. Worker exits verified andtc cleanup
+errornull. All eight real SDKrecipientcontexts passed original admission/privacy
+checks; no additional code, prompt, budget or data-representation change.
+
+Actual path: sample_frames produced **16** images, not eight. The first model
+request selected8images and failed context preflight; a later explicit request
+selectedfour images (indices1/5/9/13), entered A4residentVL4Binference and
+produced the evaluated terminal. Both abstract requirements were statically
+feasible; the full8-image request still exceeded the conservative context
+envelope. The successful request reserved2048outputtokens with mincontext16384;
+actual4,541input/2outputtokens,stop. No implicit image dropping or hidden repair.
+
+| Measure | Cell66 observed value |
+| --- | --- |
+| Manager /Verifier /physical calls | 4 /4 /3 |
+| Model requests /successful inference /context rejects | 2 /1 /1 |
+| Specialists /handoffs /actual concurrency | 0 /0 /max1,overlap0 |
+| E2E | 717.443s |
+| Fixed initial placement | 213,739,837bytes /596.790s |
+| Complete action transfer | 0bytes /0s |
+| Complete tool /complete backend service work | 45.252s /25.184s |
+| Cloud API cost | All8usages known,USD0.1076343547,frozen list-price not invoice |
+| Graph | 3nodes/12artifactedges/10snapshots,2succeeded/1failed |
+
+One additional phase-restricted SDK/logical failure remains. A rejected
+make_contact_sheet attempt is not an executed sheet. Manager/Verifier
+work37.690/10.794s is measured work, not an additive E2E decomposition.
+The live3Mbpscounter receipt above explains fixedsetupprogress, not workflow
+optimization. No old result is pooled, no cold-cache claim, no omitted setup.
+
+Cell65 and66 differ in Planner, method, network, sampling andprompt. Their
+different evaluator outcomes therefore do **not** establish a causal Ledger
+benefit, a network-triggered workflow reversal, four-frame sufficiency or
+incorrectness caused by sampling alone. Full matched/private audit is pending.
+
+Original admission canonical SHA-256:
+`52bd12b3c869e673844bc746530a3c9f28c4afb825a318188f3ac698864097f9`.
+Original settlement entry SHA-256:
+`37dc0d72e4cca979bfe8456d29469d0a8358fe5a3379103a954aabc1aff28995`.
+Append-only `analysis/resident-cell-066-summary-001.json` file SHA-256:
+`a33501751bf473efbabd4fd8356a3126934a44b9680ef99e77c38b680ebc3c99`.
+
+## Actual next cell / still-incomplete full scope
+
+Queue008PID2678456/cell67atomicPID2761863 were verified live22:49:03.039655Z
+onVideo602-2/P2/Slow/B1. Attempt1/freshstores, reservedseq133at22:48:07.024165Z;
+its initial original-video placement is stillrunning, not a final outcome.
+Control007/execution001 unchanged. Latest boundary:66classified of168; the
+stable whole-block snapshot020 remains the earlier64-cell boundary. Finish
+all168 andcomprehensiveaudit before method screening/pruning or actual PhaseII.
+All original objective reports/Q1–Q10 andglobalcap still apply;goalnotachieved.
