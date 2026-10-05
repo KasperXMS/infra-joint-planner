@@ -32,7 +32,9 @@ resident_service:
   client_timeout_seconds: 1200
   client_max_retries: 0
   reasoning_effort: none
-  temperature: 0
+  # Same as the frozen Worker backend: omit request-level sampling overrides.
+  # Each source model's original sampling parameters remain intact.
+  temperature: null
   new_tag_only: true
   source_weights_quantization_template_preserved: true
   setup_warmup_outside_benchmark_clock: true

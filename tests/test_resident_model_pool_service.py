@@ -124,6 +124,7 @@ def test_cutover_keeps_full_screening_and_counts_old_samples() -> None:
     )
     assert config["calibration_services_allowed"] is True
     assert config["benchmark_execution_allowed"] is False
+    assert config["resident_service"]["temperature"] is None
     assert config["phase1_methods"] == ["B0", "B1", "A", "B", "C", "D", "E"]
     assert config["old_new_environment_results_pooled"] is False
     assert config["old_samples_count_toward_global_cap"] is True
