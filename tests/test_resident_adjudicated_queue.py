@@ -1,6 +1,7 @@
 import importlib
 import json
 import os
+import shutil
 import sys
 from pathlib import Path
 from types import SimpleNamespace
@@ -168,3 +169,20 @@ def test_resident_control_drift_and_unreviewed_findings_stop_before_launch(
     review.write_text(review.read_text() + "\n")
     with pytest.raises(RuntimeError, match="control/adjudication drift"):
         control.run(path)
+
+
+def test_second_exact_review_replays_previously_adjudicated_original_journal(rejected_model_json):
+    root, directory, ledger, receipt = rejected_model_json
+    control.create_review("run1")
+    view = control.SnapshotAttemptLedger(ledger.path, ledger.cells, ledger.schedule_sha256)
+    view.reserve("cell2", "run2", "b" * 64)
+    second = root / "evidence/cell2/attempt1"
+    shutil.copytree(directory, second)
+    (second / "runs/run1").rename(second / "runs/run2")
+    (second / "process.json").write_text('{"pid":9999999,"run_id":"run2"}')
+    view.settle("run2", "confounder", reviewer.GATE_PROBLEM, provenance_sha256(receipt))
+    before = ledger.path.read_bytes()
+    value = control.create_review("run2")
+    assert value["confirmed_parse_failures"] == 1 and not value["rerun"]
+    assert ledger.path.read_bytes() == before
+    assert view.completed_cells == ("cell1", "cell2")

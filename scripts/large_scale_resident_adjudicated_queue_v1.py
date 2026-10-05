@@ -22,7 +22,7 @@ from large_scale_resident_private_evidence_v1 import assert_inactive
 from large_scale_resident_record_review_v1 import RecordAttemptLedger as SnapshotAttemptLedger
 
 from infra_joint.control.provenance import provenance_sha256
-from infra_joint.experiments.attempt_ledger import AttemptLedger, QueueLease
+from infra_joint.experiments.attempt_ledger import QueueLease
 
 
 def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]:
@@ -34,11 +34,11 @@ def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]
     before = journal.read_bytes()
     with QueueLease(root / "queue-lease.json"):
         cells = frozen.schedule()
-        ledger = AttemptLedger(journal, tuple(c.cell_id for c in cells),
-                               frozen.schedule_sha256(cells))
+        ledger = SnapshotAttemptLedger(journal, tuple(c.cell_id for c in cells),
+                                       frozen.schedule_sha256(cells))
         if ledger.pending:
             raise RuntimeError("pending attempt cannot be reviewed or repeated")
-        attempt = next(a for a in ledger.attempts if a.run_id == run_id)
+        attempt = next(a for a in ledger.original_attempts if a.run_id == run_id)
         if attempt.execution_sha256 != freeze_hash:
             raise RuntimeError("review must bind this exact resident execution")
         directory = root / "evidence" / attempt.cell_id / f"attempt{attempt.attempt_index}"
