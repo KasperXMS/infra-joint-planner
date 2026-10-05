@@ -162,3 +162,46 @@ closed 42-outcome block. At `2026-10-05T20:21:54Z`, cell 43 atomic PID
 `2205076` was verified live on MultiHop representative 2 / P2 / Slow / B,
 reserved at sequence 85. Queue 005 remains unchanged. No pruning, Phase II or
 full-study completion is authorized by this checkpoint.
+
+## Cell 42 accounting backfill
+
+`analysis/resident-cell-042-summary-001.json` now separately binds the original
+admission/result/trace, journal entries, process exit, Worker shutdown/residency
+and the existing collector sources. File SHA:
+`626c3dd6414a67207f4fa181bf445c6fd487c4abe873b8b6969662efc3c25a6d`.
+It does not overwrite the earlier bounded receipt or change execution behavior.
+
+Four physical actions were three successful BM25 retrievals and one successful
+model inference; zero physical context rejects. BM25 ran on A5/A28/A4 with
+maximum three simultaneous actions and 0.817 s overlapping wall time. Tool-only
+work 1.437 s. The terminal model action had **no artifact inputs**, a 329-byte
+prompt, and ran on the existing strong GPU0 27B deployment: actual 77 input /
+3 output tokens, stop, 0.407 s backend work. Complete action artifact transfer
+remains 0 bytes / 0 s, not an estimate inferred from missing measurements.
+Seventeen actual SDK recipient contexts passed the original admission audit.
+Frozen-list-price API estimate: USD 0.1029014762, all seventeen calls known.
+
+The quote trace records six proposals: four consumed/authorized, two discarded,
+none stale. Measured quote control work 2.673 s; Manager reasoning work remains
+89.776 s and is not omitted from method overhead. The two discarded model
+proposals had artifact inputs and explicit quoted `context_limit_exceeded`
+selection consequences. Both consequence cards were present in actual Manager
+inputs before their discard decisions. Neither proposal was committed or reached
+physical inference. Do not count these as two inference calls or two submitted
+physical context rejects; quote-level feasibility feedback is a distinct scope.
+
+The terminal prompt-only proposal subsequently quoted feasible and was committed.
+This proves an observed change of proposal/input structure after feasibility
+feedback, **not** a counterfactual causal cost benefit or a demonstrated network
+trade-off. It does not prove required evidence was preserved after this change;
+that remains a post-run private semantic audit question. Context feasibility is
+not interchangeable with infrastructure bandwidth sensitivity.
+
+Graph: four nodes / zero declared artifact edges / thirteen snapshots; all nodes
+succeeded. Zero declared edges does not mean no information reached the Manager:
+native tool observations return to its SDK context, whereas the final model action
+specified no artifact-ID dependencies. Nine quote-level phase-restricted rejects
+and one other logical phase-restricted call remain recorded; none is a backend
+inference. The quote-induced **causal** revision rate remains unknown, not inferred
+from the discarded-quote count. No new semantic policy, prompt or routing rule
+has been introduced to explain or improve this trajectory.
