@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **34 / 168 nominal samples classified/admitted after case-audit006:**
-30 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **35 / 168 nominal samples classified/admitted after case-audit007:**
+31 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated
 corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
@@ -15,7 +15,8 @@ queue008 resumes. Parent2599603 is verified actually live; original MultiHop-1 /
 Qwen / Fast / C then completes, format-valid, score1. The next original cell is
 Video602-2 / DeepSeek / Fast / E then also completes with legal format /score1,
 independently audited. Video602-2 / Qwen / Slow / B0 also completes and independently
-passes admission. Original next Video602-2 / DeepSeek / Slow / B1 is reserved;
+passes admission. Video602-2 / DeepSeek / Slow / B1 also completes with an
+independently reproduced full admission. Original next Qwen / Fast / A is reserved;
 there is no replacement. The requested resident/diverse model pool is not yet
 deployed or part of this frozen block. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md).
@@ -43,7 +44,7 @@ See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The eight latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The nine latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -84,8 +85,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | C | 1 | yes / valid / 1.0 | 100.977 | 7,696,522 / 0.791 | 0 / 0 | 12 / 0 / 6 | 18 | 0.328267 |
 | Video 602-2 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 312.137 | 213,739,837 / 18.610 | 1,541,758 / 1.355 | 4 / 0 / 4 | 8 | 0.139266 |
 | Video 602-2 | Qwen3.8-Max | Slow | B0 | 1 | yes / valid / 1.0 | 849.267 | 213,739,837 / 596.678 | 1,468,293 / 4.999 | 3 / 0 / 3 | 6 | 0.119453 |
+| Video 602-2 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 888.243 | 213,739,837 / 596.607 | 847,087 / 3.058 | 3 / 0 / 3 | 6 | 0.073415 |
 
-The 30 completed samples have no unresolved findings and original private evaluators ran.
+The 31 completed samples have no unresolved findings and original private evaluators ran.
 The separately classified policy, terminal-choice, mixed JSON/policy and
 delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
@@ -107,6 +109,32 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Case-audit007: raw-aware original-video completion
+
+Video602-2 / DeepSeek / Slow / B1 passes independently reproduced full admission,
+with four empty pre-run stores and47 original evidence-file hashes. It completes
+with canonical format and original evaluator score1, without privacy, runtime,
+cleanup or graph findings. Real execution is sample_frames onA4 then invoke_model
+onA28 consuming five materialized images. The attempted contact-sheet call is
+phase-restricted and is not an executed operator. Manager3 / Verifier3 / no
+specialist; one normal-stop inference, input4836/output277, service207.365 s.
+Action transfer847,087 bytes /3.058 s is complete; initial213,739,837 bytes /
+596.607 s remains fixed setup. E2E888.243 s; all six cloud usages are known and
+list-price estimateUSD0.073415. Both physical nodes succeed; seven snapshots /
+two growth events /five information edges, one owner and no overlap. No context
+reject, missing outcome, retry, semantic tuning or private temporal audit occurs.
+Different frame cardinality from another Planner/method is observed structure,
+not proof that an infrastructure profile rationally caused an improvement.
+The current block's uncontrolled model residency continues to limit latency
+attribution; no startup time is guessed or subtracted.
+
+Remote audit: `analysis/settled-case-audit-007.json`, file SHA-256
+`c1cc18762144ddfe3da861fc4e3d994f91101dba3f2739516015b70b6aa887e0`.
+Admission canonical SHA-256:
+`4ce31aceb36a64adee3f555626cb9664abdf38034b4df93568adbfa9d991877c`.
+The prior child2678470 has exited; queue008 parent2599603 and original next
+Qwen / Fast / A child2732782 are verified alive. No new pool deployment occurs.
 
 ### Case-audit006: resource-blind original-video completion
 

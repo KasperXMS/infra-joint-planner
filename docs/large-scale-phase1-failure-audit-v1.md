@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirty-four classified nominal Phase I samples after case-audit006:30
+Thirty-five classified nominal Phase I samples after case-audit007:31
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -52,6 +52,19 @@ execution confounder is observed. E2E849.267 s includes fixed initial placement
 Original next DeepSeek / Slow / B1 child2678470 is verified live under the same
 queue008; no replacement. User-requested model-pool diversity/residency is a
 prospective environment revision, not a silent modification to this block.
+The subsequent DeepSeek / Slow / B1 Video602-2 cell also completes, format-valid,
+score1. Full admission independently reproduces and binds47 unchanged original
+files; all four stores are initially empty. Five images are consumed in one
+actual A28 inference (207.365 s,input4836/output277,normal stop); no context
+failure, missing receipt or execution confounder. A phase-restricted attempted
+contact-sheet tool is not physical execution. Graph two nodes/five information
+edges is fully closed with no order/interval finding. Initial placement596.607 s
+is separate from action transfer847,087 bytes /3.058 s and E2E888.243 s. Six
+cloud calls have full usage. Case-audit007 file SHA-256:
+`c1cc18762144ddfe3da861fc4e3d994f91101dba3f2739516015b70b6aa887e0`.
+Original next Qwen / Fast / A child2732782 is actually live under queue008.
+The unstandardized model-residency limitation is not silently repaired or used
+to justify an outcome-based replacement. New pool/timing protocol remains pending.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 
