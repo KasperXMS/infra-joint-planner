@@ -85,3 +85,46 @@ failure/adoption audit before frozen screening/pruning. Then preregister and
 execute remaining Phase II tasks within `42 + 168 + 48m <= 420`, and produce all
 named final reports/Q1–Q10. No early pruning, Phase II launch, new method,
 semantic tuning or full-goal completion is claimed.
+
+## Later settlement: cell 44 / MultiHop 2 / P1 / Fast / A
+
+Cell 44 settled valid at `2026-10-05T20:28:40.618573Z`, sequence 88, giving
+44 classified new nominal outcomes. Completed / valid terminal / original score
+1.0. Manager 6 / Verifier 6; zero specialists; eight physical actions: six
+successful BM25 tool executions, one model context preflight rejection and one
+actual model inference. Legal recovery is not a harness retry or replacement.
+All twelve actual SDK recipient contexts, Worker exit/residency, original
+evaluator and tc cleanup gates passed.
+
+Original admission canonical SHA:
+`37c0a120bea078569a995e03fd59b26bffad2954eea4330a99a60cc162988aba`.
+Append-only `analysis/resident-cell-044-summary-001.json` file SHA:
+`26abea63b55df29478a1604c734d425c6b4a4cca4a242eb970c0d07fb15301b3`.
+The projection retains the same original source/receipt/journal consistency
+checks and does not alter or pool earlier outcomes.
+
+E2E 178.485 s; fixed initial 7,696,522 bytes / 1.067 s; complete action movement
+18,058 bytes / 0.106 s; tool-only work 2.237 s; backend service work 123.205 s.
+Physical model usage 7,066 input / 3 output tokens, stop; existing A28 resident
+27B deployment. Manager / Verifier reasoning work 35.957 / 16.311 s.
+Frozen-list-price API estimate USD 0.0884522662, all twelve calls known.
+
+The execution-grown path is three shard-local retrievals → rejected model
+request → three further shard-local retrievals → successful model inference.
+The six BM25 calls ran on A4/A5/A28 across the two rounds. Maximum actual action
+concurrency was three with 1.157 s overlapping wall time, not six concurrent
+actions or six agents. Graph: 8 nodes / 6 edges / 25 snapshots; seven succeeded,
+one failed; frontier width six did not imply actual width six.
+
+This is observed continuation after typed context feedback, not a new recovery
+heuristic or proof that the spent-cost ledger caused the changed retrieval.
+The lower action bytes than cell 43 do not by themselves imply a method benefit:
+Planner, method and network differ, model work is larger, and E2E is longer.
+Both official scores are reported independently; private evidence retention and
+cross-condition causality still require the complete audit.
+
+At `2026-10-05T20:29:43Z`, cell 45 atomic PID `2234352` was verified live on
+LongBench representative 2 / P2 / Fast / C, reserved at sequence 89. Queue 005,
+execution freeze and external control freeze 004 remain unchanged. The full
+168-cell audit, frozen pruning, Phase II execution and final reports/Q1–Q10
+remain unfinished; this checkpoint is not a completion claim.
