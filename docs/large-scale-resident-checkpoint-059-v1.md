@@ -1,4 +1,4 @@
-# Resident-block checkpoint 059–062
+# Resident-block checkpoint 059–063
 
 2026-10-06. Three additional original attempt1 outcomes are settled and valid:
 61/168 nominal outcomes classified, including earlier exact-reviewed failures,
@@ -92,6 +92,7 @@ false; original rejected receipts/sidecars and all prior projections are retaine
 | 60 | `1b06622c4e5c1f98705a26714cd786b0acf2e2630767d46820bfb66a73bd2b67` | `ccf23bbdcd10eb8be7af5bdf2ccb3aa147b6279103b6556429f738c4232d725f` |
 | 61 | `f0e40853376eb3060a0e20d8edea5c77ef3560e5416e3f34230cf03493daeca2` | `0bc1eaffca1983911b1890b53ab69f94c563ab8b6ad50278ed5b3c7d354f1053` |
 | 62 | `7b2606d960c4dd7e08499f0a8a6cf86854b41247548efea99a686adb9a013275` | `75a782bfb24628c2a51c6f34b2bc019909751f0ab2baceddb0312e5bdc8c0869` |
+| 63 | `41872186afd5401c25cc388fee07aa708ee95f1a82231f74e37cd1b02e1ae461` | `f7caae24a30dfd07a0743127d7b7d3493e17f8001c0ab4fdd14608ba7dba47e2` |
 
 Original settlement sequences 118/120/122 occurred at 21:46:23.082794Z /
 21:49:29.954232Z / 21:52:04.963719Z on October 5. The offline comparison auditor
@@ -134,11 +135,41 @@ execution, not that the unused optional cost mechanism caused recovery or
 reduced resource use. Private semantic sufficiency/retention and matched causal
 comparisons remain pending; no primary evidence-loss cause is inferred.
 
+## Cell 63 / LongBench1 / P2 / Slow / A
+
+Original attempt1 settled valid at sequence126, `22:00:37.202312Z`; nominal
+boundary advanced to63/168. Completed/validterminal/originalscore1.0;
+15Manager/15Verifier turns, one specialist/eight specialist turns,23physical
+actions: one failed oversized read,12BM25,8model requests (5context rejects,
+3actual successful inferences),2top-k-record reductions. All eight abstract
+model requirements are statically feasible; five full input requests still
+exceeded preflight. One phase-restricted/two semantic-validation SDK failures
+also remain. No preflight rejection is counted as inference or repaired by the
+harness. Later retrieval/reduction/model continuation is actual Agent behavior,
+not proof of a causal Ledger effect.
+
+Models: A5residentVL8B once, A4residentVL4B twice; summed actual12,962input/
+296outputtokens,three stop finishes, complete backend86.931s. Graph23nodes/
+21artifactedges/70snapshots,17succeeded/6failed; two logical action owners/one
+InformationObject handoff. Actualmaxconcurrency3/overlap0.844s,zero cross-owner
+overlap; structural frontier12 is not twelve-way execution or concurrent MAS.
+
+E2E239.212s; fixedinitial514,789bytes/1.559s. Successful action-transfer subtotal
+0bytes/0s but **complete action movement UNKNOWN**, not zero, because the failed
+read lacks full transfer receipts. Successful tool-only work1.574s, complete
+tool workUNKNOWN. Measured failed execution0.093s does not recover those missing
+costs. Manager/specialist/Verifier work60.721/22.937/57.615s;38actualSDKcontexts
+passed original admission/privacy checks,all38APIusages known,USD0.4731351147.
+Worker exit/residency,evaluator/artifact integrity andtc cleanup passed; no
+unmeasured failed model inference. Full private semantic audit remains pending;
+same task/Slow but different Planner/method versus62 is not a causal matched
+treatment comparison. No quality aggregation, winner or pruning.
+
 ## Actual continuation / full scope
 
-Queue007 PID `2437975` and cell63 atomic PID `2572584` were verified live at
-`2026-10-05T21:58:29.883870Z`: LongBench1/P2/Slow/A, attempt1, reserved seq125
-at 21:55:46.109776Z. It is still executing; no final outcome is
+Queue007 PID `2437975` and cell64 atomic PID `2591226` were verified live at
+`2026-10-05T22:02:18.257338Z`: LongBench1/P1/Fast/B1, attempt1, reserved seq127
+at 22:00:39.634919Z. It is still executing; no final outcome is
 inferred before settlement. Check real process/journal before acting on these
 historical handles. Execution freeze001 and control freeze006 are unchanged.
 
