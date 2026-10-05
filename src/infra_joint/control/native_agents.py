@@ -38,7 +38,7 @@ from infra_joint.control.loop import (
     AgentLoopUsage,
     PlannerStepTelemetry,
 )
-from infra_joint.control.physical import PhysicalExecutionOutcome
+from infra_joint.control.physical import PhysicalExecutionOutcome, interrupted_physical_outcome
 from infra_joint.control.provenance import (
     PROFILE_MESSAGE_PREFIX,
     blind_input_profile_findings,
@@ -1088,6 +1088,7 @@ class OpenAIAgentsNativeRuntime:
                 decision_id=decision_id,
                 code="physical_execution_failed",
                 message=f"unrecoverable physical execution error: {type(exc).__name__}",
+                physical_outcome=interrupted_physical_outcome(exc),
             )
             raise
         outcome = outcomes[0]
@@ -1139,6 +1140,7 @@ class OpenAIAgentsNativeRuntime:
         decision_id: str,
         code: str,
         message: str,
+        physical_outcome: PhysicalExecutionOutcome | None = None,
     ) -> None:
         observation = LogicalObservation(
             action_id=action_id,
@@ -1152,6 +1154,8 @@ class OpenAIAgentsNativeRuntime:
             finished = state.graph.mark_finished((), (action_id,))
             state.emit("workflow.graph.snapshot", finished.model_dump(mode="json"))
             state.emit("logical.observation", observation.model_dump(mode="json"))
+            if physical_outcome is not None:
+                self._emit_physical_outcome(state, batch_id, action_id, physical_outcome)
             if state.record_input_provenance:
                 state.emit("action.completed", {
                     "action_id": action_id, "decision_id": decision_id,
@@ -1197,6 +1201,15 @@ class OpenAIAgentsNativeRuntime:
         outcome: PhysicalExecutionOutcome,
     ) -> None:
         state.emit("logical.observation", outcome.observation.model_dump(mode="json"))
+        OpenAIAgentsNativeRuntime._emit_physical_outcome(state, batch_id, action_id, outcome)
+
+    @staticmethod
+    def _emit_physical_outcome(
+        state: _NativeState,
+        batch_id: str,
+        action_id: str,
+        outcome: PhysicalExecutionOutcome,
+    ) -> None:
         payload: dict[str, object] = {"batch_id": batch_id, "action_id": action_id}
         if outcome.selection is not None:
             payload["selection"] = outcome.selection.model_dump(mode="json")

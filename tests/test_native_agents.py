@@ -4,6 +4,7 @@ from datetime import UTC, datetime
 from types import SimpleNamespace
 from typing import Any
 
+import httpx
 import pytest
 
 from infra_joint.agents.context import AgentTaskView
@@ -23,7 +24,11 @@ from infra_joint.control.native_agents import (
     OpenAIAgentsNativeRuntime,
     _native_tool_schema,
 )
-from infra_joint.control.physical import PhysicalExecutionOutcome
+from infra_joint.control.physical import (
+    PhysicalExecutionOutcome,
+    PhysicalFailureTelemetry,
+    PhysicalSelection,
+)
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.control.verification import (
     OpenAIAgentsBlindVerifier,
@@ -538,6 +543,83 @@ async def test_cancelled_native_tool_call_closes_running_graph_node() -> None:
         item.action_id: item.status for item in result.graph_snapshots[-1].nodes
     }
     assert statuses == {"manager:cancelled": "failed", "manager:answer": "succeeded"}
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("with_receipt", [False, True])
+async def test_interrupted_native_action_preserves_exception_and_records_only_physical_metadata(
+    with_receipt: bool,
+) -> None:
+    task = benchmark_task()
+    error = httpx.ReadTimeout("PRIVATE-URL-REQUEST")
+
+    class InterruptOnce(FakePhysicalService):
+        async def execute(
+            self, action: object, *, expose_profile: bool,
+        ) -> PhysicalExecutionOutcome:
+            if action.action_id == "manager:interrupted":
+                if with_receipt:
+                    before = InfrastructureState(agents=(), deployments=(), artifacts=(), links=(),
+                                                 observed_at=datetime.now(UTC))
+                    receipt = PhysicalExecutionOutcome(
+                        observation=LogicalObservation(action_id=action.action_id,
+                            owner_agent_id="manager", succeeded=False,
+                            failure_code="physical_execution_failed",
+                            failure_message="unrecoverable physical execution error: ReadTimeout"),
+                        infrastructure_before=before, infrastructure_after=before,
+                        selection=PhysicalSelection(decision={"policy": "auto"},
+                            selected_agent_id="secret-worker",
+                            selected_deployment_id="secret-model",
+                            rationale="frozen selection"),
+                        failure=PhysicalFailureTelemetry(
+                            operator="read_artifact", stage="execution",
+                            failure_code="physical_execution_failed", duration_ms=123,
+                            failure_message="unrecoverable physical execution error: ReadTimeout",
+                            exception_type="ReadTimeout"),
+                    )
+                    error.__dict__["_infra_joint_physical_outcome"] = receipt
+                raise error
+            return await super().execute(action, expose_profile=expose_profile)
+
+    sink = MemorySink()
+    runtime, gateway = runtime_and_gateway(task, InterruptOnce(), ("read_artifact", "invoke_model"))
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        with pytest.raises(httpx.ReadTimeout) as raised:
+            await tool(agent, "read_artifact").on_invoke_tool(
+                tool_context(agent, context, "interrupted"),
+                json.dumps({"inputs": ["source-0"], "arguments": {}}))
+        assert raised.value is error  # not converted into a successful SDK tool return
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return A."}}))
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task, gateway, trace=WorkflowTraceRecorder("native-transport-audit", sink),
+    )
+    assert result.final_answer == "A"
+    assert len(result.observations) == 2  # no duplicate failed observation
+    assert result.usage.tool_model_calls == 2
+    assert result.observations[0].failure_message == (
+        "unrecoverable physical execution error: ReadTimeout")
+    assert all(item.physical_profile is None for item in result.observations)
+    assert {item.action_id: item.status for item in result.graph_snapshots[-1].nodes} == {
+        "manager:interrupted": "failed", "manager:answer": "succeeded"}
+    physical = [e.payload for e in sink.events if e.event_type == "physical.execution"
+                and e.payload["action_id"] == "manager:interrupted"]
+    assert len(physical) == int(with_receipt)
+    if with_receipt:
+        assert physical[0]["selection"]["selected_agent_id"] == "secret-worker"
+        assert physical[0]["failure"]["exception_type"] == "ReadTimeout"
+    logical = json.dumps([e.payload for e in sink.events if e.event_type.startswith("logical.")])
+    assert "secret-worker" not in logical and "secret-model" not in logical
+    assert "PRIVATE" not in logical
 
 
 @pytest.mark.asyncio

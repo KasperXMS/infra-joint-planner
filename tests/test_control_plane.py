@@ -50,6 +50,7 @@ from infra_joint.control.physical import (
     PhysicalExecutionService,
     PhysicalProfiler,
     PhysicalSelection,
+    interrupted_physical_outcome,
 )
 from infra_joint.control.runner import ControlPlaneBenchmarkRunner
 from infra_joint.control.validation import (
@@ -353,6 +354,57 @@ def state(source_location: str) -> InfrastructureState:
         links=(),
         observed_at=datetime.now(UTC),
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("error_class", [httpx.ReadTimeout, httpx.ConnectError, httpx.ReadError])
+@pytest.mark.parametrize("model_action", [False, True])
+async def test_interrupted_physical_action_retains_selection_but_reraises_same_error(
+    error_class: type[httpx.RequestError], model_action: bool,
+) -> None:
+    error = error_class("PRIVATE-ENDPOINT-AND-REQUEST")
+
+    class FailingExecutor:
+        calls = 0
+
+        async def execute(self, action: JointAction, infrastructure: InfrastructureState):
+            self.calls += 1
+            raise error
+
+    observer = SequencedObserver(state("A"))
+    executor = FailingExecutor()
+    service = PhysicalExecutionService(
+        build_operator_catalog(), environment(), observer, executor,  # type: ignore[arg-type]
+    )
+    action = (LogicalModelAction(action_id="interrupted", owner_agent_id="manager",
+                                 prompt="Answer.", inputs=("source",)) if model_action else
+              LogicalToolAction(action_id="interrupted", owner_agent_id="manager",
+                                operator="read_artifact", inputs=("source",)))
+    with pytest.raises(error_class) as raised:
+        await service.execute(action, expose_profile=False)
+    assert raised.value is error
+    assert executor.calls == observer.calls == 1  # no retry, reselection, or post-error observation
+    outcome = interrupted_physical_outcome(error)
+    assert outcome is not None
+    assert outcome.selection is not None
+    assert outcome.selection.selected_agent_id == "A"
+    if model_action:
+        assert outcome.selection.selected_deployment_id == "model-a"
+    assert outcome.execution is None  # do not invent inference/service/token measurements
+    assert outcome.failure is not None
+    assert outcome.failure.stage == "execution"
+    assert outcome.failure.exception_type == error_class.__name__
+    assert outcome.failure.duration_ms >= 0
+    assert outcome.batch_id and outcome.shared_snapshot_sha256
+    assert outcome.observation.failure_code == "physical_execution_failed"
+    assert outcome.observation.failure_message == (
+        f"unrecoverable physical execution error: {error_class.__name__}")
+    assert outcome.observation.physical_profile is None
+    assert "PRIVATE" not in outcome.model_dump_json()
+
+
+def test_unrecorded_exception_has_no_invented_physical_outcome() -> None:
+    assert interrupted_physical_outcome(ValueError("private error")) is None
 
 
 def test_logical_action_contract_rejects_physical_binding() -> None:

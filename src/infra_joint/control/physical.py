@@ -7,6 +7,7 @@ from datetime import datetime
 from time import perf_counter
 from typing import Literal, Protocol, cast
 
+import httpx
 from pydantic import Field
 
 from infra_joint.control.contracts import (
@@ -81,6 +82,17 @@ class PhysicalFailureTelemetry(ContractModel):
     failure_code: str = Field(min_length=1)
     failure_message: str = Field(min_length=1)
     duration_ms: float = Field(ge=0)
+    exception_type: str | None = None
+
+
+def interrupted_physical_outcome(exc: Exception) -> PhysicalExecutionOutcome | None:
+    """A physical-only receipt carried by the original, still-raised transport error.
+
+    Never expose request/exception text to logical recipients or turn an exception
+    into a recoverable return value. Inference work remains unknown.
+    """
+    value = getattr(exc, "_infra_joint_physical_outcome", None)
+    return value if isinstance(value, PhysicalExecutionOutcome) else None
 
 
 class PhysicalActionScheduler(Protocol):
@@ -649,6 +661,36 @@ class PhysicalExecutionService:
                 shared_snapshot_observed_at=prepared.shared_snapshot_observed_at,
                 shared_snapshot_sha256=prepared.shared_snapshot_sha256,
             )
+        except httpx.RequestError as exc:
+            # Preserve the exact exception and existing caller control flow. Only
+            # retain selection/timing that would otherwise be lost on transport
+            # interruption; duration is action work, not model service latency.
+            message = f"unrecoverable physical execution error: {type(exc).__name__}"
+            outcome = PhysicalExecutionOutcome(
+                observation=LogicalObservation(
+                    action_id=action.action_id,
+                    owner_agent_id=action.owner_agent_id,
+                    succeeded=False,
+                    failure_code="physical_execution_failed",
+                    failure_message=message,
+                ),
+                infrastructure_before=shared_pre_frontier_state,
+                infrastructure_after=shared_pre_frontier_state,
+                selection=selection,
+                failure=PhysicalFailureTelemetry(
+                    operator=prepared.semantic_action.operator,
+                    stage="execution",
+                    failure_code="physical_execution_failed",
+                    failure_message=message,
+                    duration_ms=(perf_counter() - started) * 1000,
+                    exception_type=type(exc).__name__,
+                ),
+                batch_id=prepared.batch_id,
+                shared_snapshot_observed_at=prepared.shared_snapshot_observed_at,
+                shared_snapshot_sha256=prepared.shared_snapshot_sha256,
+            )
+            exc.__dict__["_infra_joint_physical_outcome"] = outcome
+            raise
 
     async def execute(
         self,

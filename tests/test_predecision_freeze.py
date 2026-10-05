@@ -2,6 +2,8 @@
 import sys
 from pathlib import Path
 
+import pytest
+
 from infra_joint.config import EnvironmentSpec
 from infra_joint.control.capabilities import build_static_capability_contract
 from infra_joint.operators.catalog import build_operator_catalog
@@ -36,7 +38,20 @@ def test_predecision_harness_preserves_shared_models_prompts_tools_and_budgets()
     capabilities = build_static_capability_contract(
         environment, build_operator_catalog(), operations
     )
-    validate_harness(new, environment, capabilities, operations)
+    # Historical manifests remain immutable and reject the changed runtime.
+    # The explicit trace-only repair freeze pins both revised source components.
+    with pytest.raises(RuntimeError, match="^frozen Blind harness validation failed: "
+                       "native runtime source drift$"):
+        validate_harness(new, environment, capabilities, operations)
+    repaired = load_harness(REPO / (
+        "configs/experiments/infra-aware-predecision-v1-transport-receipts-patch2.yaml"
+    ))
+    for name in ("manager", "verifier", "budget", "available_operations",
+                 "anonymous_model_contract", "static_capability_contract_sha256",
+                 "model_service_timeout_seconds"):
+        assert getattr(repaired, name) == getattr(new, name)
+    assert repaired.runtime["parent_native_source_sha256"] == new.runtime["source_sha256"]
+    validate_harness(repaired, environment, capabilities, operations)
     assert new.runtime["profile_timing"] == "fresh_before_every_manager_turn"
     assert new.runtime["terminal_canonical_labels"] == ["Yes", "No"]
 
