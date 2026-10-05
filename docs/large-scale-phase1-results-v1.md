@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **29 / 168 nominal samples classified/admitted at snapshot025:**
-26 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **30 / 168 nominal samples classified/admitted at case-audit003:**
+27 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure and one mixed JSON/provider-policy failure with unevaluated
 quality. Two implementation-confounded
 attempts remain separately preserved. This is not the completed Phase I
@@ -19,14 +19,16 @@ model output and provider input-policy refusal. Its original admission is
 preserved and independently classified by the exact compound proof; no retry
 or answer replacement is authorized. Snapshot025 verifies29 classified /
 31 attempts /0 pending /2 effective confounders /1 compound review. Queue007
-parent2448151 and the original next MultiHop-1 / Qwen / Slow / A child2450537
-are verified live; its new reservation makes32 attempts /1 pending. All four
-initial stores are empty. See [compound failure audit](large-scale-compound-failure-audit-v1.md).
+parent2448151 resumes the original next MultiHop-1 / Qwen / Slow / A child2450537,
+which subsequently completes with score0 and is admitted. The next original
+MultiHop-1 / DeepSeek / Slow / B child2471034 is verified live (33 attempts /
+1 pending). No wrong-answer repeat is allowed.
+See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The three latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The four latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -62,8 +64,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | A | 2 | yes / valid / 1.0 | 939.392 | 514,789 / 1.558 | 56,667 / 1.910 | 16 / 0 / 16 | 32 | 0.440503 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | B | 1 | no / unknown / unknown; terminal choice invalid | 130.086 (trace) | 514,789 / 0.108 (trace) | 223,933 / 0.122 (trace) | 14 / 2 / 13 started | 29 | 0.364704 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B1 | 1 | no / unknown / unknown; JSON + provider policy | 413.573 (trace) | 7,696,522 / 0.760 (trace) | 56,806 / 0.715 subtotal; full unknown | 5 / 13 / 5 started | 23 | unknown; known subtotal 0.231155 |
+| MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | A | 1 | yes / valid / 0.0 | 280.753 | 7,696,522 / 21.926 | 5,204,596 / 15.661 | 8 / 0 / 8 | 16 | 0.118184 |
 
-The 26 completed samples have no unresolved findings and original private evaluators ran.
+The 27 completed samples have no unresolved findings and original private evaluators ran.
 The separately classified policy, terminal-choice and mixed JSON/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
 not zero. Both policy-failure total API costs are unknown; the terminal-choice run has complete
@@ -84,6 +87,34 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Case-audit003: original continuation completes but answers incorrectly
+
+MultiHop-1 / Qwen / Slow / A is a valid wrong completion, not a physical/provider
+incident:8 Manager turns,8 fixed Blind Verifier calls,7 physical actions,
+five successful tools and two model attempts. One context preflight rejects;
+the other reaches normal-stop inference (174.255 s,4,708 input /238 output
+tokens). No created specialist or information handoff is required for legality.
+Its graph has7 nodes /8 edges,22 snapshots /7 structural growth events and all
+6 success /1 failed nodes closed. Actual physical peak2 and4.349 s overlap do
+not imply two agents; there is one logical action owner.
+
+Full action-transfer receipt total is5,204,596 bytes /15.661 s; fixed initial
+placement7,696,522 bytes /21.926 s is separate. All16 cloud usages are measured,
+API list-price USD0.118184. Full admission independently reproduces the original
+receipt; all four before stores are empty. Case audit binds87 original files,
+with zero graph interval/order/closure findings. Remote
+analysis/settled-case-audit-003.json file SHA-256:
+`0c634dd006221dc6578f84108c675a554ee0f8263724e6ecaf8195a0543daa24`.
+Admission canonical SHA-256:
+`bfd37fc41178a094f50d6f70f6ba1952190b6d5fb777139a802f0697a49b0188`.
+
+The original evaluator runs and scores0. This is not an optimization success,
+even though it completes faster than some earlier wrong trajectories. No prompt,
+retrieval rule, workflow repair, replacement or private evidence feedback follows.
+Fine-grained evidence/reasoning/stopping primary cause awaits the complete
+post-run private audit after all168 cases. The queue moves to the original
+DeepSeek / Slow / B cell; no mid-screen pruning or Phase II is authorized.
 
 ### Snapshot025: exact compound failure classified and original queue resumed
 

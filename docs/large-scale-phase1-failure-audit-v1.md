@@ -1,13 +1,21 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twenty-nine classified nominal Phase I samples at snapshot025:26
+Thirty classified nominal Phase I samples at case-audit003:27
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 and one mixed JSON/provider-policy failure with unevaluated quality. This is
 not the completed168-cell audit. No method pruning is allowed. The original
 compound rejection is retained and both independent proofs pass; no rerun is
-authorized. Queue007 parent2448151 and original next MultiHop-1 / Qwen / Slow /
-A child2450537 are verified live with four empty initial Worker stores.
+authorized. Queue007 parent2448151 resumes original MultiHop-1 / Qwen / Slow /
+A child2450537 with four empty stores; it completes/format-valid but scores0.
+Admission independently recomputes exactly, with no runtime/provider/privacy/
+observer/cleanup finding. Its87-file bound case audit has no graph closure or
+dependency-order violation. One preflight context rejection is followed by one
+normal-stop inference, not an unobserved inference or budget exhaustion. Retain
+the wrong answer without retry/tuning; its detailed private evidence/reasoning
+cause remains pending the complete168-cell audit. Case-audit003 file SHA:
+`0c634dd006221dc6578f84108c675a554ee0f8263724e6ecaf8195a0543daa24`.
+The original next DeepSeek / Slow / B child2471034 is verified live.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 
