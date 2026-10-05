@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Forty-one classified nominal Phase I samples after case-audits009–012:37
+Forty-two classified nominal Phase I samples after case-audits009–013:38
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -119,8 +119,25 @@ HTTP200; no operational incident is reported. This preliminary diagnosis is
 not an independent classification/admission. Original rejection/journal/evidence
 are preserved; parent2599603 and its atomic child are verified gone. Queue008
 has automatically stopped, no resume/replacement is performed. Full strict
-field/schema proof is pending; do not count this pending cell in41 or broad-waive
-the gate just because evaluation succeeds. The prospective resident/diverse pool has an
+field/schema proof was pending at the previous checkpoint. It now independently
+passes:103 unchanged original files and all2,847 source records are verified,
+root input contains the correct body schema, and all three absent-text-field
+requests have exact closed logical/physical failures. Manager subsequently
+uses body and succeeds on all three shards, then one actual inference65.625 s
+(input3742/output3,stop) completes. This is recovered semantic argument misuse,
+not a capability/runtime/provider defect; original rejection and journal remain
+unchanged. The new reviewer is offline-only with35 regression tests and full
+pytest959/Ruff/strict Pyright/diff pass; there is no retry or automatic repair.
+Sidecar canonical SHA:
+`7b817c3c6139964313f89bc09eafbcf3762306680f3cff0374a1be191fb981b4`.
+Case-audit013 file SHA:
+`02939822399503fc7182c4e7688426ea295edc6b7d252bf1fbc602e898ca252b`.
+Complete action movement remains unknown;14,697 bytes is a successful subtotal,
+not zero movement in the three execution-stage failures. Three simultaneous
+physical actions from one owner do not prove multi-agent collaboration; one
+quote discard does not establish rational revision. Queue remains stopped while
+the old/new pool cutover decision is outstanding; no new control freeze/resume.
+See [root-field audit](large-scale-root-field-misuse-audit-v1.md). The prospective resident/diverse pool has an
 inactive preparation manifest only; no active model/Worker/config change occurs.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.

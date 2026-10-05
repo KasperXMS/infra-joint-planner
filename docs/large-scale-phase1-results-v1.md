@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **41 / 168 nominal samples classified/admitted after case-audits009–012:**
-37 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **42 / 168 nominal samples classified/admitted after case-audits009–013:**
+38 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated
 corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
@@ -23,8 +23,10 @@ Video131-3 / DeepSeek / Slow / A, Qwen / Slow / B1 and DeepSeek / Fast / B0
 subsequently complete with independently reproduced admissions and score1.
 MultiHop-2 / Qwen / Fast / D subsequently completes and independently passes
 full admission. Original next MultiHop-2 / DeepSeek / Slow / C completes with
-score1 but fails admission on three BM25 field-validation failures; its
-classification is pending, not included in41. No replacement or queue resume.
+score1 but fails original admission on three BM25 field-validation failures.
+Its exact independent root-field proof now passes and binds103 original files;
+the original rejection/journal are unchanged. It is classified without replacement
+or queue resume. See [root-field audit](large-scale-root-field-misuse-audit-v1.md).
 The requested resident/diverse model pool is not yet
 deployed or part of this frozen block. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md).
@@ -71,7 +73,7 @@ See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The fifteen latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The sixteen latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -119,8 +121,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | Video 131-3 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 1.0 | 195.639 | 7,037,220 / 19.702 | 707,555 / 2.650 | 4 / 0 / 4 | 8 | 0.081755 |
 | Video 131-3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 232.666 | 7,037,220 / 0.652 | 982,507 / 1.648 | 4 / 0 / 4 | 8 | 0.075650 |
 | MultiHop fe71f374676e35359d12c83e | Qwen3.8-Max | Fast | D | 1 | yes / valid / 1.0 | 170.235 | 7,696,522 / 0.825 | 5,204,596 / 0.690 | 7 / 0 / 3 | 10 | 0.074333 |
+| MultiHop fe71f374676e35359d12c83e | DeepSeek V4 Pro | Slow | C | 1 | yes / valid / 1.0; recovered field misuse | 186.539 | 7,696,522 / 22.321 | 14,697 / 0.119 subtotal; full unknown | 16 / 0 / 4 | 20 | 0.124963 |
 
-The 37 completed samples have no unresolved admission findings and original private evaluators ran.
+The 38 completed samples have no unresolved admission findings and original private evaluators ran.
 The separately classified policy, terminal-choice, mixed JSON/policy and
 delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
