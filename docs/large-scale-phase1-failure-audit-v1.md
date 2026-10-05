@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirty-five classified nominal Phase I samples after case-audit007:31
+Thirty-seven classified nominal Phase I samples after case-audit008:33
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -65,6 +65,19 @@ cloud calls have full usage. Case-audit007 file SHA-256:
 Original next Qwen / Fast / A child2732782 is actually live under queue008.
 The unstandardized model-residency limitation is not silently repaired or used
 to justify an outcome-based replacement. New pool/timing protocol remains pending.
+Qwen / Fast / A Video602-2 and Qwen / Fast / B Video131-3 subsequently complete,
+both format-valid/score1, with independently reproduced original admissions and
+four fresh stores each. A's first31-image invocation fails context preflight;
+Manager naturally creates two contact sheets and succeeds with their two images.
+Two semantic-validation failures remain visible; no retry, hidden summary,
+placement migration or tuning. All five graph nodes close (four success/one
+preflight failure), no unmeasured model outcome. B naturally continues after one
+semantic-validation failure and succeeds with four images. Its optional interface
+is visible in three actual root requests but unused; this is not a harness defect.
+No privacy/runtime/observer/cleanup/graph-order finding in either case. Their
+79+47 original files are bound by case-audit008, file SHA-256
+`e6e2f46bd7ad36714935a56976462cf616ed91b552f808fc8ffe152fead578fb`.
+Original next Video131-3 / DeepSeek / Slow / A child2760358 is actually live.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 
