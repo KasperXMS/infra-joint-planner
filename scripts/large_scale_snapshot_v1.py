@@ -383,12 +383,18 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any, *,
              (directory / "private/api").glob("*-usage.json")]
     adjudication_path = root / "adjudications" / (attempt.run_id + ".json")
     adjudication = json.loads(adjudication_path.read_text()) if adjudication_path.exists() else None
+    record_path = root / "record-field-adjudications" / (attempt.run_id + ".json")
+    record_review = json.loads(record_path.read_text()) if record_path.exists() else None
     return {
         "run_id": attempt.run_id, "attempt_index": attempt.attempt_index,
         "execution_sha256": attempt.execution_sha256,
         "disposition": attempt.disposition, "admission_reason": attempt.reason,
         "admission_problems": admission.get("problems", []),
-        "original_rejection_preserved": adjudication is not None,
+        "original_rejection_preserved": adjudication is not None or record_review is not None,
+        "record_field_adjudication_sha256": provenance_sha256(record_review)
+        if record_review is not None else None,
+        "confirmed_absent_record_field_failures": len(record_review["record_field_proof"])
+        if record_review is not None else 0,
         "provider_policy_failure": admission.get("failure_class") == "provider_input_policy",
         "adjudication_sha256": provenance_sha256(adjudication) if adjudication else None,
         "confirmed_post_inference_json_failures": len(adjudication["proof"])

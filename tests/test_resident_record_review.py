@@ -194,3 +194,33 @@ def test_auditor_lease_does_not_waive_actual_queue_or_atomic_process(tmp_path):
     lease.write_text(json.dumps({"pid": os.getpid() + 1}))
     with pytest.raises(RuntimeError, match="inactive"):
         reviewer.assert_inactive(root, proc_root=proc, allow_current_audit_lease=True)
+
+
+def test_snapshot_records_record_sidecar_without_claiming_a_model_parse_failure(tmp_path):
+    from types import SimpleNamespace
+
+    base = importlib.import_module("large_scale_snapshot_v1")
+    directory = tmp_path / "evidence/cell/attempt1"
+    run = directory / "runs/run"
+    run.mkdir(parents=True)
+    (directory / "private/api").mkdir(parents=True)
+    result = {"execution_completed": True, "final_answer": "No", "loop": {"usage": {}},
+              "evaluation": {"benchmark_score": 0, "format_valid": True}, "telemetry": {}}
+    (run / "result.json").write_text(json.dumps(result))
+    (run / "trace.jsonl").write_text("")
+    admission = {"disposition": "valid", "problems": [],
+                 "result_sha256": provenance_sha256(result)}
+    sidecar = tmp_path / reviewer.DIRECTORY / "run.json"
+    sidecar.parent.mkdir()
+    value = {"record_field_proof": [{"action_id": "bad1"}, {"action_id": "bad2"}]}
+    sidecar.write_text(json.dumps(value))
+    attempt = SimpleNamespace(run_id="run", attempt_index=1, disposition="valid",
+        receipt_sha256=provenance_sha256(admission), reason=reviewer.REASON,
+        execution_sha256="a" * 64)
+    actual = base.settled_attempt(tmp_path, "cell", attempt,
+                                  admission_reader=lambda root, item: admission)
+    assert actual["original_rejection_preserved"]
+    assert actual["record_field_adjudication_sha256"] == provenance_sha256(value)
+    assert actual["confirmed_absent_record_field_failures"] == 2
+    assert actual["confirmed_post_inference_json_failures"] == 0
+    assert actual["benchmark_score"] == 0
