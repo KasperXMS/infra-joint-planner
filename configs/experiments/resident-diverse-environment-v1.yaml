@@ -1,0 +1,108 @@
+# New comparison block only; never replace the predecessor environment in place.
+# This private physical configuration is not a logical/Planner input.
+pool_id: resident-model-pool-v1
+status: calibrated_pending_formal_execution_freeze
+benchmark_execution_allowed: false
+preparation_manifest_sha256: 573da289dea85410873e204bedf0c9aa3b49963d96853a1d3fba1c80b5ef4e14
+experiment_root: /home/super/xiaoming/large-scale-cost-guidance-resident-v1
+environment:
+  agents:
+    - agent_id: A4
+      device: NVIDIA Jetson AGX Orin 32GB
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+    - agent_id: A5
+      device: NVIDIA Jetson AGX Orin 32GB
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+    - agent_id: A28
+      device: NVIDIA Jetson AGX Orin 64GB
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+    - agent_id: strong-4090
+      device: 2x NVIDIA GeForce RTX 4090
+      capabilities: [model, retrieval, structured, media.ffmpeg, media.image]
+  deployments:
+    - deployment_id: resident-a4-vl4b-v1
+      agent_id: A4
+      model_id: qwen3-vl-4b-instruct-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 4096
+    - deployment_id: resident-a5-vl8b-v1
+      agent_id: A5
+      model_id: qwen3-vl-8b-instruct-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 4096
+    - deployment_id: resident-a28-qwen35-27b-v1
+      agent_id: A28
+      model_id: qwen35-27b-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 4096
+    - deployment_id: resident-4090-gpu0-qwen35-27b-v1
+      agent_id: strong-4090
+      model_id: qwen35-27b-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 4096
+    - deployment_id: resident-4090-gpu1-vl8b-v1
+      agent_id: strong-4090
+      model_id: qwen3-vl-8b-instruct-q4km-v1
+      modalities: [text, image]
+      context_window: 32768
+      reserved_output_tokens: 2048
+      image_token_cost: 4096
+worker_urls:
+  A4: http://192.168.0.104:65004
+  A5: http://192.168.0.105:65005
+  A28: http://192.168.0.128:65028
+  strong-4090: http://192.168.0.12:65112
+resident_backends:
+  resident-a4-vl4b-v1:
+    base_url: http://127.0.0.1:11436/v1
+    model: qwen-vl4b-resident-32k-v1
+  resident-a5-vl8b-v1:
+    base_url: http://127.0.0.1:11436/v1
+    model: qwen-vl8b-resident-32k-v1
+  resident-a28-qwen35-27b-v1:
+    base_url: http://127.0.0.1:11436/v1
+    model: qwen35-27b-resident-32k-v1
+  resident-4090-gpu0-qwen35-27b-v1:
+    base_url: http://127.0.0.1:11436/v1
+    model: qwen35-27b-resident-32k-v1
+  resident-4090-gpu1-vl8b-v1:
+    base_url: http://127.0.0.1:11437/v1
+    model: qwen-vl8b-resident-32k-v1
+model_request:
+  backend: openai_compatible
+  api_key_env: OLLAMA_API_KEY
+  reasoning_effort: none
+  temperature: null
+  request_timeout_seconds: 1200
+  max_retries: 0
+calibration_receipts:
+  A4:
+    core: 832d16eb00a8c6b6e125bba390989348bf2b436bb39b2d6e3a8664f581c0a402
+    boundary: 3b42dbb6bf8d5b18d344e0a29c16d2c560924828e830169fd706441ac363bb1c
+  A5:
+    core: ca702ed32632b27f87bf4c6a2807dfc4a22500ec94dddfb634897c4071b22f01
+    boundary: a62bde3cdd8e286d24eccc61f5ac4b6398ded076e5b65ee33af4181bb68e43cc
+  A28:
+    core: 339653a7c05c6fdace3ec0e9a84f324adf4143d4b2bbc52cf2c4ac83d730774c
+    boundary: 362b70d92bccc1acd6f991fab844f52b33ab7ad7ffc6dbefa2a133bf924873c8
+  strong-4090:
+    core: fc51d334454408a2b92e1f27ab2745cacaa237767e6973a9d5f25af54a5836e9
+    boundary: b3c477d86b8aa571f0bd9dd12c613ae0adb9384e59a8903659b6f6bbf53dd186
+measurement:
+  benchmark_cells_so_far: 0
+  actual_input_tokens_tested_up_to: 21225
+  actual_32768_input_token_stress_test_claimed: false
+  calibration_samples_per_probe: 1
+  service_profile_minimum_support: 3
+  unmatched_or_insufficient_service_profiles: unknown
+  old_27b_service_samples_reassigned_to_smaller_models: false
+  quality_classes_inferred_from_model_size: false
+  fresh_stores_imply_cold_model_cache: false
