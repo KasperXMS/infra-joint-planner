@@ -41,3 +41,14 @@ async def test_calibration_refuses_the_development_pc(monkeypatch: pytest.Monkey
     monkeypatch.setattr(calibration.sys, "platform", "win32")
     with pytest.raises(RuntimeError, match="remote experiment nodes"):
         await calibration.calibrate("strong-4090")
+
+
+@pytest.mark.asyncio
+async def test_calibration_refuses_unsafe_evidence_namespace(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "scripts"))
+    calibration = importlib.import_module("resident_model_pool_calibration_v1")
+    monkeypatch.setattr(calibration.sys, "platform", "linux")
+    with pytest.raises(ValueError, match="evidence namespace"):
+        await calibration.calibrate("strong-4090", attempt="../../old-evidence")

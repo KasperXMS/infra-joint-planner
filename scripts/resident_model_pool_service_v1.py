@@ -60,7 +60,10 @@ def server_environment(target: dict[str, Any], inherited: dict[str, str]) -> dic
     result = dict(inherited)
     # Do not inherit a different server's model/context/device configuration.
     for key in tuple(result):
-        if key.startswith("OLLAMA_") or key in {"CUDA_VISIBLE_DEVICES", "HIP_VISIBLE_DEVICES"}:
+        if key.startswith("OLLAMA_") or key in {
+            "CUDA_VISIBLE_DEVICES", "HIP_VISIBLE_DEVICES", "GGML_VK_VISIBLE_DEVICES",
+            "ROCR_VISIBLE_DEVICES", "GPU_DEVICE_ORDINAL",
+        }:
             del result[key]
     result.update({
         "OLLAMA_HOST": f"127.0.0.1:{target['port']}",
@@ -68,6 +71,9 @@ def server_environment(target: dict[str, Any], inherited: dict[str, str]) -> dic
         "OLLAMA_NUM_PARALLEL": "1", "OLLAMA_MAX_LOADED_MODELS": "1",
         "OLLAMA_KV_CACHE_TYPE": "q8_0", "OLLAMA_FLASH_ATTENTION": "1",
         "OLLAMA_NO_CLOUD": "1",
+        # All five targets are NVIDIA. Vulkan discovery can bypass the CUDA
+        # UUID binding, even selecting llvmpipe; do not allow backend fallback.
+        "OLLAMA_VULKAN": "0",
     })
     if target["gpu"] is not None:
         result["CUDA_VISIBLE_DEVICES"] = target["gpu"]

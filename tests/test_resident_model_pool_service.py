@@ -31,7 +31,9 @@ def test_fixed_five_instances_separate_ports_stores_and_gpu_bindings() -> None:
 def test_environment_does_not_inherit_wrong_gpu_store_or_parallelism() -> None:
     target = targets("strong-4090")[0]
     inherited = {"CUDA_VISIBLE_DEVICES": "1", "OLLAMA_HOST": "0.0.0.0:11434",
-                 "OLLAMA_MODELS": "/old", "OLLAMA_NUM_PARALLEL": "4", "PATH": "/bin"}
+                 "OLLAMA_MODELS": "/old", "OLLAMA_NUM_PARALLEL": "4", "PATH": "/bin",
+                 "OLLAMA_VULKAN": "1", "GGML_VK_VISIBLE_DEVICES": "1",
+                 "ROCR_VISIBLE_DEVICES": "wrong-gpu", "GPU_DEVICE_ORDINAL": "1"}
     environment = server_environment(target, inherited)
     assert environment["CUDA_VISIBLE_DEVICES"] == GPU0
     assert environment["OLLAMA_HOST"] == "127.0.0.1:11436"
@@ -39,6 +41,10 @@ def test_environment_does_not_inherit_wrong_gpu_store_or_parallelism() -> None:
     assert environment["OLLAMA_NUM_PARALLEL"] == "1"
     assert environment["OLLAMA_KEEP_ALIVE"] == "-1"
     assert environment["OLLAMA_NO_CLOUD"] == "1"
+    assert environment["OLLAMA_VULKAN"] == "0"
+    assert not {"GGML_VK_VISIBLE_DEVICES", "ROCR_VISIBLE_DEVICES", "GPU_DEVICE_ORDINAL"} & (
+        environment.keys()
+    )
     assert environment["PATH"] == "/bin"
     assert inherited["CUDA_VISIBLE_DEVICES"] == "1"
     assert "CUDA_VISIBLE_DEVICES" not in server_environment(targets("A4")[0], inherited)

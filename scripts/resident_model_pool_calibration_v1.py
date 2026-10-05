@@ -8,6 +8,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -142,11 +143,13 @@ async def calibrate_target(target: dict[str, Any], evidence: Path) -> dict[str, 
     return result
 
 
-async def calibrate(node: str) -> None:
+async def calibrate(node: str, *, attempt: str = "synthetic-001") -> None:
     if sys.platform != "linux":
         raise RuntimeError("calibration must execute on the remote experiment nodes")
+    if re.fullmatch(r"synthetic-[0-9]{3}", attempt) is None:
+        raise ValueError("invalid calibration evidence namespace")
     base = POOL if node == "strong-4090" else EDGE_POOL
-    evidence = base / "calibration/synthetic-001"
+    evidence = base / "calibration" / attempt
     evidence.mkdir(parents=True, exist_ok=False)
     write_new(evidence / "process.json", {"pid": os.getpid(), "node": node,
               "started_at": time.time(),
@@ -166,4 +169,6 @@ async def calibrate(node: str) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--node", choices=["A4", "A5", "A28", "strong-4090"], required=True)
-    asyncio.run(calibrate(parser.parse_args().node))
+    parser.add_argument("--attempt", default="synthetic-001")
+    args = parser.parse_args()
+    asyncio.run(calibrate(args.node, attempt=args.attempt))
