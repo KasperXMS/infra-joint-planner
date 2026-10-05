@@ -128,3 +128,15 @@ The queue was relaunched with new process receipt003 at18:15:41UTC, PID1716829;
 later liveness and journal state must be re-read. All168 primary cells remain
 required before comprehensive audit and method pruning. No accuracy pooling,
 method winner, PhaseII authorization or final research conclusion is claimed.
+
+Follow-up read-only projection `4ce5f80` records the record-field sidecar hash /
+four exact reviewed failures explicitly, without treating them as model-JSON
+parse failures. The earlier snapshot005 bytes remain unchanged. Collector002 is
+deployed outside the app and outside active controller004, so its correction
+does not change queue002's frozen dependencies or measured execution.1051 full
+pytest pass (32.71s), Ruff/strictPyright/diff pass.
+
+Snapshot006, captured2026-10-05T18:21:12.480330Z:15effective admissions,
+1pending (MultiHop1/P1/Fast/B0),0unresolved confounders; file SHA
+`3f945cb6bed83febaaf632875dfe3a27714eaefa7410809a318effc3e0e8af3e`.
+The original two rejection receipts and their independent proofs remain preserved.
