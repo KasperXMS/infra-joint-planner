@@ -1,4 +1,4 @@
-# Resident checkpoint: MultiHop cells73–74
+# Resident checkpoint: MultiHop cells73–76
 
 2026-10-06. Same frozen MultiHop representative2, n=1. Old42results remain
 closed/unpooled; no retry, tuning or pruning. Execution001/control007 unchanged.
@@ -103,3 +103,47 @@ Exclusive remote analysis/resident-cell-075-summary-001.json fileSHA-256:
 Queue008PID2678456/cell76atomicPID2919564 verified live23:29:47.616917Z on
 MultiHop2/P1/Fast/C,reservedseq151at23:28:14Z.75classified;no76outcomeinferred.
 Execution001/control007unchanged;full168audit/pruning/actualPhaseIIunfinished.
+
+## Cell76 append: P1 /Fast /C, valid unevaluated failure
+
+Settled23:31:39.538901Z,seq152. Originalrun.failed:
+`logical_loop_failed /AgentLoopError /manager turn budget exhausted`.
+Primary hard20Manager-turn exhaustion, not64physical calls, provider outage,
+backend failure or a qualityscore0. No terminal exists;format/evaluationUNKNOWN.
+
+20Manager/2Verifier/3physical/0preparedmodelactions/0inferences,0specialists.
+Allthree independent BM25actions succeeded onA4/A5/A28, maxconcurrent3,
+overlap0.512s. Verifierfirst decision changed evidence_collection->synthesis.
+Graph3nodes/0artifactedges/10snapshots,1owner/0artifacthandoffs, no timing or
+dependency violation. E2E146.838s;fixedsetup7,696,522bytes/.800s;completeaction
+transfer0/toolwork1.087s/modelwork0 because no physical model action occurred.
+Manager137.950s/Verifier4.289swork is not additive E2E. All22APIusagesknown,
+USD0.1256226338378134,list-price not invoice;22SDKcontexts/Workerexit/tccleanup/
+five-instance-residency checks passed. No modelreload/OOM/truncation/retry/tuning.
+
+Tencreatedquotes:3retrievalcards consumed/authorized/executed,6modelcards
+discarded,1modelcardpending. All9nonpendingcards were exactlyvisible in root
+SDKinputbeforedisposition; finalpendingcard had no later exposure/commit.
+Allseven model requirements static-supported,qualityclassnull: **no static
+quality-class misuse** in this run. Five discarded modelcards predicted
+context_limit_exceeded, oneprompt-only card predicted selectionfeasible but
+was discarded. The finalpending one-artifact card also predicted contextreject.
+These are quote-selection results, not six actual failed model inferences.
+Quote controlwork3.642s;18control-onlybatchreceipts are not claimed18distinct
+turns. Tenphase-restrictedquoteattempts and11deduplicated SDKphase failures can
+overlap and do not add physical calls. Preserve denied reduction/retrieval/
+specialist attempts after synthesis-phase entry; do not relax frozen stopping.
+
+Contributing observations: repeated overlarge model proposals, phase/composition/
+stopping restrictions and quote/discard interaction. Discarding a feasible
+prompt-only card is not automatically a semantic mistake; adequacy requires
+private audit. Do not infer sufficient evidence, incorrect Verifier reasoning,
+an intrinsic cross-task Cwinner/loser or a network effect from this n1failure.
+
+Original admission canonical SHA-256:
+`22e9fd90a3e6d20b7fe8349cb437423e672755e24307501e505e1d1ae1fffb19`.
+Exclusive analysis/resident-cell-076-summary-001.json fileSHA-256:
+`cfcbe054ec05decae2cd47898d52475ef03a947f62617fe40729ec27aeb1524c`.
+Actualqueue008PID2678456/cell77atomicPID2933469 verifiedlive23:32:09.154148Z
+onLongBench2/P2/Fast/E,reservedseq153at23:31:42Z,attempt1/freshstores.76classified,
+control007/execution001unchanged;full168audits/pruning/actualPhaseIIunfinished.
