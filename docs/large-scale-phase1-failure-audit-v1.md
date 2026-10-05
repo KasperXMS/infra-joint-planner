@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirty-one classified nominal Phase I samples after exact field/policy review:27
+Thirty-two classified nominal Phase I samples after case-audit004:28
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -26,6 +26,13 @@ before queue008 resumes at the original next MultiHop-1 / Qwen / Fast / C.
 Actual parent2599603 is verified live. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md). No task-specific
 schema guessing, Agent repair, prompt tuning or replacement is performed.
+The original resumed Qwen / Fast / C completes normally with score1 and passes
+independent full admission; all13 nodes succeed, no context/tool failure, graph
+interval/order/closure findings zero. Quote creation/authorization/consumption13
+does not prove quote-driven revision (zero discards/revisions). Its terminal
+model is prompt-only, so zero artifact-transfer bytes is not zero total network
+traffic or certified evidence retention. Original next Video602-2 / DeepSeek /
+Fast / E is reserved; no mid-screening or private evidence feedback occurs.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 

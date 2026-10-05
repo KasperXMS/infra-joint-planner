@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **31 / 168 nominal samples classified/admitted after exact field/policy review:**
-27 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **32 / 168 nominal samples classified/admitted after case-audit004:**
+28 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated
 corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
@@ -11,8 +11,9 @@ report, not a method ranking, and does not authorize pruning or Phase II.
 DeepSeek / Slow / B's field-validation plus provider-policy rejection is now
 independently classified, binding127 original files; no Agent repair/replacement.
 Snapshot026 independently verifies31 admissions /33 attempts /0 pending before
-queue008 resumes. Parent2599603 is verified actually live, with original
-MultiHop-1 / Qwen / Fast / C next; there is no replacement. See
+queue008 resumes. Parent2599603 is verified actually live; original MultiHop-1 /
+Qwen / Fast / C then completes, format-valid, score1. The next original cell is
+Video602-2 / DeepSeek / Fast / E; there is no replacement. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md).
 The audited
 transport-only repair has a new execution/control freeze. Academic / DeepSeek /
@@ -38,7 +39,7 @@ See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The five latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The six latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -76,8 +77,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B1 | 1 | no / unknown / unknown; JSON + provider policy | 413.573 (trace) | 7,696,522 / 0.760 (trace) | 56,806 / 0.715 subtotal; full unknown | 5 / 13 / 5 started | 23 | unknown; known subtotal 0.231155 |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | A | 1 | yes / valid / 0.0 | 280.753 | 7,696,522 / 21.926 | 5,204,596 / 15.661 | 8 / 0 / 8 | 16 | 0.118184 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | B | 1 | no / unknown / unknown; delegated field misuse + provider policy | 125.127 (trace) | 7,696,522 / 22.189 (trace) | 70,251 / 0.406 subtotal; full unknown | 5 / 16 / 5 started | 26 | unknown |
+| MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | C | 1 | yes / valid / 1.0 | 100.977 | 7,696,522 / 0.791 | 0 / 0 | 12 / 0 / 6 | 18 | 0.328267 |
 
-The 27 completed samples have no unresolved findings and original private evaluators ran.
+The 28 completed samples have no unresolved findings and original private evaluators ran.
 The separately classified policy, terminal-choice, mixed JSON/policy and
 delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
@@ -99,6 +101,34 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Case-audit004: C completes correctly, with no proven quote-driven revision
+
+MultiHop-1 / Qwen / Fast / C completes with legal format and original score1.
+Full admission independently reproduces its receipt, with95 original evidence
+files bound and four initial stores empty. It has12 Manager /0 specialist /
+6 Verifier calls,13 physical actions (six BM25, six read_artifact, one inference),
+zero logical failures and13 closed successful nodes /6 information edges.
+One owner,13 structural growth events /40 snapshots, physical peak5 /
+0.911 s overlap: not five agents and not evidence of an E2E concurrency gain.
+
+All13 quotes are created, observed, authorized and consumed; no discard, stale
+quote or revision occurs. Quote-control work is5.125 s. C's interface is genuinely
+exercised, but this proves neither cost-induced revision nor optimization.
+E2E100.977 s, model service28.874 s (177 input /2 output tokens,stop), complete
+cloud list-price USD0.328267 from18 measured usages. Operator work31.997 s
+includes inference; it is not an extra additive E2E cost.
+
+The terminal model invocation has zero artifact inputs: evidence can pass through
+earlier read results into the Manager's prompt, so this is not proof of ungrounded
+reasoning or of a quality-preserving materialized evidence-artifact handoff.
+Recorded action-artifact transfer is zero, but Worker read RPC/cloud prompt traffic
+is outside that metric; **do not describe this as zero total communication**.
+Initial placement7,696,522 bytes /0.791 s is separately recorded.
+Private supporting-reference/body coverage remains pending all168 cells.
+Case-audit004 file SHA-256:
+`fcf71c5cb85cf9f701f9231945c3e28038013480ae684597567bb88bd9016d13`.
+No method ranking/pruning, repetition or prompt tuning follows this positive cell.
 
 ### Case-audit003: original continuation completes but answers incorrectly
 
