@@ -1,4 +1,4 @@
-# Resident checkpoint: LongBench cells78–79
+# Resident checkpoint: LongBench cells78–80
 
 2026-10-06. Frozen LongBench representative2 /P1 /Slow /D, n=1.
 Original attempt1 settled at23:37:27.588066Z, sequence156. Valid unevaluated
@@ -147,3 +147,72 @@ Exclusive remote analysis/resident-cell-079-summary-001.json file SHA-256:
 Queue008PID2678456/cell80atomicPID2970553 verified live at23:41:31.581966Z,
 LongBench2/P1/Fast/B, reservedseq159at23:40:31Z.79classified of168; no80outcome
 inferred. Full audit/pruning/actual PhaseII/final objective remain unfinished.
+
+## Cell80 append: P1 / Fast / B
+
+Original attempt1 settled at23:43:10.415136Z, sequence160. Completed with a
+canonical valid terminal answer and original evaluator score **0.0**. This is
+valid context recovery followed by a quality failure, not a backend timeout,
+early termination, model substitution or a successful resource optimization.
+
+| Measure | Original observed value |
+| --- | --- |
+| Manager / Verifier / physical calls | 8 / 8 / 12 |
+| Model requests / actual inference / context rejects | 3 / 1 / 2 |
+| Successful tools / failed tools / specialists | 8 / 1oversize read / 0 |
+| Actual deployment / input / output / finish | A4resident4B / 5,132 / 2 / stop |
+| Terminal model artifact inputs | Two actually consumed retrieval outputs |
+| E2E | 104.158s |
+| Fixed initial placement | 2,119,778bytes / .250s |
+| Complete action transfer / complete tool work | UNKNOWN / UNKNOWN |
+| Successful transfer receipts / successful tool work | 0bytes,0s / 4.343s |
+| Complete model backend work | 14.746s |
+| Manager / Verifier work | 63.697s / 21.847s; not additive E2E |
+| Cloud API | All16 usages known, USD.1522861664385655, list-price not invoice |
+| Actual SDK recipient contexts checked | 16; original privacy admission passed |
+| Graph | 12nodes / 8artifact edges / 37snapshots;9success,3failure |
+| Actual concurrent width / overlap / owners | 4 / 2.521s / 1 |
+
+Actual path: an oversize read failed closed; four independent top-k20 BM25
+actions ran onA4; a four-artifact model request was context-rejected; two top-k6
+BM25 actions produced inputs for a second rejected model request; two top-k3
+actions then produced the final two inputs for a successful A4 model inference.
+All three model requirements were statically supported. No failed inference
+is hidden in the context rejections: only the final action reached the backend.
+The complete failed-run movement/tool totals remain UNKNOWN under the frozen
+receipt policy, even though the successful movement subtotal is zero.
+
+Verifiercall2 changed evidence_collection->synthesis; call4 changed synthesis
+back to evidence_collection; call8 completed the run. This is observed native
+continuation, not an automatically repaired or reordered workflow. One phase
+restriction remains in the trace. The Manager's lower-k recovery is a natural
+trajectory, not a task-specific retrieval rule introduced by this audit.
+
+B optional query tools were present in all eight actual Manager requests, but
+actual provider responses contain zero queries/cards. Seven schema-valid ready
+root-action opportunities were classified eligible by the frozen definition;
+this is not twelve physical actions or a count of unobserved decisions.
+No quote or comparison interface was used. Visibility proves the tool was
+available, not causal nonuse across all Planners or workloads.
+
+Real artifact-backed terminal reasoning is verified; neither that fact nor
+top-k reduction proves evidence sufficiency, preservation or the primary cause
+of the wrong answer. Full post-block private audit remains required. Graph
+parallel width and action overlap are not a measured E2E benefit versus a
+counterfactual serial workflow.
+
+All five instances remained resident; Worker exit/tc cleanup/privacy checks
+passed. No reload/OOM/truncation, warm-start subtraction, hidden reduction,
+retry/replacement or source/prompt/budget/model/scheduler changes.
+
+Original admission canonical SHA-256:
+`a35c00a1b4cd648c06839c1986c8cc5506efcb6b60852e291ef6b8e48662068d`.
+Original journal settlement SHA-256:
+`51f1d8490e8d2132742bdc763b605666aa81756fded88a22f88584d7c3c6902f`.
+Exclusive remote analysis/resident-cell-080-summary-001.json file SHA-256:
+`c896d327e7a793347fe1df9724966681ee57ed026839355262db752144d39034`.
+
+Queue008PID2678456/cell81atomicPID2982170 verified live23:43:39.904502Z,
+Video602-2/P1/Fast/B1, reservedseq161at23:43:12Z.80classified of168; no81outcome
+inferred. Execution001/control007 remain frozen. All168/audits/pruning/actual
+PhaseII/final reports/Q1–Q10 remain unfinished; no goal-completion claim.
