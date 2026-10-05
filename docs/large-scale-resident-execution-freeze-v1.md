@@ -148,3 +148,12 @@ not mislabeled as Planner-controlled communication or Ollama startup. This
 checkpoint does not authorize method pruning or filling any new cell with old
 results. Future handoffs must re-read the actual journal rather than assume
 these counts remain current.
+
+Later checkpoint,00:45 Hong Kong:2/168 admitted,0 confounders/operational
+exclusions; the queue is live on602-2/P2/Slow/E. The second602-2/P1/Slow/B0
+sample completed with terminal`A`, format valid, original score1.0 and all
+residency/admission gates passed. Two Manager turns/two Verifier calls/two
+physical receipts. E2E720.159s includes fixed initial placement213,739,837bytes/
+596.985s; Agent-controlled transfer remains0. Wrapper operator work100.744s,
+Planner work14.786s. This is a per-cell outcome, not a matched comparison with
+the first sample, which differs in Planner, method and network.
