@@ -1,22 +1,38 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twenty-eight classified nominal Phase I samples at snapshot024:26
-completed/evaluated, one provider-policy failure and one terminal-choice failure
-with unevaluated quality. This is not the completed168-cell audit. No method
-pruning is allowed. Snapshot024 records queue006 live with one pending attempt;
-it subsequently exits on the new MultiHop-1 DeepSeek Fast B1 compound finding.
-The original rejection is retained while independent full compound proof is
-running; current classified count remains28 and no experimental attempt is live.
+Twenty-nine classified nominal Phase I samples at snapshot025:26
+completed/evaluated, one provider-policy failure, one terminal-choice failure
+and one mixed JSON/provider-policy failure with unevaluated quality. This is
+not the completed168-cell audit. No method pruning is allowed. The original
+compound rejection is retained and both independent proofs pass; no rerun is
+authorized. Queue007 parent2448151 and original next MultiHop-1 / Qwen / Slow /
+A child2450537 are verified live with four empty initial Worker stores.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 
 The new compound finding comprises exact post-inference invalid-JSON output
 and two exact HTTP400 input-policy refusals (specialist and Verifier), with no
 operational incidents. It is not blanket-admitted: both original strict
-component proofs and unchanged evidence/full admission must pass. No semantic
+component proofs and unchanged evidence/full admission pass, binding115 files.
+An offline-only membership traversal defect is regression-tested and fixed;
+the first audit's stop/source/IO and explicitly reconciled stale lease are
+preserved. This is not an experimental retry or timeout-triggered restart.
+Full pytest885 / Ruff / strict Pyright / diff check pass. No semantic
 tuning, retry, censorship or runtime changes are authorized by this diagnosis.
 See [compound failure audit](large-scale-compound-failure-audit-v1.md).
+
+Snapshot025:29 admitted /31 attempts /0 pending /2 effective confounders /
+6 original confounded records /2 JSON reviews /1 policy review /1 compound
+review /0 operational exclusions. Queue007 subsequently reserves the original
+next cell (32 attempts /1 pending). Snapshot file SHA-256:
+`3c396e9b7764df5337c268aa867a0b350538a1a6b00ea01145ed13944d5ad90b`.
+Compound sidecar canonical:
+`128c5815eaba6b8d947e0c3237a9c6e35b7acbfbbbe09afdcb4071fdd476cf69`;
+queue-control-freeze-006 canonical:
+`80129a3427d32f2026e1c6259460f58b3cf1d1ec1607ad32990d78042bbe41f3`.
+The formal execution source/freeze remainsfa19e0b/003, not the newer offline
+audit commit. No original finding, trace, result, journal or control is rewritten.
 
 ## Repair deployment and new settled-case audit
 

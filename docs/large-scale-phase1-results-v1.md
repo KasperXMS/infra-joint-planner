@@ -1,28 +1,32 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **28 / 168 nominal samples classified/admitted at snapshot024:**
-26 completed/evaluated, one provider-policy failure and one terminal-choice
-trajectory failure with unevaluated quality. Two implementation-confounded
+2026-10-05. **29 / 168 nominal samples classified/admitted at snapshot025:**
+26 completed/evaluated, one provider-policy failure, one terminal-choice
+trajectory failure and one mixed JSON/provider-policy failure with unevaluated
+quality. Two implementation-confounded
 attempts remain separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
-**Snapshot024 state: queue006 live, one pending attempt.** The audited
+**Latest verified state: queue007 live; original next cell reserved.** The audited
 transport-only repair has a new execution/control freeze. Academic / DeepSeek /
 Slow / A attempt2 is admitted with score1.0; attempt1's missing-receipt
 ReadTimeout confounder is preserved, not retrospectively admitted. Academic /
 Qwen / Fast / B is a valid terminal-format failure, not a replacement candidate.
 Older live/stopped paragraphs below are historical checkpoints.
 
-Subsequent actual-state check: queue006 and child2296499 have exited after the
+Historical snapshot024-to025 check: queue006 and child2296499 exit after the
 next MultiHop-1 / DeepSeek / Fast / B1 cell encounters both exact invalid-JSON
 model output and provider input-policy refusal. Its original admission is
-preserved pending independent compound review; no retry or answer replacement
-is authorized. Current classified count is still28, with no active experimental
-attempt. See [compound failure audit](large-scale-compound-failure-audit-v1.md).
+preserved and independently classified by the exact compound proof; no retry
+or answer replacement is authorized. Snapshot025 verifies29 classified /
+31 attempts /0 pending /2 effective confounders /1 compound review. Queue007
+parent2448151 and the original next MultiHop-1 / Qwen / Slow / A child2450537
+are verified live; its new reservation makes32 attempts /1 pending. All four
+initial stores are empty. See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The two latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The three latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -57,13 +61,14 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 1.0 | 93.422 | 514,789 / 1.570 | 0 / 0 | 10 / 0 / 10 | 20 | 0.424423 |
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | A | 2 | yes / valid / 1.0 | 939.392 | 514,789 / 1.558 | 56,667 / 1.910 | 16 / 0 / 16 | 32 | 0.440503 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | B | 1 | no / unknown / unknown; terminal choice invalid | 130.086 (trace) | 514,789 / 0.108 (trace) | 223,933 / 0.122 (trace) | 14 / 2 / 13 started | 29 | 0.364704 |
+| MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Fast | B1 | 1 | no / unknown / unknown; JSON + provider policy | 413.573 (trace) | 7,696,522 / 0.760 (trace) | 56,806 / 0.715 subtotal; full unknown | 5 / 13 / 5 started | 23 | unknown; known subtotal 0.231155 |
 
 The 26 completed samples have no unresolved findings and original private evaluators ran.
-The separately classified provider-policy and terminal-choice failures did not
-complete or invoke the evaluator: their result score/format stay unknown, not zero.
-Provider-policy total API cost is unknown; the terminal-choice run has complete
+The separately classified policy, terminal-choice and mixed JSON/policy failures
+did not complete or invoke the evaluator: their result score/format stay unknown,
+not zero. Both policy-failure total API costs are unknown; the terminal-choice run has complete
 provider usage and list-price estimate. It is not an invoice.
-Action movement is recorded receipt work. The three explicitly marked rows have
+Action movement is recorded receipt work. The four explicitly marked rows have
 execution-stage failures without complete movement telemetry; their numeric
 successful-receipt subtotals are not full transfer totals or savings evidence.
 Academic / DeepSeek / Fast / E and MultiHop-1 / DeepSeek / Fast / B0 have
@@ -79,6 +84,41 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Snapshot025: exact compound failure classified and original queue resumed
+
+Source-only offline membership repair533105f changes no execution-app source.
+Full pytest885 / Ruff / strict Pyright / diff check pass. The prior inefficient
+offline process is ownership-checked and stopped only after a failing regression
+proves repeated full proof traversal, not because an observation expired.
+Its source/IO/stop/lease records are preserved; no benchmark/Worker/model is restarted.
+Corrected full audit binds115 original files and reproduces the rejected
+admission, one exact post-inference JSON failure and two exact input-policy refusals.
+
+MultiHop-1 / DeepSeek / Fast / B1 has21 physical actions:18 successful tools,
+three model attempts (one context preflight, one successful normal-stop inference
+and one proven failed JSON parse after inference). Returned service150.269 s,
+3,745 input /307 output tokens are successful subtotals only; full failed
+inference service/tokens and full action movement remain unknown. E2E413.573 s
+comes from explicit run.failed. Its23 cloud calls have21 measured usages and
+two unknown refusals; total USD remains unknown. No evaluator is invoked.
+Both component findings are required in the compound proof; no extra finding,
+generic HTTP400, physical/runtime/observer/privacy defect or outage is waived.
+
+Snapshot025 file SHA-256:
+`3c396e9b7764df5337c268aa867a0b350538a1a6b00ea01145ed13944d5ad90b`.
+Compound sidecar canonical SHA-256:
+`128c5815eaba6b8d947e0c3237a9c6e35b7acbfbbbe09afdcb4071fdd476cf69`.
+Queue-control-freeze-006 canonical SHA-256:
+`80129a3427d32f2026e1c6259460f58b3cf1d1ec1607ad32990d78042bbe41f3`.
+It pins immutable parent005 and execution003 plus the new offline proof sources,
+without editing old controls, changing physical execution or authorizing a repeat.
+Snapshot025 is generated before resuming experimental work. All28 previous
+admitted graphs also pass source/result/trace-bound closure/interval/order audit;
+graph-audit-004 SHA-256:
+`732615f5af5a366ab7b482016c1ffaa9710af017757647db496a4095f48f62f7`.
+These are structural/receipt audits, not private supporting-body coverage,
+causal evidence of adaptation, method screening or pooled accuracy.
 
 ### Snapshot024: repaired completion and an ordinary terminal failure
 
