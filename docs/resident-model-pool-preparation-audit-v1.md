@@ -83,20 +83,41 @@ This is an audit-probe correction, not a benchmark retry or Agent repair.
 
 A4/A5 default servers are not the same version as the existing experiment
 runtime. Prospective instances must not silently inherit this difference.
-An isolated copy of the existing A28 arm64 0.34.0 runtime is being prepared
-through 4090, with full file hashes, modes, and in-root symlink targets compared
-at each recipient. The default binaries, old servers, and frozen formal app are
-not replaced. This preparation does not start the copied binary as a server.
-Completion requires the independent recipient receipts, not an unfinished copy.
+Isolated copies of the existing A28 arm64 0.34.0 runtime are now prepared through
+4090, with all 36 regular-file hashes/modes and 20 in-root symlink targets
+compared at each recipient. The default binaries, old servers, and frozen formal
+app are not replaced. This preparation does not start the copied binary as a
+server. Both copies execute `--version` and report client version 0.34.0; its
+warning that no target server is running is expected, not an inference result.
+
+| Recipient | New isolated runtime | Copy + full hash seconds | Recipient receipt SHA-256 |
+|---|---|---:|---|
+| A4 | `/mnt/ssd/resident-model-pool-v1/runtime/ollama-0.34.0` | 348.117 | `645057889493432c7a4eef44dc401567cdc419fa46597bb90d66056f10a29882` |
+| A5 | `/mnt/ssd/resident-model-pool-v1/runtime/ollama-0.34.0` | 293.847 | `f551635d63b912646f9b512ccd646cf8412b7a6f8362af8b916aa0db7ab3a161` |
+
+Final completion receipt on 4090:
+`/home/super/xiaoming/resident-model-pool-v1/runtime-completion-001/completion.json`,
+SHA-256 `4db10547d81248051e67e9c96bd4532673a7cad43ebe88c71d763bac746108f5`.
+Total completion-helper duration is 521.563s, including relay completion and
+parallel recipient copying/verification. These are setup measurements, not
+benchmark E2E or model-service latency. No model/runtime payload traverses the PC.
 
 The first preparation process ends with a genuine 240-second copy deadline:
 `runtime-preparation-001/failure.json`, SHA-256
 `521b9d0d7a7abba6ad72c0d99c1822f62c4155b11587fac643ad05105def4f39`.
 Its process is independently verified gone before repair. A completion helper
-preserves every already hash-matched relay file and transfers only missing or
+preserved every already hash-matched relay file and transferred only missing or
 incomplete files into the explicit new owned runtime root, then verifies the
 entire runtime before distribution. The source files and original failed
 receipt are retained. This is file preparation, not a model/benchmark retry.
+
+Post-preparation attestation verifies the original queue, offline audit/snapshot,
+and both preparation processes are gone; rechecks the A4/A5 binaries against
+the source binary SHA; and observes the old servers still empty and new ports
+still without Ollama services. It preserves the earlier inventory rather than
+overwriting it. Receipt `runtime-completion-001/post-preparation-attestation-001.json`,
+SHA-256 `ed0d9860c6b99ce6040fbba618bebcfa4c7b93dc3d47d64fa8e332359d9bc35d`.
+Default A4/A5 servers remain 0.33.3, confirming no in-place runtime replacement.
 
 ## Remaining gates
 
@@ -114,7 +135,9 @@ preparation occurs remotely; the development PC receives only bounded metadata.
 
 ## Local regression
 
-Unchanged executable substrate: full pytest **961 passed in 32.71s**, Ruff
+After binding the prepared runtimes in the inactive manifest and adding its
+eleventh integrity test, full pytest **962 passed in 32.64s**, Ruff
 passes, strict Pyright with the project virtualenv reports zero errors/warnings,
-and `git diff --check` passes. This audit modifies documentation only and does
-not certify a runnable new environment or permit mixing comparison blocks.
+and `git diff --check` passes. Only preparation metadata/tests and documentation
+change; executable substrate and formal experiment configs are unchanged. This
+does not certify a runnable new environment or permit mixing comparison blocks.

@@ -432,3 +432,21 @@ project virtualenv reports0 errors/warnings, and diff check passes. The manifest
 has ten integrity tests; no ability is advertised on the basis of hashes or
 directory existence. All context/output/modality/residency/service/concurrency
 calibration remains pending and activation false.
+
+Subsequent read-only residency inventory finds empty existing model lists,
+unused new ports, and A4/A5 default runtime0.33.3 versus experiment runtime0.34.0
+on A28/4090. Only prospective isolated runtime preparation follows: A28's
+arm64 0.34.0 is relayed through4090 and copied to new A4/A5 roots, with all36
+regular files and20 in-root symlink targets verified at each recipient.
+Defaults/old services/formal app are not replaced, and no new server or inference
+is started. A240-second partial-copy deadline is preserved; only incomplete
+new-root files are completed, not a benchmark retry. Final runtime completion
+SHA-256 `4db10547d81248051e67e9c96bd4532673a7cad43ebe88c71d763bac746108f5`.
+Post-preparation process/API/binary attestation SHA-256
+`ed0d9860c6b99ce6040fbba618bebcfa4c7b93dc3d47d64fa8e332359d9bc35d`.
+The manifest remains inactive, all validated contracts null; eleven preparation
+integrity tests and the full962-test suite pass (32.64s), with Ruff/strictPyright/
+diff checks green. Source capability aggregation is unchanged: distinct weights
+do not automatically imply distinct anonymous classes or measured quality.
+See [preparation audit](resident-model-pool-preparation-audit-v1.md). The old/new
+comparison-block decision remains unresolved; no new cells are scheduled.

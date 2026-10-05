@@ -11,6 +11,20 @@ source_content_verification_sha256: c67605618fbccf79d8ee7980bb04e2e75566c36809bb
 isolated_store_verification_root: /home/super/xiaoming/resident-model-pool-v1/isolated-store-repair-001
 isolated_store_verification_sha256: 3d05d3ba3e8545bb9d5244c3f31d892bfaa64243802ed9449422e7620f7593af
 
+runtime_preparation:
+  version_target: '0.34.0'
+  status: isolated_arm64_copies_verified_not_started
+  source_node: A28
+  source_root: /mnt/ssd/heterogeneous-v1/runtime/ollama-0.34.0
+  verified_isolated_copy_nodes: [A4, A5]
+  verification_root: /home/super/xiaoming/resident-model-pool-v1/runtime-completion-001
+  verification_sha256: 4db10547d81248051e67e9c96bd4532673a7cad43ebe88c71d763bac746108f5
+  regular_files_per_copy: 36
+  in_root_symlinks_per_copy: 20
+  default_runtimes_modified: false
+  new_services_started: false
+  inference_calibrated: false
+
 scope:
   distinct_model_artifacts: 3
   physical_instances: 5
@@ -90,6 +104,7 @@ proposed_instances:
     gpu_binding: integrated_jetson_gpu
     dedicated_ollama_port: 11436
     isolated_model_store: /mnt/ssd/resident-model-pool-v1/models
+    prepared_runtime_executable: /mnt/ssd/resident-model-pool-v1/runtime/ollama-0.34.0/bin/ollama
     store_content_verified: true
     validated_contract: null
     calibration_status: pending
@@ -99,6 +114,7 @@ proposed_instances:
     gpu_binding: integrated_jetson_gpu
     dedicated_ollama_port: 11436
     isolated_model_store: /mnt/ssd/resident-model-pool-v1/models
+    prepared_runtime_executable: /mnt/ssd/resident-model-pool-v1/runtime/ollama-0.34.0/bin/ollama
     store_content_verified: true
     validated_contract: null
     calibration_status: pending

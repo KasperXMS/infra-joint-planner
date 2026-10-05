@@ -134,3 +134,26 @@ def test_five_verified_isolated_stores_do_not_claim_live_services() -> None:
         assert instance["validated_contract"] is None
         assert instance["calibration_status"].startswith("pending")
     assert manifest["activation_allowed"] is False
+
+
+def test_isolated_runtime_version_preparation_does_not_certify_inference() -> None:
+    manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    runtime = manifest["runtime_preparation"]
+    assert runtime["version_target"] == "0.34.0"
+    assert runtime["status"] == "isolated_arm64_copies_verified_not_started"
+    assert runtime["source_node"] == "A28"
+    assert set(runtime["verified_isolated_copy_nodes"]) == {"A4", "A5"}
+    assert len(runtime["verification_sha256"]) == 64
+    assert runtime["regular_files_per_copy"] == 36
+    assert runtime["in_root_symlinks_per_copy"] == 20
+    assert runtime["default_runtimes_modified"] is False
+    assert runtime["new_services_started"] is False
+    assert runtime["inference_calibrated"] is False
+    for instance in manifest["proposed_instances"]:
+        if instance["worker"] in {"A4", "A5"}:
+            assert instance["prepared_runtime_executable"].startswith(
+                "/mnt/ssd/resident-model-pool-v1/runtime/"
+            )
+            assert instance["prepared_runtime_executable"].endswith("/bin/ollama")
+        assert instance["validated_contract"] is None
+    assert manifest["activation_allowed"] is False
