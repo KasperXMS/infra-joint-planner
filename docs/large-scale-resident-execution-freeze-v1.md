@@ -122,3 +122,29 @@ for exact offline audit, not prompt tuning or silent replacement.
 
 Next:complete new PhaseI, audit all nominal failures and recipient contexts,
 then freeze method pruning before PhaseII. No method winner is claimed now.
+
+## First admission checkpoint
+
+2026-10-06 00:34 Hong Kong:1/168 valid new cells admitted,0 confounders,
+0 operational exclusions; the queue remains live. The first sample is original
+Video-MME602-2 /P2/Fast/B1 (representative video1), completed with terminal `A`,
+format valid and original score1.0. Five Manager turns/five Verifier calls,
+three physical execution receipts. Two model-action outcomes consist of one
+context preflight reject and one actual inference, **not two inferences**.
+The Agent subsequently made a legal smaller-context request without harness
+repair or retry. Physical inference selected resident A4/4B.
+
+E2E157.042s includes fixed initial placement213,739,837bytes/19.025s;
+Agent-controlled action transfer0bytes/0s. Wrapper operator work62.855s and
+reported Planner work53.169s are not additive to E2E or an independent model-work
+total. Frozen-list-price cloud estimate:Manager$0.072776, Verifier$0.148852,
+combined$0.221628 (10 calls); not an invoice or optimization claim.
+All actual-recipient/privacy, artifact persistence, observer, tc restoration,
+Worker exit and five-instance residency/log interval checks passed.
+
+Second cell:the same video602-2 /P1/Slow/B0. Its initial artifact materialization
+is currently ongoing at3Mbps; the fixed setup transfer is separately recorded,
+not mislabeled as Planner-controlled communication or Ollama startup. This
+checkpoint does not authorize method pruning or filling any new cell with old
+results. Future handoffs must re-read the actual journal rather than assume
+these counts remain current.
