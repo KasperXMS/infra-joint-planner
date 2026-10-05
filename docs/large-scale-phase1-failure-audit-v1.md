@@ -1,11 +1,17 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Forty-two classified nominal Phase I samples after case-audits009–013:38
+Forty-two classified nominal Phase I samples after case-audits009–013 and
+full snapshot027:38
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
 not the completed168-cell audit. No method pruning is allowed. The original
+full snapshot027 independently verifies42 admitted /44 attempts /0 pending /
+2 effective confounders /8 original rejected attempts /0 operational exclusions;
+file SHA `4f479383fa0e2e6a4ca041bd842a1615302046ece27166ccc55fb367bb2fbe5d`.
+All prior review lineage is retained; no retry, payload export or Agent feedback.
+The earlier
 compound rejection is retained and both independent proofs pass; no rerun is
 authorized. Queue007 parent2448151 resumes original MultiHop-1 / Qwen / Slow /
 A child2450537 with four empty stores; it completes/format-valid but scores0.

@@ -124,3 +124,16 @@ confounders. Original168 scope, full post-run privacy/supporting-evidence audit,
 pruning and Phase II are still incomplete. The prospective pool's assets are
 being prepared separately; no new deployment is activated. The old/new comparison
 block cutover decision remains outstanding, not silently resolved by this audit.
+
+The new full cumulative `analysis/large-scale-snapshot-027.json` independently
+replays the frozen168-cell schedule/journal and exact immutable review lineage:
+42 admitted /44 attempts /0 pending /2 effective confounders /8 original rejected
+attempts /0 operational exclusions. It includes one field-only, one field/policy,
+one JSON/policy compound, two single-JSON and one single-policy review. No score
+aggregation or payload export; Phase I incomplete and pruning unauthorized.
+Snapshot file SHA:
+`4f479383fa0e2e6a4ca041bd842a1615302046ece27166ccc55fb367bb2fbe5d`.
+Snapshot process2956509 completes and is verified gone. Its collector source
+813b5b... is unchanged; only the tested offline ledger/admission projection is
+injected for this new output. No Agent input, online cost logic or old snapshot
+is altered.

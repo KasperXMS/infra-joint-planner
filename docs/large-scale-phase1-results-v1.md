@@ -37,6 +37,14 @@ ReadTimeout confounder is preserved, not retrospectively admitted. Academic /
 Qwen / Fast / B is a valid terminal-format failure, not a replacement candidate.
 Older live/stopped paragraphs below are historical checkpoints.
 
+Latest full cumulative snapshot027 verifies42 admitted /44 attempts /0 pending /
+2 effective preserved confounders /8 original rejected attempts /0 operational
+exclusions, including every immutable review lineage and the new exact field-only
+proof. File SHA:
+`4f479383fa0e2e6a4ca041bd842a1615302046ece27166ccc55fb367bb2fbe5d`.
+The offline snapshot process completes and exits; it does not resume the queue,
+aggregate accuracy or authorize pruning/Phase II. No new model is activated.
+
 Latest three Video131-3 admissions each independently reproduce, bind55 original
 files and verify four initially empty stores. Each executes only sample_frames
 onA4 then one actual A28 model invocation (eight/six/eight image inputs for
