@@ -38,6 +38,28 @@ audited separately. Queue008/cell80 were command-verified live23:41:31Z. Per-cel
 reviews do not replace the all168 private semantic/recipient/adoption audit,
 frozen pruning or actual PhaseII execution. No final report/winner is asserted.
 
+Later summaries080–081 advance classified coverage to81. Cell80 P1/Fast/B
+completed originalscore0 after natural top-k20->6->3 context recovery; cell81
+P1/Fast/B1 completed originalscore1 after reducing a16image request to four
+original frames. Real terminal artifact consumption is proven for both, but
+quality/evidence causality remains pending the private audit. Latest
+[cell81 report](large-scale-resident-checkpoint-081-v1.md) binds its original
+trace/result/admission/residency and summarySHA. Queue008/cell82 were command-
+verified live23:52:40Z, on the fixed Slow video materialization stage.
+
+Snapshot021's long-running read-only collector was canceled **without a
+snapshot output** after the journal advanced since collection launch. Exact
+auditPID2984741/parent2984737/command were checked before SIGTERM; formal
+queuePID2678456 and atomicPID2996079 were separately checked and left untouched.
+Append-only cancellation receipt:
+`analysis/resident-snapshot-021-cancellation-001.json`, file SHA-256
+`f3ebecf98510456043e6205a3a8879fa02fe23522b9439e1b6dda07f5cbb9043`.
+Its metadata operation made0modelcalls and changed no tc/result/attempt.
+This is not a benchmark failure, retry or replacement. Full snapshot020 remains
+immutable at64; later single-cell projections extend coverage without pretending
+that an inconsistent whole-block snapshot passed. Future full collection waits
+for a stable inactive boundary; all168 semantic audit requirements remain.
+
 The389-file measured app,18-task manifest, pricing/history/E rules and five
 resident-instance contracts are hash-bound by the unchanged execution freeze.
 Per-cell admissions verify effective SDK recipient contexts, original evaluator
