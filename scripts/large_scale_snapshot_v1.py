@@ -409,13 +409,18 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any, *,
     record_review = json.loads(record_path.read_text()) if record_path.exists() else None
     policy_path = root / "resident-provider-policy-adjudications" / (attempt.run_id + ".json")
     policy_review = json.loads(policy_path.read_text()) if policy_path.exists() else None
+    legacy_policy_path = root / "provider-policy-adjudications" / (attempt.run_id + ".json")
+    legacy_policy = (json.loads(legacy_policy_path.read_text())
+                     if legacy_policy_path.exists() else None)
     return {
         "run_id": attempt.run_id, "attempt_index": attempt.attempt_index,
         "execution_sha256": attempt.execution_sha256,
         "disposition": attempt.disposition, "admission_reason": attempt.reason,
         "admission_problems": admission.get("problems", []),
         "original_rejection_preserved": any(v is not None for v in (
-            adjudication, record_review, policy_review)),
+            adjudication, record_review, policy_review, legacy_policy)),
+        "provider_policy_adjudication_sha256": provenance_sha256(legacy_policy)
+        if legacy_policy is not None else None,
         "resident_provider_policy_adjudication_sha256": provenance_sha256(policy_review)
         if policy_review is not None else None,
         "record_field_adjudication_sha256": provenance_sha256(record_review)

@@ -188,8 +188,9 @@ def test_second_exact_review_replays_previously_adjudicated_original_journal(rej
     assert view.completed_cells == ("cell1", "cell2")
 
 
+@pytest.mark.parametrize("historical_policy", [False, True])
 def test_resident_terminal_http_policy_review_preserves_failed_unevaluated_sample(
-    rejected_model_json, monkeypatch: pytest.MonkeyPatch,
+    rejected_model_json, monkeypatch: pytest.MonkeyPatch, historical_policy: bool,
 ) -> None:
     root, directory, ledger, _ = rejected_model_json
     control.create_review("run1")
@@ -206,7 +207,9 @@ def test_resident_terminal_http_policy_review_preserves_failed_unevaluated_sampl
     (api / "call-request.json").write_text('{"content":"PRIVATE_REQUEST"}')
     (api / "call-response.json").write_text(json.dumps({"error": error}))
     (api / "call-usage.json").write_text(json.dumps({"call_id": "call", "status": 400,
-        "recipient": "manager", "requested_model": "deepseek-v4-pro", "usage": None,
+        "recipient": "verifier" if historical_policy else "manager",
+        "requested_model": "qwen3.8-max" if historical_policy else "deepseek-v4-pro",
+        "usage": None,
         "finished_utc": "2026-10-05T19:01:19Z"}))
     terminal = {"code": "control_plane_failed", "exception_type": "BadRequestError",
                 "message": "HTTP400 data_inspection_failed"}
@@ -215,10 +218,14 @@ def test_resident_terminal_http_policy_review_preserves_failed_unevaluated_sampl
         "api_audit": {"problems": [control.policy_review.legacy.GATE]},
         "operational_incidents": [], "execution_completed": False,
         "original_evaluation": None, "terminal_failure": terminal}
+    if historical_policy:
+        terminal.update(code="logical_loop_failed", exception_type="AgentLoopError")
+        receipt.update(reason=control.policy_review.legacy.GATE,
+                       problems=[control.policy_review.legacy.GATE])
     (second / "admission.json").write_text(json.dumps(receipt))
     (second / "runs/run2/trace.jsonl").write_text(json.dumps({
         "event_type": "run.failed", "payload": {"failure": terminal}}) + "\n")
-    view.settle("run2", "confounder", control.policy_review.TERMINAL_GATE,
+    view.settle("run2", "confounder", receipt["reason"],
                 provenance_sha256(receipt))
     before = ledger.path.read_bytes()
     monkeypatch.setattr(frozen, "admit", lambda *args: receipt)
@@ -232,4 +239,6 @@ def test_resident_terminal_http_policy_review_preserves_failed_unevaluated_sampl
     assert before == ledger.path.read_bytes()
     assert json.loads((second / "admission.json").read_text()) == receipt
     assert "PRIVATE_REQUEST" not in json.dumps(actual)
-    assert control.control_freeze()["resident_provider_policy_adjudications"]
+    key = ("provider_policy_adjudications" if historical_policy
+           else "resident_provider_policy_adjudications")
+    assert control.control_freeze()[key]

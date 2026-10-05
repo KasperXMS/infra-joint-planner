@@ -60,7 +60,11 @@ def create_review(run_id: str, *, record_fields: bool = False,
         trace = directory / "runs" / run_id / "trace.jsonl"
         events = [json.loads(line) for line in trace.open(encoding="utf-8")]
         shapes = record_review.shapes_for(root, directory, events) if record_fields else None
-        review = (policy_review.review(original, directory / "private/api", events)
+        historical_policy = provider_policy and original.get("problems") == [
+            policy_review.legacy.GATE]
+        review = (policy_review.legacy.review_policy(original, directory / "private/api")
+                  if historical_policy else
+                  policy_review.review(original, directory / "private/api", events)
                   if provider_policy else record_review.review(original, events, shapes)
                   if shapes is not None
                   else reviewer.review_model_json_failures(original, events))
@@ -75,6 +79,7 @@ def create_review(run_id: str, *, record_fields: bool = False,
             "original_execution_sha256": attempt.execution_sha256,
             "worker_source_sha256": worker_hash,
             "reviewer_source_sha256": reviewer.sha256(Path(
+                policy_review.legacy.__file__ if historical_policy else
                 policy_review.__file__ if provider_policy else record_review.__file__
                 if record_fields else reviewer.__file__)),
             "resident_review_creator_sha256": reviewer.sha256(Path(__file__)),
@@ -96,12 +101,14 @@ def create_review(run_id: str, *, record_fields: bool = False,
                          legacy_reviewer_source_sha256=reviewer.sha256(
                              Path(policy_review.legacy.__file__)),
                          input_censored=False, prompt_changed=False, evaluation_imputed=False)
-        sidecar_directory = (policy_review.DIRECTORY if provider_policy
+        sidecar_directory = (policy_review.legacy.POLICY_DIRECTORY if historical_policy else
+                             policy_review.DIRECTORY if provider_policy
                              else record_review.DIRECTORY if record_fields else "adjudications")
         path = root / sidecar_directory / (run_id + ".json")
         path.parent.mkdir(exist_ok=True)
         frozen.write_new(path, value)
-        (policy_review.verify_sidecar if provider_policy else record_review.verify_sidecar
+        (policy_review.legacy.verify_policy_sidecar if historical_policy else
+         policy_review.verify_sidecar if provider_policy else record_review.verify_sidecar
          if record_fields else reviewer.verify_sidecar)(path, attempt)
         if journal.read_bytes() != before:
             raise RuntimeError("offline review must not rewrite original journal")
@@ -137,6 +144,8 @@ def control_freeze() -> dict[str, Any]:
             (frozen.ROOT / record_review.DIRECTORY).glob("*.json"))},
         "resident_provider_policy_adjudications": {p.name: reviewer.sha256(p) for p in sorted(
             (frozen.ROOT / policy_review.DIRECTORY).glob("*.json"))},
+        "provider_policy_adjudications": {p.name: reviewer.sha256(p) for p in sorted(
+            (frozen.ROOT / policy_review.legacy.POLICY_DIRECTORY).glob("*.json"))},
         "atomic_execution_entrypoint": str(Path(frozen.__file__).resolve()),
         "schedule_unchanged": True, "semantic_or_physical_execution_changed": False,
         "replacements_authorized": False,
@@ -152,7 +161,7 @@ def run(control_path: Path) -> None:
     saved = json.loads(control_path.read_text())
     if saved != control_freeze() or not any(saved[key] for key in (
             "adjudications", "record_field_adjudications",
-            "resident_provider_policy_adjudications")):
+            "resident_provider_policy_adjudications", "provider_policy_adjudications")):
         raise RuntimeError("continuation control/adjudication drift")
     cells = frozen.schedule()
     prices, _ = frozen.verified_prices(frozen.PREDECESSOR, frozen.APP)
