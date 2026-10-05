@@ -2,12 +2,14 @@
 # No runtime imports this file. Validated contracts must be generated separately.
 schema_version: 1
 pool_id: resident-model-pool-v1
-status: assets_prepared_not_deployed
+status: isolated_stores_prepared_not_deployed
 activation_allowed: false
 old_experiment_pool_modified: false
 matrix_replacement_authorized: false
 source_content_verification_root: /home/super/xiaoming/resident-model-pool-v1/asset-set-verification-001
 source_content_verification_sha256: c67605618fbccf79d8ee7980bb04e2e75566c36809bbb9271c329ef9fd5670d0
+isolated_store_verification_root: /home/super/xiaoming/resident-model-pool-v1/isolated-store-repair-001
+isolated_store_verification_sha256: 3d05d3ba3e8545bb9d5244c3f31d892bfaa64243802ed9449422e7620f7593af
 
 scope:
   distinct_model_artifacts: 3
@@ -87,6 +89,8 @@ proposed_instances:
     artifact: vl-4b-instruct
     gpu_binding: integrated_jetson_gpu
     dedicated_ollama_port: 11436
+    isolated_model_store: /mnt/ssd/resident-model-pool-v1/models
+    store_content_verified: true
     validated_contract: null
     calibration_status: pending
   - instance_id: resident-a5-vl8b-v1
@@ -94,6 +98,8 @@ proposed_instances:
     artifact: vl-8b-instruct
     gpu_binding: integrated_jetson_gpu
     dedicated_ollama_port: 11436
+    isolated_model_store: /mnt/ssd/resident-model-pool-v1/models
+    store_content_verified: true
     validated_contract: null
     calibration_status: pending
   - instance_id: resident-a28-qwen35-27b-v1
@@ -101,6 +107,8 @@ proposed_instances:
     artifact: existing-qwen35-27b
     gpu_binding: integrated_jetson_gpu
     dedicated_ollama_port: 11436
+    isolated_model_store: /mnt/ssd/resident-model-pool-v1/models
+    store_content_verified: true
     validated_contract: null
     calibration_status: pending_residency_attestation
   - instance_id: resident-4090-gpu0-qwen35-27b-v1
@@ -108,6 +116,8 @@ proposed_instances:
     artifact: existing-qwen35-27b
     gpu_binding: GPU-eba0a381-9ae1-4752-9171-6616ee9a0880
     dedicated_ollama_port: 11436
+    isolated_model_store: /home/super/xiaoming/resident-model-pool-v1/instance-stores/gpu0/models
+    store_content_verified: true
     validated_contract: null
     calibration_status: pending_gpu_bound_calibration
   - instance_id: resident-4090-gpu1-vl8b-v1
@@ -115,6 +125,8 @@ proposed_instances:
     artifact: vl-8b-instruct
     gpu_binding: GPU-bf1b70c4-b2d7-ed3b-54d5-95685863f06d
     dedicated_ollama_port: 11437
+    isolated_model_store: /home/super/xiaoming/resident-model-pool-v1/instance-stores/gpu1/models
+    store_content_verified: true
     validated_contract: null
     calibration_status: pending_gpu_bound_calibration
 
@@ -125,7 +137,7 @@ resident_service_target:
   separate_server_per_instance: true
   loaded_models_per_server: 1
   kv_cache_type: pending_explicit_freeze
-  model_store_roots: pending_isolated_roots
+  model_store_roots: prepared_and_verified_per_instance_above
   existing_server_ports_modified: false
   legacy_model_allocation_reconciliation_required: true
 

@@ -409,3 +409,26 @@ benchmark calls and no formal config or deployment change. New immutable root:
 `/home/super/xiaoming/resident-model-pool-v1/asset-set-verification-001`;
 asset-set receipt SHA-256:
 `c67605618fbccf79d8ee7980bb04e2e75566c36809bbb9271c329ef9fd5670d0`.
+
+All five isolated model stores are subsequently prepared and their manifest and
+every referenced file fully rehashed at each destination. 4090-to-Jetson payload
+distribution never passes through the development PC. A4/A5/A28 preparation plus
+recipient verification takes120.693 /211.660 /783.884 s; GPU0 local preparation
+and verification8.267 s. GPU1 source-manifest hardlinking fails because Snap owns
+the source asroot. Its failed preparation and first four success receipts remain
+immutable; only missing GPU1 files are copied into the new owned namespace and
+fully checked (6.124 s), with no old permissions/store/tag/file overwrite.
+Final five-store receipt:
+`/home/super/xiaoming/resident-model-pool-v1/isolated-store-repair-001/five-store-completion.json`,
+SHA `3d05d3ba3e8545bb9d5244c3f31d892bfaa64243802ed9449422e7620f7593af`.
+This is filesystem asset preparation, not an experimental retry, deployment,
+warm-up or inference calibration. Activation remains false; per-instance
+validated contracts remain null. No Planner/benchmark call or old formal-runtime
+change occurs. No new matrix is scheduled by this preparation.
+
+After updating the inactive manifest to bind the five verified destination
+stores, full pytest961 passes in32.23s, Ruff passes, strict Pyright with the
+project virtualenv reports0 errors/warnings, and diff check passes. The manifest
+has ten integrity tests; no ability is advertised on the basis of hashes or
+directory existence. All context/output/modality/residency/service/concurrency
+calibration remains pending and activation false.

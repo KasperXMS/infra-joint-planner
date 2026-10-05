@@ -11,7 +11,7 @@ MANIFEST = Path(__file__).resolve().parents[1] / (
 
 def test_manifest_cannot_be_mistaken_for_an_enabled_experiment() -> None:
     manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
-    assert manifest["status"] == "assets_prepared_not_deployed"
+    assert manifest["status"] == "isolated_stores_prepared_not_deployed"
     assert manifest["activation_allowed"] is False
     assert manifest["old_experiment_pool_modified"] is False
     assert manifest["matrix_replacement_authorized"] is False
@@ -123,3 +123,14 @@ def test_source_content_verification_does_not_activate_a_deployment() -> None:
     assert manifest["activation_allowed"] is False
     assert all(instance["validated_contract"] is None
                for instance in manifest["proposed_instances"])
+
+
+def test_five_verified_isolated_stores_do_not_claim_live_services() -> None:
+    manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    assert len(manifest["isolated_store_verification_sha256"]) == 64
+    for instance in manifest["proposed_instances"]:
+        assert instance["store_content_verified"] is True
+        assert "resident-model-pool-v1" in instance["isolated_model_store"]
+        assert instance["validated_contract"] is None
+        assert instance["calibration_status"].startswith("pending")
+    assert manifest["activation_allowed"] is False
