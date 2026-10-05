@@ -81,3 +81,24 @@ Newblock boundary is65classified primary outcomes, not completed168. Full
 private/recipient/failure/adoption audit, frozen screening/pruning, actual
 preregistered PhaseII within `42+168+48m<=420`, all finalreports/Q1–Q10 remain
 required. No new method, repetition, semantic tuning or early pruning.
+
+### Read-only live network proof while cell66 materializes
+
+An independent controller-side observation checked the real atomicPID2715337
+command before both reads, while the original journal still had cell66pending.
+The current controller egress `htb 1:20` Worker-port class reported
+`rate 3Mbit ceil 3Mbit`. Counter samples at22:40:27.856194Z and22:40:57.863612Z
+were100,970,402 and112,226,738classbytes:11,256,336bytes over30.007415s, or
+3.000948Mbps. This is live progress under the actual Slow shaping, not a hung
+run or an observation timeout. Network counters include packet/control overhead
+and are **not** exact artifact-transfer bytes, completion, goodput or symmetric
+RTT. Final original transfer receipts remain the authoritative workload metric.
+
+Remote append-only `analysis/resident-cell-066-live-network-observation-001.json`
+SHA-256: `7f33bb72e611d71e6daf4950f55754480737d102bd89fc236bfd8baa9abb29ce`.
+It binds the reservation/execution-freeze/endpoint-config, exact read-only tc
+command, actual live atomic identity and both measured timestamps/counters.
+No original evidence file, observer, logical context, network regime, model
+or execution code was changed;modelcalls0,noartifactpayloadexport. This does
+not replace the final per-run tc cleanup/residency/admission checks, authorize
+a retry or establish a workflow/network adaptation benefit.
