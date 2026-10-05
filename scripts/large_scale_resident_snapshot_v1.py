@@ -49,7 +49,14 @@ def collect(root: Path = ROOT, predecessor: Path = PREDECESSOR) -> dict[str, Any
     if not journal.exists():
         raise RuntimeError("read-only collector cannot initialize a missing ledger")
     journal_before = journal.read_bytes()
-    value = base.snapshot(root, selection_root=selection)
+    if list((root / "record-field-adjudications").glob("*.json")):
+        from large_scale_resident_record_review_v1 import RecordAttemptLedger, effective_admission
+
+        value = base.snapshot(root, selection_root=selection,
+                              ledger_class=RecordAttemptLedger,
+                              admission_reader=effective_admission)
+    else:
+        value = base.snapshot(root, selection_root=selection)
     if (value["scheduled_cells"] != 168
             or freeze["phase1_schedule_sha256"] != json.loads(
                 (selection / "manifest.json").read_text())["phase1_schedule_sha256"]):

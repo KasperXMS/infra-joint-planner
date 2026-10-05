@@ -12,6 +12,7 @@ import json
 import math
 import sys
 from collections import Counter
+from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -358,9 +359,11 @@ def event_metrics(events: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
+def settled_attempt(root: Path, cell_id: str, attempt: Any, *,
+                    admission_reader: Callable[..., dict[str, Any]] | None = None,
+                    ) -> dict[str, Any]:
     directory = root / "evidence" / cell_id / f"attempt{attempt.attempt_index}"
-    admission = effective_admission(root, attempt)
+    admission = (admission_reader or effective_admission)(root, attempt)
     if (provenance_sha256(admission) != attempt.receipt_sha256
             or admission["disposition"] != attempt.disposition):
         raise RuntimeError("settled admission/ledger drift")
@@ -415,23 +418,33 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any) -> dict[str, Any]:
     }
 
 
-def snapshot(root: Path, *, selection_root: Path | None = None) -> dict[str, Any]:
+def snapshot(root: Path, *, selection_root: Path | None = None,
+             ledger_class: type[SnapshotAttemptLedger] | None = None,
+             admission_reader: Callable[..., dict[str, Any]] | None = None,
+             ) -> dict[str, Any]:
     selection = selection_root or root / "preparation/task-freeze-002"
     manifest = json.loads((selection / "manifest.json").read_text())
     schedule = json.loads((selection / "phase1-schedule.json").read_text())
     cell_ids = tuple(row["cell_id"] for row in schedule)
     if not (root / "phase1-attempts.jsonl").is_file():
         raise RuntimeError("read-only collector cannot initialize a missing attempt ledger")
-    ledger = SnapshotAttemptLedger(root / "phase1-attempts.jsonl", cell_ids,
-                                  manifest["phase1_schedule_sha256"])
+    ledger = (ledger_class or SnapshotAttemptLedger)(root / "phase1-attempts.jsonl", cell_ids,
+                                                    manifest["phase1_schedule_sha256"])
     attempts = ledger.attempts
     admitted = {item.cell_id for item in attempts if item.disposition == "valid"}
     original_attempts = ledger.original_attempts
     rows = []
+
+    def read_attempt(cell_id: str, attempt: Any) -> dict[str, Any]:
+        if admission_reader is None:
+            return settled_attempt(root, cell_id, attempt)
+        return settled_attempt(root, cell_id, attempt, admission_reader=admission_reader)
+
     for cell in schedule:
         matched = [x for x in attempts if x.cell_id == cell["cell_id"]]
         rows.append({"condition": cell,
-                     "attempts": [settled_attempt(root, cell["cell_id"], x) for x in matched
+                     "attempts": [read_attempt(cell["cell_id"], x)
+                                  for x in matched
                                   if x.disposition is not None],
                      "pending_run_ids": [x.run_id for x in matched if x.disposition is None]})
     return {"version": "large-scale-settled-telemetry-v1", "scheduled_cells": len(cell_ids),
@@ -444,6 +457,8 @@ def snapshot(root: Path, *, selection_root: Path | None = None) -> dict[str, Any
                                          for x in attempts),
             "provider_policy_adjudicated_attempts": sum(
                 x.reason == "audited_provider_input_policy_failure" for x in attempts),
+            "record_field_adjudicated_attempts": sum(
+                x.reason == "audited_materialized_record_absent_field_misuse" for x in attempts),
             "operational_excluded_attempts": sum(x.disposition == "operational_excluded"
                                                  for x in attempts),
             "phase1_complete": len(admitted) == len(cell_ids),

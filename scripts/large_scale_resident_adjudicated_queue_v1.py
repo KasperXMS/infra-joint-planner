@@ -16,15 +16,16 @@ from typing import Any
 
 import large_scale_adjudication_v1 as reviewer
 import large_scale_resident_queue_v1 as frozen
+import large_scale_resident_record_review_v1 as record_review
 import yaml
 from large_scale_resident_private_evidence_v1 import assert_inactive
-from large_scale_snapshot_v1 import SnapshotAttemptLedger
+from large_scale_resident_record_review_v1 import RecordAttemptLedger as SnapshotAttemptLedger
 
 from infra_joint.control.provenance import provenance_sha256
 from infra_joint.experiments.attempt_ledger import AttemptLedger, QueueLease
 
 
-def create_review(run_id: str) -> dict[str, Any]:
+def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]:
     frozen.require_remote()
     root = frozen.ROOT
     assert_inactive(root)
@@ -52,7 +53,9 @@ def create_review(run_id: str) -> dict[str, Any]:
             raise RuntimeError("review cannot waive Worker exit/residency confounders")
         trace = directory / "runs" / run_id / "trace.jsonl"
         events = [json.loads(line) for line in trace.open(encoding="utf-8")]
-        review = reviewer.review_model_json_failures(original, events)
+        shapes = record_review.shapes_for(root, directory, events) if record_fields else None
+        review = (record_review.review(original, events, shapes) if shapes is not None
+                  else reviewer.review_model_json_failures(original, events))
         worker = frozen.APP / "src/infra_joint/worker/server.py"
         freeze = json.loads(frozen.FREEZE.read_text())
         worker_hash = freeze["source_sha256"]["src/infra_joint/worker/server.py"]
@@ -63,7 +66,8 @@ def create_review(run_id: str) -> dict[str, Any]:
             "original_admission_sha256": attempt.receipt_sha256,
             "original_execution_sha256": attempt.execution_sha256,
             "worker_source_sha256": worker_hash,
-            "reviewer_source_sha256": reviewer.sha256(Path(reviewer.__file__)),
+            "reviewer_source_sha256": reviewer.sha256(Path(
+                record_review.__file__ if record_fields else reviewer.__file__)),
             "resident_review_creator_sha256": reviewer.sha256(Path(__file__)),
             "original_evidence_file_sha256": {
                 str(p.relative_to(directory)): reviewer.sha256(p)
@@ -72,15 +76,24 @@ def create_review(run_id: str) -> dict[str, Any]:
             "formal_execution_changed": False, "replacement_authorized": False,
             "model_behavior_repaired": False,
         }
-        path = root / "adjudications" / (run_id + ".json")
+        if record_fields:
+            value.update(version="exact-materialized-record-field-review-v1",
+                         materialized_shapes=shapes,
+                         execution_sources_sha256={p: reviewer.sha256(frozen.APP / p)
+                                                   for p in record_review.SOURCE_PATHS},
+                         online_feedback=False, specialist_schema_visibility_not_assumed=True)
+        sidecar_directory = record_review.DIRECTORY if record_fields else "adjudications"
+        path = root / sidecar_directory / (run_id + ".json")
         path.parent.mkdir(exist_ok=True)
         frozen.write_new(path, value)
-        reviewer.verify_sidecar(path, attempt)
+        (record_review.verify_sidecar if record_fields else reviewer.verify_sidecar)(path, attempt)
         if journal.read_bytes() != before:
             raise RuntimeError("offline review must not rewrite original journal")
     return {"run_id": run_id, "adjudication_sha256": provenance_sha256(value),
             "evidence_files": len(value["original_evidence_file_sha256"]),
-            "reviewed_disposition": "valid", "confirmed_parse_failures": len(review["proof"]),
+            "reviewed_disposition": "valid",
+            "confirmed_parse_failures": len(review.get("proof", [])),
+            "confirmed_record_field_failures": len(review.get("record_field_proof", [])),
             "rerun": False, "execution_changed": False}
 
 
@@ -91,10 +104,13 @@ def control_freeze() -> dict[str, Any]:
         "execution_freeze_sha256": frozen.verify_freeze(),
         "controller_source_sha256": reviewer.sha256(Path(__file__)),
         "reviewer_source_sha256": reviewer.sha256(Path(reviewer.__file__)),
+        "record_reviewer_source_sha256": reviewer.sha256(Path(record_review.__file__)),
         "ledger_view_source_sha256": reviewer.sha256(Path(sys.modules[
             SnapshotAttemptLedger.__module__].__file__)),
         "adjudications": {p.name: reviewer.sha256(p)
                           for p in sorted((frozen.ROOT / "adjudications").glob("*.json"))},
+        "record_field_adjudications": {p.name: reviewer.sha256(p) for p in sorted(
+            (frozen.ROOT / record_review.DIRECTORY).glob("*.json"))},
         "atomic_execution_entrypoint": str(Path(frozen.__file__).resolve()),
         "schedule_unchanged": True, "semantic_or_physical_execution_changed": False,
         "replacements_authorized": False,
@@ -176,12 +192,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--review-run")
+    modes.add_argument("--review-record-run")
     modes.add_argument("--freeze", action="store_true")
     modes.add_argument("--queue", action="store_true")
     parser.add_argument("--control-freeze", type=Path)
     args = parser.parse_args()
     if args.review_run:
         print(json.dumps(create_review(args.review_run)))
+    elif args.review_record_run:
+        print(json.dumps(create_review(args.review_record_run, record_fields=True)))
     elif args.freeze:
         if (args.control_freeze is None or args.control_freeze.resolve().parent != frozen.ROOT
                 or not args.control_freeze.name.startswith("queue-control-freeze-")):
