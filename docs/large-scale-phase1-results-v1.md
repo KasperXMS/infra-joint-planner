@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **32 / 168 nominal samples classified/admitted after case-audit004:**
-28 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **33 / 168 nominal samples classified/admitted after case-audit005:**
+29 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated
 corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
@@ -13,7 +13,9 @@ independently classified, binding127 original files; no Agent repair/replacement
 Snapshot026 independently verifies31 admissions /33 attempts /0 pending before
 queue008 resumes. Parent2599603 is verified actually live; original MultiHop-1 /
 Qwen / Fast / C then completes, format-valid, score1. The next original cell is
-Video602-2 / DeepSeek / Fast / E; there is no replacement. See
+Video602-2 / DeepSeek / Fast / E then also completes with legal format /score1,
+independently audited. Original next Video602-2 / Qwen / Slow / B0 is reserved;
+there is no replacement. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md).
 The audited
 transport-only repair has a new execution/control freeze. Academic / DeepSeek /
@@ -39,7 +41,7 @@ See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The six latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The seven latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -78,8 +80,9 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Slow | A | 1 | yes / valid / 0.0 | 280.753 | 7,696,522 / 21.926 | 5,204,596 / 15.661 | 8 / 0 / 8 | 16 | 0.118184 |
 | MultiHop 4b6de4acbde051fee1f727f3 | DeepSeek V4 Pro | Slow | B | 1 | no / unknown / unknown; delegated field misuse + provider policy | 125.127 (trace) | 7,696,522 / 22.189 (trace) | 70,251 / 0.406 subtotal; full unknown | 5 / 16 / 5 started | 26 | unknown |
 | MultiHop 4b6de4acbde051fee1f727f3 | Qwen3.8-Max | Fast | C | 1 | yes / valid / 1.0 | 100.977 | 7,696,522 / 0.791 | 0 / 0 | 12 / 0 / 6 | 18 | 0.328267 |
+| Video 602-2 | DeepSeek V4 Pro | Fast | E | 1 | yes / valid / 1.0 | 312.137 | 213,739,837 / 18.610 | 1,541,758 / 1.355 | 4 / 0 / 4 | 8 | 0.139266 |
 
-The 28 completed samples have no unresolved findings and original private evaluators ran.
+The 29 completed samples have no unresolved findings and original private evaluators ran.
 The separately classified policy, terminal-choice, mixed JSON/policy and
 delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
@@ -101,6 +104,33 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Case-audit005: full-original-video E sample completes normally
+
+Video602-2 / DeepSeek / Fast / E uses the same frozen full2,819.854 s /
+213,739,837-byte original MP4, not a smoke MJPEG or shortened source. It makes
+one successful sample_frames action and one real vision-model invocation with
+eight image artifact inputs. Actual model service190.283 s,7,635 input /2 output
+tokens,finish_reason=stop. Initial placement18.610 s is separated from action
+movement1,541,758 bytes /1.355 s and E2E312.137 s. Successful operator work235.973 s
+includes inference, so it must not be added again to model service.
+
+Four Manager /0 specialist /4 fixed Blind Verifier calls; all eight cloud usages
+known, USD list-price0.139266. One semantic-validation and one phase restriction
+are returned and retained; neither is a model inference or an automatic repair.
+The contact-sheet request is not successfully executed. The real execution graph
+has two successful nodes /eight image-flow edges,seven snapshots /two structure
+growths,one owner and no parallel overlap. E rules/interface are visible in four
+root inputs; optional cost queries remain zero and internal rule use is unknown.
+
+Independent full admission reproduces the original receipt, binds55 original
+files, checks four initial empty stores and graph interval/order/closure integrity.
+No private supporting-body/temporal evidence coverage audit or online feedback.
+Case-audit005 file SHA-256:
+`123ff234fa6e507920da67d879ca7ed9f4d699570e0f3d975dc3e387a09fcbcf`.
+Admission canonical SHA-256:
+`e4abeafda4b6b7ce069a0fcd2cb9375353997e7c827c0cbba860448808bcc158`.
+Score1 is retained without a method promotion, matched causal claim or repetition.
 
 ### Case-audit004: C completes correctly, with no proven quote-driven revision
 

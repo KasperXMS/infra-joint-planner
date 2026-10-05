@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirty-two classified nominal Phase I samples after case-audit004:28
+Thirty-three classified nominal Phase I samples after case-audit005:29
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -33,6 +33,14 @@ does not prove quote-driven revision (zero discards/revisions). Its terminal
 model is prompt-only, so zero artifact-transfer bytes is not zero total network
 traffic or certified evidence retention. Original next Video602-2 / DeepSeek /
 Fast / E is reserved; no mid-screening or private evidence feedback occurs.
+That Video602-2 / DeepSeek / Fast / E subsequently completes, format-valid,
+score1 with zero admission findings. It naturally continues after a generic
+semantic-validation failure and phase restriction, then performs one real
+eight-image inference (190.283 s,normal stop). The unsuccessful contact-sheet
+request is not counted as an executed operator. Independent admission/55-file
+graph audit passes; no retry, model substitution or hidden repair. The original
+next Qwen / Slow / B0 Video602-2 cell is reserved. Private temporal evidence
+coverage remains unknown, not inferred from the correct label.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 
