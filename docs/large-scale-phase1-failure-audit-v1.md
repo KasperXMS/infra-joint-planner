@@ -1,7 +1,7 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Thirty-seven classified nominal Phase I samples after case-audit008:33
+Forty classified nominal Phase I samples after case-audits009–011:36
 completed/evaluated, one provider-policy failure, one terminal-choice failure
 one mixed JSON/provider-policy failure and one field/provider-policy failure
 with unevaluated quality. This is
@@ -77,7 +77,33 @@ is visible in three actual root requests but unused; this is not a harness defec
 No privacy/runtime/observer/cleanup/graph-order finding in either case. Their
 79+47 original files are bound by case-audit008, file SHA-256
 `e6e2f46bd7ad36714935a56976462cf616ed91b552f808fc8ffe152fead578fb`.
-Original next Video131-3 / DeepSeek / Slow / A child2760358 is actually live.
+Original next Video131-3 / DeepSeek / Slow / A child2760358 was actually live.
+It subsequently completes, format-valid, score1, with full original admission
+independently reproduced and55 original files bound. One semantic-validation
+and one phase-restricted attempted tool call remain visible; two real actions
+succeed: A4 sample_frames and A28 eight-image inference. No context failure or
+unmeasured model work. Service189.698 s,input7609/output2,normal stop; all four
+stores initially empty. Case-audit009 file SHA-256:
+`8f0ea8a488a19aa1c2cf76aabfb048f3a65147951eb000f60c7c62d5198df58a`.
+Qwen / Slow / B1 and DeepSeek / Fast / B0 Video131-3 then also complete with
+format-valid score1 and independently reproduced full admissions. Each binds55
+original files /four initially empty stores; graph closure/order/interval findings
+zero. Both naturally continue after a semantic-validation failure and a phase
+restriction. Real execution is A4 sampling then A28 inference with six/eight image
+inputs, normal stop; no context failure or missing physical receipt. There is no
+hidden retry, automatic repair, model substitution or proof of causal profile use.
+Their immutable case-audit010 file SHA-256:
+`9b10db8f81d4a12aab06e38c0596a888ea273930583eb206a1009d9a1015549b`.
+An ad-hoc offline caller initially projected root function receipts from `api`
+instead of `private/api`. A separate append-only correction, case-audit011,
+binds010 and verifies four actual Manager usage receipts per case; observed calls
+are two sample_frames requests, one make_contact_sheet request and one invoke_model
+request. Only one sampling request executes; the contact-sheet request does not.
+The original evidence/admission and other010 metrics are unchanged. Correction SHA:
+`abd3862db45d408fda2128266e6c575ba82afb08a55a63a22abe079986025947`.
+Original next MultiHop-2 / Qwen / Fast / D child2811555 is verified live under
+unchanged queue008 parent2599603. The prospective resident/diverse pool has an
+inactive preparation manifest only; no active model/Worker/config change occurs.
 Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
 correct completion; its separately authorized repair attempt2 is admitted.
 

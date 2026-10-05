@@ -1,7 +1,7 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **37 / 168 nominal samples classified/admitted after case-audit008:**
-33 completed/evaluated, one provider-policy failure, one terminal-choice
+2026-10-05. **40 / 168 nominal samples classified/admitted after case-audits009–011:**
+36 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated
 corpus-field/provider-policy failure with unevaluated
 quality. Two implementation-confounded
@@ -18,7 +18,9 @@ independently audited. Video602-2 / Qwen / Slow / B0 also completes and independ
 passes admission. Video602-2 / DeepSeek / Slow / B1 also completes with an
 independently reproduced full admission. Qwen / Fast / A Video602-2 and Qwen /
 Fast / B Video131-3 then also complete with independently reproduced admissions.
-Original next Video131-3 / DeepSeek / Slow / A is reserved;
+Video131-3 / DeepSeek / Slow / A, Qwen / Slow / B1 and DeepSeek / Fast / B0
+subsequently complete with independently reproduced admissions and score1.
+Original next MultiHop-2 / Qwen / Fast / D child2811555 is verified live;
 there is no replacement. The requested resident/diverse model pool is not yet
 deployed or part of this frozen block. See
 [field/policy audit](large-scale-field-policy-failure-audit-v1.md).
@@ -28,6 +30,25 @@ Slow / A attempt2 is admitted with score1.0; attempt1's missing-receipt
 ReadTimeout confounder is preserved, not retrospectively admitted. Academic /
 Qwen / Fast / B is a valid terminal-format failure, not a replacement candidate.
 Older live/stopped paragraphs below are historical checkpoints.
+
+Latest three Video131-3 admissions each independently reproduce, bind55 original
+files and verify four initially empty stores. Each executes only sample_frames
+onA4 then one actual A28 model invocation (eight/six/eight image inputs for
+DeepSeek/Slow/A, Qwen/Slow/B1, DeepSeek/Fast/B0). Service189.698 /142.823 /190.036 s;
+input7609 /5711 /7614 tokens, output2 each, normal stop. Graphs have two succeeded
+nodes and eight/six/eight information edges, no closure/order/interval finding,
+one owner and no physical overlap. Each retains one semantic-validation and one
+phase restriction from unsuccessful tool requests; no hidden repair or retry.
+No context rejection or unmeasured failed inference. Score1 does not privately
+certify temporal evidence coverage or rational infrastructure-caused adaptation.
+Case-audit009 file SHA:
+`8f0ea8a488a19aa1c2cf76aabfb048f3a65147951eb000f60c7c62d5198df58a`.
+Case-audit010 binds the latter two admissions/files; file SHA:
+`9b10db8f81d4a12aab06e38c0596a888ea273930583eb206a1009d9a1015549b`.
+Append-only case-audit011 corrects only an ad-hoc010 root-call projection path
+(`private/api`, not `api`), verifies four actual root API receipts per case, and
+leaves originals/admissions/cost/graph metrics unchanged. File SHA:
+`abd3862db45d408fda2128266e6c575ba82afb08a55a63a22abe079986025947`.
 
 Historical snapshot024-to025 check: queue006 and child2296499 exit after the
 next MultiHop-1 / DeepSeek / Fast / B1 cell encounters both exact invalid-JSON
@@ -46,7 +67,7 @@ See [compound failure audit](large-scale-compound-failure-audit-v1.md).
 Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
-The eleven latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+The fourteen latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
 execution-freeze-003 canonical SHA-256
 092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
@@ -90,8 +111,11 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | Video 602-2 | DeepSeek V4 Pro | Slow | B1 | 1 | yes / valid / 1.0 | 888.243 | 213,739,837 / 596.607 | 847,087 / 3.058 | 3 / 0 / 3 | 6 | 0.073415 |
 | Video 602-2 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 218.761 | 213,739,837 / 18.601 | 589,020 / 0.694 | 7 / 0 / 7 | 14 | 0.336776 |
 | Video 131-3 | Qwen3.8-Max | Fast | B | 1 | yes / valid / 1.0 | 125.200 | 7,037,220 / 0.663 | 484,920 / 0.470 | 3 / 0 / 3 | 6 | 0.075269 |
+| Video 131-3 | DeepSeek V4 Pro | Slow | A | 1 | yes / valid / 1.0 | 254.066 | 7,037,220 / 19.706 | 1,007,497 / 3.714 | 4 / 0 / 4 | 8 | 0.077315 |
+| Video 131-3 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 1.0 | 195.639 | 7,037,220 / 19.702 | 707,555 / 2.650 | 4 / 0 / 4 | 8 | 0.081755 |
+| Video 131-3 | DeepSeek V4 Pro | Fast | B0 | 1 | yes / valid / 1.0 | 232.666 | 7,037,220 / 0.652 | 982,507 / 1.648 | 4 / 0 / 4 | 8 | 0.075650 |
 
-The 33 completed samples have no unresolved findings and original private evaluators ran.
+The 36 completed samples have no unresolved admission findings and original private evaluators ran.
 The separately classified policy, terminal-choice, mixed JSON/policy and
 delegated field/policy failures
 did not complete or invoke the evaluator: their result score/format stay unknown,
