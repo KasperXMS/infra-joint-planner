@@ -109,6 +109,10 @@ def control_freeze() -> dict[str, Any]:
             sys.modules[assert_inactive.__module__].__file__)),
         "ledger_view_source_sha256": reviewer.sha256(Path(sys.modules[
             SnapshotAttemptLedger.__module__].__file__)),
+        "ledger_dependency_sources_sha256": {
+            cls.__module__: reviewer.sha256(Path(sys.modules[cls.__module__].__file__))
+            for cls in SnapshotAttemptLedger.__mro__
+            if cls.__module__.startswith("large_scale_")},
         "adjudications": {p.name: reviewer.sha256(p)
                           for p in sorted((frozen.ROOT / "adjudications").glob("*.json"))},
         "record_field_adjudications": {p.name: reviewer.sha256(p) for p in sorted(
