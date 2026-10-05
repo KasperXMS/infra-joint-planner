@@ -3,7 +3,32 @@
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
 Twenty-six classified nominal Phase I samples: 25 completed/evaluated and one
 provider-policy failure with unknown quality. This is not the completed
-168-cell audit. No method pruning is allowed.
+168-cell audit. No method pruning is allowed. Latest queue005 is stopped with
+zero pending attempts; Academic / DeepSeek / Slow / A is an additional effective
+confounder despite correct completion, not a27th admitted sample.
+
+## Latest transport telemetry gate
+
+Academic / DeepSeek / Slow / A attempt1 completes with valid terminal output and
+original score1.0, but two1200-second ReadTimeout model interruptions lose their
+physical selection/execution receipts. Original admission remains rejected and
+163 bound evidence file hashes are unchanged. Queue parent1978333 and child1987511
+are verified absent. No rerun or relaxed admission is performed.
+
+Offline collector3f95992 now retains two unknown failed model outcomes rather
+than mislabeling889.587 s returned model-service work as complete. New local
+transport receipt repair preserves the same exception/rethrow semantics and
+logical failure while retaining physical-only selection/action timing; no
+retry/timeout/prompt/budget/strategy changes. Full pytest811 / Ruff / strict
+Pyright / diff check pass. The remote formal app remains94c9bac until a separate
+new execution/control freeze and affected-cell repair provenance are established.
+
+Snapshot023:26 admitted /28 attempts /0 pending /2 effective confounders,
+5 original confounded attempts,2 JSON reviews,1 provider-policy review and
+0 operational exclusions. Full unknown-measurement and exception-preservation
+details are in [transport receipt repair](large-scale-transport-receipt-repair-v1.md).
+The precise Worker HTTP versus backend timeout cause is still unproven; score1
+does not waive an implementation confounder.
 
 ## First attempt
 

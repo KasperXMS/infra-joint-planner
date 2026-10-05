@@ -4,6 +4,10 @@
 25 completed/evaluated, one provider-policy failure with unknown quality. One original
 implementation-confounded attempt remains separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
+**Latest state: queue005 stopped, zero pending attempts.** Academic / DeepSeek /
+Slow / A completes with score1.0 but remains a separate confounder after two
+ReadTimeouts lacking physical receipts. It is not a27th admission. Older live
+process paragraphs below are historical checkpoints; see the final stop audit.
 
 Execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
@@ -527,3 +531,26 @@ have unknown complete movement, with successful-receipt subtotals28,379 /18,934 
 claims must preserve that measurement limitation. Parent1978333/child1987511
 remain verified live on Academic / DeepSeek / Slow / A; there is no terminal
 event at this checkpoint. No restart, tuning, replacement or Phase II.
+
+## Latest stop: transport interruption despite correct completion
+
+Academic / DeepSeek / Slow / A attempt1 completes, format-valid, score1.0,
+E2E1462.656 s, ten Manager / fifteen specialist / ten Verifier turns and43
+physical actions. Ten model attempts comprise five context rejects, three
+returned successful inferences and two ReadTimeout interruptions. The Agent
+naturally continues, but missing physical receipts for those two actions make
+the attempt a confounder pending generic repair and audit, not a valid new cell.
+The owned parent1978333/child1987511 are absent; queue005 has stopped.
+
+Successful action-transfer subtotal94908 bytes /1.237 s and returned model
+service subtotal889.587 s are **not** complete totals. The offline collector
+now correctly records two unmeasured failed model outcomes; complete service
+and movement remain unknown. API35 metered cloud calls estimateUSD0.823861.
+Original result/trace/admission and all163 bound evidence files are unchanged.
+
+Snapshot023 verifies26 classified cells /28 attempts /0 pending /
+2 effective confounders. File SHA-256:
+9ed65ee37e1acaf48ccc25719d0081365b6acba9c49e3886ad2b3351fba8e7ef.
+See [transport receipt repair audit](large-scale-transport-receipt-repair-v1.md)
+for diagnosis, local minimal repairs and811 passing tests. No new formal attempt,
+operational replacement, deployment, queue resume, pruning or Phase II yet.
