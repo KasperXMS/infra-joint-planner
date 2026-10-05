@@ -1,13 +1,50 @@
 # Large-scale cost-guidance characterization v1
 
-2026-10-05. Branch `large-scale-cost-guidance-v1`, derived from `420d196`.
+2026-10-06. Branch `large-scale-cost-guidance-v1`, derived from `420d196`.
 Status: **execution frozen; Phase I in progress; Phase II not authorized yet**.
+The user-authorized resident/diverse restart supersedes the single-model
+physical-pool sections and prospective preparation entries below. The original
+42-cell block is closed, immutable and never pooled into the new168-cell block.
+Current execution root is
+`/home/super/xiaoming/large-scale-cost-guidance-resident-v1`, with execution
+revision `90fd30c531f3ad879dcaf5394b7633bcf7b07c3b` and canonical freeze
+`4090d46e5f3e7c3b25ae56355c830160c6688b1ca1c9e61ed5ca3ad93ba43e2c`.
+The previous preparation statements, including zero-cell/unresolved-cutover
+language, describe timestamped history and must not be used to resume the old
+queue or leave the new queue unstarted.
+
+Current physical pool: A4/Qwen3-VL4B Instruct, A5/Qwen3-VL8B Instruct,
+A28/qwen35 27.3B,4090GPU0/the same27.3B,4090GPU1/the same8B Instruct.
+These are three model artifacts/five resident instances, not five distinct
+models or five quality tiers. All share32768 context/2048 reserved output and
+the calibrated4096/image conservative envelope. Separate0.34.0 Ollama services,
+isolated stores, infinite keep-alive, CUDA ownership and pre/post process/log
+attestation exclude reloads rather than subtract guessed startup costs.
+Initial artifact placement remains a separate fixed cost. New instance model
+profiles without adequate matching clean support remain unknown; no old27B
+profile is relabeled as a4B/8B measurement. This environment is identical across
+all seven methods, both Planners and both network conditions.
+
+The18 tasks, method vocabulary, native logical loop, fixed Blind Qwen Verifier,
+instructions, operator/runtime/scheduler, evaluators, budgets and balanced
+condition order remain frozen. Cumulative substantive budget includes old42:
+42+168+48m<=420, so at most four complete PhaseII methods fit. This cap does
+not choose/prune methods before all new168 cells and comprehensive audit.
+
+Current authoritative evidence and report entry points:
+
+- [Resident restart protocol](large-scale-resident-restart-protocol-v1.md).
+- [Calibration evidence](resident-model-pool-calibration-v1.md).
+- [Execution freeze/per-cell checkpoints](large-scale-resident-execution-freeze-v1.md).
+- [Independent private-audit boundary/current snapshot](large-scale-resident-private-audit-protocol-v1.md).
+
 The original prospective sections below are retained as preregistration, not
 claims that execution has not started. Task identities, provider compatibility,
 pricing, runtime and deterministic order have been frozen and checked. Current
 admission counts and outcomes are maintained in
-[Phase I results](large-scale-phase1-results-v1.md) and
-[failure audit](large-scale-phase1-failure-audit-v1.md).
+[historical old-pool Phase I results](large-scale-phase1-results-v1.md) and
+[historical old-pool failure audit](large-scale-phase1-failure-audit-v1.md);
+new-block checkpoints are linked above until its full phase report is completed.
 This status correction changes no protocol, gate, task or run configuration and
 does not authorize an incomplete substitute for the requested study.
 

@@ -4,6 +4,18 @@
 The predecessor 42-cell block is closed to further scheduled runs, not deleted,
 overwritten, retroactively warmed, or combined with this environment.
 
+**Current status (2026-10-06): activated and executing.** Calibration and
+fresh-Worker/source/harness/profile/task/pricing/schedule freeze gates passed;
+the new PhaseI queue is live at execution revision `90fd30c`. Canonical freeze:
+`4090d46e5f3e7c3b25ae56355c830160c6688b1ca1c9e61ed5ca3ad93ba43e2c`.
+Read [execution evidence](large-scale-resident-execution-freeze-v1.md) and the
+[latest private-audit checkpoint](large-scale-resident-private-audit-protocol-v1.md).
+The prospective/candidate/zero-cell language below preserves the preregistration
+as written before activation; it is not the current state. PhaseII remains gated
+on all168 new cells, complete audit and frozen method selection. Re-read the live
+journal and process handles for current counts instead of treating a report's
+historical count as queue liveness.
+
 ## Scope and budget
 
 Keep the same 18 frozen tasks, benchmark representations, original private

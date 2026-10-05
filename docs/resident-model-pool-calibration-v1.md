@@ -118,7 +118,15 @@ calibration001 preserves the interrupted4090dispatch,002 the corrected4090,
 bound by block-cutover001. No tc shaping/benchmark artifacts/Worker benchmark
 processes were needed for these calibration checks.
 
-## Remaining activation gates
+## Activation gates at the historical readiness checkpoint
+
+This section records the pre-activation readiness snapshot. Those gates were
+subsequently satisfied and the new PhaseI queue started; zero-cell/inactive
+language below remains historical, not a current instruction. See the exact
+[execution freeze](large-scale-resident-execution-freeze-v1.md) and
+[new-block checkpoint](large-scale-resident-private-audit-protocol-v1.md).
+Calibration limitations remain unchanged; activation does not upgrade sparse
+service samples into empirical profiles or imply a32K actual-token stress test.
 
 [New physical configuration](../configs/experiments/resident-diverse-environment-v1.yaml)
 is **not yet a runnable frozen block**: formal app/harness/source/profile/pricing/
