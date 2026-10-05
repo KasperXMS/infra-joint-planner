@@ -46,6 +46,19 @@ Keep the original confounder receipt as history, use only its verified exact
 sidecar for the effective ledger view. This does not turn failure into completed
 execution and does not establish what content triggered the provider's filter.
 
+The subsequently reproduced effective admission canonical SHA is
+`a38fecd391aaea64093ecae9a2e63b9ff770178c9645ac0aa457095c51167fa9`.
+Append-only remote `analysis/resident-cell-050-summary-001.json` file SHA:
+`1a98db8d7d397b0bbfa09e875b90b04d22d68195080589a1cc95a71769f45408`.
+Original sidecar file SHA:
+`7e865a9cfbeb9b6741a27eef93afbe6105b9a888db977985a2813c3126759373`.
+The projection verifies all eighteen actual SDK recipient contexts, original
+versus effective receipts and the hash-linked original journal, Worker exit /
+residency, and trace/result/source hashes. It records fifty effective classified
+nominal outcomes and zero unresolved findings in its ledger view, not fifty
+successful completions. Its private semantic-audit/pruning flags remain false;
+no raw task, prompt, gold, artifact/model payload is exported through the PC.
+
 The first read-only reviewer invocation lacked the archived deployment's
 required `INFRA_JOINT_CODE_REVISION` and stopped before creating a sidecar.
 `review-console-050-001.log` is preserved. The second invocation explicitly used
