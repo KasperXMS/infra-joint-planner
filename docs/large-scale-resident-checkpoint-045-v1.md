@@ -101,9 +101,24 @@ Cell 48 / LongBench 2 / P1 / Fast / B1 settled valid at sequence 96,
 The bounded original result records completed / valid terminal / score 0.0,
 9 Manager / 9 Verifier turns, zero specialists, six charged physical calls,
 E2E 111.338 s and fixed initial 2,119,778 bytes / 0.495 s. Eighteen actual SDK
-contexts passed admission. Its full cost/adoption projection is still due;
-do not infer actual inference
-count or complete transfer work from the aggregate result alone.
+contexts passed admission. Subsequent full projection:
+`analysis/resident-cell-048-summary-001.json`, file SHA
+`8560cfcb3bf354270ad5be5cc27aa4c2761686f7a2c08e208f7b7c2cb95aa8f7`.
+Three successful BM25 calls, two submitted context preflight rejects and one
+successful A4 resident VL4B inference account for the six physical nodes.
+Three model proposals are not three inferences. The Manager naturally issued
+later retrieval/model actions after typed feedback, without automatic retry.
+
+Complete action movement 0 bytes / 0 s; complete tool work 1.107 s; complete
+backend work 11.637 s; model input/output 4,098 / 2, stop. Manager/Verifier work
+71.760 / 23.362 s; all eighteen cloud usages known, frozen list-price estimate
+USD 0.1110928819. Graph 6 nodes / 3 edges / 19 snapshots, four succeeded and
+two failed; actual concurrency one, no overlapping action intervals. All
+owning Worker exits/residency, actual recipient/method privacy, evaluator and
+source/receipt checks passed. Wrong-answer cause still awaits private evidence
+audit; raw profile visibility does not establish rational adaptation or explain
+the answer. This projection does not change the original admission or authorize
+pruning after only a partial block.
 
 Queue 005 PID `1997584` remained live at `20:39:45Z`; cell 49 / MultiHop 1 /
 P2 / Fast / D atomic PID `2278832` was live, reserved at sequence 97. Always
