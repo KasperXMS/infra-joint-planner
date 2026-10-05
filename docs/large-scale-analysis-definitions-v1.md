@@ -93,6 +93,33 @@ Historical collector source SHA-256:
 
 ## Admission, interpretation and stage gates
 
+### Model residency and service-time scope
+
+Fresh Worker processes/stores do not restart Ollama or establish either cold or
+uniformly warm inference. The frozen OpenAI-compatible backend starts its service
+clock immediately before chat.completions.create and stops at the complete
+response. This includes loading, queueing and request initialization when they
+occur, input/vision processing, generation and local HTTP/client overhead. It is
+not pure decode time. Current receipts do not separately identify load duration,
+prefill/decode duration, TTFT or request-entry residency. Those components remain
+unknown; do not subtract a guessed fixed startup penalty retrospectively.
+
+A read-only2026-10-05 check of the4090 experiment Ollama process found
+OLLAMA_KEEP_ALIVE=30m, OLLAMA_NUM_PARALLEL=1 and OLLAMA_MAX_LOADED_MODELS=1;
+its /api/ps was empty at that observation. This is a time-local deployment check,
+not evidence of the loading state of every earlier call. Existing balanced order
+does not prove this uncontrolled factor cancels. Report residency/cache state as
+a limitation of E2E/model-service method comparisons; do not claim statistically
+controlled warm-start performance.
+
+The user's requested resident/diverse pool requires a separately versioned
+environment: preload and synthetic warm-up before benchmark timing, explicit
+resident-state/readiness attestation, and no silent model eviction or CPU spill.
+Loading/warm-up are separate setup costs, not subtracted from old outcomes.
+Normal prefill, visual processing, queueing and generation remain execution cost.
+No runtime, environment, timing boundary or model-pool change is implemented by
+this reporting clarification.
+
 Every settled attempt remains visible, including the original excluded attempt.
 Only valid admissions count as the 168 nominal Phase I samples. Failed/unevaluated
 Agent trajectories are not score=0; quality, format and completion are distinct.
