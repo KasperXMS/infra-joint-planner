@@ -127,6 +127,7 @@ def phase_two_schedule(
     tasks: Iterable[SelectedTask], *, methods: Iterable[Method], gate: PhaseOneGate,
     e_history_tasks: Iterable[tuple[Family, str]], pruning_manifest_sha256: str,
     seed: int = SEED,
+    prior_substantive_cells: int = 0,
 ) -> tuple[ScheduledCell, ...]:
     history = tuple(e_history_tasks)
     selected = validate_task_set(tasks, e_history_tasks=history)
@@ -145,6 +146,8 @@ def phase_two_schedule(
         raise ValueError("unique preregistered surviving methods required")
     if any(method not in METHODS for method in survivors):
         raise ValueError("new methods cannot enter Phase II")
-    if PHASE_ONE_CELLS + 48 * len(survivors) > GLOBAL_CAP:
+    if type(prior_substantive_cells) is not int or prior_substantive_cells < 0:
+        raise ValueError("prior substantive cells must be a nonnegative integer")
+    if prior_substantive_cells + PHASE_ONE_CELLS + 48 * len(survivors) > GLOBAL_CAP:
         raise ValueError("complete Phase II expansion exceeds 420 substantive cells")
     return _schedule(tuple(task for task in selected if task.position > 2), 2, survivors, seed)

@@ -96,3 +96,21 @@ def test_six_full_expansions_exceed_cap_and_duplicate_methods_rejected() -> None
         with pytest.raises(ValueError):
             phase_two_schedule(tasks(), methods=survivors, gate=gate(),
                                e_history_tasks=(), pruning_manifest_sha256="2" * 64)
+
+
+def test_restart_counts_retained_samples_in_cumulative_cap_without_early_pruning() -> None:
+    options = dict(gate=gate(), e_history_tasks=(), pruning_manifest_sha256="2" * 64,
+                   prior_substantive_cells=42)
+    schedule = phase_two_schedule(tasks(), methods=METHODS[:4], **options)
+    assert 42 + 168 + len(schedule) == 402
+    with pytest.raises(ValueError, match="420"):
+        phase_two_schedule(tasks(), methods=METHODS[:5], **options)
+    assert len(phase_one_schedule(tasks(), e_history_tasks=())) == 168
+
+
+@pytest.mark.parametrize("prior_count", [-1, True])
+def test_restart_cannot_forge_prior_substantive_count(prior_count: int) -> None:
+    with pytest.raises(ValueError, match="nonnegative integer"):
+        phase_two_schedule(tasks(), methods=METHODS[:3], gate=gate(), e_history_tasks=(),
+                           pruning_manifest_sha256="2" * 64,
+                           prior_substantive_cells=prior_count)
