@@ -67,3 +67,39 @@ At23:27:50.226754Z queue008PID2678456/cell75atomicPID2902354 verified live on
 MultiHop2/P2/Slow/D, reservedseq149at23:23:56Z. No75outcome inferred.
 74classifiedof168; complete private/recipient/failure/adoption audit, frozen
 pruning, actual PhaseII and finalreports/Q1–Q10 remain unfinished.
+
+## Cell75 append: P2 /Slow /D
+
+Completed/validterminal/originalscore1.0, settled23:28:11.657291Z,seq150.
+6Manager/3Verifier/3physical/1actualA28inference,0specialists. Actual path:
+aggregate complete corpus onA28 ->BM25 ->real model ->terminal/evaluator.
+No context/SDK failure, substitute model, retry or interpretation of unknown
+measurements as0. Allfive resident, Workerexit/tccleanup/privacyadmissionpass.
+
+E2E201.988s;fixedsetup7,696,522bytes/21.888s;completeactiontransfer5,204,596bytes/
+14.782s;complete tools1.222s/backend136.860s. Actual7,931input/3outputtokens,stop.
+APIall9usagesknownUSD0.0562056910136994,list-price not invoice;9SDKcontexts checked.
+Graph3nodes/2artifactedges/10snapshots,allsucceeded,maxconcurrent1/overlap0,
+1owner/0artifacthandoff. Work values are not additive E2E components.
+
+Three quotes created, allthree exact cards visible toManagerbeforecommit,
+allthree authorized/executed;0discard/stale/pending. Control work0.938s.
+Comparisonsets/candidatechoices0: ordinary Quote use is not D alternatives use.
+Aggregate card predicted5,204,596remoteinputbytes, exactly matching actual
+movement. Configured serialization13.879s is not observed transferlatency;
+actual14.782s includes overhead not modeled by that calculation. Two empirical
+transfer estimates each had3cleanmatchingreceipts/minimumsupport3.
+Terminal model-service estimate remainedUNKNOWN/samplecount0/minimumsupport3,
+reason insufficient matching clean receipts; p50/p90null, not0 or a guessed
+27B latency. This partial information must qualify any eventual decision-policy
+versuscost-representation claim. Known transfer exposure is not complete cost
+knowledge, proof of ignored information, causal use or a failed optimizer.
+Correct officialscore is not proof of full semantic retention;privateauditpending.
+
+Original admission canonical SHA-256:
+`b0c717206a12aa699f99a43c9f5a19889b39311cd009705e80b839b9f386a3f6`.
+Exclusive remote analysis/resident-cell-075-summary-001.json fileSHA-256:
+`b729155db00f635ed1e95e4d76d8fef585b04ba80399c203b223b4d95dac5433`.
+Queue008PID2678456/cell76atomicPID2919564 verified live23:29:47.616917Z on
+MultiHop2/P1/Fast/C,reservedseq151at23:28:14Z.75classified;no76outcomeinferred.
+Execution001/control007unchanged;full168audit/pruning/actualPhaseIIunfinished.
