@@ -155,6 +155,25 @@ def test_three_review_types_coexist_no_journal_rewrite_no_failure_replacement(
         view.reserve("cell3", "forbidden-replacement", "b" * 64)
 
 
+def test_review_entry_membership_verifies_all_attempts_once_not_per_scheduled_cell(
+    tmp_path: Path,
+) -> None:
+    _, ledger, _, _, _ = compound_fixture(tmp_path)
+
+    class CountingLedger(review.CompoundAttemptLedger):
+        proof_passes = 0
+
+        @property
+        def attempts(self):
+            self.proof_passes += 1
+            return super().attempts
+
+    view = CountingLedger(ledger.path, ledger.cells, ledger.schedule_sha256)
+    view.proof_passes = 0
+    assert view.completed_cells == ledger.cells[:3]
+    assert view.proof_passes == 1
+
+
 @pytest.mark.parametrize("damage", ["proof-json", "proof-policy", "source", "original",
                                      "evidence", "extra-file", "worker", "coverage"])
 def test_compound_sidecar_and_cache_fail_closed_on_tamper(tmp_path: Path, damage: str) -> None:

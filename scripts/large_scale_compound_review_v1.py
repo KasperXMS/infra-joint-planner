@@ -104,6 +104,13 @@ class CompoundAttemptLedger(policy_review.ClassifiedAttemptLedger):
     """Additional exact sidecar view; original hash-linked journal stays immutable."""
 
     @property
+    def completed_cells(self) -> tuple[str, ...]:
+        # One complete proof pass, not one full rehash per scheduled cell. This
+        # is not a persistent cache: each membership query revalidates all proofs.
+        admitted = {a.cell_id for a in self.attempts if a.disposition == "valid"}
+        return tuple(c for c in self.cells if c in admitted)
+
+    @property
     def attempts(self) -> tuple[Attempt, ...]:
         result = []
         for attempt in super().attempts:
