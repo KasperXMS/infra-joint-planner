@@ -1,13 +1,53 @@
 # Phase I failure audit — in progress
 
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
-Twenty-six classified nominal Phase I samples: 25 completed/evaluated and one
-provider-policy failure with unknown quality. This is not the completed
-168-cell audit. No method pruning is allowed. Latest queue005 is stopped with
-zero pending attempts; Academic / DeepSeek / Slow / A is an additional effective
-confounder despite correct completion, not a27th admitted sample.
+Twenty-eight classified nominal Phase I samples at snapshot024:26
+completed/evaluated, one provider-policy failure and one terminal-choice failure
+with unevaluated quality. This is not the completed168-cell audit. No method
+pruning is allowed. Queue006 is verified live with one pending attempt.
+Academic / DeepSeek / Slow / A attempt1 remains an effective confounder despite
+correct completion; its separately authorized repair attempt2 is admitted.
 
-## Latest transport telemetry gate
+## Repair deployment and new settled-case audit
+
+The source-only transport-receipt repair is deployed on all four nodes as
+fa19e0bcf27fe1e09b1596a50d2a4af120432438, with explicit execution-freeze-003 and
+queue-control-freeze-005. The parent freezes and every historical evidence file
+remain intact. Full pytest851 / Ruff / strict Pyright / diff check passed before
+the new freeze. No semantic instruction, strategy, budget, model, scheduler,
+timeout, operator or evaluator change is made; admission is not relaxed.
+
+The independent repair audit rehashes all163 attempt1 files and reproduces its
+original rejection. Only this affected cell receives an append-only generic
+repair authorization. Attempt2 is a fresh execution, score1, E2E939.392 s,
+four normal-stop physical inferences and five context preflight rejects.
+All23 prepared actions have physical receipts. Its stochastic trajectory differs
+from attempt1; do not attribute lower latency to a telemetry-only patch.
+
+The next original cell, Academic / Qwen / Fast / B, is a valid nominal failure:
+HTTP/backend/Worker/observer/cleanup/privacy gates pass, but the final cloud
+Manager response violates the declared choice contract. A preceding successful
+Manager-owned physical model output is contract-valid. The final Manager
+response has HTTP200,normal stop,262 UTF-8 bytes and no tool call; deterministic
+choice extraction rejects it. Primary class: stopping/terminal-output
+composition. Its evaluator is not invoked; score/format remain null in result,
+not fabricated zero. This is not a reason to add hidden finalization, retry,
+semantic guessing or instruction tuning.
+
+Full admission recomputation independently matches both saved receipts;
+each run starts with four empty Worker stores. Both execution-grown graphs
+close every action, retain append-only state and have zero dependency-order
+violations. The new audit binds151 /139 evidence files and includes only
+scalar/hash/structural/terminal-format diagnostics, not private supporting-body
+coverage analysis. `analysis/settled-case-audit-002.json` file SHA-256:
+`fed9efc3ec2add3fd6fd43959eb8064af160b3ab688370381d84a0f1eeeaccba`.
+Snapshot024 SHA-256:
+`763e0caf49e0dc62a671b0dbf6fb450c9226ae37308a090966a87f71ffbbe394`.
+Queue parent2235001 / MultiHop-1 DeepSeek Fast B1 child2296499 are verified live
+at this checkpoint. All168 cells remain required before full failure/evidence
+audit, method pruning and Phase II.
+
+## Historical transport telemetry gate (before repair freeze003)
 
 Academic / DeepSeek / Slow / A attempt1 completes with valid terminal output and
 original score1.0, but two1200-second ReadTimeout model interruptions lose their

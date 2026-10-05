@@ -109,7 +109,7 @@ Snapshot023 file SHA-256:
 Collectorv1-9 source SHA-256:
 `813b5b0269cedb97aa4f69fe2c4393cafdf0de9ba38293780f809642665ac84a`.
 
-## Remaining gate
+## Historical remaining gate (before execution freeze003)
 
 The formal remote app is still94c9bac and queue005 remains stopped. Preserve the
 current failure, establish a new audited execution/control freeze and explicit
@@ -118,3 +118,64 @@ blanket-admit physical_execution_failed, retrofill failed measurements, replace
 valid semantic failures or reinterpret successful completion as no runtime defect.
 Complete all168 classified/audited Phase I cells before private evidence coverage
 analysis, method pruning and the frozen Phase II expansion.
+
+## Audited deployment, resume and affected-cell outcome
+
+The preceding stop/local-patch sections are retained as historical checkpoints.
+The repair gate is now satisfied; it is not bypassed:
+
+- Full tested revision fa19e0bcf27fe1e09b1596a50d2a4af120432438: **851 pytest
+  passed in20.82 s**, Ruff passed, strict Pyright0 errors /0 warnings,
+  git diff --check passed. New tests cover strict source-delta/harness/parent
+  freeze preservation, audit binding, source drift, affected-only authorization
+  and controller provenance. Parent review helper sources are unchanged.
+- New app-execution-fa19e0b contains366 source/config files; all366 hashes are
+  verified on each Jetson. Existing app directories, model tags/blob/contracts,
+  venv dependencies, worker configuration and dataset placement are preserved.
+  Only source/config files are distributed; no benchmark payload passes the PC.
+- `readiness/transport-repair-audit-001.json` independently reproduces the
+  original163-file admission rejection and exact two closed failed model actions.
+  File SHA-256:
+  `9537555eb6d5b85a50f94b6a12f926435b6e628928f3b8384eeba17e925f82bd`.
+- `execution-freeze-003.json` canonical SHA-256:
+  `092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749`;
+  file SHA-256:
+  `d4f524305f66788f5aa5359a233108359b0ab2452da59b3fa6b9b67646d6d28a`.
+  It pins exactly four changed/two added source/config files, the immutable
+  parent002, shared semantic contracts and new source-pinned harness. It records
+  the actual26 classified cells at repair freeze, not a fictitious zero-run state.
+- New offline controller is outside the formal app, preventing extra unapproved
+  formal source changes. `queue-control-freeze-005.json` canonical SHA-256:
+  `f67ed3890442ec6c483cfb4a8c4c78b99dd067fa665147f91b5e26da9cd8b09e`.
+  Old exact JSON/provider-policy reviews and their source hashes remain intact.
+- The append-only journal authorizes **only** Academic / DeepSeek / Slow / A
+  attempt2. No valid/wrong-answer/provider-policy/JSON-adjudicated run is repeated.
+  Actual process absence was checked before starting queue006; observation
+  timeouts never cause a duplicate launch. Admission still rejects unaudited
+  physical_execution_failed; no transport-error waiver is introduced.
+
+The affected attempt2 completes and is admitted: score1, E2E939.392 s,
+Manager16 / specialist0 / Verifier16,23 physical actions, five context rejects
+and four successful model inferences. Model-service work733.363 s is measured;
+all23 actions have physical receipts, no interrupted inference work is guessed.
+Action transfer56,667 bytes /1.910 s; fixed initial placement514,789 bytes /
+1.558 s is reported separately. API list-price estimateUSD0.440503, not invoice.
+Its graph has23 nodes /29 edges, all18 success /5 failed nodes closed and no
+dependency-order violation. Faster outcome than attempt1 is not causal evidence
+that a telemetry-only fix accelerates execution: the Agent trajectory also differs.
+
+The following Academic / Qwen / Fast / B cell is admitted as a terminal-choice
+trajectory failure, not a harness workaround candidate. Its physical model
+returns a valid choice; cloud Manager's final prose fails the unchanged choice
+extractor. HTTP200/normal stop/no backend failure; no evaluator/score is fabricated
+and no successful model answer is substituted after the exception.
+
+Remote `analysis/settled-case-audit-002.json` independently reproduces both
+admissions and binds151 /139 original files; file SHA-256:
+`fed9efc3ec2add3fd6fd43959eb8064af160b3ab688370381d84a0f1eeeaccba`.
+Snapshot024:28 admitted /31 attempts /1 pending /2 effective confounders /
+2 JSON reviews /1 policy review /0 operational exclusions; file SHA-256:
+`763e0caf49e0dc62a671b0dbf6fb450c9226ae37308a090966a87f71ffbbe394`.
+Queue006 parent2235001 and original next MultiHop-1 / DeepSeek / Fast / B1
+child2296499 are verified live at this checkpoint. Full168-cell audit and Phase II
+remain incomplete; no method pruning or private supporting-body analysis occurs.

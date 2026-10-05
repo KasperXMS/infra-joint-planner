@@ -1,17 +1,23 @@
 # Phase I results — incomplete checkpoint
 
-2026-10-05. **26 / 168 nominal samples classified/admitted at this checkpoint:**
-25 completed/evaluated, one provider-policy failure with unknown quality. One original
-implementation-confounded attempt remains separately preserved. This is not the completed Phase I
+2026-10-05. **28 / 168 nominal samples classified/admitted at snapshot024:**
+26 completed/evaluated, one provider-policy failure and one terminal-choice
+trajectory failure with unevaluated quality. Two implementation-confounded
+attempts remain separately preserved. This is not the completed Phase I
 report, not a method ranking, and does not authorize pruning or Phase II.
-**Latest state: queue005 stopped, zero pending attempts.** Academic / DeepSeek /
-Slow / A completes with score1.0 but remains a separate confounder after two
-ReadTimeouts lacking physical receipts. It is not a27th admission. Older live
-process paragraphs below are historical checkpoints; see the final stop audit.
+**Latest verified state: queue006 live, one pending attempt.** The audited
+transport-only repair has a new execution/control freeze. Academic / DeepSeek /
+Slow / A attempt2 is admitted with score1.0; attempt1's missing-receipt
+ReadTimeout confounder is preserved, not retrospectively admitted. Academic /
+Qwen / Fast / B is a valid terminal-format failure, not a replacement candidate.
+Older live/stopped paragraphs below are historical checkpoints.
 
-Execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
+Historical table execution revision: 94c9bac62daa30d70ed319d741a17c54e6ec96cd;
 execution-freeze-002 canonical SHA-256:
 50e2fbcac51693695e551f0b09bd83f332891a1e4c2e6a48b393fd3874d569d8.
+The two latest rows use fa19e0bcf27fe1e09b1596a50d2a4af120432438 and
+execution-freeze-003 canonical SHA-256
+092f39fd278027eab324d4b0c5280bbd5024db9f23cc60de556c361f3901e749.
 Task/placement/order/model/Verifier/method freezes are unchanged.
 
 | Task | Planner | Network | Method | Attempt | Complete / format / score | E2E s | Initial bytes / s | Recorded action bytes / transfer work s | Manager / specialist / Verifier turns | Cloud HTTP | API USD |
@@ -42,10 +48,14 @@ Task/placement/order/model/Verifier/method freezes are unchanged.
 | Video 131-3 | Qwen3.8-Max | Fast | A | 1 | yes / valid / 1.0 | 173.698 | 7,037,220 / 0.636 | 707,555 / 0.255 | 4 / 0 / 4 | 8 | 0.083134 |
 | LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Fast | B0 | 1 | no / unknown / unknown; provider policy | 102.942 (trace) | 514,789 / 0.334 (trace) | 0 / 0 (trace) | 6 / 6 / 6 started | 18 | unknown; known subtotal 0.150407 |
 | LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Slow | B1 | 1 | yes / valid / 1.0 | 93.422 | 514,789 / 1.570 | 0 / 0 | 10 / 0 / 10 | 20 | 0.424423 |
+| LongBench 66f2c44e821e116aacb2b826 | DeepSeek V4 Pro | Slow | A | 2 | yes / valid / 1.0 | 939.392 | 514,789 / 1.558 | 56,667 / 1.910 | 16 / 0 / 16 | 32 | 0.440503 |
+| LongBench 66f2c44e821e116aacb2b826 | Qwen3.8-Max | Fast | B | 1 | no / unknown / unknown; terminal choice invalid | 130.086 (trace) | 514,789 / 0.108 (trace) | 223,933 / 0.122 (trace) | 14 / 2 / 13 started | 29 | 0.364704 |
 
-The 25 completed samples have no unresolved findings and original private evaluators ran.
-The separately classified provider-policy failure did not complete or invoke the
-evaluator: its score/format/cost totals stay unknown and it is not a semantic zero.
+The 26 completed samples have no unresolved findings and original private evaluators ran.
+The separately classified provider-policy and terminal-choice failures did not
+complete or invoke the evaluator: their result score/format stay unknown, not zero.
+Provider-policy total API cost is unknown; the terminal-choice run has complete
+provider usage and list-price estimate. It is not an invoice.
 Action movement is recorded receipt work. The three explicitly marked rows have
 execution-stage failures without complete movement telemetry; their numeric
 successful-receipt subtotals are not full transfer totals or savings evidence.
@@ -62,6 +72,55 @@ These rows differ in Planner, method and network; **they are not a matched effec
 estimate**. There is no current cross-workload or method-level conclusion.
 
 ## Observed mechanism use (not screening/pruning)
+
+### Snapshot024: repaired completion and an ordinary terminal failure
+
+Snapshot024 file SHA-256:
+`763e0caf49e0dc62a671b0dbf6fb450c9226ae37308a090966a87f71ffbbe394`.
+It records28 admitted /31 attempts /1 pending /2 effective confounders,
+two exact JSON reviews, one provider-policy review and no operational exclusions.
+No pooled accuracy, method pruning or Phase II is performed.
+
+Academic / DeepSeek / Slow / A attempt2 has23 physical actions:14 successful
+BM25 tools, nine model attempts, five context preflight rejects and four
+successful inferences, all finish_reason=stop. Returned model-service work is
+733.363 s,16,548 input /1,465 output tokens; zero missing physical receipts or
+unmeasured failed model outcomes. The graph has23 nodes /29 edges,70 status
+snapshots /23 structure-growth events; all nodes close and dependency order is
+valid. Six simultaneous physical actions do not mean six logical agents; there
+is one action owner and no created specialist. The affected-cell repeat is
+authorized by the measurement-defect repair, not by answer quality. Its changed
+stochastic trajectory/latency is not proof that telemetry repair improves cost.
+
+Academic / Qwen / Fast / B terminates with AgentLoopError:
+`terminal answer violates the choice output contract`. Fourteen Manager turns,
+two specialist turns,13 Verifier calls and11 physical actions occur. Eight tools
+succeed; three model attempts include two context rejects and one actual
+inference (32.434 s,1,789 input /2 output tokens,stop). Model/transfer receipts
+are complete; result.telemetry and result.loop remain null on the terminal
+exception. E2E130.086 s is the explicit run.failed receipt, not an inferred span.
+
+The last successful Manager-owned physical model candidate is a valid declared
+choice, but the last cloud Manager response is262 UTF-8 bytes,HTTP200,normal
+stop,no tool calls, and fails the existing deterministic choice extractor.
+Thus the observed primary failure is stopping/terminal-output composition,
+not model-service timeout, insufficient context, evaluator mismatch or a missing
+physical answer. No answer is salvaged from the candidate, no evaluator/gold is
+consulted to repair it, and no retry/prompt/contract tuning is performed.
+B's optional interface remains unused: zero queries/cards across ten observed
+selected-ready opportunities. This is not evidence of successful cost guidance.
+
+Independent full admission recomputation exactly matches both stored receipts;
+all four initial Worker stores are empty for each run. Offline graph checks
+find no dependency-order violations or unclosed action intervals. Remote
+`analysis/settled-case-audit-002.json` binds151 and139 original evidence files,
+respectively, with file SHA-256
+`fed9efc3ec2add3fd6fd43959eb8064af160b3ab688370381d84a0f1eeeaccba`.
+It does not scan private supporting-reference bodies or feed any result to Agents.
+
+Actual queue parent2235001 and pending MultiHop-1 / DeepSeek / Fast / B1
+child2296499 are verified live. The remaining frozen schedule is unchanged;
+these PIDs are observations at this checkpoint, not permanent liveness claims.
 
 - E: the optional query interface was present in all three actual Manager API
   requests; zero query attempts/cards. Frozen rules were visible in all three
