@@ -13,6 +13,7 @@ import json
 import os
 import sys
 from contextlib import AsyncExitStack
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -55,7 +56,24 @@ from infra_joint.experiments.sdk_api_meter import RawSDKAPIMeter, metered_sdk
 from infra_joint.operators.catalog import build_operator_catalog
 
 ROOT = Path("/home/super/xiaoming/large-scale-cost-guidance-v1")
+RESIDENT_ROOT = Path("/home/super/xiaoming/large-scale-cost-guidance-resident-v1")
 TASK_FREEZE_SHA256 = "25e65b22b452bc164efe61ad895d20e5fcf3c8d407e4e9c7380a204bbec9b3ad"
+
+
+@dataclass(frozen=True)
+class ResidentBlock:
+    """Explicit new physical block; never mutate historical module globals."""
+
+    root: Path = RESIDENT_ROOT
+    environment_config: str = "configs/experiments/resident-diverse-environment-v1.yaml"
+    harness_manifest: str = "configs/experiments/infra-aware-predecision-resident-v1.yaml"
+
+    def validate(self, deployment_root: Path) -> None:
+        if (sys.platform != "linux" or self.root != RESIDENT_ROOT
+                or deployment_root.resolve() != RESIDENT_ROOT
+                or self.environment_config != ResidentBlock.environment_config
+                or self.harness_manifest != ResidentBlock.harness_manifest):
+            raise RuntimeError("resident execution must use the separately frozen 4090 block")
 
 
 def require_remote(root: Path) -> None:
@@ -116,13 +134,17 @@ def frozen_task(
     return bundle, row
 
 
-def cell_config(cell: ScheduledCell, run_id: str, reference: dict[str, Any]) -> dict[str, Any]:
+def cell_config(
+    cell: ScheduledCell, run_id: str, reference: dict[str, Any], *, root: Path = ROOT,
+) -> dict[str, Any]:
     if cell.method not in METHODS or cell.planner not in PLANNERS:
         raise ValueError("unfrozen method or Planner")
+    if root not in {ROOT, RESIDENT_ROOT}:
+        raise ValueError("unfrozen experiment namespace")
     stores = {agent: str((Path("/home/super") if agent == "strong-4090" else Path("/mnt/ssd"))
-                         / "heterogeneous-v1/artifacts" / ROOT.name / run_id / agent)
+                         / "heterogeneous-v1/artifacts" / root.name / run_id / agent)
               for agent in reference["worker_urls"]}
-    return {"experiment_id": ROOT.name, "task": f"{cell.task.family}-{cell.task.position}",
+    return {"experiment_id": root.name, "task": f"{cell.task.family}-{cell.task.position}",
             "cell_id": cell.cell_id, "run_id": run_id, "planner": cell.planner,
             "method": cell.method,
             "profile_visibility": "aware" if cell.method == "B1" else "blind",
@@ -154,9 +176,12 @@ def build_native_runtime(
     raise ValueError("unknown frozen method")
 
 
-async def execute_once(args: argparse.Namespace) -> None:
+async def execute_once(args: argparse.Namespace, *, block: ResidentBlock | None = None) -> None:
     """Attempt only. Caller must own reservation, fresh Workers, tc and admission."""
-    require_remote(args.deployment_root)
+    if block is None:
+        require_remote(args.deployment_root)
+    else:
+        block.validate(args.deployment_root)
     frozen.validate_runtime_import_root()
     config = frozen._yaml(args.config)
     if config["method"] not in METHODS or config["planner"] not in PLANNERS:
@@ -168,7 +193,14 @@ async def execute_once(args: argparse.Namespace) -> None:
     family, position = config["task"].rsplit("-", 1)
     bundle, row = frozen_task(selection_root, manifest, family, int(position))
     reference = frozen.protocol()
+    if block is not None:
+        pool = frozen._yaml(frozen.REPO / block.environment_config)
+        reference = {**reference, "environment_config": block.environment_config,
+                     "harness_manifest": block.harness_manifest,
+                     "worker_urls": pool["worker_urls"]}
     base = frozen.base_config(reference)
+    if block is not None:
+        base["environment_config"] = block.environment_config
     base["execution"]["initial_placement"][config["task"]] = [
         artifact["initial_worker"] for artifact in row["artifacts"]]
     environment = frozen._environment(base, config["task"], bundle)
@@ -181,7 +213,8 @@ async def execute_once(args: argparse.Namespace) -> None:
     capability = build_static_capability_contract(environment, registry, operations)
     harness_path = frozen.REPO / reference["harness_manifest"]
     execution_path = getattr(args, "execution_freeze", None)
-    if execution_path is not None and execution_path.name == "execution-freeze-003.json":
+    if (block is None and execution_path is not None
+            and execution_path.name == "execution-freeze-003.json"):
         from large_scale_transport_freeze_v1 import harness_for_attempt
 
         harness_path = harness_for_attempt(ROOT, frozen.REPO, execution_path)
