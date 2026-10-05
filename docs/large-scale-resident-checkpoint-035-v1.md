@@ -89,3 +89,37 @@ private evidence/recipient/failure/adoption auditing and freeze pruning before
 preregistering and executing Phase II within `42 + 168 + 48m <= 420`.
 The final reports and Q1–Q10 characterization remain required; see the
 [full completion audit](large-scale-completion-audit-v1.md).
+
+## Later settlement: cell 36
+
+Cell 36 / Video `602-2` / P2 / Fast / A settled valid at
+`2026-10-05T20:07:15.827600Z`, journal sequence 72, giving 36 classified nominal
+outcomes. Original admission canonical SHA:
+`2b0455449900a6559040909d516c1795bc814b6a13e4e5239c52099d225f9c6b`.
+The separate `analysis/resident-cell-036-summary-001.json` applies the same
+hash-linked single-cell checks, file SHA:
+`2e10e046b42a34f68c7f403a68f709c7d8d3c6b543633f8481a67989c70dd73e`.
+Neither this addition nor the 35-cell projection changes snapshot 017.
+
+Completed / valid terminal / original score 1.0; Manager 6 / Verifier 6;
+zero specialists; three physical actions with only one actual model inference,
+one explicit context preflight reject. Two semantic validation failures and one
+phase-restricted function call also remain recorded. The Agent continued legally
+to successful inference without a harness retry or replacement. All twelve
+actual SDK contexts, residency, Worker exit and tc cleanup passed.
+
+E2E 145.626 s; fixed initial 213,739,837 bytes / 18.610 s; complete action
+artifact movement 0 bytes / 0 s; tool-only work 45.046 s; backend service work
+25.158 s. Model usage: 4,504 input / 2 output tokens, stop. Frozen-list-price API
+estimate USD 0.1427094407. Graph: three nodes / twenty information edges / ten
+snapshots, two succeeded and one failed node, max one concurrent action. Its
+dependency frontier width of two did not produce observed parallel execution.
+
+Cell 35 and cell 36 differ in both Planner/method and network. Their large E2E
+difference is dominated by the separately recorded fixed initial transfer; it
+does not demonstrate a method-controlled resource improvement. No winner,
+causal adaptation, aggregate quality or pruning claim follows.
+
+At `2026-10-05T20:07:49Z`, cell 37 atomic PID `2143489` was verified live on
+Video `131-3` / P2 / Fast / B, reserved at journal sequence 73. Queue 005
+continues unchanged. Re-read actual process state at the next continuation.
