@@ -1,4 +1,4 @@
-# Resident-block checkpoint 059–061
+# Resident-block checkpoint 059–062
 
 2026-10-06. Three additional original attempt1 outcomes are settled and valid:
 61/168 nominal outcomes classified, including earlier exact-reviewed failures,
@@ -91,16 +91,54 @@ false; original rejected receipts/sidecars and all prior projections are retaine
 | 59 | `dda41f024c5e13a7dc74087c38bc1292515dee98efc11f3d1f0a92ebd41e65cc` | `d9f51b597e180069304c53ffdc6d27ec43fa78eeaad8ca1bd237f1df824f511a` |
 | 60 | `1b06622c4e5c1f98705a26714cd786b0acf2e2630767d46820bfb66a73bd2b67` | `ccf23bbdcd10eb8be7af5bdf2ccb3aa147b6279103b6556429f738c4232d725f` |
 | 61 | `f0e40853376eb3060a0e20d8edea5c77ef3560e5416e3f34230cf03493daeca2` | `0bc1eaffca1983911b1890b53ab69f94c563ab8b6ad50278ed5b3c7d354f1053` |
+| 62 | `7b2606d960c4dd7e08499f0a8a6cf86854b41247548efea99a686adb9a013275` | `75a782bfb24628c2a51c6f34b2bc019909751f0ab2baceddb0312e5bdc8c0869` |
 
 Original settlement sequences 118/120/122 occurred at 21:46:23.082794Z /
 21:49:29.954232Z / 21:52:04.963719Z on October 5. The offline comparison auditor
 is separate, versioned and tested; it changes no admission or execution source.
 
+## Cell 62 / LongBench1 / P1 / Slow / B
+
+Original attempt1 settled valid at sequence124, `21:55:43.689831Z`; nominal
+boundary advanced to 62/168. Completed/validterminal/originalscore1.0;
+10 Manager / 10 Verifier turns, two created specialists / ten total specialist
+turns / peak two active specialists, 20 physical actions / one actual inference.
+Three logical action owners, one InformationObject handoff, one actual
+cross-owner overlapping pair; maximum action concurrency two / overlap2.495s.
+Logical specialist names do not identify different foundation models: they
+remain on frozen P1 DeepSeek. No forced MAS topology or model substitution.
+
+Executed actions: seven reads (two `artifact_too_large`, five success), ten
+BM25 actions, three model requests (two context rejects, one success). All three
+abstract model requirements are statically feasible; context rejects do not
+count as inference. Six phase-restricted SDK failures also remain. The growing
+graph has20nodes/15artifactedges/61snapshots,16succeeded/4failed. Structural
+frontier width nine is not nine-way execution. Final model is A4 resident VL4B,
+5,248 input / 2 output tokens / stop; complete backend work14.966s. There is no
+unmeasured failed model inference.
+
+E2E161.547s; fixed initial514,789bytes/1.697s. Successful action-transfer subtotal
+9,423bytes/0.117s; **complete action bytes/time UNKNOWN** because two failed
+execution receipts do not provide complete movement telemetry. Successful
+tool-only work2.274s; complete tool workUNKNOWN for the same reason. Measured
+failed physical execution work0.182s does not establish missing transfer cost.
+Manager/specialist/Verifier work70.772/68.221/32.852s overlaps and is not an E2E
+decomposition. All30APIusages known, complete list-priceUSD0.4590116518.
+
+B optional interface was visible in all ten actual Manager requests; query/card
+counts remain0 despite seven observed ready root opportunities. All30actualSDK
+recipient contexts passed original admission/privacy checks, including both
+specialists, along with Worker exits/residency, original evaluator/artifact
+integrity and tc cleanup. This demonstrates natural valid continuation and MAS
+execution, not that the unused optional cost mechanism caused recovery or
+reduced resource use. Private semantic sufficiency/retention and matched causal
+comparisons remain pending; no primary evidence-loss cause is inferred.
+
 ## Actual continuation / full scope
 
-Queue007 PID `2437975` and cell62 atomic PID `2557853` were verified live at
-`2026-10-05T21:54:15.977580Z`: LongBench1/P1/Slow/B, attempt1, reserved seq123
-at 21:52:07.376206Z. It has actual specialist-start events; no final outcome is
+Queue007 PID `2437975` and cell63 atomic PID `2572584` were verified live at
+`2026-10-05T21:58:29.883870Z`: LongBench1/P2/Slow/A, attempt1, reserved seq125
+at 21:55:46.109776Z. It is still executing; no final outcome is
 inferred before settlement. Check real process/journal before acting on these
 historical handles. Execution freeze001 and control freeze006 are unchanged.
 
