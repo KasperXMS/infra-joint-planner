@@ -1,4 +1,4 @@
-# Resident-block checkpoint 045–048
+# Resident-block checkpoint 045–049
 
 2026-10-06. At `2026-10-05T20:39:45Z`, 48 of the 168 new nominal
 outcomes had settled. This is not a completion/correctness aggregate or a
@@ -120,9 +120,23 @@ audit; raw profile visibility does not establish rational adaptation or explain
 the answer. This projection does not change the original admission or authorize
 pruning after only a partial block.
 
+Cell 49 / MultiHop representative 1 / P2 / Fast / D subsequently settled valid
+at `2026-10-05T20:42:42.812059Z`, sequence 98. Original admission canonical SHA
+`f72acc514f1a445876b99001df555760b92b72641a1f649f5876cecfca5fed71`.
+Bounded original result: completed / valid terminal / original score 0.0,
+8 Manager / 4 Verifier turns, zero specialists, four charged physical calls,
+E2E 166.232 s. Fixed initial 7,696,522 bytes / 1.601 s; returned successful
+action movement 5,204,596 bytes / 0.689 s. Twelve actual SDK contexts passed
+admission. Full inference, complete-transfer and true multi-candidate-comparison
+accounting still require its next per-cell projection. Four charged calls do
+not establish four inferences or D comparison adoption. Private semantic cause
+remains pending; this wrong answer is retained without tuning/replacement.
+
 Queue 005 PID `1997584` remained live at `20:39:45Z`; cell 49 / MultiHop 1 /
 P2 / Fast / D atomic PID `2278832` was live, reserved at sequence 97. Always
 re-read actual process state rather than treating this historical PID as current.
+At `20:43:48Z`, cell 50 / MultiHop 1 / P1 / Slow / C atomic PID `2293113`
+was verified live, reserved at sequence 99; queue 005 remained unchanged.
 
 Full 168-cell execution, comprehensive private semantic/recipient/failure/
 adoption audit and frozen method pruning remain required. Then preregister and
