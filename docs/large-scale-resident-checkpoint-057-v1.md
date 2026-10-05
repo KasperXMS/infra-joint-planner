@@ -1,4 +1,4 @@
-# Resident-block checkpoint 057
+# Resident-block checkpoint 057–058
 
 2026-10-06. Original cell 57 settled valid at sequence 114,
 `2026-10-05T21:40:41.901517Z`. New nominal-outcome boundary is 57/168,
@@ -65,6 +65,40 @@ and tc cleanup. Complete model work is much larger than this cell's measured
 action-transfer work, but this is one descriptive trajectory, not a cross-task
 or causal claim. No aggregate accuracy, winner or survivor set is selected.
 
+## Cell 58 / same task / P2 / Slow / C
+
+Original cell 58 settled valid at sequence 116, `21:43:05.225902Z`;
+the nominal boundary advanced to 58/168. Completed/validterminal/originalscore1.0;
+8 Manager / 3 Verifier, zero specialists, 4 physical actions / 1 actual
+inference / 0 context rejects. Three BM25 actions ran on A4/A5/A28; model
+execution selected A4 resident VL4B. Maximum actual concurrency 3 / overlap
+0.910 s; graph 4 nodes / 1 declared artifact edge / 13 snapshots, all succeeded.
+
+E2E 87.200 s; fixed initial 7,696,522 bytes / 22.235 s; complete action transfer
+0 bytes / 0 s; complete tool-only work 1.218 s; complete backend work 20.868 s.
+Actual model tokens 7,192 input / 3 output, `stop`; Manager / Verifier work
+34.432 / 6.697 s; API USD 0.0750721748, all eleven usages known. All eleven
+actual SDK contexts passed original admission/privacy checks; Worker exit,
+residency, evaluator/artifact integrity and tc cleanup passed.
+
+C produced five quotes: four consumed, one pending, none discarded/stale;
+quote-control work 1.809 s. A phase-restricted quote rejection and two
+deduplicated SDK phase-restricted failures are overlapping scopes, not three
+extra physical executions. Attempted aggregation/specialist calls do not prove
+an executed aggregate or created specialist. One final model artifact edge does
+not prove missing other evidence: prompt and accumulated semantic observations
+must be privately audited before any evidence-discard classification. Compared
+with cell 57, Planner, network and method all differ, as does selected model;
+the lower work/bytes cannot be causally attributed to C. No winner or pruning.
+
+Append-only remote `analysis/resident-cell-058-summary-001.json` file SHA-256:
+`1be46a367c1aba54cf62c940f6ecbb112f58a769a25d3f2bc324de8bf2c94960`.
+Original admission canonical SHA-256:
+`278c95e1a05eb5b32c42f3b0e48485ebe6cd6025642a77ecb70128ad0b16bd5e`.
+Settlement SHA-256:
+`f579db8baafd3a71b5486227794ae48971dd844026af5c6929987c3620d4301e`.
+All original evidence remains immutable; full-private-audit/pruning flags false.
+
 ## Provenance and actual continuation
 
 Original admission canonical SHA-256:
@@ -78,9 +112,9 @@ Worker exit/residency and trace/result/source bindings. Only bounded metadata
 leave the owning remote nodes, never dataset/model payload, raw prompts or gold
 through the PC. Comprehensive-private-audit and pruning flags remain false.
 
-Queue 007 PID `2437975` and cell 58 atomic PID `2510242` were verified live at
-`2026-10-05T21:41:11.456560Z`: MultiHop representative 2 / P2 / Slow / C,
-original attempt1, reserved sequence 115 at `21:40:44.295646Z`. This observation
+Queue 007 PID `2437975` and cell 59 atomic PID `2520418` were verified live at
+`2026-10-05T21:43:31.848732Z`: MultiHop representative 2 / P1 / Slow / D,
+original attempt1, reserved sequence 117 at `21:43:07.637912Z`. This observation
 expires and does not authorize restarting a live or completed cell.
 
 Execution freeze 001 / control freeze 006 remain unchanged. This documentation
