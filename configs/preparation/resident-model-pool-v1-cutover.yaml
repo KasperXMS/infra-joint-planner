@@ -27,7 +27,7 @@ resident_service:
   OLLAMA_MAX_LOADED_MODELS: '1'
   OLLAMA_KV_CACHE_TYPE: q8_0
   OLLAMA_FLASH_ATTENTION: '1'
-  OLLAMA_VULKAN: '0'
+  cuda_uuid_bound_4090_instances_OLLAMA_VULKAN: '0'
   context_window_target: 32768
   reserved_output_tokens_target: 2048
   client_timeout_seconds: 1200

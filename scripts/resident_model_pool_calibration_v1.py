@@ -32,7 +32,18 @@ OUTPUT = 2048
 IMAGE_COST = 2048  # Existing contract; verify image accounting, do not infer it from model size.
 
 
-def fixtures() -> tuple[tuple[str, ModelRequest], ...]:
+def fixtures(probe_set: str = "core") -> tuple[tuple[str, ModelRequest], ...]:
+    if probe_set == "image-boundary":
+        boundary = io.BytesIO()
+        Image.new("RGB", (2048, 2048), color=(0, 0, 200)).save(boundary, format="PNG")
+        return (("warm-image-boundary", ModelRequest(
+            prompt="Name the single dominant color of the synthetic image. One word only.",
+            artifacts=(ModelArtifact(artifact_id="synthetic-boundary", media_type="image/png",
+                                     content=boundary.getvalue()),),
+            max_output_tokens=OUTPUT,
+        )),)
+    if probe_set != "core":
+        raise ValueError("unknown calibration probe set")
     text = ("0123456789abcdef " * 1800)[:30000] + "\nEND-CALIBRATION-731"
     buffer = io.BytesIO()
     Image.new("RGB", (1920, 1080), color=(0, 200, 0)).save(buffer, format="PNG")
@@ -85,7 +96,10 @@ def memory_state() -> dict[str, Any]:
     return rows
 
 
-async def calibrate_target(target: dict[str, Any], evidence: Path) -> dict[str, Any]:
+async def calibrate_target(
+    target: dict[str, Any], evidence: Path, *, probe_set: str = "core",
+    image_token_cost: int = IMAGE_COST,
+) -> dict[str, Any]:
     directory = evidence / target["instance"]
     directory.mkdir(exist_ok=False)
     client = AsyncOpenAI(api_key="local-calibration", max_retries=0, timeout=1200,
@@ -94,11 +108,11 @@ async def calibrate_target(target: dict[str, Any], evidence: Path) -> dict[str, 
                                            reasoning_effort="none", temperature=None)
     rows: list[dict[str, Any]] = []
     try:
-        for name, request in fixtures():
+        for name, request in fixtures(probe_set):
             row: dict[str, Any] = {
                 "probe": name, "setup_outside_benchmark_clock": name.startswith("setup-"),
                 "context_window": CONTEXT, "reserved_output_tokens": OUTPUT,
-                "image_token_cost": IMAGE_COST, "temperature_override": None,
+                "image_token_cost": image_token_cost, "temperature_override": None,
                 "reasoning_effort": "none", "automatic_retries": 0,
                 "ttft_ms": None, "peak_memory_bytes": None,
                 "truncation_status": "requires_server_log_audit",
@@ -117,7 +131,7 @@ async def calibrate_target(target: dict[str, Any], evidence: Path) -> dict[str, 
             try:
                 row["preflight_estimated_input"] = preflight_model_request(
                     request, modalities=frozenset({"text", "image"}), context_window=CONTEXT,
-                    reserved_output_tokens=OUTPUT, image_token_cost=IMAGE_COST,
+                    reserved_output_tokens=OUTPUT, image_token_cost=image_token_cost,
                 )
                 row["preflight"] = "pass"
                 row["inference_submitted"] = True
@@ -135,7 +149,8 @@ async def calibrate_target(target: dict[str, Any], evidence: Path) -> dict[str, 
                 break
     finally:
         await client.close()
-    result = {"target": target, "probes": rows, "all_probes_passed": len(rows) == 4
+    result = {"target": target, "probes": rows,
+              "all_probes_passed": len(rows) == len(fixtures(probe_set))
               and all(item["status"] == "pass" for item in rows),
               "residency_and_truncation_audit_pending": True, "benchmark_cells": 0,
               "planner_calls": 0}
@@ -143,11 +158,17 @@ async def calibrate_target(target: dict[str, Any], evidence: Path) -> dict[str, 
     return result
 
 
-async def calibrate(node: str, *, attempt: str = "synthetic-001") -> None:
+async def calibrate(
+    node: str, *, attempt: str = "synthetic-001", probe_set: str = "core",
+    image_token_cost: int = IMAGE_COST,
+) -> None:
     if sys.platform != "linux":
         raise RuntimeError("calibration must execute on the remote experiment nodes")
     if re.fullmatch(r"synthetic-[0-9]{3}", attempt) is None:
         raise ValueError("invalid calibration evidence namespace")
+    if image_token_cost < 1:
+        raise ValueError("image context envelope must be positive")
+    fixtures(probe_set)
     base = POOL if node == "strong-4090" else EDGE_POOL
     evidence = base / "calibration" / attempt
     evidence.mkdir(parents=True, exist_ok=False)
@@ -157,7 +178,8 @@ async def calibrate(node: str, *, attempt: str = "synthetic-001") -> None:
               "formal_model_backend_source": __import__(OpenAICompatibleModelBackend.__module__,
               fromlist=["__file__"]).__file__, "benchmark_cells": 0, "planner_calls": 0})
     results = await asyncio.gather(
-        *(calibrate_target(target, evidence) for target in targets(node))
+        *(calibrate_target(target, evidence, probe_set=probe_set,
+                           image_token_cost=image_token_cost) for target in targets(node))
     )
     result = {"node": node, "instances": [{"instance": item["target"]["instance"],
                "all_probes_passed": item["all_probes_passed"]} for item in results],
@@ -170,5 +192,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--node", choices=["A4", "A5", "A28", "strong-4090"], required=True)
     parser.add_argument("--attempt", default="synthetic-001")
+    parser.add_argument("--probe-set", choices=["core", "image-boundary"], default="core")
+    parser.add_argument("--image-token-cost", type=int, default=IMAGE_COST)
     args = parser.parse_args()
-    asyncio.run(calibrate(args.node, attempt=args.attempt))
+    asyncio.run(calibrate(args.node, attempt=args.attempt, probe_set=args.probe_set,
+                          image_token_cost=args.image_token_cost))

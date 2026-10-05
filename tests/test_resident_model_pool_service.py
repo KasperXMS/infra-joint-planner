@@ -48,6 +48,7 @@ def test_environment_does_not_inherit_wrong_gpu_store_or_parallelism() -> None:
     assert environment["PATH"] == "/bin"
     assert inherited["CUDA_VISIBLE_DEVICES"] == "1"
     assert "CUDA_VISIBLE_DEVICES" not in server_environment(targets("A4")[0], inherited)
+    assert "OLLAMA_VULKAN" not in server_environment(targets("A4")[0], inherited)
 
 
 @pytest.mark.parametrize("tag", ["../x", "x:../y", "..", "x:..", "x:y:z", ""])
