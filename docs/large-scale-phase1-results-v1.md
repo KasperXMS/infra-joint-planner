@@ -1,5 +1,14 @@
 # Phase I results — incomplete checkpoint
 
+Historical block only: the42 samples below belong to
+`large-scale-cost-guidance-v1`, which is closed and will not resume its remaining
+126cells. They are not admissions in the new resident/diverse168-cell block and
+must not be pooled with it. Current execution and per-cell audit checkpoints:
+[resident execution freeze](large-scale-resident-execution-freeze-v1.md),
+[exact validation reviews](large-scale-resident-validation-review-v1.md).
+The complete new Phase-I report is still pending all168 cells and full audit.
+Original historical text and results follow unchanged.
+
 2026-10-05. **42 / 168 nominal samples classified/admitted after case-audits009–013:**
 38 completed/evaluated, one provider-policy failure, one terminal-choice
 trajectory failure, one mixed JSON/provider-policy failure and one delegated

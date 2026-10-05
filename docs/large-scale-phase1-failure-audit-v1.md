@@ -1,5 +1,14 @@
 # Phase I failure audit — in progress
 
+Historical block only: the42 classified samples and preserved confounders below
+belong to the closed `large-scale-cost-guidance-v1` block. They do not classify
+new resident-block attempts or authorize continuation/pruning of that block.
+Current new-block audit boundaries:
+[private audit protocol](large-scale-resident-private-audit-protocol-v1.md),
+[exact validation reviews](large-scale-resident-validation-review-v1.md).
+The complete new168-cell failure audit remains pending. All original historical
+text/evidence below is retained rather than silently relabeled or pooled.
+
 2026-10-05. **First cell's repaired attempt admitted; original attempt excluded.**
 Forty-two classified nominal Phase I samples after case-audits009–013 and
 full snapshot027:38
