@@ -63,3 +63,30 @@ Only never-started cells continue; new unresolved findings stop the queue again.
 Finish all168, then complete privacy/private evidence/failure/adoption audit,
 freeze pruning and preregister PhaseII within `42+168+48m<=420`. Final reports
 and Q1–Q10characterization remain unfinished; no new method has been introduced.
+
+## Later checkpoint:34nominal outcomes,1pending
+
+Snapshot016 captured2026-10-05T19:54:17.856719Z:34/168admitted,1pending,
+0unresolved confounders; original findings/reviews remain4. File SHA:
+`6f85634f0543e9297e9063327db11612291f935133ca2815d0b1a1f53990298d`.
+This append does not relabel the earlier snapshot015or alter its evidence.
+
+Cell34/Video602-2/P2/Slow/B0 completed with canonical validity and original
+score1.0. Manager5/Verifier5,0specialists,3physical actions:1tool execution,
+2model requests, only1actual inference and1explicit context preflight reject.
+The Agent's legal continuation is not a harness retry/replacement. All10actual
+SDK recipient contexts,5resident instances, Worker exits and tc cleanup passed.
+
+E2E713.837s; initial213,739,837bytes/596.997s; complete action artifact transfer
+0bytes/0s; tool-only work31.123s; backend model work19.866s. Returned model
+telemetry:3,713input/2output tokens. Frozen-list-price API USD0.2216565740.
+Raw inclusive Worker operator work51.070s must not be added to backend service
+work. Fixed setup remains separate; no startup/cache subtraction or quality
+aggregation. Graph3nodes/35artifact/control edges, max1concurrent action; edge
+count is not the number of physical actions or parallel branches.
+
+At19:54:19Z queue005 PID1997584 and cell35atomic PID2084188 were verified live
+on Video602-2/P1/Slow/B1 initial materialization. Re-read later state. No app,
+method, prompt, budget, deployment, schedule or benchmark change occurred; the
+whole study remains unfinished. The [full completion audit](large-scale-completion-audit-v1.md)
+explicitly lists the remaining168-cell audit, PhaseII execution and final reports.
