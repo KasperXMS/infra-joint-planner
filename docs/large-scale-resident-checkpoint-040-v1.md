@@ -139,3 +139,26 @@ The next atomic process, PID `2192132`, was verified live on cell 42 / MultiHop 
 P1 / Slow / C while the queue 005 continuation remained unchanged. No new freeze,
 method tuning, retry, pruning or Phase II authorization occurred. All remaining
 full-study requirements are unchanged.
+
+## Later settlement: cell 42
+
+Cell 42 / MultiHop representative 2 / P1 / Slow / C settled valid at
+`2026-10-05T20:21:23.623092Z`, sequence 84. Completed / valid terminal /
+original score 1.0; no admission problems. Original admission canonical SHA:
+`e00b9af2b05d4a6fa76288024a2c8e3be033217958f70dde94e0c5d9a32668a8`.
+Admission-bound result canonical SHA:
+`20bd42236463b71d93aed16e8afe63e771cf758d65dd85f991c9413290ff75c5`.
+
+The bounded result receipt reports Manager 14 / Verifier 3, zero specialists,
+four charged tool/model calls, E2E 123.066 s, initial 7,696,522 bytes / 22.115 s
+and returned action transfer 0 bytes / 0 s. Inclusive operator work is 1.849 s;
+Manager reasoning work 89.776 s. Separate inference/preflight accounting, quote
+adoption, API cost and complete failed-action movement need the later full
+per-cell projection; this receipt does not infer those quantities from total
+calls or inclusive work.
+
+There are now 42 classified new nominal outcomes, not a resumed/pool of the old
+closed 42-outcome block. At `2026-10-05T20:21:54Z`, cell 43 atomic PID
+`2205076` was verified live on MultiHop representative 2 / P2 / Slow / B,
+reserved at sequence 85. Queue 005 remains unchanged. No pruning, Phase II or
+full-study completion is authorized by this checkpoint.
