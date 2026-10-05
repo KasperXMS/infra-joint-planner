@@ -15,17 +15,23 @@ from pathlib import Path
 from typing import Any
 
 import large_scale_adjudication_v1 as reviewer
+import large_scale_resident_policy_review_v1 as policy_review
 import large_scale_resident_queue_v1 as frozen
 import large_scale_resident_record_review_v1 as record_review
 import yaml
+from large_scale_resident_policy_review_v1 import (
+    ResidentPolicyAttemptLedger as SnapshotAttemptLedger,
+)
 from large_scale_resident_private_evidence_v1 import assert_inactive
-from large_scale_resident_record_review_v1 import RecordAttemptLedger as SnapshotAttemptLedger
 
 from infra_joint.control.provenance import provenance_sha256
 from infra_joint.experiments.attempt_ledger import QueueLease
 
 
-def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]:
+def create_review(run_id: str, *, record_fields: bool = False,
+                  provider_policy: bool = False) -> dict[str, Any]:
+    if record_fields and provider_policy:
+        raise RuntimeError("mixed findings require their own exact proof")
     frozen.require_remote()
     root = frozen.ROOT
     assert_inactive(root)
@@ -54,7 +60,9 @@ def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]
         trace = directory / "runs" / run_id / "trace.jsonl"
         events = [json.loads(line) for line in trace.open(encoding="utf-8")]
         shapes = record_review.shapes_for(root, directory, events) if record_fields else None
-        review = (record_review.review(original, events, shapes) if shapes is not None
+        review = (policy_review.review(original, directory / "private/api", events)
+                  if provider_policy else record_review.review(original, events, shapes)
+                  if shapes is not None
                   else reviewer.review_model_json_failures(original, events))
         worker = frozen.APP / "src/infra_joint/worker/server.py"
         freeze = json.loads(frozen.FREEZE.read_text())
@@ -67,7 +75,8 @@ def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]
             "original_execution_sha256": attempt.execution_sha256,
             "worker_source_sha256": worker_hash,
             "reviewer_source_sha256": reviewer.sha256(Path(
-                record_review.__file__ if record_fields else reviewer.__file__)),
+                policy_review.__file__ if provider_policy else record_review.__file__
+                if record_fields else reviewer.__file__)),
             "resident_review_creator_sha256": reviewer.sha256(Path(__file__)),
             "original_evidence_file_sha256": {
                 str(p.relative_to(directory)): reviewer.sha256(p)
@@ -82,11 +91,18 @@ def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]
                          execution_sources_sha256={p: reviewer.sha256(frozen.APP / p)
                                                    for p in record_review.SOURCE_PATHS},
                          online_feedback=False, specialist_schema_visibility_not_assumed=True)
-        sidecar_directory = record_review.DIRECTORY if record_fields else "adjudications"
+        if provider_policy:
+            value.update(version="exact-resident-provider-policy-review-v1",
+                         legacy_reviewer_source_sha256=reviewer.sha256(
+                             Path(policy_review.legacy.__file__)),
+                         input_censored=False, prompt_changed=False, evaluation_imputed=False)
+        sidecar_directory = (policy_review.DIRECTORY if provider_policy
+                             else record_review.DIRECTORY if record_fields else "adjudications")
         path = root / sidecar_directory / (run_id + ".json")
         path.parent.mkdir(exist_ok=True)
         frozen.write_new(path, value)
-        (record_review.verify_sidecar if record_fields else reviewer.verify_sidecar)(path, attempt)
+        (policy_review.verify_sidecar if provider_policy else record_review.verify_sidecar
+         if record_fields else reviewer.verify_sidecar)(path, attempt)
         if journal.read_bytes() != before:
             raise RuntimeError("offline review must not rewrite original journal")
     return {"run_id": run_id, "adjudication_sha256": provenance_sha256(value),
@@ -94,6 +110,7 @@ def create_review(run_id: str, *, record_fields: bool = False) -> dict[str, Any]
             "reviewed_disposition": "valid",
             "confirmed_parse_failures": len(review.get("proof", [])),
             "confirmed_record_field_failures": len(review.get("record_field_proof", [])),
+            "provider_policy_failure": provider_policy,
             "rerun": False, "execution_changed": False}
 
 
@@ -117,6 +134,8 @@ def control_freeze() -> dict[str, Any]:
                           for p in sorted((frozen.ROOT / "adjudications").glob("*.json"))},
         "record_field_adjudications": {p.name: reviewer.sha256(p) for p in sorted(
             (frozen.ROOT / record_review.DIRECTORY).glob("*.json"))},
+        "resident_provider_policy_adjudications": {p.name: reviewer.sha256(p) for p in sorted(
+            (frozen.ROOT / policy_review.DIRECTORY).glob("*.json"))},
         "atomic_execution_entrypoint": str(Path(frozen.__file__).resolve()),
         "schedule_unchanged": True, "semantic_or_physical_execution_changed": False,
         "replacements_authorized": False,
@@ -130,7 +149,9 @@ def run(control_path: Path) -> None:
             "queue-control-freeze-"):
         raise RuntimeError("continuation control remains an owned separate immutable receipt")
     saved = json.loads(control_path.read_text())
-    if saved != control_freeze() or not saved["adjudications"]:
+    if saved != control_freeze() or not any(saved[key] for key in (
+            "adjudications", "record_field_adjudications",
+            "resident_provider_policy_adjudications")):
         raise RuntimeError("continuation control/adjudication drift")
     cells = frozen.schedule()
     prices, _ = frozen.verified_prices(frozen.PREDECESSOR, frozen.APP)
@@ -199,6 +220,7 @@ if __name__ == "__main__":
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--review-run")
     modes.add_argument("--review-record-run")
+    modes.add_argument("--review-policy-run")
     modes.add_argument("--freeze", action="store_true")
     modes.add_argument("--queue", action="store_true")
     parser.add_argument("--control-freeze", type=Path)
@@ -207,6 +229,8 @@ if __name__ == "__main__":
         print(json.dumps(create_review(args.review_run)))
     elif args.review_record_run:
         print(json.dumps(create_review(args.review_record_run, record_fields=True)))
+    elif args.review_policy_run:
+        print(json.dumps(create_review(args.review_policy_run, provider_policy=True)))
     elif args.freeze:
         if (args.control_freeze is None or args.control_freeze.resolve().parent != frozen.ROOT
                 or not args.control_freeze.name.startswith("queue-control-freeze-")):

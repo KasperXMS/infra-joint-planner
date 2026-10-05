@@ -407,12 +407,17 @@ def settled_attempt(root: Path, cell_id: str, attempt: Any, *,
     adjudication = json.loads(adjudication_path.read_text()) if adjudication_path.exists() else None
     record_path = root / "record-field-adjudications" / (attempt.run_id + ".json")
     record_review = json.loads(record_path.read_text()) if record_path.exists() else None
+    policy_path = root / "resident-provider-policy-adjudications" / (attempt.run_id + ".json")
+    policy_review = json.loads(policy_path.read_text()) if policy_path.exists() else None
     return {
         "run_id": attempt.run_id, "attempt_index": attempt.attempt_index,
         "execution_sha256": attempt.execution_sha256,
         "disposition": attempt.disposition, "admission_reason": attempt.reason,
         "admission_problems": admission.get("problems", []),
-        "original_rejection_preserved": adjudication is not None or record_review is not None,
+        "original_rejection_preserved": any(v is not None for v in (
+            adjudication, record_review, policy_review)),
+        "resident_provider_policy_adjudication_sha256": provenance_sha256(policy_review)
+        if policy_review is not None else None,
         "record_field_adjudication_sha256": provenance_sha256(record_review)
         if record_review is not None else None,
         "confirmed_absent_record_field_failures": len(record_review["record_field_proof"])

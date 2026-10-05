@@ -186,3 +186,48 @@ def test_second_exact_review_replays_previously_adjudicated_original_journal(rej
     assert value["confirmed_parse_failures"] == 1 and not value["rerun"]
     assert ledger.path.read_bytes() == before
     assert view.completed_cells == ("cell1", "cell2")
+
+
+def test_resident_terminal_http_policy_review_preserves_failed_unevaluated_sample(
+    rejected_model_json, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root, directory, ledger, _ = rejected_model_json
+    control.create_review("run1")
+    view = control.SnapshotAttemptLedger(ledger.path, ledger.cells, ledger.schedule_sha256)
+    view.reserve("cell2", "run2", "b" * 64)
+    second = root / "evidence/cell2/attempt1"
+    shutil.copytree(directory, second)
+    (second / "runs/run1").rename(second / "runs/run2")
+    (second / "process.json").write_text('{"pid":9999999,"run_id":"run2"}')
+    api = second / "private/api"
+    api.mkdir()
+    error = {"code": "data_inspection_failed", "type": "data_inspection_failed",
+             "message": "Input text data may contain inappropriate content."}
+    (api / "call-request.json").write_text('{"content":"PRIVATE_REQUEST"}')
+    (api / "call-response.json").write_text(json.dumps({"error": error}))
+    (api / "call-usage.json").write_text(json.dumps({"call_id": "call", "status": 400,
+        "recipient": "manager", "requested_model": "deepseek-v4-pro", "usage": None,
+        "finished_utc": "2026-10-05T19:01:19Z"}))
+    terminal = {"code": "control_plane_failed", "exception_type": "BadRequestError",
+                "message": "HTTP400 data_inspection_failed"}
+    receipt = {"disposition": "confounder", "reason": control.policy_review.TERMINAL_GATE,
+        "problems": [control.policy_review.TERMINAL_GATE, control.policy_review.legacy.GATE],
+        "api_audit": {"problems": [control.policy_review.legacy.GATE]},
+        "operational_incidents": [], "execution_completed": False,
+        "original_evaluation": None, "terminal_failure": terminal}
+    (second / "admission.json").write_text(json.dumps(receipt))
+    (second / "runs/run2/trace.jsonl").write_text(json.dumps({
+        "event_type": "run.failed", "payload": {"failure": terminal}}) + "\n")
+    view.settle("run2", "confounder", control.policy_review.TERMINAL_GATE,
+                provenance_sha256(receipt))
+    before = ledger.path.read_bytes()
+    monkeypatch.setattr(frozen, "admit", lambda *args: receipt)
+    actual = control.create_review("run2", provider_policy=True)
+    assert actual["provider_policy_failure"] and not actual["rerun"]
+    assert view.completed_cells == ("cell1", "cell2")
+    assert view.original_attempts[1].disposition == "confounder"
+    assert view.attempts[1].reason == control.policy_review.REASON
+    assert before == ledger.path.read_bytes()
+    assert json.loads((second / "admission.json").read_text()) == receipt
+    assert "PRIVATE_REQUEST" not in json.dumps(actual)
+    assert control.control_freeze()["resident_provider_policy_adjudications"]
