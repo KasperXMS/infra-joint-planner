@@ -179,12 +179,18 @@ async def execute_once(args: argparse.Namespace) -> None:
         for a in environment.agents for b in environment.agents if a.agent_id != b.agent_id)})
     registry, operations = build_operator_catalog(), frozen._operations(base)
     capability = build_static_capability_contract(environment, registry, operations)
-    harness = frozen.load_harness(frozen.REPO / reference["harness_manifest"])
+    harness_path = frozen.REPO / reference["harness_manifest"]
+    execution_path = getattr(args, "execution_freeze", None)
+    if execution_path is not None and execution_path.name == "execution-freeze-003.json":
+        from large_scale_transport_freeze_v1 import harness_for_attempt
+
+        harness_path = harness_for_attempt(ROOT, frozen.REPO, execution_path)
+    harness = frozen.load_harness(harness_path)
     # Validate the shared frozen harness, then explicitly choose the experimental
     # Manager model. Never relax the historical same-stack validator or its files.
     frozen.validate_harness(harness, environment, capability, operations)
     _freeze_cell(args, config, frozen.REPO / reference["environment_config"],
-                 frozen.REPO / reference["harness_manifest"], harness, bundle, row["source"],
+                 harness_path, harness, bundle, row["source"],
                  frozen._capability_sha256(capability), base)
     history = frozen.load_history(args)
     rules = json.loads(args.rules_manifest.read_text())

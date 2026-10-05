@@ -100,6 +100,10 @@ def execution_freeze() -> dict[str, Any]:
 
 def verify_execution_freeze(path: Path | None = None) -> str:
     path = path or ROOT / "execution-freeze-002.json"
+    if path.name == "execution-freeze-003.json":
+        from large_scale_transport_freeze_v1 import verify
+
+        return verify(ROOT, Path(__file__).resolve().parents[1], path)
     if path.resolve().parent != ROOT.resolve() or path.name != "execution-freeze-002.json":
         raise RuntimeError("repaired execution freeze must have a new owned namespace")
     saved = json.loads(path.read_text())
