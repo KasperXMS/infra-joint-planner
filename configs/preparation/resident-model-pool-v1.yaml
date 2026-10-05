@@ -6,6 +6,8 @@ status: assets_prepared_not_deployed
 activation_allowed: false
 old_experiment_pool_modified: false
 matrix_replacement_authorized: false
+source_content_verification_root: /home/super/xiaoming/resident-model-pool-v1/asset-set-verification-001
+source_content_verification_sha256: c67605618fbccf79d8ee7980bb04e2e75566c36809bbb9271c329ef9fd5670d0
 
 scope:
   distinct_model_artifacts: 3
@@ -28,7 +30,7 @@ artifacts:
     parameter_count: 4437815808
     metadata_context_limit: 262144
     source_available_on_4090: true
-    full_blob_verification: pending
+    full_blob_verification: all_source_descriptors_verified_on_4090
     source: https://ollama.com/library/qwen3-vl:4b-instruct
   vl-8b-instruct:
     source_tag: qwen3-vl:8b-instruct
@@ -40,7 +42,7 @@ artifacts:
     metadata_context_limit: 262144
     source_available_on_4090: true
     acquisition_status: downloaded_on_4090_not_loaded_or_deployed
-    full_blob_verification: model_layer_verified_on_4090
+    full_blob_verification: all_source_descriptors_verified_on_4090
     separate_projector_layers_in_source_manifest: 0
     acquisition_evidence_root: /home/super/xiaoming/resident-model-pool-v1/asset-preparation-001
     acquisition_receipt_sha256: 0cfc6f875fa196f709cb16c33cfdc16711b600506be50250c261c623831c466f
@@ -60,7 +62,7 @@ artifacts:
     parameter_count: 27320697856
     metadata_context_limit: 262144
     source_available_on_4090: true
-    full_blob_verification: pending
+    full_blob_verification: all_source_descriptors_verified_on_4090
     source: remote_installed_model_metadata
     tag_is_official_release_name: false
 

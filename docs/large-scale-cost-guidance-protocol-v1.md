@@ -396,3 +396,16 @@ identity/content verification SHA-256:
 `25d8b0bafa5b92e577effbba819c32997a137758b98c2fdf07a9efb10d080540`.
 The old next-cell failure audit and comparison-block cutover decision remain
 outstanding; do not resume an old frozen block using changed deployments.
+
+A subsequent remote-only source audit verifies all three source manifests and
+every referenced config/model/projector/template/license/parameter descriptor
+by full SHA-256, not tags or metadata alone. 4B/8B manifests have no separate
+projector layer;27B's931,146,016-byte projector is verified alongside its
+16,810,714,464-byte model. All expected digests match. The bounded receipt
+retains source metadata, capabilities and template/parameter hashes; it does
+not certify context/output/residency/quality/service performance. It runs only
+after absence of an old atomic process, with zero Planner/model inference/
+benchmark calls and no formal config or deployment change. New immutable root:
+`/home/super/xiaoming/resident-model-pool-v1/asset-set-verification-001`;
+asset-set receipt SHA-256:
+`c67605618fbccf79d8ee7980bb04e2e75566c36809bbb9271c329ef9fd5670d0`.

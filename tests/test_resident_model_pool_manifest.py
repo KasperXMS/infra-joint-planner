@@ -55,7 +55,7 @@ def test_instruct_variant_is_not_installed_thinking_alias() -> None:
     assert artifact["source_manifest_sha256"] != excluded["manifest_sha256"]
     assert artifact["source_available_on_4090"] is True
     assert artifact["acquisition_status"] == "downloaded_on_4090_not_loaded_or_deployed"
-    assert artifact["full_blob_verification"] == "model_layer_verified_on_4090"
+    assert artifact["full_blob_verification"] == "all_source_descriptors_verified_on_4090"
     assert len(artifact["content_verification_sha256"]) == 64
 
 
@@ -113,3 +113,13 @@ def test_activation_requires_real_calibration_not_metadata_alone() -> None:
         "worker_state_matches_new_environment_spec",
         "shared_anonymous_static_contract_privacy_verified",
     } <= gates
+
+
+def test_source_content_verification_does_not_activate_a_deployment() -> None:
+    manifest = yaml.safe_load(MANIFEST.read_text(encoding="utf-8"))
+    assert len(manifest["source_content_verification_sha256"]) == 64
+    assert all(artifact["full_blob_verification"] == "all_source_descriptors_verified_on_4090"
+               for artifact in manifest["artifacts"].values())
+    assert manifest["activation_allowed"] is False
+    assert all(instance["validated_contract"] is None
+               for instance in manifest["proposed_instances"])
