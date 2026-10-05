@@ -76,3 +76,56 @@ verified live onLongBench representative2/P2/Slow/B, reservedseq139at23:07:33Z.
 Execution001/control007 unchanged,69classified primary outcomes; all168 and
 comprehensive private/recipient/failure/adoption audit, frozen pruning, actual
 PhaseII and finalreports/Q1–Q10 remain unfinished. No early pruning or new method.
+
+## Cell70 append: P2 /Slow /B
+
+Attempt1 settled valid2026-10-05T23:11:03.426177Z,sequence140. Completed,
+canonical terminal valid, original LongBench-v2 score0.0. This is another valid
+quality failure, not authorization to tune or retry. Primary semantic cause
+remains pending complete private evidence/Verifier audit.
+
+| Measure | Cell70 observed value |
+| --- | --- |
+| Manager /Verifier turns | 11 /11 |
+| Created specialists /specialist turns | 1 /8;peakactive1 |
+| Physical actions /model requests /successful inference | 16 /4 /1 |
+| Prepared operators | read_artifact3,bm25_retrieve8,aggregate_artifacts1,invoke_model4 |
+| Successful tools /context rejects | 11 /3;rejectsnotinference |
+| Other failure receipts | artifact_too_large1,phase_restricted1,semantic_validation_failed1 |
+| Successful actual inference | strongGPU0residentQwen3.5-27B;579input /2outputtokens;stop |
+| E2E /fixed initial transfer | 150.826s /2,119,778bytes,5.978s |
+| Successful action-transfer subtotal /complete action transfer | 0bytes,0s /UNKNOWN |
+| Successful tool work /complete tool work | 2.085s /UNKNOWN |
+| Complete backend service work | 0.701s;nomissingmodeloutcome |
+| Manager /specialist /Verifier work | 69.081s /31.744s /34.889s;not additive E2E |
+| Cloud API | All30usagesknown,USD0.3322638182808701,list-price not invoice |
+| Actual SDKrecipient contexts checked | 30;originalprivacyadmissionpassed |
+| Graph | 16nodes/14artifactedges/49snapshots;12succeeded,4failed |
+| Logical owners /InformationObject handoffs | 2 /1 |
+| Actual concurrency /overlap | max1 /0s;nominalMASdoesnotimplyparallelbenefit |
+
+Trajectory includes specialist retrieval/aggregation and oneexplicit handoff.
+Four requests are static-feasible; three complete-input preflights rejected
+context. The final real model call is prompt-only in the graph (no artifact
+dependency edge). Low input tokens alone do not prove evidence discard: inline
+prompt facts and specialist-to-root information need private semantic audit.
+Do not infer27Bspeed superiority over cell69's different6,553token/4Brequest or
+optimization from an incorrect answer. Failed read leaves complete transfer/
+tool workUNKNOWN; measured failed-action walltime0.101s does not fill breakdown.
+
+Optional query tools visible in all11rootinputs,0queries/cards,8observed eligible
+ready decisions. Unused interface cannot explain a claimed benefit. Specialist
+context separately audited; root response counts are not all physical calls.
+Allfive instances resident;Workerexit/tccleanuppass,no source/prompt/budget change.
+
+Original admission canonical SHA-256:
+`d60ebacc4c36bbb6e2193a66440bb498ec7e174ca309e792ee95635661d502bf`.
+Original settlement journal SHA-256:
+`9bce3e6f36d7486c3cb54a775098cf86460f5d7ef3416871b3f5195772fceae7`.
+Exclusive remote `analysis/resident-cell-070-summary-001.json` file SHA-256:
+`663325d3f397a6649495ae5294cf7107949232e94622e8fce9ac1927ee14458a`.
+
+Queue008PID2678456/cell71atomicPID2849294 command-verified live23:12:06.514970Z
+onLongBench2/P1/Slow/C, reservedseq141at23:11:06Z. ActualQuotecreated/authorized/
+executed receipts are present; no final71outcome inferred.70classified of168,
+control007/execution001unchanged;fullstudy/audits/pruning/PhaseIIunfinished.
