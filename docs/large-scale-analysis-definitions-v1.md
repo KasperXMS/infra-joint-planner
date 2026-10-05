@@ -1,9 +1,12 @@
 # Offline analysis definitions — Phase I in progress
 
 2026-10-05. These are reporting definitions, not Agent guidance or a method change.
-Formal execution remains revision 94c9bac and execution-freeze-002. Analysis code
-is deployed outside its frozen app. No prompt, model, tool, budget, scheduler,
-representation, run order or runtime is changed by these definitions.
+Current formal execution is fa19e0b / execution-freeze-003, following the
+independently audited transport-receipt-only repair. Historical executions at
+94c9bac / execution-freeze-002 remain preserved. Analysis code is deployed outside
+the frozen app. No prompt, model, tool, budget, scheduler, representation or run
+order is changed by these reporting definitions. Current progress belongs in
+[Phase I results](large-scale-phase1-results-v1.md), not this definitions document.
 
 ## Exposure, querying and adoption
 
@@ -64,7 +67,11 @@ API USD is a frozen regional list-price estimate, not an invoice amount.
 
 Initial artifact placement is fixed setup movement before Manager reasoning.
 Report its bytes/time separately from action transfers. Transfer bytes describe
-artifact payload, not packet-level wire overhead. Summed transfer/operator/model/
+artifact payload, not packet-level wire overhead, Worker read-result RPC bytes or
+cloud request/response traffic. A prompt-only terminal model can consume evidence
+from earlier tool reads without an explicit artifact handoff. Zero action-artifact
+movement therefore does not mean zero total communication or prove quality-preserving
+reduction. Summed transfer/operator/model/
 cloud service work can overlap. invoke_model operator time includes model service;
 do not add these into a purported E2E decomposition. No scalar objective is formed.
 
@@ -80,7 +87,8 @@ exist. A selection-only failure occurs before execution and adds no guessed
 movement. Partial initial receipts are not assumed to equal requested placement.
 Original result/trace/admission are not filled in or edited, and the projection
 does not enter Agent feedback. Twelve synthetic regressions bring the full suite
-to 793 passed, Ruff/strict Pyright/diff pass. Collector source SHA-256:
+to 793 passed at that historical projection checkpoint, Ruff/strict Pyright/diff pass.
+Historical collector source SHA-256:
 62da5882ff1d83ecc38b9df38475be896c643581eaf65b69735da0b1f04ee561.
 
 ## Admission, interpretation and stage gates
@@ -156,3 +164,39 @@ to the preregistered repair/replacement rules. Original evidence is immutable.
 After all 168 nominal admissions: comprehensive failure/recipient/private-evidence
 audit, task/family/Planner/method tables, quality-conditioned comparisons, then
 screen/prune and register Phase II. n=1 remains descriptive, not significance.
+
+## Current offline projection lineage and narrow failure reviews
+
+The latest base collector is the independently tested v1-9 source:
+`813b5b0269cedb97aa4f69fe2c4393cafdf0de9ba38293780f809642665ac84a`.
+Separate projections compose exact JSON-output, provider-policy, combined
+JSON/policy and initial-corpus-field/policy reviews. All original admissions,
+hash-linked journal entries, rejected findings and evidence stay unchanged.
+Sidecars must reproduce complete admission and bind every original file; a new
+review is not a generic validation_failed or HTTP400 allowlist. No review grants
+an outcome-based replacement. New controllers preserve immutable parent sources
+and freezes and execute only original authorized unstarted cells.
+
+Initial-corpus field review rechecks actual prepared payload hashes/record types,
+task content_schema, Worker metadata and the root's actual schema visibility.
+It does not claim that a delegated specialist received the root task: the frozen
+specialist interface carries Manager assignment plus static operator/model
+capabilities. Preserve missing delegated schema information as a composition/
+handoff limitation rather than silently supplying it or treating it as a dynamic
+infrastructure signal. Model preflight population and cloud refusal costs remain
+separate; proven zero physical inference does not imply zero cloud charges.
+
+Physical action intervals can remain known when failed model service/tokens are
+unknown. Execution-stage operator failures can also leave complete movement
+unknown despite successful receipt subtotals. A selection-only context reject,
+explicitly proved to occur before inference, belongs to an empty executed-model
+population; do not apply that zero-work conclusion to interrupted or post-inference
+parse failures. Unknown measurements continue to be null, never guessed.
+
+Full latest offline suite:916 pytest passed, Ruff / strict Pyright / diff check
+passed before the new control freeze. This validates the new offline proof/control
+code, not an alteration of formal Agent behavior. Snapshot026 independently
+verifies31 classified admissions before subsequent queue progress; its canonical
+semantics remain incomplete Phase I, no score pooling, no pruning/Phase II.
+See [field/policy audit](large-scale-field-policy-failure-audit-v1.md) for sources,
+proof hashes and exact scope; later counts remain in the current results report.

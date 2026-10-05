@@ -1,9 +1,13 @@
 # Eighteen-task pre-outcome freeze v1
 
 2026-10-05. **All 18 task identities, complete representations, initial placements
-and the 168-cell Phase I order are frozen. Formal runs remain 0.** This is a
-task/schedule freeze, not execution admission; monetary metering, the seven-method
-runner and full effective-recipient privacy audit are still pending.
+and the 168-cell Phase I order were frozen before outcomes. Formal runs were0
+at that preparation checkpoint.** The sections below preserve the pre-outcome
+task/schedule freeze, not current execution progress. Execution, monetary metering
+and full effective-recipient privacy admission were subsequently implemented and
+frozen; Phase I is now in progress, as recorded in
+[Phase I results](large-scale-phase1-results-v1.md). This status clarification
+does not change a task, artifact, evaluator, initial placement or schedule hash.
 
 Preparation code `af0f3ce`; serialization-only correction `18b9748`. Neither
 changes Manager/Verifier instructions, SDK-native runtime, operators, scheduler,
