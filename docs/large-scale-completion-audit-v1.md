@@ -18,6 +18,18 @@ no replacement. Actual queue008 PID2678456 was launched and command-verified
 22:25:25Z undercontrol007, continuingonlynever-startedcells. Re-read actual
 process/journal state. A stale process receipt alone is not a verified wait.
 
+Later append-only per-cell summaries065–072 advance classified coverage to72,
+without changing snapshot020's64-run population. Latest pair:
+[cells71–72](large-scale-resident-checkpoint-071-v1.md), summary hashes
+`37d1cdb8c8826c46f42a6e6d64a53f43753d0cbb75328a1dec7dabc0d93dfb0e` and
+`90519d8f5351059f6ce1719af6404610cd9406fdac68279613d867897bd3c020`.
+Cell71 is valid Manager-turn exhaustion with no inference/evaluation, not score0;
+cell72 completed but scored0. Ordinary quote commits are not Dalternatives use.
+Queue008PID2678456/cell73atomicPID2873969 verified live23:18:15Z onMultiHop2/
+P2/Fast/B0,attempt1. No execution/control/source change or early pruning. This
+boundary does not establish168completion, comprehensive private semantics,
+PhaseII eligibility or a final characterization; all requirements below remain.
+
 The389-file measured app,18-task manifest, pricing/history/E rules and five
 resident-instance contracts are hash-bound by the unchanged execution freeze.
 Per-cell admissions verify effective SDK recipient contexts, original evaluator
