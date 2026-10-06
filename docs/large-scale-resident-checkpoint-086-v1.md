@@ -19,7 +19,7 @@ Residency, actual recipient-context checks and all four owned Worker exits pass.
 | E2E | 418.061s |
 | Fixed initial placement | 7,696,522bytes /22.192s |
 | Complete action-artifact transfer | 5,204,596bytes /14.847s |
-| Complete tool-only Worker execution | 2.665s |
+| Complete tool-only Worker execution | 2.258s |
 | Returned model backend work | 308.537s |
 | Model input/output tokens / finish reasons | 15,272 /154; stop3 |
 | Manager / Verifier cloud work | 47.035s /18.086s |
@@ -27,9 +27,12 @@ Residency, actual recipient-context checks and all four owned Worker exits pass.
 | Graph nodes / information edges / snapshots | 6 /6 /19 |
 | Logical owners / max actual concurrency / overlap | 1 /1 /0s |
 
-Tool-only work is operator work311.201s minus successful model-action wrapper
-work as measured by the separate receipts; backend model work must not be added
-again as though disjoint. The6nodes all succeeded. The dependency-path178.358s
+Tool-only work2.258s is the exact separate tool receipt sum. Operator work311.201s
+includes308.943s of successful model-action wrapper work; backend service work
+308.537s is overlapping scope and must not be added again. The initial draft's
+2.665s tool-only value was an incorrect backend-subtraction residual; the immutable
+projection's actual tool receipts above correct it without modifying evidence.
+The6nodes all succeeded. The dependency-path178.358s
 excludes cloud reasoning, Verifier/control and scheduling waits, not full E2E.
 Configured Slow delay is not a measured symmetric RTT.
 
