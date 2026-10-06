@@ -57,7 +57,9 @@ from infra_joint.operators.catalog import build_operator_catalog
 ROOT = RESIDENT_ROOT
 BLOCK = ResidentBlock()
 APP = Path(__file__).resolve().parents[1]
-FREEZE = ROOT / "execution-freeze-001.json"
+REPAIR_APP_NAME = "app-quote-integrity-repair-002"
+FREEZE = ROOT / ("execution-freeze-002.json" if APP.name == REPAIR_APP_NAME
+                 else "execution-freeze-001.json")
 OLD_JOURNAL_SHA256 = "bddc83d7ef5230d3aca3c440602cea25bfd8be34bea6ceba47c3ce8746c0fb86"
 PRIOR_SUBSTANTIVE_CELLS = 42
 POOL_CONFIG = APP / BLOCK.environment_config
@@ -66,7 +68,7 @@ HARNESS = APP / BLOCK.harness_manifest
 
 def require_remote() -> None:
     BLOCK.validate(ROOT)
-    if APP.resolve() != (ROOT / "app").resolve():
+    if APP.resolve() not in {(ROOT / "app").resolve(), (ROOT / REPAIR_APP_NAME).resolve()}:
         raise RuntimeError("resident controller must use its own explicitly frozen app")
     frozen.validate_runtime_import_root()
 
@@ -128,6 +130,10 @@ def validate_harness_delta(parent: dict[str, Any], current: dict[str, Any]) -> N
 
 def execution_freeze() -> dict[str, Any]:
     require_remote()
+    if APP.name == REPAIR_APP_NAME:
+        from large_scale_resident_quote_patch_v1 import repaired_execution_freeze
+
+        return repaired_execution_freeze(APP)
     if sha256(PREDECESSOR / "phase1-attempts.jsonl") != OLD_JOURNAL_SHA256:
         raise RuntimeError("predecessor evidence changed or its old queue resumed")
     validate_harness_delta(frozen._yaml(APP / "configs/experiments/"
