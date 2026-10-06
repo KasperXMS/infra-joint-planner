@@ -8,7 +8,17 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 05:03Z
+## Latest verified progress: 2026-10-06 05:16Z
+
+Cell114/Video1/P1/Slow/Ccompleted/format-valid/score1, eight SDK contexts scanned,
+all Worker exits/residency verified. Snapshot031binds114effective/118attempts /
+one pending115and the unchanged three source epochs. File SHA
+`9da3f432ffb9d7dd94d7e05c475e8e15b1da09af381fe88249b7ec161988cecb`.
+E2E717.653s includes597.018s fixed video transfer; two actual physical actions,
+one returned inference, no action failures. Queue011and115atomic6311are live.
+[Actual checkpoint114 and111–113evidence](large-scale-resident-checkpoint-111-v1.md).
+
+## Earlier verified progress: 2026-10-06 05:03Z
 
 Offline preparation update05:14Z: an actual-file PhaseIIevidence gate now passes
 1,277fulltests and48actual Linux regressions. The real live-queue guard blocks it

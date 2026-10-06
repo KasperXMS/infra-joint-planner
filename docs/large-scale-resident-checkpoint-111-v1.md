@@ -1,5 +1,36 @@
 # Resident checkpoint111–113 — partial, not screening
 
+## Later checkpoint114: 2026-10-06T05:16Z
+
+Snapshot031binds **114/168effective cells**,118attempts/117settled+one pending115,
+three retained confounded originals, same001/002/003source boundaries. File SHA
+`9da3f432ffb9d7dd94d7e05c475e8e15b1da09af381fe88249b7ec161988cecb`;
+journal SHA`ebed035f33f0d7487857e99e7d4e1588304cf3085589f0d82a44d3b66ccdf903`.
+Earlier snapshot030and per-cell111–113proofs below retain their original scopes.
+
+Cell114/Video1/P1/Slow/Ccompleted, format-valid, original score1, settled valid.
+Actual path:`sample_frames→invoke_model`; six Manager turns, zero specialist,
+two Verifier calls; one tool and one prepared/returned model inference, no action
+failure. Two Cquotes both consumed; no known infeasible commit/discard.
+
+E2E717.653s includes fixed213,739,837-byte initial transfer/597.018s. Complete
+agent-action transfer0bytes/0s, pure tool work45.457s, returned model service
+25.050s,4,478input/2outputtokens,`stop`. Eight actual cloudAPIcalls/full recipient
+contexts scanned; frozen list-price USD0.0808682058, not invoice. Graph2nodes /
+4information-flow edges/7snapshots, maximum concurrency1/no measured overlap.
+All Workers exited and five-model residency passed with no startup subtraction.
+The long initial transfer was actual setup underSlow, not agent-loop stagnation.
+Do not attribute cross-Planner/cross-method E2Edifferences to guidance alone.
+
+Append-only proof:`analysis/resident-cell114-completed-001.json`, SHA
+`fa7d1aafcbb421dd195b4a46bc92580e1e769c274b08fb553b1c223f60a8e51e`.
+It binds original result/admission/trace and actual work/accounting/cleanup.
+Cell115/Video1/P2/Slow/Breserved05:15:27Z; controller4047590and new atomic6311
+verified live05:16:19Z. The low PID reflects a real new process, not a stale handle.
+No ordinary retries, pruning, score pooling or PhaseIIlaunch.
+
+## Original checkpoint111–113
+
 Source-aware snapshot030captured2026-10-06T05:03:37Z binds **113/168 effective
 cells**,117total attempts,116settled plus one pending114, and three retained
 confounded originals. No quality aggregation, pruning or PhaseII authorization.
