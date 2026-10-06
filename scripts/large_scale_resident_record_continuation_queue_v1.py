@@ -121,7 +121,6 @@ def control_freeze() -> dict[str, Any]:
 
 def run(control_path: Path) -> None:
     frozen.require_remote()
-    e.assert_inactive(frozen.ROOT)
     root = frozen.ROOT
     if (control_path.is_symlink() or control_path.parent.resolve() != root
             or not control_path.name.startswith("queue-control-freeze-")):

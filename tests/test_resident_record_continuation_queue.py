@@ -111,17 +111,20 @@ def test_only_reproduced_nominal_record_proof_enters_new_control(tmp_path, monke
         assert value["measured_execution_changed"] is False
 
 
-def test_live_guard_precedes_control_reads_or_reservation(tmp_path, monkeypatch):
+def test_control_drift_precedes_reservation_and_private_guard_is_not_a_queue_guard(
+    tmp_path, monkeypatch,
+):
     monkeypatch.setattr(queue.frozen, "ROOT", tmp_path)
     monkeypatch.setattr(queue.frozen, "require_remote", lambda: None)
 
-    def active(_):
-        raise RuntimeError("live queue")
-
-    monkeypatch.setattr(queue.e, "assert_inactive", active)
-    monkeypatch.setattr(queue, "control_freeze", lambda: pytest.fail("control read"))
-    with pytest.raises(RuntimeError, match="live queue"):
-        queue.run(tmp_path / "queue-control-freeze-016.json")
+    monkeypatch.setattr(queue.e, "assert_inactive",
+                        lambda _: pytest.fail("queue's own process is not a private audit"))
+    monkeypatch.setattr(queue, "control_freeze", lambda: {"frozen": True})
+    monkeypatch.setattr(queue, "owned_ledger", lambda: pytest.fail("ledger mutation"))
+    path = tmp_path / "queue-control-freeze-016.json"
+    path.write_text('{"frozen":false}')
+    with pytest.raises(RuntimeError, match="drift"):
+        queue.run(path)
     assert not (tmp_path / "phase1-attempts.jsonl").exists()
 
 
@@ -147,7 +150,8 @@ def test_recovered_cell_is_not_retried_and_child_has_only_frozen_imports(tmp_pat
     monkeypatch.setattr(queue.frozen, "ROOT", tmp_path)
     monkeypatch.setattr(queue.frozen, "APP", tmp_path / "immutable-app")
     monkeypatch.setattr(queue.frozen, "require_remote", lambda: None)
-    monkeypatch.setattr(queue.e, "assert_inactive", lambda _: None)
+    monkeypatch.setattr(queue.e, "assert_inactive",
+                        lambda _: pytest.fail("private inactivity would reject our own process"))
     monkeypatch.setattr(queue, "control_freeze", lambda: saved)
     monkeypatch.setattr(queue, "owned_ledger", lambda: ledger)
     monkeypatch.setattr(queue.frozen, "schedule", lambda: (
