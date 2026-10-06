@@ -161,3 +161,63 @@ Next affected cell84/P2/Fast/C attempt2was reserved at sequence177/01:58:08Z;
 atomicPID3458221was verified live02:01:10Z, with152events/11root turns,
 0mutation rejections and no terminal result/admission yet. Queue009remains
 active; no second formal repetition, prompt/model/budget tuning or early pruning.
+
+## Second affected rerun settled; original schedule resumed
+
+Cell84/P2/Fast/C attempt2 settled valid at sequence178/02:18:11Z. Its admission
+has no problems or operational incidents; actual recipient-context checks,
+resident-model validation and all four owned Worker exits passed. It completed
+with a canonical terminal answer and original evaluator score0/format-valid.
+This is a valid quality failure, not grounds for another attempt or prompt tuning.
+The old score1 attempt remains runtime-confounded and comparative-ineligible;
+neither its files nor its outcome is replaced by the new score0 result.
+
+| Cell84 repaired execution | Actual value |
+| --- | ---: |
+| Manager / specialist / Verifier reasoning calls | 16 / 7 / 7 |
+| Created specialists / peak active | 1 / 1 |
+| Physical actions / successful tool executions / returned model inferences | 12 / 2 / 8 |
+| Typed physical-action failures | 1 artifact-too-large, 1 context-limit-exceeded |
+| E2E | 1,168.068s |
+| Fixed initial placement | 213,739,837bytes /18.612s |
+| Complete action-artifact transfer | 0bytes /0s |
+| Complete returned model backend work | 898.705s |
+| Model input / output tokens | 38,366 /6,264; all8finish-stop |
+| Frozen regional list-price APIUSD | 0.4525056591238257; all30calls known |
+| Graph nodes / information edges / snapshots | 12 /64 /37 |
+| Logical owners / actual maximum action concurrency | 2 /1 |
+| Actual Quote final states | consumed6, pending1; no mutation rejection |
+
+The observed path first sampled16frames and performed three four-image model
+analyses, then invoked a specialist. A16-image specialist request was rejected
+by context preflight; four bounded four-image analyses subsequently reached
+inference and materialized evidence notes. The root terminal model consumed
+those four notes. A read of the source video failed its size bound. These are
+typed failures with subsequent natural continuation, not hidden truncation,
+automatic repair, or the original Quote defect.
+
+All returned inference telemetry is present; context rejection is not counted
+as inference. No actual parallel overlap occurred despite graph frontier width9.
+The dependency-path320.114s excludes cloud reasoning/Verifier/control waits and
+must not be presented as E2E critical path. Total operator work944.863s includes
+model-wrapper work; do not add backend work again. Full private semantic review
+is still pending: repeated analyses/long notes and a wrong final answer alone do
+not establish whether the primary cause was sampling, visual reasoning, evidence
+selection, synthesis or verification. The pending quote is retained, not erased.
+
+Immutable single-cell projection:
+`analysis/resident-repair-cell084-attempt2-projection-001.json`, fileSHA
+`b0497bbb293b18c4d4b737ca7170fa60a726ea0907bd9872df42b3c4ea436a98`.
+SettlementSHA:
+`4b2731c745116566147393bd6ce222e840d38344344b3198a6dee9cbf30d4974`.
+Admission canonicalSHA:
+`3dd78055170183563667ffff81f69629f072f73a31bfae5d1a24047e8af29bac`.
+TraceSHA:
+`61124a19f9b752881821f4ae3328d4c30a8bdfddf098beb6cf9fe36cd1e4c82a`.
+
+There are now85effective settled nominal cells from87settled attempts; two
+original confounded attempts remain visible. Original cell86/MultiHop1/P2/Slow/C
+was reserved at sequence179/02:18:23Z under the same execution002, atomicPID3529307.
+At02:19:56Z it had102events/6root turns and remained active. This is its first
+attempt, not a repeat. Queue009 continues the remaining never-started schedule;
+all168complete/private audit/pruning/PhaseII/final characterization remain open.
