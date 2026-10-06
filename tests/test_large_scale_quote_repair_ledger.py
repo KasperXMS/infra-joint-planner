@@ -156,3 +156,28 @@ def test_pending_attempt_prevents_retrospective_state_changes(tmp_path: Path) ->
     with pytest.raises(RuntimeError, match="still be live"):
         ledger.invalidate_quote_integrity("first")
     assert (tmp_path / "phase1-attempts.jsonl").read_bytes() == before
+
+
+def test_completed_membership_validates_once_per_call_without_cross_call_cache(
+    tmp_path: Path,
+) -> None:
+    class CountingLedger(repair.QuoteRepairAttemptLedger):
+        validations = 0
+
+        @property
+        def attempts(self) -> tuple:
+            self.validations += 1
+            return super().attempts
+
+    ledger = CountingLedger(tmp_path / "journal.jsonl", ("c", "a", "b"), "a" * 64)
+    ledger._attempts = {
+        "a": repair.Attempt("a", "a", 1, "b" * 64, "valid", "wrong_answer", "c" * 64),
+        "c": repair.Attempt("c", "c", 1, "b" * 64, "valid", "correct", "c" * 64),
+        "b": repair.Attempt("b", "b", 1, "b" * 64, "confounder", "fault", "c" * 64),
+    }
+    before = ledger.validations
+    assert ledger.completed_cells == ("c", "a")
+    assert ledger.validations == before + 1
+    ledger._attempts["a"] = repair.Attempt("a", "a", 1, "b" * 64, "confounder")
+    assert ledger.completed_cells == ("c",)
+    assert ledger.validations == before + 2

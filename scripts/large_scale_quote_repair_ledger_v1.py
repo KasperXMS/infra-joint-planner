@@ -113,6 +113,14 @@ def verify_sidecar(path: Path, attempt: Attempt) -> dict[str, Any]:
 
 
 class QuoteRepairAttemptLedger(ResidentPolicyAttemptLedger):
+    @property
+    def completed_cells(self) -> tuple[str, ...]:
+        # Like the existing SnapshotAttemptLedger: validate the effective view
+        # once per membership calculation, not once for every scheduled cell.
+        # No cross-call cache, source/evidence bypass or changed admission rule.
+        admitted = {a.cell_id for a in self.attempts if a.disposition == "valid"}
+        return tuple(cell for cell in self.cells if cell in admitted)
+
     def _apply(self, record: dict[str, object]) -> None:
         if record["event"] != "quote_integrity_confounded":
             super()._apply(record)
