@@ -1,11 +1,43 @@
 # Resident Phase II results — in progress
 
-Latest reviewed snapshot019 at2026-10-06T23:39:54Z:
-20effective valid/20attempts/0pending/2preserved raw confounders/0exclusions.
-SHA256 `7995295a22d1a890b4c7faa335cc328924885d068525990504c170c7bdcaa47e`;
-journal `266d4bd9bd8f4bed9dbff4e3d7df3e81e96c2bc15df4b712e6c539cb33444000`.
-The table now includes20 settled original outcomes. Old captures below are
+Latest reviewed snapshot020 at2026-10-06T23:49:27Z:
+21effective valid/21attempts/0pending/2preserved raw confounders/0exclusions.
+SHA256 `a3c41f513f7beb73b70a3b58734866bcf31dbff403033075730bff96ad4f3992`;
+journal `b023a7b86e4fb66c29b8f8c50be4afb9e52aec14ee4cf946064cfc8344c51004`.
+The table now includes21 settled original outcomes. Old captures below are
 historical, not current counts. No score pooling, retry or semantic tuning.
+
+Cell21 MultiHop6/DeepSeek/Fast/B1 completed, format valid, original score1.0.
+Original admission/journal, empty stores, resident identities, Worker exits,
+tc restoration/direct terminal model and16SDKcontexts independently pass;
+auditSHA `166e16c18bf68b0dd5f5b6683211fd1ca5aba9aabe663f9105fa21c0030b4eb1`.
+Eight Manager/Verifier turns, no specialist,12physical requests: three-shard
+BM25 rounds with top_k20 →5 →3, each followed by a model request. The first
+two were context-rejected before inference; the third consumed three artifacts
+on A28/resident-a28-qwen35-27b-v1:7,466input/4output tokens, stop,
+129.421s backend service. One semantic-validation and one phase-restricted
+SDKcall are separate. No automatic retry, hidden reduction or manual recovery.
+Source-bound shape-only receiptSHA
+`c2818fcc53431a6b1446fe858b2e676396f6309f688d0e976708b29ff087ea94`
+binds actual top_k values without exporting query, prompt or evidence bodies.
+Complete Agent movement17,878B/.507s; separate initial7,696,522B/1.203s.
+Successful tool work3.178s, inclusive model-action Worker work129.639s;
+do not double-count the backend service. Graph12nodes/9edges/37snapshots/peak3,
+E2E220.323s, API frozen listpriceUSD.148450. Weak original score1 is not an
+evidence-retention oracle. Fresh B1 exposure, reduction and low recorded bytes
+do not establish causal profile adoption or a quality-preserving method benefit.
+
+Feedback016 audits340actual contexts=165Manager/165Verifier/10specialist,
+53B1profiles/74A_Eledgers/36frozenrules exactly matching provider requests.
+SHA `a50fe0364388d323f6562044b51a92d49ede04ca6a5fa8f61256f4a2b06b670f`.
+At23:50:29Z the same controller004 remains owned/live, no pending reservation,
+performing the original full gate before cell22 MultiHop6/Qwen/Slow/A.
+Remaining171, full192/inactive private/manual/failure/adoption/Q1–Q10 unfinished.
+No source/model/prompt/budget/scheduler change or payload through development PC.
+
+Historical snapshot019 at23:39:54Z had20effective outcomes,
+SHA256 `7995295a22d1a890b4c7faa335cc328924885d068525990504c170c7bdcaa47e`,
+journal `266d4bd9bd8f4bed9dbff4e3d7df3e81e96c2bc15df4b712e6c539cb33444000`.
 
 Cell20 MultiHop4/Qwen/Fast/A completed, format valid, original score0.0.
 Original admission/journal, four empty stores, five resident identities, Worker
@@ -179,6 +211,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop4 | Qwen / Slow / B0 | true / valid / 1 | 11 / 11 | 9 / 1 | 1 | 149.584 | 7,696,522 / 22.434 | 5,204,596 | 0.175846 |
 | MultiHop4 | DeepSeek / Slow / B1 | true / valid / 1 | 12 / 12 | 15 / 1 | 2 | 196.997 | 7,696,522 / 22.032 | 0 | 0.566055 |
 | MultiHop4 | Qwen / Fast / A | true / valid / 0 | 6 / 6 | 6 / 1 | 0 | 234.878 | 7,696,522 / 1.278 | 5,204,596 | 0.136943 |
+| MultiHop6 | DeepSeek / Fast / B1 | true / valid / 1 | 8 / 8 | 12 / 1 | 2 | 220.323 | 7,696,522 / 1.203 | 17,878 | 0.148450 |
 
 Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
 1created specialist,48physical actions,5successful inference telemetry receipts.

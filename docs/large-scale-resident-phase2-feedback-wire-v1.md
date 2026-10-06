@@ -131,3 +131,15 @@ feedback015SHA `ecdeaf31bc2ce0179c9692f273aef314afa2a208329de8654c33e0a8517c3101
 Zero new Agent calls, private support/corpus/store-body reads or payload exports.
 Actual feedback exposure does not prove internal adoption or a quality-preserving
 optimization. Cell20's score0 is retained; semantic cause is not inferred here.
+
+## Actual reviewed snapshot020 / feedback016
+
+2026-10-07 HKT:21settled cells,340actual SDKcontexts:
+165Manager/165Verifier/10specialist.53B1profiles,74A/Eledgers and36E frozen-rule
+exposures exactly match provider requests and corresponding decisions.
+Cell21 adds8root B1profile requests and8fixed Blind Verifier requests, no specialist.
+SnapshotSHA `a3c41f513f7beb73b70a3b58734866bcf31dbff403033075730bff96ad4f3992`;
+feedback016SHA `a50fe0364388d323f6562044b51a92d49ede04ca6a5fa8f61256f4a2b06b670f`.
+Zero new Agent calls, support/corpus/store-body reads or payload exports.
+Three-shard top_k20→5→3 recovery and score1 are observed separately from profile
+exposure; this audit does not identify causal adoption or semantic retention.
