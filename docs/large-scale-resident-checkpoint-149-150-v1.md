@@ -69,8 +69,8 @@ resource savings. Score1does not prove that all temporal evidence was retained.
 
 ## Provenance and continuation
 
-Both original admissions independently reconstruct byte/canonical-equivalent
-settlement evidence. Four empty Worker stores, verified Worker exits, all actual
+Both original admissions independently reconstruct parsed-equivalent admissions
+with matching canonical settlement hashes. Four empty Worker stores, verified Worker exits, all actual
 SDK recipient-context/privacy scans, five resident model identities and tc
 cleanup passed in each run. No inference/warm-up, Worker start or tc write was
 introduced by the audits. Full JSONL/result/API bodies remain remote.
