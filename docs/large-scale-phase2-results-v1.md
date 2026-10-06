@@ -1,6 +1,6 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T20:10:01Z / 2026-10-07 04:10 HKT. Eleven of 192 nominal
+Checkpoint: 2026-10-06T20:17:16Z / 2026-10-07 04:17 HKT. Twelve of 192 nominal
 held-out cells settled; no reservation was pending at this snapshot. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
@@ -30,6 +30,29 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | Video6 | DeepSeek / Fast / B1 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 121.284 | 233,097,342 / 20.753 | 0 | 0.071510 |
 | Video6 | Qwen / Slow / A | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 753.030 | 233,097,342 / 650.833 | 0 | 0.220815 |
 | Video6 | DeepSeek / Slow / E | true / valid / 1 | 6 / 6 | 5 / 3 | 1 | 802.365 | 233,097,342 / 650.722 | 0 | 0.285777 |
+| Video6 | Qwen / Fast / B0 | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 101.233 | 233,097,342 / 20.537 | 0 | 0.184910 |
+
+The twelfth cell used sample_frames, one context-rejected model request, then
+successful A4 visual inference consuming three already materialized artifacts.
+The returned receipt records 3,450 input tokens, two output tokens, finish stop
+and 19.031s backend service work. Five Manager and five Verifier turns, three
+graph nodes, eleven edges, ten snapshots, no specialists and max concurrency one.
+Original admission was independently reproduced and matched settlement; four
+empty stores, five resident identities, Worker exit, tc restoration, successful
+terminal model provenance and ten actual SDK recipient contexts passed. No retry
+or semantic tuning. A context reject followed by smaller-input continuation is
+observable recovery, not proof of an infrastructure-guided optimization.
+
+Append-only snapshot011 SHA256:
+`d83b7fe0bec6b78cf4297feb0fb5e78900535064ffeaefef1a8fb9635b6ac2e5`;
+journal SHA256 at capture:
+`870e698752088f0a70428598a1f6e86808ae900f05c91117b457bc05f6e700c0`.
+Twelve admitted attempts, no pending reservation or confounder at this capture;
+the live controller remains active, so this is not completion of the block.
+Independent twelfth-cell audit SHA256:
+`90b2703c7869bf63c8ab144e335802e7b1af057fde80f3b36ee1f671c22a549a`.
+All receipts remain owner-local under the existing analysis root. Historical
+snapshots below retain their original populations and timestamps.
 
 Fast100Mbps/configured5ms and Slow3Mbps/configured50ms retain the existing
 Jetson HTB/no-netem caveat: configured delay is not measured symmetric RTT.
