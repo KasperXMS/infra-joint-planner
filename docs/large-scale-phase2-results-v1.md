@@ -1,6 +1,6 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T20:17:16Z / 2026-10-07 04:17 HKT. Twelve of 192 nominal
+Checkpoint: 2026-10-06T20:24:58Z / 2026-10-07 04:24 HKT. Thirteen of 192 nominal
 held-out cells settled; no reservation was pending at this snapshot. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
@@ -31,6 +31,40 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | Video6 | Qwen / Slow / A | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 753.030 | 233,097,342 / 650.833 | 0 | 0.220815 |
 | Video6 | DeepSeek / Slow / E | true / valid / 1 | 6 / 6 | 5 / 3 | 1 | 802.365 | 233,097,342 / 650.722 | 0 | 0.285777 |
 | Video6 | Qwen / Fast / B0 | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 101.233 | 233,097,342 / 20.537 | 0 | 0.184910 |
+| MultiHop5 | Qwen / Fast / E | true / valid / 0 | 10 / 10 | 13 / 1 | 2 | 318.009 | 7,696,522 / 1.339 | 5,204,596 | 0.234685 |
+
+The thirteenth cell, frozen MultiHop-RAG position5 task hash `a60f56ec789bf3ae`,
+completed normally with valid direct terminal-model text and original evaluator
+score0. It is a valid quality failure, not a system confounder or a retry target.
+Actual sequence: aggregate_artifacts; three BM25 actions; a context-rejected
+model request; three select_fields actions; another rejected model request;
+three further BM25 actions; then successful A28 model inference consuming three
+artifacts. Ten Manager/Verifier turns, thirteen physical actions, thirteen nodes,
+eighteen edges, forty snapshots, max actual concurrency three, no specialists.
+The two context rejects did not reach inference. The sole returned model receipt
+records5,145input/461output tokens, finish stop,228.881s backend service work.
+Tool work9.669s and model-action Worker work228.959s are separate exclusive kinds;
+backend service is included in the latter, not additional E2E time.
+
+Initial three-shard materialization7,696,522B/1.339s is separate from subsequent
+registered artifact movement5,204,596B/1.526s. Terminal text equals the successful
+model output directly, without hidden finalization. Original admission and journal
+settlement, four empty initial stores, five resident identities, tc restoration,
+Worker exit and twenty actual SDK recipient contexts independently passed.
+Audit SHA256 `74967cfc330b24e9f1a5e4b03e7cd16040d02c8ecd45c4bc377378ecdea33a1e`.
+E's ten exact rule deliveries do not demonstrate rule adoption or benefit.
+Required-evidence retention and retrieval-versus-synthesis primary cause remain
+unknown until the unchanged post-block private audit guard permits investigation.
+No supporting/gold/corpus/store-body reads or exported raw API/model output.
+
+Snapshot012 SHA256 `4576c7eae7d368dcc7ab53d68b266a2f4ab3624ade891d5feaa6be4c1b4c9425`,
+journal at capture `e074fd3e180a24aa5c750945919e5ea11ff27c395568cef471ea6b5bdc645dae`:
+13admitted/13attempts/0pending/0confounders/0exclusions, block still incomplete.
+Its earlier live proof, SHA256
+`8bbfa4ade78f94f2ad70f4f6a577e1e89ef18103007bbc1e9dfdd0803c965ac3`,
+verified actual atomic1894444, execution004-only imports, four empty stores and
+stable five-instance identities before completion. Read-only /state at20:23:40Z
+confirmed A28in_flight1 and all fourWorkers available; no failover/restart was used.
 
 The twelfth cell used sample_frames, one context-rejected model request, then
 successful A4 visual inference consuming three already materialized artifacts.

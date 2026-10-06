@@ -7,18 +7,19 @@ No Agent code, instructions, budget, rule payload, scheduler or model was change
 Audit001 covers snapshot005's six settled cells; audit002 extends the same checks
 to snapshot006's seven cells, audit003 to snapshot007's eight cells and audit004
 to snapshot008's nine cells; audit005 covers snapshot009's ten cells and audit006
-covers snapshot010's eleven cells; audit007 covers snapshot011's twelve cells.
+covers snapshot010's eleven cells; audit007 covers snapshot011's twelve cells
+and audit008 covers snapshot012's thirteen cells.
 Actual persisted provider requests were read
 only on their owner4090. No raw requests, benchmark artifacts, gold or supporting
 evidence were exported through the development PC. The audits made zero model
 calls and did not read support/corpus/store bodies.
 
-| Check | Actual twelve-cell result |
+| Check | Actual thirteen-cell result |
 | --- | --- |
-| Manager / Verifier / specialist provider request contexts | 75 / 75 / 0 |
+| Manager / Verifier / specialist provider request contexts | 85 / 85 / 0 |
 | B1 profile exactly matches corresponding pre-decision trace payload | 23 / 23 |
-| A/E ledger exactly matches corresponding pre-decision trace payload | 38 / 38 |
-| E rules exactly match frozen canonical rule payload | 20 / 20 |
+| A/E ledger exactly matches corresponding pre-decision trace payload | 48 / 48 |
+| E rules exactly match frozen canonical rule payload | 30 / 30 |
 | B0 profile/ledger/rule feedback messages | None |
 | Non-Manager profile/ledger/rule message prefixes | None |
 | Verifier model matches fixed frozen model | Every request |
@@ -62,6 +63,8 @@ Append-only owner-local receipts, under
   `f2f75e4ba4f8f21d26e7ae061e570c1b7b7788a693061b4cead709e70639efd7`.
 - `resident-phase2-feedback-wire-audit-007.json`, SHA256
   `baad36a2d0fcee6ddee95dfe5911f5e929b29dc178a92a96829641d624879924`.
+- `resident-phase2-feedback-wire-audit-008.json`, SHA256
+  `2ad01b65b8bf638690ccd34deb6df64eb2afe7a17e313b4172d9d0f8e8981c49`.
 
 Visibility does not prove internal adoption, correct cost reasoning or a
 quality-preserving benefit. Complete held-out semantic/failure/adoption review
