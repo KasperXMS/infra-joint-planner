@@ -137,3 +137,13 @@ must be confirmed independently from the new wrapper/parent/atomic handles and
 durable reservation. Prepared control is not an executed benchmark result.
 All dataset/model/prompt/full-trace bodies remain on4090/edges. Full168,audit,
 pruning,actualheld-outPhaseII and final Q1-Q10 characterization remain required.
+
+### Later actual replacement settlement (09:14:59Z)
+
+The sole identical attempt4 did execute and ended in two HTTP400 input-policy
+refusals, including the fixed Blind Verifier, plus one proven BM25 absent-field
+misuse. This is not another timeout or outage. The original replacement evidence
+is retained as a valid nominal failure, with evaluation unknown and no further
+retry. Effective membership is123/168 after exact offline review. See the
+[field/policy settlement audit](large-scale-resident-compound-field-policy-audit-v1.md).
+The earlier pending/prepared descriptions above retain their original time scope.

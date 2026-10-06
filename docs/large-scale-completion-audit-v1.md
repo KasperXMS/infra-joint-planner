@@ -581,3 +581,22 @@ See [mixed-gate diagnosis and scope](large-scale-resident-input-cardinality-repa
 
 The goal remains active and full-scope; no method pruning/PhaseII/semantic tuning,
 policy outage replacement, full private semantic audit or finalQ1–Q10claim.
+
+## 2026-10-06 09:37Z:123effective, unchanged resident queue resumed
+
+The sole identical replacement for MultiHop1/P1/Slow/E ended in proven provider
+input-policy refusal plus record-field misuse. It remains a nominal failed sample
+without evaluation, not score0 and not eligible for another replacement. The exact
+offline proof reproduces the raw admission and all sources/artifacts; original
+evidence and journal stay immutable. Membership is123effective,17historical
+genuine confounders and1operational exclusion. No semantic repair/new epoch.
+
+Full1500tests/Ruff/strictPyright passed; actual Linux43tests passed. External
+control015 is independently reproduced. Queue016 parent603036 was checked live
+in pre-dispatch verification; there was not yet a new atomic reservation at that
+capture. Measured execution remains004 /0ff0e9b, not audit01ae1f7.
+See [exact failure and continuation audit](large-scale-resident-compound-field-policy-audit-v1.md).
+
+Full168, complete private semantic/recipient/failure/adoption audit, frozen pruning,
+actual PhaseII under420cap and final named reports/Q1–Q10 remain unfinished.
+The active goal is not narrowed to restarting a queue or preparing proof helpers.
