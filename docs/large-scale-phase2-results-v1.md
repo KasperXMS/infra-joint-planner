@@ -1,11 +1,40 @@
 # Resident Phase II results — in progress
 
-Latest reviewed snapshot018 at2026-10-06T23:30:46Z:
-19effective valid/19attempts/0pending/2preserved raw confounders/0exclusions.
-SHA256 `7c33b755c07450dc8eb279ab49ca730d2e0f03242e7069dd7797737e794a8712`;
-journal `dfe3a28cd22c3a8248a8f9105beb0e92440fbd1ed9b15b811588026fb9913e00`.
-The table now includes19 settled original outcomes. Old captures below are
+Latest reviewed snapshot019 at2026-10-06T23:39:54Z:
+20effective valid/20attempts/0pending/2preserved raw confounders/0exclusions.
+SHA256 `7995295a22d1a890b4c7faa335cc328924885d068525990504c170c7bdcaa47e`;
+journal `266d4bd9bd8f4bed9dbff4e3d7df3e81e96c2bc15df4b712e6c539cb33444000`.
+The table now includes20 settled original outcomes. Old captures below are
 historical, not current counts. No score pooling, retry or semantic tuning.
+
+Cell20 MultiHop4/Qwen/Fast/A completed, format valid, original score0.0.
+Original admission/journal, four empty stores, five resident identities, Worker
+exits/tc restoration/direct terminal model and12actual SDKcontexts pass;
+auditSHA `342dda96cb7be83677d09f25085139c5c7eacbbf254045be0ae99c1280b2c7ca`.
+Six Manager/Verifier turns, no specialist; six physical actions in sequence:
+aggregate_artifacts → bm25_retrieve → read_artifact → bm25_retrieve →
+read_artifact → invoke_model. The successful terminal model consumed two
+artifacts on A28/resident-a28-qwen35-27b-v1:7,562input/162output tokens, stop,
+187.421s backend service. No context or other typed failure occurred.
+Complete Agent movement5,204,596B/1.627s; separate initial7,696,522B/1.278s.
+Successful tool work2.272s; inclusive model-action Worker work187.567s must not
+be added to backend service again. Graph6nodes/6edges/19snapshots/peak1,
+E2E234.878s, API frozen listpriceUSD.136943. Wrong quality is retained, not
+retried or repaired. Retrieval/evidence versus terminal reasoning cause remains
+unknown until full-block private audit; physical success alone does not isolate
+semantic failure subtype. No matched causal claim against17–19 is made.
+
+Feedback015 audits324actual contexts=157Manager/157Verifier/10specialist;
+45B1profiles/74A_Eledgers/36frozenrules exactly match provider requests.
+SHA `ecdeaf31bc2ce0179c9692f273aef314afa2a208329de8654c33e0a8517c3101`.
+At23:40:50Z controller0042229557/supervisor2229556 remain owned/live with no
+pending reservation, validating the original full gate before cell21.
+Remaining172 preserve the original schedule. Full192/inactive private/manual/
+failure/adoption/Q1–Q10 are outstanding; no execution source or tuning changes.
+
+Historical snapshot018 at23:30:46Z had19effective outcomes,
+SHA256 `7c33b755c07450dc8eb279ab49ca730d2e0f03242e7069dd7797737e794a8712`,
+journal `dfe3a28cd22c3a8248a8f9105beb0e92440fbd1ed9b15b811588026fb9913e00`.
 
 Cell19 MultiHop4/DeepSeek/Slow/B1 completed, format valid, original score1.0.
 Original admission/journal, empty stores, five resident identities, Worker exits,
@@ -149,6 +178,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop4 | DeepSeek / Fast / E | true / valid / 0 | 6 / 6 | 13 / 4 | 1 | 352.579 | 7,696,522 / 1.108 | unknown; returned subtotal 0 | 0.150308 |
 | MultiHop4 | Qwen / Slow / B0 | true / valid / 1 | 11 / 11 | 9 / 1 | 1 | 149.584 | 7,696,522 / 22.434 | 5,204,596 | 0.175846 |
 | MultiHop4 | DeepSeek / Slow / B1 | true / valid / 1 | 12 / 12 | 15 / 1 | 2 | 196.997 | 7,696,522 / 22.032 | 0 | 0.566055 |
+| MultiHop4 | Qwen / Fast / A | true / valid / 0 | 6 / 6 | 6 / 1 | 0 | 234.878 | 7,696,522 / 1.278 | 5,204,596 | 0.136943 |
 
 Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
 1created specialist,48physical actions,5successful inference telemetry receipts.

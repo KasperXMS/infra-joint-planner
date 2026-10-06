@@ -119,3 +119,15 @@ feedback014SHA `cfb570d0651975d218022b18a9b3cf4ec0f8c63715f56a35e1a354ccb78e73c3
 Zero new Agent calls, private support/corpus/store-body reads or payload exports.
 Neither observed profile exposure nor original score1 establishes causal benefit
 or evidence retention; future cells and post-block audits remain outstanding.
+
+## Actual reviewed snapshot019 / feedback015
+
+2026-10-07 HKT:20settled cells,324actual SDKcontexts:
+157Manager/157Verifier/10specialist.45B1profiles,74A/Eledgers and36E frozen-rule
+exposures exactly match provider requests and corresponding decisions.
+Cell20 adds6root A-ledger requests and6fixed Blind Verifier requests, no specialist.
+SnapshotSHA `7995295a22d1a890b4c7faa335cc328924885d068525990504c170c7bdcaa47e`;
+feedback015SHA `ecdeaf31bc2ce0179c9692f273aef314afa2a208329de8654c33e0a8517c3101`.
+Zero new Agent calls, private support/corpus/store-body reads or payload exports.
+Actual feedback exposure does not prove internal adoption or a quality-preserving
+optimization. Cell20's score0 is retained; semantic cause is not inferred here.
