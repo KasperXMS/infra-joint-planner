@@ -175,3 +175,15 @@ def test_exact_source_bound_ledger_preserves_raw_and_blocks_semantic_retry(
         with pytest.raises(RuntimeError, match="must not be repeated"):
             view.reserve("cell", "retry", attempt.execution_sha256)
     assert ledger.path.read_bytes() == before
+    if damage is None:
+        # Reproduce the actual next-cell boundary: only the new view can replay
+        # a reservation after the now-reviewed raw confounder. Historical
+        # control code must remain immutable and must not replay this journal.
+        view.reserve("next", "later", attempt.execution_sha256)
+        view.settle("later", "valid", "completed_or_valid_semantic_failure", "c" * 64)
+        with pytest.raises(RuntimeError, match="unresolved system confounder"):
+            reviewer.previous.MethodContractAttemptLedger(
+                ledger.path, ledger.cells, ledger.schedule_sha256)
+        replay = reviewer.ProjectionAttemptLedger(ledger.path, ledger.cells, ledger.schedule_sha256)
+        assert replay.completed_cells == ("cell", "next")
+        assert replay.original_attempts[0].disposition == "confounder"
