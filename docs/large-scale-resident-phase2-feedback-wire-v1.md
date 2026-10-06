@@ -81,3 +81,15 @@ Visibility does not prove internal adoption, correct cost reasoning or a
 quality-preserving benefit. Complete held-out semantic/failure/adoption review
 and Q1–Q10 remain outstanding. Private evidence-body auditing still requires the
 unchanged global inactivity guard after the full block stops.
+# Actual reviewed snapshot016 / feedback012
+
+2026-10-07 HKT:17settled cells,264actual SDKcontexts:
+128Manager/128Verifier/8specialist.33B1profiles,68A/Eledgers and36E frozen-rule
+exposures match trace values and actual provider-request payloads exactly;
+non-Manager recipients remain Blind and Verifier uses the fixed frozen model.
+SnapshotSHA ef36035b6960d0ca502b48e0eb9a47a008c7a78eb5ad5fa144b1b10805de18d9;
+feedback012SHA8e829ba9dfa4c7230e5fafe1af617054daf4f3ca42aebe751cae8fcf21bb9163.
+No new Agent call/private support/corpus/store-body scan or payload export.
+These17settled requests do not cover future live cells. Exposure does not prove
+rule adherence, semantic retention or causal cost benefit. Historical captures
+below retain their original populations.

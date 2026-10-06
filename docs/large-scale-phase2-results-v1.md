@@ -1,9 +1,43 @@
 # Resident Phase II results — in progress
 
-Live continuation at2026-10-06T22:47Z: cell17,
+Latest reviewed snapshot016 at2026-10-06T23:07:31Z:
+17effective valid/17attempts/0pending/2preserved raw confounders/0exclusions.
+SHA256 `ef36035b6960d0ca502b48e0eb9a47a008c7a78eb5ad5fa144b1b10805de18d9`;
+journal `64ed03e2ee9ac479971ab728b5735f0adcb30c251d4c68f7487d3aeca93df502`.
+The table now includes17 settled original outcomes. Old captures below are
+historical, not current counts. No score pooling, retry or semantic tuning.
+
+Cell17 MultiHop4/DeepSeek/Fast/E completed, format valid, original score0.
+Its exact2post-backend model-JSON failures are source-bound reviewed under
+sidecarSHA `7509ddddc81e2fb04bbde3df76175176ead5b362b3048b8809f70999cf461c66`.
+Raw journal/admission and score0 remain unchanged; replacement forbidden.
+Full original admission/settlement, four empty stores, resident identities,
+Worker exit/tc cleanup/direct terminal model and12actual SDKcontexts independently
+pass (audit22f2fe0b1d72b5b956d9fd20047d767633fe1fcfc5167fa6673c5542ab20cd2a).
+Four successful model receipts report22,619input/1,060output/4stop and189.851s
+backend service work. Two additional backend completions are source-proven;
+their tokens/finish/service work and full movement remain unknown. Successful
+movement subtotal0 is not a full zero-traffic claim. Six BM25 requests/sevenmodel
+requests/one context reject/three logical phase restrictions,6Manager/6Verifier,
+no specialist;13nodes/6edges/40snapshots/peak3. Semantic/evidence cause remains
+unknown pending the completed inactive private block; terminal0artifact inputs
+does not by itself prove evidence loss.
+
+Controller003 ended before any next cell. After external bookkeeping-only
+reservation validation correction, reviewed control002 and adapterfreeze003
+were source-bound and controller0042229557/supervisor2229556 are owned/live
+at23:08:43Z, validating the original full gate. No atomic18 is asserted yet.
+Remaining175 preserve the schedule; nextMultiHop4/Qwen/Slow/B0.
+Actual original private guard still rejects this controller before body reads
+(receipt7a49714ec6485ff1c1b1f7e47e6a6a2b8b032c30731477655705e713766650b7).
+Feedback012 audits264contexts=128Manager/128Verifier/8specialist;
+33profiles/68ledgers/36frozenrule exposures match actual requests. Visibility
+still does not establish adoption/causal optimization; final audits remain open.
+
+Historical live continuation at2026-10-06T22:47Z: cell17,
 `phase2-multihop_rag-4-fffab28c23fbdeaf-p1-fast-E`, attempt1,
 atomic2188408 is owned/live. This is a pending reservation, not another result:
-the settled table below remains16. Its initial four Worker stores were empty,
+the settled population at that capture remained16. Its initial four Worker stores were empty,
 five resident instances were attested before execution, and the atomic process
 uses only archived execution004src/scripts with revision
 `0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`. External controller/private-audit
@@ -49,6 +83,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop5 | DeepSeek / Slow / A | true / valid / 1 | 14 / 14 | 22 / 10 | 3 | 682.445 | 7,696,522 / 22.219 | 0 | 0.394572 |
 | MultiHop5 | Qwen / Slow / B1 | true / valid / 1 | 10 / 10 | 13 / 2 | 1 | 1034.529 | 7,696,522 / 22.042 | 5,204,596 | 0.202958 |
 | MultiHop5 | DeepSeek / Fast / B0 | true / valid / 0 | 13 / 13 | 48 / 5 | 3 | 1884.311 | 7,696,522 / 1.511 | unknown; returned subtotal 43,046 | 0.838502 |
+| MultiHop4 | DeepSeek / Fast / E | true / valid / 0 | 6 / 6 | 13 / 4 | 1 | 352.579 | 7,696,522 / 1.108 | unknown; returned subtotal 0 | 0.150308 |
 
 Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
 1created specialist,48physical actions,5successful inference telemetry receipts.
