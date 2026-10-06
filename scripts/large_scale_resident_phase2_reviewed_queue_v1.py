@@ -31,7 +31,17 @@ def evidence(root: Path, attempt: Attempt) -> Path:
 
 
 def proof(root: Path, attempt: Attempt, parent_path: Path) -> dict[str, Any]:
-    parent, _ = previous.checked_control(parent_path)
+    # Full PhaseI recollection stays at review creation and every execution
+    # boundary. An individual immutable sidecar must not recursively recollect
+    # all168 cells on every ledger property access. It binds the exact parent
+    # bytes and complete controller/atomic source closure instead.
+    if (parent_path.is_symlink() or parent_path.resolve().parent != root
+            or not parent_path.name.startswith("phase2-control-freeze-")):
+        raise RuntimeError("owned original parent control required")
+    parent = json.loads(parent_path.read_text())
+    if (parent.get("source_sha256") != previous.source_bindings()
+            or parent.get("execution_freeze_sha256") != frozen.verify_freeze()):
+        raise RuntimeError("original parent/atomic source drift")
     directory = evidence(root, attempt)
     original = json.loads((directory / "admission.json").read_text())
     if (attempt.disposition != "confounder" or attempt.reason != legacy.GATE_PROBLEM
@@ -151,6 +161,11 @@ def create_review(run_id: str, parent_path: Path) -> dict[str, Any]:
 
 def control_value(parent_path: Path) -> dict[str, Any]:
     parent, cells = previous.checked_control(parent_path)
+    return _control_value(parent_path, parent, cells)
+
+
+def _control_value(parent_path: Path, parent: dict[str, Any],
+                   cells: tuple[Any, ...]) -> dict[str, Any]:
     paths = sorted((frozen.ROOT / DIRECTORY).glob("*.json"))
     if not paths:
         raise RuntimeError("reviewed continuation requires actual exact sidecars")
@@ -181,7 +196,7 @@ def checked_control(path: Path) -> tuple[dict[str, Any], tuple[Any, ...]]:
     value = json.loads(path.read_text())
     parent_path = Path(value["parent_control_path"])
     parent, cells = previous.checked_control(parent_path)
-    if value != control_value(parent_path):
+    if value != _control_value(parent_path, parent, cells):
         raise RuntimeError("reviewed control/evidence drift")
     return parent, cells
 

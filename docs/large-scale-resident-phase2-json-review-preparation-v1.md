@@ -66,3 +66,38 @@ Actual sidecar creation, independent end-to-end cell audit, reviewed control
 freeze and continued queue startup are subsequent steps, not claimed by this
 preparation note. Dataset/model/artifact/API bodies do not pass through the PC.
 Held-out192cells and final private/failure/adoption/Q1–Q10 audit remain required.
+
+## Preparation revision002: remove recursive full-block recollection
+
+The first actual offline creation reader spent minutes in full parent validation
+and then entered a second complete168-cell recollection inside the individual
+proof. No sidecar/control had been written. Exact owned-reader PID2072632 was
+stopped, checked and terminated; no benchmark atomic process was targeted.
+The dead reader's temporary lease was reconciled after inactivity and unchanged
+journal bytes were verified. Its original lease identity is preserved in an
+append-only diagnostic. History, admission and result files remain intact.
+
+Individual proofs now bind exact parent bytes, complete controller/atomic source
+closure, original full admission and all cell evidence without recursively
+recollecting PhaseI. Full original PhaseI gate verification remains at review
+creation, control freeze, queue startup and before each next execution. The
+reviewed control no longer redundantly performs the same gate twice per check.
+No validation is cached or omitted at an execution boundary.
+
+Revision002 full local pytest:1749passed/7Windows platform skips,1756collected;
+Ruff/strict Pyright with the project interpreter/diff check pass. It adds one
+regression test,28new tests total. Actual Linux suite:
+81passed; log003 SHA256
+`48e76b9bdf497198cac8c56a0968cfb9eeb74a53ef26b603a43055cd37b42be7`.
+Queue source SHA256:
+`ddb4ec3a079994a82bff34fb8b8d650a7689e14bed8a83e446e6924e1373250f`.
+Code-only archive002 SHA256:
+`863fa62d4db20e3c549cb92b6ca9bd8b27eed3aba1a3e8209273e92b2ea7ce33`.
+New namespace: `audit-tools/resident-phase2-model-json-control-002`; namespace001
+and its test logs remain unchanged. This is offline preparation, not a benchmark
+replacement or semantic/runtime fix.
+
+Reader diagnostic SHA256:
+`de6799de57b814afdbb43eaf1eed7785dcd943c60a5826bce56041a0479f7e14`;
+lease reconciliation:
+`76765a7f1bad8d6ff601f61d6f0b20386a82e89ed0c3cb0e6d50af1700cae6f4`.

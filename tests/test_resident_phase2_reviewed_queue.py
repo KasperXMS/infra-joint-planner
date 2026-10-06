@@ -39,9 +39,10 @@ def heldout_json(rejected_model_json, monkeypatch):
     ledger.reserve("cell1", "run1", "b" * 64)
     ledger.settle("run1", "confounder", queue.legacy.GATE_PROBLEM, provenance_sha256(receipt))
     parent = root / "phase2-control-freeze-001.json"
-    parent.write_text('{"original":"preserved"}')
     saved = {"execution_freeze_sha256": "b" * 64, "phase2_schedule_sha256": "a" * 64,
-             "pricing_path": str(root / "prices"), "nominal_cells": 2}
+             "pricing_path": str(root / "prices"), "nominal_cells": 2,
+             "source_sha256": queue.previous.source_bindings()}
+    parent.write_text(json.dumps(saved))
     cells = (type("Cell", (), {"cell_id": "cell1"})(),
              type("Cell", (), {"cell_id": "cell2"})())
     monkeypatch.setattr(queue.previous, "checked_control", lambda _: (saved, cells))
@@ -175,6 +176,18 @@ def test_continuation_uses_same_atomic_executor_without_retries_or_monkeypatch(
 def test_execution_boundary_is_the_original_atomic_entrypoint():
     assert queue.previous.execute_cell is queue.previous.previous.execute_cell
     assert queue.previous.execute_cell.__module__ == "large_scale_resident_phase2_queue_v1"
+
+
+def test_sidecar_verification_does_not_recursively_recollect_all_phase1(
+    heldout_json, monkeypatch,
+):
+    root, _, ledger, _, parent, _, _ = heldout_json
+    queue.create_review("run1", parent)
+    monkeypatch.setattr(queue.previous, "checked_control",
+                        lambda _: pytest.fail("recursive full168 recollection"))
+    view = queue.ReviewedAttemptLedger(ledger.path, ledger.cells, ledger.schedule_sha256)
+    assert view.completed_cells == ("cell1",)
+    assert view.attempts[0].disposition == "valid"
 
 
 def test_review_control_rejects_unreviewed_or_foreign_sidecars(heldout_json):
