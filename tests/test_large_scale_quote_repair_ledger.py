@@ -33,11 +33,11 @@ def fixture(root: Path) -> tuple[object, dict, list[dict], Path]:
     (api / "response-response.json").write_text(json.dumps({"choices": [
         {"message": {"tool_calls": [call]}}]}), encoding="utf-8")
     action = {"action_type": "model", "action_id": "manager:propose",
-              "prompt": "PRIVATE-PROMPT", "requirements": {"modalities": ["image", "text"],
+              "prompt": "PRIVATE-PROMPT 中文", "requirements": {"modalities": ["image", "text"],
                                                           "required_capabilities": ["model"]}}
     events = [
         {"event_type": "logical.cost_quote.created", "payload": {"action": action, "quote": {
-            "quote_id": "quote", "action_sha256": provenance_sha256(action)}}},
+            "quote_id": "quote", "action_sha256": repair.original_action_sha256(action)}}},
         {"event_type": "logical.cost_quote.control_timing", "payload": {
             "operation": "authorize", "identifier": "quote", "succeeded": False}},
         {"event_type": "logical.cost_quote.rejected", "payload": {
@@ -101,7 +101,7 @@ def test_retrospective_confounder_is_append_only_and_allows_only_frozen_repair(
 
 
 @pytest.mark.parametrize("damage", ["no-rejection", "commit-action", "hash", "single-set",
-                                     "other-confounder", "other-operation"])
+                                     "other-confounder", "other-operation", "receipt-encoding"])
 def test_review_does_not_enable_semantic_retries_or_waive_other_faults(
     tmp_path: Path, damage: str,
 ) -> None:
@@ -119,9 +119,12 @@ def test_review_does_not_enable_semantic_retries_or_waive_other_faults(
     elif damage == "single-set":
         action = events[0]["payload"]["action"]
         action["requirements"]["modalities"] = ["text"]
-        events[0]["payload"]["quote"]["action_sha256"] = provenance_sha256(action)
+        events[0]["payload"]["quote"]["action_sha256"] = repair.original_action_sha256(action)
     elif damage == "other-confounder":
         original["problems"] = ["privacy_violation"]
+    elif damage == "receipt-encoding":
+        events[0]["payload"]["quote"]["action_sha256"] = provenance_sha256(
+            events[0]["payload"]["action"])
     else:
         events[1]["payload"]["operation"] = "discard"
     with pytest.raises(RuntimeError):

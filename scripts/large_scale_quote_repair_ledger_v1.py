@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import replace
+from hashlib import sha256 as bytes_sha256
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,13 @@ from infra_joint.experiments.attempt_ledger import Attempt
 
 DIRECTORY = "quote-integrity-adjudications"
 REASON = "quote_hash_serialization_confounder"
+
+
+def original_action_sha256(action: dict[str, Any]) -> str:
+    """Replay the original Quote byte encoding, not receipt provenance encoding."""
+    payload = json.dumps(action, ensure_ascii=False, sort_keys=True,
+                         separators=(",", ":")).encode()
+    return bytes_sha256(payload).hexdigest()
 
 
 def review(original: dict[str, Any], events: list[dict[str, Any]],
@@ -55,7 +63,7 @@ def review(original: dict[str, Any], events: list[dict[str, Any]],
         if (call["function"]["name"] != "commit_quote"
                 or json.loads(call["function"]["arguments"]) != {"quote_id": quote_id}
                 or action.get("action_type") != "model"
-                or provenance_sha256(action) != created["quote"]["action_sha256"]
+                or original_action_sha256(action) != created["quote"]["action_sha256"]
                 or not any(len(requirements.get(key, [])) > 1
                            for key in ("modalities", "required_capabilities"))):
             raise RuntimeError("exact unchanged multi-set model quote proof failed")
