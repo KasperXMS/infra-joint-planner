@@ -114,3 +114,38 @@ the original confounder and are not rewritten. Cell16 is not run again.
 The reviewed control freeze is still undergoing the original complete parent
 gate revalidation. No resumed queue is claimed at this checkpoint. Old controller
 and atomic are inactive; no new benchmark/planner/model call occurs in the review.
+
+## Frozen review and read-once bookkeeping
+
+Actual reviewed control001 SHA256:
+`592fea1b83d7cd92e9d3210f78404a16a505dd65d56d79fa88b7c5766aa55c8d`.
+The original full168 gate was revalidated before this exclusive freeze. No cell
+was retried. A later pure accounting reader was cancelled after the freeze,
+before writing its final summary: inherited `completed_cells` recomputed the
+same verified attempt view once for every192scheduled cells. Sidecar/control,
+original journal and all results were preserved; no live benchmark was targeted.
+Diagnostic SHA256:
+`505c550a8c1af8dbe6e0b1d0bfbe96d8dd7a755ca547ae65d00537b6f7b6b177`.
+
+An explicitly source-bound external adapter
+`scripts/large_scale_resident_phase2_read_once_v1.py` evaluates the entire verified
+attempt view once **per property access**, then restores the same schedule order.
+Every next access revalidates; no proof is cached. The original run/control
+functions execute with a copied namespace selecting this ledger class, not a
+global monkeypatch. Full original gate checks remain at every execution boundary;
+the original exact reviewer, sidecar, reviewed control and atomic sources remain
+unchanged. An additional immutable adapter receipt is checked at startup and
+every next control check. This is CPU bookkeeping, not a new Agent policy or
+physical scheduler optimization.
+
+Adapter source SHA256:
+`e85d3f9abb03ab4fafd54247ec7e614e93529a0f8c278393cd44a3b18ef333f1`;
+code-only archive:
+`d8686146abfaae973fc76cf31c0e09ddf37c0ad83ec44a77cd8e472476c20ef0`.
+Namespace: `audit-tools/resident-phase2-read-once-control-001`.
+Three additional tests cover single-view validation, no cached waiver, unchanged
+run/skip semantics, no global mutation and source drift rejection. Actual Linux
+suite:84passed, log SHA256
+`9d81c7c0215fae98a4079e8529bfa5d356ba8d99ae4763711afe6d6b944179a8`.
+Final adapter code: full local1752passed/7Windows platform skips,1759collected;
+Ruff, strict Pyright with the project interpreter and diff check pass.
