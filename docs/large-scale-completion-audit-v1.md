@@ -33,6 +33,16 @@ remain required. Nothing in this checkpoint grants PhaseII eligibility or a fina
 study conclusion. The goal remains active; verified current inference is not a
 blocked condition.
 
+Offline preparation commit75f1e8f adds a source-aware private audit entrypoint:
+the older single-execution auditor cannot accept the repaired mixed-source block
+and mistakes retained resolved originals for unresolved confounders. New tests
+require exactly168unique effective admissions with verified inactivity/Worker
+exits; old files are unchanged. Fullpytest1154/Ruff/strictPyright/diff passed;
+actual4090synthetic tests18passed. **No actual private scan has run** and no
+measured execution/config changed. [Audit preparation and actual source proof](large-scale-resident-repaired-private-audit-v1.md)
+also records independent snapshot023:85effective/87settled/1pending, two retained
+confounded originals and no quality aggregation or PhaseII authorization.
+
 ## Current authoritative proof and its limits
 
 **Later exact runtime finding (2026-10-06 00:31Z) supersedes nominal clean-count
