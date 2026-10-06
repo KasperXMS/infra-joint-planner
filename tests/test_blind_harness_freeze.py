@@ -53,7 +53,10 @@ def validate_historical_harness(
     # Historical freezes must reject a newly versioned runtime, not silently follow HEAD.
     with pytest.raises(RuntimeError) as error:
         validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
-    assert str(error.value) == "frozen Blind harness validation failed: native runtime source drift"
+    assert str(error.value) == (
+        "frozen Blind harness validation failed: native runtime source drift; "
+        "static capability contract drift"
+    )
     historical_source = subprocess.run(
         ["git", "show", "597ac33:src/infra_joint/control/native_agents.py"],
         cwd=REPO, check=True, capture_output=True,

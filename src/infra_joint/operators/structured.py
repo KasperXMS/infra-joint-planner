@@ -165,6 +165,7 @@ def _operator_spec(
             "type": "array",
             "items": {"type": "string"},
             "minItems": 1,
+            **({"maxItems": 1} if operator_id != "aggregate_artifacts" else {}),
         },
         argument_schema=argument_model.model_json_schema(),
         output_schema={"$ref": "ProducedArtifact"},

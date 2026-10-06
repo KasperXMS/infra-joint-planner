@@ -56,8 +56,12 @@ def test_resident_harness_changes_only_calibrated_visual_bound_and_static_hash()
     registry = build_operator_catalog()
     operations = tuple(new["available_operations"])
     capabilities = build_static_capability_contract(environment, registry, operations)
-    resident.frozen.validate_harness(resident.frozen.load_harness(resident.HARNESS),
-                                     environment, capabilities, operations)
+    # The old receipt stays immutable and must not silently follow a corrected
+    # operator contract. A separately frozen patch is required for new execution.
+    with pytest.raises(RuntimeError, match="^frozen Blind harness validation failed: "
+                       "static capability contract drift$"):
+        resident.frozen.validate_harness(resident.frozen.load_harness(resident.HARNESS),
+                                         environment, capabilities, operations)
 
 
 @pytest.mark.parametrize("section", ["manager", "verifier", "budget", "available_operations"])
