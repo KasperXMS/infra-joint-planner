@@ -8,7 +8,20 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 07:24Z
+## Latest verified progress: 2026-10-06 07:29Z
+
+Snapshot040 now binds116/168 effective cells,134 attempts,17 historical
+confounders and1 pending. The fifth E repair (MultiHop2/P2/Fast) completed,
+format-valid/score1, after1 context reject;5 physical calls,1 actual inference,
+4Manager/4Verifier,8 audited recipient contexts,74.049sE2E. Every actual Manager
+request is no-query. Its valid result is retained; this is not full private
+evidence-path attribution or method benefit. Queue012 continues with
+MultiHop2/P1/Slow/E; no PhaseII or pruning. All full-scope obligations remain.
+
+Snapshot040 SHA
+`4e20c9339ae6e2031552d1bc702d0bf4ff161cdca9a0b31372adc4e177c3dc4b`.
+
+## Earlier verified progress: 2026-10-06 07:24Z
 
 Actual source004 has settled its first four affected E replacements. Snapshot039
 binds115/168 effective cells,133 attempts,17 historical confounders and1 pending.

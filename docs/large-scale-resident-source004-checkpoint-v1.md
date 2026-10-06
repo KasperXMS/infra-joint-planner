@@ -1,5 +1,28 @@
 # Resident source004: first repaired E settlements
 
+## Latest append-only coverage: 2026-10-06T07:29:31Z
+
+Snapshot040 binds **116/168 effective cells**,134 attempts,17 retained historical
+confounders and1 pending. SHA256
+`4e20c9339ae6e2031552d1bc702d0bf4ff161cdca9a0b31372adc4e177c3dc4b`;
+journal SHA256
+`61df7be1c9478ff7c33ee375e524343dbcccd6302874a5f192c661c34857b986`.
+Snapshot039/first-three proof retain their original smaller scopes below.
+
+The fifth repaired E sample, MultiHop2/P2/Fast/attempt2, completed and reached
+the original evaluator: format-valid, score1.0. Its every-Manager-request E
+no-query surface is independently verified. Manager4, specialist0, Verifier4,
+physical calls5, actual inference1, context rejects1, graph snapshots16,
+actual recipient contexts8. E2E74.049s; fixed initial corpus placement
+7,696,522bytes/0.800s. The one failed model action is not an extra successful
+inference; reported0 action-transfer subtotal is not a complete failed-action
+traffic claim. Post-block evidence-path attribution remains pending.
+
+Queue012 continues with MultiHop2/P1/Slow/E/attempt2. No PhaseIIjournal exists,
+no quality pooling/pruning, no new method or semantic adjustment.
+
+## Earlier four-sample checkpoint
+
 Checkpoint: 2026-10-06T07:24:57Z (15:24 Hong Kong), not final study results.
 
 The new resident/diverse experiment continues in
