@@ -233,3 +233,29 @@ The outstanding requirement is still all168effective PhaseI outcomes, full
 private/recipient/failure/adoption audit, actual frozen screening/pruning and
 actual PhaseII execution plus final Q1–Q10reports. This amendment neither narrows
 the objective nor authorizes new methods, semantic tuning or early pruning.
+
+## 2026-10-06 03:17Z: resident progress, not goal completion
+
+Source-aware snapshot025verifies98effective nominal cells/100settled attempts,
+both execution freezes, the same18tasks and two preserved Quote-confounded originals.
+An additional exact record-field review proves cell98's absent `text` request over
+an actual15-record JSON array with string `body`; original admission/journal/result
+remain immutable. That normally completed score1cell is retained without a retry,
+alias or Agent correction. No unresolved gate remains in this checkpoint.
+
+Fullpytest1154passed, Ruff/strictPyright/diffcheck passed, no runtime code changed.
+Control009adds only the exact record-field sidecar to control008; measured runtime
+remains execution002/revision955fe8f. Queue010PID3755889 and cell99atomic3759367 were
+verified live at03:17:39Z, continuing only never-started cells. Historical queue009
+exit and all evidence remain preserved.
+
+Cell90's first actual optional-card use supersedes any interpretation that B's
+zero-adoption85-cell prefix proves permanent non-use. Actual93/Dsingleton returned
+sets still do not exercise alternatives. Neither observation permits early pruning.
+See [checkpoint93–98](large-scale-resident-checkpoint-093-v1.md) and the earlier
+[first B adoption proof](large-scale-resident-checkpoint-088-v1.md).
+
+Complete168cell execution, full private semantic/recipient/failure/adoption audit,
+screening/pruning, actual PhaseII within420cap and final named reports/Q1–Q10are
+still required. **The goal is active and incomplete**, not reduced to this progress
+checkpoint, a proof-readiness task or a merely proposed PhaseII schedule.
