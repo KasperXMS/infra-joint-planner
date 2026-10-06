@@ -8,6 +8,31 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
+## Latest verified progress: 2026-10-06 02:20Z
+
+This paragraph supersedes older live-process/preparation status below, while
+preserving their original evidence boundaries. Both exactly authorized Quote
+repair attempts have settled valid under execution002; original cells4/84 remain
+visible and comparative-ineligible. Cell4attempt2 completed/score1; cell84attempt2
+completed/format-valid/score0. Thus85nominal cells are effectively settled from
+87settled attempts, not87independent conditions or168completed outcomes.
+
+Actual controller launch now resolves external reviewer006, verified by a real
+Linux import trace and subprocess regressions. Fullpytest1136passed, Ruff/strict
+Pyright/diff passed. Control008and execution002are immutable/source-bound.
+Queue009PID3441371continued to never-started original cell86/MultiHop1/P2/Slow/C,
+atomicPID3529307, reserved02:18:23Z and verified active02:19:56Z. No ordinary
+quality failure is retried, no method is pruned and no semantic tuning occurred.
+The wrong repaired answer is retained, not replaced by the confounded original's
+correct answer. [Actual repair outcomes and evidence hashes](large-scale-resident-quote-repair-activated-v1.md)
+bind both isolated projections, residency/Worker-exit and recipient checks.
+
+All168effective PhaseI outcomes, comprehensive private semantic/failure/adoption
+audit, frozen screening/pruning, real PhaseII execution and final Q1–Q10reports
+remain required. Nothing in this checkpoint grants PhaseII eligibility or a final
+study conclusion. The goal remains active; verified current inference is not a
+blocked condition.
+
 ## Current authoritative proof and its limits
 
 **Later exact runtime finding (2026-10-06 00:31Z) supersedes nominal clean-count
