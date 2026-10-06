@@ -137,3 +137,19 @@ Pre-dispatch readiness002 SHA256
 Queue018 was actually dispatched to the original remaining schedule. At10:25:44Z
 its wrapper697070/controller697077 were live; the last journal record was still
 seq321. This is actual controller dispatch, not yet proof of an atomic cell start.
+
+Independent read-only snapshot044 was saved under
+`analysis/resident-source004-record-continuation-snapshot-044.json`, SHA256
+`192ee61efdafa4076261f7303778695150a7aac6de9a736a5309382caad241e3`.
+It binds the same pre-dispatch journal and all four source epochs. It explicitly
+does not authorize pruning or PhaseII or claim complete private semantic auditing.
+
+Actual first atomic execution was reserved at10:28:24.202844Z, seq322,
+reservation SHA256 `c4f68d904b9244b3e172d77894cd62b328d0a4afc7ebce252fa80370beef68aa`.
+Cell `phase1-multihop_rag-1-29e45040dce39dae-p1-slow-B0`, attempt1, atomicPID702614.
+Independent live proof confirmed the exact004 child import/revision, all four
+stores empty before execution, five resident32K instances, and actual live HTB
+classes at3Mbps on all endpoints. Configured50ms is not measured symmetricRTT.
+Proof `analysis/resident-record-continuation-first-atomic-start-002.json` SHA256:
+`a29c38484f02498b79e0489cb03281b35ca9fd6cdf0af2e65a6b70e4d45e718a`.
+This establishes a real resumed cell, not merely controller/helper readiness.
