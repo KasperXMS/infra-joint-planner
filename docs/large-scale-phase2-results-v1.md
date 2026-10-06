@@ -1,6 +1,6 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T19:35:36Z / 2026-10-07 03:35 HKT. Nine of 192 nominal
+Checkpoint: 2026-10-06T19:52:03Z / 2026-10-07 03:52 HKT. Ten of 192 nominal
 held-out cells settled; no reservation was pending at this snapshot. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
@@ -28,6 +28,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | Video5 | Qwen / Slow / B1 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 101.103 | 2,076,341 / 5.863 | 0 | 0.120313 |
 | Video5 | DeepSeek / Fast / B0 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 91.785 | 2,076,341 / 0.211 | 0 | 0.108085 |
 | Video6 | DeepSeek / Fast / B1 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 121.284 | 233,097,342 / 20.753 | 0 | 0.071510 |
+| Video6 | Qwen / Slow / A | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 753.030 | 233,097,342 / 650.833 | 0 | 0.220815 |
 
 Fast100Mbps/configured5ms and Slow3Mbps/configured50ms retain the existing
 Jetson HTB/no-netem caveat: configured delay is not measured symmetric RTT.
@@ -90,15 +91,29 @@ Observed paths:
   admission/journal, empty stores, five stable resident identities, Worker exit,
   cleanup, terminal provenance and six SDK contexts passed. Audit SHA256
   `639b8718d11b114f7a98980d717c1cbad7a2b7218164d6de8c6266c22c2499a3`.
+- Video6/A: sample_frames, a context-rejected model request, then a successful
+  A4 visual model invocation using three already materialized artifacts. Model
+  input/output3,411/2, stop, service19.035s; three nodes/35 edges/ten snapshots,
+  no specialists and max concurrency1. Manager continued after typed preflight
+  and schema/phase observations without hidden repair or retry. The initial
+ 233,097,342B video materialization took650.833s of753.030s E2E, separate from
+  zero Agent artifact movement. This setup-dominated result is not an Agent
+  communication-saving claim or a causal comparison with the different Planner/
+  method/network ninth cell. Original admission/journal, four empty stores,
+  five stable resident identities, cleanup, Worker exit, terminal provenance and
+  ten actual SDK contexts passed. Audit SHA256
+  `26e77b78caa1b341ebfeb82e29135e1a70dde2cfdad0d470c8de48d5e229b4f9`.
 
-Actual feedback-wire review of all nine settled cells matched persisted provider
-requests, not just trace declarations: 59 Manager plus59 Verifier contexts,
-23 exact B1 pre-decision profiles,27 exact A/E ledgers and14 exact E rule payloads.
+Actual feedback-wire review of all ten settled cells matched persisted provider
+requests, not just trace declarations: 64 Manager plus64 Verifier contexts,
+23 exact B1 pre-decision profiles,32 exact A/E ledgers and14 exact E rule payloads.
 All Verifier requests used the fixed frozen model and contained none of the
 profile/ledger/rules message prefixes. B0 had none of these feedback messages.
 The existing full recipient scans had no findings. Advisory rules were the same
 canonical payload throughout; visibility is not internal adoption or causal
-optimization. Owner-local feedback audit004 SHA256:
+optimization. Owner-local feedback audit005 SHA256:
+`2cca663e95ea0c5964308fd7c434cc79f74cf0dea11df28788ca443b986aca3b`.
+The nine-cell audit004 is preserved with SHA256:
 `0223640e8c48c4a67d7a01015b0bcf72ff9bdce37a0a73d908e5a92931c82a60`.
 The eight-cell audit003 is preserved with SHA256:
 `16a68ee56c944055ff0f2278086403e9b96db6f6abb1a3850e8d066acd552dbf`.
@@ -114,7 +129,13 @@ significance. B1's longer successful trajectory is retained unchanged, not
 treated as a bug to tune away. Evidence coverage/semantic sufficiency and causal
 profile adoption remain separate questions for the full audit.
 
-Authoritative owner-local snapshot008 SHA256:
+Authoritative owner-local snapshot009 SHA256:
+`cee444fe3a3cd800f16bf0f334e8071cb829c07224ff3030a23fbff847881ac9`,
+under `/home/super/xiaoming/large-scale-cost-guidance-resident-v1/analysis/`.
+Journal SHA256 at that checkpoint:
+`154a1768f12316ddf6650fc89ea3e0de564f28a320a7f158ed16fc118ec0e7d3`.
+Ten admitted cells, ten preserved attempts, zero pending; no confounded or
+operational-excluded attempts. Earlier snapshot008 SHA256:
 `7f63d2ab27420269f8db1005e01905c0b87c78e3c3202a9d8f0a8c0bf896433b`,
 under `/home/super/xiaoming/large-scale-cost-guidance-resident-v1/analysis/`.
 Journal SHA256 at that checkpoint:
