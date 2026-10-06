@@ -132,3 +132,50 @@ MultiHop2/P2/Slow/B0. Live-status receipt SHA
 `5bfd2b0b908e5fb8562e310127498533194acbaa38a58465afdd1fd555baae4d`.
 Source-bound snapshot035supersedes034's coverage, not immutable121evidence.
 PhaseIIjournal still absent; full audit/pruning/actualPhaseIIremain unfinished.
+
+## Subsequent verified123 — Blind also produces bounded distributed reduction
+
+Snapshot036at06:02:01Z binds123effective cells/127attempts/one pending124.
+123is MultiHop2/P2/Slow/**B0**. Completed/format-valid/originalscore1, unchanged
+execution003. Actual path:three local BM25top10 ->three-artifact context reject
+before inference ->three local BM25top3 ->bounded transfers toA28 ->one real
+terminal inference consuming all three reduced artifacts.
+
+| Measure | Actual123 |
+| --- | --- |
+| E2E |196.046s|
+| Manager /specialist /Verifier |6 /0 /6|
+| Prepared tools /models; returned inference |6 /2;1|
+| Fixed initial bytes /work |7,696,522 /22.241s|
+| Complete action bytes /work |18,042 /0.602s|
+| Pure tool /model service work |2.551s /121.467s|
+| Physical input /output /finish |7,033 /3 /stop|
+| Actual API calls /recipient contexts |12 /12|
+| API regional list USD |0.0951611050; not invoice|
+| Graph nodes /information edges /snapshots |8 /6 /25|
+| Owners /actual maxconcurrency /overlap |1 /3 /1.922s|
+
+All four Workers exited and five-model residency passed. One context failure,
+one argument error and one phase error were recovered in the existing SDK loop,
+without extra inference on the rejected proposal or harness tuning.
+
+Blind has **zero** predecision-profile, ledger, cost-card, quote or heuristic-rule
+events. Its12actual SDK recipient contexts have no audit findings/problems.
+The same broad reduction trajectory can therefore occur without dynamic cost
+guidance. It is not by itself evidence of Aware optimization.121vs123holds task/
+Planner but varies method and network;122vs123also varies Planner. Neither alone
+identifies an infrastructure-only effect. All168matched-cell review is still
+required; no early pruning or semantic-retention claim.
+
+-Snapshot036SHA:`64bfc7cd41c487d968094f75d41f4234bf6d255828c410bd35d213d9628e5463`.
+-Journal SHA:`3103d0919963ab571eff7984f5232d6bf851c55d5994120e32e7a75d20c1eb1a`.
+-`analysis/resident-cell123-completed-001.json` SHA:
+  `8ddb0f1f181ac0ba333c6c9bff27e5d2c07f8a37f49482c65181d6303c7dbca3`.
+-`analysis/resident-cell123-blind-recipient-proof-001.json` SHA:
+  `8872f4281f4dc44ae30c3288111399a9154e7379899018ebff1836823f553430`;
+  six Manager and six Verifier actual contexts, zero findings/problems. No raw
+  prompts/evidence bodies/gold were exported to the development PC.
+
+At06:02:23Z queue4047590and124atomic181394were verified live.124is
+MultiHop2/P1/Fast/E. The actual queue proceeds only to never-started cells;
+all complete private/failure/recipient/adoption audits and actualPhaseIIremain due.
