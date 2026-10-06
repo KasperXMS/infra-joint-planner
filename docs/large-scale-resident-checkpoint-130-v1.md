@@ -53,3 +53,9 @@ cells. The historical17confounders and one operational exclusion remain separate
 Original Queue018 continues remaining cells. All168 plus comprehensive private/
 failure/recipient/adoption audits, frozen pruning, actual PhaseII and finalQ1–Q10
 remain required. No premature pruning or aggregate winner is declared.
+
+At10:48:29Z, actual next cell `phase1-video_mme-2-e48bef6f0e60e753-p2-slow-D`,
+attempt1/atomic744583, was confirmed live with all four starting stores empty.
+It reserved10:46:45.834283Z, seq330, SHA256
+`40f27814be77f38da69662194efd99a8f23417a4daacc247d69b041fe938def1`.
+Queue018/controller697077 was confirmed live and had no terminal exit receipt.
