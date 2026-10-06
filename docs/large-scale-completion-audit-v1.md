@@ -1,6 +1,6 @@
 # Completion audit — not achieved
 
-## Current requirement audit: 2026-10-07 07:39 HKT
+## Current requirement audit: snapshot019, 2026-10-07 07:39:54 HKT
 
 The historical captures below retain their original populations and gates.
 They are not current assertions that Phase I is unfinished or Phase II is blocked.
@@ -13,13 +13,13 @@ successful sample, prepared audit entrypoint or this documentation update.
 | All168 resident screening cells and recipient/failure/private observable review | [Comprehensive audit](large-scale-resident-phase1-comprehensive-audit-v1.md); owner-local auditSHA `f9a7f25e9ca737b95c201735c346d8cf8099f4fa4959f97a1a689ac55612a036` | Completed observable review; causal unknowns remain explicit |
 | Evidence-based pruning before held-out execution | [Frozen pruning](large-scale-phase1-method-pruning-v1.md); receiptSHA `6dfa23e926ce72a002ccfe703ff2c27b5122c29909c4f5f00d972ea3df7f4c80` | B0/B1/A/E retained; B/C/D not expanded |
 | Actual balanced192-cell held-out block | GateSHA `036696634020ccc416a7ae05a9054075590509a729403e05487fa4133463ef95`; scheduleSHA `5ce98796f1254db6098de24d0639f23eff7a53ea5f1d1beaa01cbc419310a23a` | In progress, not complete |
-| Every held-out cell resolved without ordinary semantic retry | Snapshot018SHA `7c33b755c07450dc8eb279ab49ca730d2e0f03242e7069dd7797737e794a8712`:19effective/19attempts/0pending at capture, two original JSON rejections preserved and exactly reviewed, no operational exclusions |173nominal cells still unresolved |
-| Fresh stores, residency, original evaluation/terminal source and actual recipient isolation per settled cell | [Current results](large-scale-phase2-results-v1.md); feedback014SHA `cfb570d0651975d218022b18a9b3cf4ec0f8c63715f56a35e1a354ccb78e73c3`,312actual contexts | Covers19settled cells only; not future runs |
+| Every held-out cell resolved without ordinary semantic retry | Snapshot019SHA `7995295a22d1a890b4c7faa335cc328924885d068525990504c170c7bdcaa47e`:20effective/20attempts/0pending at capture, two original JSON rejections preserved and exactly reviewed, no operational exclusions |172nominal cells still unresolved |
+| Fresh stores, residency, original evaluation/terminal source and actual recipient isolation per settled cell | [Current results](large-scale-phase2-results-v1.md); feedback015SHA `ecdeaf31bc2ce0179c9692f273aef314afa2a208329de8654c33e0a8517c3101`,324actual contexts | Covers20settled cells only; not future runs |
 | Complete held-out private evidence/manual failure/adoption audit | [Prepared guarded entrypoint](large-scale-resident-phase2-reviewed-private-preparation-v1.md), actual reviewed control002/adapterfreeze003/readonce003 | Not executed; requires all192 resolved and actual global inactivity |
 | Final per-task/family/Planner/method and quality-conditioned characterization, Q1–Q10, named final reports/root Chinese report | Current cross-Planner report covers closed Phase I only; held-out results are provisional | Incomplete; no final winner, pooled accuracy or significance claim |
 | Experimental cap, immutable evidence and no payload through development PC |42old+168resident+192heldout=402≤420; old42 unpooled, operational exclusions/confounds separate | Maintain throughout; not an excuse to omit remaining scope |
 
-At23:37:53Z controller0042229557/supervisor2229556 and atomic2283679 were
+Earlier at23:37:53Z controller0042229557/supervisor2229556 and atomic2283679 were
 owned/live for cell20 MultiHop4/Qwen/Fast/A. A28 Worker reported one in-flight
 request; other Workers available, all five deployment envelopes32K/2048.
 The action started23:35:07Z and had no result or failure at that capture.
@@ -27,6 +27,12 @@ This is a verified wait, not a timeout, completion or permission to restart.
 Cell20 start receiptSHA
 `133110ae2d2fae32827be4b7ba36f17e430ea3bdfa22cbc4d95e77830c5dd161`
 proves four empty initial stores, five resident instances and execution004 only.
+Cell20 subsequently completed/formatvalid/originalscore0, independently audited
+underSHA `342dda96cb7be83677d09f25085139c5c7eacbbf254045be0ae99c1280b2c7ca`.
+No ordinary replacement is permitted; its semantic failure subtype is unknown
+until private review. At23:40:50Z the same controller remained owned/live with
+no pending reservation, validating the original gate before21. Neither capture
+proves completion of the remaining172 or permits early private evidence scans.
 
 No Manager/Verifier prompt, budget, model, task, scheduler, method or execution
 source changed in this audit update. Tests remain the latest unchanged-code
