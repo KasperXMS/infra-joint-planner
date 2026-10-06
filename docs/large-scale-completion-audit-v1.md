@@ -8,7 +8,20 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 05:51Z
+## Latest verified progress: 2026-10-06 05:55Z
+
+Snapshot034binds121effective cells/125attempts/one pending122 and the three
+preserved originals. MultiHop2/P2/Fast/A121completed/format-valid/score1;
+actual corpus-shard aggregation moved5,204,596bytes/1.019s toA28, followed by
+BM25top10and one artifact-backed inference,138.660s model work/163.990s E2E.
+Eight actual recipient contexts, Worker exits and residency are verified.
+[Exact121source-bound audit](large-scale-resident-checkpoint-121-v1.md).
+Snapshot SHA:`abc8e132eaa82363b7824c537289c2616292b6787258770802b15a1a4646149a`.
+Model-dominated individual Fast work is not a ledger optimization claim or
+pruning justification. Queue011/122atomic verified live; all168/full private
+audits/frozen pruning/actualPhaseII/finalQ1–Q10remain unfinished.
+
+## Earlier verified progress: 2026-10-06 05:51Z
 
 Source-aware snapshot033binds120effective cells/124attempts/one pending121,
 unchanged source epochs001/002/003 and three preserved confounded originals.
