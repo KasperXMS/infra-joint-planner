@@ -32,6 +32,9 @@ This is legal-action parameter misuse and recovery, not a runtime implementation
 | Manager / specialist / Verifier turns |7 /12 /7|
 | Created / peak active specialists |2 /2|
 | Prepared physical actions |21:16tools,5model attempts|
+| Actual physical model inferences |4, all selected A28 resident27B;1context reject before inference|
+| Model service work / input-output tokens |534.543s /14,934input /559output; all finish reasons `stop`|
+| Successful pure tools |14 /4.037s; failed tool work is not included|
 | Operators |9BM25,2aggregate,4read,1filter|
 | Failed observations |1context,2absent-field,1semantic/readiness,2phase|
 | Graph snapshots |64|
@@ -68,6 +71,8 @@ Remote root: `/home/super/xiaoming/large-scale-cost-guidance-resident-v1`.
   `8988c555cad10e565b25700e63fc83e93fb3de225b38862c6adfc011ff60125b`.
 - Metrics receipt `analysis/resident-source004-multihop1-p2-slow-E-metrics-001.json`:
   `f9b7a808172465182aebcf03a817448eb0502745795aadda07cf0733ee5ad136`.
+- Detailed inference receipt `analysis/resident-source004-multihop1-p2-slow-E-inference-metrics-001.json`:
+  `3688a8f4915d391e61899c3c3bb4b4931acb903f16b92550ee148737b7e45996`.
 - Unchanged journal SHA256 at admission:
   `132788c501ed69ef7a5a4102feef314acaefb042ea9bf8be7c048c084ccf1730`.
 
@@ -100,3 +105,35 @@ there are no automatic nominal retries or Agent fixes.
 
 Full168, complete private/failure/recipient/adoption audits, frozen pruning, actual
 held-out PhaseII and final Q1–Q10 remain required. This checkpoint is not completion.
+
+### Preserved pre-dispatch controller failure
+
+Queue017 exited before reservation because a private-body inactivity check saw
+the queue's own process handle. This was an external continuation-controller
+mistake, **not** a benchmark attempt or Agent/model failure. Journal322records
+and the preceding SHA256 stayed unchanged; no new cell or inference occurred.
+Stop receipt `analysis/resident-record-continuation-self-guard-stop-001.json` SHA256:
+`8c186590c7c76916f6b548007722c76938687f1b52a294c9e4a158db4317e6cb`.
+
+The minimal correction removes this misplaced private-audit check from the queue
+entrypoint. Actual inactivity is still checked before freeze/dispatch; `QueueLease`
+still excludes competing controllers. No private body scan occurs during execution.
+Regression checks prevent invoking the body-audit guard on the running controller
+and retain source-drift-before-reservation and exact completed-cell skipping.
+The failed001 namespace/control016/start receipts remain immutable. The correction
+is deployed to separate002; no measured Worker/runtime source changes.
+
+Corrected implementation commit `fe77988`: full1546tests/88.15s, Ruff and strict
+Pyright passed; actual Linux16tests passed. Code-only archive002 SHA256
+`4930cea376576bf8ef654bb37a430f727bd6f998b5888aa3cf9f9762e1995a2a`;
+Linux log SHA256 `0112d90f8b57518d757d0713887012d1aaccc3f1ca4ec707a656666d34fa1848`;
+validation SHA256 `700ee96c813e85e179b66d650ea8efb77b94b3d00e44f72df497a236214bfcc3`.
+New control017 file SHA256
+`c99934991edb2a4a6161d8f3f1d06ef6a6a637bef13cabfa217ae0ef5a473db7`,
+canonical `ad142571693c0aa51a824cbe1ffe89537d0c2c14f142379182e0685e3880ffa0`.
+Pre-dispatch readiness002 SHA256
+`b4696d5be32b0fc4df77488c482cb941acc5e9acb2d357d6ea5bc3bab2907e8f`.
+
+Queue018 was actually dispatched to the original remaining schedule. At10:25:44Z
+its wrapper697070/controller697077 were live; the last journal record was still
+seq321. This is actual controller dispatch, not yet proof of an atomic cell start.
