@@ -143,3 +143,15 @@ feedback016SHA `a50fe0364388d323f6562044b51a92d49ede04ca6a5fa8f61256f4a2b06b670f
 Zero new Agent calls, support/corpus/store-body reads or payload exports.
 Three-shard top_k20→5→3 recovery and score1 are observed separately from profile
 exposure; this audit does not identify causal adoption or semantic retention.
+
+## Actual reviewed snapshot021 / feedback017
+
+2026-10-07 HKT:22settled cells,358actual SDKcontexts:
+174Manager/174Verifier/10specialist.53B1profiles,83A/Eledgers and36E frozen-rule
+exposures exactly match provider requests and corresponding decisions.
+Cell22 adds9root A-ledger requests and9fixed Blind Verifier requests, no specialist.
+SnapshotSHA `6dec958ee318ab44d38377a262c1918f52c906a5352a1bc82b92ee1f89741883`;
+feedback017SHA `04affebf388e4663fa837b37f266afe4fed63855101bd986a6347dc6fcb550c7`.
+Zero new Agent calls, support/corpus/store-body reads or payload exports.
+Observed ledger exposure, original score1 and one-artifact terminal consumption
+are not a causal adoption or full evidence-retention finding; post-block review pending.

@@ -1,11 +1,41 @@
 # Resident Phase II results — in progress
 
-Latest reviewed snapshot020 at2026-10-06T23:49:27Z:
-21effective valid/21attempts/0pending/2preserved raw confounders/0exclusions.
-SHA256 `a3c41f513f7beb73b70a3b58734866bcf31dbff403033075730bff96ad4f3992`;
-journal `b023a7b86e4fb66c29b8f8c50be4afb9e52aec14ee4cf946064cfc8344c51004`.
-The table now includes21 settled original outcomes. Old captures below are
+Latest reviewed snapshot021 at2026-10-06T23:56:38Z:
+22effective valid/22attempts/0pending/2preserved raw confounders/0exclusions.
+SHA256 `6dec958ee318ab44d38377a262c1918f52c906a5352a1bc82b92ee1f89741883`;
+journal `20a35ba16e047302c0d803ce65b62045424fd1d25414ddfd0163289e95d9df2d`.
+The table now includes22 settled original outcomes. Old captures below are
 historical, not current counts. No score pooling, retry or semantic tuning.
+
+Cell22 MultiHop6/Qwen/Slow/A completed, format valid, original score1.0.
+Original admission/journal, empty stores, resident identities, Worker exits,
+tc restoration/direct terminal model and18SDKcontexts independently pass;
+auditSHA `a03a5385ac2d4580b65a3b620f40a277a8e060820d246bcf018a9abd5390e788`.
+Nine Manager/Verifier turns, no specialist, eight physical requests: three BM25,
+one context-rejected model request, three filter_records and a successful model
+request. One semantic-validation and two phase-restricted SDKcalls are separate.
+Terminal model consumes one artifact on A4/resident-a4-vl4b-v1:
+7,417input/4output tokens, stop,21.811s backend service. No retry/manual recovery.
+Complete registered Agent artifact transfer0B/0s excludes HTTP/control/prompt
+traffic; initial7,696,522B/22.033s is separate. Successful tool work1.546s,
+inclusive model-action Worker work21.911s must not be added to backend service.
+Graph8nodes/7edges/25snapshots/peak2, E2E98.339s, API listpriceUSD.124987.
+Terminal one-artifact consumption and weak score1 do not establish full evidence
+coverage or retention. Cell21 differs in Planner, method, network and selected
+physical model weights (A28Qwen3.5 vs A4Qwen3-VL); its latency difference cannot
+be credited to network or ledger alone. No pool or scheduler modification.
+
+Feedback017 audits358actual contexts=174Manager/174Verifier/10specialist,
+53B1profiles/83A_Eledgers/36frozenrules exactly matching provider requests.
+SHA `04affebf388e4663fa837b37f266afe4fed63855101bd986a6347dc6fcb550c7`.
+At23:58:00Z samecontroller0042229557/supervisor2229556 remain owned/live,
+no pending reservation; original full gate before cell23 MultiHop6/DeepSeek/Slow/E.
+Remaining170, full192/inactive private/manual/failure/adoption/Q1–Q10 unfinished.
+No source/model/prompt/budget/scheduler change, private body audit or PCpayload.
+
+Historical snapshot020 at23:49:27Z had21effective outcomes,
+SHA256 `a3c41f513f7beb73b70a3b58734866bcf31dbff403033075730bff96ad4f3992`,
+journal `b023a7b86e4fb66c29b8f8c50be4afb9e52aec14ee4cf946064cfc8344c51004`.
 
 Cell21 MultiHop6/DeepSeek/Fast/B1 completed, format valid, original score1.0.
 Original admission/journal, empty stores, resident identities, Worker exits,
@@ -212,6 +242,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop4 | DeepSeek / Slow / B1 | true / valid / 1 | 12 / 12 | 15 / 1 | 2 | 196.997 | 7,696,522 / 22.032 | 0 | 0.566055 |
 | MultiHop4 | Qwen / Fast / A | true / valid / 0 | 6 / 6 | 6 / 1 | 0 | 234.878 | 7,696,522 / 1.278 | 5,204,596 | 0.136943 |
 | MultiHop6 | DeepSeek / Fast / B1 | true / valid / 1 | 8 / 8 | 12 / 1 | 2 | 220.323 | 7,696,522 / 1.203 | 17,878 | 0.148450 |
+| MultiHop6 | Qwen / Slow / A | true / valid / 1 | 9 / 9 | 8 / 1 | 1 | 98.339 | 7,696,522 / 22.033 | 0 | 0.124987 |
 
 Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
 1created specialist,48physical actions,5successful inference telemetry receipts.
