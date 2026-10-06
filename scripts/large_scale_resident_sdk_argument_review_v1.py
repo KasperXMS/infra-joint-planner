@@ -90,6 +90,42 @@ def review(original: dict[str, Any], api_root: Path,
         "replacement_authorized": False}}
 
 
+def execution_sources(root: Path) -> dict[str, Any]:
+    """Bind owned native code and the actual installed (possibly shared) SDK.
+
+    A venv may symlink site-packages to a shared installation. Record both its
+    lexical import path and resolved target; do not pretend that shared files
+    are root-owned, or relax owned-file checks for any evidence/native source.
+    """
+    native = sys.modules[SpecialistRequest.__module__].__file__
+    if native is None or agents.__file__ is None or agents.strict_schema.__file__ is None:
+        raise RuntimeError("actual native/SDK source files required")
+    owned_root = root.resolve()
+    native_relative = str(Path(native).resolve().relative_to(owned_root))
+    native_path = previous.owned_file(root, native_relative)
+    sdk_root = Path(agents.__file__).absolute().parent
+    sdk_root.relative_to(owned_root)
+    strict_path = Path(agents.strict_schema.__file__).absolute()
+    if strict_path != sdk_root / "strict_schema.py":
+        raise RuntimeError("strict schema must come from the actual installed SDK package")
+    sources = {
+        "agent": sdk_root / "agent.py",
+        "tool_execution": sdk_root / "run_internal/tool_execution.py",
+        "strict_schema": strict_path,
+    }
+    return {
+        "owned_native_sha256": {native_relative: sha256(native_path)},
+        "installed_sdk_sources": {
+            name: {"import_path": str(p), "resolved_path": str(p.resolve(strict=True)),
+                   "sha256": sha256(p)} for name, p in sources.items()},
+    }
+
+
+def verify_execution_sources(root: Path, value: dict[str, Any]) -> None:
+    if value != execution_sources(root):
+        raise RuntimeError("argument proof must bind the actual native and SDK source files")
+
+
 def verify_sidecar(path: Path, attempt: Attempt) -> dict[str, Any]:
     root = path.parent.parent
     value = json.loads(path.read_text())
@@ -104,18 +140,7 @@ def verify_sidecar(path: Path, attempt: Attempt) -> dict[str, Any]:
             or value["reviewer_source_sha256"] != sha256(Path(__file__))
             or value["original_evidence_file_sha256"] != methods.evidence_files(directory)):
         raise RuntimeError("native argument proof identity/source/evidence drift")
-    native = sys.modules[SpecialistRequest.__module__].__file__
-    if native is None or agents.__file__ is None or agents.strict_schema.__file__ is None:
-        raise RuntimeError("actual native/SDK source files required")
-    sdk_root = Path(agents.__file__).parent
-    sources = (Path(native), sdk_root / "agent.py", sdk_root / "run_internal/tool_execution.py",
-               Path(agents.strict_schema.__file__))
-    expected = {str(p.resolve().relative_to(root.resolve())): sha256(p) for p in sources}
-    if value["execution_sources_sha256"] != expected:
-        raise RuntimeError("argument proof must bind the actual native and SDK source files")
-    for relative, digest in value["execution_sources_sha256"].items():
-        if sha256(previous.owned_file(root, relative)) != digest:
-            raise RuntimeError("actual native/SDK argument execution source drift")
+    verify_execution_sources(root, value["execution_sources"])
     events = [json.loads(line) for line in (
         directory / "runs" / attempt.run_id / "trace.jsonl").open(encoding="utf-8")]
     actual = review(original, directory / "private/api", events)

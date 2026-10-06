@@ -169,3 +169,65 @@ def test_current_projection_uses_new_view_without_mutating_old_collector(monkeyp
     assert historical_collect.__globals__ == before
     assert value["collector_source_sha256"] == snapshot.source_bindings()
     assert journal.read_text() == "unchanged\n"
+
+
+@pytest.fixture
+def shared_sdk(tmp_path, monkeypatch):
+    from types import ModuleType, SimpleNamespace
+
+    root = tmp_path / "experiment"
+    native = root / "app/src/native.py"
+    native.parent.mkdir(parents=True)
+    native.write_text("unchanged native source")
+    module = ModuleType("fixture_native")
+    module.__file__ = str(native)
+    monkeypatch.setitem(sys.modules, module.__name__, module)
+    monkeypatch.setattr(review, "SpecialistRequest", SimpleNamespace(__module__=module.__name__))
+    shared = tmp_path / "shared/agents"
+    (shared / "run_internal").mkdir(parents=True)
+    for name in ("__init__.py", "agent.py", "run_internal/tool_execution.py", "strict_schema.py"):
+        (shared / name).write_text("SDK file " + name)
+    link = root / "app/.venv/site-packages/agents"
+    link.parent.mkdir(parents=True)
+    try:
+        link.symlink_to(shared, target_is_directory=True)
+    except OSError:
+        pytest.skip("directory symlink unavailable on this test host")
+    monkeypatch.setattr(review.agents, "__file__", str(link / "__init__.py"))
+    monkeypatch.setattr(review.agents.strict_schema, "__file__", str(link / "strict_schema.py"))
+    return root, shared, link
+
+
+def test_actual_shared_sdk_is_explicitly_bound_not_falsely_root_owned(shared_sdk):
+    root, shared, link = shared_sdk
+    value = review.execution_sources(root)
+    review.verify_execution_sources(root, value)
+    assert set(value["owned_native_sha256"]) == {str(Path("app/src/native.py"))}
+    sdk = value["installed_sdk_sources"]["tool_execution"]
+    assert sdk["import_path"] == str(link / "run_internal/tool_execution.py")
+    assert sdk["resolved_path"] == str((shared / "run_internal/tool_execution.py").resolve())
+    assert not Path(sdk["resolved_path"]).is_relative_to(root)
+
+
+@pytest.mark.parametrize("damage", ["content", "target", "import_path", "extra_file", "native"])
+def test_shared_sdk_proof_rejects_source_or_target_substitution(shared_sdk, damage):
+    root, shared, _ = shared_sdk
+    value = review.execution_sources(root)
+    if damage == "content":
+        (shared / "agent.py").write_text("mutated")
+    elif damage == "native":
+        (root / "app/src/native.py").write_text("mutated")
+    elif damage == "extra_file":
+        value["installed_sdk_sources"]["invented"] = {}
+    else:
+        key = "resolved_path" if damage == "target" else "import_path"
+        value["installed_sdk_sources"]["agent"][key] = str(shared / "different.py")
+    with pytest.raises(RuntimeError, match="actual native and SDK"):
+        review.verify_execution_sources(root, value)
+
+
+def test_unrelated_strict_schema_module_is_rejected(shared_sdk, monkeypatch):
+    root, shared, _ = shared_sdk
+    monkeypatch.setattr(review.agents.strict_schema, "__file__", str(shared / "strict_schema.py"))
+    with pytest.raises(RuntimeError, match="actual installed SDK package"):
+        review.execution_sources(root)
