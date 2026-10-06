@@ -58,10 +58,12 @@ ROOT = RESIDENT_ROOT
 APP = Path(__file__).resolve().parents[1]
 REPAIR_APP_NAME = "app-quote-integrity-repair-002"
 CARDINALITY_APP_NAME = "app-input-cardinality-repair-003"
+E_QUERY_APP_NAME = "app-E-query-contract-repair-004"
 BLOCK = (ResidentBlock(harness_manifest=
          "configs/experiments/infra-aware-predecision-resident-cardinality-v1.yaml")
-         if APP.name == CARDINALITY_APP_NAME else ResidentBlock())
-FREEZE = ROOT / ("execution-freeze-003.json" if APP.name == CARDINALITY_APP_NAME else
+         if APP.name in {CARDINALITY_APP_NAME, E_QUERY_APP_NAME} else ResidentBlock())
+FREEZE = ROOT / ("execution-freeze-004.json" if APP.name == E_QUERY_APP_NAME else
+                "execution-freeze-003.json" if APP.name == CARDINALITY_APP_NAME else
                 "execution-freeze-002.json" if APP.name == REPAIR_APP_NAME else
                 "execution-freeze-001.json")
 OLD_JOURNAL_SHA256 = "bddc83d7ef5230d3aca3c440602cea25bfd8be34bea6ceba47c3ce8746c0fb86"
@@ -73,7 +75,7 @@ HARNESS = APP / BLOCK.harness_manifest
 def require_remote() -> None:
     BLOCK.validate(ROOT)
     if APP.resolve() not in {(ROOT / name).resolve() for name in
-                            ("app", REPAIR_APP_NAME, CARDINALITY_APP_NAME)}:
+                            ("app", REPAIR_APP_NAME, CARDINALITY_APP_NAME, E_QUERY_APP_NAME)}:
         raise RuntimeError("resident controller must use its own explicitly frozen app")
     frozen.validate_runtime_import_root()
 
@@ -135,6 +137,10 @@ def validate_harness_delta(parent: dict[str, Any], current: dict[str, Any]) -> N
 
 def execution_freeze() -> dict[str, Any]:
     require_remote()
+    if APP.name == E_QUERY_APP_NAME:
+        from large_scale_resident_E_query_patch_v1 import repaired_execution_freeze
+
+        return repaired_execution_freeze(APP)
     if APP.name == CARDINALITY_APP_NAME:
         from large_scale_resident_cardinality_patch_v1 import repaired_execution_freeze
 
@@ -239,7 +245,7 @@ async def with_workers(args: argparse.Namespace) -> None:
             path.parent.mkdir(parents=True, exist_ok=True)
             with path.open("x", encoding="utf-8") as stream:
                 yaml.safe_dump(worker.model_dump(mode="json"), stream, sort_keys=False)
-            if APP.name == CARDINALITY_APP_NAME:
+            if APP.name in {CARDINALITY_APP_NAME, E_QUERY_APP_NAME}:
                 from large_scale_resident_cardinality_patch_v1 import start_patched_worker
 
                 pids[agent] = start_patched_worker(
@@ -386,7 +392,8 @@ if __name__ == "__main__":
     require_remote()
     if arguments.freeze:
         write_new(FREEZE, execution_freeze())
-        suffix = "003" if APP.name == CARDINALITY_APP_NAME else "001"
+        suffix = ("004" if APP.name == E_QUERY_APP_NAME else
+                  "003" if APP.name == CARDINALITY_APP_NAME else "001")
         write_new(ROOT / f"readiness/residency-at-freeze-{suffix}.json", residency())
     elif arguments.queue:
         run_queue()
