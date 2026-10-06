@@ -129,3 +129,43 @@ on its offline import path. Measured children still import only immutable app002
 Worker code remains original. Formal execution revision remains955fe8f and
 execution002canonicalSHA remains9dd761f7d4022ae262ada59e8f810b4ab2cac7106e50f0817093916861977198.
 Do not infer its completion from these tests or from source deployment alone.
+
+## Reservation-level equivalent-view amendment
+
+Further inspection showed that the membership optimization alone did not remove
+the main repeated work: the base `_check_reservation` recomputed completed cells
+inside its remaining-cell comprehension. PreparationPID3365000and the purely
+waiting activation guardPID3379270were explicitly stopped **before** any new
+sidecar, authorization/control freeze or formal reservation. The171-line original
+journal remained byte-identical and the preparation lease was released; receipt
+`readiness/quote-review-preparation-drain-003.json` preserves this boundary.
+
+Commit `dcdf5a015e82298f930ed3d55edcb4ff7870258d` fixes only this external,
+non-measured reservation view. Every check validates the complete effective
+attempt view once and applies exactly the existing pending/confounder/no-repeat/
+replacement-cap/repair-authority/frozen-order gates. There is no cross-call cache.
+6,912state/repair/target combinations return exactly the base gate's accept/reject
+and exception text. A168-cell regression verifies one full validation per call
+and revalidation on the next call. Measured app002is unchanged.
+
+Fullpytest1134passed in54.61s; Ruff/strictPyright/diff passed. Actual4090tests
+39passed in7.82s, and all ten original rejections were re-proven. New external
+review directory006sourceSHA:
+`e2d7a4dd137f0045141b0aca13410cf6ea002da427d93c12eb4470656045af8f`.
+`readiness/quote-review-encoding-validation-003.json` fileSHA:
+`219deddd05a1b4280e587ed58af61b0f0cb06b9ea0eedd10d4978a1a5edaf271`.
+Full validation and reviewer commit are bound separately in
+`readiness/quote-review-full-validation-003.json`.
+
+AuthorizationPID3396461started01:40:56Z. At01:42:46Z it was verified CPU-active;
+there were still0new sidecars and no formal reservation. Source-bound activation
+guardPID3399798waits for this exact process, requires the actual authorization,
+released lease and matching execution/reviewer hashes, then exclusively creates
+control008. Only successful verified control freezing permits Queue009 to start.
+Every stage has separate process/console/exit records; any missing proof or nonzero
+freeze exit stops activation rather than creating a replacement. This guard
+started no experiment at the recorded observation. Its complete source andSHA
+are saved in `readiness/quote-repair-activation-process-002.json`.
+
+Formal runtime revision955fe8f/execution002SHA, original Worker app, models,
+prompts, budget, tasks, scheduler and all historical evidence remain unchanged.
