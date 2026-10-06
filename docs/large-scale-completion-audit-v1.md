@@ -8,7 +8,24 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 07:29Z
+## Latest verified progress: projected-record audit afterQueue012
+
+Queue012 stopped at07:36:48Z on the prescribed validation-failure audit gate.
+Exact remote proof now admits119/168 effective cells,136retained attempts,
+17historical confounders and0pending, without modifying the306record raw journal
+or rerunning the completed MultiHop1/P2/Fast/E sample. The absent-field failure
+was on a body-preserving projected/aggregated record artifact; final completion
+and original evaluator score1 are retained. See
+[exact projected-record audit](large-scale-resident-projected-record-audit-v1.md).
+
+Full localpytest1402passed; Ruff and strictPyright passed; remote184offline tests
+passed. Audit-only commit23f2fea leaves measured execution004/0ff0e9b unchanged.
+New external control012 is frozen; Queue013PID422310 is live with control
+revalidation, but no new atomic dispatch is claimed at08:04Z. Actual private/
+gate/held-out guards reject before input. No PhaseII. Full168private/recipient/semantic/
+failure/adoption audit, pruning and actual held-out PhaseII remain required.
+
+## Earlier verified progress: 2026-10-06 07:29Z
 
 Snapshot040 now binds116/168 effective cells,134 attempts,17 historical
 confounders and1 pending. The fifth E repair (MultiHop2/P2/Fast) completed,

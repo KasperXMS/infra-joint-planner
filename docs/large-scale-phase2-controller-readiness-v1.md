@@ -1,5 +1,19 @@
 # PhaseII controller readiness — external only, not launched
 
+## New projected-record view readiness
+
+Audit commit23f2fea adds an exact body-preserving projection reviewer and shares
+that ledger view across the new collector and prepared private/gate consumers.
+No historical namespace or measured execution archive is changed. Full local
+pytest1402passed, Ruff/strictPyright passed; actual4090offline184tests passed.
+The earlier four-epoch namespace and receipts below remain historical. The
+initial new-control check missing its frozen revision environment was preserved
+as a failed pre-launch readiness receipt; no Agent cell was dispatched.
+
+Exact membership is119/168 after offline adjudication, not complete168.
+**No actual method pruning, PhaseIIgate/schedule/controller/held-out execution
+has been created or launched.** Updated code is readiness, not goal completion.
+
 ## Current four-epoch readiness: 2026-10-06T07:24Z
 
 The historical three-source preparation below is retained, not the current

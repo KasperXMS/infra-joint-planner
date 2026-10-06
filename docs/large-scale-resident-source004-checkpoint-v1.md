@@ -1,5 +1,33 @@
 # Resident source004: first repaired E settlements
 
+## Latest exact membership: projected-record review afterQueue012
+
+119/168effective cells,136retained attempts,17historical confounders,0pending.
+The eighth repaired E attempt completed but first triggered an exact field-error
+review. A new offline proof verifies its successful body-preserving projection
+ancestry and admits it without an execution retry or raw-evidence alteration.
+See [projection audit and exact hashes](large-scale-resident-projected-record-audit-v1.md).
+New control012 is frozen; Queue013PID422310 is actually live at08:04Z with
+pre-dispatch revalidation. No new atomic action is claimed at that checkpoint.
+
+| Source004 E settlement | Completion / score | Manager / specialist / Verifier turns | Physical calls | E2E seconds |
+| --- | --- | --- | --- | --- |
+| MultiHop2/P1/Slow | completed /1.0 |6/0/6 |12 |214.819 |
+| LongBench2/P2/Fast | completed /0.0 |7/0/7 |6 |88.971 |
+| MultiHop1/P2/Fast | completed /1.0; exact field misuse audited |5/8/5 |20 |162.084 |
+
+These are the sixth through eighth source004 attempts, additional to the first
+five historical rows. Two context rejects preceded real model inference in the
+first two rows; the third has one selection/context reject and one execution/
+absent-field error. No refusal/preflight reject is counted as model inference.
+Raw wrong answers are retained. No method benefit, quality pooling or pruning.
+
+MultiHop2/P1/Slow actual movement18,057bytes/0.911s; fixed initial corpus setup
+7,696,522bytes/22.411s stays separate. LongBench2/P2/Fast action movement0is
+supported by its complete cost receipt and pre-movement selection failures.
+MultiHop1/P2/Fast reported48,043bytes/0.414s is a successful-action subtotal,
+not a complete failed-action traffic claim; missing work stays unknown.
+
 ## Latest append-only coverage: 2026-10-06T07:29:31Z
 
 Snapshot040 binds **116/168 effective cells**,134 attempts,17 retained historical
