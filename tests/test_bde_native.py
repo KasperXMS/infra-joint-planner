@@ -42,8 +42,10 @@ class BDEModel(SyntheticSDKModel):
     def __init__(self, route: str, query: bool = True) -> None:
         super().__init__()
         self.route, self.query = route, query
+        self.tool_names_by_turn: list[list[str]] = []
 
     async def get_response(self, *args: Any, **kwargs: Any) -> ModelResponse:
+        self.tool_names_by_turn.append([tool.name for tool in kwargs["tools"]])
         items = semantic_input_items(kwargs.get("input", args[1] if len(args) > 1 else []))
         self.inputs.append(items)
         index = len(self.inputs)
@@ -84,7 +86,7 @@ class BDEModel(SyntheticSDKModel):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize(("route", "query"), [("B", False), ("B", True), ("D", True),
-                                             ("E", True)])
+                                             ("E", False)])
 async def test_bde_actual_sdk_execution_and_cost_isolation(route: str, query: bool) -> None:
     task, registry = benchmark_task(), build_operator_catalog()
     operations = ("bm25_retrieve", "invoke_model")
@@ -112,6 +114,17 @@ async def test_bde_actual_sdk_execution_and_cost_isolation(route: str, query: bo
     assert unused.decisions == [] and result.usage.verifier_calls == 2
     assert result.usage.tool_model_calls == 2
     assert result.usage.manager_turns == (4 if route == "D" else 2 + int(query))
+    variant = next(e.payload for e in sink.events if e.event_type == "method.variant.start")
+    assert variant["optional_cost_queries"] is (route == "B")
+    for names in model.tool_names_by_turn:
+        estimates = {name for name in names if name.startswith("estimate_")}
+        assert estimates == ({"estimate_bm25_retrieve", "estimate_invoke_model"}
+                             if route == "B" else set())
+        if route == "E":
+            assert not {"commit_quote", "discard_quote", "compare_ready_actions"} & set(names)
+    if route == "E":
+        assert not any(e.event_type in {"logical.cost_quote.created", "logical.cost_card.returned",
+                                       "logical.cost_candidates.returned"} for e in sink.events)
     for forbidden in ("private-A", "private-model", "private-evaluator", "source_ref"):
         assert forbidden not in json.dumps(model.inputs)
     assert not contains_bde_feedback([v.model_dump(mode="json") for v in verifier.contexts])

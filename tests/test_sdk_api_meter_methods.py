@@ -79,7 +79,7 @@ async def test_all_seven_frozen_native_variants_meter_manager_and_fixed_qwen_ver
     physical = PhysicalExecutionService(registry, environment(),
                                         ReadyQuoteObserver(validator, execution),
                                         FrozenSelectionExecutor())  # type: ignore[arg-type]
-    source = (BDEModel(method) if method in {"B", "D", "E"}
+    source = (BDEModel(method, query=method != "E") if method in {"B", "D", "E"}
               else QuoteSDKModel(execution) if method == "C" else SyntheticSDKModel())
     verifier_source = VerifierModel()
     sink = MemorySink()

@@ -92,7 +92,7 @@ class _DirectHandler:
 
 
 class BDENativeRuntime(QuoteNativeRuntime):
-    """B optional cards; D bounded comparison; E B + independently frozen trace heuristics."""
+    """B optional cards; D bounded comparison; E ledger plus frozen rules, without queries."""
 
     def __init__(self, *, route: str, rules: dict[str, Any] | None = None, **kwargs: Any) -> None:
         if route not in {"B", "D", "E"} or (route == "E") != (rules is not None):
@@ -137,7 +137,7 @@ class BDENativeRuntime(QuoteNativeRuntime):
             "variant": f"route-{self.route.lower()}-v0",
             "current_dynamic_profile_injected": False,
             "manager_only_cost_feedback": True,
-            "optional_cost_queries": self.route != "D",
+            "optional_cost_queries": self.route == "B",
             "maximum_comparison_candidates": 3 if self.route == "D" else None,
             "frozen_rules": self.rules,
             "is_original_blind_baseline": False,
@@ -214,7 +214,7 @@ class BDENativeRuntime(QuoteNativeRuntime):
                 ))
             return agent
         extras: list[object] = []
-        if is_manager:
+        if is_manager and self.route == "B":
             for handler in handlers:
                 async def estimate(
                     ctx: object, args: str, spec: OperatorSpec = handler.spec,
