@@ -30,7 +30,7 @@ def compound_membership() -> dict:
 
 
 def test_current_audit_uses_current_collector_not_historical_projection() -> None:
-    current = importlib.import_module("large_scale_resident_field_policy_snapshot_v1")
+    current = importlib.import_module("large_scale_resident_launch_snapshot_v2")
     historical = importlib.import_module("large_scale_resident_E_query_private_evidence_v1")
     assert audit.sources is current
     assert historical.sources is not current

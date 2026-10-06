@@ -35,13 +35,9 @@ def verified_gate(path: Path, inputs: dict[str, Path]) -> dict[str, Any]:
 
 def source_bindings() -> dict[str, str]:
     sources = gate.evidence.sources
-    reviewer = sources.reviewer
     paths = (
         __file__, previous.__file__, gate.__file__, gate.core.__file__, gate.evidence.__file__,
-        sources.__file__, sources.previous.__file__, sources.previous.previous.__file__,
-        sources.previous.previous.core.__file__, reviewer.__file__, reviewer.previous.__file__,
-        reviewer.previous.previous.__file__, reviewer.methods.__file__, reviewer.records.__file__,
-        reviewer.policy.__file__, gate.evidence.private.__file__,
+        gate.evidence.private.__file__,
         sys.modules[gate.evidence.resolved_membership.__module__].__file__,
         sys.modules[gate.evidence.private.scan_store.__module__].__file__,
         previous.method_contract.__file__, previous.quote.__file__,
@@ -49,7 +45,7 @@ def source_bindings() -> dict[str, str]:
     )
     if any(p is None for p in paths):
         raise RuntimeError("current controller requires actual file-backed source dependencies")
-    bindings: dict[str, str] = {}
+    bindings: dict[str, str] = sources.source_bindings()
     for p in paths:
         if p is not None:
             path = Path(p)
