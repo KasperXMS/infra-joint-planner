@@ -81,3 +81,20 @@ completion. Record actual owned queue/atomic handles, empty stores, real network
 attestation, residency and the resulting outcome separately when they occur.
 Full168/private/failure/recipient/adoption audit, frozen pruning, actual held-out
 PhaseII and final Q1–Q10 remain outstanding. No early pruning or PhaseII.
+
+## Actual recovered execution start
+
+At13:07:47.105727Z, actual atomic1028370 was owned/live and the SDK loop had
+started for cell146/attempt2. All four initial Worker artifact counts were0.
+All five model server/runner identities exactly matched cell145's post-run
+attestation, with context32768; no model reload or warm-up was performed.
+The actual child environment contained the original revision and only execution004
+`src`/`scripts`. Comparing original and new YAML changed only `run_id` and
+`fresh_worker_stores`, not task, network, model, budget, scheduler or method.
+
+Network config remainsSlow3Mbps/configured50ms (not measured symmetric RTT).
+Manager/Verifier remainQwen3.8-Max. This live audit added0model calls/Worker
+starts/tc writes. No completion or evaluation existed at this time.
+Append-only live proof
+`analysis/resident-source004-cell146-launch-recovery-live-001.json`, SHA256
+`47a1e779bbbc9b075caf5481236454ca08b7501afaba2e9912e65292bd932ab7`.
