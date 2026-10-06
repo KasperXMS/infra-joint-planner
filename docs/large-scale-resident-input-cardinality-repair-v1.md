@@ -144,3 +144,11 @@ not an observation timeout that would justify restarting the same controller.
 Complete168effective PhaseI outcomes/private/failure/adoption audit, frozen pruning,
 actual PhaseII within420cap and final Q1–Q10remain required. The goal is active;
 this stopped queue is an audit/repair gate, not completion or an autonomous pause.
+
+## Later activation, without rewriting this original preparation checkpoint
+
+Execution003/control010and exact affected-only110authorization were frozen after
+local/Linux1,213passing tests,34actual-archive regressions and four fresh Worker
+surface/residency/exit validation. Queue011was launched04:34:07Z, with no ordinary
+samples repeated. [Activation and immutable hashes](large-scale-resident-cardinality-repair-activated-v1.md)
+supersede the earlier unactivated status; the mixed original110remains preserved.
