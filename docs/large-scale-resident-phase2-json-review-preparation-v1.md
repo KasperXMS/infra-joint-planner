@@ -181,3 +181,27 @@ Final startup-correction checks: full local1756passed/7Windows platform skips,
 1763collected;35new targeted tests. Ruff, strict Pyright with the explicit project
 interpreter and diff check pass. Actual Linux88passed. These are external
 controller/bookkeeping tests, not new benchmark runs or semantic retries.
+
+## Actual source-bound reactivation003
+
+Adapter freeze002 SHA256:
+`bc486ef6fb86e3359e5df316cb4998f5b5ad19fe051a7798d2de7a525d5aa8fc`;
+validation002:
+`96f0063034c6655582eda1a6369096f913c65613240ccfefbd34bfc500df8975`.
+Code commitbc597be; result audit commit228ee6c. Old adapter freeze001 and
+failed supervisor/process/console/exit002 remain untouched.
+
+Actual supervisor2146014/controller2146015 are owned/live at22:29:45Z,
+no exit receipt. Source-bound supervisor003 SHA256:
+`49a0ccc1082db47c692a014d1aa0b14ca48adcfccc8b7033e696f0d654940555`.
+The exact original execution revision remains
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd` and controller namespace002
+is first. Full original parent gate is being revalidated; journal33records,
+16effective completions, no new pending action at that capture. This is not a
+claim that cell17 dispatched. Remaining176 keep the original frozen schedule.
+
+An independent live-process test confirms the **unchanged original private-body
+guard rejects this same controller before any body read**. Receipt SHA256:
+`a3576459c75ac5731c8c0569af0425d638004c094721c5a7949abd91d702e7ce`.
+Private bodies read0; no gold/support payload exported. All192 outcomes and
+post-block audits remain unfinished; no method efficacy conclusion is asserted.
