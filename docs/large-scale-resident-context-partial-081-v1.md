@@ -112,6 +112,13 @@ Captured23:57:20.922037Z. Remote exact static-request receipt
 `cacc354304309b0d5239f8bae338d3829b26e6e685ae05eaf322c90f6777195d`.
 Captured00:01:11.592799Z;5invalidrequests/57actual Manager request checks.
 
+An append-only coverage check also matched these raw Manager request counts
+against the original trace's Manager reasoning-start receipts (6/13/20/18),
+not a count of only files where the contract happened to be found. Remote
+`analysis/resident-static-request-coverage-001.json` fileSHA:
+`98fb0a00fd158dc732f1d71cb019b445fd294c718b8858ea851c4c17a6f54dcc`.
+It binds the original exact-request audit and makes0modelcalls.
+
 Both operations made0modelcalls, opened no benchmark artifact bodies and
 changed no execution, admission, scheduler, source, instructions, budget or
 model contract. Results remain private offline audit data, never Agent feedback.
