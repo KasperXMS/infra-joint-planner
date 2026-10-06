@@ -10,6 +10,17 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+Latest actual settlement:LongBench1/P2/Fast/E has completed/format-valid/score1,
+bringing the effective count to121/168.8Manager/8Verifier,9physical calls,
+1actual inference after2pre-movement context rejects; both document retrievals
+naturally progress top20 ->8 ->4.86.726sE2E,12,599bytes/0.492saction movement;
+fixed514,789bytes/0.110ssetup is separate.16recipient contexts, empty initial
+stores, owned Worker exits and5resident instances validated. Exact bounded
+run audit SHA`16f298ddb6ddcba0757a6aaa0af6a28b46aee7435bc634b19d994b4c4df5a76a`.
+Queue014 actually continues with LongBench2/P1/Slow/E, demonstrating that the
+replay fix survives the next reservation. No early method benefit/pruning or
+PhaseIIclaim; all remaining scope is still required.
+
 08:23:05Z:Queue014PID457876 is actually live and reserved LongBench1/P2/Fast/E/
 attempt2 under unchanged execution004.120valid settled cells plus this pending
 reservation, not121completions. Actual private/gate/held-out guards reject before

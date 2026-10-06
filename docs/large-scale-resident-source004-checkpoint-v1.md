@@ -1,5 +1,35 @@
 # Resident source004: first repaired E settlements
 
+## Tenth repaired E settlement and continued control:2026-10-06T08:26Z
+
+LongBench1/P2/Fast/E/attempt2 has settled valid, completed/format-valid/score1.
+Effective membership121/168,138settled attempts/17retained historical
+confounders; the next LongBench2/P1/Slow/E/attempt2 is actually live. Queue014
+continues past the previously failing parent-ledger replay boundary with the
+same execution004. No valid cell was repeated and no semantic tuning occurred.
+
+Actual one-agent sequence:BM25 on each original document,top_k20 -> combined
+model context reject(127,379input +2,048reserved versus32,768); repeat both
+documents at8 -> reject(51,553input +2,048); repeat both at4 -> one real terminal
+inference onA4/Qwen3-VL4B. Three pairs of independent retrievals, not a hidden
+reduction/fallback. Six successful tools,three prepared model actions but only
+one inference; other typed SDK semantic/phase rejects are not physical calls.
+
+8Manager/0specialist/8Verifier,9physical calls,16actualSDK recipient contexts,
+28graph snapshots/9nodes/6edges. All pre-materialization Worker stores empty,
+owned Workers exited,5resident instances validated, and every E Manager schema
+remains no-query. Model6,183input/2output/stop,17.620sservice;0.261stool work,
+41.696sManager and24.632sVerifier work, not an exactE2Edecomposition.
+E2E86.726s; complete action movement12,599bytes/0.492s, fixed initial document
+placement514,789bytes/0.110s separately. Required-evidence retention and causal
+method benefit remain unproved; score1is not a semantic coverage certificate.
+
+Remote append-only audit:`analysis/resident-source004-tenth-settlement-audit-001.json`,
+SHA256`16f298ddb6ddcba0757a6aaa0af6a28b46aee7435bc634b19d994b4c4df5a76a`.
+Full trace/API bodies stay remote. Prior snapshot041 remains119-cell historical
+scope and is not rewritten. All168/fullprivate audit/pruning/actualPhaseII/final
+Q1–Q10 obligations remain outstanding.
+
 ## Ninth repaired E settlement:08:07:43Z
 
 Effective120/168 after MultiHop2/P2/Slow/E completed/format-valid/score1.
