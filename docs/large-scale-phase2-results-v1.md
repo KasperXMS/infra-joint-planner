@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+Live continuation at2026-10-06T22:47Z: cell17,
+`phase2-multihop_rag-4-fffab28c23fbdeaf-p1-fast-E`, attempt1,
+atomic2188408 is owned/live. This is a pending reservation, not another result:
+the settled table below remains16. Its initial four Worker stores were empty,
+five resident instances were attested before execution, and the atomic process
+uses only archived execution004src/scripts with revision
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`. External controller/private-audit
+namespaces are absent from the atomic PYTHONPATH. Start receipt SHA256:
+`dd29530e68dcc36230b3f07ad6ea2875f60d2b012aa1fa604efc3c0c7028d669`.
+Completion, quality, final residency, tc cleanup and recipient audits for this
+cell are not yet claimed. No completed sample was repeated.
+
 Checkpoint: 2026-10-06T22:20:09Z / 2026-10-07 06:20 HKT. Sixteen of 192 nominal
 held-out cells are effective valid samples; no reservation was pending at this
 snapshot. Cell16's raw JSON audit rejection is preserved and source-bound reviewed,
