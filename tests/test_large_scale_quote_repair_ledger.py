@@ -1,11 +1,13 @@
 import importlib
 import json
 import sys
+from itertools import product
 from pathlib import Path
 
 import pytest
 
 from infra_joint.control.provenance import provenance_sha256
+from infra_joint.experiments.attempt_ledger import AttemptLedger
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 repair = importlib.import_module("large_scale_quote_repair_ledger_v1")
@@ -181,3 +183,57 @@ def test_completed_membership_validates_once_per_call_without_cross_call_cache(
     ledger._attempts["a"] = repair.Attempt("a", "a", 1, "b" * 64, "confounder")
     assert ledger.completed_cells == ("c",)
     assert ledger.validations == before + 2
+
+
+def test_single_view_reservation_has_exact_base_gate_equivalence() -> None:
+    class View(repair.QuoteRepairAttemptLedger):
+        @property
+        def attempts(self) -> tuple:
+            return tuple(self._attempts.values())
+
+    def outcome(method: object, view: View, cell: str) -> tuple | None:
+        try:
+            method(view, cell)
+        except (ValueError, RuntimeError) as error:
+            return type(error), str(error)
+        return None
+
+    cells = ("c", "a", "b")
+    for states in product(("absent", "pending", "valid", "excluded", "confounder", "twice"),
+                          repeat=3):
+        for repairs in product((False, True), repeat=3):
+            view = object.__new__(View)
+            view.cells, view._attempts, view._repairs = cells, {}, {}
+            for cell, state, repaired in zip(cells, states, repairs, strict=True):
+                if state == "absent":
+                    continue
+                disposition = {"pending": None, "valid": "valid", "excluded":
+                               "operational_excluded", "confounder": "confounder",
+                               "twice": "operational_excluded"}[state]
+                for index in range(2 if state == "twice" else 1):
+                    run = cell + str(index)
+                    view._attempts[run] = repair.Attempt(cell, run, index + 1, "a" * 64,
+                                                         disposition)
+                    if repaired:
+                        view._repairs[run] = "b" * 64
+            for cell in (*cells, "unknown"):
+                assert outcome(View._check_reservation, view, cell) == outcome(
+                    AttemptLedger._check_reservation, view, cell)
+
+
+def test_reservation_view_revalidated_each_call_not_each_scheduled_cell(tmp_path: Path) -> None:
+    class CountingView(repair.QuoteRepairAttemptLedger):
+        validations = 0
+
+        @property
+        def attempts(self) -> tuple:
+            self.validations += 1
+            return super().attempts
+
+    cells = tuple(f"cell-{index}" for index in range(168))
+    view = CountingView(tmp_path / "journal.jsonl", cells, "a" * 64)
+    before = view.validations
+    view._check_reservation(cells[0])
+    assert view.validations == before + 1
+    view._check_reservation(cells[0])
+    assert view.validations == before + 2

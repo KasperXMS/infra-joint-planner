@@ -121,6 +121,33 @@ class QuoteRepairAttemptLedger(ResidentPolicyAttemptLedger):
         admitted = {a.cell_id for a in self.attempts if a.disposition == "valid"}
         return tuple(cell for cell in self.cells if cell in admitted)
 
+    def _check_reservation(self, cell_id: str) -> None:
+        """Same base gates over one fully verified effective view per check.
+
+        The base remaining-cell comprehension invokes completed_cells for each
+        cell, repeatedly rehashing all scoped proofs. This local view is neither
+        a cross-call cache nor a change to order, exclusion or repair authority.
+        """
+        if cell_id not in self.cells:
+            raise ValueError("task replacement/new cell is outside the frozen schedule")
+        attempts = self.attempts
+        if any(a.disposition is None for a in attempts):
+            raise RuntimeError("outstanding attempt: verify its process and reconcile evidence")
+        if any(a.disposition == "confounder" and a.run_id not in self._repairs for a in attempts):
+            raise RuntimeError("unresolved system confounder prohibits queue continuation")
+        admitted = {a.cell_id for a in attempts if a.disposition == "valid"}
+        if cell_id in admitted:
+            raise RuntimeError("valid nominal cell must not be repeated")
+        prior = [a for a in attempts if a.cell_id == cell_id]
+        if sum(a.disposition == "operational_excluded" for a in prior) >= 2:
+            raise RuntimeError("one operational replacement exhausted; stop affected block")
+        if (prior and prior[-1].disposition != "operational_excluded"
+                and prior[-1].run_id not in self._repairs):
+            raise RuntimeError("only an audited operational exclusion allows replacement")
+        remaining = [cell for cell in self.cells if cell not in admitted]
+        if not remaining or cell_id != remaining[0]:
+            raise RuntimeError("frozen order cannot be skipped or reordered")
+
     def _apply(self, record: dict[str, object]) -> None:
         if record["event"] != "quote_integrity_confounded":
             super()._apply(record)
