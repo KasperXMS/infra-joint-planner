@@ -45,7 +45,7 @@ def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR
                 resident.sha256(path) if path.exists() else None)
             if path.exists():
                 if (attempt["disposition"] != "operational_excluded"
-                        or attempt["reason"] != reviewer.REASON):
+                        or attempt.get("admission_reason") != reviewer.REASON):
                     raise RuntimeError("mixed provider collector/admission identity drift")
                 attempt.update(original_rejection_preserved=True, benchmark_quality_unknown=True,
                     failure_class="mixed_provider_token_rate_and_input_policy",

@@ -20,8 +20,9 @@ def source(tmp_path, monkeypatch):
     proof.parent.mkdir()
     proof.write_text("{}", encoding="utf-8")
     attempts = [{"run_id": "mixed", "disposition": "operational_excluded",
-                 "reason": snapshot.reviewer.REASON},
-                {"run_id": "nominal", "disposition": "valid", "reason": "semantic_failure"}]
+                 "admission_reason": snapshot.reviewer.REASON},
+                {"run_id": "nominal", "disposition": "valid",
+                 "admission_reason": "semantic_failure"}]
     seen = []
 
     def original(root, predecessor):
@@ -52,7 +53,8 @@ def test_verified_operational_membership_and_prior_nominal_samples_are_preserved
     assert original.__globals__ == before
 
 
-@pytest.mark.parametrize("damage", ["nominal", "pending", "reason", "journal"])
+@pytest.mark.parametrize("damage", ["nominal", "pending", "reason", "missing_reason",
+                                    "legacy_reason_only", "journal"])
 def test_projection_rejects_different_membership_or_advanced_journal(source, monkeypatch, damage):
     root, _, attempts, *_ = source
     if damage == "nominal":
@@ -60,7 +62,11 @@ def test_projection_rejects_different_membership_or_advanced_journal(source, mon
     elif damage == "pending":
         attempts[0]["disposition"] = None
     elif damage == "reason":
-        attempts[0]["reason"] = "unclassified_API_failure_requires_audit"
+        attempts[0]["admission_reason"] = "unclassified_API_failure_requires_audit"
+    elif damage == "missing_reason":
+        del attempts[0]["admission_reason"]
+    elif damage == "legacy_reason_only":
+        attempts[0]["reason"] = attempts[0].pop("admission_reason")
     else:
         original_sha = snapshot.resident.sha256
         count = 0
