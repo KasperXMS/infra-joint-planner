@@ -101,3 +101,16 @@ Reader diagnostic SHA256:
 `de6799de57b814afdbb43eaf1eed7785dcd943c60a5826bce56041a0479f7e14`;
 lease reconciliation:
 `76765a7f1bad8d6ff601f61d6f0b20386a82e89ed0c3cb0e6d50af1700cae6f4`.
+
+## Actual sidecar created (22:03Z checkpoint)
+
+The source-bound review is now written and independently reproduced for cell16.
+Sidecar under `phase2-model-json-adjudications/`, original attempt1 run ID,
+SHA256 `916192e8cc7aaf97ad5e789acf6ce8a684ce29a14e11e675855f1180b2338015`.
+One exact model-output parse failure is confirmed; effective disposition valid,
+score0 preserved, replacement unauthorized. The raw journal and admission retain
+the original confounder and are not rewritten. Cell16 is not run again.
+
+The reviewed control freeze is still undergoing the original complete parent
+gate revalidation. No resumed queue is claimed at this checkpoint. Old controller
+and atomic are inactive; no new benchmark/planner/model call occurs in the review.
