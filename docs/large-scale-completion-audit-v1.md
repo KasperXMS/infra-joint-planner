@@ -10,6 +10,17 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+Latest actual completion:LongBench2/P1/Slow/E completed/format-valid/score0,
+bringing effective membership to122/168. Its wrong answer is retained, not
+retried.8Manager/8specialist/8Verifier,15physical actions/1actual inference,
+5context rejects and1oversized read failure;24recipient contexts and residency/
+freshness/exits verified.207.564sE2E; full failed-action traffic/tool work remains
+unknown, not0. Exact bounded audit SHA
+`05827fb9c10da0d1084664c5c732076f9f4b29baa4f7b3bfb1858e4dd10909b2`.
+Next MultiHop1/P1/Slow/E/attempt3 is live with multiple field-validation findings;
+do not waive them or retry it automatically. All168/private audit/pruning/
+actualPhaseII/finalreports still required.
+
 Latest actual settlement:LongBench1/P2/Fast/E has completed/format-valid/score1,
 bringing the effective count to121/168.8Manager/8Verifier,9physical calls,
 1actual inference after2pre-movement context rejects; both document retrievals

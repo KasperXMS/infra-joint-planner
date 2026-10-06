@@ -1,5 +1,29 @@
 # Resident source004: first repaired E settlements
 
+## Eleventh repaired E settlement:2026-10-06T08:29:57Z
+
+LongBench2/P1/Slow/E/attempt2 completed, format-valid, **score0 retained**;
+effective122/168. No retry/replacement or prompt/strategy change.8Manager/
+8specialist/8Verifier,one created specialist,15physical actions:9tools/6model
+actions but only1actual inference;5selection/context rejects and1execution/
+oversized read failure.24actualrecipient contexts, empty pre-materialization
+stores, owned Worker exits and5resident instances verified; E no-query holds.
+
+Actual path includes BM25, specialist select_fields/aggregate and more BM25
+after repeated context rejects, ending in realA4/Qwen3-VL4B inference. Model
+6,111input/2output/stop,17.636sservice; E2E207.564s. Successful-action transfer
+subtotal0is **not** complete traffic: failed execution has unmeasured movement,
+so complete action bytes/time and complete tool work remain unknown. Initial
+2,119,778bytes/5.985ssetup is separately measured. Successful pure tool work
+1.734s; Manager97.141s/specialist54.014s/Verifier24.154swork are not a wall-time
+decomposition. Primary semantic cause stays pending post-block private review.
+
+Durable audit:`analysis/resident-source004-eleventh-settlement-audit-001.json`,
+SHA256`05827fb9c10da0d1084664c5c732076f9f4b29baa4f7b3bfb1858e4dd10909b2`.
+Queue014 moved to MultiHop1/P1/Slow/E/attempt3 under its original source-bound
+repair authorization. Its current legal/field/context trajectory is not repaired
+while live; any raw validation admission finding must stop and be audited.
+
 ## Tenth repaired E settlement and continued control:2026-10-06T08:26Z
 
 LongBench1/P2/Fast/E/attempt2 has settled valid, completed/format-valid/score1.
