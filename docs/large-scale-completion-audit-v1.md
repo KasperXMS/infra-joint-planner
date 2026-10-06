@@ -10,6 +10,11 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+08:23:05Z:Queue014PID457876 is actually live and reserved LongBench1/P2/Fast/E/
+attempt2 under unchanged execution004.120valid settled cells plus this pending
+reservation, not121completions. Actual private/gate/held-out guards reject before
+input; no PhaseIIjournal exists. All full-scope obligations remain unfinished.
+
 Queue013 stopped08:08:23Z on an external parent-ledger version-compatibility
 defect after its completed run. That run remains valid; no additional failed
 cell/reservation occurred. New audit-only v2controller commit7ca9725 fixes only

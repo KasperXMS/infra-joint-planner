@@ -1,5 +1,17 @@
 # Resident projected-record audit: no semantic repair or replacement
 
+## Actual v2continuation:08:23:05Z
+
+Queue014PID457876 is verified live. It reserved the next authorized repaired E
+sample, LongBench1/P2/Fast/attempt2, using unchanged execution004. Journal
+sequence308/reservation SHA
+`8a61a8e98a1866acde573b87b92929227ad6e31edf653ea293d57e2259474f30`.
+120valid cells remain settled; the new reservation is pending, not121completed.
+Actual private-body/gate/held-out guards still reject before input. Their v2live
+receiptSHA
+`afd05ed8adcaad4343f481debf7362730a5f9f86ad2396d7bc1621730afcb77b`.
+No completed cell was rerun and no PhaseIIjournal exists.
+
 ## External replay repair validated and frozen
 
 Code-only commit`7ca9725` introduces the separate v2controller, leaving all
@@ -16,8 +28,8 @@ canonicalSHA
 `a676dae4108630aa1b21eef39876214ab6d626a3403ea53f6ae466ce7ad88bf5`.
 Readiness003 records actual source equivalence and unchanged execution004.
 Queue014 has been launched from this new receipt to continue only remaining
-scheduled cells. A live PID/first-dispatch check is still required before claiming
-actual atomic execution; Queue013 remains terminal, not retrospectively resumed.
+scheduled cells. Its actual first dispatch is verified above; Queue013 remains
+terminal, not retrospectively resumed.
 
 ## Controller-only replay defect:Queue013 halted08:08:23Z
 
