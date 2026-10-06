@@ -1,11 +1,43 @@
 # Resident Phase II results — in progress
 
-Latest reviewed snapshot017 at2026-10-06T23:24:09Z:
-18effective valid/18attempts/0pending/2preserved raw confounders/0exclusions.
-SHA256 `04b06062b3fc5f48019881a6e254a5e06f3f61e3cb45dacc685e4a8c87a09397`;
-journal `6637ed398d120c961ff3e95b21dea5431481d59b243abff9ae1e4160396bfc4f`.
-The table now includes18 settled original outcomes. Old captures below are
+Latest reviewed snapshot018 at2026-10-06T23:30:46Z:
+19effective valid/19attempts/0pending/2preserved raw confounders/0exclusions.
+SHA256 `7c33b755c07450dc8eb279ab49ca730d2e0f03242e7069dd7797737e794a8712`;
+journal `dfe3a28cd22c3a8248a8f9105beb0e92440fbd1ed9b15b811588026fb9913e00`.
+The table now includes19 settled original outcomes. Old captures below are
 historical, not current counts. No score pooling, retry or semantic tuning.
+
+Cell19 MultiHop4/DeepSeek/Slow/B1 completed, format valid, original score1.0.
+Original admission/journal, empty stores, five resident identities, Worker exits,
+tc restoration/direct terminal model and26SDKcontexts independently pass;
+auditSHA `48aa06c96cb65eecb35f021f476372ad2f26b34817538ad941528dad6382e459`.
+Twelve Manager/Verifier turns, two specialist turns/one created/peakactive1,
+15physical requests: six BM25, six read_artifact and three model requests.
+Two model requests were context-rejected before inference; a later request
+reached strong-4090/resident-4090-gpu0-qwen35-27b-v1:432input/143output,
+stop,2.218s backend service. Typed observations also include two unavailable
+artifact references and eight phase restrictions; original admission is valid,
+not a Worker-store collision. No action was replaced or manually repaired.
+Complete Agent artifact transfer0B/0s is distinct from initial7,696,522B/22.032s
+and is not a zero-network-traffic claim. Successful tool work3.802s,
+inclusive model-action Worker work2.220s; these overlapping receipt work values
+are not an E2E decomposition. Graph15nodes/14edges/46snapshots/peak6;
+successful terminal physical model has no artifact inputs. This alone neither
+proves evidence loss nor establishes semantic sufficiency; private audit deferred.
+E2E196.997s/API frozen listpriceUSD.566055. No causal comparison with18,
+because Planner and method differ; weak evaluator score is separate from audit.
+
+Feedback014 audits312actual contexts=151Manager/151Verifier/10specialist;
+45B1profiles/68A_Eledgers/36frozenrules exactly match provider requests.
+SHA `cfb570d0651975d218022b18a9b3cf4ec0f8c63715f56a35e1a354ccb78e73c3`.
+At23:31:53Z the same controller004 remains owned/live, no pending reservation,
+validating the original full gate before the next cell. Remaining173 are not
+completed; no restart/tuning/private body audit or payload export. Full192,
+inactive private/manual/failure/adoption andQ1–Q10 remain outstanding.
+
+Historical snapshot017 at23:24:09Z had18effective outcomes,
+SHA256 `04b06062b3fc5f48019881a6e254a5e06f3f61e3cb45dacc685e4a8c87a09397`,
+journal `6637ed398d120c961ff3e95b21dea5431481d59b243abff9ae1e4160396bfc4f`.
 
 Cell18 MultiHop4/Qwen/Slow/B0 completed, format valid, original score1.0.
 Independent original admission/journal, four empty stores, five resident
@@ -116,6 +148,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop5 | DeepSeek / Fast / B0 | true / valid / 0 | 13 / 13 | 48 / 5 | 3 | 1884.311 | 7,696,522 / 1.511 | unknown; returned subtotal 43,046 | 0.838502 |
 | MultiHop4 | DeepSeek / Fast / E | true / valid / 0 | 6 / 6 | 13 / 4 | 1 | 352.579 | 7,696,522 / 1.108 | unknown; returned subtotal 0 | 0.150308 |
 | MultiHop4 | Qwen / Slow / B0 | true / valid / 1 | 11 / 11 | 9 / 1 | 1 | 149.584 | 7,696,522 / 22.434 | 5,204,596 | 0.175846 |
+| MultiHop4 | DeepSeek / Slow / B1 | true / valid / 1 | 12 / 12 | 15 / 1 | 2 | 196.997 | 7,696,522 / 22.032 | 0 | 0.566055 |
 
 Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
 1created specialist,48physical actions,5successful inference telemetry receipts.

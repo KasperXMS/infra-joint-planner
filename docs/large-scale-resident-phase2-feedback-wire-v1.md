@@ -106,3 +106,16 @@ feedback013SHA `1c5e51175890488752f61a4a82af9a72271ce293522550ce4bb8464318bb5cb6
 No new Agent call, private support/corpus/store-body scan or payload export.
 This settled audit does not cover live cell19. Exposure still does not prove
 adoption, semantic retention or causal cost benefit; full post-block audits remain open.
+
+## Actual reviewed snapshot018 / feedback014
+
+2026-10-07 HKT:19settled cells,312actual SDKcontexts:
+151Manager/151Verifier/10specialist.45B1profiles,68A/Eledgers and36E frozen-rule
+exposures exactly match actual provider requests and corresponding decisions.
+Cell19 adds12root Manager,12Verifier and2bounded-specialist requests. The root
+alone receives B1profile; specialist and Verifier remain Blind in actual contexts.
+SnapshotSHA `7c33b755c07450dc8eb279ab49ca730d2e0f03242e7069dd7797737e794a8712`;
+feedback014SHA `cfb570d0651975d218022b18a9b3cf4ec0f8c63715f56a35e1a354ccb78e73c3`.
+Zero new Agent calls, private support/corpus/store-body reads or payload exports.
+Neither observed profile exposure nor original score1 establishes causal benefit
+or evidence retention; future cells and post-block audits remain outstanding.
