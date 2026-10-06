@@ -1,3 +1,14 @@
+# Current resident Phase I: completed execution and descriptive audit
+
+2026-10-07: the new resident168-cell block has168effective nominal outcomes,
+188preserved attempts,0pending. Its source-bound observable audit is complete,
+with semantic adequacy/retention/nonidentifiable failure subtypes explicitly
+unknown. Per-benchmark completed/score1/score0/unevaluated:MultiHop47/32/15/9,
+LongBench50/22/28/6,Video56/51/5/0. Do not pool accuracy or turn missing score into0.
+Actual per-cell tables and six immutable report hashes are linked from the
+[current complete review](large-scale-resident-phase1-comprehensive-audit-v1.md).
+The old42below remain historical and unpooled; no original evidence is replaced.
+
 # Phase I results — incomplete checkpoint
 
 Historical block only: the42 samples below belong to

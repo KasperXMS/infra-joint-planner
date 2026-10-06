@@ -1,3 +1,15 @@
+# Current resident Phase I failure review
+
+2026-10-07: all168new-block observable path/failure reviews are complete, with
+explicit unknown causal subtypes. Fifteen unevaluated nominal trajectories are
+six provider input-policy refusals, eight exact20Manager-turn budget failures,
+and one model-generated invalidSpecialistRequestJSON. Missing evaluation remains
+unknown. Six completed MultiHop wrong leading booleans establish wrong terminal
+conclusions; the other42completed wrong-answer causes remainmixed when evidence
+selection/reduction/sampling versus model reasoning is not identifiable.
+No ordinary failure is retried or tuned away. Original evaluator/terminal
+provenance is unchanged. [Actual source-bound review and all report hashes](large-scale-resident-phase1-comprehensive-audit-v1.md).
+
 # Phase I failure audit — in progress
 
 Historical block only: the42 classified samples and preserved confounders below
