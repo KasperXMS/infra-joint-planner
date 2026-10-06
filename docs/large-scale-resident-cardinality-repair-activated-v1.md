@@ -103,9 +103,11 @@ audit, frozen pruning, actual PhaseII within420cap and final Q1–Q10remain requ
 
 At04:35:17Z journal sequence230reserved the exact110attempt2under execution003;
 atomic4051504and all four fresh Workers actually started. At04:37:57Z queue and
-atomic remained live with251trace events, six completed root reasoning calls,
-two returned model outcomes and two context-reject observations. No admission
-or evaluator outcome yet; these partial events are not a valid completed sample.
+atomic remained live with251trace events and six completed root reasoning calls.
+The two `logical.model.outcome` events are context-preflight rejects with explicit
+`reached_model_inference=false`, **not returned model inferences**. Two subsequent
+model actions were pending without completed backend receipts. No admission or
+evaluator outcome yet; these partial events are not a valid completed sample.
 
 The actual three-source collector produced `analysis/resident-snapshot-028.json`
 at04:37:17Z:109effective/113total attempts including one pending, three retained
