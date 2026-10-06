@@ -1,5 +1,14 @@
 # Resident-pool execution block freeze v1
 
+Current-source clarification, 2026-10-06 11:19Z: this file preserves original
+activation evidence. The current atomic application is immutable004, revision
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`, canonical SHA256
+`16453c240789388fc54c1319334ddbfeca2f0878308b85e643afc2d6d509799c`.
+All395 bound files rehash unchanged. See [004 repair/freeze](large-scale-resident-E-query-contract-repair-v1.md).
+Original001–004 source boundaries remain attached to actual attempts; do not
+overwrite old freeze receipts or describe the whole168-cell block as004-only.
+The complete private audit and real PhaseII gate remain outstanding.
+
 2026-10-06, Asia/Hong_Kong. **New Phase I queue activated; no outcome claim.**
 The preceding42 admitted samples remain immutable and separate. This report
 records activation, not completed168-cell results or method screening.

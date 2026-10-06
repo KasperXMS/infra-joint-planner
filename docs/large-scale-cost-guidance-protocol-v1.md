@@ -1,5 +1,18 @@
 # Large-scale cost-guidance characterization v1
 
+Current-source clarification, 2026-10-06 11:19Z: the live resident queue uses
+execution **004**, application revision `0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`,
+canonical freeze `16453c240789388fc54c1319334ddbfeca2f0878308b85e643afc2d6d509799c`.
+The execution001 revision/freeze below records initial activation, not the
+current measured application. Original001–004 archives and admissions remain
+immutable; effective samples must retain their actual source epoch, not be
+retroactively relabeled004. See the [E-contract repair and freeze](large-scale-resident-E-query-contract-repair-v1.md)
+and [current admission/audit boundary](large-scale-resident-current-audit-readiness-v1.md).
+This documentation clarification does not change any measured behavior or
+authorize pruning/PhaseII. All395 files bound by freeze004 were independently
+rehash-verified unchanged at11:19:11Z; freeze file SHA256:
+`cf355a2dd4286e45c1677ad5cafb76f94039a89862ef3c49a45ae9cab5c4ba8f`.
+
 2026-10-06. Branch `large-scale-cost-guidance-v1`, derived from `420d196`.
 Status: **execution frozen; Phase I in progress; Phase II not authorized yet**.
 The user-authorized resident/diverse restart supersedes the single-model

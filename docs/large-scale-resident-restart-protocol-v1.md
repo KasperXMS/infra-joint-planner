@@ -1,5 +1,15 @@
 # Resident, diverse-pool restart protocol v1
 
+Current-source clarification, 2026-10-06 11:19Z: initial activation001 below is
+historical. The live queue now uses frozen execution004, revision
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`, canonical SHA256
+`16453c240789388fc54c1319334ddbfeca2f0878308b85e643afc2d6d509799c`.
+Its395 bound source files independently rehash unchanged. Historical epochs
+and evidence remain immutable; do not relabel prior valid admissions004 or
+restart completed cells. See [source004 repair/freeze](large-scale-resident-E-query-contract-repair-v1.md)
+and [current audit gate](large-scale-resident-current-audit-readiness-v1.md).
+No measured protocol, Agent, model or scheduler changes accompany this note.
+
 2026-10-05, Asia/Hong_Kong. User decision: restart with the new experiment.
 The predecessor 42-cell block is closed to further scheduled runs, not deleted,
 overwritten, retroactively warmed, or combined with this environment.
