@@ -8,7 +8,20 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 05:55Z
+## Latest verified progress: 2026-10-06 05:58Z
+
+Snapshot035binds122effective cells/126attempts/one pending123. MultiHop2/P1/
+Slow/B1completed/format-valid/score1: localtop10retrieval across all three shards,
+combined context reject with no inference, localtop3recovery, then one actual
+A28inference consuming all three bounded artifacts. Action traffic17,961bytes,
+actual maxconcurrency3/1.505s overlap;12recipient contexts and all Worker exits
+verified. [Exact121–122outcomes and attribution limits](large-scale-resident-checkpoint-121-v1.md).
+Snapshot SHA:`a7358c317fdc60737fcc3818cffe0023108d9037f2e3bb2470c30c9e87650098`.
+121and122also differ in Planner/method, so their topology/traffic difference is
+not an infrastructure-only causal claim. Queue011/123atomic verified live;
+all168/private audits/pruning/actualPhaseII/finalQ1–Q10remain unfinished.
+
+## Earlier verified progress: 2026-10-06 05:55Z
 
 Snapshot034binds121effective cells/125attempts/one pending122 and the three
 preserved originals. MultiHop2/P2/Fast/A121completed/format-valid/score1;

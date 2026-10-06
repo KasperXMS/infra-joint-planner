@@ -71,3 +71,64 @@ is MultiHop2/P1/Slow/B1;11actual cloud usage receipts, with legal continuation
 after context/argument/phase failures. Its partial trajectory is not yet a
 completion/quality result. All168comprehensive audits, frozen pruning and actual
 held-out PhaseIIremain required.
+
+## Subsequent verified122 — distributed retrieval and context recovery
+
+Snapshot035at05:58:38Z binds122effective cells/126attempts/one pending123,
+same three source epochs and retained originals. Cell122is the same MultiHop2
+task, **P1/Slow/B1**, completed/format-valid/originalscore1.
+
+Actual loop:
+three local BM25top10branches onA4/A5/A28
+->three-artifact model proposal rejected at selection/context, no inference
+->three local BM25top3branches
+->two small artifacts transfer toA28
+->one artifact-backed terminal inference consumes all three top3artifacts.
+
+The two model requests both classify`static_feasible` for their abstract declared
+requirements. That classification alone does not prove the actual combined
+artifact payload fits. Do not relabel this context-input failure as deployment
+unavailability or count the rejected request as actual model inference.
+
+| Measure | Actual122 |
+| --- | --- |
+| E2E |203.814s|
+| Manager /specialist /Verifier turns |6 /0 /6|
+| Prepared tool /model; returned inference |6 /2;1|
+| Fixed initial transfer |7,696,522bytes /22.491s|
+| Complete action transfer |17,961bytes /0.989s|
+| Pure tool /returned model service work |2.304s /123.306s|
+| Physical input /output /finish |7,074 /3 /stop|
+| API calls /actual recipient contexts |12 /12|
+| Frozen regional list-price API USD |0.0864971870; not invoice|
+| Graph nodes /information edges /snapshots |8 /6 /25|
+| Logical owners /max actual concurrency /overlap |1 /3 /1.505s|
+
+Schema/phase errors also returned typed observations; no hidden correction/retry.
+All four Workers exited and resident validation passed. These local retrieval
+branches genuinely overlap despite single ownership; ownership count is not
+parallelism. Budget and frozen SDK loop are unchanged.
+
+Compared with121's centralized full-shard aggregation,122uses a different actual
+information-flow structure. **Planner, method and network all differ**, so the two
+cells do not constitute a matched infrastructure-causal comparison or proof of
+B1cost-rational adaptation. Private semantic coverage/retention remains pending;
+correct evaluator completion is independently observed, not assumed from reduction.
+
+-Snapshot035SHA:`a7358c317fdc60737fcc3818cffe0023108d9037f2e3bb2470c30c9e87650098`.
+-Journal SHA:`bf1feb8f916edf9127a5602cfbafb298bfd84445ea71febaa3b3fdd3dacef1ca`.
+-`analysis/resident-cell122-completed-001.json` SHA:
+  `e7ef4e3df3b83be7b18841ac8f13ff87a8cdea3f873be0aab8d850a250bde9e0`.
+-`analysis/resident-cell122-path-metadata-001.json` SHA:
+  `3d60078aa3bb52f1eb53dfaaa67b2efda1abbf0df1acda55e78c6d4960083cd2`.
+-Result SHA:`96dce45a4c86c6f18de1411d8ff3923b1ca620309a95ebbfb08ec472e25dcda9`.
+-Trace SHA:`c7757ab3291adb16ecb690140e80cfcf19e331aaef93e993a28038ec08d82837`.
+-Admission SHA:`98e15382a758299731706c03ac192a7d8fa3691c3c0752ad909cda57c823488f`.
+-Worker-shutdown SHA:
+  `d3320bbf0fded5a67714b7c61f5e425b5960e5abf51ddcf322921accea261d93`.
+
+At05:57:54Z queue4047590and123atomic165902were verified live; next123is
+MultiHop2/P2/Slow/B0. Live-status receipt SHA
+`5bfd2b0b908e5fb8562e310127498533194acbaa38a58465afdd1fd555baae4d`.
+Source-bound snapshot035supersedes034's coverage, not immutable121evidence.
+PhaseIIjournal still absent; full audit/pruning/actualPhaseIIremain unfinished.
