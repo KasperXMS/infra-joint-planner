@@ -600,3 +600,14 @@ See [exact failure and continuation audit](large-scale-resident-compound-field-p
 Full168, complete private semantic/recipient/failure/adoption audit, frozen pruning,
 actual PhaseII under420cap and final named reports/Q1–Q10 remain unfinished.
 The active goal is not narrowed to restarting a queue or preparing proof helpers.
+
+### 09:42Z:124effective, first actual new cell completed
+
+Queue016's first atomic was independently checked and completed:Video131-3/P2/
+Fast/E attempt2,score1,3Manager/3Verifier,2tools/1actual A4 inference,E2E37.022s.
+Full admission reconstruction,6recipient contexts,all4empty initial stores,
+Worker exits and5resident instances passed. Immutable snapshot043 confirms the
+123-cell pre-settlement prefix; the unique source-bound settlement proves124.
+MultiHop2/P1/Fast/E attempt2 is now reserved; it is not yet another completion.
+See the later actual-completion section in the linked field/policy audit.
+All168/full private audit/frozen pruning/actualPhaseII/finalQ1–Q10remain required.

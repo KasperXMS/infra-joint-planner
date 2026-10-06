@@ -109,3 +109,36 @@ All168, complete private semantic/failure/recipient/adoption audits, frozen prun
 actual held-out PhaseII and final Q1–Q10 remain required. No winner, pooled quality,
 pruning or PhaseII claim is made. Dataset/model/prompt/full-trace bodies remain on
 4090/edges and are not transferred through the development machine.
+
+## Later actual first-cell completion (09:41Z)
+
+Queue016 reserved Video-MME131-3 /P2 /Fast /E attempt2 at09:39:52Z,seq316.
+This is one of the already authorized E tool-surface repairs, not repetition of
+a valid cell. Atomic608533 was verified owned/live, with only execution004
+`src:scripts` imports,actual revision0ff0e9b and four empty initial Worker stores.
+Live proof SHA256
+`dd54e03dc21af3a6f24b494578b96f17a43b3f99350de16a22bcead681d28ae3`.
+
+The cell settled valid at09:41:05Z,seq317; completion/format-valid/score1,terminal
+`A`. Workflow:8-frame sampling → contact sheet → one real A4 VL4B inference.
+There were3Manager /3Verifier calls,0specialists,2tool executions /1inference,
+0typed failures,10graph snapshots /3nodes /9information edges,one logical owner,
+maximum actual concurrency1 and no overlap. Model input/output1258 /2tokens,
+finish `stop`,backend7.211s,pure tool work1.098s. E2E37.022s. Fixed initial video
+distribution7,037,220bytes /0.663s is separate; complete action-artifact movement
+is provably0. Frozen API LIST cost USD0.08394788796024396,all6usage receipts known.
+
+Raw admission was independently reconstructed, not merely trusted; original
+settlement canonical9d49ac944984171d606e16b93dd6136878034df4a3f444acbc75750ea8ed2708,
+all6actual SDK contexts/no-query E surface/freshness/Worker exits/five-instance
+residency passed. Bounded proof
+`analysis/resident-source004-thirteenth-E-repair-settlement-audit-001.json`,SHA256
+`07ebb47187d32a89c26d5ba31de41bd39cb213b4721910c6745e619ee05dcd14`.
+
+Earlier immutable snapshot043 independently verifies123effective /142attempts /
+1pending at09:40:57Z (not124):SHA256
+`2f8c75aecee7d9b179749cd07e114ead6adfdf4b05d8b81e39e14c29b42ab8df`.
+The new source-bound unique settlement extends this prefix to124effective; the
+old snapshot's scope is not rewritten. MultiHop2 /P1 /Fast /E attempt2 was then
+reserved at09:41:51Z,seq318. Full semantic audit/pruning/PhaseII remain pending.
+Neither score1 nor zero action movement proves E caused a resource/quality gain.
