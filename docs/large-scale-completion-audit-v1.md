@@ -1,6 +1,6 @@
 # Completion audit — not achieved
 
-## Current requirement audit: snapshot020, 2026-10-07 07:49:27 HKT
+## Current requirement audit: snapshot021, 2026-10-07 07:56:38 HKT
 
 The historical captures below retain their original populations and gates.
 They are not current assertions that Phase I is unfinished or Phase II is blocked.
@@ -13,8 +13,8 @@ successful sample, prepared audit entrypoint or this documentation update.
 | All168 resident screening cells and recipient/failure/private observable review | [Comprehensive audit](large-scale-resident-phase1-comprehensive-audit-v1.md); owner-local auditSHA `f9a7f25e9ca737b95c201735c346d8cf8099f4fa4959f97a1a689ac55612a036` | Completed observable review; causal unknowns remain explicit |
 | Evidence-based pruning before held-out execution | [Frozen pruning](large-scale-phase1-method-pruning-v1.md); receiptSHA `6dfa23e926ce72a002ccfe703ff2c27b5122c29909c4f5f00d972ea3df7f4c80` | B0/B1/A/E retained; B/C/D not expanded |
 | Actual balanced192-cell held-out block | GateSHA `036696634020ccc416a7ae05a9054075590509a729403e05487fa4133463ef95`; scheduleSHA `5ce98796f1254db6098de24d0639f23eff7a53ea5f1d1beaa01cbc419310a23a` | In progress, not complete |
-| Every held-out cell resolved without ordinary semantic retry | Snapshot020SHA `a3c41f513f7beb73b70a3b58734866bcf31dbff403033075730bff96ad4f3992`:21effective/21attempts/0pending at capture, two original JSON rejections preserved and exactly reviewed, no operational exclusions |171nominal cells still unresolved |
-| Fresh stores, residency, original evaluation/terminal source and actual recipient isolation per settled cell | [Current results](large-scale-phase2-results-v1.md); feedback016SHA `a50fe0364388d323f6562044b51a92d49ede04ca6a5fa8f61256f4a2b06b670f`,340actual contexts | Covers21settled cells only; not future runs |
+| Every held-out cell resolved without ordinary semantic retry | Snapshot021SHA `6dec958ee318ab44d38377a262c1918f52c906a5352a1bc82b92ee1f89741883`:22effective/22attempts/0pending at capture, two original JSON rejections preserved and exactly reviewed, no operational exclusions |170nominal cells still unresolved |
+| Fresh stores, residency, original evaluation/terminal source and actual recipient isolation per settled cell | [Current results](large-scale-phase2-results-v1.md); feedback017SHA `04affebf388e4663fa837b37f266afe4fed63855101bd986a6347dc6fcb550c7`,358actual contexts | Covers22settled cells only; not future runs |
 | Complete held-out private evidence/manual failure/adoption audit | [Prepared guarded entrypoint](large-scale-resident-phase2-reviewed-private-preparation-v1.md), actual reviewed control002/adapterfreeze003/readonce003 | Not executed; requires all192 resolved and actual global inactivity |
 | Final per-task/family/Planner/method and quality-conditioned characterization, Q1–Q10, named final reports/root Chinese report | Current cross-Planner report covers closed Phase I only; held-out results are provisional | Incomplete; no final winner, pooled accuracy or significance claim |
 | Experimental cap, immutable evidence and no payload through development PC |42old+168resident+192heldout=402≤420; old42 unpooled, operational exclusions/confounds separate | Maintain throughout; not an excuse to omit remaining scope |
@@ -43,6 +43,15 @@ prove actual execution/parameters, not causal B1 adoption or semantic retention.
 At23:50:29Z the same controller was owned/live with no pending reservation,
 validating the original gate before22. The current unmet held-out scope is171,
 followed by full inactive private/manual/failure/adoption and finalQ1–Q10.
+
+Cell22 subsequently completed/formatvalid/originalscore1 after a context reject
+and three filter actions. Independent auditSHA
+`a03a5385ac2d4580b65a3b620f40a277a8e060820d246bcf018a9abd5390e788`
+binds its actual A4Qwen3-VL4B terminal model and one input artifact. Different
+selected weights, Planner, method and network prevent a pure device/network or
+ledger-benefit comparison with21. Weak score1 does not prove required evidence
+coverage. Same controller was owned/live23:58:00Z with no pending reservation,
+before23; current remaining scope is170 plus all final post-block obligations.
 
 No Manager/Verifier prompt, budget, model, task, scheduler, method or execution
 source changed in this audit update. Tests remain the latest unchanged-code
