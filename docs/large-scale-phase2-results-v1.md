@@ -1,6 +1,6 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T20:40:42Z / 2026-10-07 04:40 HKT. Fourteen of 192 nominal
+Checkpoint: 2026-10-06T21:01:44Z / 2026-10-07 05:01 HKT. Fifteen of 192 nominal
 held-out cells settled; no reservation was pending at this snapshot. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
@@ -33,6 +33,41 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | Video6 | Qwen / Fast / B0 | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 101.233 | 233,097,342 / 20.537 | 0 | 0.184910 |
 | MultiHop5 | Qwen / Fast / E | true / valid / 0 | 10 / 10 | 13 / 1 | 2 | 318.009 | 7,696,522 / 1.339 | 5,204,596 | 0.234685 |
 | MultiHop5 | DeepSeek / Slow / A | true / valid / 1 | 14 / 14 | 22 / 10 | 3 | 682.445 | 7,696,522 / 22.219 | 0 | 0.394572 |
+| MultiHop5 | Qwen / Slow / B1 | true / valid / 1 | 10 / 10 | 13 / 2 | 1 | 1034.529 | 7,696,522 / 22.042 | 5,204,596 | 0.202958 |
+
+The fifteenth cell completed with valid direct terminal-model output and original
+MultiHop score1. Ten Manager/Verifier turns and13physical actions: one aggregate,
+six BM25, three select_fields and three model requests. One model request failed
+context preflight; two A28Qwen3.5-27B requests returned actual inference. Separate
+phase_restricted and semantic_validation_failed observations returned to the
+Manager and did not become physical executions or hidden fixes. No specialists.
+
+The first returned model receipt was6,767input/2,048output tokens, finish_reason
+length, service796.637s. This explicit output-limit receipt is retained, not
+called a normal stop or silent input truncation. The Manager then submitted a
+distinct model action against the three evidence artifacts; its6,723input/2output
+tokens, finish_reason stop and116.151s service produced the terminal answer.
+This is recorded agent continuation, not an automatic backend retry. Combined
+model service work912.788s, tool work9.323s and inclusive model-action Worker
+work913.191s must not be double-counted. E2E1034.529s includes initial7,696,522B/
+22.042s; registered Agent artifact movement is5,204,596B/14.944s. The graph has
+13nodes/18edges/40snapshots, peak concurrency3. Score1 remains the original weak
+evaluator result, not proof of evidence sufficiency or optimal cost reasoning.
+
+Original admission independently reproduced exactly and matched the journal.
+Four empty initial stores, Worker exit, five unchanged resident identities, tc
+restoration, direct terminal-model text and20actual SDK contexts passed. Audit:
+`e250fcf465f295562da2bf199badbeb14c23cda5916eea92459aafbec9b34b0f`.
+Ten actual B1 feedback deliveries match their corresponding anonymous profile
+payloads; visibility does not establish causal adoption or system benefit. No
+retry, model reload, prompt tuning or private supporting-body audit occurred.
+
+Snapshot014 SHA256 `1d11e7e3611572ce7c8f4c5876c28aa124d1945025739548d4ac733d335180de`,
+journal at capture `658bda5ebee5c52d901334dbd3b959a2fb038effdab67c16c69587391dd80eaf`:
+15admitted/15attempts/0pending/0confounded/0operational-excluded. The controller
+continues the remaining177frozen cells. Full held-out private/manual semantic,
+adoption, failure and Q1–Q10 analysis remain outstanding. Historical checkpoint
+descriptions below retain their own capture times and populations.
 
 The fourteenth cell completed with valid direct terminal-model output and original
 MultiHop score1. Fourteen Manager/Verifier turns,22physical actions: nine BM25
