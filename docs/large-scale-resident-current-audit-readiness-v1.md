@@ -62,3 +62,23 @@ body audit, Agent call, evaluator call, pruning or PhaseII launch occurred.
 
 Full168and comprehensive private audit/pruning/actualheld-outPhaseII/finalQ1–Q10
 remain required. A tested offline helper is not goal completion.
+
+## Held-out controller preparation (not activation)
+
+Implementation commit `81aeefd` adds
+`scripts/large_scale_resident_current_phase2_queue_v1.py` and nine regression tests.
+It uses the current audit/gate inputs but aliases the unchanged historical
+`cells_from_gate` and atomic `execute_cell` functions. It does not choose survivors,
+create a real PhaseII gate, or launch held-out cells. The full suite at that commit
+passed 1530 tests; Ruff and configured/explicit strict Pyright passed.
+
+Actual separate4090 validation namespace:
+`audit-tools/resident-current-phase2-control-001`.
+All nine new tests passed on Linux, and actual module identities were checked.
+Code-only archive SHA256
+`2ba06d0cb3c80c46775d24ac4ada1b994e1dee3945bc790e218a0eda005a7d10`;
+Linux log SHA256
+`e49b576f9b5e8e0e995bbf1811a543abe64a89b88618f90aefc2dc05e2b42166`;
+validation receipt SHA256
+`b97cf4e3997e58334c81050a76d4d5e58d67c4f329c2f753112e13334f371b3a`.
+Actual PhaseII remains gated on all168 plus comprehensive audits and frozen pruning.
