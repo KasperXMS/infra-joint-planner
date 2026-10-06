@@ -4,6 +4,26 @@
 PhaseI completion, a semantic-quality ranking or method pruning. Effective
 screening coverage remains **122/168**; the closed42-cell predecessor is separate.
 
+## Actual identical replacement:2026-10-06T09:14:11Z
+
+Queue015 parent551006 and atomic555842 are verified owned/live. Durable sequence314
+reserves only the same cell'sattempt4 at09:12:01.700Z,hash
+`b4d5db7b2977204f78a912b5bc1f695e48614cb52ec451fe36600727d4d15c24`.
+Old/new YAML configs are identical after replacing only the run namespace.
+All four actual pre-materialization stores contain zero artifacts. The child's
+PYTHONPATH contains only source004src/scripts; measured revision remains0ff0e9b.
+This is the cell's first and only allowed operational replacement,not a valid
+sample repetition. Its result is pending;122effective cells remain unchanged.
+
+Live proof:`analysis/resident-timeout-replacement-start-001.json`,SHA256
+`ff1bae1a656fd55393e16e98b82012b7e6051dd8bac5a70c3407a28111089f36`.
+Readiness proof SHA256
+`178c8cb5d1909e69c8a29e305d47b88f77f59cc33ddde3ce999bdf123f5eb559`.
+Original failure's bounded cost audit SHA256
+`67579c3f04cef61729f3f0e971a7cd177935eef0fa1e6f47cc0bc826bd2dc8ce`.
+Historical initial-capture/pending-launch wording below remains scoped to when
+it was written; use actual handles/reservations for current queue status.
+
 ## Original immutable stop
 
 Run:`large-scale-cost-guidance-resident-v1-phase1-multihop_rag-1-29e45040dce39dae-p1-slow-E-attempt3`.

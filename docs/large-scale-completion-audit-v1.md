@@ -10,6 +10,13 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+Queue015 now actually executes the sole identical operational replacement of
+MultiHop1/P1/Slow/E:attempt4,reservation314,atomic555842. Configs differ only by
+run namespace,all four initial stores empty,actual child source004only;122cells
+remain effective and the new result is pending. Live proof SHA256
+`ff1bae1a656fd55393e16e98b82012b7e6051dd8bac5a70c3407a28111089f36`.
+No valid sample was repeated,old42were not pooled,and PhaseII remains blocked.
+
 Queue014 stopped after MultiHop1/P1/Slow/E/attempt3:14exact absent-field BM25
 failures plus the terminal fixed-Verifier180sAPITimeoutError. Original evaluation
 is unknown/not invoked. Independent source/materialized-shape/full-admission
