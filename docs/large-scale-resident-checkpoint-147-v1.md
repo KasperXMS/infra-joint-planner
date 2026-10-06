@@ -101,3 +101,11 @@ Continuation021 is frozen, but a freeze alone is not a running queue. Verify
 the owned process, exact child provenance and new atomic reservation before
 claiming dispatch. Continue only the original unexecuted nominal cells; do not
 rerun147, pool the old42, prune before all168 audits or start PhaseII early.
+
+13:54:51Z: Queue021 PID1114748 is owned/live, with no exit receipt. Its command
+line exactly matches the append-only wrapper source and its declared archive
+revision is0ff0e9b. Wrapper receipt SHA256:
+`cf5e62aa0fd8ef885de1e1b793c6c888473b6f14368640829f93aab7c21d382b`.
+The journal still has367records, no148reservation; this is active pre-dispatch
+verification, not evidence that cell148has started. Parent progress alone must
+not be substituted for actual child/Worker/residency/SDK-loop attestations.
