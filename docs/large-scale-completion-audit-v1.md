@@ -167,3 +167,34 @@ task expansion, repetition or cold-start subtraction is authorized.
 **Completion verdict: not achieved.** No blocked condition is asserted: current
 execution is live and safe progress remains. The goal stays active, not narrowed
 to a completed baseline/preparation checkpoint.
+
+## 2026-10-06 source-bound repair preparation amendment
+
+The source-bound Quote fix now exists in a separate derivative measured app002,
+revision955fe8f, with execution002canonicalSHA
+9dd761f7d4022ae262ada59e8f810b4ab2cac7106e50f0817093916861977198.
+All original source/evidence/freeze files remain unchanged. The inherited
+ancillary freeze-writer collision was explicitly reconciled with a separately
+verified resident attestation, not concealed as an exit0 preparation.
+
+The exact offline retrospective reviewer required two subsequent non-measured
+corrections: reproduce the original compact action hash encoding, and validate
+the effective admission view once per membership calculation rather than once
+per scheduled cell. No cross-call proof cache or changed admission rule exists.
+The corrected reviewer re-proved all ten real rejections, restricted to original
+cells4/84. Fullpytest1132passed, Ruff/strictPyright/diff passed and37actual Linux
+regressions passed. Its sources live in external review directory005; measured
+runtime/app002/Worker/operator/model/prompt/config files are unchanged.
+
+See [repair preparation and exact provenance](large-scale-resident-quote-repair-activation-v1.md).
+At01:33:21Z authorizationPID3365000was still verified CPU-active, with no sidecar,
+new formal reservation or completed authorization yet. Do not claim repaired
+outcomes or queue continuation until actual append-only journal/authorization/
+control-freeze and process evidence exist. The source-aware read-only collector
+now has regression coverage for original vs repaired execution identities; it
+has not yet produced a new whole-block snapshot.
+
+The outstanding requirement is still all168effective PhaseI outcomes, full
+private/recipient/failure/adoption audit, actual frozen screening/pruning and
+actual PhaseII execution plus final Q1–Q10reports. This amendment neither narrows
+the objective nor authorizes new methods, semantic tuning or early pruning.

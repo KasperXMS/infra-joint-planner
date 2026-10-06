@@ -87,3 +87,45 @@ wrong answers, semantic failures and unaffected nominal cells remain non-retryab
 All168effective cells, complete private semantic/recipient/failure/adoption audit,
 frozen pruning and actual PhaseII remain unfinished. The full user goal stays
 active; this preparation is not experiment completion or a formal pause.
+
+## Subsequent exact offline-review repair
+
+The first authorization process exited before writing any retrospective sidecar,
+authorization or new formal reservation. Its reviewer mistakenly used the
+receipt-provenance JSON encoding (with whitespace) to replay the original action
+hash, whose frozen encoding uses compact separators. The actual ten source-bound
+Quote rejections were independently rechecked with compact encoding: six in
+original cell4 and four in original cell84. No Agent changed the quoted action.
+
+Commit `43591e3` fixes only that offline replay and adds a whitespace/Unicode
+regression. Its separately preserved remote audit directory004 does not modify
+the immutable measured app002 or execution-freeze002. That review passed all
+ten actual proof checks and28remote regressions. A subsequent preparation was
+explicitly interrupted before any sidecar/journal mutation because its inherited
+membership calculation revalidated the same full effective view once for every
+scheduled cell. The interruption released its lease and retained the original
+171-line journal exactly; it did not interrupt/repeat a benchmark cell.
+
+Commit `aad3192` uses the existing snapshot-ledger pattern: independently validate
+the effective admission view once per membership calculation, then select admitted
+IDs in the frozen order. It introduces no cross-call cache, discarded proof or
+changed admission/retry rule. The new regression checks that later state changes
+are revalidated. It also adds a read-only source-aware collector which accepts
+only the original85-attempt prefix under execution001 and later authorized
+attempts under the exact repaired execution002. Confounded originals remain
+visible, but are explicitly ineligible for comparative samples; no scores are
+pooled or pruning authorized.
+
+Latest validation: full pytest1132passed in52.60s, Ruff passed, strict Pyright
+0errors/0warnings, diffcheck passed. Actual4090tests37passed in7.82s, including
+the original hash tests, exact-ledger/boundary tests and source-aware projection
+identity tests. The actual reviewer in separate remote directory005 hasSHA
+`4c4f698a886a5014a1d5f1020b3a8acaa7164669bb9daf8089f289b133c10c28`.
+Receipt `readiness/quote-review-encoding-validation-002.json` fileSHA:
+`e111d765d41b565719c675718bd95272553f0f60bd94fc5f9efc36974bbedee8`.
+
+New authorization preparationPID3365000started01:31:48Z with directory005first
+on its offline import path. Measured children still import only immutable app002;
+Worker code remains original. Formal execution revision remains955fe8f and
+execution002canonicalSHA remains9dd761f7d4022ae262ada59e8f810b4ab2cac7106e50f0817093916861977198.
+Do not infer its completion from these tests or from source deployment alone.
