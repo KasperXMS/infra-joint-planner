@@ -92,6 +92,14 @@ and preserved multi-input aggregation. Before correction:15failed/1passed;
 after correction:16passed. Fullpytest **1,195passed in67.18s**, Ruff passed,
 strictPyright0errors/0warnings, diffcheck passed.
 
+An independent local capability reconstruction verifies that removing only the
+five new `maxItems` entries reproduces the old static contract hash exactly:
+`1064a5e3446a1dbf0c99360751cc5e9604efa30cad9c548b650ac13d6963a4c0`.
+The corrected hash is
+`daf641106bb91e46dbcd354cc0b57f3205bfe840ba7bfcbd9cec0ddac524e013`.
+Model classes, operator identities and every other contract field are unchanged.
+This computed hash is preparation only; no old/new formal harness file was written.
+
 Historical manifest files are unchanged. Historical-freeze regression assertions
 now explicitly require rejection of the corrected capability hash, rather than
 silently updating their hashes. The first full run exposed precisely these old
@@ -126,6 +134,12 @@ rewrite old sidecars/configs/freezes or convert policy refusal into an outage re
 Then allow only the specifically authorized affected repair and never-started
 cells, with the new source boundary reflected in controller, collector and final
 audit. No run may begin merely because local tests are green.
+
+At04:11:02Z both Queue010 and cell110atomic handles were confirmed missing;
+`queue-exit-010.json` confirms exit1. The unchanged229-record journal file SHA is
+`fe7249cca15c2dcddb26fcc438b9ccfde596b9090714c5ddf5b1bc8645b97bf3`.
+`execution-freeze-003.json` does not yet exist. This is a verified terminal gate,
+not an observation timeout that would justify restarting the same controller.
 
 Complete168effective PhaseI outcomes/private/failure/adoption audit, frozen pruning,
 actual PhaseII within420cap and final Q1–Q10remain required. The goal is active;
