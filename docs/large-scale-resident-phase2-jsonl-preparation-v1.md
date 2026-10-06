@@ -46,3 +46,21 @@ No dataset/model/fulltrace/APIbody transits the development PC. Historical
 evidence/controllers and Phase I journal remain immutable. Actual Phase II gate
 and control persistence, source closures and process launch must be verified
 separately; these tests do not authorize a fake completion or imply a live queue.
+
+## Actual control-freeze launch provenance
+
+The first actual control-freeze call was rejected before any PhaseII journal,
+Worker, model or tc action because its archive process did not inherit
+`INFRA_JOINT_CODE_REVISION`. It produced no control receipt and is not a failed
+benchmark sample or semantic retry. Its preserved setup-rejection receipt is
+`analysis/resident-phase2-control-freeze-rejection-001.json`, SHA256
+`5c544d35dbef779270e59ee13bb4928048afaf3cebd3211b75efdcd7432202bd`.
+
+The existing `pinned_environment` helper was then used unchanged. It verified
+source004 freeze-file SHA256
+`cf355a2dd4286e45c1677ad5cafb76f94039a89862ef3c49a45ae9cab5c4ba8f`
+and every bound source before restoring archive revision
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`, not the development checkout's newer
+commit. The independently checked control freeze is pending at this checkpoint.
+Queue activation must inherit this same pinned environment; no archive or
+experimental contract is changed to bypass the provenance check.
