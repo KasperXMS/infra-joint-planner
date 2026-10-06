@@ -61,6 +61,15 @@ returned usage isnull, so counts above come from actual API/events. Failed cloud
 reasoning intervals are not silently included in completed-work subtotals.
 Work sums overlap and are not an additive E2E decomposition.
 
+Both requests matched anonymous static `model-class-01`: text modality,
+required capability `model`, reserved output2048, no quality-class override.
+Root requested min_context8192 and specialist4096; both static requirement
+matches were true. Their actual action context preflight still rejected the
+invocations before physical selection. This does not demonstrate deployment
+unavailability, a network-induced failure or an impossible capability-class
+request. It must not be labeled an infra-awareness benefit. Exact context/input
+attribution remains a separate semantic audit, without changing the requests.
+
 Four empty Worker stores, verified Worker exits, five unchanged resident model
 identities, recipient/privacy checks and tc cleanup passed. No benchmark/API
 body was exported; shape inspection occurred on owning devices after shutdown,
@@ -76,6 +85,7 @@ Remote root: `/home/super/xiaoming/large-scale-cost-guidance-resident-v1`.
 | `compound-record-policy-adjudications/<run154>.json` | `0b1797d2eb6f47a0754c748d877a1abda852e2598651ab921424e8a3bb8f3ade` |
 | Reviewed admission canonical hash | `7ce19dd060d692f4b12e49211df83a4a0d14b352dc8ec73b7c2ae2206da7fdf7` |
 | `analysis/resident-source004-cell154-settlement-audit-001.json` | `bc12ae34cfd53ad23500871f8ad1c54639bfafb8d7dcd430631381acf132081c` |
+| `analysis/resident-source004-cell154-model-preflight-audit-001.json` | `e7b6cb214ceb945002a97ced50a453f6ad83367570bc55a8027247e885955a7d` |
 
 This is valid failure evidence, not evidence of cost optimization. B1 exposure
 does not establish adoption. Current complete-coverage projection and renewed
