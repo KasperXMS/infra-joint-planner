@@ -1,7 +1,9 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T21:01:44Z / 2026-10-07 05:01 HKT. Fifteen of 192 nominal
-held-out cells settled; no reservation was pending at this snapshot. These are
+Checkpoint: 2026-10-06T22:20:09Z / 2026-10-07 06:20 HKT. Sixteen of 192 nominal
+held-out cells are effective valid samples; no reservation was pending at this
+snapshot. Cell16's raw JSON audit rejection is preserved and source-bound reviewed,
+not silently rewritten or rerun. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
 pool, B0/B1/A/E methods, deterministic schedule and n1 discipline. Old42 and
@@ -34,6 +36,52 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop5 | Qwen / Fast / E | true / valid / 0 | 10 / 10 | 13 / 1 | 2 | 318.009 | 7,696,522 / 1.339 | 5,204,596 | 0.234685 |
 | MultiHop5 | DeepSeek / Slow / A | true / valid / 1 | 14 / 14 | 22 / 10 | 3 | 682.445 | 7,696,522 / 22.219 | 0 | 0.394572 |
 | MultiHop5 | Qwen / Slow / B1 | true / valid / 1 | 10 / 10 | 13 / 2 | 1 | 1034.529 | 7,696,522 / 22.042 | 5,204,596 | 0.202958 |
+| MultiHop5 | DeepSeek / Fast / B0 | true / valid / 0 | 13 / 13 | 48 / 5 | 3 | 1884.311 | 7,696,522 / 1.511 | unknown; returned subtotal 43,046 | 0.838502 |
+
+Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
+1created specialist,48physical actions,5successful inference telemetry receipts.
+It also has one source-proven backend completion followed by invalid JSON
+materialization; five returned receipts are not asserted to be all backend calls.
+Three context and three read-size rejects returned to the Agents, which continued.
+The48-node/37-edge graph has145snapshots and peak concurrency6. Terminal answer
+comes directly from a separate successful prompt-only physical model action;
+the original evaluator ran, without a new semantic finalizer.
+
+Five returned model receipts record18,102input/3,468output tokens, all stop, and
+1283.773s service work. Complete model work/tokens/finish distribution remain
+unknown because the JSON-failed action has no returned telemetry. Successful tool
+work9.055s and inclusive model-action Worker work1284.028s are not an E2E
+decomposition and must not be added again to backend work. Successful registered
+transfers total43,046B/.881s; full transfer totals are unknown because four
+execution-stage failures lack complete execution receipts. Initial7,696,522B/
+1.511s remains separate. Do not rank observed subtotals as complete costs.
+
+Raw original admission is confounder only for the exact known post-backend JSON
+error. Its full admission/journal, stores/exit/residency/tc/direct terminal and
+34SDKcontexts independently reproduce; audit SHA256
+`d8500a885a00584c46ce9a63f36a0a13b040610edcbf5248cadab6cb54d11ba4`.
+Exact offline sidecar SHA256
+`916192e8cc7aaf97ad5e789acf6ce8a684ce29a14e11e675855f1180b2338015`
+supplies effective valid disposition, preserves score0 and explicitly forbids
+replacement. Original journal/admission/trace/result remain unchanged.
+
+Snapshot015 SHA256
+`1c62622eab48ad7354d0de9529feba052c3206a66c34a7f2fda1af28ed727ea9`,
+journal `4e5d6d964a7a8fa8001a9d8da7760de7130b16d88319efedca8a0817e5d4672c`:
+16effective valid/16attempts/0pending/0effective confounders/1preserved original
+confounder/0operational exclusions. Exact reviewer and read-once projection
+adapter source/freeze are explicitly bound. No score pooling, retry or tuning.
+Feedback011 audits252actual contexts,122Manager/122Verifier/8specialist; the
+fixed Verifier and bounded specialist remain Blind. Visibility/evidence path is
+not a semantic sufficiency or causal adoption oracle.
+
+The first resumed external controller was self-rejected at startup before any
+new reservation/Worker/tc/model call. Its exit/console are preserved as a setup
+diagnostic, not a benchmark replacement. Narrow controller identity repair is
+documented in [preparation](large-scale-resident-phase2-json-review-preparation-v1.md).
+Actual continued queue execution must be verified separately. Remaining176cells
+and complete post-block semantic/failure/adoption/Q1–Q10 audits are outstanding.
+Historical checkpoint descriptions below retain their captured populations.
 
 The fifteenth cell completed with valid direct terminal-model output and original
 MultiHop score1. Ten Manager/Verifier turns and13physical actions: one aggregate,

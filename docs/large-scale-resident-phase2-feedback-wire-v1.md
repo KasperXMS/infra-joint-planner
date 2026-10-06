@@ -10,14 +10,16 @@ to snapshot008's nine cells; audit005 covers snapshot009's ten cells and audit00
 covers snapshot010's eleven cells; audit007 covers snapshot011's twelve cells
 and audit008 covers snapshot012's thirteen cells. Audit009 extends this to
 snapshot013's fourteen cells. Audit010 extends this to snapshot014's fifteen cells.
+Audit011 extends this to reviewed snapshot015's sixteen cells, retaining the
+original cell16 audit rejection and its source-bound effective disposition.
 Actual persisted provider requests were read
 only on their owner4090. No raw requests, benchmark artifacts, gold or supporting
 evidence were exported through the development PC. The audits made zero model
 calls and did not read support/corpus/store bodies.
 
-| Check | Actual fifteen-cell result |
+| Check | Actual sixteen-cell result |
 | --- | --- |
-| Manager / Verifier / specialist provider request contexts | 109 / 109 / 0 |
+| Manager / Verifier / specialist provider request contexts | 122 / 122 / 8 |
 | B1 profile exactly matches corresponding pre-decision trace payload | 33 / 33 |
 | A/E ledger exactly matches corresponding pre-decision trace payload | 62 / 62 |
 | E rules exactly match frozen canonical rule payload | 30 / 30 |
@@ -28,8 +30,10 @@ calls and did not read support/corpus/store bodies.
 | Semantic sufficiency / causal rule or profile adoption | Not established |
 
 Actual root calls were aligned to reasoning-start timestamps and unique decision
-IDs. Provider model identifiers matched the attempt freezes; no specialist
-activity occurred. Equality checks inspect the messages actually sent, not just
+IDs. Provider model identifiers matched the attempt freezes. Cell16 adds eight
+actual bounded-specialist requests, none with profile/ledger/rules feedback.
+Earlier fifteen-cell snapshots had no specialist activity. Equality checks
+inspect the messages actually sent, not just
 events declaring that feedback was prepared. The original recipient scans remain
 the broader privacy check; prefix absence alone is not a complete leakage proof.
 
@@ -70,6 +74,8 @@ Append-only owner-local receipts, under
   `cc7ce369c939482ca743f36f42d109dc9b955bd8ebba62db584a85d590d834e6`.
 - `resident-phase2-feedback-wire-audit-010.json`, SHA256
   `0bf0ad01920ef79ef9cc6fe504176b27034c0c2a0b4e2e9eaba9d23dab3e8b9a`.
+- `resident-phase2-feedback-wire-audit-011.json`, SHA256
+  `d109dff5a6359eaf0af3a3a4ef0d93bd67ef5096f8c09ad8943360b9855303e3`.
 
 Visibility does not prove internal adoption, correct cost reasoning or a
 quality-preserving benefit. Complete held-out semantic/failure/adoption review
