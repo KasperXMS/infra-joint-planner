@@ -86,7 +86,7 @@ def validate_bundle(
     if (set(bindings) != expected or set(reports) != REPORTS
             or audit.get("report_file_sha256") != reports):
         raise RuntimeError("real per-run evidence and all six complete reports required")
-    runs = set()
+    runs: set[str] = set()
     for row, attempt in selected:
         cell_id = row["condition"]["cell_id"]
         review, support = reviews[cell_id], coverage[cell_id]
@@ -169,12 +169,15 @@ def validate_bundle(
     }
 
 
-def freeze_gate(paths: dict[str, Path], output: Path) -> dict[str, Any]:
+def verify_gate_inputs(paths: dict[str, Path]) -> dict[str, Any]:
+    """Revalidate immutable PhaseI metadata/reports without body reads or writes.
+
+    The PhaseII controller may use this while owning its lease. Inactive-global
+    guards belong to initial gate creation, not read-only PhaseI verification.
+    """
     private = evidence.private
     root = private.ROOT
-    private.assert_inactive(root)
-    if (sys.platform != "linux" or output.exists() or output.is_symlink()
-            or output.resolve().parent != root / "analysis"
+    if (sys.platform != "linux"
             or set(paths) != {"snapshot", "private", "audit", "pruning"}
             or any(p.is_symlink() or p.resolve().parent != root / "analysis"
                    for p in paths.values()) or len(set(paths.values())) != 4):
@@ -224,7 +227,6 @@ def freeze_gate(paths: dict[str, Path], output: Path) -> dict[str, Any]:
     value = validate_bundle(values["snapshot"], values["private"], values["audit"],
                             values["pruning"], json.loads(manifest.read_text()),
                             hashes, bindings, reports)
-    private.assert_inactive(root)
     if (private.sha256(root / "phase1-attempts.jsonl") != current["journal_sha256"]
             or any(digest(p) != hashes[k] for k, p in paths.items())
             or any(digest(root / "analysis" / report_refs[n]["filename"]) != d
@@ -232,6 +234,19 @@ def freeze_gate(paths: dict[str, Path], output: Path) -> dict[str, Any]:
         raise RuntimeError("audit inputs changed during gate construction")
     value["task_selection_file_sha256"] = digest(manifest)
     value["gate_source_sha256"] = digest(Path(__file__))
+    return value
+
+
+def freeze_gate(paths: dict[str, Path], output: Path) -> dict[str, Any]:
+    private = evidence.private
+    private.assert_inactive(private.ROOT)
+    if (sys.platform != "linux" or output.exists() or output.is_symlink()
+            or output.resolve().parent != private.ROOT / "analysis"):
+        raise RuntimeError("actual evidence gate stays append-only inside4090 analysis")
+    value = verify_gate_inputs(paths)
+    private.assert_inactive(private.ROOT)
+    if private.sha256(private.ROOT / "phase1-attempts.jsonl") != value["journal_sha256"]:
+        raise RuntimeError("PhaseI membership changed before gate persistence")
     with output.open("x", encoding="utf-8") as stream:
         json.dump(value, stream, ensure_ascii=False, indent=2)
     return value
