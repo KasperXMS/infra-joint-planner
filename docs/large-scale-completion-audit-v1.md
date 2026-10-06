@@ -8,7 +8,22 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 04:50Z
+## Latest verified progress: 2026-10-06 05:03Z
+
+Source-aware snapshot030binds113effective cells/117attempts/one pending114,
+three retained confounded originals, no method pruning or quality aggregation.
+111and112completed/format-valid/score0;113completed/format-valid/score1. Actual
+quote handling discarded two infeasible model proposals on112and one on113;
+these are not model inferences. Dmulti-candidate use was absent on111and only
+single-candidate comparisons on113. Full private causes remain pending.
+[Exact outcomes, source-bound proof and audit-helper validation](large-scale-resident-checkpoint-111-v1.md).
+
+The new external private-audit entrypoint passed1,229local fulltests and16actual
+Linux regressions. Its real live-queue negative smoke blocked body reads before
+collection. It is preparation only: all168/private manual audit/pruning/actual
+PhaseII/final reports remain required; the active measured harness is unchanged.
+
+## Earlier verified progress: 2026-10-06 04:50Z
 
 Exact110repair completed and settled valid, format-valid/originalscore0; no retry
 for the quality outcome. Three actual inferences, two preflight-only context
