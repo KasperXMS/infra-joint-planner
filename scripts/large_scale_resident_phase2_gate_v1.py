@@ -13,6 +13,7 @@ import json
 import sys
 from dataclasses import asdict
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 import large_scale_resident_cardinality_private_evidence_v1 as evidence
@@ -57,14 +58,18 @@ def validate_bundle(
     snapshot: dict[str, Any], private: dict[str, Any], audit: dict[str, Any],
     pruning: dict[str, Any], selection: dict[str, Any],
     hashes: dict[str, str], bindings: dict[str, dict[str, str]],
-    reports: dict[str, str],
+    reports: dict[str, str], *, evidence_module: ModuleType | None = None,
 ) -> dict[str, Any]:
     """Validate actual audit membership/proofs, not a 64-character placeholder.
 
     `hashes`, `bindings` and `reports` are computed by the file-owning offline
     caller. No user-supplied digest is accepted as its own evidence.
     """
-    selected = evidence.source_bound_membership(snapshot)
+    path = evidence if evidence_module is None else evidence_module
+    selected = path.source_bound_membership(snapshot)
+    source_field = getattr(path, "SOURCE_FIELD", "execution_source_boundary")
+    private_version = getattr(path, "VERSION", "resident-cardinality-private-evidence-paths-v1")
+    current_epoch = getattr(path, "CURRENT_EPOCH", "3")
     if (audit.get("version") != "resident-comprehensive-phase1-audit-v1"
             or audit.get("complete") is not True
             or audit.get("unresolved_confounders") != []
@@ -73,7 +78,7 @@ def validate_bundle(
             or audit.get("source_projection_sha256") != hashes["snapshot"]
             or audit.get("private_evidence_sha256") != hashes["private"]):
         raise RuntimeError("PhaseII requires a completed source-bound comprehensive audit")
-    if (private.get("version") != "resident-cardinality-private-evidence-paths-v1"
+    if (private.get("version") != private_version
             or private.get("journal_sha256") != snapshot["journal_sha256"]
             or private.get("execution_freezes") != snapshot["execution_freezes"]
             or private.get("planner_or_model_calls") != 0
@@ -98,8 +103,7 @@ def validate_bundle(
                 or support.get("run_id") != attempt["run_id"]
                 or review.get("execution_sha256") != attempt["execution_sha256"]
                 or support.get("execution_sha256") != attempt["execution_sha256"]
-                or support.get("execution_source_boundary")
-                != attempt["execution_source_boundary"]
+                or support.get(source_field) != attempt[source_field]
                 or support.get("benchmark_score") != attempt["benchmark_score"]
                 or review.get("evidence_file_sha256") != bindings[cell_id]
                 or review.get("recipient_contexts_audited")
@@ -159,7 +163,7 @@ def validate_bundle(
         "planned_cumulative_substantive_cells": PRIOR_SUBSTANTIVE_CELLS + 168 + len(cells),
         "journal_sha256": snapshot["journal_sha256"],
         "execution_freezes": snapshot["execution_freezes"],
-        "phase2_execution_sha256": snapshot["execution_freezes"]["3"],
+        "phase2_execution_sha256": snapshot["execution_freezes"][current_epoch],
         "input_file_sha256": hashes, "report_file_sha256": reports,
         "schedule_seed": selection["schedule_seed"],
         "phase2_schedule_sha256": schedule_sha256(cells),
@@ -169,13 +173,15 @@ def validate_bundle(
     }
 
 
-def verify_gate_inputs(paths: dict[str, Path]) -> dict[str, Any]:
+def verify_gate_inputs(paths: dict[str, Path], *,
+                       evidence_module: ModuleType | None = None) -> dict[str, Any]:
     """Revalidate immutable PhaseI metadata/reports without body reads or writes.
 
     The PhaseII controller may use this while owning its lease. Inactive-global
     guards belong to initial gate creation, not read-only PhaseI verification.
     """
-    private = evidence.private
+    source_path = evidence if evidence_module is None else evidence_module
+    private = source_path.private
     root = private.ROOT
     if (sys.platform != "linux"
             or set(paths) != {"snapshot", "private", "audit", "pruning"}
@@ -184,15 +190,15 @@ def verify_gate_inputs(paths: dict[str, Path]) -> dict[str, Any]:
         raise RuntimeError("actual evidence gate stays append-only inside4090 analysis")
     hashes = {k: digest(p) for k, p in paths.items()}
     values = {k: json.loads(p.read_text()) for k, p in paths.items()}
-    current = evidence.sources.collect()
+    current = source_path.sources.collect()
     # Recollect actual journal/admissions/source proofs; timestamps alone differ.
     if {k: v for k, v in current.items() if k != "captured_utc"} != {
             k: v for k, v in values["snapshot"].items() if k != "captured_utc"}:
         raise RuntimeError("supplied source projection is stale or fabricated")
-    selected = evidence.source_bound_membership(current)
+    selected = source_path.source_bound_membership(current)
     expected_sources = {Path(p).name: digest(Path(p)) for p in (
-        evidence.__file__, private.__file__,
-        sys.modules[evidence.resolved_membership.__module__].__file__,
+        source_path.__file__, private.__file__,
+        sys.modules[source_path.resolved_membership.__module__].__file__,
         sys.modules[private.scan_store.__module__].__file__,
     )}
     excluded = [a["run_id"] for row in current["rows"] for a in row["attempts"]
@@ -222,11 +228,12 @@ def verify_gate_inputs(paths: dict[str, Path]) -> dict[str, Any]:
             raise RuntimeError("missing or changed actual analysis report")
         reports[name] = digest(path)
     manifest = private.PREDECESSOR / "preparation/task-freeze-002/manifest.json"
-    if digest(manifest) != evidence.sources.resident.TASK_FREEZE_SHA256:
+    if digest(manifest) != source_path.sources.resident.TASK_FREEZE_SHA256:
         raise RuntimeError("original eighteen-task selection changed")
-    value = validate_bundle(values["snapshot"], values["private"], values["audit"],
-                            values["pruning"], json.loads(manifest.read_text()),
-                            hashes, bindings, reports)
+    arguments = (values["snapshot"], values["private"], values["audit"], values["pruning"],
+                 json.loads(manifest.read_text()), hashes, bindings, reports)
+    value = (validate_bundle(*arguments) if evidence_module is None else
+             validate_bundle(*arguments, evidence_module=source_path))
     if (private.sha256(root / "phase1-attempts.jsonl") != current["journal_sha256"]
             or any(digest(p) != hashes[k] for k, p in paths.items())
             or any(digest(root / "analysis" / report_refs[n]["filename"]) != d
@@ -237,13 +244,16 @@ def verify_gate_inputs(paths: dict[str, Path]) -> dict[str, Any]:
     return value
 
 
-def freeze_gate(paths: dict[str, Path], output: Path) -> dict[str, Any]:
-    private = evidence.private
+def freeze_gate(paths: dict[str, Path], output: Path, *,
+                evidence_module: ModuleType | None = None) -> dict[str, Any]:
+    source_path = evidence if evidence_module is None else evidence_module
+    private = source_path.private
     private.assert_inactive(private.ROOT)
     if (sys.platform != "linux" or output.exists() or output.is_symlink()
             or output.resolve().parent != private.ROOT / "analysis"):
         raise RuntimeError("actual evidence gate stays append-only inside4090 analysis")
-    value = verify_gate_inputs(paths)
+    value = (verify_gate_inputs(paths) if evidence_module is None else
+             verify_gate_inputs(paths, evidence_module=source_path))
     private.assert_inactive(private.ROOT)
     if private.sha256(private.ROOT / "phase1-attempts.jsonl") != value["journal_sha256"]:
         raise RuntimeError("PhaseI membership changed before gate persistence")

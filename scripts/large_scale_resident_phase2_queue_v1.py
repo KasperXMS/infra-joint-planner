@@ -1,4 +1,4 @@
-"""Evidence-gated held-out queue, reusing the exact execution003 atomic substrate.
+"""Evidence-gated held-out queue, reusing the exact execution004 atomic substrate.
 
 No survivor choice, prompt tuning, new policy or historical queue mutation.
 All real runs require a completed PhaseI audit plus frozen pruning/schedule.
@@ -14,7 +14,8 @@ import sys
 from pathlib import Path
 from typing import Any, cast
 
-import large_scale_resident_phase2_gate_v1 as gate
+import large_scale_resident_E_query_phase2_gate_v1 as gate
+import large_scale_resident_E_query_queue_v1 as method_contract
 import large_scale_resident_queue_v1 as frozen
 import large_scale_resident_quote_repair_queue_v1 as quote
 import yaml
@@ -60,8 +61,8 @@ def cells_from_gate(value: dict[str, Any]) -> tuple[ScheduledCell, ...]:
 
 def control_value(path: Path, inputs: dict[str, Path]) -> dict[str, Any]:
     frozen.require_remote()
-    if frozen.APP.name != frozen.CARDINALITY_APP_NAME:
-        raise RuntimeError("PhaseII must reuse actual latest execution003, not an older app")
+    if frozen.APP.name != frozen.E_QUERY_APP_NAME:
+        raise RuntimeError("PhaseII must reuse actual latest execution004, not an older app")
     value = verified_gate(path, inputs)
     cells = cells_from_gate(value)
     execution = frozen.verify_freeze()
@@ -82,8 +83,9 @@ def control_value(path: Path, inputs: dict[str, Path]) -> dict[str, Any]:
         "global_cap": frozen.GLOBAL_CAP, "pricing_path": str(prices),
         "pricing_sha256": pricing_sha,
         "source_sha256": {Path(p).name: frozen.sha256(Path(p)) for p in (
-            __file__, gate.__file__, gate.evidence.__file__, gate.evidence.sources.__file__,
-            quote.__file__, quote.reviewer.__file__, frozen.__file__,
+            __file__, gate.__file__, gate.core.__file__, gate.evidence.__file__,
+            gate.evidence.sources.__file__, gate.evidence.sources.reviewer.__file__,
+            method_contract.__file__, quote.__file__, quote.reviewer.__file__, frozen.__file__,
         )},
         "old_and_new_results_pooled": False, "phase1_journal_modified": False,
         "new_scheduling_policy": False, "semantic_tuning": False,
@@ -142,6 +144,10 @@ def execute_cell(cell: ScheduledCell, ledger: quote.reviewer.QuoteRepairAttemptL
     value: dict[str, Any]
     try:
         value = quote.admission(directory, config, Path(saved["pricing_path"]))
+        if cell.method == "E":
+            events = [json.loads(line) for line in (
+                directory / "runs" / run_id / "trace.jsonl").read_text().splitlines()]
+            method_contract.assert_E_tool_isolation(directory, events)
         if json.loads((directory / "private/residency-validation.json").read_text())[
                 "passed"] is not True:
             raise RuntimeError("resident model measurement invalid")
@@ -164,7 +170,7 @@ def run(path: Path) -> None:
         ledger = quote.reviewer.QuoteRepairAttemptLedger(
             frozen.ROOT / "phase2-attempts.jsonl", tuple(c.cell_id for c in cells),
             schedule_sha256(cells))
-        # This initial execution003 control contains no PhaseII bug-repair
+        # This initial execution004 control contains no PhaseII bug-repair
         # authorization. A future genuine fix needs a separately source-bound
         # control receipt, not a raw hash-only repair event or implicit waiver.
         if ledger.pending or any(a.disposition == "confounder" for a in ledger.attempts):

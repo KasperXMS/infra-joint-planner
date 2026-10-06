@@ -2,8 +2,9 @@ import copy
 import importlib
 import json
 import sys
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pytest
 
@@ -83,13 +84,16 @@ def test_control_cannot_substitute_actual_execution_or_older_app(monkeypatch,
                                                               tmp_path: Path) -> None:
     value = synthetic_gate()
     monkeypatch.setattr(queue.frozen, "require_remote", lambda: None)
-    monkeypatch.setattr(queue.frozen, "APP", tmp_path / queue.frozen.CARDINALITY_APP_NAME)
+    monkeypatch.setattr(queue.frozen, "APP", tmp_path / queue.frozen.E_QUERY_APP_NAME)
     monkeypatch.setattr(queue, "verified_gate", lambda *args: value)
     monkeypatch.setattr(queue.frozen, "verify_freeze", lambda: "0" * 64)
     with pytest.raises(RuntimeError, match="replace"):
         queue.control_value(tmp_path / "gate.json", {})
     monkeypatch.setattr(queue.frozen, "APP", tmp_path / "app")
-    with pytest.raises(RuntimeError, match="execution003"):
+    with pytest.raises(RuntimeError, match="execution004"):
+        queue.control_value(tmp_path / "gate.json", {})
+    monkeypatch.setattr(queue.frozen, "APP", tmp_path / queue.frozen.CARDINALITY_APP_NAME)
+    with pytest.raises(RuntimeError, match="execution004"):
         queue.control_value(tmp_path / "gate.json", {})
 
 
@@ -114,7 +118,7 @@ def simulated_queue(monkeypatch, tmp_path: Path, *, disposition: str = "valid",
     (tmp_path / "cell-configs").mkdir()
     (tmp_path / "phase1-attempts.jsonl").write_text("immutable PhaseI\n")
     cells = queue.cells_from_gate(synthetic_gate())[:2]
-    app = tmp_path / queue.frozen.CARDINALITY_APP_NAME
+    app = tmp_path / queue.frozen.E_QUERY_APP_NAME
     saved = {
         "global_cap": 420, "execution_freeze_sha256": "c" * 64,
         "atomic_execution_entrypoint": str(app / "scripts/large_scale_resident_queue_v1.py"),
@@ -134,7 +138,7 @@ def simulated_queue(monkeypatch, tmp_path: Path, *, disposition: str = "valid",
     class Atomic:
         def __init__(self, args, *, stdout, stderr, env):
             self.pid = 5000 + len(calls)
-            calls.append({"args": args, "env": env})
+            calls.append({"args": args, "env": {"PYTHONPATH": env["PYTHONPATH"]}})
             output = Path(args[-1])
             private = output / "private"
             private.mkdir()
@@ -247,3 +251,50 @@ def test_cumulative_cap_blocks_child_before_reservation(monkeypatch, tmp_path: P
         queue.execute_cell(cells[0], ledger, {"global_cap": 210})
     assert ledger.path.read_bytes() == before
     assert not calls
+
+
+@pytest.fixture
+def short_E_root():
+    # Full production run IDs intentionally remain long. Keep the Windows test
+    # root short instead of changing Linux run identity or disabling checks.
+    with TemporaryDirectory(prefix="p2e-") as directory:
+        yield Path(directory)
+
+
+@pytest.mark.parametrize("bad_surface", [False, True])
+def test_heldout_E_reuses_every_request_no_query_surface_guard(
+    monkeypatch, short_E_root: Path, bad_surface: bool,
+) -> None:
+    tmp_path = short_E_root
+    _, calls, original_cells = simulated_queue(monkeypatch, tmp_path)
+    cell = replace(original_cells[0], method="E")
+    run_id = f"{tmp_path.name}-{cell.cell_id}-attempt1"
+    trace = tmp_path / "evidence" / cell.cell_id / "attempt1/runs" / run_id / "trace.jsonl"
+    ledger = AttemptLedger(tmp_path / "phase2-attempts.jsonl", (cell.cell_id,), "a" * 64)
+    saved = {"global_cap": 420, "execution_freeze_sha256": "c" * 64,
+             "atomic_execution_entrypoint": "unchanged-atomic.py",
+             "pricing_path": str(tmp_path / "prices.json")}
+    checks = []
+    old_admit = queue.quote.admission
+
+    def admit(directory, config, prices):
+        trace.parent.mkdir(parents=True)
+        trace.write_text('{"event_type":"method.variant.start","payload":{}}\n')
+        return old_admit(directory, config, prices)
+
+    def surface(directory, events):
+        checks.append((directory, events))
+        if bad_surface:
+            raise RuntimeError("E unexpectedly exposes query tools")
+
+    monkeypatch.setattr(queue.quote, "admission", admit)
+    monkeypatch.setattr(queue.method_contract, "assert_E_tool_isolation", surface)
+    if bad_surface:
+        with pytest.raises(RuntimeError, match="actual audit"):
+            queue.execute_cell(cell, ledger, saved)
+        assert ledger.attempts[0].disposition == "confounder"
+    else:
+        queue.execute_cell(cell, ledger, saved)
+        assert ledger.attempts[0].disposition == "valid"
+    assert len(calls) == len(checks) == 1
+    assert checks[0][1][0]["event_type"] == "method.variant.start"
