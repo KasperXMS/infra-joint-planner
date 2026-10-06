@@ -11,7 +11,7 @@ import json
 import os
 from pathlib import Path
 from types import FunctionType, SimpleNamespace
-from typing import Any
+from typing import Any, cast
 
 import large_scale_resident_phase2_reviewed_queue_v1 as previous
 
@@ -21,6 +21,30 @@ class ReadOnceAttemptLedger(previous.ReviewedAttemptLedger):
     def completed_cells(self) -> tuple[str, ...]:
         completed = {a.cell_id for a in self.attempts if a.disposition == "valid"}
         return tuple(cell for cell in self.cells if cell in completed)
+
+    def _check_reservation(self, cell_id: str) -> None:
+        # One verified immutable view for this one pure invariant check. The
+        # original validator body/error rules are reused without modification.
+        # Every next check/access obtains and validates a new view, not a cache.
+        attempts = self.attempts
+        completed = {a.cell_id for a in attempts if a.disposition == "valid"}
+        view = SimpleNamespace(
+            cells=self.cells, attempts=attempts,
+            completed_cells=tuple(c for c in self.cells if c in completed),
+            pending=tuple(a for a in attempts if a.disposition is None),
+            _repairs=dict(self._repairs),
+        )
+        previous.AttemptLedger._check_reservation(cast(previous.AttemptLedger, view), cell_id)
+
+
+def create_review(run_id: str, parent_path: Path) -> dict[str, Any]:
+    """Review another exact raw finding after previously reviewed reservations."""
+    original = previous.create_review
+    namespace = {**original.__globals__, "AttemptLedger": ReadOnceAttemptLedger}
+    bound = FunctionType(original.__code__, namespace, original.__name__,
+                         original.__defaults__, original.__closure__)
+    value: dict[str, Any] = bound(run_id, parent_path)
+    return value
 
 
 def control_from_verified_parent(parent_path: Path, parent: dict[str, Any],
