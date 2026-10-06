@@ -8,7 +8,20 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 05:16Z
+## Latest verified progress: 2026-10-06 05:35Z
+
+Cell115/Video1/P2/Slow/Bcompleted/format-valid/score1; six returned inferences,
+two preflight-only context rejects,25actual SDK contexts scanned, Worker exits /
+residency verified. Optional estimates were exposed in10root requests but unused.
+Four visual inputs are disjoint—not identical repeated requests. One specialist
+note hits the requested2048token output budget; length is recorded in physical
+telemetry but absent from logical observation, a frozen feedback limitation.
+[Source-bound115audit and exact caveats](large-scale-resident-checkpoint-115-v1.md).
+Snapshot032binds115effective/119attempts/one pending116. File SHA
+`5a1bee974edb862d05e513caad1a7cdb4d2782c395363a826dbdcbc62db003e1`.
+All168/private audit/pruning/actualPhaseII/finalQ1-Q10requirements remain unfinished.
+
+## Earlier verified progress: 2026-10-06 05:16Z
 
 Offline preparation update05:30Z: the evidence-gated held-out controller is now
 implemented outside the measured app, using its existing execution003atomic
