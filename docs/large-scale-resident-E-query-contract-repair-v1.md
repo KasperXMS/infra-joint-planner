@@ -86,7 +86,7 @@ evidence. Execution004 is now frozen and Queue012 has started its first child.
 Measured application commit: `0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`.
 App004 is an exact copy of immutable app003 with only three source-map changes:
 `bde_native.py`, the resident queue's explicit archive/freeze routing, and the
-new E repair freeze helper. All other394-source boundary checks are retained;
+new E repair freeze helper. The other392 parent source/config files are unchanged;
 app004 has395 source/config files. Actual Workers still execute **app003**,
 not a patched Worker image. No dataset/model payload passed through the PC.
 
@@ -148,3 +148,17 @@ Historical source001/002/003 collectors remain unchanged. New read-only
 four-epoch projection is required for new E journal events; a preparatory
 collector or queue restart is not completion of the168/private-audit/PhaseII
 research objective.
+
+Read-only snapshot038 was captured07:01:07Z, binding all four actual source
+epochs:111effective /129total attempts /1pending /17confounded historical
+attempts. File SHA `b853cc3b3fd9e8dfc6aae14fb644a51601ad9204734042b30a7678354914d31e`.
+This is an execution-accounting checkpoint, not a complete semantic audit.
+Actual activation receipt SHA
+`f5d1415855925dc053072e659a967f9d26112be8633d6342f2f7319b095d75c5`
+also binds the live child and four actual pre-run Worker states with zero
+artifacts each. Benchmark result remains pending at receipt capture.
+
+The added read-only collector has10passing Linux boundary regressions. Latest
+full local regression including it: **1345 passed**, no skips, Ruff/strict
+Pyright/diff passed. This collector did not modify the already running measured
+application/controller, their freezes, or any original evidence.
