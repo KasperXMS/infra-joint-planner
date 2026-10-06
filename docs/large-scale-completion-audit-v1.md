@@ -8,7 +8,20 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 05:35Z
+## Latest verified progress: 2026-10-06 05:51Z
+
+Source-aware snapshot033binds120effective cells/124attempts/one pending121,
+unchanged source epochs001/002/003 and three preserved confounded originals.
+Cells116–120completed/format-valid/originalscore1. Actual per-recipient API
+contexts, artifact-backed inference, Worker exits and residency are verified.
+B117exposed but unused; D119no comparisons; E120recovered from a preflight
+context reject without inference on that proposal. Failed oversized reads on
+118/119leave complete action-transfer/tool work unknown, not zero.
+[Exact bounded outcomes, adoption and corrections](large-scale-resident-checkpoint-120-v1.md).
+Snapshot033SHA:`0fb9a77072fe59f622e8a8e9b96a98054c4049b1a60727a4be3eadb7128ba91f`.
+All168/private audits/frozen pruning/actualPhaseII/finalQ1-Q10remain unfinished.
+
+## Earlier verified progress: 2026-10-06 05:35Z
 
 Cell115/Video1/P2/Slow/Bcompleted/format-valid/score1; six returned inferences,
 two preflight-only context rejects,25actual SDK contexts scanned, Worker exits /
