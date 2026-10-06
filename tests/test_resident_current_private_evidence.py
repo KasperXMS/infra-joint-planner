@@ -30,11 +30,27 @@ def compound_membership() -> dict:
 
 
 def test_current_audit_uses_current_collector_not_historical_projection() -> None:
-    current = importlib.import_module("large_scale_resident_launch_snapshot_v2")
+    current = importlib.import_module("large_scale_resident_rate_policy_snapshot_v1")
+    earlier = importlib.import_module("large_scale_resident_launch_snapshot_v2")
     historical = importlib.import_module("large_scale_resident_E_query_private_evidence_v1")
     assert audit.sources is current
+    assert current.previous is earlier
     assert historical.sources is not current
     assert audit.sources.EXECUTIONS == historical.sources.EXECUTIONS
+
+
+def test_mixed_rate_policy_attempt_is_excluded_without_erasing_nominal_replacement() -> None:
+    snapshot = compound_membership()
+    old = snapshot["rows"][3]["attempts"][1]
+    old.update(run_id="mixed-rate-policy-original", reason=audit.sources.reviewer.REASON,
+        failure_class="mixed_provider_token_rate_and_input_policy",
+        replacement_basis="independently_proven_HTTP429_token_rate_limit")
+    before = copy.deepcopy(snapshot)
+    selected = audit.source_bound_membership(snapshot)
+    assert selected[3][1]["run_id"] == "replacement-policy-failure"
+    assert all(a["run_id"] != "mixed-rate-policy-original" for _, a in selected)
+    assert selected[3][1]["benchmark_score"] is None
+    assert snapshot == before
 
 
 def test_exact_nominal_failure_retained_and_exclusions_not_repeated_or_imputed() -> None:

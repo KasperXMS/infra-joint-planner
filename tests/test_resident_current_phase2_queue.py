@@ -15,7 +15,7 @@ queue = importlib.import_module("large_scale_resident_current_phase2_queue_v1")
 def test_same_executor_and_schedule_with_current_gate_only():
     assert queue.execute_cell is historical.execute_cell
     assert queue.cells_from_gate is historical.cells_from_gate
-    assert queue.gate.evidence.sources.__name__ == "large_scale_resident_launch_snapshot_v2"
+    assert queue.gate.evidence.sources.__name__ == "large_scale_resident_rate_policy_snapshot_v1"
     assert len(queue.cells_from_gate(synthetic_gate())) == 144
 
 
@@ -26,6 +26,8 @@ def test_current_dependency_closure_binds_policy_timeout_and_atomic_sources():
         "large_scale_resident_phase2_queue_v1.py",
         "large_scale_resident_current_phase2_gate_v1.py",
         "large_scale_resident_current_private_evidence_v1.py",
+        "large_scale_resident_rate_policy_snapshot_v1.py",
+        "large_scale_resident_rate_policy_review_v1.py",
         "large_scale_resident_launch_snapshot_v2.py",
         "large_scale_resident_launch_snapshot_v1.py",
         "large_scale_resident_sdk_argument_review_v1.py",
