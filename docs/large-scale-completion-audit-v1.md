@@ -10,6 +10,16 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+Queue014 stopped after MultiHop1/P1/Slow/E/attempt3:14exact absent-field BM25
+failures plus the terminal fixed-Verifier180sAPITimeoutError. Original evaluation
+is unknown/not invoked. Independent source/materialized-shape/full-admission
+proof classifies this attempt operational_excluded;122effective cells remain.
+One identical operational replacement is permitted,not a semantic retry or
+new execution epoch. Control014 and separate offline audit commit2602bd1 are
+verified; actual launch/completion is not implied by a prepared control. Full
+pytest1457,Ruff/strictPyright/diffpass;actual4090newtests46pass. See the
+[exact compound audit](large-scale-resident-compound-timeout-audit-v1.md).
+
 Read-only snapshot042 independently verifies122effective/140attempts/
 17historicalconfounders/1pending at08:48:17Z. File SHA256
 `b0c5b79781052f21d2ad8deed4654da333fe6549e65b111fcf69f50f90e466b1`;
