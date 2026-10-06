@@ -118,3 +118,41 @@ Cell103LongBench1/P2/Slow/C is pending, not part of the102completed outcomes.
 No unresolved system finding, semantic retry, method pruning or PhaseII permission
 is asserted by this checkpoint. The [optional-card helper](large-scale-resident-optional-card-audit-v1.md)
 adds only source-isolated offline support for the eventual complete-block audit.
+
+## Subsequent exact checkpoint:103–104
+
+Both first executions are source-bound, completed/format-valid/score1, with actual
+privacy/residency/Worker exit passed. No ordinary failure was repeated.
+
+| Cell | LongBench1 condition | M / V / physical | Returned inference | E2E seconds | API list-price USD |
+| --- | --- | --- | ---: | ---: | ---: |
+| 103 | P2 / Slow / C | 12 / 4 / 5 | 1 | 63.681 | 0.10937 |
+| 104 | P1 / Fast / B | 10 / 10 / 17 | 1 | 163.113 | 0.70347 |
+
+103has4successful tools,1inference,7quotes ending consumed5/pending2,
+12timed control calls/3.436s. Fixed initial514,789bytes/1.584s; complete action
+movement0, tool0.445s, backend0.463s/233input/2output tokens. Root45.276s is
+separate work; a correct choice and very short backend prompt do not establish
+evidence provenance or optimization. Attempted specialist creation0is not a
+successful delegated execution.
+
+104has13successful tools,2overlarge-read failures and1model context preflight
+failure; one of two prepared model actions actually reached inference. Ten
+actual root requests expose optional tools, but raw responses contain no query.
+Backend20.147s/4,380input/2outputtokens; fixed initial514,789bytes/0.194s.
+Successful action movement subtotal0and tool/model-wrapper aggregate20.796s are
+preserved in the original result. Because failed reads lack complete receipts,
+complete action movement/tool work remainUNKNOWN, not0. The resulting high
+Cloud list-price cost is descriptive, not a reason to tune or prematurely prune.
+
+Independent combined remote proof:
+`analysis/resident-completed-103-104-source-bound-001.json`, fileSHA
+`019e8502afaabeb25330bb740860ffaec87cf923762086886c014bcfe75cfbc5`.
+Actual recipient contexts audited16/20respectively. Physical selection and
+returned inference are preserved; no body/gold/full trace crossed the PC.
+
+At03:36:21Z Queue010PID3755889 and first cell105atomicPID3831512 were verified
+live. Cell105LongBench2/P1/Fast/C was reserved03:34:47Z (journal217), with150events/
+10root inputs at inspection. Current scope is104effective cells/106settled
+attempts plus one pending105; snapshot025and B/Ehelper proof remain their earlier
+98-cell scope. No completed whole-block/private audit/pruning/PhaseIIclaim.
