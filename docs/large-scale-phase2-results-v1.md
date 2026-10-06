@@ -1,6 +1,6 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T19:28:24Z / 2026-10-07 03:28 HKT. Eight of 192 nominal
+Checkpoint: 2026-10-06T19:35:36Z / 2026-10-07 03:35 HKT. Nine of 192 nominal
 held-out cells settled; no reservation was pending at this snapshot. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
@@ -27,6 +27,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | Video5 | DeepSeek / Slow / A | true / valid / 0 | 7 / 7 | 4 / 1 | 1 | 140.020 | 2,076,341 / 5.906 | 0 | 0.180513 |
 | Video5 | Qwen / Slow / B1 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 101.103 | 2,076,341 / 5.863 | 0 | 0.120313 |
 | Video5 | DeepSeek / Fast / B0 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 91.785 | 2,076,341 / 0.211 | 0 | 0.108085 |
+| Video6 | DeepSeek / Fast / B1 | true / valid / 1 | 3 / 3 | 2 / 1 | 0 | 121.284 | 233,097,342 / 20.753 | 0 | 0.071510 |
 
 Fast100Mbps/configured5ms and Slow3Mbps/configured50ms retain the existing
 Jetson HTB/no-netem caveat: configured delay is not measured symmetric RTT.
@@ -81,15 +82,25 @@ Observed paths:
   Original admission/journal, four empty stores, five stable resident identities,
   tc restoration, Worker exit and six actual SDK contexts passed. Source-bound
   audit SHA256 `6c40c24de1d5b4b2935fa4d11b31498048240d00065f07048e6d710f424e2100`.
+- Video6/B1, task hasha530f885312b82f6: sample_frames then successful A4 visual
+  model inference on six artifacts, no context rejection,6,707input/2output tokens,
+  stop, service37.782s. Sampling operator work25.903s; two nodes/six edges/seven
+  snapshots, no specialists and max concurrency1. The larger fixed video payload
+  took20.753s to materialize, separate from zero Agent artifact movement. Original
+  admission/journal, empty stores, five stable resident identities, Worker exit,
+  cleanup, terminal provenance and six SDK contexts passed. Audit SHA256
+  `639b8718d11b114f7a98980d717c1cbad7a2b7218164d6de8c6266c22c2499a3`.
 
-Actual feedback-wire review of all eight settled cells matched persisted provider
-requests, not just trace declarations: 56 Manager plus56 Verifier contexts,
-20 exact B1 pre-decision profiles,27 exact A/E ledgers and14 exact E rule payloads.
+Actual feedback-wire review of all nine settled cells matched persisted provider
+requests, not just trace declarations: 59 Manager plus59 Verifier contexts,
+23 exact B1 pre-decision profiles,27 exact A/E ledgers and14 exact E rule payloads.
 All Verifier requests used the fixed frozen model and contained none of the
 profile/ledger/rules message prefixes. B0 had none of these feedback messages.
 The existing full recipient scans had no findings. Advisory rules were the same
 canonical payload throughout; visibility is not internal adoption or causal
-optimization. Owner-local feedback audit003 SHA256:
+optimization. Owner-local feedback audit004 SHA256:
+`0223640e8c48c4a67d7a01015b0bcf72ff9bdce37a0a73d908e5a92931c82a60`.
+The eight-cell audit003 is preserved with SHA256:
 `16a68ee56c944055ff0f2278086403e9b96db6f6abb1a3850e8d066acd552dbf`.
 The seven-cell audit002 is preserved with SHA256:
 `7d1ee33a2d8846f0914de6f36fe38add6637c21ca7a937625fa8de04ad7733de`.
@@ -103,7 +114,13 @@ significance. B1's longer successful trajectory is retained unchanged, not
 treated as a bug to tune away. Evidence coverage/semantic sufficiency and causal
 profile adoption remain separate questions for the full audit.
 
-Authoritative owner-local snapshot007 SHA256:
+Authoritative owner-local snapshot008 SHA256:
+`7f63d2ab27420269f8db1005e01905c0b87c78e3c3202a9d8f0a8c0bf896433b`,
+under `/home/super/xiaoming/large-scale-cost-guidance-resident-v1/analysis/`.
+Journal SHA256 at that checkpoint:
+`7089a591c244a1a01bb8d085c7446e6a9786e3a109c915b9c4a577e9d9e582c6`.
+Nine admitted cells, nine preserved attempts, zero pending; no confounded or
+operational-excluded attempts. Earlier snapshot007 SHA256:
 `48dfed8298f46726df7534e3656428b0f5ff522d8940b390f4788ef7e01e2f98`,
 under `/home/super/xiaoming/large-scale-cost-guidance-resident-v1/analysis/`.
 Journal SHA256 at that checkpoint:

@@ -5,16 +5,17 @@ semantic/adoption analysis. The real controller continued the frozen schedule.
 No Agent code, instructions, budget, rule payload, scheduler or model was changed.
 
 Audit001 covers snapshot005's six settled cells; audit002 extends the same checks
-to snapshot006's seven cells and audit003 to snapshot007's eight cells.
+to snapshot006's seven cells, audit003 to snapshot007's eight cells and audit004
+to snapshot008's nine cells.
 Actual persisted provider requests were read
 only on their owner4090. No raw requests, benchmark artifacts, gold or supporting
 evidence were exported through the development PC. The audits made zero model
 calls and did not read support/corpus/store bodies.
 
-| Check | Actual eight-cell result |
+| Check | Actual nine-cell result |
 | --- | --- |
-| Manager / Verifier / specialist provider request contexts | 56 / 56 / 0 |
-| B1 profile exactly matches corresponding pre-decision trace payload | 20 / 20 |
+| Manager / Verifier / specialist provider request contexts | 59 / 59 / 0 |
+| B1 profile exactly matches corresponding pre-decision trace payload | 23 / 23 |
 | A/E ledger exactly matches corresponding pre-decision trace payload | 27 / 27 |
 | E rules exactly match frozen canonical rule payload | 14 / 14 |
 | B0 profile/ledger/rule feedback messages | None |
@@ -52,6 +53,8 @@ Append-only owner-local receipts, under
   `7d1ee33a2d8846f0914de6f36fe38add6637c21ca7a937625fa8de04ad7733de`.
 - `resident-phase2-feedback-wire-audit-003.json`, SHA256
   `16a68ee56c944055ff0f2278086403e9b96db6f6abb1a3850e8d066acd552dbf`.
+- `resident-phase2-feedback-wire-audit-004.json`, SHA256
+  `0223640e8c48c4a67d7a01015b0bcf72ff9bdce37a0a73d908e5a92931c82a60`.
 
 Visibility does not prove internal adoption, correct cost reasoning or a
 quality-preserving benefit. Complete held-out semantic/failure/adoption review
