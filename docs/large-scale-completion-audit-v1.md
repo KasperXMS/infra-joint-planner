@@ -278,3 +278,30 @@ See [source-bound105–108 checkpoint](large-scale-resident-checkpoint-105-v1.md
 No full private semantic audit, pooled quality, method pruning or PhaseII claim.
 The active goal still requires all168 cells, complete audit/screening, frozen
 pruning, actual PhaseII within420cap and final reports/Q1–Q10.
+
+## 2026-10-06 04:07Z:109effective, cell110 genuine contract repair pending activation
+
+Source-bound109/B0completed wrong, retained without retry. Exact model utilization
+now covers109unique effective runs/148returned inferences, with3additional proven
+unmeasured post-inference failures. All four Workers executed; GPU1still has no
+returned inference. No routing/quality-tier tuning is justified by this population.
+Optional-card audit extends to31B/E runs of prefix108with one actual successful
+card match, not a full adoption rate or a pruning result.
+
+Queue010then exited through110's mixed validation/API gate. Actual archived
+function schema permits multiple `filter_records` inputs, while execution requires
+one; this is a genuine public-contract mismatch. Nine absent-field requests and
+two exact provider input-policy refusals are independently retained. Original
+result lacks evaluation, not quality0. All134original files and229journal records
+are preserved; actual Worker/atomic shutdown was verified.
+
+Local one-line structured cardinality correction plus16regressions committed
+f633e55. Fullpytest1,195passed/Ruff/strictPyright/diff passed. Historical config
+hashes remain unchanged and reject the new catalog. All109earlier effective traces
+contain no prepared same-class cardinality misuse. This is not an activated
+formal freeze or a completed affected rerun: execution003/harness/Worker validation,
+exact repair lineage/controller and source-aware auditing still need preparation.
+See [mixed-gate diagnosis and scope](large-scale-resident-input-cardinality-repair-v1.md).
+
+The goal remains active and full-scope; no method pruning/PhaseII/semantic tuning,
+policy outage replacement, full private semantic audit or finalQ1–Q10claim.
