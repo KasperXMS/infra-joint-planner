@@ -8,7 +8,18 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 04:37Z
+## Latest verified progress: 2026-10-06 04:50Z
+
+Exact110repair completed and settled valid, format-valid/originalscore0; no retry
+for the quality outcome. Three actual inferences, two preflight-only context
+rejects,14SDK contexts scanned, all Worker exits/residency checked. Snapshot029
+independently binds110effective/114total attempts/one pending111to source epochs
+001/002/003. File SHA
+`1b80e4a4371816b59ef6fc3a3fa3cefc6640e72116718042a4a9f0c2ce872393`.
+111/P2/Slow/Dhas started; queue011continues. Full semantic/format primary-cause
+audits are pending, not inferred from score0. [Source-bound outcome and telemetry](large-scale-resident-cardinality-repair-activated-v1.md).
+
+## Earlier activation checkpoint: 2026-10-06 04:37Z
 
 The exact cell110cardinality defect is now source-frozen in execution003/control010,
 after local/Linux1,213passing tests,34actual-archive regressions and fresh four-Worker

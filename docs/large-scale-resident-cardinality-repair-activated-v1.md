@@ -116,3 +116,61 @@ File SHA`f308d946aea0b4536807e2ad3d3320e34e98432f3b838bc45bbe3d973ae9bf15`;
 journal SHA`5cef674747557c41c04d16c1f9ea67b561f817abf78a173b7b82429a6d2d301a`.
 Its read-only collector-mutation flag does not mean all execution epochs have
 identical schemas: the explicit001/002/003boundaries above remain mandatory.
+
+## Completed110repair outcome and continued111
+
+The repaired110attempt2has settled **valid**, completed/format-valid, original
+evaluator score **0**. This is a retained quality failure, not permission to retry
+or tune prompts. Its primary semantic/selection/format attribution remains pending
+the full private audit; the score alone does not prove evidence discard or wrong
+reasoning. No new cardinality/field-validation failure, cloud refusal or timeout.
+
+| Measure | Actual110attempt2 |
+| --- | --- |
+| Manager / specialist / Verifier turns | 7 /0 /7 |
+| Prepared physical calls | 17:12BM25tools,5model actions |
+| Successful actual inference / context-preflight rejects | 3 /2 |
+| Other logical phase-restricted failures | 3; overlap SDK populations, not extra physical calls |
+| E2E | 672.009s |
+| Fixed initial transfer | 7,696,522bytes /22.280s |
+| Agent-action artifact transfer | 33,885bytes /0.448s; complete receipts |
+| Tool work, excluding models | 6.140s |
+| Returned model-service work | 870.092s; overlapping/queued work, not E2E decomposition |
+| Physical model input /output tokens | 14,076 /1,131; all three finish reasons`stop` |
+| Root /Verifier reasoning work | 81.378s /22.561s |
+| Actual SDK calls /recipient contexts scanned | 14 /14 |
+| Frozen list-price complete API USD | 0.2147639804; not invoice |
+| Graph | 17nodes/12edges/52snapshots; one active logical owner |
+| Observed max concurrent actions /overlap | 6 /332.084s |
+
+The two A28evidence-model services returned6,621/756tokens in329.090s and
+7,058/310tokens in539.952s. GPU0terminal service returned397/65tokens in1.050s.
+Different input/output workloads and queue conditions prevent a hardware-speed
+comparison from these numbers. Both evidence models consumed three real bounded
+artifacts and materialized notes; terminal model used a1,345-byte prompt, zero
+artifact inputs and materialized the final answer. Do not claim a terminal
+artifact-input path or established semantic sufficiency merely from model calls.
+
+Seven actual root requests expose the corrected single-input function schemas.
+Context rejects explicitly did not reach inference; after them the Manager
+continued with narrower retrieval. Failed specialist/read calls are phase-restricted
+and created no specialist. Actual Eoptional-card queries0; rules visible7root
+inputs, not proof the rules were internally used. All four Workers exited and
+five-model residency/log checks passed;14full SDK recipient contexts scanned.
+
+Immutable repaired result/trace/admission file hashes:
+
+- result: `c06cb43035165d47d20e88c27f554395ca7beec0c84e36aa796272f1d29f7d31`.
+- trace: `a0aa58528b448be0b3a61a53ca6d6a5b569220b92fc6f0018165e445e743571d`.
+- admission: `651645334f4b243c2daa27c7a14bd4cdc94b85ccf2abef3955dd0d89ba5d0923`.
+- schema/model receipt proof `analysis/resident-cell110-cardinality-repair-live-prefix-001.json`:
+  `2d1154c84548943b4d6d1d23ac62a12784f4a8c970f04631f2451ae1b794f2f1`.
+
+Source-aware snapshot029captured04:50:30Z: **110effective/114total attempts,
+113settled+one pending111**, three retained confounded originals. File SHA
+`1b80e4a4371816b59ef6fc3a3fa3cefc6640e72116718042a4a9f0c2ce872393`;
+journal SHA`ca909ef055c8787e375730e4e8ff7d611104aaa4cc09848dbdf3bab37bf2b628`.
+Cell111/MultiHop1/P2/Slow/Dwas reserved04:47:27Z under the same execution003.
+The queue continues; all168/private audit/pruning/PhaseII/final reports remain
+unfinished. Neither the original refused110 nor its repaired wrong-scored output
+is substituted to manufacture a correct sample.
