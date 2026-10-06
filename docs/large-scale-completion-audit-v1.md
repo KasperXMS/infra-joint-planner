@@ -611,3 +611,19 @@ Worker exits and5resident instances passed. Immutable snapshot043 confirms the
 MultiHop2/P1/Fast/E attempt2 is now reserved; it is not yet another completion.
 See the later actual-completion section in the linked field/policy audit.
 All168/full private audit/frozen pruning/actualPhaseII/finalQ1–Q10remain required.
+
+### 09:51Z:125effective and post-block audit compatibility prepared
+
+MultiHop2/P1/Fast/E attempt2 completed/format-valid/score1 after two real context
+rejects and natural smaller three-shard retrieval;9tools/1actual A28 inference,
+E2E212.753s,action traffic17,961bytes. Exact independent admission/source/privacy/
+freshness/exit/residency proof extends124to125. Required evidence retention and E
+causality are not inferred from score1. Queue016 continues the original schedule.
+
+Historical private/gate entrypoints cannot replay the latest timeout/policy
+admission view. New separate offline wrappers use the current collector and
+unchanged full168/private-body/manual-audit/pruning/cap guards. Full1521tests,
+Ruff/strictPyright passed;actual Linux21tests and both live-before-read guards
+passed. No actual private body audit, PhaseII survivor or new execution epoch.
+See [current audit readiness and boundaries](large-scale-resident-current-audit-readiness-v1.md).
+The full active goal remains unfinished; these helpers do not authorize PhaseII.

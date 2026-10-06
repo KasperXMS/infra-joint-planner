@@ -142,3 +142,28 @@ The new source-bound unique settlement extends this prefix to124effective; the
 old snapshot's scope is not rewritten. MultiHop2 /P1 /Fast /E attempt2 was then
 reserved at09:41:51Z,seq318. Full semantic audit/pruning/PhaseII remain pending.
 Neither score1 nor zero action movement proves E caused a resource/quality gain.
+
+## Later second-cell completion:125effective
+
+MultiHop2 /P1 /Fast /E attempt2 settled valid at09:46Z,seq319,after all original
+E repair cells had now acquired their repaired nominal outcomes. It completed /
+format-valid /score1; raw admission independently reproduced,all16actual SDK
+contexts/no-query E surface,four empty stores,Worker exits and5resident instances
+passed. Original14E exclusions remain excluded,not resurrected.
+
+Actual trajectory:three-shard BM25 → model context reject → smaller three-shard
+BM25 → context reject → smaller three-shard BM25 → A28 27B terminal inference.
+There were8Manager /8Verifier calls,0specialists,9successful retrievals,
+3model attempts /1actual inference. One readiness/semantic validation and one
+phase-restricted call also returned typed failures; neither was hiddenly repaired.
+Inference7055input /3output tokens,finish `stop`,backend123.149s. E2E212.753s.
+Fixed setup7,696,522bytes /1.095s;complete action traffic17,961bytes /0.297s.
+Pure tool work3.255s. API LIST cost USD0.1658094433888306,all16usage receipts known.
+Graph37snapshots /12nodes /9edges;actual max concurrency3,overlap1.604s.
+
+Bounded proof `analysis/resident-source004-fourteenth-E-repair-settlement-audit-001.json`,
+SHA256 `50f7db2ed964550c3a83b7f40d544bb875eaaa379937a3d2b9b69c1e4a4b31f7`,
+binds the earlier124-cell proof and the distinct unique settlement,not a rewritten
+snapshot. Score1is not full required-evidence-retention proof or causal E benefit.
+Queue016 then reserved previously unstarted MultiHop1 /P2 /Slow /E attempt1 at
+09:46:55Z,seq320. This pending run is not counted as another completion.
