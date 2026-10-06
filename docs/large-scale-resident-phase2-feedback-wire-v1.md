@@ -8,17 +8,18 @@ Audit001 covers snapshot005's six settled cells; audit002 extends the same check
 to snapshot006's seven cells, audit003 to snapshot007's eight cells and audit004
 to snapshot008's nine cells; audit005 covers snapshot009's ten cells and audit006
 covers snapshot010's eleven cells; audit007 covers snapshot011's twelve cells
-and audit008 covers snapshot012's thirteen cells.
+and audit008 covers snapshot012's thirteen cells. Audit009 extends this to
+snapshot013's fourteen cells.
 Actual persisted provider requests were read
 only on their owner4090. No raw requests, benchmark artifacts, gold or supporting
 evidence were exported through the development PC. The audits made zero model
 calls and did not read support/corpus/store bodies.
 
-| Check | Actual thirteen-cell result |
+| Check | Actual fourteen-cell result |
 | --- | --- |
-| Manager / Verifier / specialist provider request contexts | 85 / 85 / 0 |
+| Manager / Verifier / specialist provider request contexts | 99 / 99 / 0 |
 | B1 profile exactly matches corresponding pre-decision trace payload | 23 / 23 |
-| A/E ledger exactly matches corresponding pre-decision trace payload | 48 / 48 |
+| A/E ledger exactly matches corresponding pre-decision trace payload | 62 / 62 |
 | E rules exactly match frozen canonical rule payload | 30 / 30 |
 | B0 profile/ledger/rule feedback messages | None |
 | Non-Manager profile/ledger/rule message prefixes | None |
@@ -65,6 +66,8 @@ Append-only owner-local receipts, under
   `baad36a2d0fcee6ddee95dfe5911f5e929b29dc178a92a96829641d624879924`.
 - `resident-phase2-feedback-wire-audit-008.json`, SHA256
   `2ad01b65b8bf638690ccd34deb6df64eb2afe7a17e313b4172d9d0f8e8981c49`.
+- `resident-phase2-feedback-wire-audit-009.json`, SHA256
+  `cc7ce369c939482ca743f36f42d109dc9b955bd8ebba62db584a85d590d834e6`.
 
 Visibility does not prove internal adoption, correct cost reasoning or a
 quality-preserving benefit. Complete held-out semantic/failure/adoption review

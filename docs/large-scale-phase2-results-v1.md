@@ -1,6 +1,6 @@
 # Resident Phase II results — in progress
 
-Checkpoint: 2026-10-06T20:24:58Z / 2026-10-07 04:24 HKT. Thirteen of 192 nominal
+Checkpoint: 2026-10-06T20:40:42Z / 2026-10-07 04:40 HKT. Fourteen of 192 nominal
 held-out cells settled; no reservation was pending at this snapshot. These are
 actual original evaluator results, not final
 method estimates. Same frozen 18-task manifest, execution004, resident diversified
@@ -32,6 +32,45 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | Video6 | DeepSeek / Slow / E | true / valid / 1 | 6 / 6 | 5 / 3 | 1 | 802.365 | 233,097,342 / 650.722 | 0 | 0.285777 |
 | Video6 | Qwen / Fast / B0 | true / valid / 1 | 5 / 5 | 3 / 1 | 1 | 101.233 | 233,097,342 / 20.537 | 0 | 0.184910 |
 | MultiHop5 | Qwen / Fast / E | true / valid / 0 | 10 / 10 | 13 / 1 | 2 | 318.009 | 7,696,522 / 1.339 | 5,204,596 | 0.234685 |
+| MultiHop5 | DeepSeek / Slow / A | true / valid / 1 | 14 / 14 | 22 / 10 | 3 | 682.445 | 7,696,522 / 22.219 | 0 | 0.394572 |
+
+The fourteenth cell completed with valid direct terminal-model output and original
+MultiHop score1. Fourteen Manager/Verifier turns,22physical actions: nine BM25
+actions and thirteen model requests, of which three were pre-inference context
+rejects and ten returned successful inference telemetry. Actual successful model
+selections span A4VL4B, A5VL8B and A28Qwen3.5-27B, three receipts each, followed
+by one explicit prompt-only terminal model on4090GPU0. This is real execution on
+fourWorkers, not forced routing or an assumption that every resident instance was
+selected. GPU1 was not selected in this cell. No specialists were created.
+
+The ten returned receipts record68,285input/446output tokens, all normal stop;
+backend service work634.638s. Tool work6.304s and model-action Worker work635.955s
+are exclusive receipt categories, not quantities to add again to backend work.
+E2E682.445s includes initial7,696,522B/22.219s; registered action artifact movement
+is complete0B. Zero movement does not imply no prompts/control traffic. The action
+graph has22nodes/21edges/67snapshots and peak concurrency6; overlap/work sums are
+not an E2E decomposition. Privacy and semantic evidence sufficiency are distinct.
+
+Original admission reproduced exactly and matched journal settlement. Four empty
+stores, five stable resident identities, tc restoration, Worker exit, direct
+terminal-model text and28actual SDK contexts independently passed. The recorded
+phase/readiness/semantic failures were returned to the Manager, which continued;
+none is silently repaired or counted as inference. Independent audit SHA256
+`27544644886bfed56e57ec227609319c66ad7b1f6453cde23e3cf274676945a0`.
+Fourteen actual Ledger deliveries match trace payloads; visibility does not prove
+useful cost reasoning. Repeated inference work is retained, not tuned away.
+This is not a matched comparison with cell13: Planner, network and method differ.
+Original score1 is not a private semantic-retention oracle or optimizer success.
+
+Snapshot013 SHA256 `68059249e5a3372f48ba101768f2d7c60ce74bb3d482a2590058b3af7c75818e`,
+journal at capture `965de01f812c802e262133738926b4de3f58e1f102929f4cc2eb509a6ce55bbf`:
+14admitted/14attempts/0pending/0confounders/0exclusions; full block incomplete.
+Earlier live proof SHA256
+`71047fa18526c7dca344c7ede032cb2c58e93dff6200c02518157a30b0841cac`
+verified original atomic1914655/source004/fresh stores/stable residency. One ad-hoc
+read-only poll preceded trace creation and raised FileNotFoundError; the next poll
+correctly reported an absent trace during preparation. No experiment was restarted
+or modified, and this diagnostic race is not a cell failure.
 
 The thirteenth cell, frozen MultiHop-RAG position5 task hash `a60f56ec789bf3ae`,
 completed normally with valid direct terminal-model text and original evaluator
