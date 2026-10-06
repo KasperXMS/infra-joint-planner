@@ -63,3 +63,20 @@ No snapshot052, full private audit, pruning or actual PhaseII is claimed here.
 The required next work is actual remaining nominal execution, then all168
 private/recipient/failure/adoption audits and evidence-based pruning before
 any held-out PhaseII dispatch.
+
+## Actual replacement started,15:50:08Z
+
+The new reservation was recorded at15:47:20.954461Z, sequence385, attempt2.
+Actual atomic PID1345940 is owned/live and the SDK loop has started. An
+independent comparison proves YAML changes are **only** runID and four fresh
+store roots; all other configuration is exactly equal to excluded attempt1.
+All four initial stores contain0artifacts. All five resident runner identities
+equal attempt1's final identities, with no model reload. Actual child
+PYTHONPATH contains only APP004src/scripts and its explicit archive revision
+is the original`0ff0e9b...`; no new audit controller enters measured execution.
+
+Live-start proof file:
+`analysis/resident-source004-cell156-replacement-live-start-audit-001.json`,
+SHA256 `7a585eedfbda4cb05ff8cabd21278517ed62d6ee294ad9da311999cab9e9d9b8`.
+Result remained pending at capture. Effective nominal completion remains155;
+starting a replacement does not increment that count or establish quality.
