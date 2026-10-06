@@ -85,6 +85,9 @@ def control_value(path: Path, inputs: dict[str, Path]) -> dict[str, Any]:
         "source_sha256": {Path(p).name: frozen.sha256(Path(p)) for p in (
             __file__, gate.__file__, gate.core.__file__, gate.evidence.__file__,
             gate.evidence.sources.__file__, gate.evidence.sources.reviewer.__file__,
+            gate.evidence.sources.core.__file__,
+            gate.evidence.sources.reviewer.previous.__file__,
+            gate.evidence.sources.reviewer.records.__file__,
             method_contract.__file__, quote.__file__, quote.reviewer.__file__, frozen.__file__,
         )},
         "old_and_new_results_pooled": False, "phase1_journal_modified": False,

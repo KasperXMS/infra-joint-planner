@@ -14,8 +14,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
-import large_scale_resident_E_query_snapshot_v1 as sources
 import large_scale_resident_private_evidence_v1 as private
+import large_scale_resident_projection_snapshot_v1 as sources
 from large_scale_resident_repaired_private_evidence_v1 import resolved_membership
 
 VERSION = "resident-four-epoch-private-evidence-paths-v1"

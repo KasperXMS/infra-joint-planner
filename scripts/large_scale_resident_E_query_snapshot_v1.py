@@ -12,6 +12,7 @@ import json
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 import large_scale_resident_method_contract_review_v1 as reviewer
@@ -40,7 +41,8 @@ def epoch_for(record: dict[str, Any]) -> int:
     return epoch
 
 
-def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR) -> dict[str, Any]:
+def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR, *,
+            audit_view: ModuleType | None = None) -> dict[str, Any]:
     before = (root / "phase1-attempts.jsonl").read_bytes()
     records = [json.loads(line) for line in before.splitlines()]
     drain_path = root / "analysis/resident-E-query-contract-drain-completed-001.json"
@@ -61,9 +63,12 @@ def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR
             or resident.sha256(predecessor / "phase1-attempts.jsonl")
             != resident.OLD_JOURNAL_SHA256):
         raise RuntimeError("original tasks or closed predecessor drift")
+    ledger_class = (reviewer.MethodContractAttemptLedger if audit_view is None
+                    else audit_view.ProjectionAttemptLedger)
+    admission_reader = (reviewer.effective_admission if audit_view is None
+                        else audit_view.effective_admission)
     value = resident.base.snapshot(root, selection_root=selection,
-                                   ledger_class=reviewer.MethodContractAttemptLedger,
-                                   admission_reader=reviewer.effective_admission)
+                                   ledger_class=ledger_class, admission_reader=admission_reader)
     if value["scheduled_cells"] != 168:
         raise RuntimeError("the original screening schedule cannot be enlarged")
     for row in value["rows"]:
@@ -86,6 +91,15 @@ def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR
                                  reviewer.RECORD_DIRECTORY)):
                 path = root / folder / (attempt["run_id"] + ".json")
                 attempt[key] = resident.sha256(path) if path.exists() else None
+            if audit_view is not None:
+                path = root / audit_view.DIRECTORY / (attempt["run_id"] + ".json")
+                attempt["projected_record_review_file_sha256"] = (
+                    resident.sha256(path) if path.exists() else None)
+                if path.exists():
+                    proof = json.loads(path.read_text())
+                    attempt["original_rejection_preserved"] = True
+                    attempt["confirmed_projected_absent_field_failures"] = len(
+                        proof["projected_record_field_proof"])
             admission = json.loads((directory / "admission.json").read_text())
             attempt["actual_recipient_contexts_audited"] = len(
                 admission.get("api_audit", {}).get("contexts", []))
@@ -101,6 +115,8 @@ def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR
     dependency_paths = (__file__, reviewer.__file__, resident.__file__, resident.base.__file__,
                         sys.modules[graph_audit.__module__].__file__,
                         sys.modules[analyze.__module__].__file__)
+    if audit_view is not None:
+        dependency_paths += (audit_view.__file__,)
     if any(p is None for p in dependency_paths):
         raise RuntimeError("every collector dependency must have an actual source file")
     source_paths = tuple(p for p in dependency_paths if p is not None)
@@ -113,6 +129,8 @@ def collect(root: Path = resident.ROOT, predecessor: Path = resident.PREDECESSOR
                  logical_or_physical_execution_modified=False,
                  collector_source_sha256={Path(p).name: resident.sha256(Path(p))
                                           for p in source_paths})
+    if audit_view is not None:
+        value["version"] = "resident-four-epoch-body-preserving-record-projection-v1"
     return value
 
 
