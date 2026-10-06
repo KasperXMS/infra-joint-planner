@@ -157,7 +157,7 @@ Any download, scan, preparation or distribution takes place on 4090/Workers.
 | B | A | optional `estimate_<ready_action>`; direct execution allowed |
 | C | A | mandatory propose → quote → commit/revise, diagnostic control |
 | D | A plus existing quote protocol | ≤3 Agent-proposed ready actions compared; system never picks |
-| E | B plus identical frozen cost-only advisory rules | optional, not forced |
+| E | A plus identical frozen cost-only advisory rules | none; no cost query or quote |
 
 Only root Manager receives method feedback. Specialists and Verifier are Blind
 in every method. Scan full effective SDK recipient contexts, including accumulated
