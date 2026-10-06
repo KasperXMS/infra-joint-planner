@@ -155,7 +155,7 @@ def simulated_queue(monkeypatch, tmp_path: Path, *, disposition: str = "valid",
                     "unresolved_system" if disposition == "confounder" else "ordinary_quality"),
                 "problems": [], "original_evaluation": {"benchmark_score": 0}}
 
-    monkeypatch.setattr(queue.quote, "admission", admit)
+    monkeypatch.setattr(queue, "admission", admit)
     return tmp_path / "phase2-control-freeze-001.json", calls, cells
 
 
@@ -262,8 +262,9 @@ def short_E_root():
 
 
 @pytest.mark.parametrize("bad_surface", [False, True])
+@pytest.mark.parametrize("separator", ["", "\u2028", "\u2029", "\u0085"])
 def test_heldout_E_reuses_every_request_no_query_surface_guard(
-    monkeypatch, short_E_root: Path, bad_surface: bool,
+    monkeypatch, short_E_root: Path, bad_surface: bool, separator: str,
 ) -> None:
     tmp_path = short_E_root
     _, calls, original_cells = simulated_queue(monkeypatch, tmp_path)
@@ -275,11 +276,13 @@ def test_heldout_E_reuses_every_request_no_query_surface_guard(
              "atomic_execution_entrypoint": "unchanged-atomic.py",
              "pricing_path": str(tmp_path / "prices.json")}
     checks = []
-    old_admit = queue.quote.admission
+    old_admit = queue.admission
 
     def admit(directory, config, prices):
         trace.parent.mkdir(parents=True)
-        trace.write_text('{"event_type":"method.variant.start","payload":{}}\n')
+        trace.write_text(json.dumps({"event_type": "method.variant.start", "payload": {
+            "message": "within" + separator + "one JSON record",
+        }}, ensure_ascii=False) + "\n", encoding="utf-8")
         return old_admit(directory, config, prices)
 
     def surface(directory, events):
@@ -287,7 +290,7 @@ def test_heldout_E_reuses_every_request_no_query_surface_guard(
         if bad_surface:
             raise RuntimeError("E unexpectedly exposes query tools")
 
-    monkeypatch.setattr(queue.quote, "admission", admit)
+    monkeypatch.setattr(queue, "admission", admit)
     monkeypatch.setattr(queue.method_contract, "assert_E_tool_isolation", surface)
     if bad_surface:
         with pytest.raises(RuntimeError, match="actual audit"):
@@ -298,3 +301,38 @@ def test_heldout_E_reuses_every_request_no_query_surface_guard(
         assert ledger.attempts[0].disposition == "valid"
     assert len(calls) == len(checks) == 1
     assert checks[0][1][0]["event_type"] == "method.variant.start"
+    assert checks[0][1][0]["payload"]["message"] == "within" + separator + "one JSON record"
+
+
+@pytest.mark.parametrize("separator", ["\u2028", "\u2029", "\u0085"])
+@pytest.mark.parametrize("mutated", [False, True])
+def test_heldout_admission_preserves_unicode_and_quote_mutation_guard(
+    monkeypatch, tmp_path: Path, separator: str, mutated: bool,
+) -> None:
+    trace = tmp_path / "runs/synthetic/trace.jsonl"
+    trace.parent.mkdir(parents=True)
+    event = {"event_type": "logical.cost_quote.rejected", "payload": {
+        "failure_code": "quoted_action_mutated" if mutated else "context_limit_exceeded",
+        "message": "legal JSON string" + separator + "not a record boundary",
+    }}
+    trace.write_text(json.dumps(event, ensure_ascii=False) + "\n", encoding="utf-8")
+    original = {"disposition": "valid", "reason": "ordinary_quality", "problems": []}
+    monkeypatch.setattr(queue.frozen, "admit", lambda *_: copy.deepcopy(original))
+    result = queue.admission(tmp_path, {"run_id": "synthetic"}, tmp_path / "prices")
+    if mutated:
+        assert result["disposition"] == "confounder"
+        assert result["reason"] == queue.quote.reviewer.REASON
+    else:
+        assert result == original
+    assert json.loads(trace.read_text(encoding="utf-8")) == event
+
+
+def test_heldout_admission_still_rejects_malformed_json(monkeypatch, tmp_path: Path) -> None:
+    trace = tmp_path / "runs/synthetic/trace.jsonl"
+    trace.parent.mkdir(parents=True)
+    trace.write_text('{"payload":"unterminated\n', encoding="utf-8")
+    monkeypatch.setattr(queue.frozen, "admit", lambda *_: {
+        "disposition": "valid", "reason": "ordinary_quality", "problems": [],
+    })
+    with pytest.raises(json.JSONDecodeError):
+        queue.admission(tmp_path, {"run_id": "synthetic"}, tmp_path / "prices")

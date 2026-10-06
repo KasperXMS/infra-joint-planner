@@ -21,6 +21,7 @@ import large_scale_resident_quote_repair_queue_v1 as quote
 import yaml
 
 from infra_joint.control.provenance import provenance_sha256
+from infra_joint.evaluation.trace import JsonlTraceWriter
 from infra_joint.experiments.attempt_ledger import QueueLease
 from infra_joint.experiments.large_scale_protocol import (
     Family,
@@ -118,6 +119,23 @@ def checked_control(path: Path) -> tuple[dict[str, Any], tuple[ScheduledCell, ..
     return saved, cells_from_gate(json.loads(gate_path.read_text()))
 
 
+def admission(directory: Path, config: dict[str, Any], prices: Path) -> dict[str, Any]:
+    """Preserve the Quote guard without splitting Unicode inside JSON strings.
+
+    Historical controllers remain archived unchanged. Reuse the canonical JSONL
+    reader and base admission, retaining the same explicit mutation rejection.
+    """
+    value = frozen.admit(directory, config, prices)
+    trace = directory / "runs" / config["run_id"] / "trace.jsonl"
+    events = JsonlTraceWriter(trace).read_all()
+    codes = {event["payload"].get("failure_code") for event in events
+             if event["event_type"] == "logical.cost_quote.rejected"}
+    if "quoted_action_mutated" in codes:
+        value = {**value, "disposition": "confounder", "reason": quote.reviewer.REASON,
+                 "problems": [*value.get("problems", []), quote.reviewer.REASON]}
+    return value
+
+
 def execute_cell(cell: ScheduledCell, ledger: quote.reviewer.QuoteRepairAttemptLedger,
                  saved: dict[str, Any]) -> None:
     """One actual archived atomic process; no runtime implementation duplicated."""
@@ -146,10 +164,9 @@ def execute_cell(cell: ScheduledCell, ledger: quote.reviewer.QuoteRepairAttemptL
                                                      "returncode": returncode})
     value: dict[str, Any]
     try:
-        value = quote.admission(directory, config, Path(saved["pricing_path"]))
+        value = admission(directory, config, Path(saved["pricing_path"]))
         if cell.method == "E":
-            events = [json.loads(line) for line in (
-                directory / "runs" / run_id / "trace.jsonl").read_text().splitlines()]
+            events = JsonlTraceWriter(directory / "runs" / run_id / "trace.jsonl").read_all()
             method_contract.assert_E_tool_isolation(directory, events)
         if json.loads((directory / "private/residency-validation.json").read_text())[
                 "passed"] is not True:
