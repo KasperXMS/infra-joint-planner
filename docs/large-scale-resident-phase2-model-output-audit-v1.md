@@ -51,3 +51,36 @@ audit:0. It does not authorize a replacement, tuning, hidden repair, private-bod
 scan or inference-cost/quality comparison. Final original admission and actual SDK
 recipient checks must still run after the atomic settles; full192-cell private
 semantic/failure/adoption audit remains gated on global inactivity.
+
+## Subsequent terminal checkpoint (21:37Z)
+
+The same atomic completed normally, valid terminal/evaluator score0, and exited0.
+Original controller exited1 because its admission conservatively gated the exact
+known JSON error. The rejection is preserved; it is not grounds for semantic
+retry. Original admission and journal independently reproduce exactly; fresh
+stores/Worker exit/residency/tc/direct terminal and34actual SDK contexts pass.
+Independent settled audit SHA256:
+`d8500a885a00584c46ce9a63f36a0a13b040610edcbf5248cadab6cb54d11ba4`.
+
+Actual counts:13Manager/13Verifier,8specialist turns,48physical actions,
+5successful inference telemetry receipts and at least one additional backend
+completion established by the JSON failure. Missing failed-call telemetry remains
+unknown. Three read-size failures and three context rejects returned to the
+Agents, which continued. E2E1884.311s; graph48nodes/37edges/145snapshots/peak6.
+Complete transfer/model-work totals remain unknown, even though successful
+transfer receipts total43,046B/.881s. Initial7,696,522B/1.511s is separate.
+
+The specialist returned an SDK agents-as-tools answer and handed off five
+InformationObjects. That answer is not byte-identical to its last physical model
+output; this follows existing wrapper semantics and alone does not prove a new
+hidden benchmark finalizer. No later physical action used those five artifact IDs
+as inputs. The parent still received the specialist answer in SDK tool context;
+do not infer semantic non-use or causal failure from artifact-input absence.
+The root terminal comes directly from a separate successful prompt-only model
+action. Actual supporting-evidence adequacy and wrong-answer cause remain unknown
+until the complete private post-block audit.
+
+Exact append-only admission review and unchanged-schedule continuation are being
+prepared separately. This terminal checkpoint does not claim a written sidecar,
+admitted16th cell or restarted queue. See
+[preparation](large-scale-resident-phase2-json-review-preparation-v1.md).
