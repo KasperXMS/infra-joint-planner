@@ -41,3 +41,20 @@ file; they did not retry any experiment. This successful stable capture does
 not replace older snapshots045/044. Its pending cell is live, not complete.
 Finish all168, perform comprehensive private/recipient/failure/adoption audit,
 then freeze pruning and the real gate before executing held-out PhaseII.
+
+## Subsequent verified live transfer wait (not a completed cell)
+
+At11:39:54.526144Z, pending cell142 atomic849707 and Queue018 controller697077
+were both verified live from their actual owned process command lines. No
+Manager reasoning had started. Read-only4090tc inspection confirms class1:20
+at3Mbit and its netem leaf at configured50ms. Sent packet bytes increased from
+148,683,282 at11:38:33Z to179,099,542 at11:39:54Z: materialization is progressing,
+not a terminal hang. These are packet-class counters including protocol/control
+overhead, not task payload-byte telemetry. Measured symmetric RTT stays unknown.
+No tc write, Worker restart, replacement or payload export was performed.
+
+Append-only live proof:
+`analysis/resident-source004-cell142-live-initial-transfer-observation-001.json`,
+SHA256 `f12fb305a780c85a9e63aaf1ffa716087883e4987c888254dcfb799d4c32e212`.
+The immutable046JSON remains its141+1pending capture; the live proof does not
+retroactively advance its membership or grant PhaseII authorization.
