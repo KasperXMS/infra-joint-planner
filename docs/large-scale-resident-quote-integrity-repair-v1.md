@@ -126,3 +126,15 @@ Remote root: `/home/super/xiaoming/large-scale-cost-guidance-resident-v1`.
   `78f0fbf3ee20b2039e69b5f4dce66825e04e508c12633cd99aa8afbe20e6e7f1`.
 
 No replacement or new execution freeze is claimed in these receipts.
+
+## Subsequent source-freeze preparation
+
+The [activation amendment](large-scale-resident-quote-repair-activation-v1.md)
+records commit955fe8f,1122passing full tests/27passing actual4090regressions, a
+separate immutable derivative app and source-bound execution002. Original app/
+execution001/control007 remain unchanged. An ancillary preparation collision
+is explicitly retained and reconciled without overwriting either freeze or
+readiness record. At00:59:30Z exact authorization process3239812was live;
+no repaired formal run was yet reserved. This later evidence supersedes the
+earlier statement that the patch existed only on the development PC, not the
+unchanged original runtime finding or outstanding all168/PhaseII requirements.
