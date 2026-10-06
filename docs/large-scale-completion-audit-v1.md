@@ -60,6 +60,23 @@ immutable at64; later single-cell projections extend coverage without pretending
 that an inconsistent whole-block snapshot passed. Future full collection waits
 for a stable inactive boundary; all168 semantic audit requirements remain.
 
+Later summary082 advances classified coverage to82, not full completion.
+[Cell82](large-scale-resident-checkpoint-082-v1.md) completed with originalscore0,
+three Manager/Verifier turns, one actual four-image inference and no context/
+backend failure. Fixed video placement597.045s remains separate from E2E693.463s
+and Agent movement. Queue008/cell83 were command-verified live00:08:13Z, on
+the frozen Slow Video602-2/P1/B setup. No replacement or semantic change.
+
+An independent [first81 proposal/context audit](large-scale-resident-context-partial-081-v1.md)
+reverified cached snapshot020,065–081summary sources/trace hashes and the exact
+first81journalprefix. It distinguishes185prepared models,100successful inference
+receipts,3proven post-inference parse failures and34context-rejected model quotes.
+Exact static matcher and actual raw Manager-request checks prove5static-invalid
+requests in4runs, with57/57Manager-turn exposure coverage. These narrow proofs
+do not establish full failure attribution, comprehensive private semantics,
+balanced method comparisons, pruning eligibility or absence of other dynamic
+signals in the final matrix. Neither audit starts PhaseII or changes the goal.
+
 The389-file measured app,18-task manifest, pricing/history/E rules and five
 resident-instance contracts are hash-bound by the unchanged execution freeze.
 Per-cell admissions verify effective SDK recipient contexts, original evaluator
