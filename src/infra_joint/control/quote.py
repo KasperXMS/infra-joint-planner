@@ -13,7 +13,7 @@ from uuid import uuid4
 from pydantic import Field
 
 from infra_joint.control.consequence import ActionConsequence, ActionConsequenceEstimator
-from infra_joint.control.contracts import LogicalAction
+from infra_joint.control.contracts import LogicalAction, LogicalModelAction
 from infra_joint.control.gateway import ActionGateway
 from infra_joint.control.ledger_native import LedgerActionGateway
 from infra_joint.control.physical import PhysicalExecutionOutcome, PhysicalExecutionService
@@ -46,7 +46,14 @@ class _PendingQuote:
 
 
 def action_sha256(action: LogicalAction) -> str:
-    payload = json.dumps(action.model_dump(mode="json"), ensure_ascii=False,
+    value = action.model_dump(mode="json")
+    if isinstance(action, LogicalModelAction):
+        # These fields are sets, not sequences: deepcopy/hash-seed changes may
+        # reorder their JSON arrays without changing the quoted action.
+        value["requirements"]["modalities"] = sorted(action.requirements.modalities)
+        value["requirements"]["required_capabilities"] = sorted(
+            action.requirements.required_capabilities)
+    payload = json.dumps(value, ensure_ascii=False,
                          separators=(",", ":"), sort_keys=True).encode()
     return hashlib.sha256(payload).hexdigest()
 
