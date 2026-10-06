@@ -8,7 +8,32 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 06:02Z
+## Latest verified progress: 2026-10-06 06:59Z
+
+Actual E tool schemas violated the user protocol's no-query requirement.
+Fourteen effective E attempts have now been retrospectively excluded through
+exact immutable evidence proofs and append-only journal records; zero actual
+queries do not excuse the exposed interface. Historical pre-review totals below
+must not be read as current fair-comparison counts.
+
+Application004 is independently frozen and validated: local/Linux1322tests,
+actual SDK isolation47tests; separate control local/Linux1335tests, Ruff/strict
+Pyright passed. Actual fresh Worker004 readiness uses unchanged Worker003 code,
+four empty stores/five resident deployments, with no model restarts.
+All14 E repairs are bound to execution004; prior Quote/cardinality authorities
+remain bound to002/003. No ordinary wrong answer or budget failure is repeated.
+
+After exclusions:111/168effective cells,128 historical attempts and57 nominal
+cells to execute (14 E repairs +43 never-started). Queue012 controller281792 and
+first atomic285038 are actually live. Video602-2/P2/Slow/E/attempt2 reserved
+06:56:36Z; its outcome is pending. Cell125/D is a precisely adjudicated valid
+20-turn failure, not replacement authority. [Exact activation and boundaries](large-scale-resident-E-query-contract-repair-v1.md).
+
+The full168cells/private semantic/failure/recipient/adoption audits, frozen
+pruning, actual held-out PhaseII and finalQ1–Q10 remain unfinished. No method
+selection, score aggregation, final winner or PhaseII launch.
+
+## Earlier verified progress: 2026-10-06 06:02Z
 
 Snapshot036binds123effective cells/127attempts/one pending124. MultiHop2/P2/
 Slow/B0completed/format-valid/score1, with three-local-top10/context-reject/top3/
