@@ -75,3 +75,33 @@ outside the frozen app and active external006controller. No file in those runnin
 sources changed. No benchmark/Planner/model call, tc mutation, dataset download or
 full trace/body export occurred during this audit. Complete-study semantics,
 pruning, PhaseII execution and finalQ1–Q10are still unfinished.
+
+## Subsequent source-bound prefix108: same adoption, broader verified scope
+
+At03:56:53Z the unchanged final helper002audited31effective B/E runs from
+source-aware snapshot027(first108effective cells). Each trace hash and original
+valid-card count was independently checked. This is not relabelled prefix098.
+
+| Planner / method | Effective runs inspected | Actual root query attempts | Exact returned / visible / matched / successful cards |
+| --- | ---: | ---: | --- |
+| Qwen3.8-Max / B | 10 | 1 | 1 / 1 / 1 / 1 |
+| DeepSeek V4 Pro / B | 10 | 0 | 0 / 0 / 0 / 0 |
+| Qwen3.8-Max / E | 6 | 0 | 0 / 0 / 0 / 0 |
+| DeepSeek V4 Pro / E | 5 | 0 | 0 / 0 / 0 / 0 |
+
+Unknown root responses0in this specific population. The sole exact successful
+card link remains cell90; no new query appeared in the added101/E,104/B or107/E
+traces. These are observed numerator/linkage counts, not a final task-condition
+or eligible-decision adoption rate. E's rule visibility does not establish that
+the model internally used a rule. The partial, unbalanced scope does not permit
+pruning, causal cost-benefit inference or a stable Planner-specific conclusion.
+
+Exclusive remote proof:
+`analysis/resident-optional-card-adoption-prefix108-001.json`, SHA256
+`ebcf9418f8861eed05b2e67a06d7b931230783b3b9277b3e553b142c312d4e06`.
+It binds snapshot027SHA
+`0ae71b594a0d57c774fa56a898951706114e339cd1a3b594ba2e77e77c95a5b8`
+and unchanged helperSHA7327309b…bf195c. No frozen app/controller file, admission,
+schedule, prompt, runtime, model, dataset or network setting changed; no model
+call or private artifact body scan occurred. Full168/full private audit remains
+necessary before screening/pruning/PhaseII.
