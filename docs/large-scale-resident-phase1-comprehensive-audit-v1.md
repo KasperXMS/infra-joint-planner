@@ -138,3 +138,18 @@ minimally corrected and retested in a separate control namespace. Historical
 controllers and measured source004 stay unchanged. Actual frozen gate/control,
 held-out execution, final audits and Q1–Q10 remain required. The active research
 goal is not complete.
+
+### Actual gate persisted after checks
+
+The actual gate subsequently completed exclusive persistence at
+`analysis/resident-phase2-evidence-gate-001.json`, SHA256
+`036696634020ccc416a7ae05a9054075590509a729403e05487fa4133463ef95`.
+The192-cell held-out schedule SHA256 is
+`5ce98796f1254db6098de24d0639f23eff7a53ea5f1d1beaa01cbc419310a23a`,
+seed20261005. It retains B0/B1/A/E,402planned cumulative substantive cells.
+The source004 atomic execution remains unchanged. The corrected held-out
+controller passed full1694tests/7Windows platform skips, Ruff, strict Pyright
+and42actual Linux integration tests; see
+[control preparation](large-scale-resident-phase2-jsonl-preparation-v1.md).
+Actual control freeze is now being independently verified; queue not yet launched
+at this checkpoint. Gate persistence is not a completed experiment.
