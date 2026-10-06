@@ -10,6 +10,14 @@ semantic behavior.
 
 ## Latest verified progress: 2026-10-06 05:16Z
 
+Offline preparation update05:30Z: the evidence-gated held-out controller is now
+implemented outside the measured app, using its existing execution003atomic
+entrypoint.1,295fulltests,66actual Linux gate/controller tests, Ruff and both
+configured/explicit-script strictPyright pass. A real live-PhaseInegative smoke
+blocks before control loading or PhaseIIjournal initialization. No methods were
+selected and no PhaseIIgate/control/schedule/queue was created.
+[Actual scope, guards and immutable readiness proof](large-scale-phase2-controller-readiness-v1.md).
+
 Cell114/Video1/P1/Slow/Ccompleted/format-valid/score1, eight SDK contexts scanned,
 all Worker exits/residency verified. Snapshot031binds114effective/118attempts /
 one pending115and the unchanged three source epochs. File SHA
