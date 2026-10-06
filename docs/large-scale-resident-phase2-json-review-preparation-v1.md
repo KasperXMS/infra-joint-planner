@@ -149,3 +149,35 @@ suite:84passed, log SHA256
 `9d81c7c0215fae98a4079e8529bfa5d356ba8d99ae4763711afe6d6b944179a8`.
 Final adapter code: full local1752passed/7Windows platform skips,1759collected;
 Ruff, strict Pyright with the project interpreter and diff check pass.
+
+## Startup self-identity correction (no new cell executed)
+
+First resumed supervisor2126989/controller2126990 exited before reservation. The
+strict inactivity guard saw its newly registered own process receipt and
+rejected the controller itself. Journal remains33records; no Worker/tc/Planner/
+model/benchmark run was started. Console SHA256:
+`b6b23499ea62551e8aa5cd29c257779e224b92e0e6d71addcf0c195a4277304e`.
+Supervisor/process/exit/console002 and old adapter receipt001 remain immutable.
+
+The external startup guard now excludes only its exact current PID in an owned
+root `queue-process-*` handle whose command identifies this controller. Other
+live controllers, atomic handles, leases, malformed IDs and symlinks still fail.
+Only the copied run function's startup namespace uses this identity check;
+**the original private-body inactivity guard is unchanged** and still rejects
+the same registered live controller before body reads. Full per-cell gate,
+exclusive QueueLease and every exact sidecar proof remain unchanged.
+
+Four added tests include original strict guard rejection of an allowed startup
+self and other-controller/atomic/lease rejection. Actual Linux suite88passed,
+log SHA256 `f6fa806c1c01c88a413eaf003c4b0c143de7a6802a30d518f8b0b1645ce278e2`.
+Adapter002 source SHA256
+`a78cdfa6ad76fa76b78fb2fe91128ddca026f1f5160d7f76f122e18c34486087`;
+code-only archive002
+`81c41db92609ebefa393dafc9dd139b1bc7d093c84019a81b1c73b377992dd6d`.
+Namespace: `audit-tools/resident-phase2-read-once-control-002`.
+Actual reactivation is a subsequent verified step, not claimed by this preparation.
+
+Final startup-correction checks: full local1756passed/7Windows platform skips,
+1763collected;35new targeted tests. Ruff, strict Pyright with the explicit project
+interpreter and diff check pass. Actual Linux88passed. These are external
+controller/bookkeeping tests, not new benchmark runs or semantic retries.

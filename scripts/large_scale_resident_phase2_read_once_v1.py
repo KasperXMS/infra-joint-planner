@@ -8,8 +8,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
-from types import FunctionType
+from types import FunctionType, SimpleNamespace
 from typing import Any
 
 import large_scale_resident_phase2_reviewed_queue_v1 as previous
@@ -55,9 +56,32 @@ def validate(control: Path, receipt: Path) -> None:
         raise RuntimeError("ledger adapter/control/source drift")
 
 
+def assert_startup_safe(root: Path, *, proc_root: Path = Path("/proc"),
+                        own_pid: int | None = None) -> None:
+    """Ignore only this registered controller, never relax a private-body guard."""
+    current = os.getpid() if own_pid is None else own_pid
+    handles = [root / "queue-lease.json", *root.glob("queue-process-*.json"),
+               *root.glob("evidence/*/attempt*/process.json")]
+    for handle in handles:
+        if not handle.exists():
+            continue
+        if handle.is_symlink():
+            raise RuntimeError("startup process handles must be owned files")
+        pid = json.loads(handle.read_text())["pid"]
+        if not isinstance(pid, int) or isinstance(pid, bool) or pid <= 0:
+            raise RuntimeError("startup process identity invalid")
+        command = proc_root / str(pid) / "cmdline"
+        if not command.exists() or root.name.encode() not in command.read_bytes():
+            continue
+        if (pid != current or handle.parent != root
+                or not handle.name.startswith("queue-process-")
+                or b"large_scale_resident_phase2_read_once_v1" not in command.read_bytes()):
+            raise RuntimeError("another live controller/atomic/lease prohibits startup")
+
+
 def run(control: Path, receipt: Path) -> None:
     previous.frozen.require_remote()
-    previous.previous.gate.evidence.private.assert_inactive(previous.frozen.ROOT)
+    assert_startup_safe(previous.frozen.ROOT)
     validate(control, receipt)
     original = previous.run
 
@@ -70,8 +94,17 @@ def run(control: Path, receipt: Path) -> None:
         value: tuple[dict[str, Any], tuple[Any, ...]] = bound(path)
         return value
 
+    # Only the original run function's startup check receives this view. The
+    # original private module/global guard remains untouched and rejects this
+    # very same live controller before any private body read.
+    parent = previous.previous
+    private = SimpleNamespace(**{**vars(parent.gate.evidence.private),
+                                 "assert_inactive": assert_startup_safe})
+    evidence = SimpleNamespace(**{**vars(parent.gate.evidence), "private": private})
+    gate = SimpleNamespace(**{**vars(parent.gate), "evidence": evidence})
+    startup_parent = SimpleNamespace(**{**vars(parent), "gate": gate})
     namespace = {**original.__globals__, "ReviewedAttemptLedger": ReadOnceAttemptLedger,
-                 "checked_control": checked}
+                 "checked_control": checked, "previous": startup_parent}
     bound = FunctionType(original.__code__, namespace, original.__name__,
                          original.__defaults__, original.__closure__)
     bound(control)

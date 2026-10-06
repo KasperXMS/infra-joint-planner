@@ -69,3 +69,32 @@ def test_adapter_drift_stops_before_any_ledger_or_execution(heldout_json, monkey
     monkeypatch.setattr(previous, "checked_control", lambda _: pytest.fail("execution"))
     with pytest.raises(RuntimeError, match="drift"):
         adapter.run(control, receipt)
+
+
+def test_registered_self_can_start_but_original_private_guard_still_rejects(tmp_path):
+    root = tmp_path / "experiment"
+    root.mkdir()
+    proc = tmp_path / "proc/71"
+    proc.mkdir(parents=True)
+    (proc / "cmdline").write_bytes(
+        b"python\0-m\0large_scale_resident_phase2_read_once_v1\0experiment\0")
+    (root / "queue-process-phase2-003.json").write_text('{"pid":71}')
+    original_guard = adapter.previous.previous.gate.evidence.private.assert_inactive
+    adapter.assert_startup_safe(root, proc_root=tmp_path / "proc", own_pid=71)
+    with pytest.raises(RuntimeError, match="inactive queue"):
+        original_guard(root, proc_root=tmp_path / "proc")
+    assert adapter.previous.previous.gate.evidence.private.assert_inactive is original_guard
+
+
+@pytest.mark.parametrize("handle", ["queue-process-other.json", "queue-lease.json",
+                                    "evidence/cell/attempt1/process.json"])
+def test_other_live_owner_or_atomic_or_lease_blocks_startup(tmp_path, handle):
+    root = tmp_path / "experiment"
+    path = root / handle
+    path.parent.mkdir(parents=True)
+    path.write_text('{"pid":72}')
+    proc = tmp_path / "proc/72"
+    proc.mkdir(parents=True)
+    (proc / "cmdline").write_bytes(b"python\0experiment\0")
+    with pytest.raises(RuntimeError, match="prohibits startup"):
+        adapter.assert_startup_safe(root, proc_root=tmp_path / "proc", own_pid=71)
