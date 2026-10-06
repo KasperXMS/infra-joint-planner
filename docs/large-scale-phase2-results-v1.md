@@ -1,11 +1,42 @@
 # Resident Phase II results — in progress
 
-Latest reviewed snapshot016 at2026-10-06T23:07:31Z:
-17effective valid/17attempts/0pending/2preserved raw confounders/0exclusions.
-SHA256 `ef36035b6960d0ca502b48e0eb9a47a008c7a78eb5ad5fa144b1b10805de18d9`;
-journal `64ed03e2ee9ac479971ab728b5735f0adcb30c251d4c68f7487d3aeca93df502`.
-The table now includes17 settled original outcomes. Old captures below are
+Latest reviewed snapshot017 at2026-10-06T23:24:09Z:
+18effective valid/18attempts/0pending/2preserved raw confounders/0exclusions.
+SHA256 `04b06062b3fc5f48019881a6e254a5e06f3f61e3cb45dacc685e4a8c87a09397`;
+journal `6637ed398d120c961ff3e95b21dea5431481d59b243abff9ae1e4160396bfc4f`.
+The table now includes18 settled original outcomes. Old captures below are
 historical, not current counts. No score pooling, retry or semantic tuning.
+
+Cell18 MultiHop4/Qwen/Slow/B0 completed, format valid, original score1.0.
+Independent original admission/journal, four empty stores, five resident
+identities, Worker exits/tc restoration, direct successful terminal-model answer
+and22actual SDKcontexts pass; audit SHA256
+`3b13b2225137558c6cd82e0384a9f8cbcf49763e077ecc86c358b84001d4fe22`.
+Eleven Manager/Verifier turns, nine physical actions: one aggregate, two BM25,
+four filter and two model requests. One model request was context-rejected
+before inference; one later request reached A28/resident-a28-qwen35-27b-v1,
+reporting1,711input/2output tokens, stop and32.244s backend service work.
+The Manager continued after typed context and semantic-validation feedback,
+without manual recovery or retry. One phase-restricted SDKcall is separate.
+Successful tool work2.692s; inclusive model-action Worker work32.451s is not
+additional backend work. Agent movement5,204,596B/14.838s is complete; initial
+7,696,522B/22.434s is separate. Graph9nodes/10edges/28snapshots/peak1;
+terminal model consumes two artifacts. Weak original score1 is not independent
+semantic/evidence-retention verification. Do not causally compare this cell
+against17: Planner, network and method all differ.
+
+Feedback013 audits286actual SDKcontexts=139Manager/139Verifier/8specialist,
+33profiles/68ledgers/36rules exactly matching archived requests;
+SHA256 `1c5e51175890488752f61a4a82af9a72271ce293522550ce4bb8464318bb5cb6`.
+At23:27:44Z the same controller0042229557/supervisor2229556 are owned/live;
+cell19 MultiHop4/DeepSeek/Slow/B1 attempt1, atomic2265023, is owned/live.
+The journal then has38records/18effective settled/one pending. Pending is not
+completion. Remaining174 preserve the frozen schedule; no controller restart,
+model/prompt/budget/scheduler change or payload transfer through the development PC.
+Full192 and inactive private/manual/failure/adoption/Q1–Q10 remain outstanding.
+
+Historical snapshot016 at23:07:31Z had17effective outcomes,
+SHA256 `ef36035b6960d0ca502b48e0eb9a47a008c7a78eb5ad5fa144b1b10805de18d9`.
 
 Cell17 MultiHop4/DeepSeek/Fast/E completed, format valid, original score0.
 Its exact2post-backend model-JSON failures are source-bound reviewed under
@@ -84,6 +115,7 @@ scores 0, 0, 1 and 1 respectively. Neither wrong-answer cell was retried.
 | MultiHop5 | Qwen / Slow / B1 | true / valid / 1 | 10 / 10 | 13 / 2 | 1 | 1034.529 | 7,696,522 / 22.042 | 5,204,596 | 0.202958 |
 | MultiHop5 | DeepSeek / Fast / B0 | true / valid / 0 | 13 / 13 | 48 / 5 | 3 | 1884.311 | 7,696,522 / 1.511 | unknown; returned subtotal 43,046 | 0.838502 |
 | MultiHop4 | DeepSeek / Fast / E | true / valid / 0 | 6 / 6 | 13 / 4 | 1 | 352.579 | 7,696,522 / 1.108 | unknown; returned subtotal 0 | 0.150308 |
+| MultiHop4 | Qwen / Slow / B0 | true / valid / 1 | 11 / 11 | 9 / 1 | 1 | 149.584 | 7,696,522 / 22.434 | 5,204,596 | 0.175846 |
 
 Cell16 completed with original score0,13Manager/13Verifier,8specialist turns,
 1created specialist,48physical actions,5successful inference telemetry receipts.

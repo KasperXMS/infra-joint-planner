@@ -93,3 +93,16 @@ No new Agent call/private support/corpus/store-body scan or payload export.
 These17settled requests do not cover future live cells. Exposure does not prove
 rule adherence, semantic retention or causal cost benefit. Historical captures
 below retain their original populations.
+
+## Actual reviewed snapshot017 / feedback013
+
+2026-10-07 HKT:18settled cells,286actual SDKcontexts:
+139Manager/139Verifier/8specialist.33B1profiles,68A/Eledgers and36E frozen-rule
+exposures exactly match corresponding trace values and actual provider requests.
+Cell18 adds22Blind Manager/Verifier contexts, with no dynamic feedback messages;
+non-Manager recipients remain Blind and the Verifier model remains fixed.
+SnapshotSHA `04b06062b3fc5f48019881a6e254a5e06f3f61e3cb45dacc685e4a8c87a09397`;
+feedback013SHA `1c5e51175890488752f61a4a82af9a72271ce293522550ce4bb8464318bb5cb6`.
+No new Agent call, private support/corpus/store-body scan or payload export.
+This settled audit does not cover live cell19. Exposure still does not prove
+adoption, semantic retention or causal cost benefit; full post-block audits remain open.
