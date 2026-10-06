@@ -10,6 +10,26 @@ semantic behavior.
 
 ## Current authoritative proof and its limits
 
+**Later exact runtime finding (2026-10-06 00:31Z) supersedes nominal clean-count
+claims below.** There are84settled attempts, but cells4/84 contain ten false
+`quoted_action_mutated` guards caused by frozenset serialization order after
+deepcopy. Original admissions/journal/snapshot020 remain immutable; these two
+results are excluded from clean comparison pending source-frozen generic repair
+and affected-only reruns. [Exact audit and repair](large-scale-resident-quote-integrity-repair-v1.md)
+records the actual provider commit arguments, unmodified-source reproduction,
+1102passing tests and queue containment. Cell85was still running under its
+original freeze at00:30:18Z; no86was authorized. Local code is repaired, but no
+new measured execution/control freeze or replacement has yet been performed.
+The goal remains active and unfinished, not complete/paused or PhaseII-eligible.
+
+Later00:33:51Z proof confirms85settled, cell85completed/originalscore0, both
+queue008andatomic85exited, lease released and no86reserved. Safe-drain receipt
+fileSHA `af992c6734ea5823c4cc334ca8a01745b0ea0a3abdfc7ee2aeef3637f7e3c4e7`.
+The two Quote-confounded outcomes are still excluded; [cells83–85](large-scale-resident-checkpoint-083-v1.md)
+records preserved telemetry and unknowns. New repair execution freeze, exact
+retrospective ledger handling and affected-only reruns remain required before
+continuation. No formally paused goal or completed experiment is asserted.
+
 Snapshot020 proves64new nominal admissions/0pending/0unresolved confounders,
 not168completed cells or comprehensive private semantic auditing. File SHA:
 `8dc0c5a77259f809b4b992c5e1e923965699391abf1592a5be19af44550512d1`,

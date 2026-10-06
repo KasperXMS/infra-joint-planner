@@ -125,3 +125,15 @@ model contract. Results remain private offline audit data, never Agent feedback.
 Execution001/control007 remain frozen; all168/failure/semantic/recipient/adoption
 audits still precede screening/pruning and actual PhaseII. No quality aggregation
 or method winner is claimed.
+
+## Subsequent runtime finding and accounting correction
+
+At00:31Z, the [exact Quote integrity audit](large-scale-resident-quote-integrity-repair-v1.md)
+identified cell4's six false `quoted_action_mutated` failures. They are a
+deepcopy/set-serialization implementation confounder, not Planner action edits.
+The immutable first81 projection's model-quote `pending14` includes these six
+rejected quotes; actual lifecycle pending is8, with rejected6 reported separately.
+Its completed trajectory counts remain historical facts, not a clean comparative
+population or proof of Planner-caused protocol overhead. In particular D's
+selected-but-unexecuted singleton candidates can have runtime causes. The new
+proof retains the prior receipt unchanged; no prompt tuning/replacement occurred.
