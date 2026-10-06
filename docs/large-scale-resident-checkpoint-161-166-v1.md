@@ -63,7 +63,12 @@ telemetry. Fixed initial materialization is separate from Agent-controlled movem
   failure `context_limit_exceeded`; four have a supported abstract static request,
   one has `static_request_supported=false`. Actual artifact-context feasibility
   is distinct from the abstract class-envelope flag; these facts alone do not
-  establish dynamic deployment unavailability.17control-only batches, six quote-level
+  establish dynamic deployment unavailability. Original selection receipts give
+  four input estimates191,045 /95,342 /95,408 /95,525tokens, all over32768
+  with2048reserved; the fifth explicitly requests65536minimum context, outside
+  the static class. These are context/request composition constraints, not
+  evidence that a normally feasible model was unavailable due to load/network.
+ 17control-only batches, six quote-level
   phase-restricted rejections,2.353740s quote-control work. One singleton
   comparison is visible but produces no selected/executed member. No real
   multi-alternative comparison. Immediate cause is the20-turn ceiling;
