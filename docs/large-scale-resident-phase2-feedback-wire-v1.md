@@ -6,18 +6,19 @@ No Agent code, instructions, budget, rule payload, scheduler or model was change
 
 Audit001 covers snapshot005's six settled cells; audit002 extends the same checks
 to snapshot006's seven cells, audit003 to snapshot007's eight cells and audit004
-to snapshot008's nine cells; audit005 covers snapshot009's ten cells.
+to snapshot008's nine cells; audit005 covers snapshot009's ten cells and audit006
+covers snapshot010's eleven cells.
 Actual persisted provider requests were read
 only on their owner4090. No raw requests, benchmark artifacts, gold or supporting
 evidence were exported through the development PC. The audits made zero model
 calls and did not read support/corpus/store bodies.
 
-| Check | Actual ten-cell result |
+| Check | Actual eleven-cell result |
 | --- | --- |
-| Manager / Verifier / specialist provider request contexts | 64 / 64 / 0 |
+| Manager / Verifier / specialist provider request contexts | 70 / 70 / 0 |
 | B1 profile exactly matches corresponding pre-decision trace payload | 23 / 23 |
-| A/E ledger exactly matches corresponding pre-decision trace payload | 32 / 32 |
-| E rules exactly match frozen canonical rule payload | 14 / 14 |
+| A/E ledger exactly matches corresponding pre-decision trace payload | 38 / 38 |
+| E rules exactly match frozen canonical rule payload | 20 / 20 |
 | B0 profile/ledger/rule feedback messages | None |
 | Non-Manager profile/ledger/rule message prefixes | None |
 | Verifier model matches fixed frozen model | Every request |
@@ -57,6 +58,8 @@ Append-only owner-local receipts, under
   `0223640e8c48c4a67d7a01015b0bcf72ff9bdce37a0a73d908e5a92931c82a60`.
 - `resident-phase2-feedback-wire-audit-005.json`, SHA256
   `2cca663e95ea0c5964308fd7c434cc79f74cf0dea11df28788ca443b986aca3b`.
+- `resident-phase2-feedback-wire-audit-006.json`, SHA256
+  `f2f75e4ba4f8f21d26e7ae061e570c1b7b7788a693061b4cead709e70639efd7`.
 
 Visibility does not prove internal adoption, correct cost reasoning or a
 quality-preserving benefit. Complete held-out semantic/failure/adoption review
