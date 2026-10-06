@@ -98,3 +98,19 @@ in later source-bound checkpoints, not inferred from launch.
 
 All168effective PhaseI outcomes plus complete private/failure/recipient/adoption
 audit, frozen pruning, actual PhaseII within420cap and final Q1–Q10remain required.
+
+## Actual new atomic run and independent projection
+
+At04:35:17Z journal sequence230reserved the exact110attempt2under execution003;
+atomic4051504and all four fresh Workers actually started. At04:37:57Z queue and
+atomic remained live with251trace events, six completed root reasoning calls,
+two returned model outcomes and two context-reject observations. No admission
+or evaluator outcome yet; these partial events are not a valid completed sample.
+
+The actual three-source collector produced `analysis/resident-snapshot-028.json`
+at04:37:17Z:109effective/113total attempts including one pending, three retained
+confounded originals, no pruning/quality aggregation/PhaseII authorization.
+File SHA`f308d946aea0b4536807e2ad3d3320e34e98432f3b838bc45bbe3d973ae9bf15`;
+journal SHA`5cef674747557c41c04d16c1f9ea67b561f817abf78a173b7b82429a6d2d301a`.
+Its read-only collector-mutation flag does not mean all execution epochs have
+identical schemas: the explicit001/002/003boundaries above remain mandatory.

@@ -8,7 +8,27 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 02:20Z
+## Latest verified progress: 2026-10-06 04:37Z
+
+The exact cell110cardinality defect is now source-frozen in execution003/control010,
+after local/Linux1,213passing tests,34actual-archive regressions and fresh four-Worker
+surface/residency/exit checks. Historical001/002sources/manifests/results and the
+execution002Quote authorizations remain intact. No semantic/budget/model tuning.
+
+Queue011/controller4047590and exact affected110attempt2/atomic4051504are actually
+live. Source-aware snapshot028has109effective cells,113total attempts/one pending
+and three retained confounded originals. It binds all three execution epochs;
+file SHA`f308d946aea0b4536807e2ad3d3320e34e98432f3b838bc45bbe3d973ae9bf15`.
+No new admission/evaluation is inferred from partial model outcomes. Only the
+proven affected repair and never-started cells continue; no ordinary failed/wrong
+sample is repeated and no input-policy refusal is treated as an outage retry.
+[Activation audit and exact receipts](large-scale-resident-cardinality-repair-activated-v1.md).
+
+All168effective PhaseI outcomes/full private/failure/recipient/adoption audit,
+frozen pruning, actual PhaseII within420cap and final Q1–Q10remain required.
+This is progress toward the active goal, not completion or pruning authorization.
+
+## Earlier verified progress: 2026-10-06 02:20Z
 
 This paragraph supersedes older live-process/preparation status below, while
 preserving their original evidence boundaries. Both exactly authorized Quote
