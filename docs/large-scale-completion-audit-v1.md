@@ -8,7 +8,25 @@ The later user-requested resident/diverse pool is a separately frozen physical
 environment amendment, not permission to pool the preceding42results or tune
 semantic behavior.
 
-## Latest verified progress: 2026-10-06 06:59Z
+## Latest verified progress: 2026-10-06 07:24Z
+
+Actual source004 has settled its first four affected E replacements. Snapshot039
+binds115/168 effective cells,133 attempts,17 historical confounders and1 pending.
+All four completions are format-valid; the LongBench score0 is retained and
+not retried. Every actual E Manager request remains query/quote/comparison-free.
+The queue continues; no aggregate quality claim, private semantic completion,
+method pruning or PhaseIIlaunch. All full-scope obligations remain outstanding.
+
+Post-block tooling now supports all four exact execution epochs in its own
+offline namespace. Full localpytest1373passed, Ruff/strictPyright/diffpassed,
+actual4090 offline110tests passed. Live guards demonstrably prohibit reading
+private bodies or starting a held-out queue while PhaseIcontinues. This readiness
+is not actual PhaseIIexecution or goal completion. Measured application revision
+remains0ff0e9b, not the new offline audit commit.
+
+See [source004 checkpoint](large-scale-resident-source004-checkpoint-v1.md).
+
+## Historical activation progress: 2026-10-06 06:59Z
 
 Actual E tool schemas violated the user protocol's no-query requirement.
 Fourteen effective E attempts have now been retrospectively excluded through

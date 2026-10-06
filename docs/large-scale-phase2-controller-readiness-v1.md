@@ -1,5 +1,26 @@
 # PhaseII controller readiness — external only, not launched
 
+## Current four-epoch readiness: 2026-10-06T07:24Z
+
+The historical three-source preparation below is retained, not the current
+execution contract. Audit commit`bdd0f50` adds the explicit four-source private
+path/gate and updates the future external held-out controller to execution004.
+Old remote control001 and every measured app/controller source remain untouched.
+New offline namespace:`audit-tools/resident-four-epoch-audit-001`.
+
+Full localpytest1373passed; Ruff/configured strictPyright/explicit strict four
+audit-script checking/diff passed. Actual4090 suite110passed and all three
+live-PhaseI negative guards reject before audit/body/control/journal input.
+Initial missing analysis-dependency packaging failure is preserved separately;
+successful readiness002 SHA
+`ba94e103312e71dc93e7a8636adf40fc03a4e4a546bfa492d3c00673104aba29`.
+
+Actual screening remains115/168 at snapshot039. **No real pruning, survivor set,
+held-out schedule, evidence gate, PhaseIIcontrol or PhaseIIexecution exists.**
+See [source004 checkpoint](large-scale-resident-source004-checkpoint-v1.md).
+
+## Historical three-epoch preparation
+
 2026-10-06T05:30Z. Commit`687d05f` prepares the actual held-out queue required by
 the full study, without modifying the resident app, current PhaseIcontroller,
 semantic harness, method variants, scheduler, evaluator or model pool.
