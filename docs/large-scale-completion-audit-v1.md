@@ -10,6 +10,26 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+Queue013 stopped08:08:23Z on an external parent-ledger version-compatibility
+defect after its completed run. That run remains valid; no additional failed
+cell/reservation occurred. New audit-only v2controller commit7ca9725 fixes only
+that replay boundary, fullpytest1411/Ruff/strictPyright and193remote tests passed.
+New control013 is frozen and Queue014 launched; measured execution004, prior
+proofs and all120valid settlements are unchanged. No actual PhaseIIor pruning.
+
+The continued MultiHop2/P2/Slow/E run settled valid08:07:43Z, bringing effective
+membership to120/168. Completed/format-valid/score1;5physical calls,1inference,
+4Manager/4Verifier. Empty initial stores, owned Worker exits,5model residency and
+all8recipient contexts verified. Its three-shard model request was context
+rejected; the next model consumed only shard1onA4. Complete action traffic0,
+75.550sE2E. This does not establish required-evidence retention or method benefit;
+private semantic audit stays pending until the full168block is inactive.
+
+Earlier continuation update08:05:51Z:Queue013 has reserved
+MultiHop2/P2/Slow/E/attempt2 using the same execution004 and existing genuine
+repair authorization.119effective cells stay settled; this new reservation
+is not counted as a completed120th sample. No valid cell repeated.
+
 Queue012 stopped at07:36:48Z on the prescribed validation-failure audit gate.
 Exact remote proof now admits119/168 effective cells,136retained attempts,
 17historical confounders and0pending, without modifying the306record raw journal
@@ -20,8 +40,8 @@ and original evaluator score1 are retained. See
 
 Full localpytest1402passed; Ruff and strictPyright passed; remote184offline tests
 passed. Audit-only commit23f2fea leaves measured execution004/0ff0e9b unchanged.
-New external control012 is frozen; Queue013PID422310 is live with control
-revalidation, but no new atomic dispatch is claimed at08:04Z. Actual private/
+New external control012 is frozen; Queue013PID422310 was verified live during
+control revalidation at08:04Z and has subsequently dispatched as above. Actual private/
 gate/held-out guards reject before input. No PhaseII. Full168private/recipient/semantic/
 failure/adoption audit, pruning and actual held-out PhaseII remain required.
 

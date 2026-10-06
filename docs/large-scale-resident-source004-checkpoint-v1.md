@@ -1,5 +1,18 @@
 # Resident source004: first repaired E settlements
 
+## Ninth repaired E settlement:08:07:43Z
+
+Effective120/168 after MultiHop2/P2/Slow/E completed/format-valid/score1.
+4Manager/0specialist/4Verifier,5physical calls,3tools/1actual inference,
+1pre-movement context reject,8recipient contexts,75.550sE2E. Initial four Worker
+stores empty, owned exits and5model residency passed; actual E surface no-query.
+Three-shard retrieval was followed by a rejected over-limit model request, then
+terminal inference over only shard1onA4/Qwen3-VL4B. Complete action movement0;
+7,696,522bytes/22.246sfixed setup separately. Model3,995input/3output/stop,
+11.629sservice. Required evidence coverage is unknown, not proved by score1.
+See [exact continued run audit](large-scale-resident-projected-record-audit-v1.md).
+Snapshot041 remains the earlier119-cell pre-dispatch scope, not overwritten.
+
 ## Latest exact membership: projected-record review afterQueue012
 
 119/168effective cells,136retained attempts,17historical confounders,0pending.
@@ -8,7 +21,9 @@ review. A new offline proof verifies its successful body-preserving projection
 ancestry and admits it without an execution retry or raw-evidence alteration.
 See [projection audit and exact hashes](large-scale-resident-projected-record-audit-v1.md).
 New control012 is frozen; Queue013PID422310 is actually live at08:04Z with
-pre-dispatch revalidation. No new atomic action is claimed at that checkpoint.
+pre-dispatch revalidation. At08:05:51Z it reserved MultiHop2/P2/Slow/E/attempt2,
+same execution004/existing repair authorization. This pending run is not counted
+as an additional settled sample and does not change immutable snapshot041.
 
 | Source004 E settlement | Completion / score | Manager / specialist / Verifier turns | Physical calls | E2E seconds |
 | --- | --- | --- | --- | --- |

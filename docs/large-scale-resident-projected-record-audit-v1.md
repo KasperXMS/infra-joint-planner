@@ -1,5 +1,75 @@
 # Resident projected-record audit: no semantic repair or replacement
 
+## External replay repair validated and frozen
+
+Code-only commit`7ca9725` introduces the separate v2controller, leaving all
+v1sources, controls, proofs, runtime and completed evidence immutable. Actual
+expanded308record replay reproduces the original parent freeze. Fullpytest
+1411passed; Ruff/configured strictPyright/explicit controller strictcheck passed;
+actual4090offline193tests passed. Regression includes a later successful cell
+after the reviewed raw confounder: the historical ledger refuses it, the new
+ledger admits the same immutable journal, without any semantic replacement.
+
+New control-freeze013 fileSHA
+`a06073aefa13d0363ec403ab7ffa9756ed62b20d7eec8ea0f5ed00cde674d8a5`,
+canonicalSHA
+`a676dae4108630aa1b21eef39876214ab6d626a3403ea53f6ae466ce7ad88bf5`.
+Readiness003 records actual source equivalence and unchanged execution004.
+Queue014 has been launched from this new receipt to continue only remaining
+scheduled cells. A live PID/first-dispatch check is still required before claiming
+actual atomic execution; Queue013 remains terminal, not retrospectively resumed.
+
+## Controller-only replay defect:Queue013 halted08:08:23Z
+
+The completed ninth E sample remains valid. Before dispatching another cell,
+the old parent controller tried to replay the expanded journal with its historical
+ledger, which cannot interpret the new projection proof. It correctly failed
+closed on the apparent unresolved confounder. No new reservation or failed
+benchmark cell resulted;120valid settlements remain. The defect is in external
+control-version compatibility, not measured Agent/Worker execution. Exact stop
+receipt:`analysis/resident-projection-parent-replay-defect-001.json`; original
+console/exit/source/control receipts remain unchanged.
+
+A new external v2controller is under regression/full validation: it reconstructs
+the original parent source/evidence/authorization freeze but uses only the
+projection-aware ledger for expanded-journal replay. It does not weaken the old
+controller, authorize semantic reruns, or touch execution004. This is a pending
+repair, not a claim that Queue013 is still live.
+
+## First continued atomic settlement:08:07:43Z
+
+MultiHop2/P2/Slow/E/attempt2 has settled valid, completed/format-valid/score1.0.
+Effective count is now120/168. All four pre-materialization Worker stores were
+empty; all four owned Worker processes exited and5resident models passed.
+Every actual Manager request remains E no-query;8SDK recipient contexts audited.
+Full application trace and request bodies remain remote. Admission canonicalSHA
+`30c7519fecd41da19219fadb96a80d6450b80c3002434b9938e621b5d59f92ec`;
+append-only bounded run audit fileSHA
+`839bb02078fbe176ca37924bb90d32e513248a22b5bc6dabd85b176fd9e87ac5`.
+
+Actual sequence:3shard-local BM25 actions; model over3results rejected before
+transfer at44,039estimated input +2,048reserved versus32,768; then terminal
+model uses only shard1retrieval onA4/Qwen3-VL4B. One inference,3successful tools,
+4Manager/4Verifier,5physical calls,0specialists,16graphs/5nodes/4edges. Model
+3,995input/3output tokens,stop,11.629sservice;1.193stool work. One SDK
+phase-restricted aggregation attempt is not an extra physical execution.
+
+E2E75.550s; fixed corpus placement7,696,522bytes/22.246s stays separate. Complete
+action movement0is supported by the receipt: the failed action stopped before
+movement and the successful terminal artifact was already onA4. This is **not**
+quality-preserving optimization evidence: required-support retention is still
+unaudited, and using only one shard can discard previously retrieved evidence.
+Score1does not establish semantic sufficiency or causal method benefit.
+
+## Actual continuation:08:05:51Z
+
+Queue013 has reserved the next still-unfinished, previously authorized E repair:
+MultiHop2/P2/Slow/attempt2. Actual journal sequence306, reservation SHA
+`c82328a36dbe3b965509e933dff2f6564de03f4ebf02a405511b0254716dfb3c`.
+It uses exactly execution004. Snapshot041 remains the immutable pre-dispatch
+119/136/17/0 view; the live journal now additionally contains this reservation,
+not a120th settled sample. No audited valid cell was repeated.
+
 ## Exact review reproduced:2026-10-06
 
 The actual remote sidecar reproduces the full successful projection ancestry

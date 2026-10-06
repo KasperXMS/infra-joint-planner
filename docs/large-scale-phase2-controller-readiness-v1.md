@@ -1,5 +1,15 @@
 # PhaseII controller readiness — external only, not launched
 
+## Expanded-journal replay regression
+
+New external screening-controller commit7ca9725 resolves only the compatibility
+boundary where a historical ledger could not replay a later reservation after
+the projection-reviewed raw confounder. Full localpytest1411/Ruff/strictPyright
+passed and actual4090offline193tests passed. All old source/receipt namespaces
+and measured execution004 stay unchanged; no completed cell was rerun. Current
+screening progress is120/168, not full168. There is still no actual PhaseIIgate,
+method selection, held-out schedule, controller or experiment result.
+
 ## New projected-record view readiness
 
 Audit commit23f2fea adds an exact body-preserving projection reviewer and shares
