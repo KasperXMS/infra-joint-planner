@@ -102,3 +102,55 @@ finding still stops admission for exact audit, not a silent retry.
 
 All168effective outcomes and full private audit precede pruning. ActualPhaseII
 execution and final reports/Q1–Q10remain unfinished; the full goal stays active.
+
+## First affected rerun settled
+
+Cell4/P1/Fast/D attempt2was reserved at sequence175/01:54:30Z and settled valid
+at sequence176. SettlementSHA:
+`fb5ecc7626a4a01f8eda0d6eb4def33cb4c939694ce91e1cea0be3d97a85108b`.
+AdmissionSHA:
+`da496426162b5cefaed2081f253f36a38d920f9d73c3e60ad4ce8767b304f452`.
+Actual Worker exit and residency validations passed, privacy/audit problems were
+empty, and original evaluator returned score1/format-valid/completed.
+
+| Cell4 repaired execution | Actual value |
+| --- | ---: |
+| Manager / specialist / Verifier calls | 6 / 0 / 2 |
+| Physical tool / model inference | 1 / 1 |
+| E2E | 159.860s |
+| Fixed initial placement | 213,739,837bytes /18.694s |
+| Complete action-artifact transfer | 0bytes /0s |
+| Tool-only Worker work | 45.227s |
+| Model backend service | 44.689s |
+| Model input/output tokens | 7,854 /2, finish-stop |
+| Cloud Manager / Verifier work | 42.345s /7.665s |
+| Frozen regional list-price APIUSD | 0.09656969266134283, all8calls known |
+| Graph / information edges / owners | 2nodes /7artifact edges /1owner |
+
+The actual path was `sample_frames -> invoke_model`, both onA4, with the same
+resident VL4B deployment. Two model quotes explicitly carried both image/text
+modalities: the16-image proposal was discarded; the7-image proposal was consumed
+and reached inference. Actual final Quote states are consumed2/discarded1,
+with0mutation rejections/0pending/0stale. All action intervals are measured,
+maxconcurrency1/overlap0; dependency-path90.527s excludes cloud/control work and
+is not full E2E critical-path latency. Tool/model/backend work must not be
+double-counted or summed as an asserted E2E decomposition.
+
+D's real multi-candidate comparison was **not** exercised: actual raw response
+function counts are sample_frames1/invoke_model2/commit_quote2/discard_quote1,
+with0compare_ready_actions. A discarded larger model proposal and a successful
+smaller proposal are observable; causal quote-induced revision or dynamic
+infrastructure optimization is not proved by their sequence alone. This is a
+valid repaired outcome, not a method winner or cross-task quality claim.
+
+Immutable single-cell proof:
+`analysis/resident-repair-cell004-attempt2-projection-001.json`, fileSHA
+`ecc7d34f48114663b3d26e5d994192e3e8a417746a16473c96553e234755f32b`.
+TraceSHA:
+`1f804938ea8ea168953bd565cc625d0bc694e223b999f477f4f7fdc82d7d4483`.
+The old cell4attempt1remains confounded/visible/excluded, not replaced on disk.
+
+Next affected cell84/P2/Fast/C attempt2was reserved at sequence177/01:58:08Z;
+atomicPID3458221was verified live02:01:10Z, with152events/11root turns,
+0mutation rejections and no terminal result/admission yet. Queue009remains
+active; no second formal repetition, prompt/model/budget tuning or early pruning.
