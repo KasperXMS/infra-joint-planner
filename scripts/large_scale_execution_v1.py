@@ -72,7 +72,10 @@ class ResidentBlock:
         if (sys.platform != "linux" or self.root != RESIDENT_ROOT
                 or deployment_root.resolve() != RESIDENT_ROOT
                 or self.environment_config != ResidentBlock.environment_config
-                or self.harness_manifest != ResidentBlock.harness_manifest):
+                or self.harness_manifest not in {
+                    ResidentBlock.harness_manifest,
+                    "configs/experiments/infra-aware-predecision-resident-cardinality-v1.yaml",
+                }):
             raise RuntimeError("resident execution must use the separately frozen 4090 block")
 
 
