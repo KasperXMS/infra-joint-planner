@@ -143,6 +143,13 @@ smaller proposal are observable; causal quote-induced revision or dynamic
 infrastructure optimization is not proved by their sequence alone. This is a
 valid repaired outcome, not a method winner or cross-task quality claim.
 
+Actual raw SDK request schemas were checked separately: all6/6Manager requests
+included `compare_ready_actions`. Thus zero comparison use in this run is not
+an inferred interface omission. Bounded request-hash/exposure proof:
+`analysis/resident-repair-cell004-interface-exposure-001.json`, fileSHA
+`bd9a501274ff0e54191beedbadc0dea76ccd07e87f44b03727ea23c25b4bbf48`.
+No request body or prompt was exported.
+
 Immutable single-cell proof:
 `analysis/resident-repair-cell004-attempt2-projection-001.json`, fileSHA
 `ecc7d34f48114663b3d26e5d994192e3e8a417746a16473c96553e234755f32b`.
