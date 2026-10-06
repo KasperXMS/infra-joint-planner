@@ -253,6 +253,8 @@ def scope(tmp_path, monkeypatch):
         "execution_sha256": "c" * 64, "atomic_execution_entrypoint": "/immutable/atomic.py"}
     control = tmp_path / queue.PARENT_FILE
     put(control, parent)
+    stopped = tmp_path / queue.STOPPED_FILE
+    put(stopped, {"original_scope": "preserved"})
     path = tmp_path / review.RATE_DIRECTORY / "mixed.json"
     put(path, {})
     raw = SimpleNamespace(run_id="mixed", disposition="confounder", reason=review.GATE)
@@ -261,6 +263,7 @@ def scope(tmp_path, monkeypatch):
     ledger = SimpleNamespace(original_attempts=(raw,), attempts=(effective,))
     monkeypatch.setattr(queue.frozen, "ROOT", tmp_path)
     monkeypatch.setattr(queue, "PARENT_SHA256", queue.frozen.sha256(control))
+    monkeypatch.setattr(queue, "STOPPED_SHA256", queue.frozen.sha256(stopped))
     monkeypatch.setattr(queue.previous, "control_freeze", lambda: parent)
     monkeypatch.setattr(queue, "owned_ledger", lambda: ledger)
     calls = []
@@ -286,11 +289,13 @@ def test_frozen_parent_scope_and_execution_survive_operational_projection(scope)
     assert scope.control.read_bytes() == before
 
 
-@pytest.mark.parametrize("damage", ["parent", "scope", "unknown", "missing_raw", "pending",
-                                   "nominal", "reason", "no_proof", "invalid_proof"])
+@pytest.mark.parametrize("damage", ["parent", "stopped", "scope", "unknown", "missing_raw",
+                                   "pending", "nominal", "reason", "no_proof", "invalid_proof"])
 def test_external_scope_cannot_admit_unproved_or_nominal_failures(scope, monkeypatch, damage):
     if damage == "parent":
         scope.control.write_text("{}", encoding="utf-8")
+    elif damage == "stopped":
+        (scope.control.parent / queue.STOPPED_FILE).write_text("{}", encoding="utf-8")
     elif damage == "scope":
         monkeypatch.setattr(queue.previous, "control_freeze", lambda: {})
     elif damage == "unknown":
@@ -312,3 +317,28 @@ def test_external_scope_cannot_admit_unproved_or_nominal_failures(scope, monkeyp
         monkeypatch.setattr(review, "verify_sidecar", reject)
     with pytest.raises(RuntimeError):
         queue.control_freeze()
+
+
+def test_parent_replay_uses_current_ledger_without_mutating_historical_checks(monkeypatch):
+    seen = []
+    ledger = SimpleNamespace(attempts=("nominal", "operational429", "identical replacement"))
+
+    def native():
+        seen.append(("native", owned_ledger()))  # noqa: F821
+        return {"original_native_scope": True}
+
+    def compound():
+        seen.append(("compound", owned_ledger()))  # noqa: F821
+        return {**previous.control_freeze(), "original_compound_scope": True}  # noqa: F821
+
+    monkeypatch.setattr(queue.previous.previous, "control_freeze", native)
+    monkeypatch.setattr(queue.previous, "control_freeze", compound)
+    monkeypatch.setattr(queue.previous.previous, "owned_ledger",
+                        lambda: pytest.fail("old view cannot replay new429replacement"))
+    monkeypatch.setattr(queue.previous, "owned_ledger",
+                        lambda: pytest.fail("old view cannot replay new429replacement"))
+    before_native, before_compound = dict(native.__globals__), dict(compound.__globals__)
+    assert queue.historical_parent(ledger) == {
+        "original_native_scope": True, "original_compound_scope": True}
+    assert seen == [("compound", ledger), ("native", ledger)]
+    assert native.__globals__ == before_native and compound.__globals__ == before_compound
