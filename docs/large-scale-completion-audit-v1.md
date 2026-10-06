@@ -10,6 +10,12 @@ semantic behavior.
 
 ## Latest verified progress: projected-record audit afterQueue012
 
+Read-only snapshot042 independently verifies122effective/140attempts/
+17historicalconfounders/1pending at08:48:17Z. File SHA256
+`b0c5b79781052f21d2ad8deed4654da333fe6549e65b111fcf69f50f90e466b1`;
+all four immutable execution sources and the closed42-cell predecessor were
+checked. This is not a completed PhaseI, private evidence audit or pruning.
+
 Latest actual completion:LongBench2/P1/Slow/E completed/format-valid/score0,
 bringing effective membership to122/168. Its wrong answer is retained, not
 retried.8Manager/8specialist/8Verifier,15physical actions/1actual inference,

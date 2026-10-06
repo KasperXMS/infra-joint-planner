@@ -1,5 +1,22 @@
 # Resident source004: first repaired E settlements
 
+## Source-bound live snapshot042:2026-10-06T08:48:17Z
+
+The unchanged four-epoch collector independently confirms122/168 effective
+cells,140 preserved attempts,17 historical confounders and1pending. It did not
+aggregate quality, read benchmark bodies for private semantic review, select
+methods or authorize PhaseII. The closed42-cell predecessor remains separate.
+
+- Remote file:`analysis/resident-source004-projection-snapshot-042.json`.
+- File SHA256:`b0c5b79781052f21d2ad8deed4654da333fe6549e65b111fcf69f50f90e466b1`.
+- Journal SHA256:`47d35eaea6266b5d4e8d5d53a3fb0575dff9f5af2f87b9057190bd44336e71c1`.
+- Pending:MultiHop1/P1/Slow/E/attempt3; raw admission is not yet available.
+  Fourteen observed BM25 validation failures request non-existent candidate
+  text fields on original shards. This is a diagnostic observation, not yet
+  a proven disposition or blanket validation-error waiver. Wait for the atomic
+  result and Worker exits, preserve all evidence, and apply exact source/shape
+  review before continuing the queue. Do not repair or retry the Agent action.
+
 ## Eleventh repaired E settlement:2026-10-06T08:29:57Z
 
 LongBench2/P1/Slow/E/attempt2 completed, format-valid, **score0 retained**;
