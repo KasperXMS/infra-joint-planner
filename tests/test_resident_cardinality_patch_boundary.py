@@ -49,7 +49,7 @@ def test_cardinality_freeze_rejects_unrelated_drift(damage: str) -> None:
 
 def test_new_manifest_changes_only_cardinality_capability_hash() -> None:
     app = Path(__file__).resolve().parents[1]
-    original = resident.frozen._yaml(resident.HARNESS)
+    original = resident.frozen._yaml(app / resident.ResidentBlock.harness_manifest)
     current = yaml.safe_load((app / patch.HARNESS).read_text(encoding="utf-8"))
     patch.validate_harness_delta(original, current)
     assert original["static_capability_contract_sha256"] != patch.CAPABILITY_SHA256
@@ -65,7 +65,8 @@ def test_new_manifest_changes_only_cardinality_capability_hash() -> None:
 @pytest.mark.parametrize("section", ["manager", "verifier", "budget", "available_operations",
                                      "anonymous_model_contract", "runtime"])
 def test_cardinality_manifest_rejects_tuning(section: str) -> None:
-    original = resident.frozen._yaml(resident.HARNESS)
+    app = Path(__file__).resolve().parents[1]
+    original = resident.frozen._yaml(app / resident.ResidentBlock.harness_manifest)
     current = deepcopy(original)
     current["static_capability_contract_sha256"] = patch.CAPABILITY_SHA256
     current[section] = "changed"
