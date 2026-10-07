@@ -1,5 +1,47 @@
 # Resident Phase II results — in progress
 
+## Cell43 settled: context continuation, valid original score0
+
+2026-10-07 14:35HKT. Video4/DeepSeek/Slow/B1 attempt1 completed with valid
+terminal output and original evaluator score0. Admission valid, no retry.
+Audit SHA `7189e1ce74a9ba5733defbc2f15b87c6a662dafc50ca4991b757ab2527623749`
+independently binds all source/state/startup/terminal/tc/shutdown evidence and
+8actual SDK contexts. No extra semantic finalizer.
+
+| Recorded component | Cell43 |
+| --- | --- |
+| Manager / Verifier / specialist turns |4 /4 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |3 /2 /1 |
+| Typed observations |1context reject before inference;1phase restriction |
+| E2E |120.972435369s |
+| Initial materialization, separate from Agent movement |9320768bytes /26.083399571s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |1.833074475s |
+| Inclusive successful Worker model-action work |37.857244558s; includes backend service |
+| Complete backend service / tokens / finish |37.694093936s /6719input,2output /stop |
+| Frozen-list-price cloud API USD |0.151280288071858515260633279740629027757479; not invoice |
+| Execution-grown graph |3action nodes /16artifact-flow edges /10snapshots /peak1action |
+
+Sequence:sample_frames -> context-rejected invoke_model -> successful invoke_model
+on resident-a4-vl4b-v1 with6terminal artifacts. Raw model text equals canonical
+answer/frozen deterministic projection. Failed first model request explicitly
+reached_model_inference=false; abstract static matching is not full-envelope
+feasibility or dynamic-unavailability proof. Typed continuation is part of the
+frozen native loop, not a harness retry or automatic repair.
+
+Registered movement0 excludes prompt/RPC traffic; initial placement is separate.
+Inclusive model-action work and backend service must not be double-counted.
+Four predecision profile events do not prove profile adoption or caused revision.
+Score0 does not establish evidence loss or its cause. Comparison to42 changes
+Planner and method; comparison to41 changes network and method. These are not
+isolated matched method effects. Full192strict-inactive private/matched audit
+and quality-conditioned analysis remain pending; no winner/causal claim.
+
+43effective/43preserved/zero pending,149remaining; same007continues,
+next44Video4/Qwen/Fast/A. Snapshot040 creator76380 running/not completed;
+feedback036 not invoked.039/035 retain42-settled scope. No source/prompt/model/
+budget/scheduler change/private-body decoding/payload export/fresh full-test claim.
+
 Checkpoint2026-10-07 14:27HKT: snapshot039/feedback035 independently reproduced
 06:26:59Z, including all42trace/716actual request hashes and population/journal/
 control003 bindings.42effective42preserved0pending/150remaining; same007continues.
