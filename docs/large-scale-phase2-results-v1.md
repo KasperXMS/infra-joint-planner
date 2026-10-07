@@ -1,5 +1,47 @@
 # Resident Phase II results — in progress
 
+## Cell39 settled: valid original score1, not causal B1 evidence
+
+2026-10-07 13:37HKT. LongBench3/Qwen/Slow/B1 attempt1 completed with valid
+canonical terminal and original evaluator score1; original admission valid,
+no retry/replacement. AuditSHA
+`364421dd3d4fd9863e52f5960e8c183a19c73356b29799c490a8db2072e00ad0`
+independently binds source/state/terminal and22actual SDK contexts. StartupSHA
+`83f2d154a1344e663572ff0ae92fdc90a297941daeb1c141e1438ccf1ad7d517`.
+
+| Recorded component | Cell39 |
+| --- | --- |
+| Manager / Verifier / specialist turns |7 /7 /8; one specialist created, peak1 |
+| Physical calls / model requests / successful inference receipts |16 /3 /1 |
+| Typed failures |2context rejects explicitly inference=false;1phase restriction |
+| E2E |117.586936283s |
+| Initial materialization, separate from Agent movement |967830bytes /2.811361854s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |3.697231580s |
+| Inclusive successful Worker model-action work |0.526592209s; includes backend service |
+| Complete backend service / tokens / finish |0.522301237s /448input,2output /stop |
+| Frozen-list-price cloud API USD |0.377172170770273322791958436864693923650330; not invoice |
+| Execution-grown graph |16nodes /18artifact-flow edges /49snapshots /peak4actions |
+
+Sequence: five BM25 actions; context-rejected model; aggregation; BM25/read;
+BM25/read; three further BM25 actions; another context-rejected model;
+successful terminal on resident-4090-gpu0-qwen35-27b-v1. Terminal has no artifact
+inputs; raw model text equals canonical answer/frozen deterministic projection.
+Prompt-only does not imply no evidence: inline prompt content was not privately
+audited here. No hidden semantic finalizer. Context rejects are not inference
+calls or proof of dynamic unavailability. Registered zero movement is not zero
+HTTP/RPC/prompt traffic; inclusive model-action work must not be added again to
+backend service. Persisted work receipts are not an additive E2E decomposition.
+
+Original score1 is retained, but n1 trajectory success does not identify B1
+adoption/causal benefit, specialist utility or evidence retention. These questions
+wait for full192strict-inactive private audit. Same007continues;39effective/
+39preserved/zero pending/153remaining. Next40LongBench3/DeepSeek/Fast/B0.
+Snapshot036creator94698 running/not completed;feedback032 not invoked.035/031
+retain38-settled scope. No aggregation/old-new pooling, ordinary retry, source/
+prompt/model/budget/scheduler change, private-body decode or raw payload export;
+documentation-only/no fresh full-test claim/no push.
+
 ## Cell39 running; snapshot035 still covers38settled
 
 2026-10-07 13:33HKT. LongBench3/Qwen/Slow/B1 attempt1 atomic2825208 actually
