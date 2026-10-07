@@ -1,5 +1,29 @@
 # Held-out initial-record field misuse: offline audit
 
+## Durable cell26 sidecar verified; combined control002 still in progress
+
+2026-10-07 09:42HKT. The original function-body reviewer finished its full
+PhaseI gate and append-only creation. Cell26 sidecarSHA
+`100f702c3afce6e3040f492dbaea8a7ca9dd5b3785f9403867d6cc35a68acf33`
+was independently reproduced against original settled admission, execution
+sources and backend-before-parser order. Exactly one model JSON failure,
+reviewed admissionSHA
+`19d147035fc3640bc8c7fc37cbc4c91984b6455e403c076cbb57fc638d1f69c8`.
+Original journalSHA
+`2be72457913f15e36c79d64dcefcc6092713c626a72d9d61219296ca0eadfb33`
+is unchanged; original score1/answer and unknown failed telemetry remain.
+Sourcefreeze002SHA
+`6cbb3e74f12f931c39b4bb87918a544987e59edc2f738a84c2af0b6b9a8babc5`.
+
+The same creator session14720 continues the subsequent full original gate for
+combined control/ledger002; neither has been written at this capture. No006
+queue launch or cell27 reservation. The launch template is prepared only and
+must bind actual successful control/ledger/validation hashes before execution.
+Do not rerun the creator or count a prepared template as dispatched execution.
+No new model calls, private support/corpus/store-body decode or raw payload
+export. Full192and strict-inactive post-block audits remain required.
+Earlier pending-sidecar descriptions below retain their historical capture.
+
 ## Cell26 stopped at exact JSON gate; frozen-ancestor compatibility fixed
 
 2026-10-07 09:35 HKT. Controller005 exited1 at01:30:22.841198Z after cell26;
