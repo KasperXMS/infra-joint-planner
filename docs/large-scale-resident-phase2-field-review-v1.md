@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Actual continuation frozen and live (2026-10-07 09:12 HKT)
+
+The previously pending freeze and launch completed, without repeating cell23.
+ControlSHA `e0abf3b06774b61b6d6fcb50ae1a31824b7be3cb1fbd719d7c4993ffb95202a8`;
+ledgerSHA `691516ffa71ab2743358cf6b49e729e8adc094aa5f40081b38351b2c3c50ec6b`;
+validationSHA `125d4a8187bd89eb4445e9f1e7a9937c9eb31b05468cde18bb8eea4f53ee2f2f`.
+Supervisor005SHA `7f2587dcd0ba0d2f68eaccb0e5a16bddb1a80fc7632229b1a25ec5576c16509d`
+binds owned supervisor2434639/controller2434640. Original private guard
+actually rejected this live controller before any body read, receiptSHA
+`d5e9dd30ea23c9a90462fe887a33b92347e484db19e173ed3c15f913ad86672c`.
+Atomic execution code, model pool, prompts, budgets, scheduler and historical
+controls remain unchanged; no private-body audit was executed.
+
+Snapshot022SHA `eadec1fc6d34c06e14f4a78ee3446e8029d416f810123056719cf8c13464baf2`
+at01:10:43Z now has24effective/24attempts/3raw rejections preserved/
+0effective confounders/0pending. Subsequently cell25 is running; its fresh
+start verifies four empty Worker stores and five resident model instances,
+receiptSHA `e34044d7e1dc383f2eea7049a02a5e77ed5ec8307d2e4e48f398a12217ce574d`.
+No duplicate queue launch or ordinary failure retry. These metadata checks
+make zero model calls and export no benchmark/API/artifact bodies.
+All192 outcomes and strict-inactive full-block audits remain required.
+The earlier stopped/freeze-pending sections below are historical captures.
+
 ## Durable review completed, continuation freeze in progress (2026-10-07 08:40 HKT)
 
 Cell23's exact sidecar was written and independently revalidated after full
