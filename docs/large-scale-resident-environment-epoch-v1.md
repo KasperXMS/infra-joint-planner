@@ -1,5 +1,36 @@
 # Resident Phase II: user-authorized retained-background environment
 
+## Superseding decision: coordinated Strata shutdown and one replacement
+
+2026-10-07, Asia/Hong_Kong: user explicitly approved one identical cell71
+replacement, retaining the original as environmental confounding. Subsequently
+the user coordinated Strata shutdown and authorized queue continuation. This
+supersedes the retained-background proposal below; no experimental run occurred
+under that proposal. At20:35HKT, actual service state is inactive/dead/MainPID0,
+and nvidia-smi has no Strata process. All five actual resident model identities
+and the external GPU process surface reproduce saved cell70 metadata.
+
+New attempts are labelled `post-strata`; old admitted attempts remain
+`pre-strata`, original71 `strata-transition`. Before/after identities matching
+supports restoration of the observed surface, not constant utilization, no
+hidden background CPU work, or exact equality of load trajectories. Preserve
+epoch labels and source-bound operational receipts in final matched comparisons.
+
+The external continuation controller provides one exact source-bound effective
+`operational_excluded/user_authorized_external_gpu_contention` view of original71.
+It never rewrites that raw confounder/admission or creates its missing residency
+receipt. One identical execution004 replacement is permitted, all old valid
+cells remain non-repeatable, and any new finding stops immediately. All71
+original recipient wires are audited, including the excluded original. The
+final inactive-only audit inventories every attempt rather than dropping it.
+
+No Agent/runtime/prompt/model/tool/scheduler/evaluator change. Original per-cell
+admission, resident checks, fresh Workers/stores and tc cleanup remain unchanged;
+full checks every16cells plus tail. This section records authority and read-only
+environment verification, not a claim that the new controller has launched.
+
+## Historical retained-background proposal (not executed)
+
 User decision2026-10-07: retain current environment because the Strata
 initiator cannot be identified. Do not stop, disable, migrate or reconfigure
 the external service. This authorizes an explicitly labelled environment
