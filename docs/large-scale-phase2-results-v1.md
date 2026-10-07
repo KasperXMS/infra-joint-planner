@@ -1,5 +1,42 @@
 # Resident Phase II results — in progress
 
+## Cell29 settled: original Video evaluator reached
+
+2026-10-07 10:35HKT. Video3/Qwen/Fast/B1 attempt1 is formally valid,
+completed, format-valid and original evaluator score1.0. Independent original
+admission/source/store/residency/tc/exit/direct-terminal/sixSDKcontext auditSHA
+`2d5ee6b0786a7a2140c2cb3a06c636b1da963935a2d6cc4e07ff37eadc7a2278`;
+startupSHA `36831faf695da9fc05016a20d7d320bd2eff4780ab9df6aa2df1cd0540d0ea2b`.
+Raw journalSHA
+`17d101d215625cba64398a6130d31ac0c2381124e99d40aa9d48a8d613e4ed10`;
+29effective/29preserved attempts/4original reviewed findings/0pending at capture.
+No ordinary retry or measured model/prompt/budget/scheduler/contract alteration.
+
+Three Manager/three Verifier turns, two physical actions, no specialists:
+`sample_frames → invoke_model`. A4VL4B terminal inference consumes siximage
+artifacts,6,699actual input/2output tokens,finish_reason=stop,service37.683s.
+The raw terminal text already equals the canonical choice answer. No context
+rejection; one separate SDK phase-restriction feedback is preserved. Neither
+score1 nor the small workflow proves full temporal evidence sufficiency or a
+causal benefit of the threepredecision profiles; that audit remains deferred.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |73.223s |
+| Complete registered Agent artifact movement |0B /0s; not zero HTTP/RPC/prompt traffic |
+| Initial video materialization, separately |15,239,623B /1.364s |
+| Tool execution work |2.133s |
+| Inclusive Worker model-action work |37.776s; includes backend service |
+| Frozen list-price API cost |USD0.119300; not an invoice |
+| Graph |2nodes /6artifact-flow edges /7snapshots /peak concurrency1 |
+
+Same006continues before cell30 Video3/DeepSeek/Slow/B0;163outcomes remain.
+Snapshot027creator40264 is in progress, not yet a completed projection;
+snapshot026/feedback022 retain their28settled scope. No new model calls,
+support/corpus/store-body decoding or raw payload export in metadata audits.
+Full192and strict-inactive private/manual/failure/adoption/Q1–Q10 remain.
+Earlier live-cell29/no-result captures are historical.
+
 ## Snapshot026 and feedback022 completed:28settled
 
 2026-10-07 10:29HKT. Snapshot026 completed at02:28:15Z, SHA256
