@@ -1,5 +1,30 @@
 # Resident Phase II results — in progress
 
+## Snapshot033 and feedback029 completed: thirty-six settled
+
+2026-10-07 13:01HKT. Snapshot033 creator56740 completed exit0, captured
+04:59:52Z; successful creator must never repeat. SHA
+`3fa8ce7ca12b1179bac9fa2c990c281f7b0de61efc9577621fbc9082d94b3748`:
+36effective/36preserved/zero pending/five raw findings retained/zero effective
+confounders/zero exclusions. JournalSHA
+`40d1d9231a85cdd7859d0bf5c033ba05f55ced2285654b05e0f6c7462fe8e259`.
+Source/control003/collector/schedule/execution004 unchanged; no score aggregation
+or old/new pooling. All192 and strict-inactive private/manual/failure/recipient/
+adoption, quality-conditioned Q1-Q10/named reports remain incomplete.
+
+Feedback029SHA
+`9ff31599cab4d8a19ce960b51ca9dcdfcc83e026e091ef11d8239b136b465339`
+verifies626actual SDK contexts:284Manager/284Verifier/58specialist. Exact73B1
+profiles/144A_Eledgers/73Efrozen rules; fixed Verifier and non-Manager feedback
+exclusion pass. Independent05:01:22Z readback reproduces all36trace hashes and
+626actual request hashes, population/journal/control bindings and unchanged
+PhaseI journal. Visibility does not prove adoption, coverage or causal savings.
+No new auditor model call, support/corpus/store-body decoding or raw payload export.
+
+Same007supervisor2772570/controller2772571 independently owned/live05:01:24Z;
+next37LongBench3/Qwen/Fast/E remains unstarted;156remaining. No ordinary retry,
+source/runtime/prompt/model/budget/scheduler change or new test-suite claim.
+
 ## Cell36 settled: Blind valid completion with wrong benchmark answer
 
 2026-10-07 12:56HKT. LongBench4/Qwen/Fast/B0 attempt1: execution completed,

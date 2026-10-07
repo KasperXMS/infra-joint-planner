@@ -1,5 +1,24 @@
 # Held-out initial-record field misuse: offline audit
 
+## Thirty-six settled: independently verified snapshot and recipient wire
+
+2026-10-07 13:01HKT. Snapshot033SHA
+`3fa8ce7ca12b1179bac9fa2c990c281f7b0de61efc9577621fbc9082d94b3748`
+completed exit0;36effective/36preserved/zero pending/five original findings retained/
+zero effective confounders/zero exclusions. Unchanged control003, original ledger,
+schedule/execution and collector remain source-bound. Successful56740 never repeat.
+Feedback029SHA
+`9ff31599cab4d8a19ce960b51ca9dcdfcc83e026e091ef11d8239b136b465339`
+verifies626actual persisted requests,284Manager/284Verifier/58specialist, exact
+73profiles/144ledgers/73rules. Independent05:01:22Z readback rehashes every36trace
+and626actual request files, same source population/control/journal and unchanged
+PhaseI journal. Fixed Verifier/recipient isolation pass, not evidence adequacy,
+specialist usefulness, rule adoption or causal benefit. No new private-body decode
+or auditor model call. Same007owned/live05:01:24Z before37LongBench3/Qwen/Fast/E;
+156remaining. All192strict-inactive private/manual/failure/recipient/adoption and
+Q1-Q10 remain. Successful033/029 creators must not repeat; no retries or source/
+prompt/model/budget/scheduler changes. Documentation-only, no fresh full-test claim.
+
 ## Cell36 closed: original valid completion, evaluator score0 retained
 
 2026-10-07 12:55HKT. Cell36LongBench4/Qwen/Fast/B0 attempt1 completed with
