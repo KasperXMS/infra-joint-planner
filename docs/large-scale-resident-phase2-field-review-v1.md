@@ -1,5 +1,36 @@
 # Held-out initial-record field misuse: offline audit
 
+## Durable review completed, continuation freeze in progress (2026-10-07 08:40 HKT)
+
+Cell23's exact sidecar was written and independently revalidated after full
+original PhaseI gate recollection. SidecarSHA
+`e7f503553c51012ee2a9918b27535bb5f758fdb82f3e327fcb0b738b4c6f4e82`;
+validation receiptSHA
+`3f6cf22237f288dd260ff43b67731b9efa4e43146cb4e94a44782dc484445aed`.
+The immutable journal remains
+`354cbe03899c906aae7b5de6050ee1311dde61becbd6fca4ae084d869c13de4e`:
+23effective valid/23preserved attempts/3raw confounders/0effective confounders/
+0pending. No replacement is authorized. Queue004 remains stopped; cell24 has
+not run. This supersedes the earlier pending-review counts below without
+altering any original admission, journal, result or historical capture.
+
+The separate continuation/settled/private projection code is committed as
+`ec588f1`. Full1816pytest passes/7platform skips, Ruff/strict Pyright/diff checks
+pass. Actual Linux42related tests passed, receiptSHA
+`db88b9f46e71bd9a856956e300d8411864ea4debf2e416108b1df892cbd9e04b`.
+It composes disjoint exact model-JSON and field reviews, verifies original
+model-control002 and adapterfreeze003 bytes, uses the unchanged original atomic
+executor/run body, and changes no global historical modules. The original
+private guard still rejects a live registered controller; partial blocks still
+cannot invoke private-body scans. No new Agent/profile/runtime behavior.
+
+The actual new control/ledger freeze is being created under the original full
+PhaseI gate. Until it is verified, do not launch or bypass old control002.
+Remaining execution scope is only24–192 (169cells), then all required full-block
+private/manual failure/adoption/recipient and Q1–Q10 audits.
+
+The following sections retain the earlier stopped/pending capture.
+
 The resident diversified experiment is separate from the old42 results. The
 screening168 cells are complete; held-out192 cells remain the full objective.
 No result is pooled across those deployment populations or benchmark families.

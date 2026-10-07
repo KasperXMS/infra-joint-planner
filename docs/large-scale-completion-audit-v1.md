@@ -1,5 +1,15 @@
 # Completion audit — not achieved
 
+Current at2026-10-07T00:40Z:23effective/23attempts/0pending after independently
+revalidated exact field sidecar (SHA
+`e7f503553c51012ee2a9918b27535bb5f758fdb82f3e327fcb0b738b4c6f4e82`).
+Original journal/admissions/results unchanged; no retry. New separate combined
+continuation/projection/private wrapper code (`ec588f1`) passed full1816tests,
+7platform skips, Ruff/strict Pyright and actual Linux42tests. Actual control
+freeze verification remains in progress; no new controller/cell24 yet.169cells
+and all full192 post-block audits/Q1–Q10 still required. Earlier tables retain
+their original historical scopes, not current counts/liveness assertions.
+
 Latest boundary at2026-10-07T00:29Z: controller004 has exited after cell23.
 Twenty-two cells remain effectively admitted; cell23's ordinary absent-field
 misuse has an independently reproduced proof and passing offline-adapter tests,

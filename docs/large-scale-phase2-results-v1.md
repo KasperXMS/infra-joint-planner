@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+Latest durable review:23effective/23preserved attempts/3raw confounders/
+0effective confounders/0pending. Cell23's original score1/completion/format are
+unchanged; its exact field sidecarSHA is
+`e7f503553c51012ee2a9918b27535bb5f758fdb82f3e327fcb0b738b4c6f4e82`,
+validationSHA `3f6cf22237f288dd260ff43b67731b9efa4e43146cb4e94a44782dc484445aed`.
+JournalSHA `354cbe03899c906aae7b5de6050ee1311dde61becbd6fca4ae084d869c13de4e`.
+Queue remains stopped; only the new combined continuation/control projection
+is being frozen, not a new Agent/method/experiment configuration. Snapshot022
+and feedback018 have not yet been created. Full192 and post-block audits remain
+incomplete; the historical table below remains the prior22-cell snapshot scope.
+
 Current at2026-10-07T00:29Z: queue004 exited after cell23, not live.
 Cell23 completed/format-valid/original score1 but its raw field-validation gate
 awaits durable source-bound review. Effective membership is still22; do not
