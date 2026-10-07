@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 21:49HKT:80admitted/81preserved/0pending under actual live012;
+full80cadence target not yet present at13:48:55Z, no controller exit. Distinguish
+settlement from independent full audit closure. Original71excluded, sole identical
+replacement valid; do not retry it or any existing valid cell. Separate final
+offline bundle c30d903 validated/frozen, source inventory121files,1895fulltests/
+29Linux tests/Ruff/strictPyright pass, original live guard actually rejects body
+scan. This does not alter any measured cell or prove semantic completion.
+All192+193-attempt final inactive private/manual/recipient/adoption/retention/
+failure/Q1–Q10 and final named reports remain incomplete; no quality aggregate.
+
 Current2026-10-07 21:31HKT:012owned/live,74admitted76preserved1pending117unstarted;
 original71remains environmental-excluded, one authorized identical replacement
 settled13:23:03Z with valid format/score1/residency/tc/Worker shutdown. Metadata
