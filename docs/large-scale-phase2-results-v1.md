@@ -1,5 +1,28 @@
 # Resident Phase II results — in progress
 
+## Snapshot027 and feedback023 completed:29settled
+
+2026-10-07 10:39HKT. Snapshot027 completed at02:38:19Z, SHA256
+`30439eb3c0608653aabaf1e3b2faf972772f7edfd501c4b65928d7a983cfe112`:
+29effective/29preserved attempts/0pending/4original findings retained/
+0effective confounders/0operational exclusions. Original journal remains
+`17d101d215625cba64398a6130d31ac0c2381124e99d40aa9d48a8d613e4ed10`.
+Control002 and frozen schedule/execution004/collector source remain unchanged.
+Successful creator40264 must not be repeated; next snapshot is028.
+
+Feedback023SHA
+`7785cc4c849efc33c08d4f7ddf4a8579b068e7d0159c196d7465398606ed3c16`
+matches466actual contexts:224Manager/224Verifier/18specialist,62B1profile/
+107A_Eledger/53Efrozen-rule inputs. Snapshot/cell29audit/feedback hashes and
+same-population/journal bindings independently reverified. Fixed Verifier and
+non-Manager feedback exclusion remain valid; visibility does not prove semantic
+coverage, retention, rule adherence or causal cost benefit. At02:39:35Z same006
+supervisor/controller remain owned/live, before cell30 Video3/DeepSeek/Slow/B0.
+Remaining163and all full192strict-inactive private/manual/failure/adoption,
+quality-conditioned Q1–Q10/named final reports remain unfinished. No new model
+calls, support/corpus/store-body decoding or raw payload export. Older pending
+projection captures below retain historical scope.
+
 ## Cell29 settled: original Video evaluator reached
 
 2026-10-07 10:35HKT. Video3/Qwen/Fast/B1 attempt1 is formally valid,
