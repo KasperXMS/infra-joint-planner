@@ -1,5 +1,26 @@
 # Held-out initial-record field misuse: offline audit
 
+## Actual006 continuation launched; original private guard still strict
+
+2026-10-07 09:56HKT. Launch2520 exited0 successfully; never rerun it.
+Supervisor2562900/controller2562901 are owned/live, with no exit and no cell27
+reservation at01:56:32Z. Supervisor006SHA
+`55fb5aec077c40d17838a69f21ed685a631542b612ed4f55c2f3758118409a58`
+binds actual control/ledger002 and the unchanged atomic004 execution revision.
+Twenty-six outcomes remain effective; all166unstarted frozen cells are retained.
+The startup/membership gate is not an additional benchmark completion.
+
+Actual global original private guard rejected this same live controller before
+body reads, receiptSHA
+`3e35f88673865930f9fb777f0adac48257ae60e7a0ac794352679a02048edf42`.
+Guard source unchanged, zero private-body reads/model calls. No startup-only
+self allowance reaches the private audit path. Old source namespaces, controls,
+journals/results remain immutable. No model warm-up/reload, Agent behavior or
+model/prompt/budget/scheduler alteration. Snapshot024creation is running under
+new002control; it is not yet a completed projection at this capture.
+Full192and all strict-inactive private/manual/failure/adoption/Q1–Q10 remain.
+Earlier pre-launch statements below retain their original historical scope.
+
 ## Combined control002 completed; only unstarted continuation launch in progress
 
 2026-10-07 09:50HKT. Creator14720 exited0 successfully; never rerun it.

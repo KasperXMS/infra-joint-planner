@@ -1,5 +1,25 @@
 # Resident Phase II results — in progress
 
+## Actual continuation restored;26effective outcomes
+
+2026-10-07 09:56HKT. Exact cell26review and full original gate/control002
+verification finished successfully. ControlSHA
+`349db3f5aa57983630a34d7a17e68f353cbf5084f75c8f7c79b41a63d8e5276a`;
+validationSHA `be59a1b4eb6248b5407a6103f3fc0f20aece5a39338dc87d959f4e87a46e94c1`.
+Twenty-six effective/26preserved/4original findings/0pending at this capture,
+no original journal, answer, score or failed telemetry modification. Model JSON
+case26 is retained as natural recovered noncompliance, not rerun.
+
+New006supervisor2562900/controller2562901 owned/live at01:56:32Z, no exit or
+next reservation. Actual launchreceiptSHA
+`55fb5aec077c40d17838a69f21ed685a631542b612ed4f55c2f3758118409a58`.
+First unstarted27=MultiHop3/Qwen/Slow/E; remaining166. Original global private
+guard demonstrably rejects this live controller (receipt3e35f886...), no body
+read. Snapshot024 is being collected under002control, not claimed finished yet.
+No duplicate launch, ordinary retry, new method or measured behavior change.
+All192and post-block audit requirements remain. Older stopped captures below
+are historical; the table's earlier scoped snapshots remain unchanged.
+
 ## Latest:26 original outcomes,25effective pending exact JSON review
 
 2026-10-07 09:35HKT. Controller005 exited1 after cell26; no27reservation.
