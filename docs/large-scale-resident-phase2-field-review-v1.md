@@ -1,5 +1,29 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell34 original admission and bounded-agent continuation audited
+
+2026-10-07 11:34HKT. Cell34 LongBench4/Qwen/Slow/A attempt1 settled valid,
+completed, format-valid, originalscore1. Original admission exactly reproduced;
+source/store/residency/tc/Worker-exit/terminal/thirty-six actual SDK contexts pass.
+AuditSHA `fed47320bc169797c32693d9942166755fe4f78e1e3390c09fa7a65279f21dea`
+and startupSHA `31c3c858cb965b64fca364bf0c6fcbe75ff3825fd8a714aaa1a5a67e36b4f83e`
+independently reverified against all bound files. Terminal A4VL4B text inference
+consumes one materialized artifact and raw output equals the canonical answer.
+
+Fourteen Manager/fourteen Verifier/eight specialist turns, one created/peak-active
+specialist, twenty-five physical actions. Four context failures (including one
+specialist-owned request) explicitly have static requirement matching=true,
+selection=false and reached_model_inference=false. One terminal inference has
+all three flags true. Distinct BM25/aggregate/top-k/model actions continue without
+manual repair, prompt/budget changes or cell retry. Two separate semantic
+validation failures and one phase restriction are retained. No external model
+substitution or failover. Original recipient scans pass; Ledger-wire matching
+will be independently audited against the new snapshot. Coverage, specialist
+contribution, pruning adequacy and ledger causality await strict-inactive audit.
+Successful34creators must not be repeated. Next35 LongBench4/DeepSeek/Slow/E;
+snapshot031creator80130 running. No new private-body decoding/model calls or
+raw payload export by these audits.
+
 ## Cell34 actual LongBench startup with a bounded specialist branch
 
 2026-10-07 11:30HKT. Same006controller owns cell34 LongBench4/Qwen/Slow/A
