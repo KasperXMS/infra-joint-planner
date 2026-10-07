@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 01:05HKT, lightweight journal/PID/start-tick checks confirm91and92
+settled/admitted without a new finding.92effective/93settled preserved+1pending=
+94attempts,0unresolved/1excluded,99unstarted. Same015controller3285126/start
+191884991 and supervisor3285125/start191884988 are owned/live; new93MultiHop5/
+P1/Fast/B1 attempt1atomic3297209/start191962104 is actually running. Journal
+SHA256c948f5fd567ee9b3f669b8a7b380392bc58a21c51226db4fa830ab5450124968.
+An earlier observation of91's disappearing PID was reconciled against its actual
+settlement and next92reservation, not treated as a crash or restart condition.
+No per-cell full audit, private body read, partial quality aggregate, retry,
+source/configuration/prompt/model/tool/budget/scheduler/evaluator change. Next
+ordinary full96remains pending; all192/all193 final requirements unchanged.
+
 At2026-10-08 00:53HKT, lightweight process/journal observation confirms90has
 settled/admitted without a new finding.90effective/91settled preserved+1pending=
 92attempts,0unresolved/1excluded. Same015controller/supervisor remain owned/live;
