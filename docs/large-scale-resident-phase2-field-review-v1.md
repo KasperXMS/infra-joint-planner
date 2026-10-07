@@ -1,5 +1,29 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell47 closed: original valid completion and score1
+
+2026-10-07 15:40HKT. LongBench5/Qwen/Slow/E attempt1 completed, original
+admission/format valid,score1; no retry/replacement. End-auditSHA
+`3340bdc606c7e27f162076b618cb3c6b93d840761f473f08bad8fb1edb3c00db`
+reproduces original admission/settlement. Independent07:39:48Z rehashes all
+bound files/startup305eb344bbccee01615834fcb99d5be5c49337ed23ba30c7decce72b9544c7dc.
+Four empty initial stores/five unchanged resident identities/tc restoration/
+Worker shutdown and10actual SDK contexts pass. Terminal A4VL4B consumes3artifacts,
+8321input/2output tokens,stop,24.248095095s backend. Raw text equals canonical
+answer and frozen deterministic projection; no semantic finalizer. One context
+reject explicitly before inference, later retrieval/inference native continuation;
+one semantic-validation observation retained. Static class matching does not
+guarantee full-envelope feasibility or indicate dynamic unavailability.
+
+47effective47preserved0pending;145remaining. Same007continues, next48LongBench5/
+DeepSeek/Fast/A. Snapshot044 creator75443 running, never duplicate; feedback040
+not invoked before success.043/039retain46-settled scope. Score1 does not prove
+E-induced quality/cost benefit or complete evidence coverage. Cell45 changes
+network AND method; cell46 changes Planner AND method. No isolated method effect
+is identifiable from either contrast. All192strict-inactive private/manual/
+failure/adoption audits remain required. No prompt/model/budget/scheduler change,
+new private-body reads/payload export/fresh-test claim/push.
+
 ## Cell47 live: startup independently reproduced
 
 2026-10-07 15:38HKT. Same007queue started LongBench5/Qwen/Slow/E attempt1,
