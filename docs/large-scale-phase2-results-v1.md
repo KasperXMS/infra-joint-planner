@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 01:27HKT, source-bound lightweight process/journal observations
+confirm93and94naturally settled/admitted:94effective/95settled preserved+
+1pending=96attempts,0unresolved/1excluded,97unstarted. Same015controller
+3285126/start191884991 and supervisor3285125/start191884988 remain owned/live;
+new95MultiHop5/P1/Slow/E attempt1atomic3310839/start192101071 is running.
+Journal SHA2562a00dcb3cbc4b5f9d3c0ee373238ceb1ec8363f221f9e67bdd1b90d4be71d53e.
+93's longer wait was confirmed against its actual PID/start ticks and trace
+file growth; no observation timeout was treated as a crash or restart. Only
+event-header metadata was extracted, never prompt/answer bodies or private
+evaluation/store content. The existing checkpoint callback remains compatible;
+actual96receipt is still pending. No retry, source/prompt/budget/model/tool/
+scheduler/evaluator change, per-cell full audit or partial quality aggregate.
+All192/all193 strict-inactive final requirements remain mandatory/unproven.
+
 At2026-10-08 01:05HKT, lightweight journal/PID/start-tick checks confirm91and92
 settled/admitted without a new finding.92effective/93settled preserved+1pending=
 94attempts,0unresolved/1excluded,99unstarted. Same015controller3285126/start
