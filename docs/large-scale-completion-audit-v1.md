@@ -1,5 +1,17 @@
 # Completion audit — not achieved
 
+Current2026-10-07 13:45HKT: snapshot036 and feedback032 completed successfully,
+independently verified05:45:20Z, including all39trace/684actual request hashes.
+Snapshot SHA8ce9396545553766995b169faba60eaa884e3b2e67c9db474fb78900639d4483;
+feedback SHA038659a45522f77415ffdd33962185d9b5baedf7c2a254eabbe4ceb74c6fa001.
+39effective/39preserved/zero pending,153remaining; same owned007queue continues.
+Next40LongBench3/DeepSeek/Fast/B0 not reserved at05:45:08Z. Snapshot036 creator
+94698 exited0; no local creator remains. Successful036/032 never repeat.
+Fixed Verifier/recipient feedback isolation pass; visibility is not adoption.
+Full192and strict-inactive private/manual/failure/recipient/adoption/Q1-Q10
+remain incomplete. No retry/source/prompt/model/budget/scheduler changes,
+new body decoding/payload export/fresh full-test claim/push; docs-only.
+
 Current2026-10-07 13:37HKT:39effective/39preserved/zero pending; cell39original
 valid completion/format/evaluator score1 retained, no retry. AuditSHA
 364421dd3d4fd9863e52f5960e8c183a19c73356b29799c490a8db2072e00ad0 independently

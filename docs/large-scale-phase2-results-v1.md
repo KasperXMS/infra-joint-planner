@@ -2,6 +2,14 @@
 
 ## Cell39 settled: valid original score1, not causal B1 evidence
 
+Checkpoint2026-10-07 13:45HKT: successful snapshot036/feedback032 independently
+reproduced all39trace/684provider-request hashes;309Manager309Verifier66specialist,
+80profiles162ledgers79rules.39effective/39preserved/zero pending,153remaining;
+same007queue continues. No new benchmark run or result replacement by the auditor.
+Latest snapshot SHA8ce9396545553766995b169faba60eaa884e3b2e67c9db474fb78900639d4483;
+feedback SHA038659a45522f77415ffdd33962185d9b5baedf7c2a254eabbe4ceb74c6fa001.
+No adoption/coverage/causal savings conclusion; full192post-block audits pending.
+
 2026-10-07 13:37HKT. LongBench3/Qwen/Slow/B1 attempt1 completed with valid
 canonical terminal and original evaluator score1; original admission valid,
 no retry/replacement. AuditSHA

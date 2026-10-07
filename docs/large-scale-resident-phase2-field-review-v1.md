@@ -1,5 +1,19 @@
 # Held-out initial-record field misuse: offline audit
 
+## Current checkpoint:39 settled, snapshot036/feedback032 closed
+
+2026-10-07 13:45HKT. Both append-only creators completed successfully; never
+repeat. Independent05:45:20Z rehashes all39trace/684actual request files,
+population/journal/control003 and unchanged Phase I journal. Snapshot SHA
+`8ce9396545553766995b169faba60eaa884e3b2e67c9db474fb78900639d4483`;
+feedback SHA `038659a45522f77415ffdd33962185d9b5baedf7c2a254eabbe4ceb74c6fa001`.
+39effective/39preserved/zero pending, five original findings retained,
+zero effective confounders/exclusions. Same007queue owned/live; next40
+LongBench3/DeepSeek/Fast/B0 not reserved at05:45:08Z;153remaining.
+No source/prompt/model/budget/scheduler change or new support/corpus/store-body
+decoding. All192strict-inactive private semantic/manual/failure/adoption audits
+remain pending; existing visibility checks cannot establish causal adoption.
+
 ## Cell39 closed: original evaluator score1, attribution unresolved
 
 2026-10-07 13:36HKT. LongBench3/Qwen/Slow/B1 attempt1 completed with valid
