@@ -1,5 +1,27 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell41 closed: valid original completion, score0 retained
+
+2026-10-07 14:04HKT. Video4/DeepSeek/Fast/E attempt1 completed;
+original admission valid, format valid, original evaluator score0. Audit SHA
+`ee2ac6ead0c2c845020ecb50c8d605e52e5678339d98190614d9ba67e461055a`
+reproduces original admission/settlement; independent06:03:43Z rehashes every
+bound file and startup1f57fbe22731e4aa3534592b1cd30625090d5181fc4b8296928e04c3eee9f5de.
+Four empty initial stores, five unchanged resident identities, tc restoration,
+Worker shutdown and6actual SDK contexts pass. Successful terminal model on A4
+VL4B consumes one artifact;1368input/2output tokens,stop,7.453622537s backend.
+Raw text equals canonical answer/frozen deterministic projection; no extra LLM
+finalization. All three physical actions succeeded:sample_frames/contact_sheet/
+invoke_model. No context rejection. A short wrong trajectory is not sufficient
+to attribute loss to E rules, sampling or semantic evidence selection.
+No ordinary retry/source/prompt/model/budget/scheduler change.
+
+41effective/41preserved/zero pending,151remaining; same007queue continues,
+next42Video4/Qwen/Slow/B0. Snapshot038 creator49490 running/not completed;
+feedback034 not invoked before success.037/033 retain40-settled scope. Full192
+strict-inactive private/manual/failure/adoption audits pending. No new private
+body decoding/payload export/fresh full-test claim/push. Successful audit never repeat.
+
 ## Cell41 live: startup audited, result pending
 
 2026-10-07 14:02HKT. Same007queue started Video4/DeepSeek/Fast/E,
