@@ -1,5 +1,21 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell58 admitted by verified new freeze;009running59
+
+2026-10-07 18:28HKT. Manifest002 creator38366 exited0; independent metadata/
+source/reference/journal readback proves58effective58preserved0pending with
+all six raw findings retained and no unresolved confounder. ManifestSHA
+`6093f0311108cda588ea66356859fc558f27580ae938c3cccdb915a177159099`.
+009launch succeeded once; independent10:28:26Z supervisor3049929/controller
+3049930owned/live, first new59MultiHop6/Qwen/Slow/E attempt1atomic3050035,
+result absent. Original private guard rejects this live controller, body reads0.
+See large-scale-resident-phase2-audit-cadence-v1.md for exact freeze/launch/
+guard hashes. Do not repeat successful creators or restart008. Next full64
+belongs to002manifest; old001receipts/readers are historical. Every cell retains
+original admission/recipient/freshness/tc checks; new findings stop immediately.
+No measured execution change, benchmark retry, new private-body read or push.
+All192and final audits remain required; this is continuation, not completion.
+
 ## Continuation control004 frozen
 
 Creator62037 exited0; exclusive control004SHA

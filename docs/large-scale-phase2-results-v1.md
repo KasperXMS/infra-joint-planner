@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 18:28HKT:58effective settled/59preserved/1pending/133unstarted;
+zero effective confounders, six raw findings retained. Cell58exact original
+field proof, new004control/ledger and002cadence manifest independently verified.
+New009controller3049930and cell59MultiHop6/Qwen/Slow/E attempt1atomic3050035
+owned/live10:28:26Z, result absent. No retry/replacement or008restart. Manifest
+6093f0311108cda588ea66356859fc558f27580ae938c3cccdb915a177159099;
+next full checkpoint002-cell0064then80...192, immediate exception stops remain.
+Original private guard rejects live009, body reads0. See cadence/field audit
+for all evidence hashes. No execution/prompt/model/budget/scheduler/evaluator
+change; no new quality aggregate, private semantic audit or final winner claim.
+
 2026-10-07 18:17HKT: cell58exact original field proof is now independently
 closed (three root misuses,16actual Manager requests,158evidence bindings).
 Sidecar364db53bb08a9e8729a1411e49957180352f25278de69660fcacc814d5aaac65;

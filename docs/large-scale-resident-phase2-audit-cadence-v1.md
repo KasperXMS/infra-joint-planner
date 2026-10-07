@@ -1,5 +1,47 @@
 # User-authorized Phase II audit cadence: 16 cells
 
+## Current continuation:009 / manifest002
+
+2026-10-07 18:28HKT. New finding58stopped008as required; the exact unchanged
+field reviewer and independent source/evidence/SDK-schema proof closed it as
+root operator argument misuse. All originals retained; no benchmark retry,
+corpus/store-body decoding or semantic/runtime edits. New control004/ledger004
+and cadence manifest002 are exclusive descendants, not overwritten ancestors.
+
+| Durable | SHA256 |
+| --- | --- |
+| Cell58field review |364db53bb08a9e8729a1411e49957180352f25278de69660fcacc814d5aaac65 |
+| Control004 |7f1304f0eddae62d6d333cef135214e79d65f5f4260b58a89d72239c4d1583cf |
+| Ledger004 |25b5926065233476a2ca8fe941eb200445d23ee3e214993eb54aa28249b7150d |
+| Cadence manifest002 |6093f0311108cda588ea66356859fc558f27580ae938c3cccdb915a177159099 |
+| Supervisor009receipt |fbb3765034a87ce6581b40417f48aa2bd0902d59a9de36e41ff329115e4bc8e3 |
+| Original live private guard002 |b4d9bd59d89b303155022b744439b3dd03285a19427a1a2fcab15c7fff449639 |
+
+Manifest bootstrap renewed the complete original PhaseI gate and four
+model-JSON/two field proofs. Independent readback reproduced all source/
+reference/control hashes, exact unchanged journal baseline and58effective/
+58preserved/0pending; no effective confounder. The six raw findings remain
+in the original journal. Metadata-fence/flat-ledger check8.503642s is control
+overhead, not a scientific workflow-cost reduction.
+
+009launched once. Independent10:28:26Z owns supervisor3049929/start189601009,
+controller3049930/start189601011 and first unstarted cell59atomic3050035/
+start189602373: MultiHop6/Qwen/Slow/E attempt1, result absent.58effective
+settled/59preserved/1pending/133unstarted, zero effective confounders.
+The original private inactivity guard actually rejects live009before any
+private-body read. No duplicate launch/008restart/ordinary failure replacement.
+
+Next automatic full receipt is
+`analysis/phase2-audit-cadence-freeze-002-cell0064.json`, then80/...192.
+Do not run obsolete001checkpoint readers or per-cell full snapshot creators.
+All successful sidecar/control/manifest/launch/guard creators are terminal
+and must never repeat. Source namespace003/code d057c81 and measured atomic
+revision0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd remain unchanged.
+Full1838pytest/7platform skips, Ruff, explicit-project-venv strict Pyright and
+diff-check results recorded in the field audit remain the latest unchanged-code
+checks; no new Linux-test claim. All192execution/strict-inactive private/manual/
+recipient/failure/adoption/quality-conditioned Q1-Q10 final reports remain.
+
 2026-10-07. The user requested full checks once per16cells instead of per cell.
 This supersedes the earlier per-boundary full-history revalidation cadence,
 not the frozen experimental task/model/method/runtime contract.
