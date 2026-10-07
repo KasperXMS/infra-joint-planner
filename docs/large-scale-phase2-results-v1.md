@@ -1,5 +1,30 @@
 # Resident Phase II results — in progress
 
+## Snapshot035 and feedback031 completed: thirty-eight settled
+
+2026-10-07 13:28HKT. Snapshot035 creator90061 completed exit0, captured
+05:27:33Z; successful creator never repeat. SHA
+`5e7369fd30505d1471818bdc126c74fe0265e1597cc7e4c96c976508ce6846f3`:
+38effective/38preserved/zero pending/five original findings retained/zero effective
+confounders/zero exclusions. JournalSHA
+`51c1648d45db3b0a359693490f72e516bfd050568cfbfe78c7cc65885bb7b8b8`.
+Source/control003/collector/schedule/execution004 unchanged; no score aggregation
+or old/new pooling. Feedback031SHA
+`92484fa51901315e83cbc4986e54c701ae50a594da8c072ca07d3d4f686e98b2`
+verifies662actual SDK contexts:302Manager/302Verifier/58specialist, exact73B1
+profiles/162A_Eledgers/79Efrozen rules. Fixed Verifier and non-Manager feedback
+exclusion pass. Independent05:28:37Z rehashes all38traces and662actual requests,
+population/journal/control bindings and unchanged PhaseI journal. Visibility
+does not establish adoption, coverage or causal quality-preserving resource
+benefit. No new auditor model calls, support/corpus/store-body decoding or raw
+payload export. Successful035/031 creators must never repeat.
+
+Same007supervisor2772570/controller2772571 owned/live05:28:38Z before39
+LongBench3/Qwen/Slow/B1;154remaining. All192and final strict-inactive private/
+manual/failure/recipient/adoption, quality-conditioned Q1-Q10/named reports remain
+unfinished. No ordinary retry, source/prompt/model/budget/scheduler change or
+fresh test-suite claim; documentation-only/no push.
+
 ## Cell38 settled: valid score0 after context recovery
 
 2026-10-07 13:23HKT. LongBench3/DeepSeek/Slow/A attempt1 completed with valid
