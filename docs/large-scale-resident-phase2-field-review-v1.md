@@ -1,5 +1,42 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell60 exact proof independently closed;control005pending
+
+Creator85079 exited0 exactly once. Independent10:45:21Z reproduced the
+unchanged original new-field proof, three closed root misuses, seven actual
+Manager schemas,86original evidence hashes and hash-identical historical
+shape bindings. Raw journal/admission/result untouched; reviewed admission
+valid with `root_operator_argument_misuse`, original score0retained. This
+proves execution-admission classification, not the semantic cause of score0.
+
+| Immutable proof | SHA256 |
+| --- | --- |
+| Cell60sidecar |4dde7767e8987eb7919e931d80fb2652ccbe74d0753ba5f1c0ba424fbb1f504f |
+| Reviewed admission |8cdaaf21955d8692082a51791ae0cfea3f03697c88772b50da59ea76652c4819 |
+| Original-body/flat-bookkeeping creator receipt |fd781992930cbbe811249e7bb80b932bfdbd45cc34708c56c9747e3f53102ab9 |
+
+Only five test cases were added (test commit3722d1f); no production module
+changed. They prove normal exact sidecar creation/no silent admission and
+historical-proof, live-guard, actual-wire and pending-trajectory rejection,
+unchanged original globals/journal and lease release. First test invocation
+failed only because its pending fixture tried to reserve after an unresolved
+confounder, which the ledger correctly rejected. The fixture now models an
+actually pending trajectory; no production invariant was weakened.
+69targeted tests passed;1850full collected,1843passed/7existing Windows skips,
+exit0; Ruff, explicit-project-venv strict Pyright0errors/0warnings and diff-check
+pass. Double-quiet full invocation did not print duration; it remains unknown.
+Actual Linux22tests passed in3.41s; receiptSHA
+`5405558f23d0209adc81ae51e6c5e4faf3e4c6cd6c33cf2ff46b3ea97b96baab`.
+Test-only tarSHA `a0016802461c1b682cd00638ea65deca38c3c2e71fe52d588a66ebbbcc0b77ca`;
+new test namespace `audit-tools/resident-phase2-flat-review-tests-001`.
+Only test code crossed the development PC; original production003modules
+and atomic004remain unchanged, no model/benchmark calls or body export.
+
+Control005/ledger005 creator46508 is running once after these checks. No
+003manifest/010launch yet;002view remains59effective60preserved0pending until
+verified new freeze.009terminal, no61/retry/replacement. Full64still pending;
+all192strict-inactive semantic/private/manual/failure/adoption/Q1-Q10required.
+
 ## New cell60 field finding;009stopped, exact proof running
 
 2026-10-07 18:41HKT. Cell59settled normally;009exited1 at10:36:27Z on

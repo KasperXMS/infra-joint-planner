@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Cell60exact original proof now independently closed at10:45:21Z: three root
+field misuses/seven actual SDK schemas/86evidence bindings, journal unchanged,
+no retry. Sidecar4dde7767e8987eb7919e931d80fb2652ccbe74d0753ba5f1c0ba424fbb1f504f;
+original completion/format/score0retained, semantic cause not inferred.
+New005control/ledger creator46508running once;003manifest/010not created.
+Current002view59effective60preserved0pending; no61dispatch. Production sources
+unchanged; five test-only guards pass, full1843pass/7platformskip, actual Linux22
+pass, Ruff/strictPyright/diff-check pass. See field audit for exact provenance.
+All192and final private/manual/adoption/Q1-Q10remain required; no aggregate claim.
+
 Current2026-10-07 18:41HKT:59effective60preserved0pending132unstarted;
 seven raw findings/one unresolved effective confounder.009exited1 at10:36:27Z
 after cell60MultiHop6/DeepSeek/Fast/A field gate; no61/retry/replacement.
