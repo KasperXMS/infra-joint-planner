@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Cell48 settled: valid Ledger completion, original score0
+
+2026-10-07 16:02HKT. LongBench5/DeepSeek/Fast/A attempt1 completed with original
+admission/terminal format valid,score0. No retry/replacement/semantic tuning.
+AuditSHA `33bff2aa7b326ee547207e8efaa13de94c855cbd9d8871085abcdaee089750d0`
+independently reproduced08:00:24Z; original admission/settlement, all bound
+files/startup/terminal/tc/Worker shutdown/10actual SDK contexts pass. Terminal
+equals successful model text and frozen deterministic projection; no extra LLM
+finalization. Live startup was independently obtained07:55:11Z, not inferred
+post-hoc. Four empty stores/five stable resident identities verified.
+
+| Recorded component | Cell48 |
+| --- | --- |
+| Manager / Verifier / specialist turns |5 /5 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |8 /2 /1 |
+| Typed observations |1context reject before inference;1phase restriction |
+| E2E |76.336428865s |
+| Initial materialization, separate from Agent movement |340278bytes /0.066558754s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |0.572077228s |
+| Inclusive successful Worker model-action work |21.388029802s; includes backend |
+| Complete backend service / tokens / finish |21.345932155s /7381input,2output /stop |
+| Frozen-list-price cloud API USD |0.078386323230444199364860016742183659097261; not invoice |
+| Execution-grown graph |8action nodes /9artifact-flow edges /25snapshots /peak3actions |
+
+Sequence:three BM25 -> context-rejected model -> three top_k_records ->
+successful A4VL4B terminal consuming3artifacts. Context rejection is not backend
+inference or proof of dynamic unavailability. Static matching alone does not
+validate full request envelope. Generic reduction/recovery is observable, but
+score0 subtype/evidence coverage and Ledger-induced causality remain unknown
+until the complete-block private audit. Cell47 differs in Planner/network/method;
+cell46 differs in network/method, so neither identifies an isolated A effect.
+48effective48preserved0pending;144remaining. Same007next49Video6/Qwen/Fast/B1.
+Snapshot045 creator74836 running, never duplicate;041not invoked.044/040remain
+47-settled scope. Full192strict-inactive private/manual/failure/adoption and
+quality-conditioned analyses remain required. No new private bodies, payload
+export, source/prompt/model/budget/scheduler change or pooled accuracy claim.
+
 Checkpoint2026-10-07 15:52HKT: snapshot044/feedback040 independently reproduced
 07:51:40Z, all47trace/774actual provider-request hashes and population/journal/
 control003 bindings. SHA20a69d5a3bfc6755c08eceee39aeccadae1670ddd7fcb2ca9421f5857154e432 /
