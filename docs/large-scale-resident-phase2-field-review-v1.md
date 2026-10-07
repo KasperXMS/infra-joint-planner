@@ -1,5 +1,25 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell49 live; read-only snapshot race preserved
+
+2026-10-07 16:13HKT. Same007queue starts Video6/Qwen/Fast/B1 attempt1,
+atomic2962013 owned/live.48effective settled/49preserved/1pending/143unstarted.
+StartupSHA `04d8dfaa868eff2b5f76f5ad9631ad66989f3d1705a157f70d5848d768536c1f`
+independently reproduced08:12:05Z:config/freeze/state/residency hashes,
+four empty initial stores, five resident instances, actual004-only environment
+and frozen revision. Exclusive creator succeeded; never repeat. Result absent.
+Partial08:12:10Z:1Manager start/1physical started/0finished/1profile event/
+0returned model receipts; not terminal quality or profile-adoption evidence.
+
+Snapshot045 creator74836 exited1 before writing: original collector rejected
+`journal advanced; repeat only read-only collection` after cell49 reservation.
+Independent output-absence proof08:12:07Z; no evidence deleted/overwritten.
+Feedback041 remains uninvoked. Read-only recollection may occur after a stable
+settlement; no benchmark/Planner retry, gate waiver, optimization or cache change.
+044/040retain47-settled scope; cell48 original execution separately audited.
+No prompt/model/budget/scheduler change, new private bodies/payload export or
+fresh-test claim/push. All192strict-inactive audits/Q1-Q10 remain required.
+
 ## Cell48 closed: original valid completion, quality failure retained
 
 2026-10-07 16:01HKT. LongBench5/DeepSeek/Fast/A attempt1 completed with original
