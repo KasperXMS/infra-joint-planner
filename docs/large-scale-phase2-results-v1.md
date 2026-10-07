@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 02:58HKT, independent bootstrap003 completed exit0, receipt SHA256
+`fc9649b581fb31926c0dc2a227c0a2db36925ae8ca272cdbc424380a7678c078`.
+Full current control/all96traces and1,560actual request hashes pass,95effective/
+96preserved/0pending/0unresolved/1excluded. Recipients:704Manager/704fixed Blind
+Verifier/152specialist; exact feedback matches358ledger/177rules/179profile are
+visibility evidence, not causal adoption. Original127-source final pin8f1c...da7
+is unchanged; actual incomplete-final probe rejects before private body/output.
+Manifest003bfa91c54...dcc55 and journal5e793191...fc36a match. Next separate action
+is016/new96, not a95retry or old015restart.97unstarted; all original192/all193,
+normal96 and final private/manual/terminal/failure/retention/adoption/quality/
+Q1–Q10 requirements remain incomplete. No aggregate quality claims.
+
 At2026-10-08 02:48HKT, renewal003 completed exit0. Manifest SHA256
 `bfa91c544184fbaa473b0b0251ce3fc49931676b064e545b00e91f5a159dcc55` binds the
 exact sole new95field proof and all preserved ancestor authorities. Its original

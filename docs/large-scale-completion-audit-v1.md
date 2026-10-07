@@ -1,5 +1,18 @@
 # Completion audit — not achieved
 
+### 2026-10-08 02:58HKT: independent renewal readback passed
+
+Bootstrap003 actually exited0, receiptfc9649b581fb31926c0dc2a227c0a2db36925ae8ca272cdbc424380a7678c078.
+Full original/current control, all96trace hashes, all1,560actual SDK request
+hashes and95effective/96preserved/0pending/0unresolved/1excluded are independently
+verified.127-source final pin remains8f1c...da7; actual incomplete-final gate
+rejects before private body/output. This closes the offline95proof/renewal
+compatibility repair without changing or retrying its execution.016/new96 is
+still the next separate action; all192/all193, normal96 and full strict-inactive
+manual/private/failure/retention/adoption/quality/Q1–Q10 reports remain required.
+Previous turn was a verified wait; this turn yields authoritative completed
+bootstrap evidence. No semantic tuning, score aggregation or goal completion.
+
 ### 2026-10-08 02:48HKT: exact renewal completed, independent bootstrap running
 
 The same84408creator actually exited0 and produced manifest003

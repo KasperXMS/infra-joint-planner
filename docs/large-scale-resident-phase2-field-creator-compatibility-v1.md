@@ -65,6 +65,22 @@ authority or the final private/semantic audit. Independent bootstrap003 is
 running as session63751; controller016/new96 still await its successful receipt.
 No new benchmark/model calls were made by renewal.
 
+### Independent bootstrap003 closed
+
+At2026-10-07T18:58:55.074870UTC, bootstrap63751 exited0 and produced receipt
+SHA256 `fc9649b581fb31926c0dc2a227c0a2db36925ae8ca272cdbc424380a7678c078`.
+Independent full control/trace/current membership readback confirms95effective,
+96preserved,0pending,0unresolved,1operational exclusion. All1,560actual SDK
+request hashes are verified:704Manager,704fixed Blind Verifier,152specialist.
+Exact feedback hash matches:358ledger/177rules/179profile; visibility does not
+prove causal method adoption. The unchanged127-source final-audit pin is
+`8f1c06eacda747f11c0747f9b3fa91a653da05f9dee442c8440fc8cf6ba41da7`.
+An actual final-bundle probe rejects with
+`final bundle requires all192 resolved and all193 preserved` before final private
+body/output; its probe file remains absent. Original journal/hash and manifest003
+remain exact; no audit model calls, private semantic body scan or score aggregate.
+Controller016 is the next separate action, not an already completed run here.
+
 ## Narrow repair
 
 New `large_scale_resident_phase2_renewed_field_review_v1.py` composes the exact
