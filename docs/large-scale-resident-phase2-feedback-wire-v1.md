@@ -1,5 +1,16 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit019, twenty-five settled cells
+
+Snapshot023SHA `b054749dabdecfac32d4856112899825cb63ec33a0deb2519c71f7b73923de95`;
+audit019SHA `b5aa844b48b994a276db6d6c3a70b7fc11917a436ae915b299ccb89a599c773d`.
+Actual owner-local provider requests:404contexts,197Manager/197Verifier/
+10specialist;59B1profile/93A_Eledger/46Erule exact matches. All non-Manager
+recipients lack these feedback prefixes; fixed Verifier model and original
+recipient scans remain valid. Zero new model calls or support/corpus/store-body
+reads, no raw payload export. Semantic sufficiency and causal adoption remain
+unproven until the full post-block audit. Earlier captures are historical.
+
 ## Latest: audit018, twenty-four settled cells
 
 Source snapshot022SHA

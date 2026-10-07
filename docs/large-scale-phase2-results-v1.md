@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Snapshot023:25 settled outcomes (2026-10-07 09:18 HKT)
+
+Immutable owner-local snapshot023 at01:18:19Z has25admitted/25attempts,
+0pending/0effective confounders/3original rejections preserved. SHA
+`b054749dabdecfac32d4856112899825cb63ec33a0deb2519c71f7b73923de95`;
+journalSHA `5fd11863ef4da7861d6b3eb39808348eb42766fb976c7847ed524d7621b95c3e`.
+Controller005/supervisor2434640/2434639 are independently owned/live at01:18:38Z.
+The next frozen cell is MultiHop3/DeepSeek/Slow/B0; no reservation yet at
+that capture.167outcomes and all post-block private/manual audits remain.
+
+Cell25 MultiHop3/Qwen/Fast/B1 completes with valid format/originalscore1:
+six Manager/six Verifier turns, no specialists, eight physical requests.
+Three parallel per-shard BM25 actions, one context-rejected model request,
+three further BM25 actions and one successful model request form the observed
+trajectory. Terminal model consumes three artifacts on A28/resident27.3B:
+7,074input/6output tokens, stop,123.202s service. One additional semantic
+validation and one phase restriction SDK receipt are separate. No manual
+recovery, prompt tuning or repeated benchmark run.
+
+E2E179.709s; complete registered Agent transfer18,036B/.605s, separately
+initial7,696,522B/.951s. Successful tool work2.446s; inclusive Worker model
+work123.291s is not added to backend service. API frozen-list-price cost
+USD0.101177 is not an invoice. Graph8nodes/6edges/25snapshots, peak actual
+concurrency3. Natural reduction/context recovery is observed; quality1 and
+profile visibility do not establish evidence retention or causal optimization.
+
+Independent original-admission reproduction, journal binding, empty stores,
+five resident identities, restored tc, Worker exits, direct model terminal and
+12SDKcontexts pass: cell25auditSHA
+`947e215c621a74cbe7bda73743e18b0b60eafe496d73fdb7d20ee62b38276660`.
+Cell24 independent original-admission audit also passes, preserving score0,
+SHA `c8e621ac8a35cf1d54c0e6f0ac3567eea49814396b2d1c7ab3b0e27f76fef781`.
+Feedback019 audits404contexts=197Manager/197Verifier/10specialist,
+59profile/93ledger/46rule matches; SHA
+`b5aa844b48b994a276db6d6c3a70b7fc11917a436ae915b299ccb89a599c773d`.
+No new model calls, private-body scans or payload export; older captures below
+retain their original populations and liveness scopes.
+
 ## Current snapshot022:24 settled; next cell live (2026-10-07 09:12 HKT)
 
 Owner-local immutable snapshot022 at01:10:43Z records24admitted/24attempts,
