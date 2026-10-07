@@ -1,5 +1,18 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell40 live: startup audited, no result claimed
+
+2026-10-07 13:47HKT. Same007queue started LongBench3/DeepSeek/Fast/B0,
+attempt1 atomic2836815 owned/live.39effective settled/40preserved/1pending/
+152unstarted. Startup SHA
+`951f26ffdf19a86fbab8733879b53d37933d7ee776a154f2e8abb590662298cf`
+independently reproduced05:47:05Z:config/freeze/state/residency hashes,
+four initially empty Worker stores, five resident instances, execution004-only
+atomic environment. Append-only creator succeeded; never repeat. No result/
+evaluation claimed. Snapshot036/feedback032 retain39-settled scope. No retry,
+source/prompt/model/budget/scheduler change, new private body decoding/payload
+export/full-test claim/push. Full192post-block audits remain incomplete.
+
 ## Current checkpoint:39 settled, snapshot036/feedback032 closed
 
 2026-10-07 13:45HKT. Both append-only creators completed successfully; never
