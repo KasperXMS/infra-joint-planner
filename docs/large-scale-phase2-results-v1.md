@@ -1,5 +1,40 @@
 # Resident Phase II results — in progress
 
+## Cell47 settled: valid E completion, original score1
+
+2026-10-07 15:41HKT. LongBench5/Qwen/Slow/E attempt1 completed with original
+admission/terminal format valid,score1. No retry/replacement/semantic tuning.
+AuditSHA `3340bdc606c7e27f162076b618cb3c6b93d840761f473f08bad8fb1edb3c00db`
+independently reproduced07:39:48Z with all bound files/startup/terminal/tc/
+Worker shutdown/10actual SDK contexts. Terminal equals successful model text
+and frozen deterministic projection; no extra semantic finalizer.
+
+| Recorded component | Cell47 |
+| --- | --- |
+| Manager / Verifier / specialist turns |5 /5 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |8 /2 /1 |
+| Typed observations |1context reject before inference;1semantic validation |
+| E2E |92.815372110s |
+| Initial materialization, separate from Agent movement |340278bytes /1.021389678s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |1.454670356s |
+| Inclusive successful Worker model-action work |24.340500416s; includes backend |
+| Complete backend service / tokens / finish |24.248095095s /8321input,2output /stop |
+| Frozen-list-price cloud API USD |0.111940659588886379037723063022362773887509; not invoice |
+| Execution-grown graph |8action nodes /6artifact-flow edges /25snapshots /peak3actions |
+
+Sequence:three BM25 -> context-rejected model -> three BM25 -> successful A4VL4B
+terminal consuming3artifacts. Class matching does not guarantee full-envelope
+feasibility; rejects are not backend inference/dynamic-unavailability proof.
+Parallel ready retrieval is observable, not an isolated latency benefit. Score1
+does not establish E adoption, retained evidence or a causal quality-cost gain.
+Cell45 changes network AND method; cell46 changes Planner AND method. Neither
+contrast identifies an isolated E effect.47effective47preserved0pending;
+145remaining; same007next48LongBench5/DeepSeek/Fast/A.044creator75443running/
+040not invoked;043/039remain46settled. No new private bodies/payload export or
+source/prompt/model/budget/scheduler change. All192strict-inactive private/
+manual/failure/adoption and quality-conditioned comparisons remain required.
+
 Checkpoint2026-10-07 15:34HKT: snapshot043/feedback039 independently reproduced
 07:33:27Z, all46trace/764actual provider-request hashes and population/journal/
 control003 bindings. SHA17fe58dea277c0e634c21dc38cdf5f2a7c4645b299c1fd739f5261e94538cef5 /
