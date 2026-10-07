@@ -1,5 +1,27 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell44 closed: original admission and terminal provenance reproduced
+
+2026-10-07 14:53HKT. Video4/Qwen/Fast/A attempt1 completed with original
+valid admission, valid format and evaluator score0; no retry or replacement.
+Startup SHA `88046edc5fbfc4a20e58ddc224d21fa7ef13d99d14e512e8951c5ddb9e228a37`
+was independently checked at06:47:42Z: four initially empty stores, five
+unchanged resident instances, frozen configuration and004-only execution.
+End-audit SHA `3c120f3f0f4f6d8799071638b992a4775d0b4a0e0711b71fcc6eac900615497e`
+reproduces original admission/settlement. Independent06:52:52Z rehashes all
+bound files and startup; tc restoration, Worker shutdown and8actual SDK
+recipient contexts pass. Terminal A4VL4B model consumes4artifacts,
+4548input/2output tokens,stop,25.146228276s backend. Raw text equals canonical
+answer and frozen deterministic projection, without semantic finalization.
+Two context rejects explicitly occur before inference; matching static model
+classes does not prove full-envelope feasibility or dynamic unavailability.
+44effective/44preserved/zero pending;148remaining, same007queue continues,
+next45LongBench5/Qwen/Fast/B1. Snapshot041 creator95349 is running;
+feedback037 must wait for success. Closed040/036 remain43-settled scope.
+No source/prompt/model/budget/scheduler changes or new support/corpus/store-body
+decoding/payload export. All192strict-inactive private/manual/failure/adoption
+audits remain pending; quality cause and ledger contribution are unidentified.
+
 ## Current checkpoint:43 settled, snapshot040/feedback036 closed
 
 2026-10-07 14:44HKT. Creator76380 exited0; feedback036 succeeded. Independent
