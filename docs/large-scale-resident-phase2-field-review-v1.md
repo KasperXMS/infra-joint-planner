@@ -1,5 +1,33 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell36 closed: original valid completion, evaluator score0 retained
+
+2026-10-07 12:55HKT. Cell36LongBench4/Qwen/Fast/B0 attempt1 completed with
+valid terminal format and original evaluator score0. Original admission was
+reproduced exactly and settlement canonical receipt matched. Append-only audit
+`analysis/resident-phase2-cell036-audit-001.json` SHA
+`3825a7441d8c5e3f42372e34bc961ced038d2a85f4e27950a55b2e69f1954561`
+was created successfully; never repeat. Independent04:54:55Z readback verifies
+every bound file hash plus startup receipt, successful terminal model source,
+unchanged deterministic projection, store/residency/tc/shutdown and26actual SDK
+contexts. Raw terminal text equals the canonical answer; no extra finalizer call.
+
+Three logical model requests: two context rejects explicitly inference=false,
+static requirements matched but full-envelope physical selection did not succeed;
+one Manager terminal inference=true on resident-a4-vl4b-v1 with one input artifact,
+3913input/2output tokens, stop,11.059325921s backend service. Static requirements
+matching does not prove the complete artifact/prompt envelope fits, nor does a
+context reject prove dynamic unavailability. One bounded specialist consumed
+eight turns; Manager/Verifier each9,16physical calls. Score0 is a retained valid
+quality failure, not missing evaluation or a system confounder. Evidence adequacy,
+retrieval/reduction correctness, specialist utility and causal method contribution
+remain unknown pending strict-inactive full192 private audit; no quality retry.
+
+Same007 remains owned/live04:55:13Z,36effective/36preserved/zero pending;
+next37LongBench3/Qwen/Fast/E. Snapshot033 creator56740 is running, not completed;
+feedback029 has not been invoked. No fresh test-suite claim, source/prompt/budget/
+model/scheduler change, new private-body decoding or raw payload export.
+
 ## Cell36 actually started after the unchanged continuation gate
 
 2026-10-07 12:52HKT. Same controller0072772571/supervisor2772570 remained
