@@ -29,7 +29,7 @@ field = cadence.field
 frozen = cadence.frozen
 MODULE = "large_scale_resident_phase2_environment_v1"
 PREFIX = "phase2-environment-cadence-freeze-"
-DIRECTORY = "phase2-environment-adjudications"
+DIRECTORY = "phase2-environment-adjudications-v2"
 CELL = "phase2-video_mme-5-332db0bfa03dd109-p1-slow-E"
 RUN = frozen.ROOT.name + "-" + CELL + "-attempt1"
 RAW_SHA = "96d977ddfd2bfc7256537439838cec0631a9d9b4f45c87d1e7c8ab305e7c1b4c"
@@ -392,6 +392,7 @@ def run(path: Path, expected_sha: str) -> None:
     original = cadence.assert_startup_safe
     safe = FunctionType(original.__code__, {**original.__globals__, "MODULE": MODULE},
                         original.__name__, original.__defaults__, original.__closure__)
+    safe.__kwdefaults__ = dict(original.__kwdefaults__ or {})
     safe(frozen.ROOT)
     if path.resolve().parent != frozen.ROOT or not path.name.startswith(PREFIX):
         raise RuntimeError("owned launch-pinned environment manifest required")

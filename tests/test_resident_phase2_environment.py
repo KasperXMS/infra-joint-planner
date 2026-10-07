@@ -137,6 +137,15 @@ def test_private_original_global_guard_precedes_any_input(monkeypatch):
         private.audit_phase_two(Path("does-not-exist"), "a" * 64)
 
 
+def test_real_startup_wrapper_preserves_keyword_only_defaults(tmp_path, monkeypatch):
+    monkeypatch.setattr(env.frozen, "ROOT", tmp_path)
+    monkeypatch.setattr(env.frozen, "require_remote", lambda: None)
+    original_module = env.cadence.assert_startup_safe.__globals__["MODULE"]
+    with pytest.raises(RuntimeError, match="owned launch-pinned"):
+        env.run(tmp_path / "invalid-manifest-name.json", "a" * 64)
+    assert env.cadence.assert_startup_safe.__globals__["MODULE"] == original_module
+
+
 def test_strata_off_boundary_not_inferred_from_process_name_only(monkeypatch):
     def run(argv, **_):
         return SimpleNamespace(stdout=("ActiveState=active\nSubState=running\nMainPID=123\n"
