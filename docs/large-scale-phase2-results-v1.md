@@ -1,5 +1,23 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 01:50HKT, original95has settled and controller015has stopped through
+the required finding gate(returncode1). Original95runner exited0/completed/
+formatvalid/evaluator1; raw finding is typed `validation_failed`, not a new
+operational failure.94effective/96settled preserved/0pending/1unresolved/
+1excluded,97genuinely unstarted. Journal SHA256
+`5e79319170a95c674e687a4865100668458676b8d26acd57c3c36bd85a9fc36a`.
+Existing initial-field dry proof passes3exact text-vs-body misuses and9actual
+Manager schema wires. Companion metadata/source proof identifies3same-run
+reserved-output-ID guards/9phase guards/2static conservative context rejects;
+no cross-run store pollution or dynamic unavailability is inferred. The sole
+exclusive sidecar creator79253/PID3319020/start192189884 is actually live and
+not yet completed. No completed003renewal/bootstrap/016launch or96reservation
+is asserted. No95retry, tuning, source change, auditmodel call, new private body
+scan or partial quality aggregate. Fullpytest2101passed/7skips plus Ruff,
+strictPyright/diff and71actualLinux regressions pass. See
+`large-scale-resident-phase2-cell0095-initial-field-audit-v1.md`. Next normal
+full96and original192/all193 strict-inactive final scope remain mandatory.
+
 At2026-10-08 01:27HKT, source-bound lightweight process/journal observations
 confirm93and94naturally settled/admitted:94effective/95settled preserved+
 1pending=96attempts,0unresolved/1excluded,97unstarted. Same015controller
