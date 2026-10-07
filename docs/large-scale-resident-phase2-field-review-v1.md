@@ -1,5 +1,21 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell35 actual LongBench startup, no completed outcome yet
+
+2026-10-07 11:42HKT. Same006controller2562901/supervisor2562900 owns
+cell35 LongBench4/DeepSeek/Slow/E attempt1, atomic2747705 independently
+verified live. Append-only startupSHA
+`3063bb6db1063e934543c662b915efa9af661fd7773c5ae0aa30a7602b172637`
+and config/freeze/state/residency sources independently reverified. Four empty
+Worker stores, five resident instances and source004-only atomic imports remain
+unchanged; no model reload, prompt/budget/scheduler changes or cell retry.
+At03:42:49Z: seven Manager reasoning starts, fourteen physical starts/finishes,
+one context_limit_exceeded outcome, zero returned model receipts, no result or
+run.end. No completed outcome, inference success or quality inferred. E-feedback
+recipient-wire matching awaits settlement; successful startup creator must not
+be repeated. Snapshot031/feedback027 retain their34-settled population. No new
+private support/corpus/store-body decoding, auditor model calls or payload export.
+
 ## Cell34 original admission and bounded-agent continuation audited
 
 2026-10-07 11:34HKT. Cell34 LongBench4/Qwen/Slow/A attempt1 settled valid,
