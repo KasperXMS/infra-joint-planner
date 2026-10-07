@@ -1,5 +1,26 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell29 actual Video startup and original admission independently audited
+
+2026-10-07 10:35HKT. Cell29 Video3/Qwen/Fast/B1 attempt1 atomic2643429 was
+verified owned/live under the same006controller. Its append-only startup
+receiptSHA `36831faf695da9fc05016a20d7d320bd2eff4780ab9df6aa2df1cd0540d0ea2b`
+independently binds four initially empty Worker stores, five resident instances
+and source004-only atomic imports. It subsequently settled valid, completed,
+format-valid with original evaluator score1.0; no repeated attempt.
+
+Original admission/source/residency/tc/Worker-exit/direct-terminal/sixactual
+SDKcontexts independently audited and reverified, receiptSHA
+`2d5ee6b0786a7a2140c2cb3a06c636b1da963935a2d6cc4e07ff37eadc7a2278`.
+Terminal A4visual inference consumes siximage artifacts; raw terminal model text
+already equals the canonical declared choice answer, with no extra semantic
+finalization. No execution or format-contract modification was needed. Semantic
+sampling sufficiency and causal profile contribution are not inferred from
+score1 or short execution. No new model calls, support/corpus/store-body decoding
+or payload export in these audits. Successful29startup/audit creators must not
+be repeated. All192and strict-inactive final audit requirements remain.
+Earlier live-cell28/startup-only captures retain historical scope.
+
 ## Cell28 actual startup audit; no measured behavior change
 
 2026-10-07 10:23HKT. Same006supervisor2562900/controller2562901 now owns
