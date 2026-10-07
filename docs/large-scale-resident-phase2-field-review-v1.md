@@ -1,5 +1,18 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell42 live: startup audited, result pending
+
+2026-10-07 14:16HKT. Same007queue started Video4/Qwen/Slow/B0,
+attempt1 atomic2861525 owned/live.41effective settled/42preserved/1pending/
+150unstarted. Startup SHA
+`28efb6ac9cbcaf0970a9e9dc611f815fb927a5b09a3323e1d914d600a0236263`
+independently reproduced06:15:42Z:config/freeze/state/residency hashes,
+four initially empty stores, five resident instances and execution004-only
+atomic environment. Successful append-only creator never repeat. No result/
+evaluation claimed.038/034 retain41-settled scope; no local creator active.
+No retry/source/prompt/model/budget/scheduler change, new private body decoding/
+payload export/fresh full-test claim/push. Full192post-block audits unfinished.
+
 ## Current checkpoint:41 settled, snapshot038/feedback034 closed
 
 2026-10-07 14:13HKT. Creator49490 exited0; feedback034 succeeded. Independent
