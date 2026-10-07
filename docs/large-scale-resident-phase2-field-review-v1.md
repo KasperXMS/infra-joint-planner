@@ -1,5 +1,48 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell26 stopped at exact JSON gate; frozen-ancestor compatibility fixed
+
+2026-10-07 09:35 HKT. Controller005 exited1 at01:30:22.841198Z after cell26;
+no cell27 reservation exists. Raw26attempts/4original findings/0pending give
+25effective until the new exact sidecar/control verification finishes.
+Cell26 itself completed, valid format, originalscore1. Independent admission,
+empty stores, five resident identities, tc restoration, Worker exits, direct
+terminal model and28SDKcontexts auditSHA
+`1aaf2990c59e6a5020a2628c2608ad307f57497f97934b5bbe2e5a6fa81de5e9`.
+The immutable raw journalSHA is
+`2be72457913f15e36c79d64dcefcc6092713c626a72d9d61219296ca0eadfb33`.
+An independent original reviewer proof reproduces exactly one post-backend
+model JSON failure, not a transport parser defect. No ordinary cell retry.
+
+New model sidecars exposed an external bookkeeping incompatibility: the
+preserved JSON-only ancestor control correctly contains only its original two
+sidecars, while the newer combined control previously required that old file
+to equal the entire future sidecar directory. Commit26a1ed0 retains the old
+control/ledger byte hashes and source bindings, verifies its nonempty original
+sidecar map as an exact unchanged subset, and independently verifies every
+current raw finding against the complete new disjoint review map. A missing,
+changed, empty or unreviewed finding still fails closed. No old control, journal,
+admission or result is rewritten, and no proof is cached or skipped.
+
+Full local pytest1821passed/7platform skips (1828collected), Ruff/strictPyright/
+diff checks pass; five new composition/drift/no-waiver tests join the47actual
+Linux-related passes. Linux receiptSHA
+`14b835198f74a81dbad8acdb3cb592a135e78b82425d2aa48fb5a8eb58aa0021`;
+new namespace is `audit-tools/resident-phase2-field-continuation-control-002`.
+Measured atomic004, models, prompts, tools, budgets, scheduler and historical
+namespace001 are unchanged. Source-bound model review creation uses the original
+reviewer function body with the already verified combined ledger view, without
+historical global mutation. Original private inactivity guard still runs first.
+
+Actual append-only sidecar and new control/ledger002 creation is running under
+the full original gate (exec session14720); it has not reported successful
+completion yet. Do not rerun the creator, claim26admitted or launch a new queue
+until verified. Then continue only the unstarted27–192, with snapshot024 and
+feedback020 under the new control. All192/inactive private/manual/failure/
+recipient/adoption/Q1–Q10 remain required; no new corpus/store-body decode,
+Planner call, semantic tuning or development-PC payload transfer.
+Earlier live005/25-cell captures below are historical.
+
 ## Actual continuation frozen and live (2026-10-07 09:12 HKT)
 
 The previously pending freeze and launch completed, without repeating cell23.
