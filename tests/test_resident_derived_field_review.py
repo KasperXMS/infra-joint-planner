@@ -290,3 +290,231 @@ def test_default_text_failure_and_explicit_successful_dependency_are_provable() 
     graph = result["loop"]["graph_snapshots"][-1]
     graph["edges"][0]["information_id"] = "control-dependency"
     assert reviewer.review(*inputs)["derived_field_proof"][0]["requested_field"] == "text"
+
+
+def add_guard(trace: list[dict[str, Any]]) -> dict[str, Any]:
+    transition = {"from": "evidence_collection", "to": "synthesis",
+                  "verification_index": 1, "graph_version": 12}
+    guard: dict[str, Any] = {
+             "action_id": "manager:call_guard", "owner_agent_id": "manager", "succeeded": False,
+             "output": {}, "produced_information": [], "failure_code": "phase_restricted",
+             "failure_message": "synthesis phase permits only invoke_model or a final response",
+             "physical_profile": None}
+    trace.insert(-1, {"event_type": "logical.phase.changed", "payload": transition})
+    trace.insert(-1, {"event_type": "logical.observation", "payload": guard})
+    return guard
+
+
+def test_exact_prephysical_guard_has_separate_proof_and_no_finding_waiver() -> None:
+    inputs = case()
+    guard = add_guard(inputs[0])
+    before = copy.deepcopy(inputs)
+    proof = reviewer.review(*inputs)
+    assert inputs == before
+    assert len(proof["derived_field_proof"]) == 1
+    assert proof["covered_original_findings"] == [reviewer.GATE]
+    guarded = proof["prephysical_guard_proof"][0]
+    assert guarded["action_id"] == guard["action_id"]
+    assert guarded["failure_code"] == "phase_restricted"
+    assert guarded["pre_physical_guard"]
+    assert not guarded["physical_action_prepared"]
+    assert not guarded["reached_model_inference"]
+    assert not guarded["covers_original_audit_finding"]
+
+
+@pytest.mark.parametrize("damage", [
+    "message", "owner", "identity", "output", "produced", "profile", "code", "success", "extra",
+    "no-transition", "wrong-phase", "later-phase", "future-transition", "physical", "completed",
+    "graph-node", "graph-edge",
+])
+def test_only_exact_unprepared_guard_is_accepted(damage: str) -> None:
+    inputs = case()
+    trace, result, _, _, _ = inputs
+    guard = add_guard(trace)
+    mutations: dict[str, tuple[str, Any]] = {
+        "message": ("failure_message", "other"), "owner": ("owner_agent_id", "specialist"),
+        "identity": ("action_id", "specialist:call_guard"), "output": ("output", {"text": "x"}),
+        "produced": ("produced_information", [{"artifact_id": "x"}]),
+        "profile": ("physical_profile", {}), "code": ("failure_code", "validation_failed"),
+        "success": ("succeeded", True), "extra": ("unknown", "value"),
+    }
+    if damage in mutations:
+        key, value = mutations[damage]
+        guard[key] = value
+    elif damage == "no-transition":
+        trace.pop(-3)
+    elif damage == "wrong-phase":
+        trace[-3]["payload"]["to"] = "evidence_collection"
+    elif damage == "later-phase":
+        trace.insert(-2, {"event_type": "logical.phase.changed", "payload": {"to": "complete"}})
+    elif damage == "future-transition":
+        transition = trace.pop(-3)
+        trace.insert(-1, transition)
+    elif damage == "physical":
+        trace.insert(-1, {"event_type": "physical.execution", "payload": {
+            "action_id": guard["action_id"], "failure": {"failure_code": "phase_restricted"}}})
+    elif damage == "completed":
+        trace.insert(-1, {"event_type": "action.completed", "payload": {
+            "action_id": guard["action_id"], "succeeded": False, "logical_agent_id": "manager"}})
+    elif damage == "graph-node":
+        result["loop"]["graph_snapshots"][-1]["nodes"].append({"action_id": guard["action_id"]})
+    elif damage == "graph-edge":
+        result["loop"]["graph_snapshots"][-1]["edges"].append({
+            "producer_action_id": "aggregate", "consumer_action_id": guard["action_id"],
+            "information_id": "merged"})
+    else:
+        raise AssertionError("unhandled guard mutation")
+    with pytest.raises(RuntimeError):
+        reviewer.review(*inputs)
+
+
+def add_context_companion(
+    trace: list[dict[str, Any]], result: dict[str, Any],
+) -> dict[str, Any]:
+    identifier = "manager:call_context"
+    prompt = "SYNTHETIC_PRIVATE_MODEL_PROMPT"
+    requirements = {"modalities": ["text"], "min_context_tokens": 1, "reserved_output_tokens": 1,
+                    "required_capabilities": ["model"], "quality_class": None}
+    action = {"action_id": identifier, "owner_agent_id": "manager", "action_type": "model",
+              "inputs": ["retrieved1", "retrieved2"], "outputs": [{"artifact_id": "candidate",
+              "media_type": "text/plain", "semantic_type": "answer"}], "depends_on": [],
+              "prompt": prompt, "requirements": requirements}
+    message = ("context limit exceeded before transfer: estimated_input="
+               f"{len(prompt.encode('utf-8')) + 100}, reserved_output=2048, context_window=1000")
+    observation: dict[str, Any] = {
+                   "action_id": identifier, "owner_agent_id": "manager", "succeeded": False,
+                   "failure_code": "context_limit_exceeded", "failure_message": message,
+                   "output": {}, "produced_information": [], "physical_profile": None}
+    physical = {"action_id": identifier, "batch_id": "batch_context", "failure": {
+        "operator": "invoke_model", "stage": "selection", "failure_code": "context_limit_exceeded",
+        "failure_message": message, "duration_ms": 0.5, "exception_type": None}}
+    for kind, payload in (
+        ("logical.model.requirements", {"action_id": identifier, "owner_agent_id": "manager",
+          "requested": requirements, "static_feasible": True,
+          "matching_model_classes": ["model-class-01"]}),
+        ("logical.action.prepared", {"action": action}),
+        ("logical.observation", observation), ("physical.execution", physical),
+        ("action.completed", {"action_id": identifier, "logical_agent_id": "manager",
+                              "succeeded": False}),
+    ):
+        trace.insert(-1, {"event_type": kind, "payload": payload})
+    graph = result["loop"]["graph_snapshots"][-1]
+    graph["nodes"].append({"action_id": identifier, "owner_agent_id": "manager",
+                           "action_type": "model", "operator": "invoke_model", "status": "failed",
+                           "inputs": action["inputs"], "outputs": ["candidate"]})
+    for producer, source in (("retrieve1", "retrieved1"), ("retrieve2", "retrieved2")):
+        graph["edges"].append({"producer_action_id": producer, "consumer_action_id": identifier,
+                               "information_id": source})
+    return action
+
+
+def test_closed_preflight_companion_has_no_field_waiver_or_model_inference() -> None:
+    inputs = case()
+    add_context_companion(inputs[0], inputs[1])
+    add_guard(inputs[0])
+    before = copy.deepcopy(inputs)
+    proof = reviewer.review(*inputs)
+    assert inputs == before
+    assert len(proof["derived_field_proof"]) == len(proof["prephysical_guard_proof"]) == 1
+    assert proof["covered_original_findings"] == [reviewer.GATE]
+    companion = proof["context_preflight_proof"][0]
+    assert companion["estimated_input"] == len(b"SYNTHETIC_PRIVATE_MODEL_PROMPT") + 100
+    assert companion["estimated_input"] + companion["reserved_output"] > companion["context_window"]
+    assert not companion["physical_selection_succeeded"]
+    assert not companion["reached_model_inference"]
+    assert not companion["covers_original_audit_finding"]
+    assert "PRIVATE" not in json.dumps(proof)
+
+
+@pytest.mark.parametrize("damage", [
+    "tool-action", "unknown-code", "physical-code", "stage", "operator", "message", "malformed",
+    "estimated", "budget", "zero-budget", "duration", "exception", "selection", "execution",
+    "output", "produced", "profile", "owner", "open-graph", "missing-physical", "requirements",
+    "nonfeasible", "no-classes", "missing-requirements", "unknown-source", "unready-source",
+    "source-metadata", "output-materialized", "no-field-failure",
+])
+def test_context_companion_is_exact_preflight_evidence_only(damage: str) -> None:
+    inputs = case()
+    trace, result, _, _, states = inputs
+    action = add_context_companion(trace, result)
+    identifier = action["action_id"]
+    observation = event(trace, "logical.observation", identifier)
+    physical = event(trace, "physical.execution", identifier)
+    requirements = event(trace, "logical.model.requirements", identifier)
+    graph = result["loop"]["graph_snapshots"][-1]
+    if damage == "tool-action":
+        action.update(action_type="tool", operator="invoke_model")
+        graph["nodes"][-1]["action_type"] = "tool"
+    elif damage == "unknown-code":
+        observation["failure_code"] = "physical_feasibility_failed"
+    elif damage == "physical-code":
+        physical["failure"]["failure_code"] = "physical_feasibility_failed"
+    elif damage == "stage":
+        physical["failure"]["stage"] = "execution"
+    elif damage == "operator":
+        physical["failure"]["operator"] = "bm25_retrieve"
+    elif damage == "message":
+        physical["failure"]["failure_message"] = "other"
+    elif damage in {"malformed", "estimated", "budget", "zero-budget"}:
+        message = observation["failure_message"]
+        if damage == "malformed":
+            message += " extra"
+        elif damage == "estimated":
+            estimate = len(action["prompt"].encode("utf-8")) + 100
+            message = message.replace(
+                f"estimated_input={estimate}", f"estimated_input={estimate + 1}")
+        elif damage == "budget":
+            message = message.replace("context_window=1000", "context_window=10000")
+        else:
+            message = message.replace("reserved_output=2048", "reserved_output=0")
+        observation["failure_message"] = physical["failure"]["failure_message"] = message
+    elif damage == "duration":
+        physical["failure"]["duration_ms"] = -1
+    elif damage == "exception":
+        physical["failure"]["exception_type"] = "TimeoutError"
+    elif damage in {"selection", "execution"}:
+        physical[damage] = {}
+    elif damage == "output":
+        observation["output"] = {"text": "unexpected"}
+    elif damage == "produced":
+        observation["produced_information"] = [{"artifact_id": "candidate"}]
+    elif damage == "profile":
+        observation["physical_profile"] = {}
+    elif damage == "owner":
+        observation["owner_agent_id"] = "specialist"
+    elif damage == "open-graph":
+        graph["nodes"][-1]["status"] = "running"
+    elif damage == "missing-physical":
+        trace.remove(next(item for item in trace if item["payload"] is physical))
+    elif damage == "requirements":
+        requirements["requested"] = {"reserved_output_tokens": 1000}
+    elif damage == "nonfeasible":
+        requirements["static_feasible"] = False
+    elif damage == "no-classes":
+        requirements["matching_model_classes"] = []
+    elif damage == "missing-requirements":
+        trace.remove(next(item for item in trace if item["payload"] is requirements))
+    elif damage == "unknown-source":
+        action["inputs"] = graph["nodes"][-1]["inputs"] = ["unknown"]
+        graph["edges"][:] = [edge for edge in graph["edges"]
+                              if edge["consumer_action_id"] != identifier]
+    elif damage == "unready-source":
+        done = next(item for item in trace if item["event_type"] == "action.completed"
+                    and item["payload"]["action_id"] == "retrieve1")
+        trace.remove(done)
+        trace.insert(-1, done)
+    elif damage == "source-metadata":
+        states["owner2"]["artifacts"][2]["size_bytes"] += 1
+    elif damage == "output-materialized":
+        states["owner1"]["artifacts"].append({"artifact_id": "candidate",
+                                              "media_type": "text/plain",
+                                              "size_bytes": 10, "sha256_hex": "f" * 64})
+    elif damage == "no-field-failure":
+        trace[:] = [item for item in trace if item["payload"].get(
+            "action", item["payload"]).get("action_id") != "bad"]
+        graph["nodes"][:] = [node for node in graph["nodes"] if node["action_id"] != "bad"]
+        graph["edges"][:] = [edge for edge in graph["edges"] if edge["consumer_action_id"] != "bad"]
+    else:
+        raise AssertionError("unhandled context companion mutation")
+    with pytest.raises(RuntimeError):
+        reviewer.review(*inputs)

@@ -4,15 +4,19 @@ The caller must bind the historical initial shapes, actual frozen SOURCE_PATHS,
 original admission, complete evidence, exit and residency before using this proof.
 This module opens no files, runs no operators and supplies no ledger or retry.
 Possible fields are conservative supersets, never invented actual shape scans.
+Exact synthesis guards and closed model context preflights are retained as
+separate companion proofs; neither covers the original field audit finding.
 """
 
 from __future__ import annotations
 
 import json
+import re
 from typing import Any, cast
 
 from pydantic import ValidationError
 
+from infra_joint.control.contracts import LogicalModelAction
 from infra_joint.control.provenance import provenance_sha256
 from infra_joint.operators.artifacts import ProducedArtifact
 from infra_joint.operators.retrieval import Bm25Arguments
@@ -29,7 +33,9 @@ SOURCE_PATHS = (
     "src/infra_joint/control/graph.py",
     "src/infra_joint/control/native_agents.py",
     "src/infra_joint/control/contracts.py",
+    "src/infra_joint/control/validation.py",
     "src/infra_joint/core/base.py",
+    "src/infra_joint/runtime/resolver.py",
 )
 
 
@@ -80,10 +86,11 @@ def review(
     indexes: dict[str, dict[str, dict[str, Any]]] = {
         kind: {} for kind in (
             "logical.action.prepared", "logical.observation", "physical.execution",
-            "action.completed",
+            "action.completed", "logical.model.requirements",
         )
     }
     positions: dict[tuple[str, str], int] = {}
+    phase_changes: list[tuple[int, dict[str, Any]]] = []
     graph: dict[str, Any] | None = None
     manager_tasks: list[dict[str, Any]] = []
     for position, event in enumerate(trace):
@@ -97,6 +104,8 @@ def review(
             positions[kind, identifier] = position
         elif kind == "workflow.graph.snapshot":
             graph = payload
+        elif kind == "logical.phase.changed":
+            phase_changes.append((position, payload))
         elif kind == "logical.reasoning.input" and payload.get("logical_agent_id") == "manager":
             try:
                 item = _object(_items(payload["input_items"])[0])
@@ -121,8 +130,30 @@ def review(
         if not isinstance(identifier, str) or identifier in nodes:
             raise RuntimeError("ambiguous workflow graph node")
         nodes[identifier] = node
-    if any(set(index) != set(actions) for index in (observations, physical, completed, nodes)):
+    if (not set(actions).issubset(observations)
+            or any(set(index) != set(actions) for index in (physical, completed, nodes))):
         raise RuntimeError("prepared actions and closed evidence identities disagree")
+    guard_proof: list[dict[str, Any]] = []
+    for identifier in sorted(set(observations) - set(actions)):
+        observation = observations[identifier]
+        expected_guard: dict[str, Any] = {"action_id": identifier, "owner_agent_id": "manager",
+                          "succeeded": False, "output": {}, "produced_information": [],
+                          "failure_code": "phase_restricted", "failure_message":
+                          "synthesis phase permits only invoke_model or a final response",
+                          "physical_profile": None}
+        preceding = [change for position, change in phase_changes
+                     if position < positions["logical.observation", identifier]]
+        if (not identifier.startswith("manager:") or identifier == "manager:"
+                or observation != expected_guard or not preceding
+                or preceding[-1].get("to") != "synthesis"):
+            raise RuntimeError("unprepared observation is not an exact synthesis guard")
+        guard_proof.append({"action_id": identifier, "owner_agent_id": "manager",
+                            "observation_sha256": provenance_sha256(observation),
+                            "phase_transition_sha256": provenance_sha256(preceding[-1]),
+                            "failure_code": "phase_restricted",
+                            "pre_physical_guard": True, "physical_action_prepared": False,
+                            "reached_model_inference": False,
+                            "covers_original_audit_finding": False})
     edges: set[tuple[str, str, str]] = set()
     for value in _items(graph.get("edges")):
         edge = _object(value)
@@ -130,8 +161,8 @@ def review(
             "producer_action_id", "consumer_action_id", "information_id",
         )]))
         typed_key = cast(tuple[str, str, str], key)
-        if typed_key in edges:
-            raise RuntimeError("duplicate workflow dependency")
+        if typed_key in edges or any(identifier not in nodes for identifier in typed_key[:2]):
+            raise RuntimeError("duplicate or unprepared workflow dependency")
         edges.add(typed_key)
     initial: dict[str, dict[str, Any]] = {}
     for value in _items(visible_task.get("artifacts")):
@@ -164,8 +195,12 @@ def review(
         if not values or any(value != metadata for value in values):
             raise RuntimeError("missing or inconsistent artifact replicas")
 
-    def lifecycle(action: dict[str, Any], success: bool) -> None:
+    def lifecycle(
+        action: dict[str, Any], success: bool, *, require_selection: bool = True,
+    ) -> None:
         identifier, owner = action["action_id"], action.get("owner_agent_id")
+        operator = ("invoke_model" if action.get("action_type") == "model"
+                    else action.get("operator"))
         obs, receipt = observations.get(identifier, {}), physical.get(identifier, {})
         done, node = completed.get(identifier, {}), nodes.get(identifier, {})
         outputs = [_object(value)["artifact_id"] for value in _items(action.get("outputs"))]
@@ -174,10 +209,11 @@ def review(
                 or done.get("logical_agent_id") != owner or done.get("succeeded") is not success
                 or node.get("owner_agent_id") != owner
                 or node.get("action_type") != action.get("action_type")
-                or node.get("operator") != action.get("operator")
+                or node.get("operator") != operator
                 or node.get("inputs") != action.get("inputs") or node.get("outputs") != outputs
                 or node.get("status") != ("succeeded" if success else "failed")
-                or not _object(receipt.get("selection", {})).get("selected_agent_id")
+                or (require_selection
+                    and not _object(receipt.get("selection", {})).get("selected_agent_id"))
                 or (success and (receipt.get("failure") or obs.get("failure_code")
                                  or obs.get("failure_message")))):
             raise RuntimeError("action lacks exact closed logical/physical lifecycle")
@@ -291,7 +327,8 @@ def review(
         return value
 
     failed_logical = {identifier for identifier, obs in observations.items()
-                      if obs.get("succeeded") is False or obs.get("failure_code")}
+                      if identifier in actions
+                      and (obs.get("succeeded") is False or obs.get("failure_code"))}
     failed_physical = {identifier for identifier, receipt in physical.items()
                        if receipt.get("failure")}
     failed_completed = {identifier for identifier, done in completed.items()
@@ -302,9 +339,63 @@ def review(
             failed_physical, failed_completed, failed_graph))):
         raise RuntimeError("every failure requires matching physical/logical proof")
     proof: list[dict[str, Any]] = []
+    context_proof: list[dict[str, Any]] = []
     for identifier in sorted(failed_logical):
         action = actions.get(identifier, {})
         inputs = _names(action.get("inputs"))
+        obs, receipt = observations[identifier], physical[identifier]
+        failure = _object(receipt.get("failure"))
+        if obs.get("failure_code") == "context_limit_exceeded":
+            try:
+                model_action = LogicalModelAction.model_validate(action)
+            except ValidationError as exc:
+                raise RuntimeError("context companion requires a valid model action") from exc
+            lifecycle(action, False, require_selection=False)
+            message = obs.get("failure_message")
+            matched = re.fullmatch(
+                r"context limit exceeded before transfer: estimated_input=([0-9]+), "
+                r"reserved_output=([0-9]+), context_window=([0-9]+)",
+                message if isinstance(message, str) else "",
+            )
+            requirement = indexes["logical.model.requirements"].get(identifier, {})
+            duration = failure.get("duration_ms")
+            if (matched is None or failure.get("failure_code") != "context_limit_exceeded"
+                    or failure.get("failure_message") != message
+                    or failure.get("operator") != "invoke_model"
+                    or failure.get("stage") != "selection"
+                    or failure.get("exception_type") is not None
+                    or not isinstance(duration, (int, float)) or isinstance(duration, bool)
+                    or not (0 <= duration < float("inf"))
+                    or receipt.get("selection") is not None or receipt.get("execution") is not None
+                    or obs.get("output") != {} or obs.get("produced_information") != []
+                    or obs.get("physical_profile") is not None
+                    or requirement.get("owner_agent_id") != action["owner_agent_id"]
+                    or requirement.get("requested") != action.get("requirements")
+                    or requirement.get("static_feasible") is not True
+                    or not _names(requirement.get("matching_model_classes", []))
+                    or positions.get(("logical.model.requirements", identifier), len(trace))
+                    >= positions["physical.execution", identifier]):
+                raise RuntimeError("not an exact closed preflight context-limit companion")
+            estimated, reserved, window = (int(value) for value in matched.groups())
+            source_metadata = [infer(source) for source in inputs]
+            actual_estimated = len(model_action.prompt.encode("utf-8")) + sum(
+                source["size_bytes"] for source in source_metadata)
+            if (reserved <= 0 or window <= 0 or estimated + reserved <= window
+                    or estimated != actual_estimated
+                    or any(output.artifact_id in replicas for output in model_action.outputs)):
+                raise RuntimeError("context companion budget/input metadata not established")
+            context_proof.append({"action_id": identifier,
+                                  "owner_agent_id": action["owner_agent_id"],
+                                  "action_sha256": provenance_sha256(action),
+                                  "observation_sha256": provenance_sha256(obs),
+                                  "physical_receipt_sha256": provenance_sha256(receipt),
+                                  "requirements_sha256": provenance_sha256(requirement),
+                                  "failure_code": "context_limit_exceeded", "stage": "selection",
+                                  "estimated_input": estimated, "reserved_output": reserved,
+                                  "context_window": window, "reached_model_inference": False,
+                                  "physical_selection_succeeded": False,
+                                  "covers_original_audit_finding": False})
+            continue
         if (action.get("action_type") != "tool" or action.get("operator") != "bm25_retrieve"
                 or len(inputs) != 1 or inputs[0] in initial):
             raise RuntimeError("only derived single-input BM25 field failures are reviewed")
@@ -313,8 +404,6 @@ def review(
             args = Bm25Arguments.model_validate(action.get("arguments"))
         except ValidationError as exc:
             raise RuntimeError("invalid failed BM25 arguments") from exc
-        obs, receipt = observations[identifier], physical[identifier]
-        failure = _object(receipt.get("failure"))
         message = "document field must be text: text"
         if (args.text_field != "text" or obs.get("failure_code") != "validation_failed"
                 or obs.get("failure_message") != message
@@ -337,8 +426,12 @@ def review(
                       "input_sha256": shape["sha256_hex"], "requested_field": "text",
                       "missing_fields": ["text"], "specialist_received_artifact_schema": None,
                       "reached_model_inference": False})
+    if not proof:
+        raise RuntimeError("at least one exact audited derived field failure is required")
     return {"version": "metadata-bound-derived-record-field-proof-v1",
             "covered_original_findings": [GATE], "derived_field_proof": proof,
+            "prephysical_guard_proof": guard_proof,
+            "context_preflight_proof": context_proof,
             "inferred_record_contracts": {key: inferred[key] for key in sorted(inferred)},
             "trace_sha256": provenance_sha256(trace), "result_sha256": provenance_sha256(result),
             "visible_task_sha256": provenance_sha256(visible_task),
