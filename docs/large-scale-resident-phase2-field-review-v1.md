@@ -1,5 +1,43 @@
 # Held-out initial-record field misuse: offline audit
 
+## Continuation control004 frozen
+
+Creator62037 exited0; exclusive control004SHA
+`7f1304f0eddae62d6d333cef135214e79d65f5f4260b58a89d72239c4d1583cf`,
+ledger004SHA `25b5926065233476a2ca8fe941eb200445d23ee3e214993eb54aa28249b7150d`.
+Original full PhaseI gate and exact four model-JSON/two field-review proofs
+passed, raw journal unchanged, no historical global-function mutation.
+The copied original control builder uses the tested fresh-membership view,
+not per-property historical proof replay. No semantic/runtime behavior changed.
+Cadence manifest002 creator38366 is running once; independent verification
+and new009launch are still required. No benchmark/Planner retry or private
+body decoding; do not restart008or repeat successful creators.
+
+## Cell58 exact proof closed; continuation freeze pending
+
+2026-10-07 18:17HKT. Creator97236 exited0 exactly once; independent readback
+at10:17:34Z reproduced the unchanged original reviewer,158original evidence
+hashes, three root field-misuse closures and16actual Manager schema requests.
+SidecarSHA `364db53bb08a9e8729a1411e49957180352f25278de69660fcacc814d5aaac65`;
+reviewed admissionSHA
+`527eefa469da3936328463dc2e177a1e63239434b44500b06b0deeac873dfc00`.
+The exact historical shard-shape source/evidence bindings were independently
+reproved; no new corpus/store-body decoding or benchmark/Planner calls occurred.
+The raw admission, result and journal are unchanged; no replacement authorized.
+Classification is `root_operator_argument_misuse`, not a runtime/evaluator bug.
+The original completed/format-valid/score1.0 outcome is retained separately
+from this execution-admission proof; no aggregate quality claim is made.
+
+008remains terminal. Creator62037/remote3045451 is producing exclusive new
+control004/ledger004 under the original PhaseI gate and exact six-review
+population; at10:20:36Z it is owned/live and neither target exists yet.
+Do not repeat a creator or dispatch59before control/manifest freeze and
+independent readback succeed. The current001manifest still binds only five
+reviews: its effective57count is not silently rewritten. A future002manifest
+will bind58only after verification.16cell cadence and immediate-new-finding
+stop remain. All192execution and final strict-inactive private/manual/
+recipient/failure/adoption/Q1-Q10 deliverables are still incomplete.
+
 ## New finding at cell58: queue stopped, proof in progress
 
 2026-10-07 18:00HKT. Controller008 exited1 at09:50:53Z after the original

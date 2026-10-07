@@ -1,5 +1,17 @@
 # Completion audit — not achieved
 
+2026-10-07 18:17HKT progress: cell58sidecar creation and independent unchanged
+original proof succeeded (SHA364db53bb08a9e8729a1411e49957180352f25278de69660fcacc814d5aaac65).
+Three root field misuses/16SDK schema requests/158original evidence hashes
+reproduced, raw journal unchanged, no new private bodies or Planner calls.
+Creator97236terminalexit0; never repeat. Newcontrol004/ledger004 creator62037
+owned/live10:20:36Z, targets not yet written. Queue008terminal; no59dispatch,
+no retry. Current001view57effective/58preserved; new002frozen population and
+009continuation still require actual creation/readback. The whole192block,
+strict-inactive private/manual/failure/adoption/Q1-Q10/named final reports
+remain unfinished. Goal active; previous turn produced authoritative evidence,
+current continuation makes proof/freeze progress, not completion or a blocker.
+
 Current2026-10-07 18:00HKT:57effective58preserved0pending;134unstarted and
 cell58unresolved, not a completed effective cell.008terminalexit1 after new
 field-validation finding; no59dispatch. Raw result completed/formatvalid/score1

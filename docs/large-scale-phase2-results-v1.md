@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+2026-10-07 18:17HKT: cell58exact original field proof is now independently
+closed (three root misuses,16actual Manager requests,158evidence bindings).
+Sidecar364db53bb08a9e8729a1411e49957180352f25278de69660fcacc814d5aaac65;
+reviewed admission527eefa469da3936328463dc2e177a1e63239434b44500b06b0deeac873dfc00.
+No raw/result/journal rewrite or retry; source-bound historical shape reuse,
+zero new corpus/store-body decode. Original completion/format/score1retained.
+008remains stopped; new004control/ledger creator62037owned/live10:20:36Z,
+targets absent,002manifest and009launch not yet created. Old001view still57
+effective/58preserved; do not claim58frozen/59running before independent
+continuation verification. Normal full checkpoint64then80...192; new findings
+still stop immediately. All192and final private/manual/adoption audits remain.
+
 2026-10-07 18:00HKT exception stop:57effective cells/58preserved/0pending;
 008exited1 at09:50:53Z, no59dispatch. Cell58MultiHop6/DeepSeek/Slow/B0 original
 result completed/formatvalid/score1, but raw admission is a preserved field
