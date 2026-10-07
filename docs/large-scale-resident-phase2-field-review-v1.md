@@ -1,5 +1,29 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell49 closed: original valid completion and score1
+
+2026-10-07 16:16HKT. Video6/Qwen/Fast/B1 attempt1 completed, original
+admission/format valid,score1; no retry/replacement. End-auditSHA
+`0e04b9a19d7175d3f09de7c2536e51988fd7a1721a3db8afcb30875c2b17adb7`
+independently reproduced08:15:09Z with all bound files/startup04d8dfaa868eff2b5f76f5ad9631ad66989f3d1705a157f70d5848d768536c1f.
+Original admission/settlement, four empty initial stores/five stable resident
+identities/tc restoration/Worker shutdown and10actual SDK contexts pass.
+Terminal A4VL4B consumes3artifacts,3394input/2output tokens,stop,18.910888825s
+backend. Raw text equals canonical answer and frozen deterministic projection;
+no semantic finalizer. One context reject explicitly before inference, later
+native model continuation; one semantic-validation and one phase-restriction
+observation retained. Class matching is not full-envelope feasibility or proof
+of dynamic unavailability. Five profile events prove visibility, not adoption,
+retained evidence or causal quality/cost improvement.
+
+49effective49preserved0pending;143remaining. Same007next50Video6/DeepSeek/
+Slow/B0. Snapshot045 original creator74836 failed before writing on journal
+advance; file independently absent08:12:07Z and08:14:18Z. After49settlement,
+read-only recollection creator54902 running, never duplicate while live;
+feedback041 uninvoked.044/040retain47scope. No benchmark/Planner retry,
+prompt/model/budget/scheduler change/new private bodies/payload export or push.
+All192strict-inactive private/manual/failure/adoption/Q1-Q10 remain unfinished.
+
 ## Cell49 live; read-only snapshot race preserved
 
 2026-10-07 16:13HKT. Same007queue starts Video6/Qwen/Fast/B1 attempt1,
