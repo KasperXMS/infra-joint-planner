@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell43 closed: valid original completion, score0 retained
+
+2026-10-07 14:34HKT. Video4/DeepSeek/Slow/B1 attempt1 completed; original
+admission valid, format valid, original evaluator score0. Audit SHA
+`7189e1ce74a9ba5733defbc2f15b87c6a662dafc50ca4991b757ab2527623749`
+reproduces original admission/settlement. Independent06:33:16Z rehashes all
+bound files and startup99aa92a1d4284fa974c6a76ddb036e57c96392da7f5957c88c80ed50a59fb405.
+Four empty initial stores, five unchanged resident identities, tc restoration,
+Worker shutdown and8actual SDK contexts pass. Successful terminal model on A4
+VL4B consumes6artifacts:6719input/2output tokens,stop,37.694093936s backend.
+Raw text equals canonical answer/frozen deterministic projection; no extra LLM
+finalizer. One model request explicitly context-rejected before inference;
+static class matching is not proof of full-envelope feasibility or dynamic
+deployment unavailability. One phase-restriction observation retained. No retry.
+Score0 does not isolate a profile/evidence-selection/reasoning cause; private
+semantic attribution waits all192and strict inactivity.
+
+43effective/43preserved/zero pending,149remaining; same007continues,
+next44Video4/Qwen/Fast/A. Snapshot040 creator76380 running/not completed;
+feedback036 not invoked before success.039/035 retain42-settled scope. No source/
+prompt/model/budget/scheduler change/private-body decoding/payload export/
+fresh full-test claim/push. Successful append-only audit never repeat.
+
 ## Cell43 live: startup audited, result pending
 
 2026-10-07 14:31HKT. Same007queue started Video4/DeepSeek/Slow/B1,
