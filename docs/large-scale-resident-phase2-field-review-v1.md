@@ -1,5 +1,32 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell45 closed: original score0, startup audited after settlement
+
+2026-10-07 15:06HKT. LongBench5/Qwen/Fast/B1 attempt1 completed; original
+admission/format valid, score0 retained without retry. End-auditSHA
+`0b04374fd6e8c9275ae8ab49412e33dbb3f410c58efe565d83552a8b92da7168`
+reproduces original admission/settlement. Independent07:06:08Z rehashes bound
+source/trace/result/state files, four initially empty stores, five unchanged
+resident identities, tc restoration/Worker exit and terminal projection.
+14actual SDK recipient contexts pass original admission checks. Terminal A4VL4B
+consumes3artifacts,8187input/2output tokens,stop,23.791085483s backend.
+One context request explicitly rejected before inference; subsequent retrieval
+and successful inference are natural continuation, not a harness repair.
+
+Audit timing limit: atomic2904013 was owned/live at07:04:16Z, but settled before
+the exclusive live-start creator reached its unsettled assertion. It rejected
+before any write. No `cell045-live-start-001.json` exists; do not retry its
+creator or synthesize a live receipt after exit. Saved startup metadata was
+independently verified after settlement; an independent live environ check was
+not obtained. This limitation does not alter original evidence/admission or
+authorize a replacement. Frozen actual revision remains0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd.
+
+45effective45preserved0pending,147remaining; same007continues, next46LongBench5/
+DeepSeek/Slow/B0. Snapshot042 creator33272 running, never duplicate;
+feedback038 not invoked before success.041/037 retain44-settled population.
+No execution/prompt/model/budget/scheduler changes/private-body reads/payload
+export. Full192strict-inactive semantic/failure/adoption audits incomplete.
+
 ## Closed checkpoint:44 settled, snapshot041/feedback037
 
 2026-10-07 15:03HKT. Snapshot041 creator95349 exited0; feedback037 succeeded.
