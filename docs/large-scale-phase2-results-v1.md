@@ -1,5 +1,29 @@
 # Resident Phase II results — in progress
 
+## Snapshot029 and feedback025 completed: thirty-two settled
+
+2026-10-07 11:11HKT. Snapshot029 completed03:10:17Z, SHA
+`7d65363ef2bc3c7885e80b70b39737252c4a8d175700960a95389425355786b6`:
+32effective/32preserved attempts/zero pending/four original findings retained/
+zero effective confounders/zero operational exclusions. OriginaljournalSHA
+`6a17eb35de0238adfb7c1c11c23277bb7155be35ac812550fe31321e27ae396b`;
+control002 and schedule/execution004/collector remain frozen. Successful
+creator1474 must not be repeated; next snapshot is030.
+
+Feedback025SHA
+`a78f173b77bee73865bc1f21c930d50c9dfe0e9f0fe9299c8afa2e594cb6315b`
+verifies492actual SDK contexts:237Manager/237Verifier/18specialist,
+62B1profiles/117A_Eledgers/60Efrozen-rule exact matches. Fixed Verifier and
+non-Manager feedback separation pass. Snapshot/feedback/population/journal/
+control bindings independently reverified03:11:07Z. Cell32score0 remains a
+valid original evaluator outcome, not missing evaluation or harness failure.
+No new model calls, private support/corpus/store-body decoding or raw payload
+export. Feedback visibility does not prove adoption, semantic coverage or causal
+cost benefit. Same006controller/supervisor verified live03:11:09Z, before
+scheduled33 LongBench4/DeepSeek/Fast/B1. Remaining160 and all192strict-inactive
+private/manual/failure/adoption plus final quality-conditioned Q1–Q10/named
+reports remain. Older live/startup/snapshot captures retain historical scope.
+
 ## Cell32 settled: compact visual workflow, valid execution but score0
 
 2026-10-07 11:06HKT. Video3/DeepSeek/Fast/A attempt1 completed valid and

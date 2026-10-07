@@ -19,7 +19,11 @@ Primary semantic reasoning versus evidence-selection/coverage cause remains
 unresolved until the full192strict-inactive private/manual audit. Score0 is
 neither a missing evaluation nor a harness confounder. Successful32creators must
 not be repeated. Next scheduled33 is LongBench4/DeepSeek/Fast/B1. New
-snapshot029creator1474 is running; no private body decode or raw payload export.
+snapshot029creator1474 was running at11:06capture, then succeeded03:10:17Z;
+SHA7d65363ef2bc3c7885e80b70b39737252c4a8d175700960a95389425355786b6.
+Feedback025SHAa78f173b77bee73865bc1f21c930d50c9dfe0e9f0fe9299c8afa2e594cb6315b
+independently verifies492actual SDKcontexts; both creators are finished and
+must not be repeated. No private body decode or raw payload export.
 
 ## Cell32 startup verified under the unchanged resident execution pool
 

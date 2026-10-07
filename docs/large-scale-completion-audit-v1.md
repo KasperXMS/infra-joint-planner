@@ -1,5 +1,21 @@
 # Completion audit — not achieved
 
+Current2026-10-07 11:11HKT: snapshot029SHA
+`7d65363ef2bc3c7885e80b70b39737252c4a8d175700960a95389425355786b6`
+establishes32effective/32preserved/zero pending/four raw findings retained/
+zero effective confounders/zero exclusions. Cell32originalscore0 is valid
+completion/format with independently passing admission/source/store/residency/
+tc/exit/terminal/sixSDKcontext checks, not a missing evaluation or runtime error.
+Feedback025SHA
+`a78f173b77bee73865bc1f21c930d50c9dfe0e9f0fe9299c8afa2e594cb6315b`
+verifies492actual requests and recipient separation, not evidence-loss causality
+or ledger adoption. Same006verified owned/live03:11:09Z before33
+LongBench4/DeepSeek/Fast/B1. Remaining160 and all192strict-inactive private/
+manual/failure/recipient/adoption, final per-task/family/Planner/method quality-
+conditioned analyses, Q1–Q10 and named final reports remain unfinished.
+No scope reduction, ordinary retry, semantic tuning, new method or measured
+model/budget/scheduler change; no new private-body decoding/payload export.
+
 Current2026-10-07 11:00HKT: snapshot028SHA
 `9c272b63fe737ce805ad7c073d7ecfb3e91332bb43c3378146f4df9f5b12ccf3`
 establishes31effective/31preserved/zero pending/four raw findings retained/
