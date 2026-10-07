@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Cell30 settled: resource-blind Video under Slow
+
+2026-10-07 10:49HKT. Cell30 Video3/DeepSeek/Slow/B0 attempt1 is valid,
+completed, format-valid and original evaluator score1.0. Independent auditSHA
+`c7bbbf52531e41e1542ab502a46243330e913de633be15eb7df67c4ae619bf97`;
+startupSHA `92b6c1d1c91317ce2f53d19ddea996baae46be3b9d9494abb5f7495c3a79241c`.
+Original journalSHA at readback:
+`62de720864acbc9970c2bdef44e96ada31464270d369ae21b97638e6c55f980c`.
+Thirty effective/thirty preserved attempts/four original reviewed findings/
+zero pending at capture. Same006 queue continues; next scheduled cell31 is
+Video3/Qwen/Slow/E. No ordinary retry or prompt/model/budget/scheduler change.
+
+Three Manager/three Verifier turns, two physical actions, no specialists:
+`sample_frames → invoke_model`. The A4 visual model consumes seven image
+artifacts; 7,849 input/15 output tokens, finish_reason=stop, service45.900s.
+Evaluated answer is exactly the frozen deterministic choice projection of the
+successful terminal model text; raw text itself is not the canonical label.
+No context rejection; one separate SDK phase-restriction feedback remains.
+Resource-blind trace records zero dynamic-profile feedback events. Six actual
+SDK contexts pass the original recipient scan.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |131.161s |
+| Complete registered Agent artifact movement |0B /0s; not all HTTP/RPC/prompt traffic |
+| Initial video placement, separate setup |15,239,623B /42.603s |
+| Complete tool execution work |2.242s |
+| Inclusive Worker model-action execution |46.070s; includes backend service, not extra work |
+| Backend model service |45.900s |
+| Frozen list-price API cost |USD0.112917901; not a billing invoice |
+| Execution-grown graph |2nodes /7artifact-flow edges /7snapshots /peak1 |
+
+Seven graph edges are artifact information flows, not seven separate branches.
+Score1 does not establish temporal sampling sufficiency. This cell and previous
+Fast/Qwen/B1 cell29 vary both Planner and method as well as network: their E2E
+difference is not a matched network/method causal effect. Full192 strict-inactive
+private/manual evidence and quality-conditioned analysis remain outstanding.
+
 ## Snapshot027 and feedback023 completed:29settled
 
 2026-10-07 10:39HKT. Snapshot027 completed at02:38:19Z, SHA256
