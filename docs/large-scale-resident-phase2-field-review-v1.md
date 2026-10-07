@@ -1,5 +1,30 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell39 closed: original evaluator score1, attribution unresolved
+
+2026-10-07 13:36HKT. LongBench3/Qwen/Slow/B1 attempt1 completed with valid
+terminal format and original benchmark score1. Original admission reproduced
+exactly; settlement canonical receipt matches. Successful append-only auditSHA
+`364421dd3d4fd9863e52f5960e8c183a19c73356b29799c490a8db2072e00ad0`
+must never repeat. Independent05:35:46Z rehashes every bound file plus startup
+receipt, store/residency/tc/shutdown/22actual SDK contexts. Raw successful model
+terminal equals canonical answer/frozen deterministic projection; no extra LLM
+finalizer. Terminal on resident-4090-gpu0-qwen35-27b-v1 has zero artifact inputs,
+448input/2output tokens,stop,0.522301237s service. Prompt-only is not proof of
+no evidence: inline prompt content was not semantically audited here. Two other
+model requests explicitly context-rejected before inference; abstract class
+matching is not complete-envelope feasibility or dynamic unavailability proof.
+
+Seven Manager/seven Verifier/eight specialist turns; one specialist created,
+peak1;16physical calls. Original score1 is retained, not proof of specialist
+utility, adequate retained evidence or B1-caused improvement. These attribution
+questions wait for all192strict-inactive private audit, n1 is not significance.
+No ordinary retry. Same007continues;39effective/39preserved/zero pending,
+153remaining; next40LongBench3/DeepSeek/Fast/B0. Snapshot036creator94698 running,
+not completed;feedback032 not invoked.035/031 retain38-settled scope. No new
+source/prompt/model/budget/scheduler change, private-body decode/payload export,
+fresh full-test claim or push; documentation-only.
+
 ## Cell39 actual startup independently verified
 
 2026-10-07 13:33HKT. Same007controller2772571/supervisor2772570 continued
