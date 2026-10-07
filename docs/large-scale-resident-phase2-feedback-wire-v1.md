@@ -1,5 +1,19 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit022, twenty-eight settled cells
+
+2026-10-07 10:29HKT. Snapshot026SHA
+`7ae450a920ec407b346160943527f3566842cf8422ac903c6d871d09ff26c667`;
+audit022SHA `f0d26562cf6539be1fd8cb1205c8ebdd459bb3631d77b0654e92d9f7fbebae19`.
+Same28settled population and journal independently reverified. Actual provider
+requests contain460contexts:221Manager/221Verifier/18specialist, with exact
+59B1profiles/107A_Eledgers/53Efrozen-rule matches. Non-Manager requests contain
+no profile/ledger/rules prefixes; fixed Verifier and original recipient scans
+pass. No new model calls, support/corpus/store-body decoding or raw payload
+export. Semantic retention, rule adherence and causal cost effects are not
+identified. Full192post-block analysis remains required. Successful022creator
+must not be repeated; next feedback audit is023. Older captures are historical.
+
 ## Latest: audit021, twenty-seven settled cells
 
 2026-10-07 10:19HKT. Snapshot025SHA

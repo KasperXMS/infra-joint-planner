@@ -1,5 +1,27 @@
 # Resident Phase II results — in progress
 
+## Snapshot026 and feedback022 completed:28settled
+
+2026-10-07 10:29HKT. Snapshot026 completed at02:28:15Z, SHA256
+`7ae450a920ec407b346160943527f3566842cf8422ac903c6d871d09ff26c667`:
+28effective/28preserved attempts/0pending/4original findings retained/
+0effective confounders/0operational exclusions. Original journal remains
+`cbc590248d229f1c787c4f31f7a694b71fd2b46fa53f02190fdff046813926e9`.
+Control002 and the frozen schedule/atomic004/collector source are unchanged.
+Successful snapshot creator42339 must not be repeated; next snapshot is027.
+
+Feedback022SHA
+`f0d26562cf6539be1fd8cb1205c8ebdd459bb3631d77b0654e92d9f7fbebae19`
+verifies460actual contexts:221Manager/221Verifier/18specialist,59B1profile/
+107A_Eledger/53Efrozen-rule matches. Snapshot/cell28audit hashes and feedback's
+same-population/same-journal bindings were independently reverified. Fixed
+Verifier and non-Manager feedback exclusion remain valid; visible feedback is
+not proof of causal adoption, semantic coverage or quality-preserving savings.
+At02:29:32Z same006supervisor/controller are owned/live, before next cell29
+Video3/Qwen/Fast/B1. Remaining164and all full192post-block audits/Q1–Q10 remain.
+No new model calls, support/corpus/store-body decoding or raw payload export.
+Older snapshot-in-progress captures below retain their historical scope.
+
 ## Cell28 settled: valid completion, original score1
 
 2026-10-07 10:26HKT. MultiHop3/DeepSeek/Fast/A attempt1 is formally valid,
