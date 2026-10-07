@@ -53,11 +53,19 @@ def control_bindings(parent_path: Path, parent: dict[str, Any],
     models, fields = sidecars(core.DIRECTORY), sidecars(review.DIRECTORY)
     if not models or not fields or set(models) & set(fields):
         raise RuntimeError("disjoint actual model-JSON/field review sidecars required")
+    old = json.loads(model_control.read_text(encoding="utf-8"))
+    historical_models = old.get("sidecars")
+    if (not isinstance(historical_models, dict) or not historical_models
+            or any(models.get(name) != sha for name, sha in historical_models.items())):
+        raise RuntimeError("preserved model-JSON sidecar subset missing or changed")
     expected_old = {
         "version": "resident-phase2-exact-model-json-continuation-v1",
         "parent_control_path": str(parent_path),
         "parent_control_file_sha256": core.legacy.sha256(parent_path),
-        "sidecars": models,
+        # The ancestor binds its original reviewed population, not future
+        # sidecars. All current findings are independently verified below by
+        # checked_membership; this is not permission to skip any new proof.
+        "sidecars": historical_models,
         "source_sha256": {Path(p).name: core.legacy.sha256(Path(p))
                           for p in (core.__file__, core.legacy.__file__, core.bindings.__file__)},
         "execution_freeze_sha256": parent["execution_freeze_sha256"],
@@ -65,7 +73,7 @@ def control_bindings(parent_path: Path, parent: dict[str, Any],
         "nominal_cells": parent["nominal_cells"], "no_retry": True,
         "semantic_tuning": False, "prior_results_modified": False,
     }
-    if json.loads(model_control.read_text(encoding="utf-8")) != expected_old:
+    if old != expected_old:
         raise RuntimeError("preserved model-JSON control/source/sidecar drift")
     return {
         "version": "resident-phase2-disjoint-exact-review-continuation-v1",

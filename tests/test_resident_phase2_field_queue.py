@@ -105,6 +105,65 @@ def test_original_executor_only_runs_unstarted_cell_and_no_module_mutation(combi
     assert json.loads((root / "phase2-queue-completed.json").read_text())["goal_complete"] is False
 
 
+def test_new_exact_model_review_keeps_ancestor_population_immutable(combined, monkeypatch):
+    root, raw, parent, old, old_receipt, _, _, _ = combined
+    before = {p: p.read_bytes() for p in (parent, old, old_receipt)}
+    view = queue.review.FieldReviewedAttemptLedger(raw.path, raw.cells, raw.schedule_sha256)
+    view.reserve("future", "run-new-model", "b" * 64)
+    view.settle("run-new-model", "confounder", queue.core.legacy.GATE_PROBLEM, "1" * 64)
+    path = root / queue.core.DIRECTORY / "run-new-model.json"
+    path.write_text(json.dumps({"reviewed_admission_sha256": "2" * 64,
+                                "reviewed_admission": {"disposition": "valid"}}))
+    original_proof = queue.core.verify_sidecar
+    verified = []
+
+    def proof(current, attempt):
+        verified.append(attempt.run_id)
+        if attempt.run_id == "run-new-model":
+            assert current == path and attempt.disposition == "confounder"
+            return json.loads(current.read_text())
+        return original_proof(current, attempt)
+
+    monkeypatch.setattr(queue.core, "verify_sidecar", proof)
+    control = root / "phase2-field-reviewed-control-freeze-002.json"
+    value = queue.control_value(parent, old, old_receipt)
+    assert set(value["model_json_sidecars"]) == {"run-model.json", "run-new-model.json"}
+    control.write_text(json.dumps(value))
+    receipt = root / "phase2-field-ledger-freeze-002.json"
+    receipt.write_text(json.dumps(queue.freeze_value(control)))
+    queue.validate(control, receipt)
+    queue.checked_control(control)
+    assert set(verified) == {"run-model", "run-new-model"}
+    assert snapshot.collect(root, control_path=control)["admitted_cells"] == 3
+    assert all(p.read_bytes() == contents for p, contents in before.items())
+
+
+@pytest.mark.parametrize("damage", ["missing", "changed", "empty_ancestor"])
+def test_ancestor_model_subset_must_remain_exact(combined, damage):
+    root, _, parent, old, old_receipt, _, _, _ = combined
+    path = root / queue.core.DIRECTORY / "run-model.json"
+    if damage == "missing":
+        path.unlink()
+    elif damage == "changed":
+        path.write_text(path.read_text() + "\n")
+    else:
+        value = json.loads(old.read_text())
+        value["sidecars"] = {}
+        old.write_text(json.dumps(value))
+        old_receipt.write_text(json.dumps(queue.review.parent.freeze_value(old)))
+    with pytest.raises(RuntimeError):
+        queue.control_value(parent, old, old_receipt)
+
+
+def test_future_model_finding_without_exact_sidecar_still_blocks_dispatch(combined):
+    _, raw, parent, old, old_receipt, _, _, _ = combined
+    view = queue.review.FieldReviewedAttemptLedger(raw.path, raw.cells, raw.schedule_sha256)
+    view.reserve("future", "run-unreviewed", "b" * 64)
+    view.settle("run-unreviewed", "confounder", queue.core.legacy.GATE_PROBLEM, "1" * 64)
+    with pytest.raises(RuntimeError, match="every original finding"):
+        queue.control_value(parent, old, old_receipt)
+
+
 @pytest.mark.parametrize("damage", ["control", "source", "old_control", "old_receipt",
                                   "field_sidecar", "foreign", "overlap", "missing"])
 def test_drift_or_unowned_review_cannot_unlock_continuation(combined, damage):
