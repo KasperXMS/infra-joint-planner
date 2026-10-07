@@ -5,6 +5,12 @@ investigation only, not the final private semantic audit.
 
 ## Follow-up: actual service owner and resumption boundary
 
+Latest user decision: retain the current external Strata environment.
+See`large-scale-resident-environment-epoch-v1.md` for prospective stage labels,
+the actual48cross-stage comparison groups and pending original71disposition.
+Earlier resource-isolation recommendations below are historical; this does
+not retrospectively waive71, permit replacement or prove constant load.
+
 Read-only11:48–11:51Z investigation independently traces engine3105968
 to Python3105959, then user-systemd3791. Both workload processes belong to
 `super`,UID1000, within
