@@ -1,5 +1,40 @@
 # Resident Phase II results — in progress
 
+## Cell44 settled: valid Ledger completion, original score0 retained
+
+2026-10-07 14:54HKT. Video4/Qwen/Fast/A attempt1 completed, original admission
+valid, terminal format valid, score0. No retry, replacement or semantic tuning.
+End audit SHA `3c120f3f0f4f6d8799071638b992a4775d0b4a0e0711b71fcc6eac900615497e`
+independently reverified06:52:52Z; terminal equals successful A4VL4B output and
+frozen deterministic projection, no extra LLM finalizer.8actual SDK contexts
+pass original privacy/admission checks. Same007continues,44effective settled,
+148remaining; snapshot041 still being verified,040/036 retain43-settled scope.
+
+| Recorded component | Cell44 |
+| --- | --- |
+| Manager / Verifier / specialist turns |4 /4 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |4 /3 /1 |
+| Context rejects |2, both explicitly before inference |
+| E2E |119.184342134s |
+| Initial materialization, separate from Agent movement |9320768bytes /0.893052136s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |1.622090922s |
+| Inclusive successful Worker model-action work |25.270264869s; includes backend |
+| Complete backend service / tokens / finish |25.146228276s /4548input,2output /stop |
+| Frozen-list-price cloud API USD |0.225544061175407592447414927118351293532998; not invoice |
+| Execution-grown graph |4action nodes /44artifact-flow edges /13snapshots /peak1action |
+
+Sequence:sample_frames -> context-rejected invoke_model -> context-rejected
+invoke_model -> successful invoke_model consuming4artifacts. Artifact-flow
+edges are not44distinct action-to-action dependencies. Matching abstract model
+classes did not guarantee context-envelope feasibility; rejects are not actual
+backend inference or evidence of dynamic deployment unavailability. Score0
+does not identify evidence loss, reasoning failure or ledger-induced changes.
+Cell42 shares task/Planner but differs in network AND method; do not assign a
+method effect from that contrast. Private semantic attribution and matched,
+quality-conditioned analyses wait all192and strict inactivity. No new support/
+corpus/store-body decoding, payload export, routing changes or accuracy pooling.
+
 Checkpoint2026-10-07 14:44HKT: snapshot040/feedback036 independently reproduced
 06:43:43Z, including all43trace/724actual request hashes and population/journal/
 control003 bindings.43effective43preserved0pending/149remaining; same007continues.
