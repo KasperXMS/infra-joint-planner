@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Cell27 settled: valid completion after natural context recovery
+
+2026-10-07 10:16HKT. MultiHop3/Qwen/Slow/E attempt1 is formally settled valid,
+completed, format-valid and original evaluator score1.0. Independent original
+admission/source/store/residency/tc/Worker-exit/direct-terminal/recipient audit
+SHA `559fb33e9b08c4e01898afaa74895e5c4c44da6b6d1cb18e18a79fa477789606`.
+Original journalSHA
+`67dd1d59ec084c3032f59f69bdd46badb425e9ca3dd34458e1919f63b802807f`;
+27preserved attempts,27effective outcomes,4original exact-reviewed findings,
+0pending at this capture. No repeated attempt or semantic tuning.
+
+Seven Manager/seven Verifier turns, eight physical actions, no specialists.
+Sequence: three cross-shard BM25 actions → one context-preflight rejection →
+three further BM25 actions → successful A28 terminal model consuming three
+artifacts. Actual model usage4,747input/6output tokens, finish_reason=stop,
+service82.838s. The rejected request is not an actual inference. Separate SDK
+feedback contains one semantic-validation and one phase-restriction failure.
+Natural continuation is observed; semantic coverage/retention and rule-specific
+causal contribution remain unknown pending the strict-inactive post-block audit.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |169.330s |
+| Complete Agent artifact movement |11,978B /0.724s |
+| Initial materialization, separately |7,696,522B /22.033s |
+| Tool execution work |2.482s |
+| Inclusive Worker model-action work |82.927s; includes backend service, do not double-count |
+| Frozen list-price API cost |USD0.135557; not an invoice |
+| Graph |8nodes /6edges /25snapshots /peak concurrency3 |
+| Actual SDK contexts covered by original admission |14 |
+
+Continuation006 remains active before next frozen cell28 MultiHop3/DeepSeek/
+Fast/A;165outcomes remain. Snapshot025creation is in progress, not yet claimed
+completed; successful snapshot024/feedback020 remain their original26-cell
+population. No new support/corpus/store-body decoding or payload export.
+All192and private/manual/failure/recipient/adoption/Q1–Q10 remain unfinished.
+Earlier live-cell27/no-result captures below are historical.
+
 ## Live cell27; completed population still26
 
 2026-10-07 10:13HKT. Same006 supervisor2562900/controller2562901 and atomic
