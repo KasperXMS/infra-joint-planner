@@ -1,5 +1,23 @@
 # Held-out initial-record field misuse: offline audit
 
+## Actual controller007 restored; original private guard remains intact
+
+2026-10-07 12:22HKT. Launch creator69573 completed exit0; append-only
+supervisor007SHA `dc1b13491241a640cf449aa3b163084a0885c3e2608b44d7fccd4244bd5ad9bf`.
+Actual supervisor2772570/controller2772571 independently verified owned/live
+04:21:04Z, source004 and control003 unchanged. Startup fullgate still running,
+no new cell36 outcome or reservation claimed. Next36LongBench4/Qwen/Fast/B0.
+
+Original global private guard negative probe003SHA
+`4bf22c701e49377f3c5e360e47d6d8adeff796243d4942d9195aa6a83224093c`
+proves it still rejects actual registered007 before any private-body read.
+Independent04:22:21Z readback binds the same guard source as verified006 and
+unchanged controller source. Successful launch/probe creators must not repeat.
+Snapshot032/feedback028 complete35cells/600actual recipient contexts and were
+independently reverified, not new private semantic audits. Full192strict-
+inactive semantic/manual/failure/adoption and Q1-Q10 remain. No benchmark retry,
+source/prompt/model/budget/scheduler change, new body decode or raw payload export.
+
 ## Continuation-control003 completed; exact same execution resumes only unstarted cells
 
 2026-10-07 12:15HKT. Creator26309 completed with exit0; all successful

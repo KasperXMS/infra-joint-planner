@@ -1,5 +1,34 @@
 # Resident Phase II results — in progress
 
+## Snapshot032 and feedback028 completed: thirty-five settled
+
+2026-10-07 12:22HKT. Snapshot032 completed04:20:00Z, SHA
+`e4e1499e3ab99b2eb53efe8cd2a2909769f46ec401594eaf2ad234a1791b6714`:
+35effective/35preserved/zero pending/five original findings retained/zero
+effective confounders/zero exclusions. Original journalSHA
+`91e98fc45c025b9f5f0a88f84356e8e1eceee203b4bb78b6cf5189741720533e`.
+New control003 binds all exact sidecars; execution004, schedule and collector
+unchanged. Successful creator19362 must not be repeated; next snapshot033.
+
+Feedback028SHA
+`72eb400fe5898983c495e73c5925d2103a8403a6947c0828e697aac8a9ef4d8a`
+verifies600actual SDK contexts:275Manager/275Verifier/50specialist,73B1profiles/
+144A_Eledgers/73Efrozen-rule exact matches. Same population/journal/control
+independently reverified04:21:08Z. Fixed Verifier, role-specific original scans
+and non-Manager feedback exclusion pass. Visibility does not prove rule adoption,
+evidence adequacy, specialist benefit or causal savings. Failed-call model/traffic
+work in35 remains unknown. No score aggregation or old/new pooling.
+
+Actual007supervisor2772570/controller2772571 independently owned/live; full
+startup gate ongoing, no36reservation yet04:21:04Z. Launch69573 completed exit0
+and must not be repeated. Original private guard negative probe003SHA
+`4bf22c701e49377f3c5e360e47d6d8adeff796243d4942d9195aa6a83224093c`
+proves live-controller rejection before any private body read. Guard source and
+controller source independently unchanged04:22:21Z. Next36LongBench4/Qwen/Fast/
+B0; remaining157. All192strict-inactive private/manual/failure/adoption, final
+quality-conditioned Q1-Q10/named reports remain unfinished. No source/runtime/
+prompt/model/budget/scheduler change, audit model calls or raw payload export.
+
 ## Cell35 exact admission review completed
 
 2026-10-07 12:01HKT. Existing source-bound reviewer confirmed all three
