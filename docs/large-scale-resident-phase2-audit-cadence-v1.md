@@ -6,13 +6,13 @@ not the frozen experimental task/model/method/runtime contract.
 
 ## Cutover and boundaries
 
--50effective cells/50preserved attempts settled; zero pending at cutover.
--Controller007 PID2772571/startticks187394649 received SIGINT only after a
+- 50effective cells/50preserved attempts settled; zero pending at cutover.
+- Controller007 PID2772571/startticks187394649 received SIGINT only after a
  verified stopped boundary with no pending or live atomic processes. It exited
  -2 at08:45:42Z; supervisor ended and the original lease exited normally.
--No atomic/Ollama/model process was signalled; no attempt repeated or excluded.
--Cutover receiptSHA `bdbd63fba7d5bafd13b49d70a4de1bec5953338334aa6f266fb7c788c2535d89`.
--Continue the exact preregistered schedule from51; normal full checkpoints at
+- No atomic/Ollama/model process was signalled; no attempt repeated or excluded.
+- Cutover receiptSHA `bdbd63fba7d5bafd13b49d70a4de1bec5953338334aa6f266fb7c788c2535d89`.
+- Continue the exact preregistered schedule from51; normal full checkpoints at
  64,80,96,112,128,144,160,176,192. The transition is a short first batch;
  any final remainder is audited. No benchmark/Planner call for this migration.
 
@@ -67,10 +67,25 @@ Only code/test bytes crossed the development PC, not experiment payloads.
 
 ## Status, not completion
 
-Bootstrap manifest creation is running once in session47577; do not duplicate.
-Then independently verify and launch the new registered controller once with
-the manifest SHA pinned outside the file. Controller007 must not be restarted.
-Latest closed historical snapshot045/feedback041 covers49settled cells;50has
-original inline admission and awaits the next full checkpoint. Full192private/
-manual/failure/adoption/quality-conditioned Q1-Q10/final reports remain required.
-No final aggregate/winner claim; no push.
+Bootstrap creator47577 exited0; manifest001SHA
+`19d8b26b93b96e92c8bbdee155f70c9f0d1b903b17bd16e9a9af0c8d7ebf92e0`.
+Independently reproduced all source/reference metadata, baseline journal and
+50effective/50preserved/0pending with five raw findings retained. One reader
+initially lacked the pinned archive revision; rerun only that read-only check
+with the production pinned environment. No source/config or evidence changes.
+Measured metadata-fence plus flat journal replay6.5018s is control overhead,
+not a benchmark E2E or scientific optimization result.
+
+Controller008 launched once with the manifest SHA pinned outside the file.
+Supervisor receiptSHA `9946be735662f0edf7342b661df58eb5cb8a1e8a294e414e27023001374517bc`.
+Independent09:08:59Z: supervisor2995395/startticks189119153 and controller2995396/
+startticks189119155 owned/live.50effective settled/51preserved/1pending/141unstarted;
+cell51Video6/Qwen/Slow/E attempt1 atomic2995485 owned/live, result absent.
+Original private guard rejects this live008controller before any private body
+read; receiptSHA `c5b3ae316f1e0f67fbd87f61937fe1cc873ffeb3005edca869024ea17c456015`.
+Successful bootstrap/launch/guard creators never repeat.007must not restart.
+Do not run old per-cell manual snapshot/feedback creators; next full receipt
+`analysis/phase2-audit-cadence-freeze-001-cell0064.json` is created by008itself.
+Historical045/041retain49scope;50has original inline admission. Full192strict-
+inactive private/manual/failure/adoption/quality-conditioned Q1-Q10/final reports
+remain required. No final aggregate/winner claim; no push.

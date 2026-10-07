@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+2026-10-07 17:12HKT protocol update: user requests full audit every16cells.
+50effective settled/51preserved/1pending/141unstarted at independent09:08:59Z;
+cell51Video6/Qwen/Slow/E runs on new008controller, not a repeat. Safe cutover
+after50with no live atomic/pending; old007exit-2 is deliberate controller
+shutdown, not a benchmark failure/exclusion. Original per-cell execution,
+admission/recipient scan/fresh stores/tc cleanup/exception stops unchanged.
+Next full checkpoint64, then80...192, including a final short remainder.
+Manifest19d8b26b93b96e92c8bbdee155f70c9f0d1b903b17bd16e9a9af0c8d7ebf92e0;
+008receipt9946be735662f0edf7342b661df58eb5cb8a1e8a294e414e27023001374517bc.
+Detailed source/tests/guard/cadence audit in large-scale-resident-phase2-audit-cadence-v1.md.
+045/041remain49scope; do not repeat per-cell full snapshots. All192strict-inactive
+private/manual/failure/adoption/quality-conditioned final analyses incomplete.
+
 Checkpoint2026-10-07 16:28HKT: snapshot045/feedback041 independently reproduced
 08:27:00Z, all49trace/794actual provider-request hashes and population/journal/
 control003 bindings, unchanged Phase I journal. SHA
