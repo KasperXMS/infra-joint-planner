@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell31 original admission and natural continuation audited
+
+2026-10-07 10:56HKT. Cell31 Video3/Qwen/Slow/E attempt1 settled valid,
+completed, format-valid, originalscore1. Original admission reproduction,
+source/store/residency/tc/Worker-exit and fourteen actual SDK contexts pass.
+AuditSHA `3309b2371a7910292ea26217a475ad49537fcaff2b145e1ef1bba507ad46b6f5`
+and startupSHA `09915d4bd718081d8ce57a55862ea4e15f341196593dce7408aca9f38375b04f`
+independently reverified with all bound source files. Terminal model consumes
+four image artifacts and its raw text already equals the canonical answer.
+
+Sequence: sample_frames, context-rejected invoke_model, extract_clip,
+sample_frames, successful invoke_model, successful terminal invoke_model.
+The rejected call is not a reached inference. Both successful models use the
+frozen A4VL4B deployment; no migration/failover/model substitution. Context
+feedback followed by distinct legal actions is natural SDK continuation, not
+cell retry. Private evidence adequacy, E-rule adherence and causal cost benefit
+are not established by correctness or by visible feedback. No new model calls,
+support/corpus/store-body decoding or payload export by these audits.
+Successful31startup/audit creators must not be repeated. Next scheduled cell32
+is Video3/DeepSeek/Fast/A. Snapshot028 read-only collection was restarted only
+after verifying the previous creator exited before writing; session29198 is
+currently running. Original journal and experiment attempts are untouched.
+
 ## Cell31 actual startup; live context feedback is not a completed outcome
 
 2026-10-07 10:54HKT. Same006controller owns cell31 Video3/Qwen/Slow/E
