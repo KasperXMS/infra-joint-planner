@@ -1,5 +1,42 @@
 # Resident Phase II results — in progress
 
+## Cell31 settled: Qwen/Slow/E with natural context continuation
+
+2026-10-07 10:56HKT. Video3/Qwen/Slow/E attempt1 is valid, completed,
+format-valid, original evaluator score1. Independent admission/source/store/
+residency/tc/exit/terminal/fourteenSDKcontext auditSHA
+`3309b2371a7910292ea26217a475ad49537fcaff2b145e1ef1bba507ad46b6f5`;
+startupSHA `09915d4bd718081d8ce57a55862ea4e15f341196593dce7408aca9f38375b04f`.
+Original journalSHA `7ad0eba9dfc8f1a4723a18b0060798528b3002d316e5c65c13a353f2d013d43f`.
+31effective/31preserved attempts/four original reviewed findings/zero pending.
+Same006 queue continues to scheduled32 Video3/DeepSeek/Fast/A; 161 remain.
+
+Seven Manager/seven Verifier turns, six physical actions, no specialists:
+`sample_frames → context-rejected invoke_model → extract_clip → sample_frames
+→ invoke_model → terminal invoke_model`. One context preflight rejection is
+not inference; one separate SDK phase-restriction feedback is preserved. Two
+successful A4VL4B inferences:4,503/4,498input tokens,2/2output tokens,
+both finish_reason=stop, service25.069s/24.318s. Terminal consumes four image
+artifacts and its raw text already equals the evaluated canonical choice.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |172.100s |
+| Complete registered Agent artifact movement |0B /0s; not all HTTP/RPC/prompt traffic |
+| Initial video placement, separate setup |15,239,623B /42.598s |
+| Complete tool execution work |1.291s |
+| Inclusive Worker model-action execution |49.635s; includes backend service |
+| Complete backend model service |49.386s |
+| Frozen list-price API cost |USD0.275954318; not an invoice |
+| Execution-grown graph |6nodes /25artifact-flow edges /19snapshots /peak1 |
+
+Natural continuation is not cell replacement or manual semantic repair. E-rule
+visibility/adherence, sampling sufficiency, repeated-inference necessity and
+method causality require the deferred post-block audits; correctness alone
+does not prove these. Comparing cell31 with cell30 changes both Planner and
+method; it is not a clean isolated method contrast. No new prompt/model/budget/
+scheduler change, raw payload export or private support/corpus/store-body read.
+
 ## Cell30 settled: resource-blind Video under Slow
 
 2026-10-07 10:49HKT. Cell30 Video3/DeepSeek/Slow/B0 attempt1 is valid,
