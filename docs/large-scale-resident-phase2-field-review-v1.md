@@ -1,5 +1,19 @@
 # Held-out initial-record field misuse: offline audit
 
+## Current checkpoint:40 settled, snapshot037/feedback033 closed
+
+2026-10-07 13:58HKT. Creator44480 exited0; feedback033 succeeded. Independent
+05:57:57Z reproduced all40trace/702actual request hashes, population/journal/
+control003 and unchanged Phase I journal. Snapshot SHA
+`206064b2541a4ce172a5d2e8d78d8c7fd4a22b96afe689edadb45d4c61813a59`;
+feedback SHA `2b0e17eebb2a796b09713a2216835f313a93bc1c98a632541c0109684f37bb45`.
+40effective/40preserved/zero pending, five original findings retained,
+zero effective confounders/exclusions. Same007owned/live; next41Video4/DeepSeek/
+Fast/E unreserved;152remaining. Successful037/033 never repeat; no local creator
+remains. No source/prompt/model/budget/scheduler change or new support/corpus/
+store-body decoding/payload export. Full192strict-inactive private/manual/
+failure/adoption audits pending; current checks do not identify causal adoption.
+
 ## Cell40 closed: valid original completion with score0
 
 2026-10-07 13:50HKT. LongBench3/DeepSeek/Fast/B0 attempt1 completed;

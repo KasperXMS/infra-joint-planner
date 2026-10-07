@@ -1,5 +1,16 @@
 # Completion audit — not achieved
 
+Current2026-10-07 13:58HKT: snapshot037/feedback033 successful and independently
+reproduced05:57:57Z, including all40trace/702actual request hashes.
+Snapshot SHA206064b2541a4ce172a5d2e8d78d8c7fd4a22b96afe689edadb45d4c61813a59;
+feedback SHA2b0e17eebb2a796b09713a2216835f313a93bc1c98a632541c0109684f37bb45.
+40effective/40preserved/zero pending,152remaining; same007owned/live, next41
+Video4/DeepSeek/Fast/E unreserved. Creator44480 exited0; no local creator remains;
+successful037/033 never repeat. Fixed Verifier/recipient isolation pass.
+Full192strict-inactive private/manual/failure/adoption/Q1-Q10 not completed;
+no visibility-to-causality claim, retry/source/prompt/model/budget/scheduler
+change/newbody decoding/payload export/fresh full-test claim/push; docs only.
+
 Current2026-10-07 13:51HKT:40effective/40preserved/zero pending,152remaining.
 Cell40LongBench3/DeepSeek/Fast/B0 valid original completion/format/score0 retained,
 no retry. Audit SHA46b5c5c2041ff53aab2390234e5154f784f8f4b947b1488a2016037b9094f37d

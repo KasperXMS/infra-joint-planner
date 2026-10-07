@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+Checkpoint2026-10-07 13:58HKT: snapshot037/feedback033 now closed, independently
+reproduced05:57:57Z:all40trace/702actual request hashes and population/journal/
+control003 bindings.40effective40preserved0pending/152remaining; same007continues.
+318Manager318Verifier66specialist;80profiles162ledgers79rules exactly match.
+Snapshot SHA206064b2541a4ce172a5d2e8d78d8c7fd4a22b96afe689edadb45d4c61813a59;
+feedback SHA2b0e17eebb2a796b09713a2216835f313a93bc1c98a632541c0109684f37bb45.
+No additional benchmark run/result replacement; full192private/adoption audits
+pending. Visibility does not establish causal method effect or retained evidence.
+
 ## Cell40 settled: valid completion, original score0 retained
 
 2026-10-07 13:51HKT. LongBench3/DeepSeek/Fast/B0 attempt1: execution complete,
