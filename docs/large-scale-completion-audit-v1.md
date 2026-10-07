@@ -1,5 +1,93 @@
 # Completion audit — not achieved
 
+## Current requirement audit — 2026-10-07 23:00 HKT
+
+The preceding goal turn made progress: cell81's exact derived-field proof was
+closed without rerunning or changing its score0 outcome, a new independently
+source-bound continuation013 was launched, and final-reader guards were tested.
+This turn confirms a **verified wait** on the same actual owned controller
+3216951/start191156188 and supervisor3216950/start191156186, rather than assuming
+that a lock or an old status file proves execution. At14:59UTC the read-only
+ledger view has82effective settled,84preserved attempts, one pending83
+MultiHop4/Qwen/Slow/B1, zero unresolved effective confounders and one excluded
+original71. The next full checkpoint remains96; no per-cell full audit is added.
+
+The current final entrypoint is
+`large_scale_resident_phase2_derived_final_audit_v1`, with manifest SHA256
+`82456d1e79d90e7d7a2952b73fa7c8899945cf28c2afc791a849f66da25383cc`
+and125-file actual imported source pin
+`626fac8ffdf5a8852358b5c91218edbfe993f4a19cb6ba5409d02a3699d3ae43`.
+Earlier initial-only final recipes and requirement/status tables below remain
+historical, not authority for this continuation. No final scan is run now.
+
+### Evidence needed to close the original goal
+
+| Original requirements | Authoritative evidence already available | Still required for completion |
+| --- | --- | --- |
+| 0–3,7–8: research context, two Planners, fixed Blind Verifier, frozen substrate/methods | Resident protocol, actual provider bindings and recipient-wire receipts; method set is B0/B1/A/E after screening | Reconcile actual bindings, instructions, schemas, model/deployment contracts and source epochs across the complete study; no new method/model/prompt |
+| 4–6,16,29:18 stratified frozen tasks and balanced order | Task-selection report and hash-bound task freeze;192-cell held-out schedule SHA256 `5ce98796f1254db6098de24d0639f23eff7a53ea5f1d1beaa01cbc419310a23a` | Per-task workload-property/behavior analysis for all18, with source counts/sizes, modalities, context pressure and initial placement; no task replacement |
+| 9–15,36–38: complete Phase I, reviewed screening, held-out Phase II |168effective/188preserved Phase I, comprehensive audit `f9a7f25e9ca737b95c201735c346d8cf8099f4fa4959f97a1a689ac55612a036`, pruning `6dfa23e926ce72a002ccfe703ff2c27b5122c29909c4f5f00d972ea3df7f4c80` | All192original held-out nominal cells resolved; under current authorized replacement inventory,193attempts preserved; actual final exit/inactivity and no unresolved confounder |
+| 17–18,22,46: freshness, network, setup and immutable evidence | Per-run fresh Worker/store, residency, tc and shutdown receipts; original71 and sole identical replacement both retained | Final all-attempt verification; attach environment_stage/source epoch to comparisons, retain pre/post-Strata exposure limitations; report initial-placement bytes/time separately and configured delay != measured symmetric RTT |
+| 19–21,43–44: API/work/resource accounting | Actual provider usage and frozen price/FX sources; Phase I quality-footprint projection and independently checked42-group cross-Planner table | Complete Phase II per-cell vectors and per-task/family/Planner/method tables, Manager/specialist/Verifier cost separation, known/unknown counts and matched score1 contrasts; keep preflight, returned inference, unmeasured post-inference failures and service work distinct |
+| 23–24,30–33: quality, failures and replacements | Original evaluator outcomes, narrow source-bound review sidecars and raw rejected admissions | Manual per-run terminal provenance and failure review, primary/contributing categories with explicit unknown subtypes; missing evaluation !=0, cheaper wrong !=optimization, no ordinary-failure retry |
+| 25–26: private semantic evidence/retention | Guarded MultiHop corpus/document/literal coverage scanner; all-body reads deferred | After all192 and strict global inactivity, owner-local private/manual evidence-path review; report semantic retention only when supporting facts and terminal flow prove it, otherwise unknown (including unannotated LongBench/Video); literal/document coverage is not sufficiency |
+| 27–28: actual method adoption and Planner interaction | Closed Phase I optional-query/quote/comparison review; original B/C/D results retained without held-out expansion | Reconcile interface exposure with actual action receipts, E visible rules with explicit action evidence, and B1 visibility with behavior; visibility is not internal use, quote discard is not causal revision |
+| 34–35: recipient privacy and validation | Full checkpoints through80,81bootstrap actual wire check,2059pytest/7existing platform skips,164Linux tests,Ruff/strictPyright/diff pass | Full192/193 recipient/context and source reconciliation; source changes, if any, require fresh proportional validation without changing frozen execution |
+| 39–45,51–52: final characterization | Reviewed Phase I descriptive findings, unknowns and reusable analysis definitions | Explicit Q1–Q10 evidence/uncertainty answers; family-specific quality, matched correct-completion cost, Planner×Method interactions and task exceptions; n1 cannot establish significance or stable causal optimization |
+| 47–50: commits, reports, cap and hard-stop | Branchlarge-scale-cost-guidance-v1;42old+168resident+192held-out=402nominal <=420, historical evidence unpooled | Final named reports and Chinese workspace report grounded in complete evidence; no main merge, new benchmark/regime/repetition/optimizer/RL; final completion audit must close every requirement |
+
+### Final evidence bundle is necessary, not sufficient
+
+The source-pinned derived-final creator checks all192nominal/all193preserved
+attempts, retains the excluded original and recipient records, reconciles exact
+sidecar identities and invokes the unchanged guarded private scanner. Its output
+deliberately leaves `semantic_audit_complete`, `manual_audit_complete`,
+`q1_q10_complete` and `goal_complete` false. It does not create the required final
+failure taxonomy, terminal-output audit or quality-conditioned reports.
+
+The private wrapper records `semantic_primary_cause=None`; its coverage branch is
+MultiHop-only. The original scanner leaves semantic retention unknown because
+document IDs/literal cues do not establish complete required facts. A green
+source/admission/coverage check must not be promoted into a semantic verdict.
+No independent Verifier/model calls are added for this offline review.
+
+The reviewed Phase I resource-analysis source is preserved inside owner-local
+`analysis/resident-phase1-quality-footprint-provenance-001.json`, SHA256
+`5a4fe5f2244431d96e140b669adf7918368b2a942615c39767486f9f47343b48`;
+its source SHA256 is
+`8484088a1c303a708c9dd0296ce9e2c6fee802f0e0d7ae068881181e9a57ebc2`.
+Reuse its explicit score1/score0/unevaluated populations, known-only statistics
+and exact-condition comparisons only after complete held-out audit; adapt input
+membership to the new hash-bound bundle without overwriting Phase I outputs or
+erasing environment stages. Keep Phase I screening and held-out analysis visibly
+separate; the old42 block must never enter new-pool comparisons.
+
+The final resident nominal population is360, not a balanced seven-method18-task
+matrix: B0/B1/A/E contribute288cells across all18tasks, while B/C/D contribute
+only72screening cells across the six representative tasks. Their differing
+workload populations must remain explicit in method comparisons. Expected
+preserved resident attempts are188PhaseI+193PhaseII=381 under the current
+authorized inventory; audit membership and nominal denominators are distinct.
+
+### Named deliverable review
+
+Protocol/task selection and Phase I results/failure/screening/pruning files exist
+and link the closed resident audit. `large-scale-phase2-results-v1.md` is currently
+progress only. `large-scale-crossplanner-analysis-v1.md` currently covers the
+reviewed168-cell screening block, not the held-out192. The required
+`large-scale-failure-audit-v1.md` and `large-scale-final-recommendation-v1.md` are
+still absent. The workspace2026-10-05Chinese results file is historical; a final
+resident-study Chinese report remains required. Do not create empty final files
+or treat filename existence as scientific completion.
+
+**Verdict: active, incomplete, not blocked.** Continue the same verified live
+queue and close the next actual96checkpoint. After all192 and strict inactivity,
+create the one exclusive source-pinned evidence bundle, perform owner-local
+manual/semantic review and independently verified analyses, write the named
+reports/Q1–Q10 synthesis, then repeat requirement-by-requirement completion audit.
+No private body scan, new audit model call, score aggregate, experiment retry or
+execution/prompt/budget/scheduler change is made by this checklist.
+
 Current2026-10-07 21:49HKT:80effective settled81preserved0pending; actual012
 controller/supervisor3156894/3156893owned/live13:48:55Z,80full-cadence target
 still absent (in progress), no exit. This turn makes concrete audit-preparation
