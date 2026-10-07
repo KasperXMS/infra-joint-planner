@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+2026-10-07 18:00HKT exception stop:57effective cells/58preserved/0pending;
+008exited1 at09:50:53Z, no59dispatch. Cell58MultiHop6/DeepSeek/Slow/B0 original
+result completed/formatvalid/score1, but raw admission is a preserved field
+validation finding. Three BM25 requests used `text` instead of the declared
+`body`; exact unchanged field proof is running once, not yet admitted or waived.
+Six raw findings/one unresolved effective confounder; no retry/replacement.
+16cell cadence remains; new findings still stop immediately. No new corpus/store
+body decode, no all192private audit or quality aggregation. See
+large-scale-resident-phase2-field-review-v1.md. Do not restart008or repeat creator97236.
+
 2026-10-07 17:12HKT protocol update: user requests full audit every16cells.
 50effective settled/51preserved/1pending/141unstarted at independent09:08:59Z;
 cell51Video6/Qwen/Slow/E runs on new008controller, not a repeat. Safe cutover

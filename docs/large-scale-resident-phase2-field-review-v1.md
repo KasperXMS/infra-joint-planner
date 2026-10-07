@@ -1,5 +1,37 @@
 # Held-out initial-record field misuse: offline audit
 
+## New finding at cell58: queue stopped, proof in progress
+
+2026-10-07 18:00HKT. Controller008 exited1 at09:50:53Z after the original
+admission stopped cell58 MultiHop6/DeepSeek/Slow/B0 attempt1.57effective cells,
+58preserved attempts, zero pending, six raw findings and one unresolved
+effective confounder. No cell59 started; no retry or replacement. The16cell
+cadence retains immediate exception stops, rather than postponing new findings.
+
+Original result reports execution completed, format valid and score1.0; this
+does not itself waive the admission finding. Raw settlement remains
+`typed_action_failure_requires_audit:validation_failed`, original admission
+canonical SHA `b79f1d713ea244e22f0c77009ead4bf47b1270462a2bc3517d933890d7a5c915`.
+Three failed root-owned `bm25_retrieve` actions requested `text_field=text`
+against initial shards0001/0002/0003, each returning exactly
+`document field must be text: text`. Query/evidence/answer bodies not exported.
+
+The unchanged original field reviewer is running once (local session97236,
+remote creator3032802), not a benchmark call. It must reproduce the original
+admission, source/Worker/exit/residency bindings, actual SDK task schema and
+hash-identical historical shard-shape proof. The original inactivity guard
+passed.09:53precheck proved the new sidecar absent;10:00:15Z creator was live
+under its original lease and sidecar still absent. Do not repeat this creator.
+No new corpus/store body decode or partial-block private semantic audit.
+No effective relabeling, new control manifest or queue restart is claimed yet.
+
+Unchanged worktree checks:64field-review/cadence regression tests passed;
+full pytest1838passed/7existing platform skips,121.85s; Ruff and diff-check pass.
+Strict Pyright with explicit project `.venv` interpreter:0errors/0warnings.
+Initial Pyright without that interpreter reported dependency-resolution errors;
+correcting only the verification invocation passed, with no source/dependency
+or experimental environment edits. All192execution and final audits incomplete.
+
 ## Closed checkpoint:49 settled, snapshot045/feedback041
 
 2026-10-07 16:28HKT. Read-only recollection54902 exited0 after first045creator

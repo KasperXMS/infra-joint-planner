@@ -1,5 +1,18 @@
 # Completion audit — not achieved
 
+Current2026-10-07 18:00HKT:57effective58preserved0pending;134unstarted and
+cell58unresolved, not a completed effective cell.008terminalexit1 after new
+field-validation finding; no59dispatch. Raw result completed/formatvalid/score1
+does not prove admission validity. Unchanged original field reviewer creator
+3032802/session97236 live under lease at10:00:15Z; target absent then, never
+repeat while running. Three root BM25 requests used `text` on initial shards;
+must prove actual visible schema and hash-identical historical record shape.
+No new corpus/store body decode or partial private audit. Full unchanged-tree
+pytest1838pass/7platformskip, Ruff pass, explicit-venv strictPyright0, diffcheck
+pass.16cell cadence and immediate-finding stop remain; no new manifest/restart
+yet. All192execution/strict-inactive semantic/manual/failure/adoption/Q1-Q10
+and named final reports incomplete; goal remains active, not blocked.
+
 Current2026-10-07 17:12HKT:50effective settled51preserved1pending141unstarted.
 User-authorized16cell full-audit cadence is implemented/tested/frozen; new008
 owned/live at09:08:59Z, cell51Video6/Qwen/Slow/E atomic2995485, no result then.
