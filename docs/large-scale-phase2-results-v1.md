@@ -1,5 +1,21 @@
 # Resident Phase II results — in progress
 
+## Cell35 exact admission review completed
+
+2026-10-07 12:01HKT. Existing source-bound reviewer confirmed all three
+post-backend JSON output failures; append-only sidecarSHA
+`cd859f740c62e9f400289763c97ca8b688f50b4c48de68a947f9e0dfa6ad362f`
+independently reproduced04:00:53Z. Effective disposition is valid; original
+completed/format-valid/score1, raw confounder and journal are unchanged. Failed
+JSON model-outcome inference=false flags do not establish no inference: actual
+backend completion before parsing is proven. At least eight backend completions
+exist, although only five returned successful telemetry receipts; complete work,
+tokens and traffic remain unknown. No ordinary retry or hidden repair.
+Full continuation-control003 validation is still running; latest completed
+full-population snapshot remains031/34cells, not a35-cell snapshot. Older pending
+review captures below retain historical scope. No new private-body decoding or
+model calls by this audit; full192quality-conditioned final analysis remains.
+
 ## Cell35 terminal completion preserved; exact gate review pending
 
 2026-10-07 11:50HKT. LongBench4/DeepSeek/Slow/E attempt1 completed and

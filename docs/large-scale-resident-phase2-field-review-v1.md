@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell35 exact model-output review passed, continuation freeze pending
+
+2026-10-07 12:01HKT. Append-only sidecarSHA
+`cd859f740c62e9f400289763c97ca8b688f50b4c48de68a947f9e0dfa6ad362f`
+was created by existing exact reviewer and independently reproduced04:00:53Z.
+All three declared application/json model outputs carry the exact known parse
+error; two specialist-owned and one Manager-owned. Actual Worker003/atomic004
+source ordering proves backend completion precedes JSON parsing. This is valid
+model-output noncompliance with subsequent natural recovery, not context reject,
+missing capability, outage or a runtime defect. Original negative inference flags
+on these failures remain but must not be interpreted as inference never reached.
+Five returned successful receipts plus three proven post-backend failures imply
+at least eight backend completions; failed tokens/finish/service remain unknown.
+
+Effective reviewed disposition is valid, original evaluator score1 unchanged.
+Original journalSHA `91e98fc45c025b9f5f0a88f84356e8e1eceee203b4bb78b6cf5189741720533e`
+is unchanged. Original admission/rejection and all historical controls retained;
+no retry, imputation or atomic execution change. Creator26309 continues writing
+new control003/ledger003/validation003 after full original gate recollection;
+no queue restart yet. Successful sidecar creation must not be repeated. All192
+strict-inactive semantic/manual/adoption audit remains; no new private-body
+decoding, auditor model calls or raw payload export.
+
 ## Cell35 completed; original JSON admission gate retained
 
 2026-10-07 11:50HKT. LongBench4/DeepSeek/Slow/E attempt1 completed with
