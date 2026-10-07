@@ -1,5 +1,40 @@
 # Resident Phase II results — in progress
 
+## Cell45 settled: context continuation, valid original score0
+
+2026-10-07 15:07HKT. LongBench5/Qwen/Fast/B1 attempt1 completed, original
+admission/terminal format valid,score0. No retry/replacement/trajectory tuning.
+AuditSHA `0b04374fd6e8c9275ae8ab49412e33dbb3f410c58efe565d83552a8b92da7168`
+independently reverified07:06:08Z, including startup metadata, unchanged
+residency, tc restoration/Worker exit/terminal projection;14SDK contexts pass.
+No independent live-start receipt was written because the run had settled before
+its creator's unsettled assertion; no retroactive live-environ claim is made.
+
+| Recorded component | Cell45 |
+| --- | --- |
+| Manager / Verifier / specialist turns |7 /7 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |8 /2 /1 |
+| Typed observations |1context reject before inference;1semantic validation;1phase restriction |
+| E2E |84.272942893s |
+| Initial materialization, separate from Agent movement |340278bytes /0.138583388s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |0.547951926s |
+| Inclusive successful Worker model-action work |23.819926551s; includes backend |
+| Complete backend service / tokens / finish |23.791085483s /8187input,2output /stop |
+| Frozen-list-price cloud API USD |0.099753780943143012795811796595755989316889; not invoice |
+| Execution-grown graph |8action nodes /6artifact-flow edges /25snapshots /peak3actions |
+
+Sequence:three BM25 -> context-rejected model -> three BM25 -> successful A4VL4B
+terminal model consuming3artifacts. Independent ready retrieval actions do show
+parallelism; this does not isolate its E2E benefit. Seven profile-feedback
+events establish availability, not adoption or a causal action choice. Score0
+does not identify retrieval, reasoning or profile-induced evidence loss; private
+semantic attribution and matched quality-conditioned comparisons wait all192
+and strict inactivity.45effective45preserved0pending,147remaining; same007
+continues next46LongBench5/DeepSeek/Slow/B0.042creator33272 running,038not invoked;
+041/037 remain44-settled scope. No private-body reads/payload export or source/
+prompt/model/budget/scheduler changes.
+
 Checkpoint2026-10-07 15:03HKT: snapshot041/feedback037 independently reproduced
 07:02:52Z, every44trace/732actual request hashes and population/journal/
 control003 bindings. SnapshotSHA8106d365c6fdd45f41ca8f98f1695d252fb9877b564fd66d9d84483ebf910711;
