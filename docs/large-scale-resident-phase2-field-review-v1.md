@@ -1,5 +1,22 @@
 # Held-out initial-record field misuse: offline audit
 
+## Closed checkpoint:46 settled, snapshot043/feedback039
+
+2026-10-07 15:34HKT. Snapshot043 creator10234 exited0; feedback039 succeeded;
+neither repeat. SnapshotSHA
+`17fe58dea277c0e634c21dc38cdf5f2a7c4645b299c1fd739f5261e94538cef5`;
+feedbackSHA `d0377deb0262b2056eab915a6a38be57ad4008812f6fb92649856d71efc8857b`.
+Independent07:33:27Z rehashes all46trace/764actual provider requests and
+population/journal/control003 bindings; Phase I journal unchanged.
+349Manager/349Verifier/66specialist;91profiles/169ledgers/82rules match;
+fixed Verifier/original recipient scans/non-Manager feedback exclusion pass.
+46effective46preserved0pending, five original findings retained,
+zero effective confounders/exclusions. Same007continues; next47LongBench5/Qwen/
+Slow/E unreserved at07:33:29Z;146remaining. No local creator remains;
+044/040 prepared only. No new private bodies/model calls/payload export or
+prompt/model/budget/scheduler change. All192strict-inactive private/manual/
+failure/adoption/Q1-Q10 unfinished; visibility is not causal adoption.
+
 ## Cell46 closed: valid original completion, context continuation retained
 
 2026-10-07 15:23HKT. LongBench5/DeepSeek/Slow/B0 attempt1 completed; original
