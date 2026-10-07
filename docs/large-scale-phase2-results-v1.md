@@ -1,5 +1,30 @@
 # Resident Phase II results — in progress
 
+## Snapshot028 and feedback024 complete: thirty-one settled
+
+2026-10-07 11:00HKT. Snapshot028 completed at02:59:43Z, SHA
+`9c272b63fe737ce805ad7c073d7ecfb3e91332bb43c3378146f4df9f5b12ccf3`:
+31effective/31preserved attempts/zero pending/four original findings retained/
+zero effective confounders/zero operational exclusions. JournalSHA
+`7ad0eba9dfc8f1a4723a18b0060798528b3002d316e5c65c13a353f2d013d43f`.
+Original control002, frozen schedule/execution004 and collector remain unchanged.
+The first028collector exited before writing on journal advance; successful
+read-only recollection29198 must not be repeated. Next snapshot is029.
+
+Feedback024SHA
+`2788d349b7176a820cc47926c3be2bbcceeddf038cb401125cd0ff0e2db17a19`
+verifies486 actual provider contexts:234Manager/234Verifier/18specialist,
+62B1profile/114A_Eledger/60Efrozen-rule exact matches. Fixed Verifier and
+non-Manager feedback exclusion pass. Snapshot/feedback hashes, population,
+journal and control binding independently reverified at03:00:33Z. These audits
+make no new model calls and read no new support/corpus/store bodies or gold;
+raw requests remain owner-local. Visibility does not prove adoption, retention
+or causal cost benefit. Next feedback is025, only after a new successful snapshot.
+Same006controller/supervisor remains owned/live before32. Remaining161 and
+all full192 strict-inactive private/manual/failure/recipient/adoption and final
+quality-conditioned Q1–Q10/named reports remain unfinished. Old27/29 scopes
+below remain historical; no old/new experimental population pooling.
+
 ## Cell31 settled: Qwen/Slow/E with natural context continuation
 
 2026-10-07 10:56HKT. Video3/Qwen/Slow/E attempt1 is valid, completed,
