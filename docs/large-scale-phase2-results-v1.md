@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 00:50HKT, new015is actually owned/live, supervisor3285125/start
+191884988 and controller3285126/start191884991. New90MultiHop3/P2/Slow/B0
+attempt1atomic3285496/start191888412 is running:89effective/90settled+1pending=
+91preserved,0unresolved/1excluded,102unstarted. Live receipt
+`c74cad0a14d2ef3012f74830f92cbcd2efd63883fe9d9f420aead60a664d1e9b`
+verifies current commands/source authority and actual live private-body rejection
+before any final body/output. Measured execution004/0ff0e9b unchanged, no89retry
+or014restart. Next full96; all original192/all193 final requirements remain.
+
 At2026-10-08 00:46HKT, independent bootstrap002 completed successfully. Receipt
 `2b1bf9c70190c7cfbc9cebdea2182fe799a3de950d1c231f1028a21ada3de0be`
 revalidates full control/all90attempts,89effective/0pending/0unresolved/1excluded,

@@ -162,3 +162,22 @@ weights, separate SDK request bodies or private evaluator files transported.
 Credential field/pattern check passed, but raw traces contain task/tool/model
 content and physical telemetry: private research evidence, not a public release.
 No experiments/retries/model calls/tc shaping or final semantic audit triggered.
+
+## Verified continuation, not final results
+
+Audit closure committed asb7caf96 before the one new015launch. Supervisor record
+SHA256 `f988e91c33f42a27d3fe2c42175d27c69c1e985bd9c5b4a282be1ef47f7c9b98`;
+inline bootstrap SHA256
+`62871ecfe39a776abe6c94a5fca15ad1461b4fb2eada20d2e20f276667b7a249`.
+At16:50:47.518933UTC, independent live receipt
+`c74cad0a14d2ef3012f74830f92cbcd2efd63883fe9d9f420aead60a664d1e9b`
+verifies supervisor3285125/start191884988,controller3285126/start191884991 and
+new90atomic3285496/start191888412 against actual commands/start ticks.
+Cell90is frozen MultiHop3/P2/Slow/B0 attempt1;89effective/90settled+1pending=
+91preserved,0unresolved/1excluded,102unstarted. No89retry or014restart.
+The actual live final entrypoint rejects before private body access/output;
+full all192/all193 guard/sourcepin and next96cadence remain unchanged.
+One earlier read-only status observation hit concurrent journal append and was
+correctly rejected; a fresh stable observation passed. No controller/benchmark
+failure, replacement, journal edit or loosened single-writer rule is inferred.
+The queue continues only the original schedule; full goal remains incomplete.
