@@ -1,5 +1,21 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell47 live: startup independently reproduced
+
+2026-10-07 15:38HKT. Same007queue started LongBench5/Qwen/Slow/E attempt1,
+atomic2932539 owned/live.46effective settled/47preserved/1pending/145unstarted.
+StartupSHA
+`305eb344bbccee01615834fcb99d5be5c49337ed23ba30c7decce72b9544c7dc`
+independently reproduced07:37:01Z:config/freeze/state/residency hashes,
+four empty initial stores, five resident instances, actual004-only Python paths
+and frozen revision. Exclusive creator succeeded; never repeat. Result absent
+at readback. Partial07:37:03Z:3Manager starts/4physical started-finished/
+1context reject/0returned model receipts/0profile events; not terminal counts
+or evidence of E adoption/semantic quality.043/039retain46-settled scope;
+044/040prepared not invoked. No source/prompt/model/budget/scheduler change,
+new private bodies/payload export/fresh-test claim/push. Full192strict-inactive
+private/manual/failure/adoption/Q1-Q10 still required.
+
 ## Closed checkpoint:46 settled, snapshot043/feedback039
 
 2026-10-07 15:34HKT. Snapshot043 creator10234 exited0; feedback039 succeeded;
