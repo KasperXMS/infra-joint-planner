@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell48 closed: original valid completion, quality failure retained
+
+2026-10-07 16:01HKT. LongBench5/DeepSeek/Fast/A attempt1 completed with original
+admission/format valid, score0; no retry/replacement. Startup receiptSHA
+`1dd859fb80c8943aedcbe91ca41bf70b8fd2fda44a92f17e9d24b63696b883f5`
+was independently reproduced live07:55:11Z: atomic2947386 owned/live, four
+empty initial stores, five resident instances,004-only environment/revision.
+End-auditSHA `33bff2aa7b326ee547207e8efaa13de94c855cbd9d8871085abcdaee089750d0`
+independently reproduced08:00:24Z with all bound files, original admission/
+settlement, stable resident identities/tc restoration/Worker shutdown and10SDK
+contexts. Terminal A4VL4B consumes3artifacts,7381input/2output tokens,stop;
+raw terminal equals canonical answer and frozen deterministic projection.
+One context reject explicitly before inference, followed by three top_k_records
+actions and successful model inference. One phase-restriction observation retained.
+Static class matching is not full-envelope feasibility or dynamic-unavailability
+proof. Quality-failure subtype remains unknown until the complete-block private audit.
+
+48effective48preserved0pending;144remaining. Same007continues; next49Video6/
+Qwen/Fast/B1. Snapshot045 creator74836 running, never duplicate; feedback041
+not invoked before success.044/040retain47-settled scope. No prompt/model/
+budget/scheduler change, fresh-test claim, new private bodies or payload export.
+All192strict-inactive private/manual/failure/adoption/Q1-Q10 remain unfinished.
+
 ## Closed checkpoint:47 settled, snapshot044/feedback040
 
 2026-10-07 15:52HKT. Snapshot044 creator75443 exited0; feedback040 succeeded;
