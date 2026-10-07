@@ -1,5 +1,49 @@
 # Phase II cell81 — derived-record field audit in progress
 
+## Closed metadata adjudication, 2026-10-07 14:38Z
+
+The metadata-only proof now reproduces against actual evidence, without new
+corpus/store body decoding. Sidecar file SHA256
+`fbcc67af95896a03f20dc27d4df68b7ebc529449d3d32b3aa9e04261a83159cf`;
+reviewed admission canonical SHA256
+`656bddb9ee27ef7360c8d2eafa948734f087c90f1b155a477deec99550dda4e0`.
+The original admission, completed result, score0.0, trace and journal are unchanged.
+This is a valid workflow-composition failure, not a replacement. Specialist schema
+receipt remains unknown; this does not establish the semantic cause of score0.
+
+New continuation manifest `phase2-derived-environment-cadence-freeze-001.json`,
+SHA256 `82456d1e79d90e7d7a2952b73fa7c8899945cf28c2afc791a849f66da25383cc`,
+renews the full historical gate and all82 preserved actual recipient wires.
+It retains the exact single original71 exclusion and authorized replacement,
+unchanged schedule, measured execution004, and immediate stops for new findings.
+Independent bootstrap readback is in progress; no013 queue has launched yet.
+
+The proof separately preserves two ordinary companion observations:
+
+- One Manager synthesis-phase guard, unprepared/no physical execution.
+- One model context preflight failure, estimated input88,711 =907prompt UTF-8
+  bytes +87,804bound input bytes; +2048reserved exceeds32768. No selection or
+  inference occurred. It is not a second field audit finding or an additional
+  hidden model call. Its requirements were statically feasible; the actual
+  materialized input envelope exceeded the current conservative runtime contract.
+
+Each aggregate's15record count follows six successful top_k5 retrievals and
+source-preserving concatenation;11actual implementation files match both frozen
+Worker003 and atomic004 sources, including resolver and semantic conversion.
+No runtime, prompt, default field, tool, budget, deployment or evaluator changed.
+
+Code commits `cd097cc`, `6f3f355` only add audit/proof/control/final-reader support.
+Final fullpytest2059passed/7existingplatformskip;164actual4090Linux cases passed;
+Ruff, project strict Pyright, explicit new-script strict Pyright, diff check pass.
+Linux receipt SHA256
+`e9ed25b093bbe204e24c99e1b6a361b5dc8f8a868204d3a6c98469715afbb8d4`;
+local validation receipt
+`fdbdbaff34dc02608457094d9eb72a011c89a9355596528665f71876069e50e1`.
+Namespace003 is exclusive;001/002 audit iterations and all previous evidence
+remain intact. Final all192/all193 private/manual/quality analysis is not performed.
+
+The historical pending-stage account follows.
+
 At 2026-10-07 14:12Z the queue is stopped, not dispatch-ready. Controller012
 exited1 at13:53:17.271804Z after original cell81 settled as a raw confounder.
 There is no cell82 reservation. Effective80, preserved82, pending0,
