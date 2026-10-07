@@ -1,5 +1,13 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 00:53HKT, lightweight process/journal observation confirms90has
+settled/admitted without a new finding.90effective/91settled preserved+1pending=
+92attempts,0unresolved/1excluded. Same015controller/supervisor remain owned/live;
+new91MultiHop3/P1/Slow/B1 attempt1atomic3289206/start191909895 is running.
+Journal SHA25637649184f7b3ccf44d02f4344943f59ea684efe6974807ee8b007d3a32e40c12.
+This is membership/verified wait, not per-cell full audit or partial quality
+analysis. Next full96; original all192/all193 final scope unchanged.
+
 At2026-10-08 00:50HKT, new015is actually owned/live, supervisor3285125/start
 191884988 and controller3285126/start191884991. New90MultiHop3/P2/Slow/B0
 attempt1atomic3285496/start191888412 is running:89effective/90settled+1pending=

@@ -1,5 +1,13 @@
 # Completion audit — not achieved
 
+### 2026-10-08 00:53HKT: first new nominal cell settled, original goal active
+
+Lightweight metadata observation verifies90admitted,91settled+1pending=
+92preserved,0unresolved/1excluded. Same015is live and new91atomic3289206/start
+191909895 is executing. Admission is not correctness/normal-completion proof.
+No per-cell full audit, private body scan, retry or partial quality aggregation.
+Original192cells/all193attempts, next96cadence and all final requirements remain.
+
 ### 2026-10-08 00:50HKT: actual unchanged-schedule execution resumed
 
 New015controller3285126/start191884991 and supervisor3285125/start191884988
