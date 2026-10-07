@@ -1,0 +1,347 @@
+"""Pure, metadata-only proof for absent text on BM25/concatenation descendants.
+
+The caller must bind the historical initial shapes, actual frozen SOURCE_PATHS,
+original admission, complete evidence, exit and residency before using this proof.
+This module opens no files, runs no operators and supplies no ledger or retry.
+Possible fields are conservative supersets, never invented actual shape scans.
+"""
+
+from __future__ import annotations
+
+import json
+from typing import Any, cast
+
+from pydantic import ValidationError
+
+from infra_joint.control.provenance import provenance_sha256
+from infra_joint.operators.artifacts import ProducedArtifact
+from infra_joint.operators.retrieval import Bm25Arguments
+from infra_joint.operators.structured import AggregateArtifactsArguments
+
+GATE = "typed_action_failure_requires_audit:validation_failed"
+REASON = "audited_metadata_bound_derived_record_absent_field_misuse"
+SOURCE_PATHS = (
+    "src/infra_joint/operators/retrieval.py",
+    "src/infra_joint/operators/structured.py",
+    "src/infra_joint/operators/artifacts.py",
+    "src/infra_joint/worker/artifact_store.py",
+    "src/infra_joint/control/physical.py",
+    "src/infra_joint/control/graph.py",
+    "src/infra_joint/control/native_agents.py",
+    "src/infra_joint/control/contracts.py",
+    "src/infra_joint/core/base.py",
+)
+
+
+def _object(value: Any) -> dict[str, Any]:
+    if not isinstance(value, dict):
+        raise RuntimeError("expected an evidence object")
+    return cast(dict[str, Any], value)
+
+
+def _items(value: Any) -> list[Any]:
+    if not isinstance(value, list):
+        raise RuntimeError("expected an evidence array")
+    return cast(list[Any], value)
+
+
+def _names(value: Any) -> list[str]:
+    items = _items(value)
+    if any(not isinstance(item, str) or not item for item in items):
+        raise RuntimeError("expected nonempty string identities")
+    return cast(list[str], items)
+
+
+def _metadata(value: Any) -> dict[str, Any]:
+    try:
+        return ProducedArtifact.model_validate(value).model_dump()
+    except ValidationError as exc:
+        raise RuntimeError("invalid exact artifact metadata") from exc
+
+
+def review(
+    trace: list[dict[str, Any]],
+    result: dict[str, Any],
+    visible_task: dict[str, Any],
+    initial_shapes: dict[str, dict[str, Any]],
+    replica_metadata: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    """Infer absent text only from exact, successful body-preserving producers.
+
+    initial_shapes use current IDs and verified historical metadata/count/union/
+    all_records_have_string_body facts. replica_metadata is worker-state-after.
+    result is the original saved run result, not an admission or an effective view.
+    All input objects are left untouched. Admission and source binding are the
+    caller's responsibility; proof output itself grants no execution authority.
+    """
+    if (result.get("execution_completed") is not True
+            or not isinstance(result.get("evaluation"), dict)):
+        raise RuntimeError("completed original result with evaluation required")
+    indexes: dict[str, dict[str, dict[str, Any]]] = {
+        kind: {} for kind in (
+            "logical.action.prepared", "logical.observation", "physical.execution",
+            "action.completed",
+        )
+    }
+    positions: dict[tuple[str, str], int] = {}
+    graph: dict[str, Any] | None = None
+    manager_tasks: list[dict[str, Any]] = []
+    for position, event in enumerate(trace):
+        kind, payload = event["event_type"], _object(event["payload"])
+        if kind in indexes:
+            value = _object(payload.get("action")) if kind.endswith("prepared") else payload
+            identifier = value.get("action_id")
+            if not isinstance(identifier, str) or not identifier or identifier in indexes[kind]:
+                raise RuntimeError("missing or duplicate action evidence")
+            indexes[kind][identifier] = value
+            positions[kind, identifier] = position
+        elif kind == "workflow.graph.snapshot":
+            graph = payload
+        elif kind == "logical.reasoning.input" and payload.get("logical_agent_id") == "manager":
+            try:
+                item = _object(_items(payload["input_items"])[0])
+                manager_tasks.append(_object(json.loads(item["content"])["task"]))
+            except (KeyError, IndexError, TypeError, ValueError) as exc:
+                raise RuntimeError("exact Manager task input required") from exc
+    if not manager_tasks or any(task != visible_task for task in manager_tasks):
+        raise RuntimeError("visible task differs from actual Manager task")
+    if graph is None:
+        raise RuntimeError("closed workflow graph required")
+    result_graphs = _items(_object(result.get("loop")).get("graph_snapshots"))
+    if result.get("failure") or not result_graphs or result_graphs[-1] != graph:
+        raise RuntimeError("original result and final trace graph disagree")
+    actions = indexes["logical.action.prepared"]
+    observations = indexes["logical.observation"]
+    physical = indexes["physical.execution"]
+    completed = indexes["action.completed"]
+    nodes: dict[str, dict[str, Any]] = {}
+    for value in _items(graph.get("nodes")):
+        node = _object(value)
+        identifier = node.get("action_id")
+        if not isinstance(identifier, str) or identifier in nodes:
+            raise RuntimeError("ambiguous workflow graph node")
+        nodes[identifier] = node
+    if any(set(index) != set(actions) for index in (observations, physical, completed, nodes)):
+        raise RuntimeError("prepared actions and closed evidence identities disagree")
+    edges: set[tuple[str, str, str]] = set()
+    for value in _items(graph.get("edges")):
+        edge = _object(value)
+        key = tuple(_names([edge.get(name) for name in (
+            "producer_action_id", "consumer_action_id", "information_id",
+        )]))
+        typed_key = cast(tuple[str, str, str], key)
+        if typed_key in edges:
+            raise RuntimeError("duplicate workflow dependency")
+        edges.add(typed_key)
+    initial: dict[str, dict[str, Any]] = {}
+    for value in _items(visible_task.get("artifacts")):
+        artifact = _object(value)
+        identifier = artifact.get("artifact_id")
+        if not isinstance(identifier, str) or not identifier or identifier in initial:
+            raise RuntimeError("ambiguous initial artifact")
+        initial[identifier] = artifact
+    producers: dict[str, dict[str, Any]] = {}
+    for action in actions.values():
+        for value in _items(action.get("outputs", [])):
+            identifier = _object(value).get("artifact_id")
+            if (not isinstance(identifier, str) or not identifier
+                    or identifier in producers or identifier in initial):
+                raise RuntimeError("ambiguous or colliding artifact producer")
+            producers[identifier] = action
+    replicas: dict[str, list[dict[str, Any]]] = {}
+    for state in replica_metadata.values():
+        seen: set[str] = set()
+        for value in _items(state.get("artifacts")):
+            metadata = _metadata(value)
+            identifier = metadata["artifact_id"]
+            if identifier in seen:
+                raise RuntimeError("duplicate artifact replica on one owner")
+            seen.add(identifier)
+            replicas.setdefault(identifier, []).append(metadata)
+
+    def bind_replicas(metadata: dict[str, Any]) -> None:
+        values = replicas.get(metadata["artifact_id"], [])
+        if not values or any(value != metadata for value in values):
+            raise RuntimeError("missing or inconsistent artifact replicas")
+
+    def lifecycle(action: dict[str, Any], success: bool) -> None:
+        identifier, owner = action["action_id"], action.get("owner_agent_id")
+        obs, receipt = observations.get(identifier, {}), physical.get(identifier, {})
+        done, node = completed.get(identifier, {}), nodes.get(identifier, {})
+        outputs = [_object(value)["artifact_id"] for value in _items(action.get("outputs"))]
+        if (not isinstance(owner, str) or not owner
+                or obs.get("owner_agent_id") != owner or obs.get("succeeded") is not success
+                or done.get("logical_agent_id") != owner or done.get("succeeded") is not success
+                or node.get("owner_agent_id") != owner
+                or node.get("action_type") != action.get("action_type")
+                or node.get("operator") != action.get("operator")
+                or node.get("inputs") != action.get("inputs") or node.get("outputs") != outputs
+                or node.get("status") != ("succeeded" if success else "failed")
+                or not _object(receipt.get("selection", {})).get("selected_agent_id")
+                or (success and (receipt.get("failure") or obs.get("failure_code")
+                                 or obs.get("failure_message")))):
+            raise RuntimeError("action lacks exact closed logical/physical lifecycle")
+        prepared_at = positions["logical.action.prepared", identifier]
+        if any(positions[kind, identifier] <= prepared_at for kind in (
+            "logical.observation", "physical.execution", "action.completed",
+        )):
+            raise RuntimeError("action receipt precedes preparation")
+        expected: set[tuple[str, str, str]] = set()
+        explicit = _names(action.get("depends_on", []))
+        if len(explicit) != len(set(explicit)):
+            raise RuntimeError("duplicate explicit dependency")
+        dependency_ids = set(explicit)
+        for source in _names(action.get("inputs")):
+            producer = producers.get(source)
+            if producer is not None:
+                dependency_ids.add(producer["action_id"])
+                if producer["action_id"] not in explicit:
+                    expected.add((producer["action_id"], identifier, source))
+        expected.update((dependency, identifier, "control-dependency") for dependency in explicit)
+        if {edge for edge in edges if edge[1] == identifier} != expected:
+            raise RuntimeError("workflow dependencies differ from actual inputs")
+        for dependency in dependency_ids:
+            if (dependency == identifier
+                    or observations.get(dependency, {}).get("succeeded") is not True
+                    or completed.get(dependency, {}).get("succeeded") is not True
+                    or nodes.get(dependency, {}).get("status") != "succeeded"
+                    or positions.get(("action.completed", dependency), len(trace)) >= prepared_at):
+                raise RuntimeError("dependency missing, failed, cyclic or not ready")
+
+    inferred: dict[str, dict[str, Any]] = {}
+
+    def infer(identifier: str, visited: frozenset[str] = frozenset()) -> dict[str, Any]:
+        if identifier in visited:
+            raise RuntimeError("cyclic artifact provenance")
+        if identifier in inferred:
+            return inferred[identifier]
+        if identifier in initial:
+            shape = initial_shapes.get(identifier, {})
+            metadata = _metadata({key: shape.get(key) for key in (
+                "artifact_id", "media_type", "size_bytes", "sha256_hex",
+            )})
+            schema = _object(initial[identifier].get("content_schema"))
+            fields = _object(schema.get("fields"))
+            possible = _names(shape.get("actual_union_fields"))
+            count = shape.get("record_count")
+            if (metadata["artifact_id"] != identifier
+                    or metadata["media_type"] != "application/json"
+                    or metadata["size_bytes"] != initial[identifier].get("size_bytes")
+                    or initial[identifier].get("media_type") != "application/json"
+                    or schema.get("kind") != "record_array" or schema.get("text_field") != "body"
+                    or fields.get("body") != "string" or "text" in fields or "text" in possible
+                    or sorted(fields) != sorted(possible)
+                    or not isinstance(count, int) or isinstance(count, bool) or count <= 0
+                    or schema.get("record_count") != count
+                    or shape.get("all_records_have_string_body") is not True):
+                raise RuntimeError("initial metadata/verified shape/schema mismatch")
+            bind_replicas(metadata)
+            value = {**metadata, "record_count": count, "possible_fields": sorted(possible),
+                     "all_records_have_string_body": True, "producer_action_id": None}
+        else:
+            action = producers.get(identifier)
+            if action is None or action.get("action_type") != "tool":
+                raise RuntimeError("missing supported record producer")
+            inputs, operator = _names(action.get("inputs")), action.get("operator")
+            if not inputs or operator not in {"bm25_retrieve", "aggregate_artifacts"}:
+                raise RuntimeError("unknown record transformation")
+            lifecycle(action, True)
+            upstream = [infer(source, visited | {identifier}) for source in inputs]
+            try:
+                if operator == "bm25_retrieve":
+                    args = Bm25Arguments.model_validate(action.get("arguments"))
+                    if len(inputs) != 1 or args.text_field != "body":
+                        raise RuntimeError("producer BM25 must use the original body field")
+                    count = min(upstream[0]["record_count"], args.top_k)
+                    possible = sorted(set(upstream[0]["possible_fields"]) | {"_bm25_score"})
+                    output_id = args.output_artifact_id
+                else:
+                    aggregate_args = AggregateArtifactsArguments.model_validate(
+                        action.get("arguments"))
+                    count = sum(source["record_count"] for source in upstream)
+                    possible = sorted({field for source in upstream
+                                       for field in source["possible_fields"]})
+                    output_id = aggregate_args.output_artifact_id
+            except ValidationError as exc:
+                raise RuntimeError("invalid source-bound producer arguments") from exc
+            outputs = _items(action.get("outputs"))
+            if (output_id != identifier or len(outputs) != 1
+                    or _object(outputs[0]).get("media_type") != "application/json"):
+                raise RuntimeError("producer output declaration mismatch")
+            receipt = physical[action["action_id"]]
+            execution = _object(receipt.get("execution"))
+            obs = observations[action["action_id"]]
+            metadata = _metadata(execution.get("output"))
+            produced = _items(obs.get("produced_information"))
+            if (execution.get("operator") != operator
+                    or execution.get("model_telemetry") is not None
+                    or metadata["artifact_id"] != identifier
+                    or metadata["media_type"] != "application/json" or metadata["size_bytes"] <= 2
+                    or _metadata(obs.get("output")) != metadata or len(produced) != 1
+                    or {key: _object(produced[0]).get(key) for key in metadata} != metadata
+                    or _object(produced[0]).get("semantic_type")
+                    != _object(outputs[0]).get("semantic_type")):
+                raise RuntimeError("physical/logical output metadata mismatch")
+            bind_replicas(metadata)
+            value = {**metadata, "record_count": count, "possible_fields": possible,
+                     "all_records_have_string_body": True,
+                     "producer_action_id": action["action_id"],
+                     "producer_action_sha256": provenance_sha256(action)}
+        inferred[identifier] = value
+        return value
+
+    failed_logical = {identifier for identifier, obs in observations.items()
+                      if obs.get("succeeded") is False or obs.get("failure_code")}
+    failed_physical = {identifier for identifier, receipt in physical.items()
+                       if receipt.get("failure")}
+    failed_completed = {identifier for identifier, done in completed.items()
+                        if done.get("succeeded") is False}
+    failed_graph = {identifier for identifier, node in nodes.items()
+                    if node.get("status") == "failed"}
+    if (not failed_logical or any(failures != failed_logical for failures in (
+            failed_physical, failed_completed, failed_graph))):
+        raise RuntimeError("every failure requires matching physical/logical proof")
+    proof: list[dict[str, Any]] = []
+    for identifier in sorted(failed_logical):
+        action = actions.get(identifier, {})
+        inputs = _names(action.get("inputs"))
+        if (action.get("action_type") != "tool" or action.get("operator") != "bm25_retrieve"
+                or len(inputs) != 1 or inputs[0] in initial):
+            raise RuntimeError("only derived single-input BM25 field failures are reviewed")
+        lifecycle(action, False)
+        try:
+            args = Bm25Arguments.model_validate(action.get("arguments"))
+        except ValidationError as exc:
+            raise RuntimeError("invalid failed BM25 arguments") from exc
+        obs, receipt = observations[identifier], physical[identifier]
+        failure = _object(receipt.get("failure"))
+        message = "document field must be text: text"
+        if (args.text_field != "text" or obs.get("failure_code") != "validation_failed"
+                or obs.get("failure_message") != message
+                or failure.get("failure_code") != "validation_failed"
+                or failure.get("failure_message") != message
+                or failure.get("operator") != "bm25_retrieve"
+                or failure.get("stage") != "execution" or receipt.get("execution") is not None
+                or obs.get("output") or obs.get("produced_information")):
+            raise RuntimeError("not the exact execution-stage absent-text failure")
+        shape = infer(inputs[0])
+        if "text" in shape["possible_fields"] or shape["record_count"] <= 0:
+            raise RuntimeError("requested field absence/nonempty input not established")
+        outputs = _items(action.get("outputs"))
+        if (len(outputs) != 1 or _object(outputs[0]).get("artifact_id") != args.output_artifact_id
+                or _object(outputs[0]).get("media_type") != "application/json"
+                or args.output_artifact_id in replicas):
+            raise RuntimeError("failed action output is inconsistent or materialized")
+        proof.append({"action_id": identifier, "owner_agent_id": action["owner_agent_id"],
+                      "action_sha256": provenance_sha256(action), "input_artifact_id": inputs[0],
+                      "input_sha256": shape["sha256_hex"], "requested_field": "text",
+                      "missing_fields": ["text"], "specialist_received_artifact_schema": None,
+                      "reached_model_inference": False})
+    return {"version": "metadata-bound-derived-record-field-proof-v1",
+            "covered_original_findings": [GATE], "derived_field_proof": proof,
+            "inferred_record_contracts": {key: inferred[key] for key in sorted(inferred)},
+            "trace_sha256": provenance_sha256(trace), "result_sha256": provenance_sha256(result),
+            "visible_task_sha256": provenance_sha256(visible_task),
+            "new_store_or_corpus_body_decoded": False, "formal_execution_changed": False,
+            "online_feedback": False, "replacement_authorized": False,
+            "failure_class": "workflow_composition_absent_field_misuse"}
