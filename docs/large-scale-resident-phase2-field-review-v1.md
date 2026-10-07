@@ -1,5 +1,24 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell33 actual LongBench startup and ongoing context feedback
+
+2026-10-07 11:16HKT. Same006controller2562901/supervisor2562900 owns
+cell33 LongBench4/DeepSeek/Fast/B1 attempt1, atomic2726751 independently
+verified live. Append-only startupSHA
+`53a5ffaaf030bf90c037d31ef97ee9063b0bbdeaa8e5721c604ffe2ca3ce7757`
+and actual config/freeze/state/residency source files independently reverified.
+Four initially empty Worker stores, five resident instances and source004-only
+atomic imports unchanged; no prompt/budget/model/scheduler change or retry.
+
+At03:16:31Z: eight Manager reasoning starts, sixteen physical starts/fifteen
+finishes, two context_limit_exceeded model outcomes, zero returned inference
+receipts, one active physical action. Eight predecision profile events observed;
+actual provider receipt matching is not claimed until settlement/audit. No
+completed outcome or quality inferred. Preflight rejection is not reached
+inference. Successful startup creator must not be repeated. No new private
+support/corpus/store-body decoding or raw payload export. Snapshot029/feedback025
+remain their closed32-settled scope; full192 and strict-inactive audits remain.
+
 ## Cell32 valid execution, original Video quality failure retained
 
 2026-10-07 11:06HKT. Cell32 Video3/DeepSeek/Fast/A attempt1 settled valid,
