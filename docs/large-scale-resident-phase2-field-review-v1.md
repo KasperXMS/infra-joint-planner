@@ -1,5 +1,32 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell38 closed: valid original evaluator score0 retained
+
+2026-10-07 13:22HKT. LongBench3/DeepSeek/Slow/A attempt1 completed with
+valid terminal format and original benchmark score0. Original admission was
+reproduced exactly; settlement canonical receipt matches. Append-only auditSHA
+`425e3be9803ac58e07df0a64feaafbb62c43d1b29c7a68baf121f5d77a313212`
+created successfully; never repeat. Independent05:21:56Z rehashes every bound
+file plus startup receipt, store/residency/tc/shutdown and24actual SDK contexts.
+Raw successful terminal model text equals canonical answer and the existing
+frozen deterministic projection, no extra semantic finalizer. Terminal consumes
+three artifacts on resident-a4-vl4b-v1,4882input/2output tokens,stop,
+13.791579259s backend service. Three other requests explicitly context-rejected
+before inference; static requirements matching is not complete-envelope
+feasibility and does not prove dynamic deployment unavailability.
+
+Twelve Manager/twelve Verifier turns, no specialists,20physical calls. Score0
+is retained valid quality failure, not missing evaluation or a harness finding;
+no retry/tuning. Retrieval/reduction adequacy, ledger adoption and causal
+savings remain unknown until strict-inactive full192 private audit. Complete
+failed-inclusive transfer/tool work remains unknown, not zero.
+
+Same007continues;38effective/38preserved/zero pending,154remaining. Next39
+LongBench3/Qwen/Slow/B1. Snapshot035creator90061 running/not completed;
+feedback031 not invoked. Snapshot034/feedback030 retain37-settled scope. No
+source/prompt/budget/model/scheduler change, private-body decoding/payload export,
+fresh full-test claim or push; documentation-only.
+
 ## Cell38 actual startup independently verified
 
 2026-10-07 13:18HKT. Same007controller2772571/supervisor2772570 continued
