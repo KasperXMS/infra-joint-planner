@@ -1,5 +1,48 @@
 # Resident Phase II results — in progress
 
+## Cell38 settled: valid score0 after context recovery
+
+2026-10-07 13:23HKT. LongBench3/DeepSeek/Slow/A attempt1 completed with valid
+canonical terminal and original evaluator score0; original admission valid,
+no retry/replacement. AuditSHA
+`425e3be9803ac58e07df0a64feaafbb62c43d1b29c7a68baf121f5d77a313212`
+independently binds source/state/terminal and24actual SDK contexts. StartupSHA
+`83148a777f6110226d290d4c0ca6285c90205607cf3232d7ec02e61523ac74f7`.
+
+| Recorded component | Cell38 |
+| --- | --- |
+| Manager / Verifier / specialist turns |12 /12 /0; no specialists |
+| Physical calls / model requests / successful inference receipts |20 /4 /1 |
+| Context rejects |3, explicitly inference=false |
+| Other typed observations |1oversized read,3phase restrictions,1semantic validation |
+| E2E |178.834073287s |
+| Initial materialization, separate from Agent movement |967830bytes /2.810816925s |
+| Successful registered Agent movement |0bytes /0s; complete failed-inclusive movement unknown |
+| Successful tool work |3.848558175s; complete failed-inclusive work unknown |
+| Inclusive successful Worker model-action work |13.915417022s; includes backend service |
+| Complete backend service / tokens / finish |13.791579259s /4882input,2output /stop |
+| Frozen-list-price cloud API USD |0.292623500179380539204613401719395686894581; not invoice |
+| Execution-grown graph |20nodes /15artifact-flow edges /61snapshots /peak3actions |
+
+Sequence: oversized read; four successive three-BM25 groups with context-rejected
+model requests after each of the first three; three select_fields actions;
+successful terminal model on resident-a4-vl4b-v1 consuming three artifacts. Raw
+terminal equals canonical answer/frozen deterministic projection. No hidden
+semantic finalizer. Preflight rejects are not backend inference or evidence of
+dynamic unavailability. Registered successful zero movement is not all HTTP/RPC/
+prompt traffic; failed-inclusive movement/tool work remains unknown. Inclusive
+model-action work must not be added again to backend service. Persisted work
+receipts, potentially overlapping, are not an additive E2E decomposition.
+
+Score0 is a valid quality failure; observed context recovery does not establish
+adequate evidence or ledger-driven improvement. Retrieval/reduction adequacy,
+adoption and causal benefit wait for full192strict-inactive private audit.
+Same007continues;38effective/38preserved/zero pending/154remaining. Next39
+LongBench3/Qwen/Slow/B1. Snapshot035creator90061 running/not completed;
+feedback031 not invoked. Snapshot034/feedback030 retain37-settled scope. No
+aggregation/old-new pooling, ordinary retry, source/prompt/model/budget/scheduler
+change, private-body decoding or raw payload export; no fresh full-test claim.
+
 ## Cell38 running; snapshot034 still covers37settled
 
 2026-10-07 13:18HKT. LongBench3/DeepSeek/Slow/A attempt1 atomic2813364
