@@ -1,5 +1,16 @@
 # User-authorized Phase II audit cadence: 16 cells
 
+## Derived review continuation013
+
+2026-10-07 22:48HKT: new013 owned/live after source-bound cell81 proof, no retry
+or previous012restart.81effective settled/83preserved/1pending; new82 is
+MultiHop4/DeepSeek/Slow/A. Full bootstrap independently reverified82preserved
+traces/1249actualSDKrequests;125actual final sources pinned. New manifest
+`82456d1e79d90e7d7a2952b73fa7c8899945cf28c2afc791a849f66da25383cc`.
+Interval16 and new-findings-immediate-stop unchanged: next full96, then112...192.
+Full80 historical audit remains closed;bootstrap is not a final private semantic
+audit. Original71excluded/one replacement, source004 and192scope remain unchanged.
+
 ## Full80 closed; new81 immediately stopped
 
 2026-10-07 22:12HKT: full80 independently reverified81 preserved traces and1229

@@ -1,5 +1,31 @@
 # Resident study final-audit preparation — not completion
 
+## Current derived-proof preparation — supersedes earlier dispatch recipe
+
+2026-10-07 22:48HKT:013owned/live,81effective settled plus new82pending.
+Cell81 derived field proof is closed and preserved without retry; original score0
+is unchanged. New final audit entrypoint is
+`large_scale_resident_phase2_derived_final_audit_v1`, not the old initial-only path.
+Source inventory and resolved paths are persisted in owner-local
+`analysis/phase2-derived-bootstrap-readback-001.json`, SHA256
+`e4d0f472920793cfb3caba701b34ba6cf8119db244746213f1e23c2c444d63cd`.
+125actual imported files include all four new modules and the unchanged original
+private wrapper/scanner. Source pin:
+`626fac8ffdf5a8852358b5c91218edbfe993f4a19cb6ba5409d02a3699d3ae43`.
+Use its exact pythonpath, manifest `phase2-derived-environment-cadence-freeze-001.json`
+SHA256 `82456d1e79d90e7d7a2952b73fa7c8899945cf28c2afc791a849f66da25383cc`,
+and the externally pinned source hash for a single exclusive final bundle only
+after all192/all193 and strict global inactivity. Do not run overlapping older
+private entrypoints or repeat a successful creator. The actual incomplete guard
+rejected at81nominal; actual live guard rejects013before source/control/body reads.
+
+2059fullpytest/7existingplatformskip,164actualLinux cases,Ruff,project+explicit
+strictPyright/diff pass. No runtime, method, prompt, budget, operator, benchmark,
+evaluator or scheduling change; no new corpus/store body decode or audit model call.
+Final semantic/manual/adoption/quality-conditioned/task/family/Planner/method/
+retention/Q1–Q10/named report obligations are unfinished. Older preparation follows
+as immutable history, not current final dispatch authority.
+
 Status amendment2026-10-07 22:20HKT:012 has stopped on new81 derived specialist
 field finding, after full80 closed. The preparation below is immutable historical
 preparation, not current dispatch/final-audit authority. New generic metadata-only

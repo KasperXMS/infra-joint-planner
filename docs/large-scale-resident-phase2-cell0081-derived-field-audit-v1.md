@@ -1,5 +1,29 @@
 # Phase II cell81 — derived-record field audit in progress
 
+## Bootstrap closed;013 live, 2026-10-07 14:48Z
+
+Independent bootstrap receipt SHA256
+`e4d0f472920793cfb3caba701b34ba6cf8119db244746213f1e23c2c444d63cd`
+reproduces82traces and1249actualSDKrequests:572Manager,572fixed Blind Verifier,
+105specialist. Exact feedback matches:139profiles,287ledgers,147rule packets.
+Visibility is not adoption or causal benefit. All Worker shutdown, network cleanup,
+old source/reference/gate/journal-prefix and original/effective admission bindings
+hold. Original71excluded and its one authorized replacement are retained.
+
+New013supervisor3216950/start191156186/controller3216951/start191156188 are
+owned/live; launch receipt
+`b4a9bf2caa3d959fd9b32686027a8794f4f43d75a21fb66221b511557fdb76a8`.
+Live readback14:48:29.905727Z receipt
+`92d6640322730282364406d34581bc6bf1d20050dc6c30ab8968e4d43b2b62a4`
+confirms new82 MultiHop4/DeepSeek/Slow/A attempt1, journal reservation165. Current
+81effective settled/83preserved/1pending/110unstarted. Old012 is not restarted;
+cell81 is not rerun. Next full96, immediate stop for new findings unchanged.
+
+The new final adapter binds125actual imported source files; canonical pin
+`626fac8ffdf5a8852358b5c91218edbfe993f4a19cb6ba5409d02a3699d3ae43`.
+Actual incomplete inventory and live guards both reject before corpus/store body
+diagnostics. All192/all193 final private/manual/root-cause/Q1–Q10 remain pending.
+
 ## Closed metadata adjudication, 2026-10-07 14:38Z
 
 The metadata-only proof now reproduces against actual evidence, without new

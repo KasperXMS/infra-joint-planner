@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 22:48HKT: new013 actually owned/live,81effective settled/
+83preserved/1pending/110unstarted. New82 MultiHop4/DeepSeek/Slow/A attempt1.
+Original81 metadata-only derived-field proof passed, completed/formatvalid/score0
+preserved and admitted without retry; synthesis/context companions remain separate
+non-inference observations. No semantic primary-cause or benefit claim yet.
+Bootstrap e4d0f472920793cfb3caba701b34ba6cf8119db244746213f1e23c2c444d63cd
+reproduces82traces/1249actualSDKrequests. New manifest82456d1e79d90e7d7a2952b73fa7c8899945cf28c2afc791a849f66da25383cc.
+New125-source final adapter preparation pins original scanner; partial/live guards
+actually reject before body scans.2059fullpass/7skip,164Linux,Ruff/strictPyright.
+Execution004 unchanged; next full96then112/...192 and immediate new-finding stops.
+All192/all193 final private/manual/retention/failure/Q1–Q10 still pending.
+
 Current2026-10-07 22:12HKT: full80audit independently closed, then012stopped
 13:53:17Z on cell81 MultiHop4/Qwen/Fast/E validation_failed.80effective/
 82preserved/0pending/1unresolved/111unstarted; no82reservation. Original81
