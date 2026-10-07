@@ -1,5 +1,14 @@
 # Completion audit — not achieved
 
+Current2026-10-07 19:43HKT:010terminalexit1/11:36:16Z after cell71external
+GPU contention.70admitted settled/71preserved/0pending/121unstarted,
+8raw findings/1unresolved. Cell71score1/completed does not prove residency;
+base admission passes independently, full admission does not. No72/retry/
+restart/80audit. Full64proof retained. Resource isolation and permissible
+disposition pending; no unrelated Strata process stopped. Production
+unchanged; full192/final private/manual/adoption/retention/Q1–Q10unfinished.
+See cell0071contention audit for immutable bindings and precise scope.
+
 Current2026-10-07 19:24HKT progress: full003-cell0064automatic receipt created
 once and independently reproduced11:16:41Z,64traces/982actual SDK requests,
 source/reference/control/journal prefix and recipient isolation/shutdown checks.

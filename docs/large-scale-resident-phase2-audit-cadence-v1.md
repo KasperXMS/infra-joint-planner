@@ -1,5 +1,17 @@
 # User-authorized Phase II audit cadence: 16 cells
 
+## Cell71 immediate stop: external GPU contention
+
+2026-10-07 19:43HKT:010terminalexit1 at11:36:16Z, not live.70admitted
+settled/71preserved/0pending/121unstarted;8raw findings,1unresolved. Cell71
+Video5/DeepSeek/Slow/E completed/format valid/score1, but residency comparison
+rejected changed external Strata GPU1 process. Missing validation receipt
+caused downstream FileNotFoundError. Five experimental identities unchanged;
+original base admission independently passes but cannot waive residency.
+No72/replacement/restart/sidecar/80receipt. Full64closed;16-cell cadence
+does not postpone new findings. See cell0071contention audit for hashes and
+resource-isolation gate. All192/final private audits remain incomplete.
+
 ## Closed full checkpoint64;010continues
 
 2026-10-07 19:24HKT.010created the first automatic cadence receipt after64

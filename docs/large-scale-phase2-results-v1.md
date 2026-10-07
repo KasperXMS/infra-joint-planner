@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 19:43HKT:010terminalexit1at11:36:16Z;70admitted settled/
+71preserved/0pending/121unstarted,8original findings/1unresolved. New71Video5/
+DeepSeek/Slow/E completed/format valid/score1but external GPU1Strata process
+changed; residency failed, validation receipt absent, raw admission remains
+confounder/FileNotFoundError. Original base admission independently passes,
+not full residency admission. No72/replacement/restart; do not aggregate this
+score as valid. See cell0071contention audit. Full64proof retained, next80not
+created; all192and final strict-inactive private/manual/adoption audits remain.
+
 Current2026-10-07 19:24HKT:67effective settled68preserved1pending124unstarted;
 same010owned/live, new68LongBench5/Qwen/Fast/A attempt1atomic3092386,
 result absent at11:24:41Z. Seven originals retained, zero effective confounders.
