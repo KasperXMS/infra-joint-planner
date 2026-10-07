@@ -1,5 +1,27 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell30 actual Video startup and original admission audited
+
+2026-10-07 10:49HKT. Video3/DeepSeek/Slow/B0 attempt1 settled valid,
+completed, format-valid, original evaluator score1.0. Append-only startup
+receiptSHA `92b6c1d1c91317ce2f53d19ddea996baae46be3b9d9494abb5f7495c3a79241c`
+binds four initially empty Worker stores, five resident instances, actual atomic
+2665209 and archived source004-only execution. Original admission reproduction,
+source/residency/tc/Worker-exit and six persisted SDK contexts pass; auditSHA
+`c7bbbf52531e41e1542ab502a46243330e913de633be15eb7df67c4ae619bf97`.
+Both receipts and all audit-bound source files independently reverified.
+
+Terminal model consumes seven image artifacts. Raw model text differs from the
+canonical answer, but the existing frozen deterministic choice extractor maps
+it exactly to the evaluated answer. No new reasoning/finalizer or runtime change.
+The offline audit initially rejected a serialized `schema_definition` key;
+using the existing OutputContract validation alias `schema` fixed only audit
+deserialization, before any receipt was written. This was not a run failure,
+experiment retry or model-visible contract change. The successful receipt
+creator must not be repeated. No support/corpus/store-body decoding, payload
+export or new model calls. Temporal evidence sufficiency and causal contribution
+remain unaudited until all192cells and strict global inactivity.
+
 ## Cell29 actual Video startup and original admission independently audited
 
 2026-10-07 10:35HKT. Cell29 Video3/Qwen/Fast/B1 attempt1 atomic2643429 was
