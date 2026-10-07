@@ -70,15 +70,15 @@ def heldout_field(tmp_path, monkeypatch):
          "reason": review.field.GATE, "receipt_sha256": "d" * 64}]))
     saved = {"source_sha256": review.core.previous.source_bindings(),
              "execution_freeze_sha256": "b" * 64, "phase2_schedule_sha256": "a" * 64,
-             "pricing_path": str(root / "prices"), "nominal_cells": 2}
+             "pricing_path": str(root / "prices"), "nominal_cells": 3}
     parent = root / "phase2-control-freeze-001.json"
     parent.write_text(json.dumps(saved))
     (root / "cell-configs").mkdir()
     (root / "cell-configs/run4.yaml").write_text("{}")
-    cells = (SimpleNamespace(cell_id="cell4"), SimpleNamespace(cell_id="next"))
+    cells = tuple(SimpleNamespace(cell_id=c) for c in ("cell4", "next", "future"))
     monkeypatch.setattr(review.core.previous, "checked_control", lambda _: (saved, cells))
     monkeypatch.setattr(review.core.previous.previous, "admission", lambda *_: original)
-    ledger = AttemptLedger(root / "phase2-attempts.jsonl", ("cell4", "next"), "a" * 64)
+    ledger = AttemptLedger(root / "phase2-attempts.jsonl", ("cell4", "next", "future"), "a" * 64)
     ledger.reserve("cell4", "run4", "b" * 64)
     ledger.settle("run4", "confounder", review.field.GATE, provenance_sha256(original))
     # Proof must not depend on reading even the fixture's prepared corpus.
