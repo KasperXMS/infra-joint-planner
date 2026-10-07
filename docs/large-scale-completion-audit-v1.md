@@ -1,5 +1,22 @@
 # Completion audit — not achieved
 
+Current2026-10-07 11:38HKT: snapshot031SHA
+`4905f3d5a7b5a8a393f5ee7726cbaa7f5fb5acc1296301f58a7895bb96625e8c`
+establishes34effective/34preserved/zero pending/four raw findings retained/zero
+effective confounders/zero exclusions. Cell34originalscore1 and admission/
+source/store/residency/tc/exit/terminal/thirty-sixSDKcontexts independently pass;
+bounded specialist continuation ends in a successful model-derived terminal.
+Four context rejects explicitly inference=false, one success=true, no retry.
+Feedback027SHA
+`7c12fa80f3e5c9d6be1c7f61e360c8bd46f87cbfb468d37d71e1e3ba2a54e33e`
+verifies550actual requests and recipient separation, not Ledger adoption,
+semantic coverage or causal cost benefit. Same006owned/live03:38:49Z before35
+LongBench4/DeepSeek/Slow/E. Remaining158 and all192strict-inactive private/
+manual/failure/recipient/adoption, per-task/family/Planner/method quality-
+conditioned analyses, Q1–Q10 and named reports remain unfinished. No scope
+reduction, semantic tuning, ordinary retry or measured model/budget/scheduler
+change; no new private-body decoding, audit model calls or raw payload export.
+
 Current2026-10-07 11:25HKT: snapshot030SHA
 `5cd8cc16474bd79bbd397b42c16d89f26a0fef3d2222169e354f76016c81f1e0`
 establishes33effective/33preserved/zero pending/four raw findings retained/zero

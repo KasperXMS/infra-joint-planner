@@ -21,8 +21,11 @@ substitution or failover. Original recipient scans pass; Ledger-wire matching
 will be independently audited against the new snapshot. Coverage, specialist
 contribution, pruning adequacy and ledger causality await strict-inactive audit.
 Successful34creators must not be repeated. Next35 LongBench4/DeepSeek/Slow/E;
-snapshot031creator80130 running. No new private-body decoding/model calls or
-raw payload export by these audits.
+snapshot031creator80130 was running at11:34capture and succeeded03:37:02Z,
+SHA4905f3d5a7b5a8a393f5ee7726cbaa7f5fb5acc1296301f58a7895bb96625e8c.
+Feedback027SHA7c12fa80f3e5c9d6be1c7f61e360c8bd46f87cbfb468d37d71e1e3ba2a54e33e
+verifies550actual SDKcontexts. Both creators finished and must not be repeated;
+no new private-body decoding/model calls or raw payload export by these audits.
 
 ## Cell34 actual LongBench startup with a bounded specialist branch
 

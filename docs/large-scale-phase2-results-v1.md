@@ -1,5 +1,28 @@
 # Resident Phase II results — in progress
 
+## Snapshot031 and feedback027 completed: thirty-four settled
+
+2026-10-07 11:38HKT. Snapshot031 completed03:37:02Z, SHA
+`4905f3d5a7b5a8a393f5ee7726cbaa7f5fb5acc1296301f58a7895bb96625e8c`:
+34effective/34preserved/zero pending/four original findings retained/zero
+effective confounders/zero operational exclusions. JournalSHA
+`560aed6b9dc3007873c152df85ddc81eb0e3dc0fc03243b245c1412f6dc1429b`;
+control002 and frozen schedule/execution004/collector unchanged. Successful
+creator80130 must not be repeated; next snapshot032.
+
+Feedback027SHA
+`7c12fa80f3e5c9d6be1c7f61e360c8bd46f87cbfb468d37d71e1e3ba2a54e33e`
+verifies550actual contexts:262Manager/262Verifier/26specialist,73B1profiles/
+131A_Eledgers/60Efrozen-rule exact matches. Both role-specific original scans
+and fixed Verifier/non-Manager feedback separation pass. Snapshot/feedback/
+population/journal/control independently reverified03:38:48Z. Visibility does
+not establish rule adherence, specialist utility, evidence coverage or causal
+Ledger savings. Same006owned/live03:38:49Z before35 LongBench4/DeepSeek/Slow/E;
+158remaining. All192strict-inactive private/manual/failure/adoption and final
+quality-conditioned Q1–Q10/named reports remain unfinished. No new model calls,
+support/corpus/store-body decoding or raw payload export. Older captures retain
+historical scopes; no cross-benchmark score aggregation or old/new pooling.
+
 ## Cell34 settled: bounded specialist and generic reduction, originalscore1
 
 2026-10-07 11:34HKT. LongBench4/Qwen/Slow/A attempt1 completed valid,
