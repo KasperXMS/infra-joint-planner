@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell33 original LongBench admission and terminal source audited
+
+2026-10-07 11:20HKT. Cell33 LongBench4/DeepSeek/Fast/B1 attempt1 settled
+valid/completed/format-valid with originalscore1. Original admission reproduced
+exactly; source/store/residency/tc/Worker-exit/terminal/twenty-two actual SDK
+contexts independently pass. AuditSHA
+`3032aa91bc7b8031e52c4d02582f28904b0890ac092c6d54c762b9f9d880f593`
+and startupSHA `53a5ffaaf030bf90c037d31ef97ee9063b0bbdeaa8e5721c604ffe2ca3ce7757`
+independently reverified with all bound files. Terminal A4VL4B text inference
+consumes one materialized artifact; raw text already equals canonical choice.
+
+One initial oversized-read rejection and two context-preflight rejections are
+preserved, followed by distinct legal retrieval/model/read/synthesis actions.
+Three successful A4VL4B inferences are measured separately from rejected calls.
+This is natural continuation, not benchmark retry, hidden truncation or manual
+repair. The failed-read execution lacks complete work/transfer telemetry;
+complete totals remain unknown despite zero successful transfer receipts.
+No guessed zero, inference count or traffic value is inserted. Evidence coverage,
+repeated-verification necessity and causal B1-profile contribution remain
+unresolved until full192strict-inactive private/manual audit. Successful33creators
+must not be repeated. Next34 is LongBench4/Qwen/Slow/A; snapshot030creator47167
+is running. No new support/corpus/store-body decoding or raw payload export.
+
 ## Cell33 actual LongBench startup and ongoing context feedback
 
 2026-10-07 11:16HKT. Same006controller2562901/supervisor2562900 owns
