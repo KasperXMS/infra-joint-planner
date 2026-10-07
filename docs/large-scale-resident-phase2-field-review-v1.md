@@ -1,5 +1,23 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell34 actual LongBench startup with a bounded specialist branch
+
+2026-10-07 11:30HKT. Same006controller owns cell34 LongBench4/Qwen/Slow/A
+attempt1, atomic2737430 independently verified live. Append-only startupSHA
+`31c3c858cb965b64fca364bf0c6fcbe75ff3825fd8a714aaa1a5a67e36b4f83e`
+and config/freeze/state/residency sources independently reverified. Four empty
+Worker stores and five resident instances; atomic imports only archived004,
+with unchanged models/prompts/budgets/scheduler and no retry.
+
+At03:30:31Z: ten Manager/eight specialist reasoning starts, seventeen physical
+starts/finishes, three context_limit_exceeded model outcomes, zero returned
+inference receipts, no run.end/result. Bounded specialist reasoning is observed,
+not an inferred completed MAS result. Provider-recipient matching/isolation
+awaits settlement and full admission; no quality or completion claim. Successful
+startup creator must not be repeated. Snapshot030/feedback026 retain33-settled
+scope; full192strict-inactive audits remain. No new support/corpus/store-body
+decoding, model calls by the auditor or raw payload export.
+
 ## Cell33 original LongBench admission and terminal source audited
 
 2026-10-07 11:20HKT. Cell33 LongBench4/DeepSeek/Fast/B1 attempt1 settled
