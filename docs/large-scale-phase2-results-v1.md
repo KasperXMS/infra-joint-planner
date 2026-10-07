@@ -22,6 +22,14 @@ all finish_reason=stop. Two context rejects are not inference. Terminal consumes
 one materialized artifact and raw text equals the evaluated canonical choice.
 One separate SDK phase-restriction feedback is preserved.
 
+Independent model-outcome readback confirms both context failures have
+`static_feasible=true`, `physical_selection_succeeded=false`,
+`reached_model_inference=false`; all three successes have all three flags true.
+Here static_feasible matches declared semantic requirements to an abstract
+class; it does not certify the combined artifact/prompt context envelope. The
+rejections therefore must not be relabeled as reached inference or evidence of
+dynamic deployment unavailability. No new backend calls in this readback.
+
 | Receipt-derived metric | Value / scope |
 | --- | --- |
 | E2E |228.804s |
