@@ -1,5 +1,30 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell37 closed: valid original evaluation score0, no retry
+
+2026-10-07 13:07HKT. LongBench3/Qwen/Fast/E attempt1 completed with valid
+terminal format and original benchmark score0. Existing admission reproduced
+exactly, settlement canonical receipt matches. Append-only end-auditSHA
+`5926c8f7a275c1a78082acc5739f7a292b04674df247584ce79f60adff7c6602`
+created successfully; never repeat. Independent05:07:07Z rehashes every bound
+source/state/trace/result/terminal file and startup receipt, verifies store/
+residency/tc/shutdown and12actual SDK contexts. Raw successful terminal model
+text equals the canonical answer and frozen deterministic projection; no extra
+semantic finalizer. Terminal has one input artifact,5902input/2output tokens,
+stop,16.667139426s backend service. One other model request is explicitly
+context-rejected before inference; static requirements matching is not full
+envelope feasibility or proof of dynamic deployment unavailability.
+
+Six Manager/six Verifier turns, no specialists, five physical calls. Score0 is
+a retained valid quality failure, not a missing evaluation or harness defect.
+Evidence adequacy/reduction loss, rule adoption and causal savings remain
+unknown until strict-inactive full192 private audit; no semantic retry/tuning.
+Same007 continues;37effective/37preserved/zero pending,155remaining. Next38
+LongBench3/DeepSeek/Slow/A. Snapshot034 creator66401 is running, not completed;
+feedback030 not invoked. Snapshot033/feedback029 retain36-settled scope. No
+source/prompt/budget/model/scheduler change, private-body decoding/payload export
+or fresh full-test claim; documentation-only/no push.
+
 ## Cell37 actual startup independently verified
 
 2026-10-07 13:05HKT. Same007controller2772571/supervisor2772570 continued
