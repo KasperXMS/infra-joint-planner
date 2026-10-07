@@ -1,5 +1,15 @@
 # Phase II cell95: initial-field misuse, completed original trajectory
 
+Latest amendment:legacy creator79253ended exit1 before writing its sidecar,
+because its ledger did not compose the exact environment71exclusion(derived81
+was also unsupported). This is an offline creator bug, not a cell95replacement.
+Separate creator-only repairc29f3c6 passes2118pytest+7skips/Ruff/strictPyright/
+diff and88owner-local Linux tests. The one corrected creator38093/PID3343216/
+start192474679 is actually live at18:27:50UTC, with sidecar/003renewal/bootstrap/
+016continuation still pending. See
+`large-scale-resident-phase2-field-creator-compatibility-v1.md`; all original
+benchmark/evidence/source/final-goal boundaries below remain unchanged.
+
 2026-10-08, Asia/Hong_Kong. Narrow source-bound review; not the final private
 evidence/retention audit or a replacement of the original outcome.
 

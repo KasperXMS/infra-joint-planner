@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 02:28HKT, legacy sidecar creator79253is actually terminal(exit1),
+not live; it failed journal replay before writing because it omitted the pinned
+environment71exclusion(first reject sequence143), with derived81also unsupported.
+Separate offline creator-only repairc29f3c6 passes final2118pytest+7skips/Ruff/
+strictPyright/diff and88actualLinux tests. Corrected creator38093/PID3343216/
+start192474679 is actually owned/live/CPU-active; sidecar still absent. No new
+benchmark run/retry/source or config change in the measured frozen execution.
+94effective/96settled/0pending/1unresolved/1excluded/97unstarted;003renewal/
+bootstrap003/016dispatch and normal96cadence remain pending. See
+`large-scale-resident-phase2-field-creator-compatibility-v1.md`. All original
+192/all193strict-inactive final audit/analysis requirements remain unfinished.
+
 At2026-10-08 01:50HKT, original95has settled and controller015has stopped through
 the required finding gate(returncode1). Original95runner exited0/completed/
 formatvalid/evaluator1; raw finding is typed `validation_failed`, not a new

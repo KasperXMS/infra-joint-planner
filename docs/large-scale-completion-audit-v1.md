@@ -1,5 +1,24 @@
 # Completion audit — not achieved
 
+### 2026-10-08 02:28HKT: real offline creator defect repaired, proof running
+
+Previous goal turn was a verified wait. Current actual terminal output shows
+legacy79253failed before sidecar creation:its FieldReviewedAttemptLedger omitted
+the exact environment71exclusion, so journal sequence143was rejected; derived81
+was another unsupported historical view. This is an offline creator bug, not
+an invalidation/replacement of original95completed/formatvalid/score1trajectory.
+The narrow separate creatorc29f3c6 composes current pinned reviews/exclusion and
+keeps original full gate/proof/hash/lease/inactivity/delta guards.17new regressions,
+final2118pytest+7skips/Ruff/strictPyright/diff and88actualLinux tests pass.
+All frozen execution/control/reviewer sources remain unchanged. Corrected creator
+38093/PID3343216/start192474679 is actually owned/CPU-live at18:27:50UTC;
+sidecar/003renewal/bootstrap003/016continuation remain pending, no96reservation.
+Current94effective/96settled/0pending/1unresolved/1excluded/97unstarted. This is
+actual diagnosis/repair/verification/freeze/creator-start progress plus verified
+wait, not blocked or goal completion. See the source-bound compatibility report.
+Full original192/all193/normal96cadence and all strict-inactive private/manual/
+terminal/failure/retention/adoption/quality/Q1–Q10/named reports remain required.
+
 ### 2026-10-08 01:50HKT: cell95 finding preserved, exact review in progress
 
 The previous user turn verified/delivered the requested immutable PhaseI trace
