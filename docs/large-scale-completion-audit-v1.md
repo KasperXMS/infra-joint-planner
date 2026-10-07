@@ -1,5 +1,18 @@
 # Completion audit — not achieved
 
+Current2026-10-07 09:35HKT: controller005 is terminal after cell26; no27.
+Twenty-six preserved raw outcomes, four original findings, no pending;
+effective25until exact post-backend model-JSON review/control002 finishes.
+Cell26 completed/formatvalid/score1 naturally after6contextrejects1JSONfailure,
+not retried. Fullsource/admission/Worker/model residency/tc/recipient auditSHA
+`1aaf2990c59e6a5020a2628c2608ad307f57497f97934b5bbe2e5a6fa81de5e9`.
+External frozen-ancestor compatibility fix26a1ed0 passed full1821pytest/7skips,
+Ruff/strictPyright and47actualLinux tests, measured substrate unchanged.
+Durable review/control creation is executing, not yet a26valid membership or
+new queue launch. All192plus strict-inactive private/manual failure/recipient/
+adoption, quality-conditioned analysis and finalQ1–Q10 remain required.
+Older verified-live assertions below retain historical scope.
+
 ## Current verified scope:25/192 (2026-10-07 09:18 HKT)
 
 Snapshot023SHA `b054749dabdecfac32d4856112899825cb63ec33a0deb2519c71f7b73923de95`

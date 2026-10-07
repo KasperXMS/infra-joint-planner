@@ -1,5 +1,36 @@
 # Resident Phase II results — in progress
 
+## Latest:26 original outcomes,25effective pending exact JSON review
+
+2026-10-07 09:35HKT. Controller005 exited1 after cell26; no27reservation.
+The cell completed/formatvalid/originalscore1, but its sole original admission
+gate is one source-proven post-backend model JSON failure. Durable exact review
+and combined control002 are still being created. Do not count26effective or
+infer a queue restart from passing repair tests. The earlier25-cell snapshot
+and its population remain immutable. Original journalSHA
+`2be72457913f15e36c79d64dcefcc6092713c626a72d9d61219296ca0eadfb33`:
+26rawattempts/4original findings/0pending;25effective under existing reviews.
+
+Cell26 MultiHop3/DeepSeek/Slow/B0:10Manager/10Verifier,8specialist turns,
+1created specialist,25physical requests. Six preflight context rejects and
+one invalid JSON after backend completion precede the final successful model;
+terminal consumes2artifacts,6,563input/6output tokens,stop. E2E446.769s,
+successful Agent movement59,044B/1.210s; complete failed traffic and complete
+model-service work unknown. Initial7,696,522B/22.651s remains separate.
+Returned successful model-action work113.546s is not added to backend service.
+Graph25nodes/32edges/76snapshots, peak actual concurrency6. API frozen-list-price
+USD0.495492, not an invoice. Natural recovery is not benchmark retry or proof
+of sufficient evidence retention; no quality/cost causal claim.
+
+Independent original admission/source/residency/stores/tc/Workerexit/direct
+terminal and28SDKcontexts auditSHA
+`1aaf2990c59e6a5020a2628c2608ad307f57497f97934b5bbe2e5a6fa81de5e9`.
+The [external ancestor compatibility repair](large-scale-resident-phase2-field-review-v1.md)
+changes no Agent/model/prompt/budget/runtime/scheduler behavior or old evidence.
+Full1821pytest/7skips, Ruff/strictPyright and47actual Linux tests pass. Actual
+durable control freeze remains in progress; continue only27–192 once verified.
+All192and strict-inactive full-block audits/Q1–Q10 remain incomplete.
+
 ## Snapshot023:25 settled outcomes (2026-10-07 09:18 HKT)
 
 Immutable owner-local snapshot023 at01:18:19Z has25admitted/25attempts,
