@@ -1,5 +1,32 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell35 completed; original JSON admission gate retained
+
+2026-10-07 11:50HKT. LongBench4/DeepSeek/Slow/E attempt1 completed with
+format-valid terminal and original evaluator score1. Original admission and
+journal reproduce exactly; four empty stores, five unchanged resident identities,
+tc restoration, Worker exit, terminal provenance and fifty actual SDK contexts
+pass. AuditSHA `af2c1ce4eb8f3cd7b4e0ec74cbb547a5f3fc19b894318072587eaa6cf6ce7fd0`
+and startupSHA `3063bb6db1063e934543c662b915efa9af661fd7773c5ae0aa30a7602b172637`
+independently reverified. Raw terminal text equals the evaluated canonical answer;
+terminal prompt-only inference has69input/2output tokens,stop,service0.278s.
+Prompt-only does not prove absence of evidence in the prompt.
+
+Original controller006 exited1 at03:47:21Z after conservatively rejecting three
+model-output JSON failures. These are not yet admitted by a new sidecar at this
+capture. Fifty SDK contexts pass the original role-specific privacy audit.
+Thirteen Manager/thirteen Verifier/twenty-four total specialist reasoning turns,
+four created/peak-active two specialists and45physical actions are retained.
+Twenty-four specialist turns is a cross-agent total, not a per-agent ceiling
+violation. Two context failures, one oversized read, two semantic-validation
+failures and one phase restriction also remain. Five successful inference
+receipts do not measure the failed JSON calls; missing service/tokens/transfer
+work remains unknown, not zero. Exact source-bound review and unchanged-executor
+continuation are in progress, with no ordinary retry or model/prompt/budget/
+scheduler change. No new private support/corpus/store-body decoding or payload
+export; all192strict-inactive semantic/adoption audits remain. Historical live
+captures below retain their original scope.
+
 ## Cell35 actual LongBench startup, no completed outcome yet
 
 2026-10-07 11:42HKT. Same006controller2562901/supervisor2562900 owns
