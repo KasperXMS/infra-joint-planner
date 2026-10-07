@@ -1,5 +1,21 @@
 # Held-out initial-record field misuse: offline audit
 
+## Closed checkpoint:45 settled, snapshot042/feedback038
+
+2026-10-07 15:18HKT. Snapshot042 creator33272 exited0; feedback038 succeeded;
+neither repeat. SnapshotSHA
+`f034585bb3d265965ac2b85a21220625b8dd383c04120173ff188fecae01916f`;
+feedbackSHA `ef93518ec934bcc25de4268c17ab90a46f4e37fdd849f08e207c4ada7d0b9533`.
+Independent07:17:13Z rehashes all45trace/746actual request files and population/
+journal/control003 bindings; Phase I journal unchanged.340Manager/340Verifier/
+66specialist,91profiles/169ledgers/82rules match; fixed Verifier/original
+recipient scans/non-Manager feedback exclusion pass.45effective45preserved0pending,
+five original findings retained, zero effective confounders/exclusions;
+147remaining, same007continues. Next46LongBench5/DeepSeek/Slow/B0 still unreserved
+at07:17:15Z. No local creator remains;043/039 prepared only. All192strict-inactive
+private/manual/failure/adoption/Q1-Q10 unfinished. No new private bodies/model
+calls/payload export or execution/prompt/model/budget/scheduler change.
+
 ## Cell45 closed: original score0, startup audited after settlement
 
 2026-10-07 15:06HKT. LongBench5/Qwen/Fast/B1 attempt1 completed; original

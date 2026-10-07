@@ -1,5 +1,20 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit038, forty-five settled cells
+
+2026-10-07 15:18HKT. Snapshot042 creator33272 exited0; feedback038 succeeded.
+SHAf034585bb3d265965ac2b85a21220625b8dd383c04120173ff188fecae01916f /
+ef93518ec934bcc25de4268c17ab90a46f4e37fdd849f08e207c4ada7d0b9533;
+successful creators never repeat. Independent07:17:13Z reproduces all45trace/
+746actual requests and population/journal/control003/unchanged Phase I journal.
+Recipients340Manager/340Verifier/66specialist;91B1profiles/169A_Eledgers/82E
+frozen rules match exactly. Fixed Verifier/original recipient scans and
+non-Manager feedback exclusions pass.45effective45preserved0pending;
+five original findings retained, zero effective confounders/exclusions.
+Same007continues, next46still unreserved07:17:15Z. No private-body reads/model
+calls/raw payload export. Visibility remains distinct from semantic adoption,
+retention and causal savings; full192strict-inactive audit pending.
+
 ## Latest: audit037, forty-four settled cells
 
 2026-10-07 15:03HKT. Snapshot041 creator95349 exited0; feedback037 succeeded;
