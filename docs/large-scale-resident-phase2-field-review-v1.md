@@ -1,5 +1,27 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell40 closed: valid original completion with score0
+
+2026-10-07 13:50HKT. LongBench3/DeepSeek/Fast/B0 attempt1 completed;
+original admission valid, output format valid, benchmark score0 retained.
+Audit SHA `46b5c5c2041ff53aab2390234e5154f784f8f4b947b1488a2016037b9094f37d`
+reproduces original admission and settlement; independent05:49:22Z rehashes
+all bound evidence and startup951f26ffdf19a86fbab8733879b53d37933d7ee776a154f2e8abb590662298cf.
+Four empty initial stores, five unchanged resident identities, tc restoration,
+Worker shutdown and18actual SDK contexts pass. Terminal is successful A4
+VL4B inference:four artifact inputs,6468input/2output tokens,stop;
+raw answer equals canonical answer/frozen deterministic projection, no new
+semantic finalizer. Two model requests explicitly context-rejected before
+inference. Static class matching is not proof of complete-envelope feasibility
+or dynamic unavailability. Score0 alone does not locate evidence/reasoning loss.
+No ordinary retry or source/prompt/model/budget/scheduler change.
+
+40effective/40preserved/zero pending,152remaining; same007queue continues,
+next41Video4/DeepSeek/Fast/E. Snapshot037 creator44480 running; feedback033
+not invoked before success.036/032 retain39-settled scope. Full192strict-inactive
+private/manual/failure/adoption audits remain unfinished; no new private body
+decoding/payload export/fresh full-test claim/push. Successful audit never repeat.
+
 ## Cell40 live: startup audited, no result claimed
 
 2026-10-07 13:47HKT. Same007queue started LongBench3/DeepSeek/Fast/B0,
