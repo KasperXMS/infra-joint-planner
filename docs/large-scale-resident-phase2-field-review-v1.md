@@ -1,5 +1,23 @@
 # Held-out initial-record field misuse: offline audit
 
+## Closed checkpoint:49 settled, snapshot045/feedback041
+
+2026-10-07 16:28HKT. Read-only recollection54902 exited0 after first045creator
+74836 failed before writing on journal advance; target independently absent
+before recollection. No benchmark/Planner retry or evidence replacement.
+SnapshotSHA `a6db7f7b451d5f4a86d492bebe3b57a589cfd6a4c5a55ae4a33e04943b350ddf`;
+feedbackSHA `b956f5691b59efe8b353ae321ff3150b2dc31c567f2d01110aa2faaf2aa28d6b`.
+Both successful creators now never repeat. Independent08:27:00Z rehashes all49
+traces/794actual provider requests and population/journal/control003 bindings;
+Phase I journal unchanged.364Manager/364Verifier/66specialist;96profiles/
+179ledgers/87rules exactmatches; fixed Verifier/original recipient scans/
+non-Manager feedback exclusion pass.49effective49preserved0pending, five
+original findings retained, zero effective confounders/exclusions. Same007
+continues; next50Video6/DeepSeek/Slow/B0 unreserved08:26:38Z;143remaining.
+No local creator;046/042prepared only. No new private bodies/model calls/payload
+export or prompt/model/budget/scheduler change. All192strict-inactive private/
+manual/failure/adoption/Q1-Q10 unfinished; visibility does not establish adoption.
+
 ## Cell49 closed: original valid completion and score1
 
 2026-10-07 16:16HKT. Video6/Qwen/Fast/B1 attempt1 completed, original

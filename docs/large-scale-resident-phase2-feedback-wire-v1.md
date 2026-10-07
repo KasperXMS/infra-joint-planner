@@ -1,5 +1,25 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit041, forty-nine settled cells
+
+2026-10-07 16:28HKT. Snapshot045 read-only recollection54902 exited0 after first
+creator74836 prewrite journal-race failure and independent absence proof; no
+benchmark/Planner retry or gate change.041succeeded; successful creators never
+repeat. SHAa6db7f7b451d5f4a86d492bebe3b57a589cfd6a4c5a55ae4a33e04943b350ddf /
+b956f5691b59efe8b353ae321ff3150b2dc31c567f2d01110aa2faaf2aa28d6b.
+Independent08:27:00Z reproduces all49trace/794actual requests and source
+population/journal/control003/unchanged Phase I journal.364Manager/364Verifier/
+66specialist;96B1profiles/179A_Eledgers/87E frozen rules exactly match requests.
+Fixed Verifier/original API+method recipient scans/non-Manager feedback exclusion
+pass.49effective49preserved0pending,5original findings retained,0effective
+confounders/exclusions. Same007continues, next50Video6/DeepSeek/Slow/B0
+unreserved08:26:38Z;143remaining. No local creator;046/042prepared only.
+This proves persisted feedback visibility/isolation, not adoption, causality,
+evidence retention or quality-preserving resource benefit. All192strict-inactive
+private/manual/failure/adoption/quality-conditioned Q1-Q10 remain required.
+No new support/corpus/store-body reads/model calls/payload export or prompt/
+model/budget/scheduler changes; no fresh full-test claim/push.
+
 ## Latest: audit040, forty-seven settled cells
 
 2026-10-07 15:52HKT. Snapshot044 creator75443 exited0; feedback040 succeeded.
