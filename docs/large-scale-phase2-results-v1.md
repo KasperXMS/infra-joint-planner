@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+## Cell37 running; snapshot033 still covers36settled
+
+2026-10-07 13:05HKT. LongBench3/Qwen/Fast/E attempt1 atomic2802358 actually
+owned/live; same007continued without restart.36effective settled/37preserved/
+one pending/155unstarted. StartupSHA
+`949ba9d893f8d8c689a21871797069deade78c56cce1296191890c5a491538b7`
+independently binds four empty stores/five resident instances and atomic004-only
+source05:05:15Z; successful creator never repeat. No completed outcome/evaluator
+score is claimed. Snapshot033/feedback029 remain36-settled, not37. All192and
+final strict-inactive private/manual/failure/recipient/adoption, quality-conditioned
+Q1-Q10 remain. No ordinary retry, source/prompt/model/budget/scheduler change,
+new private-body decode or raw payload export; no fresh full-test claim.
+
 ## Snapshot033 and feedback029 completed: thirty-six settled
 
 2026-10-07 13:01HKT. Snapshot033 creator56740 completed exit0, captured
