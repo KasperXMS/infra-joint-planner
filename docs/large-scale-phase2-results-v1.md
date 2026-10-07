@@ -1,5 +1,36 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 00:46HKT, independent bootstrap002 completed successfully. Receipt
+`2b1bf9c70190c7cfbc9cebdea2182fe799a3de950d1c231f1028a21ada3de0be`
+revalidates full control/all90attempts,89effective/0pending/0unresolved/1excluded,
+all90trace hashes and1,423actualSDKrequest hashes (643Manager/643Verifier/
+137specialist). Current127-source final pin8f1c06eacda747f11c0747f9b3fa91a653da05f9dee442c8440fc8cf6ba41da7
+is unchanged; actual incomplete-final guard rejects before body/output. Renewed002
+is the current continuation authority, not old001/014. No89replacement;015not yet
+launched at this closure. Original192/next96/all193 final scope stays unchanged.
+
+Current renewed002 manifest creation completed exit0, SHA256
+`5ec4215dea4573aba1c768de10a65712fc7eb1010f952abdb811d21230747439`.
+Independent bootstrap002 is running (owned PID3278905/start191805566,
+exec69006), revalidating full control,89effective/90preserved attempts and all
+actual recipient wires. Its final receipt is not yet available;015not launched,
+no90reservation/no89retry. This is progress plus a verified wait, not an approval
+to bypass the old001 inventory fence. Next ordinary full checkpoint remains96.
+Frozen execution004/0ff0e9b and all original final-audit requirements unchanged.
+
+Current2026-10-08 00:18HKT:014actually stopped exit1 at16:08:13Z on new89
+MultiHop3/P1/Fast/E initial-field gate.88effective/90settled preserved/0pending/
+1new unresolved in old001view,1excluded,103unstarted; no90reservation/retry.
+Original89completed/formatvalid/score1, all Workers exited/residency passed.
+Unchanged initial reviewer proves3root text/body mistakes and9actualschema wires;
+sidecarc3886c35b8ab76d36f59e5b80634928567bd6aa25cdb90c2b27d89f66139327e
+preserves all raw evidence. Separate contextreject116746conservativeinput+
+2048>32768 is notactualtoken count/dynamicunavailability/inference. Natural
+continuation ends in3successful inferences and originalscore1, no semantic tuning.
+Sameb3d83cfcode fullpytest/Ruff/strictPyright passed,42actualLinuxpass; append-only
+renewal002creator running, independent readback stillneeded before015/new90.
+See [narrow source-bound89audit](large-scale-resident-phase2-cell0089-initial-field-audit-v1.md).
+
 Current2026-10-08 00:06HKT (16:06:12UTC): same014controller3247654/start
 191509875 and supervisor3247653/start191509873 independently verified live.
 87/88have naturally settled/admitted;88effective/89settled preserved+1pending=
