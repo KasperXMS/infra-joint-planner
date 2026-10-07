@@ -1,5 +1,27 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell36 actually started after the unchanged continuation gate
+
+2026-10-07 12:52HKT. Same controller0072772571/supervisor2772570 remained
+owned/live through the startup validation; no restart or benchmark replacement.
+Cell36 `phase2-longbench_v2-4-014b99ef3d98cb5d-p2-fast-B0`, attempt1,
+atomic2791465 is actually owned/live. There are35effective settled cells and
+36preserved attempts, one pending;156cells remain unstarted.
+
+Append-only startup receipt `analysis/resident-phase2-cell036-live-start-001.json`
+SHA `0a69e931c8a5f85d7986d1e0917f00c6c55a2a4596fbb363aeb3fbbf6e72ad12`
+was created successfully and must never be repeated. Independent04:52:17Z
+readback reproduces config/freeze/initial Worker-state/residency hashes, four
+initially empty stores and five resident instances. The live atomic environment
+contains only archived execution004 src/scripts, revision
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`; external audit namespaces are absent.
+No completed outcome or new evaluation is claimed. Snapshot032/feedback028
+retain their35-settled scope. No new private-body decoding, audit model calls,
+payload export, prompt/budget/model/scheduler changes or ordinary retry.
+All192strict-inactive semantic/manual/failure/recipient/adoption and final
+quality-conditioned Q1-Q10 remain unfinished. This is a documentation-only
+startup audit, not a fresh test-suite result.
+
 ## Actual controller007 restored; original private guard remains intact
 
 2026-10-07 12:22HKT. Launch creator69573 completed exit0; append-only

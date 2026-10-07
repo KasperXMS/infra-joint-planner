@@ -1,5 +1,20 @@
 # Resident Phase II results — in progress
 
+## Cell36 running: no new completed result yet
+
+2026-10-07 12:52HKT. The unchanged continuation gate reached the next cell.
+Same007controller2772571/supervisor2772570 owned/live; cell36LongBench4/Qwen/
+Fast/B0 attempt1 atomic2791465 actually running. Current35effective settled/
+36preserved attempts/one pending/156unstarted. Startup receiptSHA
+`0a69e931c8a5f85d7986d1e0917f00c6c55a2a4596fbb363aeb3fbbf6e72ad12`
+independently binds source004-only execution, four empty Worker stores and five
+resident instances04:52:17Z. Creator succeeded and must not be repeated.
+No completed outcome/evaluator score is claimed. Snapshot032/feedback028 still
+cover35settled cells, not36. No ordinary retry, source/prompt/model/budget/
+scheduler change or new private-body decode/payload export. All192and final
+strict-inactive private/manual/failure/recipient/adoption, quality-conditioned
+Q1-Q10/named reports remain unfinished; goal active.
+
 ## Snapshot032 and feedback028 completed: thirty-five settled
 
 2026-10-07 12:22HKT. Snapshot032 completed04:20:00Z, SHA
