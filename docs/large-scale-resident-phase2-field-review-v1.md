@@ -1,5 +1,30 @@
 # Held-out initial-record field misuse: offline audit
 
+## Combined control002 completed; only unstarted continuation launch in progress
+
+2026-10-07 09:50HKT. Creator14720 exited0 successfully; never rerun it.
+Full original PhaseI gate, disjoint source-bound reviews and unchanged original
+atomic/Worker/private-guard bindings establish26effective/26preserved attempts,
+4original findings/0effective confounders/0pending. Raw journal remains
+`2be72457913f15e36c79d64dcefcc6092713c626a72d9d61219296ca0eadfb33`.
+Control002SHA
+`349db3f5aa57983630a34d7a17e68f353cbf5084f75c8f7c79b41a63d8e5276a`;
+ledger002SHA
+`d15aa3545d7a0ffd80cfc90e52a27981dcb32b77638a2f7311ddc7f564f8e2cd`;
+validation002SHA
+`be59a1b4eb6248b5407a6103f3fc0f20aece5a39338dc87d959f4e87a46e94c1`.
+Old model control/ledger remain byte-identical, with their original two JSON
+sidecars; the new map proves all three model findings plus the exact field case.
+Original score/answer/failure and incomplete failed telemetry remain unchanged.
+
+Append-only006launch has been invoked with these exact hashes and only the
+remaining166frozen cells; its pre-launch membership verification is running
+(session2520), not yet a confirmed supervisor or new cell. First unstarted
+cell27 is MultiHop3/Qwen/Slow/E. No measured Agent/model/prompt/budget/scheduler
+change, new corpus/store-body decoding, semantic retry or raw payload export.
+All192and post-block audits/Q1–Q10 still required. Earlier in-progress freeze
+descriptions below retain their historical capture.
+
 ## Durable cell26 sidecar verified; combined control002 still in progress
 
 2026-10-07 09:42HKT. The original function-body reviewer finished its full
