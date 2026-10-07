@@ -1,5 +1,18 @@
 # Completion audit — not achieved
 
+### 2026-10-08 03:13HKT: real full96 gate and subsequent97 execution
+
+The existing controller completed normal full96 at19:10:16UTC, receiptfa35c7...b4c3c.
+Independent readback59d595...4d2ef verifies96effective/97preserved, all97trace
+hashes/all1,572actual SDK request hashes, source bindings and unchanged journal
+prefix.97reservation is after checkpoint. Same016and new97Video6/P1/Fast/E
+atomic3364465/start192737040 are actually owned/live. This is authoritative
+checkpoint/continuation progress, not merely a status restatement. Next normal
+full112; immediate newfinding stop remains. No95/96retry, private semantic body
+scan, source/prompt/config change or partial quality aggregate. All192/all193,
+strict-inactive manual/private/failure/terminal/retention/adoption/quality/
+Q1–Q10/named reports remain required, not achieved or blocked.
+
 ### 2026-10-08 03:01HKT: unchanged schedule resumed, actual live guard verified
 
 Independent bootstrap003 completed; new016controller3357526/start192673771,

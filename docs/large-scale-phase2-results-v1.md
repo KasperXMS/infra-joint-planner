@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 03:13HKT, normal full96checkpoint completed, SHA256
+`fa35c7e7836ae299e9a8c60af277b84aea38b9be75d592ba71292e00f09b4c3c`.
+Independent readback59d595e91ac02a18f0efe1701255a52bbd52188c579d0d06adda641a09d4d2ef
+verifies96effective/97preserved/0pending/0unresolved/1excluded at the checkpoint,
+all97trace hashes and1,572actual SDK requests(710Manager/710Verifier/152specialist).
+The exact journal prefix through96 is preserved and97reservation is after the
+checkpoint. Same016ownedlive; new97Video6/P1/Fast/E attempt1atomic3364465/start
+192737040 running:96effective/97settled+1pending=98preserved,95unstarted.
+Next ordinary full112, immediate newfinding stop remains unchanged. No retry,
+tuning, private semantic body scan or partial quality aggregate. See
+[checkpoint96 audit](large-scale-resident-phase2-checkpoint0096-v1.md).
+Original192/all193 and all final audit/report requirements remain incomplete.
+
 At2026-10-08 03:01HKT, new016supervisor3357525/start192673770 and controller
 3357526/start192673771 are independently owned/live. Original new96MultiHop5/
 P2/Fast/B0 attempt1atomic3357918/start192677949 is actually running;95effective/
