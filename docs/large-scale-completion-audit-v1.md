@@ -1,5 +1,46 @@
 # Completion audit — not achieved
 
+### 23:45HKT: renewal closure and current final recipe
+
+Independent bootstrap SHA256
+`3be3514fecc3df07ea0c803d90d5a53f7ad7d0d466fa1b2e8477c08bb11238a5`
+closes84effective/85preserved/0pending/0unresolved, all85traces/1299actual
+SDKrequests. Newmanifest SHA256 remains
+`171614c2b392d2449a4d28aa654c207cb2de6e993150684c06cf3dd4b215e90f`.
+Current eventual all192/all193 strict-inactive entrypoint:
+`large_scale_resident_phase2_renewed_final_audit_v1`; observed127-source pin
+`8f1c06eacda747f11c0747f9b3fa91a653da05f9dee442c8440fc8cf6ba41da7`.
+Actual incomplete guard rejects before private diagnostics; original125source
+hashes/paths/scanner/guard unchanged.014launch is the safe next step, not restart
+of013. No final body audit or aggregation is run. All original manual/semantic/
+terminal/failure/retention/Q1–Q10/named deliverables remain required. This new
+recipe supersedes historical125-source/derived001recipes below; any future
+finding needs exact renewed authority before further dispatch.
+
+## 2026-10-07 23:35 HKT: cell84 review and current authority renewal
+
+The preceding live013 account is historical:013 exited1 on the new cell84
+initial-record field gate, with83effective/85preserved and no pending action.
+The task itself completed/format-valid/score1; its three root text-vs-body
+requests are now independently source-proved without a retry or body re-read.
+Audit-only commitb3d83cf adds append-only environment review renewal and its
+final adapter, leaving original execution/prompt/tool/budget/scheduler untouched.
+Full2101pytest/7existing skips,42actual Linux,Ruff/strictPyright/diff pass.
+
+New manifest `phase2-renewed-environment-cadence-freeze-001.json` exists,
+SHA256 `171614c2b392d2449a4d28aa654c207cb2de6e993150684c06cf3dd4b215e90f`.
+Independent bootstrap and actual import-source pin/partial-before-body guard
+verification are in progress. Do not resume013 or use the previous derived001
+authority/current125-source final recipe. Current final entrypoint will be
+`large_scale_resident_phase2_renewed_final_audit_v1`, with its independently
+observed source pin (not assumed). Only after current readback passes may014
+dispatch never-executed85 onward. Original71onlyreplacement/derived81/initial84
+proofs remain immutable; next normal full checkpoint96. No private scan or
+partial score/adoption aggregation occurs now. All192/all193 manual/semantic/
+terminal/retention/quality-conditioned/Q1–Q10 and named final reports below remain
+required. Goal active and incomplete; this turn makes actual audit-control
+progress rather than narrowing the objective to a restart.
+
 ## Current requirement audit — 2026-10-07 23:00 HKT
 
 The preceding goal turn made progress: cell81's exact derived-field proof was

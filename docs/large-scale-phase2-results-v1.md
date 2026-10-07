@@ -1,5 +1,37 @@
 # Resident Phase II results — in progress
 
+Update2026-10-07 23:45HKT: independent renewal closure passes84effective/
+85preserved/0pending/0unresolved/1excluded. All85traces/1299actual requests
+(597Manager/597fixedBlindVerifier/105specialist) verify; immutable bootstrap
+SHA3be3514fecc3df07ea0c803d90d5a53f7ad7d0d466fa1b2e8477c08bb11238a5.
+New127-file actual finalsource pin8f1c06eacda747f11c0747f9b3fa91a653da05f9dee442c8440fc8cf6ba41da7
+preserves all125oldhashes/paths and original scanner/guard. Actual incomplete
+all192/all193guard rejects beforebody; no probe output.014may now dispatch only
+unstarted85onward; no84retry, original71onlyreplacement unchanged. No formal
+newcell launched at this closure capture; nextfull96. Wholefinal analysis pending.
+
+Update2026-10-07 23:35HKT: audit-only renewal commitb3d83cf validated with
+2101pytest/7existing skips,42actual4090Linux tests,Ruff/strictPyright/diff pass.
+Newmanifest001created once SHA171614c2b392d2449a4d28aa654c207cb2de6e993150684c06cf3dd4b215e90f,
+control006/ledger006 created via unchanged original helpers. Independent full
+bootstrap and current final-source pin/negative guard are running, queue still
+stopped; no85reservation. Sole71replacement/derived81/initial84proofs retained,
+no new replacement/semantic tuning/frozen execution change. This supersedes the
+earlier claim that full tests or renewal creation remain pending, not the need
+for complete192execution/all193final audit.
+
+Current2026-10-07 23:21HKT:013stopped exit1 at15:04:01Z on cell84
+MultiHop4/DeepSeek/Fast/B0.83effective/85preserved/0pending/1new unresolved
+in oldmanifest view;108unstarted, no85dispatch/retry. Actual84 completed,
+formatvalid,originalscore1; narrow unchanged reviewer proves3initial root
+text-vs-body field mistakes, then natural legal continuation. Newsidecar
+dbc052295c6dcfdb0220106053dea747537332ae5699819717a003ce95eb3f0d
+does not edit original admission/result/trace/journal. Fullrenewal/finalreader
+validation pending; old exactinventory manifest mustnot be reused as current.
+No runtime/prompt/tool/budget/model/scheduler/evaluator change or privatebody
+decode. Nextnormal96 onlyafter new current gate; all192/all193finalaudits remain.
+See [actual finding and preserved recovery](large-scale-resident-phase2-cell0084-initial-field-audit-v1.md).
+
 Current2026-10-07 22:48HKT: new013 actually owned/live,81effective settled/
 83preserved/1pending/110unstarted. New82 MultiHop4/DeepSeek/Slow/A attempt1.
 Original81 metadata-only derived-field proof passed, completed/formatvalid/score0
