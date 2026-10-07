@@ -1,5 +1,35 @@
 # Completion audit — not achieved
 
+## Current verified scope:25/192 (2026-10-07 09:18 HKT)
+
+Snapshot023SHA `b054749dabdecfac32d4856112899825cb63ec33a0deb2519c71f7b73923de95`
+has25effective outcomes/25attempts/0pending/3original rejections preserved/
+0effective confounders. Independent original admission audits of24and25 pass;
+the former retains score0, the latter score1. Feedback019 verifies404actual
+recipient contexts,59profiles/93ledgers/46rules, not causal adoption. At
+01:19:49Z the same005supervisor/controller are verified owned/live, before
+next frozen cell26.167outcomes and all full-block private/manual audits remain.
+
+The named-deliverable table further below was captured before PhaseI closed;
+its missing/incomplete statuses are historical. Current worktree inspection:
+
+| Required artifact | Current verified scope |
+| --- | --- |
+| PhaseI results and failure audit | Updated to168resident outcomes and comprehensive source-bound observable review; historical42 retained separately |
+| PhaseI method screening/pruning | Present and frozen; retainB0/B1/A/E, do not expandB/C/D |
+| PhaseII results | Snapshot023/25outcomes; not full192 |
+| Cross-Planner analysis | Present, explicitly preliminary PhaseI characterization; no final held-out conclusions |
+| Full-study failure audit and final recommendation | Still required after the held-out block and inactive private/manual audits |
+| Root Chinese final study report | Historical/progress reports do not substitute for the completed-study report |
+
+Source-bound cell25auditSHA
+`947e215c621a74cbe7bda73743e18b0b60eafe496d73fdb7d20ee62b38276660`
+proves empty stores, stable resident identities, tc restoration, Worker exits,
+direct terminal model answer and recipient checks, not semantic retention.
+No new private-body scans or model calls in these metadata audits. Final
+per-task/family/Planner/method and quality-conditioned characterization/Q1–Q10
+are not achieved. No ordinary failure retry, semantic tuning or new method.
+
 ## Current boundary:24settled, cell25live (2026-10-07 09:12 HKT)
 
 The resident new-environment PhaseI168 is complete. PhaseII snapshot022SHA
