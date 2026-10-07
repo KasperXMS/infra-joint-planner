@@ -1,5 +1,30 @@
 # Completion audit — not achieved
 
+### 2026-10-08 01:50HKT: cell95 finding preserved, exact review in progress
+
+The previous user turn verified/delivered the requested immutable PhaseI trace
+package; the prior goal turn was a verified wait with93/94settlement evidence.
+Current live revalidation then observed original95settlement and controller015
+automatic exit1. Original95completed/formatvalid/evaluator1/runnerexit0 is not
+replaced; the sole raw admission finding is typed `validation_failed`.
+94effective/96settled preserved/0pending/1unresolved/1excluded;97unstarted.
+An existing source-bound initial-field dry proof passes3exact absent-field
+misuses/9actualManager schema wires. Independent companion review proves
+same-run reserved-ID misuse and static conservative context rejects, not
+cross-run pollution or dynamic deployment unavailability. All sources remain
+unchanged; full2101pytest+7skips/Ruff/strictPyright/diff and71owner-local Linux
+tests pass. The exclusive sidecar creator79253/PID3319020/start192189884 is
+actually live with an active subprocess at17:50:14UTC; sidecar/renewal003/
+bootstrap003/016continuation are not yet completed. This is concrete diagnostic/
+verification progress plus a specific verified wait, not a genuine blocker or
+completion. No95retry/no96reservation/new auditmodel call/private body audit.
+See `large-scale-resident-phase2-cell0095-initial-field-audit-v1.md`.
+
+All original192cells/all193attempts, next96cadence and final strict-inactive
+private/manual/terminal/failure/retention/adoption/quality/Q1–Q10 plus named
+deliverables remain required. Do not narrow the goal to this field review or
+claim a completed renewal before its authoritative receipts exist.
+
 ### 2026-10-08 01:27HKT: verified wait yielded new93/94 settlements
 
 Previous goal turn yielded91/92settlement evidence. This turn revalidated actual
