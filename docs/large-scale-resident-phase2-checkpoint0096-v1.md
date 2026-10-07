@@ -13,19 +13,19 @@ Owner-local independent readback completed at19:13:03.955637UTC; receipt
 `analysis/phase2-renewal-checkpoint0096-independent-readback-001.json`, SHA256
 `59d595e91ac02a18f0efe1701255a52bbd52188c579d0d06adda641a09d4d2ef`.
 
--96effective cells,97preserved attempts,0pending/0unresolved,1operational exclusion.
--All97trace files match the checkpoint and original attempt identities/hashes.
--All1,572actual SDK request file hashes match:710Manager,710fixed Blind Verifier,
- 152specialist. The actual original admission/recipient scans have no findings;
- fixed Verifier binding and non-Manager feedback isolation are checked.
--358ledger/177rules/179profile exact feedback hash matches are visibility proof,
- not causal adoption or evidence of optimization.
--The checkpoint journal is exactly the immutable prefix through original96:
- `79f6ad3cd7172ae0b449ec5531886863f016c10f168defab81fe67f4e37f9c86`.
- Later reservations have timestamps after the checkpoint;97was not started early.
--Current003manifest/source bindings match:
- `bfa91c544184fbaa473b0b0251ce3fc49931676b064e545b00e91f5a159dcc55`.
- All original reviews, raw admissions and71exclusion/replacement remain preserved.
+- 96 effective cells, 97 preserved attempts, 0 pending/unresolved, 1 operational exclusion.
+- All 97 trace files match the checkpoint and original attempt identities/hashes.
+- All 1,572 actual SDK request file hashes match: 710 Manager, 710 fixed Blind
+  Verifier, 152 specialist. The actual original admission/recipient scans have
+  no findings; fixed Verifier binding and non-Manager feedback isolation are checked.
+- 358 ledger / 177 rules / 179 profile exact feedback hash matches are visibility
+  proof, not causal adoption or evidence of optimization.
+- The checkpoint journal is exactly the immutable prefix through original 96:
+  `79f6ad3cd7172ae0b449ec5531886863f016c10f168defab81fe67f4e37f9c86`.
+  Later reservations have timestamps after the checkpoint; 97 was not started early.
+- Current 003 manifest/source bindings match:
+  `bfa91c544184fbaa473b0b0251ce3fc49931676b064e545b00e91f5a159dcc55`.
+  All original reviews, raw admissions and 71 exclusion/replacement remain preserved.
 
 The readback hashes request bytes remotely without decoding/exporting their
 payloads. It does not inspect gold/support/corpus/Worker-store bodies, call a
