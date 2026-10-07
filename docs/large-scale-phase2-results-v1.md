@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Checkpoint2026-10-07 15:52HKT: snapshot044/feedback040 independently reproduced
+07:51:40Z, all47trace/774actual provider-request hashes and population/journal/
+control003 bindings. SHA20a69d5a3bfc6755c08eceee39aeccadae1670ddd7fcb2ca9421f5857154e432 /
+87ec2a9bc3cb1a858cd61c71512b6ad015408323eac0b43644e3af9b7e4811e0.
+354Manager354Verifier66specialist/91profiles174ledgers87rules match;
+fixed Verifier/recipient isolation pass.47effective47preserved0pending;
+145remaining, same007continues. Next48unreserved at07:51:41Z. No replacement,
+score pooling or causal-adoption claim; full192private/manual/failure/adoption
+audits and quality-conditioned final analyses remain incomplete.
+
 ## Cell47 settled: valid E completion, original score1
 
 2026-10-07 15:41HKT. LongBench5/Qwen/Slow/E attempt1 completed with original
