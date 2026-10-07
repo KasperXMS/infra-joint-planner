@@ -1,5 +1,23 @@
 # Completion audit — not achieved
 
+Current2026-10-07 11:58HKT:35attempts preserved/34effective/0pending.
+Cell35 LongBench4/DeepSeek/Slow/E completed with valid terminal/originalscore1;
+auditSHAaf2c1ce4eb8f3cd7b4e0ec74cbb547a5f3fc19b894318072587eaa6cf6ce7fd0
+independently binds original admission/store/residency/tc/exit/terminal and50SDK
+contexts. Original controller006 exited1 at03:47:21Z on three model-output JSON
+findings; no cell is currently executing. Existing exact source-bound reviewer
+and unchanged-source control003 creator26309 are running. At03:58:01Z no
+sidecar/control003/ledger003/validation003 files existed; no effective35th
+admission or controller007 launch is claimed. Never duplicate this creator or
+repeat cell35. Five returned successful inference receipts are not all backend
+calls; complete failed-inclusive model/transfer/tool work remains unknown.
+Snapshot031/feedback027 retain34-settled scope. Audit/result commitsa35f939/
+09b0cba are documentation only, no fresh test-suite pass claimed, no push.
+Goal remains active: unchanged192-cell schedule, all strict-inactive private/
+manual/failure/recipient/adoption and final quality-conditioned Q1-Q10/named
+reports are unfinished. No scope reduction, ordinary retry, prompt/budget/model/
+scheduler change or new private-body decoding/payload export.
+
 Current2026-10-07 11:38HKT: snapshot031SHA
 `4905f3d5a7b5a8a393f5ee7726cbaa7f5fb5acc1296301f58a7895bb96625e8c`
 establishes34effective/34preserved/zero pending/four raw findings retained/zero
