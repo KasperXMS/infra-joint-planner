@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+Current2026-10-08 00:06HKT (16:06:12UTC): same014controller3247654/start
+191509875 and supervisor3247653/start191509873 independently verified live.
+87/88have naturally settled/admitted;88effective/89settled preserved+1pending=
+90total attempts,0unresolved,1excluded,103unstarted. New89MultiHop3/P1/Fast/E
+attempt1atomic3262458/start191600276 is actually live, no controller exit.
+Admitted-cell counts are membership, not normal execution/correctness counts.
+No restart/retry/new code/configuration or partial quality aggregate; latest
+normal full boundary remains80, latest bootstrap84, next normal full96 still
+absent. Full original192/all193 strict-inactive/manual/semantic/failure/retention/
+terminal/adoption/quality-conditioned/Q1–Q10 and named reports remain required.
+
 Current2026-10-07 23:56HKT: same014controller3247654/start191509875 and
 supervisor3247653/start191509873 remain independently verified live.85and86
 have naturally settled/admitted;86effective/87settled preserved+1pending=
