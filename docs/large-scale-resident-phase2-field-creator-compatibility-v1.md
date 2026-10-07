@@ -48,6 +48,23 @@ review confirms unchanged ancestor inventories/review pairs/71exclusion,
 valid95 duplicate rejection, and full96 gate before97. Independent bootstrap003
 and controller016 must still complete their actual gates before new execution.
 
+### Renewal003 completed
+
+The corrected exclusive renewal84408 subsequently exited0. Current manifest:
+`phase2-renewed-environment-cadence-freeze-003.json`, SHA256
+`bfa91c544184fbaa473b0b0251ce3fc49931676b064e545b00e91f5a159dcc55`.
+New control008 SHA256:
+`e324868b2203de2f733d6b708f910115836ea8602411787dbdabe8bcb5586bf7`;
+ledger008 SHA256:
+`58ca158bf4e0e65d583a3e35dc5e719944cf064a7b4485fddcd6aee5a79e52e9`.
+The exact inventory delta is only the95initial-field sidecar; all historical
+controls/manifests/sidecars/raw attempts and journal remain preserved. Full
+membership revalidation admits95cells from96attempts, with no unresolved or
+pending attempt and the sole71operational exclusion. This is not a new retry
+authority or the final private/semantic audit. Independent bootstrap003 is
+running as session63751; controller016/new96 still await its successful receipt.
+No new benchmark/model calls were made by renewal.
+
 ## Narrow repair
 
 New `large_scale_resident_phase2_renewed_field_review_v1.py` composes the exact

@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 02:48HKT, renewal003 completed exit0. Manifest SHA256
+`bfa91c544184fbaa473b0b0251ce3fc49931676b064e545b00e91f5a159dcc55` binds the
+exact sole new95field proof and all preserved ancestor authorities. Its original
+full proof revalidates95effective/96preserved/0pending/0unresolved/1excluded,
+97genuinely unstarted. Independent bootstrap003/session63751 is now running;
+016dispatch/new96 remain unstarted until it passes. Journal5e793191...fc36a and
+measured execution004/0ff0e9b unchanged; no95retry, tuning or newbenchmark call.
+Next ordinary full checkpoint96 and original192/all193 final scope unchanged.
+
 At2026-10-08 02:39HKT, corrected offline creator38093 is terminal exit0;
 original95sidecar SHA25cd189659e77ab0e8e0c0392cb1817c2d9de18670c4b2e8309104a63f4a59a8
 is preserved and journal5e793191...fc36a is unchanged. The first003invocation
