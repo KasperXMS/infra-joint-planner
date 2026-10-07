@@ -1,5 +1,39 @@
 # Held-out initial-record field misuse: offline audit
 
+## New cell60 field finding;009stopped, exact proof running
+
+2026-10-07 18:41HKT. Cell59settled normally;009exited1 at10:36:27Z on
+cell60MultiHop6/DeepSeek/Fast/A attempt1.59effective/60preserved/0pending,
+seven raw findings/one unresolved effective confounder;132unstarted. No61
+dispatch, retry or replacement. Original result completed/format-valid/score0
+and original admissionSHA
+`34e19175d2176d688ff6bfcf7a65d4682968f48f989de0bf25a3396fbadf7f40`
+remain untouched. Three initial-shard root BM25 calls requested `text`, with
+exact `document field must be text: text` failures. Independent task-view
+metadata at10:39:10Z declares `body:string`, not `text`; counts1030/898/919.
+This does not yet waive admission or identify the score0semantic cause.
+
+Creator85079/remote3059622/start189677193 runs once, owned/live10:41:39Z.
+It uses the unchanged original `create_review` function body with an isolated
+global namespace replacing only its bookkeeping-ledger constructor by the
+already tested `BatchLedger`. The six existing original sidecar proofs are
+freshly reverified before this copy runs; the exact raw hash-linked journal,
+current sole unresolved identity, old manifest baseline and source/reference
+bindings are checked. Original full parent gate, inactivity guard, new60proof,
+post-write original `verify_sidecar`, lease and journal-unchanged assertions
+remain. No historical module/global mutation or measured execution change.
+This avoids legacy per-property historical proof replay, not actual proof.
+The additional exclusive creator receipt will record the source/function/
+ledger hashes and six actual old proof identities; not yet created or claimed
+successful. Never duplicate this creator while live.
+
+The four `/state` URLerrors at10:36:35Z happened after the preserved009exit;
+they do not establish a Worker crash. Saved shutdown/admission must determine
+that. No new corpus/store/support-body decoding or partial-block private audit.
+002manifest/009remain historical; new005control/ledger,003manifest and010
+launch are not created. Full checkpoint64is still next after safe continuation;
+all192and final strict-inactive private/manual/failure/adoption/Q1-Q10remain.
+
 ## Cell58 admitted by verified new freeze;009running59
 
 2026-10-07 18:28HKT. Manifest002 creator38366 exited0; independent metadata/

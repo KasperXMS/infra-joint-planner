@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 18:41HKT:59effective60preserved0pending132unstarted;
+seven raw findings/one unresolved effective confounder.009exited1 at10:36:27Z
+after cell60MultiHop6/DeepSeek/Fast/A field gate; no61/retry/replacement.
+Original result completed/format-valid/score0, but not yet admitted. Three
+root BM25 requests used undeclared `text`; actual schema declares `body`.
+Exact original proof creator85079owned/live, no new private bodies. See field
+audit for immutable admission and isolated original-body/flat-bookkeeping
+provenance. No control005/manifest003/010launch yet.64full checkpoint remains
+pending; no pooled quality or cause attribution before all192private audits.
+
 Current2026-10-07 18:28HKT:58effective settled/59preserved/1pending/133unstarted;
 zero effective confounders, six raw findings retained. Cell58exact original
 field proof, new004control/ledger and002cadence manifest independently verified.
