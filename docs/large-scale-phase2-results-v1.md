@@ -1,5 +1,28 @@
 # Resident Phase II results — in progress
 
+## Snapshot024:26effective; actual006 is running
+
+2026-10-07 09:58HKT. Immutable snapshot024 at01:56:56Z has26admitted/
+26attempts/0pending/4original raw findings preserved/0effective confounders.
+SnapshotSHA `fa41a7adae9a8f7d7bc3149cbdb042c9beb6000585e9c6b6abaa95cd89a7f13c`;
+journalSHA `2be72457913f15e36c79d64dcefcc6092713c626a72d9d61219296ca0eadfb33`.
+Its source is the completed disjoint exact-review control002; old answer/score/
+admissions and unknown failed telemetry remain unchanged. No result pooling or
+score aggregation is performed.
+
+Feedback020 independently matches432 actual provider contexts:207Manager/
+207Verifier/18specialist,59B1profiles/93A_Eledgers/46Efixed-rule inputs.
+SHA `0003f4a6cc4f5101ebd9d340d450a6adf588e1cf8eb8250c1c84fb0b3fcd4e9c`.
+Non-Manager feedback exclusion/fixed Verifier/original recipient scans pass;
+visibility does not establish semantic adequacy or causal adoption. No new model
+calls, support/corpus/store-body decoding or raw payload export.
+
+At01:58:07Z supervisor2562900/controller2562901 remain owned/live, no exit or
+new reservation; first unstarted27=MultiHop3/Qwen/Slow/E. Remaining166and all
+full192strict-inactive private/manual/failure/adoption/Q1–Q10 audits remain.
+Successful snapshot024/feedback020 creators must not be repeated. Earlier
+pending-projection or stopped005captures below are historical.
+
 ## Actual continuation restored;26effective outcomes
 
 2026-10-07 09:56HKT. Exact cell26review and full original gate/control002

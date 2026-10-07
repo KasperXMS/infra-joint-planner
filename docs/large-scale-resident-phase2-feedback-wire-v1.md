@@ -1,5 +1,16 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit020, twenty-six settled cells
+
+Snapshot024SHA `fa41a7adae9a8f7d7bc3149cbdb042c9beb6000585e9c6b6abaa95cd89a7f13c`;
+audit020SHA `0003f4a6cc4f5101ebd9d340d450a6adf588e1cf8eb8250c1c84fb0b3fcd4e9c`.
+Owner-local actual requests:432contexts,207Manager/207Verifier/18specialist;
+59B1profile/93A_Eledger/46Efrozen-rule exact matches. Non-Manager recipients
+have no feedback prefixes, Verifier model remains fixed and original scans pass.
+No new Planner/model calls, raw payload export or support/corpus/store-body
+decoding. Causal adoption, semantic retention and full192analysis remain pending;
+older captures retain their original populations.
+
 ## Latest: audit019, twenty-five settled cells
 
 Snapshot023SHA `b054749dabdecfac32d4856112899825cb63ec33a0deb2519c71f7b73923de95`;
