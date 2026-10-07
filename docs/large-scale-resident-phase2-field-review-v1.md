@@ -1,5 +1,22 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell39 actual startup independently verified
+
+2026-10-07 13:33HKT. Same007controller2772571/supervisor2772570 continued
+without restart. Cell39 `phase2-longbench_v2-3-2c9a631882b4f679-p2-slow-B1`,
+attempt1 atomic2825208 owned/live;38effective settled/39preserved/one pending,
+153unstarted. Initialization records were absent at05:31:34Z; no creator was
+invoked until they existed05:32:09Z. Successful append-only startup receiptSHA
+`83f2d154a1344e663572ff0ae92fdc90a297941daeb1c141e1438ccf1ad7d517`
+must never repeat. Independent05:33:11Z reproduces config/freeze/initial-state/
+residency hashes, four empty stores/five resident instances, live atomic004-only
+PYTHONPATH and frozen revision `0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`.
+No external audit namespace in atomic execution or completed outcome claimed.
+Snapshot035/feedback031 retain38-settled scope; full192strict-inactive private/
+manual/failure/recipient/adoption/Q1-Q10 unfinished. No retry/source/prompt/model/
+budget/scheduler change, private-body decoding/model calls or payload export.
+Docs-only/no fresh full-test claim/no push.
+
 ## Thirty-eight settled: source/recipient audit independently closed
 
 2026-10-07 13:28HKT. Snapshot035SHA
