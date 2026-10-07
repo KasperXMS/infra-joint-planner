@@ -1,5 +1,26 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell32 valid execution, original Video quality failure retained
+
+2026-10-07 11:06HKT. Cell32 Video3/DeepSeek/Fast/A attempt1 settled valid,
+completed, format-valid, originalscore0. Original admission exactly reproduced;
+source/store/residency/tc/Worker-exit/terminal/sixSDKcontext checks pass.
+AuditSHA `1b5b9b9fb54ff504d9ad53bae609fb1aec93ea4537833a21e90b4f8da9cf25d8`
+and startupSHA `101233e06cc158a36067ed776703ec4e9bf31423def9479a411c859d17322628`
+independently reverified against all bound files. Terminal A4VL4B inference
+consumes one contact-sheet artifact; its raw text already equals the canonical
+choice handed to the original evaluator. No context failure, tool/runtime
+defect, output-contract mismatch, ordinary retry or hidden answer repair.
+
+Observable sequence is sample_frames→make_contact_sheet→invoke_model. This
+shows a compact visual representation and a wrong original benchmark answer,
+not a proven contact-sheet-induced evidence loss or A-ledger-caused decision.
+Primary semantic reasoning versus evidence-selection/coverage cause remains
+unresolved until the full192strict-inactive private/manual audit. Score0 is
+neither a missing evaluation nor a harness confounder. Successful32creators must
+not be repeated. Next scheduled33 is LongBench4/DeepSeek/Fast/B1. New
+snapshot029creator1474 is running; no private body decode or raw payload export.
+
 ## Cell32 startup verified under the unchanged resident execution pool
 
 2026-10-07 11:05HKT. Same006controller2562901/supervisor2562900 owns
