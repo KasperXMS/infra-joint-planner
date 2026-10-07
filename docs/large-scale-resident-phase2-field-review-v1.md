@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell46 closed: valid original completion, context continuation retained
+
+2026-10-07 15:23HKT. LongBench5/DeepSeek/Slow/B0 attempt1 completed; original
+admission/format valid,score0, no retry/replacement. End-auditSHA
+`3db19ef2cdfbf07d076abf6328887abc2979e31fb5bb73576906b2feb541049f`
+reproduces original admission/settlement. Independent07:22:30Z rehashes all
+bound files and startupSHAa18eb4d1d943636256111ca7de1fc37fd350b7041bd335fca7a20bc7764c2603.
+Four empty initial stores/five unchanged resident identities/tc restoration/
+Worker shutdown/18actual SDK contexts pass. Terminal A4VL4B consumes3artifacts,
+6399input/2output tokens,stop,18.291845320s backend. Raw text equals canonical
+answer and frozen deterministic projection; no extra semantic finalizer.
+Two context rejects explicitly before inference; later retrieval/inference
+are native continuation. One semantic-validation and one phase-restriction
+observation retained. Matching static classes does not guarantee full context
+envelope feasibility or establish dynamic deployment unavailability.
+
+46effective46preserved0pending;146remaining. Same007continues, next47LongBench5/
+Qwen/Slow/E. Snapshot043 creator10234 running, never duplicate; feedback039
+must wait for success.042/038 retain45-settled scope. Score0 does not identify
+retrieval/reasoning/evidence-selection cause; all192strict-inactive private/
+manual/failure/adoption audits still required. No prompt/model/budget/scheduler
+change/new private-body decoding/payload export/fresh-test claim/push.
+
 ## Cell46 live: startup independently verified
 
 2026-10-07 15:21HKT. Same007queue started LongBench5/DeepSeek/Slow/B0,
