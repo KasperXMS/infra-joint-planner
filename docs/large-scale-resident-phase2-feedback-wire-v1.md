@@ -1,5 +1,24 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit036, forty-three settled cells
+
+2026-10-07 14:44HKT. Snapshot040 creator76380 exited0; feedback036 succeeded.
+Successful append-only creators must never repeat. Snapshot SHA
+`2a6b6296b4961ea50d4bff161c49fd9b11fc28a64902f23e5cc481eb4b36b506`;
+feedback SHA `89d8b84020581db2b9652fcb6a974e4165d110078fbf7716df96a213cb889af2`.
+Independent06:43:43Z reproduced every43trace/724actual provider-request hash,
+population/journal/control003 bindings and unchanged Phase I journal.
+Recipients329Manager/329Verifier/66specialist;84B1profiles/165A_Eledgers/
+82E frozen-rule messages match exactly. Fixed Verifier/original recipient scans
+pass; non-Manager requests contain no profile/ledger/rule prefixes.
+
+43effective/43preserved/zero pending at capture; five original findings retained,
+zero effective confounders/exclusions. Same007queue continues;149remaining.
+No new model calls/support/corpus/store-body decoding or raw payload export.
+Visibility does not prove adoption, retained evidence or causal savings.
+Full192strict-inactive private/manual/failure/adoption and quality-conditioned
+Q1-Q10 analyses remain unfinished.
+
 ## Latest: audit035, forty-two settled cells
 
 2026-10-07 14:27HKT. Snapshot039 creator47240 exited0; feedback035 succeeded.

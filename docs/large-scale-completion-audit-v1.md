@@ -1,5 +1,16 @@
 # Completion audit — not achieved
 
+Current2026-10-07 14:44HKT: snapshot040/feedback036 successful and independently
+reproduced06:43:43Z, including every43trace/724actual request hash.
+Snapshot SHA2a6b6296b4961ea50d4bff161c49fd9b11fc28a64902f23e5cc481eb4b36b506;
+feedback SHA89d8b84020581db2b9652fcb6a974e4165d110078fbf7716df96a213cb889af2.
+43effective/43preserved/zero pending,149remaining; same007continues, next44
+Video4/Qwen/Fast/A unstarted at latest prerequisite check06:42:53Z. Creator76380
+exited0; no local creator remains; successful040/036 never repeat. Fixed Verifier/
+recipient isolation pass. Full192strict-inactive private/manual/failure/adoption/
+Q1-Q10 incomplete. No causal-adoption claim, retry/source/prompt/model/budget/
+scheduler change/newbody decoding/payload export/fresh full-test claim/push; docs only.
+
 Current2026-10-07 14:35HKT:43effective/43preserved/zero pending,149remaining.
 Cell43Video4/DeepSeek/Slow/B1 valid completion/format, original score0 retained,
 no retry. Audit SHA7189e1ce74a9ba5733defbc2f15b87c6a662dafc50ca4991b757ab2527623749
