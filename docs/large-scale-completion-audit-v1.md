@@ -1,5 +1,15 @@
 # Completion audit — not achieved
 
+Current2026-10-07 13:51HKT:40effective/40preserved/zero pending,152remaining.
+Cell40LongBench3/DeepSeek/Fast/B0 valid original completion/format/score0 retained,
+no retry. Audit SHA46b5c5c2041ff53aab2390234e5154f784f8f4b947b1488a2016037b9094f37d
+independently reproduces all source/startup/terminal bindings05:49:22Z;18actual
+SDK contexts pass. Same007continues; next41Video4/DeepSeek/Fast/E. Snapshot037
+creator44480 running/not completed;feedback033 not invoked.036/032 retain39-settled
+scope. Full192and strict-inactive private/manual/failure/adoption/Q1-Q10 incomplete.
+No ordinary retry/source/prompt/model/budget/scheduler change, newbody decoding/
+payload export/fresh full-test claim/push; result/audit docs only.
+
 Current2026-10-07 13:45HKT: snapshot036 and feedback032 completed successfully,
 independently verified05:45:20Z, including all39trace/684actual request hashes.
 Snapshot SHA8ce9396545553766995b169faba60eaa884e3b2e67c9db474fb78900639d4483;

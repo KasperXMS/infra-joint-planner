@@ -1,5 +1,41 @@
 # Resident Phase II results — in progress
 
+## Cell40 settled: valid completion, original score0 retained
+
+2026-10-07 13:51HKT. LongBench3/DeepSeek/Fast/B0 attempt1: execution complete,
+format valid, original evaluator score0, admission valid. No retry/replacement.
+Audit SHA `46b5c5c2041ff53aab2390234e5154f784f8f4b947b1488a2016037b9094f37d`
+independently reverified05:49:22Z; source/state/tc/shutdown/18SDK contexts pass.
+
+| Recorded component | Cell40 |
+| --- | --- |
+| Manager / Verifier / specialist turns |9 /9 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |16 /3 /1 |
+| Typed failures |1oversized read;2context rejects before inference;3phase restrictions;1semantic validation |
+| E2E |146.232869495s |
+| Initial materialization, separate from Agent movement |967830bytes /0.106842131s |
+| Registered Agent transfer |successful receipts0bytes/0s; complete failed-inclusive total unknown |
+| Tool work |successful3.526244250s; complete failed-inclusive total unknown |
+| Inclusive successful Worker model-action work |18.728596011s; includes backend service |
+| Complete backend service / tokens / finish |18.660636758s /6468input,2output /stop |
+| Frozen-list-price cloud API USD |0.189032943568211110963472807239001315457274; not invoice |
+| Execution-grown graph |16nodes /12artifact-flow edges /49snapshots /peak4actions |
+
+Sequence: oversized read; four BM25 actions; context-rejected model; four
+further BM25 actions; second context-rejected model; four further BM25 actions;
+successful terminal on resident-a4-vl4b-v1 with four artifact inputs. Raw model
+answer equals canonical answer/frozen deterministic projection. Context rejects
+are not inference and do not prove dynamic deployment unavailability. An
+unmeasured failed read keeps complete transfer/tool totals unknown rather than0.
+Inclusive model action must not be added to backend service as independent work.
+Score0 establishes quality failure, not its evidence/reasoning cause; that needs
+full192strict-inactive private audit. No claim of method superiority/causal savings.
+
+40effective/40preserved/zero pending,152remaining; same007queue continues with
+next41Video4/DeepSeek/Fast/E. Snapshot037 creator44480 running, not completed;
+feedback033 not invoked.036/032 retain39-settled scope. No source/prompt/model/
+budget/scheduler changes, private-body decoding/payload export or fresh full-test claim.
+
 ## Cell39 settled: valid original score1, not causal B1 evidence
 
 Checkpoint2026-10-07 13:45HKT: successful snapshot036/feedback032 independently
