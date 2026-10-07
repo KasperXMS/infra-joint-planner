@@ -1,5 +1,21 @@
 # Completion audit — not achieved
 
+Current2026-10-07 10:19HKT: snapshot025SHA
+`4e0940f88387f8152124141be16df8b88f8e3d5848a2c72e3318507e332d4d93`
+establishes27effective/27preserved attempts/0pending/4original findings retained/
+0effective confounders. Cell27 independently passed original admission, source,
+empty-store/residency/tc/exit/direct-terminal and14actual recipient-context
+checks, with original score1; natural context recovery was not an experiment
+retry. Feedback021SHA
+`3b162765e0cb3216f0d29c7b1bf5cb63f4ffb28f03f88b73d517424b1fed658a`
+verifies446actual contexts, not causal adoption or semantic evidence retention.
+Continuation006 was verified owned/live at02:18:26Z, before next cell28;
+165outcomes remain. All192, strict-inactive private/manual/failure/adoption
+audits, final quality-conditioned per-task/family/Planner/method analyses,
+Q1–Q10 and final named reports are still not achieved. No scope reduction,
+ordinary failure retry, new model/prompt/budget/scheduler tuning or raw payload
+through development PC. Earlier completion tables retain historical scope.
+
 Current2026-10-07 09:56HKT: actual continuation006supervisor2562900/controller
 2562901 verified owned/live, no exit/next reservation. Exact reviewed control002
 and full original gate establish26effective/26attempts/4raw findings preserved/

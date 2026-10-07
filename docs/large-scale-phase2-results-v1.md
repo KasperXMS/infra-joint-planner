@@ -1,5 +1,26 @@
 # Resident Phase II results — in progress
 
+## Snapshot025 and actual feedback021 completed:27settled
+
+2026-10-07 10:19HKT. Snapshot025 completed at02:18:20Z, SHA256
+`4e0940f88387f8152124141be16df8b88f8e3d5848a2c72e3318507e332d4d93`:
+27effective/27preserved attempts/0pending/4original findings preserved/
+0effective confounders/0operational exclusions. Original journal remains
+`67dd1d59ec084c3032f59f69bdd46badb425e9ca3dd34458e1919f63b802807f`.
+Control002, original schedule/execution and collector source remain unchanged.
+Successful creator37776 must not be repeated; next snapshot is026.
+
+Feedback021SHA
+`3b162765e0cb3216f0d29c7b1bf5cb63f4ffb28f03f88b73d517424b1fed658a`
+matches446actual provider contexts:214Manager/214Verifier/18specialist,
+59B1profiles/100A_Eledgers/53Efrozen-rule inputs. All three new receipt hashes
+(snapshot, feedback and cell27audit) were independently read back at02:19:04Z.
+Feedback exclusion for non-Manager recipients and fixed Verifier remain valid;
+visibility does not prove adoption, semantic retention or causal cost benefit.
+No new model calls, private support/corpus/store-body decoding or payload export.
+Full192and strict-inactive audits/Q1–Q10 remain incomplete. The earlier
+snapshot025-in-progress and live-cell27 captures retain historical scope.
+
 ## Cell27 settled: valid completion after natural context recovery
 
 2026-10-07 10:16HKT. MultiHop3/Qwen/Slow/E attempt1 is formally settled valid,
