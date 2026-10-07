@@ -1,5 +1,37 @@
 # Phase II cell103 — filtered-record field audit
 
+## Independent readback closed; original104 live, 2026-10-07 21:12Z
+
+Independent bootstrap71270 exited0. Receipt SHA256:
+`ab6c9b92003f3fd4601be93553c5c55a9d3ebb759d7d1787f4d3167248334f58`.
+It reproduces103eligible/104preserved/0pending/0unresolved/1excluded,
+all104trace hashes and1,680actual SDK requests:753Manager/753fixed Blind
+Verifier/174specialist. Exact root feedback matches are193profile/376ledger/
+190rules; these prove visibility, not internal adoption or causal cost effect.
+All132 actual imported sources match the external pin and all127 historical
+source hashes remain unchanged. Actual incomplete final bundle rejects with
+`final bundle requires all192 resolved and all193 preserved` before any private
+body scan or output. No private/manual semantic verdict or quality aggregate.
+
+New017 supervisor3430507/start193456665 and controller3430508/start193456667
+are independently owned/live. Supervisor file SHA256:
+`cb8b7057afbabd34943c19a51475e8dd4e38ffdb1d0e4682f5529b523bcf4542`.
+Live launch receipt SHA256:
+`7c0ca263baef7ebaf3503dfbd4c688ce1f5832f676060ef25e88dcab58f9d8b1`.
+Actual final private guard rejects with
+`private body audit requires inactive queue and atomic actions` before all
+private-body reads/output. Original execution004/0ff0e9b, the71 exclusion and
+single authorized replacement, fixed schedule/models/semantics remain unchanged.
+
+At21:12:12UTC, original104 is MultiHop task5/P1/Fast/A, attempt1, atomic
+3430989/start193461914; trace100507bytes/54headers ends with a reasoning-start
+receipt at21:12:06Z. Current103eligible/104settled+1pending=105preserved,
+0unresolved/1excluded,88unstarted. New journal SHA256:
+`26a5ef2a51a522eed6dcd2cc7617f82c4b578fd9e4cbfdc2eab4b48a54cff4d1`.
+Next ordinary full checkpoint112. No103 retry, old016 restart or semantic tuning.
+The original192/all193 and final private/manual/retention/adoption/quality/
+Q1–Q10/report requirements remain incomplete.
+
 ## Continuation authority closed; independent readback pending, 2026-10-07 20:59Z
 
 Creator73538 exited0. New filtered-environment001 manifest SHA256:

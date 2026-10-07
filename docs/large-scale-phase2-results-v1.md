@@ -1,5 +1,21 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 05:12HKT, independent filtered001 bootstrap completed exit0;
+receipt `ab6c9b92003f3fd4601be93553c5c55a9d3ebb759d7d1787f4d3167248334f58`
+verifies103eligible/104preserved/all104traces and1,680actual SDK requests
+(753Manager/753fixed Blind Verifier/174specialist),132actual imported sources
+and127unchanged ancestors. Actual incomplete final guard rejects before private
+body/output. New017 supervisor3430507/start193456665 and controller3430508/start
+193456667 are independently owned/live; live receipt7c0ca263...9d8b1 proves
+the unchanged strict-inactivity guard also rejects during execution.
+Original104MultiHop5/P1/Fast/A attempt1 atomic3430989/start193461914 is now live:
+103eligible/104settled+1pending=105preserved,0unresolved/1excluded,88unstarted.
+Next ordinary full112; no103retry/old016restart, measured execution004/0ff0e9b,
+schedule and all semantic/physical comparison contracts remain unchanged.
+Original192/all193 and final private/manual/terminal/failure/retention/adoption/
+quality/Planner/workload/Q1–Q10 obligations remain incomplete. No partial quality
+aggregate. See [cell103 continuation audit](large-scale-resident-phase2-cell0103-filtered-field-audit-v1.md).
+
 At2026-10-08 04:59HKT, original103's source-bound filtered-field sidecar is
 closed and new filtered-environment001 authority creator exited0. Manifest
 SHA256 `e1f11c2c1d03d7793d31784a026c848aba77bec887aed81887009e7a4e5d0d58`
