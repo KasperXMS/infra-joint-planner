@@ -1,5 +1,31 @@
 # Held-out initial-record field misuse: offline audit
 
+## Continuation-control003 completed; exact same execution resumes only unstarted cells
+
+2026-10-07 12:15HKT. Creator26309 completed with exit0; all successful
+sidecar/control/ledger/validation creations must not be repeated. Full original
+PhaseI gate was recollected; effective35/raw35/five original findings retained/
+zero pending/remaining157. Frozen execution004, original source/private guards,
+task schedule and pricing remain unchanged. Sourcefreeze002 remains immutable.
+
+| Append-only receipt | SHA256 |
+| --- | --- |
+| control003 |7205097e0197ca2719ecfda168b3fab8cb9222c9106ac63329559af306a8aa5e |
+| ledger003 |00573c05346f1851b6b958bf18a692c42d163f105cd1db065172573c7437f2ae |
+| validation003 |591f4d1bc49f2237b1fd34ba1dec47533bee6a382de9028059001e4f25848eee |
+
+Independent04:15:34Z readback reproduces source/journal/four model-JSON and
+one field-sidecar binding hashes. Old model-control002/readonce003/combined
+control002 and all raw admissions/journals remain unchanged. No model-work
+imputation, cell retry, source/prompt/budget/scheduler change or payload export.
+Launch007 creator69573 and snapshot032_control003 creator19362 are running;
+neither queue startup nor snapshot completion is claimed by this capture.
+Next unexecuted cell36: LongBench4/Qwen/Fast/B0. Snapshot031/feedback027 retain
+their34-cell population until new capture succeeds. All192strict-inactive
+private/manual/failure/recipient/adoption and quality-conditioned Q1-Q10 remain.
+Original private guard must again be probed against actual registered007 before
+any claim of restored isolation; this control receipt is not that live probe.
+
 ## Cell35 exact model-output review passed, continuation freeze pending
 
 2026-10-07 12:01HKT. Append-only sidecarSHA

@@ -1,5 +1,20 @@
 # Completion audit — not achieved
 
+Current2026-10-07 12:15HKT: control003/ledger003/validation003 creator26309
+completed exit0; independent source/journal/sidecar binding readback passed.
+ControlSHA7205097e0197ca2719ecfda168b3fab8cb9222c9106ac63329559af306a8aa5e;
+ledgerSHA00573c05346f1851b6b958bf18a692c42d163f105cd1db065172573c7437f2ae;
+validationSHA591f4d1bc49f2237b1fd34ba1dec47533bee6a382de9028059001e4f25848eee.
+35effective/35preserved/5raw findings/0pending/157remaining; original PhaseI
+fullgate recollected, original executor/private guard/schedule unchanged. Next
+36LongBench4/Qwen/Fast/B0. Launch007 creator69573 and snapshot032 creator19362
+are running, not completed at this capture; no queue restart claimed yet.
+Successful26309creations must never repeat. Snapshot031/feedback027 remain
+34-settled. All192strict-inactive private/manual/recipient/adoption and final
+quality-conditioned Q1-Q10/named reports remain incomplete; goal active.
+No source/runtime/prompt/budget/scheduler changes or fresh test-run claims;
+no new private-body decoding, auditor model calls or payload export.
+
 Current2026-10-07 12:02HKT:35effective/35preserved/5raw findings retained/
 0pending. Cell35 exact sidecarSHAcd859f740c62e9f400289763c97ca8b688f50b4c48de68a947f9e0dfa6ad362f
 independently reproduces all three post-backend JSON failures and effective
