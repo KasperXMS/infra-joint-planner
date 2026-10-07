@@ -1,5 +1,22 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell46 live: startup independently verified
+
+2026-10-07 15:21HKT. Same007queue started LongBench5/DeepSeek/Slow/B0,
+attempt1 atomic2917973 owned/live.45effective settled/46preserved/1pending/
+146unstarted. StartupSHA
+`a18eb4d1d943636256111ca7de1fc37fd350b7041bd335fca7a20bc7764c2603`
+independently reproduced07:20:20Z:config/freeze/state/residency hashes, four
+initially empty stores, five resident instances, actual004-only Python paths
+and frozen execution revision. Append-only creator succeeded; never repeat.
+Result absent at live readback. Partial07:20:23Z:8Manager starts,8physical
+started/finished,2context rejects,0returned model receipts and0profile events;
+these are not terminal counts, dynamic-unavailability claims or permission to
+repair a plan.042/038 retain45-settled scope;043/039prepared not invoked.
+No source/prompt/model/budget/scheduler changes/private-body decoding/payload
+export/fresh-test claim/push. All192strict-inactive private/manual/failure/
+adoption/Q1-Q10 remain incomplete.
+
 ## Closed checkpoint:45 settled, snapshot042/feedback038
 
 2026-10-07 15:18HKT. Snapshot042 creator33272 exited0; feedback038 succeeded;
