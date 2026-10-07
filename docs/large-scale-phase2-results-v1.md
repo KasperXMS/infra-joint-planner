@@ -1,5 +1,22 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 05:28HKT, original104MultiHop5/P1/Fast/A attempt1 naturally
+settled valid at21:26:14.686412UTC; execution_completed=true and Worker shutdown
+verified. Original admission file SHA256
+`c707e0085f568d2720c1038255b8c7a9a05f3943bc9da29e5cbccc15edb42c80`;
+canonical journal receipt
+`79cd4461ce50937db84c402526d13cb5aa5160711848555da274c286cdd82a16`.
+Long physical-action waiting was not treated as a crash or replacement. The
+metadata monitor initially looked for action.succeeded; corrected to include
+the actual action.completed event, without altering measured execution or trace.
+Completion receipts are not semantic success/quality claims.
+Same017 now owns original105MultiHop6/P1/Fast/E attempt1 atomic3440677/start
+193551940; at21:28:11UTC trace638152bytes/220headers and fresh reasoning-start
+receipt.104eligible/105settled+1pending=106preserved,0unresolved/1excluded,
+87unstarted; journalaabf6672...dc8681. Next ordinary full112; no retry,
+replacement, tuning or new authority. Original192/all193 plus final private/
+manual/retention/adoption/quality/Q1–Q10/report scope remains incomplete.
+
 At2026-10-08 05:12HKT, independent filtered001 bootstrap completed exit0;
 receipt `ab6c9b92003f3fd4601be93553c5c55a9d3ebb759d7d1787f4d3167248334f58`
 verifies103eligible/104preserved/all104traces and1,680actual SDK requests
