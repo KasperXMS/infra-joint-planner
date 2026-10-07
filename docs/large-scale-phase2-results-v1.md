@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 04:59HKT, original103's source-bound filtered-field sidecar is
+closed and new filtered-environment001 authority creator exited0. Manifest
+SHA256 `e1f11c2c1d03d7793d31784a026c848aba77bec887aed81887009e7a4e5d0d58`
+adds only103's filtered proof, preserving all previous review groups and the
+sole original71 exclusion/replacement. Creator reproduces103eligible/
+104preserved/0pending/0unresolved/1excluded; journalb122...d138 is unchanged.
+Independent bootstrap71270/3424856/start193383987 is live, not yet passed;
+104dispatch remains unstarted. No103retry, tuning, new benchmark call or final
+private/manual audit. Next ordinary112; original192/all193 and all final
+quality/retention/adoption/Planner/workload/Q1–Q10/report obligations remain.
+See [cell103 audit](large-scale-resident-phase2-cell0103-filtered-field-audit-v1.md).
+
 At2026-10-08 03:13HKT, normal full96checkpoint completed, SHA256
 `fa35c7e7836ae299e9a8c60af277b84aea38b9be75d592ba71292e00f09b4c3c`.
 Independent readback59d595e91ac02a18f0efe1701255a52bbd52188c579d0d06adda641a09d4d2ef
