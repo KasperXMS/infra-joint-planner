@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 19:02HKT:60effective settled61preserved1pending131unstarted;
+seven original findings retained, zero unresolved effective confounders.
+Control005/ledger005/manifest003 independently frozen/verified;010controller
+3068687and new61LongBench6/Qwen/Fast/E attempt1atomic3068821owned/live
+at11:01:56Z, result absent. Manifest
+aea2755c4736143018459f66e6f79f6ce1f2bee6013931030608a30e35d1554a;
+next automatic003-cell0064then80...192, immediate new-finding stop unchanged.
+Original private guard rejects live010, body reads0. No retry or009restart,
+production module/prompt/model/budget/scheduler/task/evaluator change or quality
+aggregation. See cadence/field audit for exact evidence and unchanged-code tests.
+All192execution and strict-inactive private/manual/adoption/Q1-Q10remain.
+
 Cell60exact original proof now independently closed at10:45:21Z: three root
 field misuses/seven actual SDK schemas/86evidence bindings, journal unchanged,
 no retry. Sidecar4dde7767e8987eb7919e931d80fb2652ccbe74d0753ba5f1c0ba424fbb1f504f;

@@ -1,5 +1,20 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell60 admitted by verified new freeze;010running61
+
+2026-10-07 19:02HKT. Exclusive control005/ledger005 and manifest003 creators
+exited0; independent source/reference/journal readback proves60effective/
+60preserved/0pending with all seven original findings retained and no effective
+confounder. ManifestSHA
+`aea2755c4736143018459f66e6f79f6ce1f2bee6013931030608a30e35d1554a`.
+010launch succeeded once; independent11:01:56Z supervisor3068686/controller
+3068687and new61LongBench6/Qwen/Fast/E attempt1atomic3068821owned/live,
+result absent. Original private guard rejects live010, body reads0. All source/
+control/launch/guard hashes are in the cadence audit. No60retry/009restart,
+semantic tuning or production-module change. Next full64belongs to003manifest,
+not the old001/002receipts. All192and final private/manual/failure/adoption/
+recipient/Q1-Q10deliverables remain; cell60score0semantic cause still unknown.
+
 ## Cell60 exact proof independently closed;control005pending
 
 Creator85079 exited0 exactly once. Independent10:45:21Z reproduced the
