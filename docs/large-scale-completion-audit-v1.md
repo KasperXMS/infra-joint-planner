@@ -1,5 +1,22 @@
 # Completion audit — not achieved
 
+Current2026-10-07 11:25HKT: snapshot030SHA
+`5cd8cc16474bd79bbd397b42c16d89f26a0fef3d2222169e354f76016c81f1e0`
+establishes33effective/33preserved/zero pending/four raw findings retained/zero
+effective confounders/zero exclusions. Cell33original LongBench score1 and
+terminal source/admission/store/residency/tc/exit/twenty-twoSDKcontexts pass;
+two context rejects explicitly reached_model_inference=false, three successes
+true. Failed-read complete traffic/tool work remains unknown, not zero.
+Feedback026SHA
+`be94061707306bf7c6878559798eeea3d28057e1778b89bf7ba7cedb921a96ab`
+verifies514actual requests and recipient separation, not evidence sufficiency
+or causal B1-profile contribution. Same006owned/live03:25:33Z before34
+LongBench4/Qwen/Slow/A. Remaining159 and all192strict-inactive private/manual/
+failure/recipient/adoption, final per-task/family/Planner/method quality-
+conditioned analyses, Q1–Q10 and named reports remain unfinished. No narrowed
+scope, ordinary retry, new method, semantic tuning or model/budget/scheduler
+change; no new private-body decoding/model calls or development-PC payloads.
+
 Current2026-10-07 11:11HKT: snapshot029SHA
 `7d65363ef2bc3c7885e80b70b39737252c4a8d175700960a95389425355786b6`
 establishes32effective/32preserved/zero pending/four raw findings retained/

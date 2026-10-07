@@ -1,5 +1,28 @@
 # Resident Phase II results — in progress
 
+## Snapshot030 and feedback026 completed: thirty-three settled
+
+2026-10-07 11:25HKT. Snapshot030 completed03:24:10Z, SHA
+`5cd8cc16474bd79bbd397b42c16d89f26a0fef3d2222169e354f76016c81f1e0`:
+33effective/33preserved/zero pending/four original findings retained/zero
+effective confounders/zero operational exclusions. OriginaljournalSHA
+`2ce5805f057f129cfef9fb730052ae190aaa66d34e6815d457d66f2925c038bd`;
+original control002/schedule/execution004/collector unchanged. Successful
+creator47167 must not be repeated; next snapshot is031.
+
+Feedback026SHA
+`be94061707306bf7c6878559798eeea3d28057e1778b89bf7ba7cedb921a96ab`
+verifies514actual SDKcontexts:248Manager/248Verifier/18specialist,
+73B1profiles/117A_Eledgers/60Efrozen-rule exact matches. Fixed Verifier and
+non-Manager feedback exclusion pass. Snapshot/feedback/population/journal/
+control independently reverified03:25:32Z. Visibility does not prove profile
+adoption, semantic coverage, repeated-verification necessity or causal benefit.
+Unknown failed-read transfer/tool work in cell33 remains unknown. No new model
+calls, support/corpus/store-body decoding or raw payload export. Same006owned
+live03:25:33Z before34 LongBench4/Qwen/Slow/A;159remaining. Full192strict-
+inactive private/manual/failure/adoption and final quality-conditioned Q1–Q10/
+named reports remain. Earlier captures retain historical scope; no score pooling.
+
 ## Cell33 settled: LongBench natural continuation, originalscore1
 
 2026-10-07 11:20HKT. LongBench4/DeepSeek/Fast/B1 attempt1 is valid,

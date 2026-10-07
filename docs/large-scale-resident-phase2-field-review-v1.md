@@ -21,7 +21,11 @@ No guessed zero, inference count or traffic value is inserted. Evidence coverage
 repeated-verification necessity and causal B1-profile contribution remain
 unresolved until full192strict-inactive private/manual audit. Successful33creators
 must not be repeated. Next34 is LongBench4/Qwen/Slow/A; snapshot030creator47167
-is running. No new support/corpus/store-body decoding or raw payload export.
+was running at11:20capture, then succeeded03:24:10Z, SHA
+5cd8cc16474bd79bbd397b42c16d89f26a0fef3d2222169e354f76016c81f1e0.
+Feedback026SHAbe94061707306bf7c6878559798eeea3d28057e1778b89bf7ba7cedb921a96ab
+verifies514actual SDKcontexts; both creators finished and must not be repeated.
+No new support/corpus/store-body decoding or raw payload export.
 
 ## Cell33 actual LongBench startup and ongoing context feedback
 
