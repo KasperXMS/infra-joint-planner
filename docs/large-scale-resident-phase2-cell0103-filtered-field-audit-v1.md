@@ -1,5 +1,21 @@
 # Phase II cell103 — filtered-record field audit
 
+## Exclusive sidecar closed; continuation freeze in progress, 2026-10-07 20:45Z
+
+Creator60629 exited0; sidecar file SHA256
+`0f554ac8e8924b6814db9effe9d8382f9b3a5cb84ed98296dd6f6da35f8d5722`.
+It reproduces the exact two field failures and6actual Manager task-schema wires.
+Original journal/admission/trace/evaluation and all previous review pairs are
+unchanged. This is an offline adjudication of the original attempt, not a repair
+or replacement trajectory. Specialist schema receipt remains unknown.
+
+New exclusive continuation creator73538/3419330/start193306527 is running.
+Target names are filtered-environment-cadence-freeze-001, field-control009 and
+field-ledger009; all were absent before launch. It must preserve all old groups,
+the71exclusion and one-replacement cap, reproduce the complete original gate and
+scan all actual recipient contexts. Independent bootstrap and104dispatch remain
+unstarted. No final private/manual analysis or aggregate quality claim yet.
+
 ## New proof frozen; exclusive creator in progress, 2026-10-07 20:39Z
 
 Audit-only implementation commit `8ee8b8e3bbb9ddca8320061138107cdff44e41c7`
