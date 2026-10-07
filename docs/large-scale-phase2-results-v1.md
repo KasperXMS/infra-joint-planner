@@ -1,5 +1,46 @@
 # Resident Phase II results — in progress
 
+## Cell36 settled: Blind valid completion with wrong benchmark answer
+
+2026-10-07 12:56HKT. LongBench4/Qwen/Fast/B0 attempt1: execution completed,
+terminal format valid, original evaluator score0, original admission valid.
+No retry/replacement. Independent auditSHA
+`3825a7441d8c5e3f42372e34bc961ced038d2a85f4e27950a55b2e69f1954561`
+binds source/store/residency/tc/shutdown/terminal and26actual SDK requests.
+StartupSHA `0a69e931c8a5f85d7986d1e0917f00c6c55a2a4596fbb363aeb3fbbf6e72ad12`.
+
+| Recorded component | Cell36 |
+| --- | --- |
+| Manager / Verifier / specialist turns |9 /9 /8; one specialist created, peak1 |
+| Physical calls / model requests / successful inference receipts |16 /3 /1 |
+| Context rejects |2, explicitly inference=false |
+| Other typed observations |2oversized reads,1semantic validation,1phase restriction |
+| E2E |121.426158824s |
+| Initial materialization, separate from Agent movement |115726bytes /0.072326423s |
+| Successful registered Agent movement |0bytes /0s; complete failed-inclusive movement unknown |
+| Successful tool work |0.341129221s; complete failed-inclusive tool work unknown |
+| Inclusive successful Worker model-action work |11.247883773s; includes backend service |
+| Complete backend service / tokens / finish |11.059325921s /3913input,2output /stop |
+| Frozen-list-price cloud API USD |0.219260006112225780305345540068297479371239; not invoice |
+| Execution-grown graph |16nodes /16artifact-flow edges /49snapshots /peak3actions |
+
+Sequence: oversized read; four BM25 calls; context-rejected model request;
+aggregation; second context-rejected model request; oversized read; six further
+BM25 calls; successful terminal model on resident-a4-vl4b-v1. Terminal consumes
+one artifact; raw model text equals canonical answer and the existing frozen
+deterministic projection. No hidden semantic finalizer. The two context failures
+are not inference calls or proof of dynamic deployment unavailability. Successful
+registered zero movement is not zero HTTP/RPC/prompt traffic. Inclusive model work
+must not be added to backend service as independent work. Recorded overlapping
+work is not an E2E decomposition.
+
+Score0 is valid quality failure; retrieval/evidence adequacy, specialist utility,
+semantic loss and method causality are not identified before the all192 strict-
+inactive private audit. Same007 remains live;36effective/36preserved/zero pending,
+156remaining. Snapshot033 creator56740 is running, not completed; feedback029
+not invoked. Snapshot032/feedback028 retain35-cell scope. No aggregation/old-new
+pooling, ordinary retry, prompt/model/budget/scheduler change or payload export.
+
 ## Cell36 running: no new completed result yet
 
 2026-10-07 12:52HKT. The unchanged continuation gate reached the next cell.

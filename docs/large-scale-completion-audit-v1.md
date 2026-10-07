@@ -1,5 +1,17 @@
 # Completion audit — not achieved
 
+Current2026-10-07 12:56HKT:36effective/36preserved/zero pending; cell36original
+LongBench score0 retained as valid execution/terminal-format/evaluation, no retry.
+AuditSHA3825a7441d8c5e3f42372e34bc961ced038d2a85f4e27950a55b2e69f1954561
+independently binds all source/state/terminal/26SDK contexts. Same007owned/live;
+next37LongBench3/Qwen/Fast/E,156remaining. Snapshot033creator56740 remains running,
+not completed;feedback029 not invoked. Snapshot032/feedback028 retain35cells.
+All192and strict-inactive private/manual/failure/recipient/adoption, quality-
+conditioned Q1-Q10/named reports remain incomplete. Unknown failed-inclusive
+transfer/tool work stays unknown; no evidence-loss or causal saving claim.
+Audit/result docs only, no fresh full-test claim or push; goal active. No ordinary
+retry, source/prompt/budget/model/scheduler change or new private-body decoding.
+
 Current2026-10-07 12:52HKT: same007controller2772571/supervisor2772570 owned/live;
 cell36LongBench4/Qwen/Fast/B0 attempt1 atomic2791465 actually running.
 35effective settled/36preserved attempts/one pending/156unstarted. Append-only
