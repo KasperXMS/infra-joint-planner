@@ -1,5 +1,47 @@
 # Resident Phase II results — in progress
 
+## Cell33 settled: LongBench natural continuation, originalscore1
+
+2026-10-07 11:20HKT. LongBench4/DeepSeek/Fast/B1 attempt1 is valid,
+completed, format-valid, originalscore1. Independent original admission/source/
+store/residency/tc/exit/terminal/twenty-twoSDKcontext auditSHA
+`3032aa91bc7b8031e52c4d02582f28904b0890ac092c6d54c762b9f9d880f593`;
+startupSHA `53a5ffaaf030bf90c037d31ef97ee9063b0bbdeaa8e5721c604ffe2ca3ce7757`.
+OriginaljournalSHA `2ce5805f057f129cfef9fb730052ae190aaa66d34e6815d457d66f2925c038bd`.
+33effective/33preserved/four reviewed original findings/zero pending. Next
+scheduled34 LongBench4/Qwen/Slow/A;159remaining. No ordinary retry, semantic
+tuning, model/prompt/budget/scheduler change or extra semantic finalizer.
+
+Eleven Manager/eleven Verifier turns, twenty physical actions, no specialists.
+Initial oversized read is rejected; three waves of four BM25 actions interleave
+with two context-preflight-rejected model requests. Then two successful model
+actions, two successful reads, and a successful terminal model action. Exact
+prepared sequence is preserved in trace. Three successful A4VL4B inferences:
+4,477in/2out/12.368s;4,529in/599out/78.005s;1,154in/2out/3.191s;
+all finish_reason=stop. Two context rejects are not inference. Terminal consumes
+one materialized artifact and raw text equals the evaluated canonical choice.
+One separate SDK phase-restriction feedback is preserved.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |228.804s |
+| Successful registered Agent transfers |0B /0s; complete failed-action-inclusive movement unknown |
+| Initial placement, separate setup |115,726B /0.039s |
+| Successful tool execution work |0.979s; complete work unknown due failed read |
+| Inclusive successful Worker model-action work |93.835s; includes backend service |
+| Complete backend model service |93.565s across three successful inferences |
+| Successful physical model tokens |10,160input /603output |
+| Frozen list-price API cost |USD0.282574262; not an invoice |
+| Execution-grown graph |20nodes /15artifact-flow edges /61snapshots /peak4 |
+
+One failed read has no complete execution work/transfer receipt, so complete
+Agent movement and tool work remain unknown, not zero. Registered movement
+does not include all HTTP/RPC/control/prompt traffic. Correct completion proves
+normal recovery from typed failures, not evidence retention, necessity of all
+queries/repeated reasoning, actual profile adoption or causal cost benefit.
+These await full192strict-inactive private/manual audit. No new audit model
+calls, support/corpus/store-body decoding or raw payload export.
+
 ## Snapshot029 and feedback025 completed: thirty-two settled
 
 2026-10-07 11:11HKT. Snapshot029 completed03:10:17Z, SHA
