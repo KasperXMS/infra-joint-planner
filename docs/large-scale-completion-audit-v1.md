@@ -1,5 +1,15 @@
 # Completion audit — not achieved
 
+Current2026-10-07 14:20HKT:42effective/42preserved/zero pending,150remaining.
+Cell42Video4/Qwen/Slow/B0 valid completion/format, original score1 retained,
+no retry. Audit SHA9805d2559b6dd287c82c4651b5b560da70721a40dbfb47fd33d03647eeb6db61
+independently reproduces all source/startup/terminal bindings06:18:06Z;8SDK
+contexts pass. Same007continues; next43Video4/DeepSeek/Slow/B1. Snapshot039
+creator47240 running/not completed;feedback035 not invoked.038/034 retain41-settled
+scope. Full192strict-inactive private/manual/failure/adoption/Q1-Q10 incomplete.
+No ordinary retry/source/prompt/model/budget/scheduler change/newbody decoding/
+payload export/fresh full-test claim/push; result/audit docs only.
+
 Current2026-10-07 14:13HKT: snapshot038/feedback034 successful and independently
 reproduced06:12:50Z, including every41trace/708actual request hash.
 Snapshot SHAea8c08d8c4f10c737a9ee812c6b79d12e4b21c7af4458c6c548a5e246e2566cd;

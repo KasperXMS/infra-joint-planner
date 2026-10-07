@@ -1,5 +1,46 @@
 # Resident Phase II results — in progress
 
+## Cell42 settled: valid correct Blind completion, not a method comparison
+
+2026-10-07 14:20HKT. Video4/Qwen/Slow/B0 attempt1 completed with valid
+terminal output and original evaluator score1. Admission valid, no retry.
+Audit SHA `9805d2559b6dd287c82c4651b5b560da70721a40dbfb47fd33d03647eeb6db61`
+independently binds source/state/startup/terminal/tc/shutdown evidence and
+8actual SDK contexts. Terminal comes from successful physical model inference,
+not an additional semantic finalizer.
+
+| Recorded component | Cell42 |
+| --- | --- |
+| Manager / Verifier / specialist turns |4 /4 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |2 /1 /1 |
+| Typed observations |1semantic validation;1phase restriction; no context rejection |
+| E2E |119.777923695s |
+| Initial materialization, separate from Agent movement |9320768bytes /26.084566870s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |1.717550502s |
+| Inclusive successful Worker model-action work |44.021291312s; includes backend service |
+| Complete backend service / tokens / finish |43.774389744s /7741input,2output /stop |
+| Frozen-list-price cloud API USD |0.084320170345075007640282225381681925085371; not invoice |
+| Execution-grown graph |2action nodes /7artifact-flow edges /7snapshots /peak1action |
+
+Sequence:sample_frames -> successful invoke_model on resident-a4-vl4b-v1,
+with7terminal input artifacts. Raw model text equals canonical answer/frozen
+deterministic projection. No contact_sheet action or context-rejected inference.
+Semantic-validation/phase-restriction observations remain in the original trace,
+not automatically repaired or retried. Registered movement0 excludes prompt/RPC
+traffic; initial placement is separate fixed setup. Inclusive model-action work
+and backend service must not be double-counted.
+
+The correct n1 output does not prove retained required evidence. Comparing this
+cell to cell41(E/DeepSeek/Fast) cannot isolate a method effect:Planner, network
+and method all differ. Full192strict-inactive private audit and matched,
+quality-conditioned analysis remain pending; no causal method/winner claim.
+
+42effective/42preserved/zero pending,150remaining; same007continues,
+next43Video4/DeepSeek/Slow/B1. Snapshot039 creator47240 running, not completed;
+feedback035 not invoked.038/034 retain41-settled scope. No source/prompt/model/
+budget/scheduler change/private-body decoding/payload export/fresh full-test claim.
+
 Checkpoint2026-10-07 14:13HKT: successful snapshot038/feedback034 independently
 reproduced06:12:50Z:all41trace/708actual request hashes and population/journal/
 control003 bindings.41effective41preserved0pending/151remaining; same007continues.
