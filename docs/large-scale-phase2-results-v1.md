@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Cell49 settled: valid raw-profile completion, original score1
+
+2026-10-07 16:17HKT. Video6/Qwen/Fast/B1 attempt1 completed with original
+admission/terminal format valid,score1; no retry/replacement/semantic tuning.
+AuditSHA `0e04b9a19d7175d3f09de7c2536e51988fd7a1721a3db8afcb30875c2b17adb7`
+independently reproduced08:15:09Z, all bound files/startup/terminal/original
+admission/settlement/tc/shutdown/10SDK contexts. Four empty initial stores and
+five stable resident identities verified. Raw model text equals canonical answer
+and frozen deterministic projection; no additional LLM finalization.
+
+| Recorded component | Cell49 |
+| --- | --- |
+| Manager / Verifier / specialist turns |5 /5 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |3 /2 /1 |
+| Typed observations |1context reject before inference;1semantic validation;1phase restriction |
+| E2E |115.454779673s |
+| Initial materialization, separate from Agent movement |233097342bytes /20.347444665s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |17.297508302s |
+| Inclusive successful Worker model-action work |19.033965704s; includes backend |
+| Complete backend service / tokens / finish |18.910888825s /3394input,2output /stop |
+| Frozen-list-price cloud API USD |0.193638744867723461645783228583956736071422; not invoice |
+| Execution-grown graph |3action nodes /11artifact-flow edges /10snapshots /peak1action |
+
+Sequence:sample_frames -> context-rejected model -> successful A4VL4B terminal
+consuming3artifacts. Context reject is explicitly before inference; static class
+matching is not full-envelope feasibility or evidence of dynamic unavailability.
+Five profile events confirm visibility, not actual adoption, evidence retention
+or causal quality-preserving cost improvement. No same-task baseline contrast
+has been audited here; single-cell score1 is not a B1 winner claim.
+49effective49preserved0pending;143remaining. Same007next50Video6/DeepSeek/Slow/B0.
+Snapshot045 first creator74836 failed before write because journal advanced;
+independent target-absence proof precedes read-only recollection54902, now running.
+041not invoked before success;044/040retain47scope. No benchmark/Planner retry,
+new private bodies, payload export or prompt/model/budget/scheduler changes.
+All192strict-inactive private/manual/failure/adoption/quality-conditioned analyses
+remain required; no pooled scores or causal-adoption claim.
+
 ## Cell48 settled: valid Ledger completion, original score0
 
 2026-10-07 16:02HKT. LongBench5/DeepSeek/Fast/A attempt1 completed with original
