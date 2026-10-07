@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+## Live cell27; completed population still26
+
+2026-10-07 10:13HKT. Same006 supervisor2562900/controller2562901 and atomic
+2599888 are owned/live for MultiHop3/Qwen/Slow/E attempt1. Startup receiptSHA
+`21169d125de0ef08a2d9d7a29b607f566e17cd9b17feea73522ec1fa459574d0`
+proves four initially empty Worker stores, five resident instances and source004
+only in atomic PYTHONPATH. No repeated completed cell or model/prompt/budget/
+scheduler change. At02:13:44Z six BM25 actions and one context-rejected model
+request are prepared; Manager has naturally continued. No final result or
+score is available, so do not add this reservation to the26settled outcomes.
+Snapshot024/feedback020 below retain their settled26 scope. Remaining166
+includes this active cell; full192 and post-block audits are still required.
+No private support/corpus/store-body decoding or raw payload export occurred.
+
 ## Snapshot024:26effective; actual006 is running
 
 2026-10-07 09:58HKT. Immutable snapshot024 at01:56:56Z has26admitted/

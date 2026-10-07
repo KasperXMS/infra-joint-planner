@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell27 actually started under unchanged continuation006
+
+2026-10-07 10:13HKT. Supervisor2562900/controller2562901 remained owned/live;
+cell27 MultiHop3/Qwen/Slow/E attempt1 is now reserved and its actual atomic
+2599888 is owned/live. Independent append-only startup receipt
+`analysis/resident-phase2-cell027-live-start-001.json`, SHA256
+`21169d125de0ef08a2d9d7a29b607f566e17cd9b17feea73522ec1fa459574d0`,
+was created once and independently read back. It binds four initially empty
+Worker stores, five resident instances, actual config/attempt freeze/state
+hashes and atomic PYTHONPATH restricted to archived source004. No external
+audit namespace is loaded into the atomic execution process. The formal
+execution revision remains `0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`.
+
+At02:13:44Z bounded trace metadata shows six prepared BM25 actions and one
+model request returning `context_limit_exceeded`; no result is yet present.
+This is natural within-run continuation, not a new attempt or manual recovery.
+The completed population remains26, with27 preserved attempts and one pending;
+the earlier snapshot024 still covers only its settled26. No new private-body
+decoding, payload export or model calls were made by this startup audit.
+Do not rerun its successful creator. Full192 and the strict-inactive final
+private/manual/failure/recipient/adoption/Q1–Q10 audits remain outstanding.
+Earlier no-reservation/pending-projection captures below are historical.
+
 ## Actual006 continuation launched; original private guard still strict
 
 2026-10-07 09:56HKT. Launch2520 exited0 successfully; never rerun it.
