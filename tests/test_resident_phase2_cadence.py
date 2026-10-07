@@ -3,7 +3,7 @@ import json
 import sys
 from dataclasses import replace
 from pathlib import Path
-from types import SimpleNamespace
+from types import FunctionType, SimpleNamespace
 
 import pytest
 
@@ -14,6 +14,61 @@ cadence = importlib.import_module("large_scale_resident_phase2_cadence_v1")
 wire = importlib.import_module("large_scale_resident_feedback_wire_v1")
 heldout_field = importlib.import_module("test_resident_phase2_field_review").heldout_field
 combined = importlib.import_module("test_resident_phase2_field_queue").combined
+
+
+@pytest.mark.parametrize("damage", ["none", "historical", "live", "wire", "pending"])
+def test_isolated_original_field_creator_with_flat_ledger_keeps_all_proof_guards(
+    heldout_field, monkeypatch, damage,
+):
+    root, directory, raw, parent, historical, _, _, _ = heldout_field
+    review = cadence.field.review
+    if damage == "pending":
+        # A new reservation after an unresolved finding is correctly prohibited.
+        # Build a separately pending fixture trajectory, not an invalid continuation.
+        raw.path.unlink()
+        raw = AttemptLedger(raw.path, raw.cells, raw.schedule_sha256)
+        raw.reserve("cell4", "run4", "b" * 64)
+    view = cadence.BatchLedger(raw.path, raw.cells, raw.schedule_sha256, ())
+    before = raw.path.read_bytes()
+    calls = []
+
+    def flat_ledger(path, cells, schedule):
+        assert (path, cells, schedule) == (raw.path, raw.cells, raw.schedule_sha256)
+        calls.append(True)
+        view.check_disk()
+        return view
+
+    def reject(*_):
+        raise RuntimeError("original proof guard rejects")
+
+    if damage == "historical":
+        monkeypatch.setattr(review.bindings, "verify_record", reject)
+    elif damage == "live":
+        monkeypatch.setattr(review.core.previous.gate.evidence.private,
+                            "assert_inactive", reject)
+    elif damage == "wire":
+        (directory / "private/api/call1-request.json").write_text('{"messages":[]}')
+    original = review.create_review
+    original_type = original.__globals__["FieldReviewedAttemptLedger"]
+    bound = FunctionType(original.__code__,
+                         {**original.__globals__, "FieldReviewedAttemptLedger": flat_ledger},
+                         original.__name__, original.__defaults__, original.__closure__)
+    if damage == "none":
+        result = bound("run4", parent, historical)
+        assert result["retry"] is False and result["confirmed_field_failures"] == 1
+        proof = review.verify_sidecar(Path(result["sidecar_path"]), raw.attempts[0])
+        assert proof["replacement_authorized"] is False
+        assert proof["new_store_or_corpus_body_decoded"] is False
+        # Creation does not silently admit the new finding into the old frozen view.
+        assert view.attempts[0].disposition == "confounder"
+    else:
+        with pytest.raises(RuntimeError):
+            bound("run4", parent, historical)
+        assert not (root / review.DIRECTORY / "run4.json").exists()
+    assert calls == ([] if damage == "live" else [True])
+    assert original.__globals__["FieldReviewedAttemptLedger"] is original_type
+    assert raw.path.read_bytes() == before
+    assert not (root / "queue-lease.json").exists()
 
 
 def ledger_for(tmp_path, count, initial=0):
