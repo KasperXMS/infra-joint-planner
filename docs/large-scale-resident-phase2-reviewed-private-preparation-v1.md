@@ -1,5 +1,42 @@
 # Reviewed held-out private audit preparation
 
+## Current combined-review entrypoint: source verified, not invoked
+
+2026-10-07 15:03HKT. The old model-JSON-only invocation below is historical.
+The current source-bound entrypoint is
+`scripts/large_scale_resident_phase2_field_private_v1.py`, with the combined
+field/model-JSON projection, not a raw-only or JSON-only ledger. Metadata-only
+readback07:02:18Z confirms current controlSHA
+`7205097e0197ca2719ecfda168b3fab8cb9222c9106ac63329559af306a8aa5e`,
+ledgerSHA `00573c05346f1851b6b958bf18a692c42d163f105cd1db065172573c7437f2ae`,
+all five current sidecar file hashes, disjoint membership and every source hash
+against both frozen controls. Auditor sourceSHA
+`9403987d745f51448a521007f767ba33f006ecfd6b5ebb009c2276fd11cd08da`.
+The preserved live007 guard receiptSHA
+`4bf22c701e49377f3c5e360e47d6d8adeff796243d4942d9195aa6a83224093c`
+and unchanged original guard source were independently rechecked07:02:20Z;
+this is source/receipt verification, not a new private-audit invocation.
+
+After all192resolve and strict global inactivity is independently verified,
+use the latest source-bound combined control/ledger and007audit Python paths:
+
+```text
+python -m large_scale_resident_phase2_field_private_v1
+  --control-freeze <ROOT>/phase2-field-reviewed-control-freeze-003.json
+  --ledger-freeze <ROOT>/phase2-field-ledger-freeze-003.json
+  --output <ROOT>/analysis/<new-exclusive-audit-name>.json
+```
+
+If later reviews change the frozen control population, these003paths are not
+automatically current. Rebind and verify the latest exact membership first.
+The inherited scanner rejects multiple attempts/exclusions rather than silently
+dropping them; if such attempts occur, preserve and explicitly audit all of
+them before claiming full-study coverage. Currently the closed44have one
+preserved attempt each, zero effective confounders/exclusions. This does not
+prove the eventual192membership or authorize a partial private scan.
+No runtime code/prompt/evaluator changes, new private bodies, model calls or
+payload export; no new full-test claim for this documentation clarification.
+
 This is preparation, not a completed192-cell audit or a new experiment.
 At22:36:30Z on2026-10-06 the registered controller2146015 was owned/live,
 no exit; journal33records/16effective outcomes/no new pending reservation.

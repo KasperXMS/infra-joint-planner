@@ -1,5 +1,21 @@
 # Held-out initial-record field misuse: offline audit
 
+## Closed checkpoint:44 settled, snapshot041/feedback037
+
+2026-10-07 15:03HKT. Snapshot041 creator95349 exited0; feedback037 succeeded.
+Successful creators never repeat. SnapshotSHA
+`8106d365c6fdd45f41ca8f98f1695d252fb9877b564fd66d9d84483ebf910711`;
+feedbackSHA `56ffcc0f4b2b4b71a29465416c599751f10c9b99538af91ce7d744fa64929db6`.
+Independent07:02:52Z reproduces all44trace/732actual request hashes and
+population/journal/control003 bindings.333Manager/333Verifier/66specialist;
+84profiles/169ledgers/82rules match, fixed Verifier and recipient exclusion
+pass. Captured44effective/44preserved/0pending; five raw findings retained,
+zero effective confounders/exclusions. Journal has since advanced to cell45
+LongBench5/Qwen/Fast/B1, atomic2904013 owned/live at07:02:54Z; startup artifacts
+not yet complete then. No result claimed. Snapshot042/feedback038 prepared
+only. All192strict-inactive private/manual/failure/adoption analyses pending.
+No new support/corpus/store-body reads/payload export or execution changes.
+
 ## Cell44 closed: original admission and terminal provenance reproduced
 
 2026-10-07 14:53HKT. Video4/Qwen/Fast/A attempt1 completed with original

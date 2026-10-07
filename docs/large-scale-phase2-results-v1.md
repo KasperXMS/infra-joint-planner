@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Checkpoint2026-10-07 15:03HKT: snapshot041/feedback037 independently reproduced
+07:02:52Z, every44trace/732actual request hashes and population/journal/
+control003 bindings. SnapshotSHA8106d365c6fdd45f41ca8f98f1695d252fb9877b564fd66d9d84483ebf910711;
+feedbackSHA56ffcc0f4b2b4b71a29465416c599751f10c9b99538af91ce7d744fa64929db6.
+333Manager333Verifier66specialist/84profiles169ledgers82rules match;
+fixed Verifier/recipient scans pass. Captured44settled/44preserved/0pending;
+same007has now reserved45LongBench5/Qwen/Fast/B1. No live45result claimed.
+No causal adoption/quality attribution, pooled scores or altered trajectories;
+all192private/manual/failure/adoption/Q1-Q10 remain incomplete.
+
 ## Cell44 settled: valid Ledger completion, original score0 retained
 
 2026-10-07 14:54HKT. Video4/Qwen/Fast/A attempt1 completed, original admission

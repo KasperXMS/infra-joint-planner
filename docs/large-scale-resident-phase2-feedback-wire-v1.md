@@ -1,5 +1,21 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit037, forty-four settled cells
+
+2026-10-07 15:03HKT. Snapshot041 creator95349 exited0; feedback037 succeeded;
+neither repeat. SnapshotSHA
+`8106d365c6fdd45f41ca8f98f1695d252fb9877b564fd66d9d84483ebf910711`;
+feedbackSHA `56ffcc0f4b2b4b71a29465416c599751f10c9b99538af91ce7d744fa64929db6`.
+Independent07:02:52Z rehashes all44trace and732actual provider requests,
+population/journal/control003 and unchanged Phase I journal.333Manager/
+333Verifier/66specialist;84B1profiles/169A_Eledgers/82E frozen rules match.
+Fixed Verifier/original recipient scans and non-Manager feedback exclusions pass.
+Captured44effective/44preserved/0pending; five original findings retained,
+zero effective confounders/exclusions. Current journal has since reserved45,
+so live population must not be called the snapshot population. Visibility
+does not prove adoption, retention or causal cost/quality effects. No model
+calls, private body scans or raw payload export; full192post-block audit pending.
+
 ## Latest: audit036, forty-three settled cells
 
 2026-10-07 14:44HKT. Snapshot040 creator76380 exited0; feedback036 succeeded.
