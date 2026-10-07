@@ -1,5 +1,18 @@
 # Completion audit — not achieved
 
+Current2026-10-07 13:14HKT: snapshot034 completed exit0, SHA
+c5f081166700de5519f0819f83322eba519ca575ece21a8509d7dfd3bd1cb60d;
+37effective/37preserved/zero pending/five raw findings retained/zero effective
+confounders/zero exclusions. Feedback030SHA
+54fbe4880cf6eaa4e830fdb8dc023442034e6ada5c5f0ca5bba73a298651fd59 verifies
+638actual contexts290Manager290Verifier58specialist/73profiles150ledgers79rules.
+Independent05:14:39Z reproduces all37trace/638request hashes and population/
+control/journal; no causal adoption/coverage claim. Same007owned/live05:14:41Z,
+next38LongBench3/DeepSeek/Slow/A,155remaining. All192strict-inactive private/manual/
+failure/recipient/adoption and quality-conditioned Q1-Q10/named reports incomplete;
+goal active. Successful66401/030never repeat. Docs-only/no fresh full-test claim/
+push/source/prompt/model/budget/scheduler change/ordinary retry/newbody decoding.
+
 Current2026-10-07 13:08HKT:37effective/37preserved/zero pending; cell37original
 valid completion/format/evaluator score0 retained, no retry. End-auditSHA
 5926c8f7a275c1a78082acc5739f7a292b04674df247584ce79f60adff7c6602 independently

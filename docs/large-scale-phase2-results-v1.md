@@ -1,5 +1,30 @@
 # Resident Phase II results — in progress
 
+## Snapshot034 and feedback030 completed: thirty-seven settled
+
+2026-10-07 13:14HKT. Snapshot034 creator66401 completed exit0, captured
+05:13:07Z; successful creator never repeat. SHA
+`c5f081166700de5519f0819f83322eba519ca575ece21a8509d7dfd3bd1cb60d`:
+37effective/37preserved/zero pending/five original findings retained/zero effective
+confounders/zero exclusions. JournalSHA
+`a77610411d67eef9fa15deab35b81447fc67117b5eb92f4de62e2531e3607397`.
+Source/control003/collector/schedule/execution004 unchanged; no score aggregation
+or old/new pooling. Feedback030SHA
+`54fbe4880cf6eaa4e830fdb8dc023442034e6ada5c5f0ca5bba73a298651fd59`
+verifies638actual SDK contexts:290Manager/290Verifier/58specialist, exact73B1
+profiles/150A_Eledgers/79Efrozen rules. Fixed Verifier and non-Manager feedback
+exclusion pass. Independent05:14:39Z rehashes all37traces and638actual provider
+requests, population/journal/control bindings and unchanged PhaseI journal.
+Visibility does not identify adoption, coverage or causal quality-preserving
+resource benefit. No new auditor model call, support/corpus/store-body decoding
+or raw payload export. Successful034/030 creators must not repeat.
+
+Same007supervisor2772570/controller2772571 owned/live05:14:41Z before38
+LongBench3/DeepSeek/Slow/A;155remaining. All192and final strict-inactive private/
+manual/failure/recipient/adoption, quality-conditioned Q1-Q10/named reports remain
+unfinished. No ordinary retry, source/prompt/model/budget/scheduler change or
+fresh test-suite claim; documentation-only/no push.
+
 ## Cell37 settled: valid score0; rule visibility is not causal evidence
 
 2026-10-07 13:08HKT. LongBench3/Qwen/Fast/E attempt1 completed with valid

@@ -1,5 +1,23 @@
 # Held-out initial-record field misuse: offline audit
 
+## Thirty-seven settled: source/recipient audit independently closed
+
+2026-10-07 13:14HKT. Snapshot034SHA
+`c5f081166700de5519f0819f83322eba519ca575ece21a8509d7dfd3bd1cb60d`
+completed exit0;37effective/37preserved/zero pending/five raw findings retained/
+zero effective confounders/zero exclusions. Unchanged control003/source004,
+schedule and collector remain source-bound. Successful66401never repeat.
+Feedback030SHA
+`54fbe4880cf6eaa4e830fdb8dc023442034e6ada5c5f0ca5bba73a298651fd59`
+verifies638actual requests290Manager290Verifier58specialist/73profiles150ledgers/
+79rules. Independent05:14:39Z reproduces every37trace and638request hashes,
+population/control/journal bindings and unchanged PhaseI journal. Fixed Verifier/
+non-Manager feedback isolation pass, not evidence adequacy, rule adoption or
+causal savings. No new support/corpus/store-body decoding or auditor model calls.
+Same007owned/live before38LongBench3/DeepSeek/Slow/A;155remaining. All192strict-
+inactive private/manual/failure/recipient/adoption/Q1-Q10 remain incomplete;
+no retry/source/prompt/model/budget/scheduler change or new full-test claim.
+
 ## Cell37 closed: valid original evaluation score0, no retry
 
 2026-10-07 13:07HKT. LongBench3/Qwen/Fast/E attempt1 completed with valid
