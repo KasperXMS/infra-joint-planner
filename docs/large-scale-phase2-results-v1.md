@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Current at2026-10-07T00:29Z: queue004 exited after cell23, not live.
+Cell23 completed/format-valid/original score1 but its raw field-validation gate
+awaits durable source-bound review. Effective membership is still22; do not
+append an unreviewed cell to the admitted table or run cell24 yet. The new exact
+[field review](large-scale-resident-phase2-field-review-v1.md) documents original
+telemetry, actual schema-wire proof, hash-identical historical shape reuse and
+passing tests. No benchmark retry, Agent/model/prompt/budget/scheduler change or
+new corpus/store-body scan. The following snapshot021 is a historical22-cell
+capture, not an assertion that controller004 remains live.
+
 Latest reviewed snapshot021 at2026-10-06T23:56:38Z:
 22effective valid/22attempts/0pending/2preserved raw confounders/0exclusions.
 SHA256 `6dec958ee318ab44d38377a262c1918f52c906a5352a1bc82b92ee1f89741883`;

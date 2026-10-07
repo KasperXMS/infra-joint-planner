@@ -1,5 +1,14 @@
 # Completion audit — not achieved
 
+Latest boundary at2026-10-07T00:29Z: controller004 has exited after cell23.
+Twenty-two cells remain effectively admitted; cell23's ordinary absent-field
+misuse has an independently reproduced proof and passing offline-adapter tests,
+but durable field sidecar/fullgate verification and new continuation control are
+still in progress. No cell24 execution. See the
+[exact field audit](large-scale-resident-phase2-field-review-v1.md).
+Do not interpret the historical snapshot021 table below as current queue liveness
+or treat this implementation/documentation checkpoint as full goal completion.
+
 ## Current requirement audit: snapshot021, 2026-10-07 07:56:38 HKT
 
 The historical captures below retain their original populations and gates.
