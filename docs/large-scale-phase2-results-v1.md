@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Cell32 settled: compact visual workflow, valid execution but score0
+
+2026-10-07 11:06HKT. Video3/DeepSeek/Fast/A attempt1 completed valid and
+format-valid, with original evaluator score0. Independent original admission/
+source/store/residency/tc/exit/terminal/sixSDKcontext auditSHA
+`1b5b9b9fb54ff504d9ad53bae609fb1aec93ea4537833a21e90b4f8da9cf25d8`;
+startupSHA `101233e06cc158a36067ed776703ec4e9bf31423def9479a411c859d17322628`.
+JournalSHA `6a17eb35de0238adfb7c1c11c23277bb7155be35ac812550fe31321e27ae396b`.
+32effective/32preserved attempts/four reviewed original findings/zero pending.
+Next scheduled33 is LongBench4/DeepSeek/Fast/B1;160remaining. Same006queue,
+no cell retry, prompt/model/budget/scheduler changes or extra semantic finalizer.
+
+Three Manager/three Verifier turns, three physical actions, no specialists:
+`sample_frames → make_contact_sheet → invoke_model`. Terminal A4VL4B consumes
+one visual contact-sheet artifact; 1,416input/2output tokens, stop, service7.450s.
+Raw terminal text already equals the declared canonical choice evaluated.
+No context/preflight rejection or recorded SDK failure feedback.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |48.234s |
+| Complete registered Agent artifact movement |0B /0s; not all HTTP/RPC/prompt traffic |
+| Initial video placement, separate setup |15,239,623B /1.355s |
+| Complete tool execution work |2.362s |
+| Inclusive Worker model-action execution |7.563s; includes backend service |
+| Complete backend model service |7.450s |
+| Frozen list-price API cost |USD0.095980246; not an invoice |
+| Execution-grown graph |3nodes /17artifact-flow edges /10snapshots /peak1 |
+
+This is a valid quality failure, not unevaluated=0 or a runtime failure. Compact
+information flow plus low resource work does not establish a quality-preserving
+optimization. Contact-sheet evidence loss, semantic reasoning failure, stopping
+adequacy and ledger adoption/causality remain unresolved until post-block
+private/manual audit. Cell32 versus prior31 or30 changes more than one factor;
+no isolated network/method causal conclusion. Preserve all raw evidence and
+the score0; do not tune or replace the task. No new audit model calls or private
+support/corpus/store-body decoding/raw payload export.
+
 ## Snapshot028 and feedback024 complete: thirty-one settled
 
 2026-10-07 11:00HKT. Snapshot028 completed at02:59:43Z, SHA
