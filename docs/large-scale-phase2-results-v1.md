@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 23:56HKT: same014controller3247654/start191509875 and
+supervisor3247653/start191509873 remain independently verified live.85and86
+have naturally settled/admitted;86effective/87settled preserved+1pending=
+88total attempts,0unresolved,1excluded,105unstarted. New87LongBench3/P1/Slow/E
+attempt1atomic3255826/start191566782 is actually live. No restart/replacement/
+configuration change; next normal full96receipt still absent. This is lightweight
+process/journal observation, not another per-cell full audit or partial quality
+aggregate. Current full-wire authority remains the84bootstrap; original192/
+all193final private/manual/failure/retention/quality/Q1–Q10reports still required.
+
 Current2026-10-07 23:49HKT: new014owned/live, controller3247654/start191509875,
 supervisor3247653/start191509873. New85LongBench3/DeepSeek/Fast/B1 attempt1
 atomic3247897/start191512794 is actually running.84effective,85settled preserved
