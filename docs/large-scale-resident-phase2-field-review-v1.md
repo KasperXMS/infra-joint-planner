@@ -1,5 +1,24 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell28 actual startup audit; no measured behavior change
+
+2026-10-07 10:23HKT. Same006supervisor2562900/controller2562901 now owns
+cell28 MultiHop3/DeepSeek/Fast/A attempt1; atomic2622426 is verified owned/live.
+Append-only startup receiptSHA
+`03428e20c4b6905f2266177bcdf0886369bf33943f1a407d09a4507cdc46694f`
+was created once and independently reverified at02:23:56Z. Four initially
+empty Worker stores, five resident instances, archived source004 only in
+atomic PYTHONPATH and the unchanged execution revision are bound to actual
+config/attempt/state hashes. No model reload, new namespace in execution,
+ordinary retry or prompt/budget/model/scheduler alteration.
+
+The settled population remains27; this is attempt28/pending1, not a completed
+outcome. Earlier snapshot025 and feedback021 still cover only their27settled
+population. Full192plus strict-inactive private/manual/failure/adoption/Q1–Q10
+remain outstanding. No model calls/private-body decodes/raw payload exports
+were made by the startup audit; its successful creator must not be repeated.
+Earlier live-cell27 or no-cell28 captures remain historical.
+
 ## Cell27 actually started under unchanged continuation006
 
 2026-10-07 10:13HKT. Supervisor2562900/controller2562901 remained owned/live;

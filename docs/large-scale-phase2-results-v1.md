@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+## Cell28 live; settled population remains27
+
+2026-10-07 10:23HKT. MultiHop3/DeepSeek/Fast/A attempt1 atomic2622426 is
+owned/live under the same006controller. Startup receiptSHA
+`03428e20c4b6905f2266177bcdf0886369bf33943f1a407d09a4507cdc46694f`
+independently proves four empty Worker stores, five resident instances and
+source004-only atomic imports. No terminal result/score is yet available.
+Twenty-seven valid settled outcomes plus one pending attempt do not establish
+28completions. Snapshot025/feedback021 retain their27settled scope, and165
+unresolved outcomes include this active cell. No retry, model/prompt/budget/
+scheduler change, private corpus/store-body decode or raw payload export.
+
 ## Snapshot025 and actual feedback021 completed:27settled
 
 2026-10-07 10:19HKT. Snapshot025 completed at02:18:20Z, SHA256
