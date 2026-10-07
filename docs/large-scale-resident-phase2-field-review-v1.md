@@ -1,5 +1,28 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell42 closed: valid original completion and score1
+
+2026-10-07 14:19HKT. Video4/Qwen/Slow/B0 attempt1 completed; original
+admission valid, format valid, benchmark score1 retained. Audit SHA
+`9805d2559b6dd287c82c4651b5b560da70721a40dbfb47fd33d03647eeb6db61`
+reproduces original admission/settlement. Independent06:18:06Z rehashes every
+bound file and startup28efb6ac9cbcaf0970a9e9dc611f815fb927a5b09a3323e1d914d600a0236263.
+Four empty initial stores, five unchanged resident identities, tc restoration,
+Worker shutdown and8actual SDK contexts pass. Successful terminal A4VL4B model
+consumes7artifacts;7741input/2output tokens,stop,43.774389744s backend service.
+Raw text equals canonical answer/frozen deterministic projection; no extra LLM
+finalizer. sample_frames/invoke_model both succeed; no context reject. One
+semantic-validation and one phase-restriction observation retained, no retry.
+Correct n1 output does not prove sufficient evidence or superiority over E:
+cell41 also differs in Planner and network. Private semantic attribution waits
+all192and strict inactivity.
+
+42effective/42preserved/zero pending,150remaining; same007continues,
+next43Video4/DeepSeek/Slow/B1. Snapshot039 creator47240 running/not completed;
+feedback035 not invoked before success.038/034 retain41-settled scope. No source/
+prompt/model/budget/scheduler change, new private-body decoding/payload export/
+fresh full-test claim/push. Successful append-only audit never repeat.
+
 ## Cell42 live: startup audited, result pending
 
 2026-10-07 14:16HKT. Same007queue started Video4/Qwen/Slow/B0,
