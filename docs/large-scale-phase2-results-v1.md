@@ -1,5 +1,45 @@
 # Resident Phase II results — in progress
 
+## Cell34 settled: bounded specialist and generic reduction, originalscore1
+
+2026-10-07 11:34HKT. LongBench4/Qwen/Slow/A attempt1 completed valid,
+format-valid, originalscore1. Independent original admission/source/store/
+residency/tc/exit/terminal/thirty-sixSDKcontext auditSHA
+`fed47320bc169797c32693d9942166755fe4f78e1e3390c09fa7a65279f21dea`;
+startupSHA `31c3c858cb965b64fca364bf0c6fcbe75ff3825fd8a714aaa1a5a67e36b4f83e`.
+OriginaljournalSHA `560aed6b9dc3007873c152df85ddc81eb0e3dc0fc03243b245c1412f6dc1429b`.
+34effective/34preserved/four reviewed original findings/zero pending;158remain.
+Next35 LongBench4/DeepSeek/Slow/E; same006 queue, no retry or measured
+model/prompt/budget/scheduler changes.
+
+Fourteen Manager/fourteen Verifier/eight specialist turns; one created/peak-active
+specialist, twenty-five physical actions. Observable sequence comprises two
+four-action BM25 waves, four aggregates, two four-action top_k_records waves,
+and five model requests interleaved with those operations. Four model requests
+are context-preflight rejected (one specialist-owned), not inference; all have
+static requirement matching=true and selection/inference=false. Terminal
+request succeeds on A4VL4B:3,138input/2output tokens,stop,service8.706s,
+one materialized input artifact; raw output equals the evaluated canonical label.
+Two separate semantic-validation and one phase-restriction feedback are retained.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |182.654s |
+| Complete registered Agent artifact movement |0B /0s; not all HTTP/RPC/prompt traffic |
+| Initial placement, separate setup |115,726B /0.362s |
+| Complete tool execution work |1.905s |
+| Inclusive Worker model-action execution |8.888s; includes backend service |
+| Complete backend model service |8.706s; one reached inference |
+| Frozen list-price API cost |USD0.494152961; not an invoice |
+| Execution-grown graph |25nodes /36artifact-flow edges /76snapshots /peak4 |
+
+This is natural bounded-agent/reduction continuation with correct completion,
+not manual repair or an extra cell. It does not prove evidence coverage, optimal
+top-k pruning, specialist necessity or Ledger-induced savings. Comparing this
+cell with33 changes Planner/network/method, so their latency/model-call difference
+is not a clean method effect. Full192strict-inactive private/manual audit remains;
+no new support/corpus/store-body decoding, audit model calls or raw payload export.
+
 ## Snapshot030 and feedback026 completed: thirty-three settled
 
 2026-10-07 11:25HKT. Snapshot030 completed03:24:10Z, SHA
