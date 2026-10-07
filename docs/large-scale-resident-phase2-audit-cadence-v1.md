@@ -1,5 +1,19 @@
 # User-authorized Phase II audit cadence: 16 cells
 
+## Full80 closed; new81 immediately stopped
+
+2026-10-07 22:12HKT: full80 independently reverified81 preserved traces and1229
+actual SDK requests. Checkpoint SHA256
+`ccebd85ce73a0702b6fa23cf57dd9263e989d48ea0e2a69d224d2c1f8c9b49f5`;
+independent readback SHA256
+`90472f47410b66cbdd427eb1038621cc4334205bba5ef0a7ed69fc5a3c61be65`.
+Then cell81 validation_failed stopped012 at13:53:17Z.80effective/82preserved/
+0pending/1unresolved, no82dispatch. Derived specialist field misuse proof pending;
+the old root-initial-only reviewer does not apply. Original71excluded and its
+sole authorized replacement remains valid. No semantic retry or body decode.
+The16-cell interval never postpones a new finding; next normal96requires renewed
+proof/control gate. Entire192 and final private/manual/Q1–Q10 still required.
+
 ## Cell71 immediate stop: external GPU contention
 
 2026-10-07 19:43HKT:010terminalexit1 at11:36:16Z, not live.70admitted

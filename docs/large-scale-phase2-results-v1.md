@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 22:12HKT: full80audit independently closed, then012stopped
+13:53:17Z on cell81 MultiHop4/Qwen/Fast/E validation_failed.80effective/
+82preserved/0pending/1unresolved/111unstarted; no82reservation. Original81
+completed,formatvalid,score0; specialist derived-record absent text proof pending.
+Keep raw results/journal unchanged; no retry or semantic tuning. Full80receipt
+ccebd85ce73a0702b6fa23cf57dd9263e989d48ea0e2a69d224d2c1f8c9b49f5,
+independent90472f47410b66cbdd427eb1038621cc4334205bba5ef0a7ed69fc5a3c61be65
+binds81traces/1229actualSDKrequests. Do not apply the old root-initial-only field
+review to specialist-derived artifacts. All192/final private/manual audits pending.
+
 Current2026-10-07 21:49HKT:80admitted/81preserved/0pending under actual live012;
 full80cadence target not yet present at13:48:55Z, no controller exit. Distinguish
 settlement from independent full audit closure. Original71excluded, sole identical

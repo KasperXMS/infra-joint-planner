@@ -1,5 +1,18 @@
 # Resident study final-audit preparation — not completion
 
+Status amendment2026-10-07 22:20HKT:012 has stopped on new81 derived specialist
+field finding, after full80 closed. The preparation below is immutable historical
+preparation, not current dispatch/final-audit authority. New generic metadata-only
+derived-field reviewer, environment extension and final-bundle adapter are being
+validated in a separate namespace; no existing scanner or source is overwritten.
+Local2011pass/7skip plus116actual4090Linux tests/Ruff/explicit strict Pyright pass
+for the initial helper version. Owner-local dryproof discovered a lawful
+pre-physical synthesis guard observation, which must be represented separately
+from physical action lifecycles; follow-up audit-only regression pending. No
+corpus/store body decode, new model calls, sidecar admission or queue resume yet.
+Before any final audit, use only the newly source-pinned adapter preparation for
+all192/all193after strict global inactivity. Manual/Q1–Q10 remains required.
+
 2026-10-07, Asia/Hong_Kong. Goal remains the complete cross-Planner/workload/
 infrastructure characterization, not merely restored execution or a green scanner.
 This note prepares the final offline evidence path while controller012 continues.
