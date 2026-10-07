@@ -1,5 +1,39 @@
 # Resident Phase II results — in progress
 
+## Cell46 settled: valid Blind completion, original score0
+
+2026-10-07 15:24HKT. LongBench5/DeepSeek/Slow/B0 attempt1 completed, original
+admission/terminal format valid,score0. No retry/replacement/semantic tuning.
+AuditSHA `3db19ef2cdfbf07d076abf6328887abc2979e31fb5bb73576906b2feb541049f`
+independently reproduced07:22:30Z with all bound files/startup/terminal/tc/
+Worker shutdown and18actual SDK contexts. Terminal equals successful model
+text/frozen deterministic projection, without semantic finalization.
+
+| Recorded component | Cell46 |
+| --- | --- |
+| Manager / Verifier / specialist turns |9 /9 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |12 /3 /1 |
+| Typed observations |2context rejects before inference;1semantic validation;1phase restriction |
+| E2E |121.085567692s |
+| Initial materialization, separate from Agent movement |340278bytes /1.011260211s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |2.156071206s |
+| Inclusive successful Worker model-action work |18.432844827s; includes backend |
+| Complete backend service / tokens / finish |18.291845320s /6399input,2output /stop |
+| Frozen-list-price cloud API USD |0.141447618225062783188721614690601788490418; not invoice |
+| Execution-grown graph |12action nodes /9artifact-flow edges /37snapshots /peak3actions |
+
+Sequence:three BM25 -> context-rejected model -> three BM25 -> context-rejected
+model -> three BM25 -> successful A4VL4B terminal consuming3artifacts.
+Context rejects are not backend inference or proof of dynamic unavailability.
+Parallel retrieval is observable, not an isolated E2E benefit; Blind has0profile
+events. Cell45 differs in Planner, network AND method, so its shorter trajectory
+cannot establish an Aware advantage. Score0's semantic subtype remains unknown
+until full private audit.46effective46preserved0pending;146remaining; same007
+next47LongBench5/Qwen/Slow/E.043creator10234running/039not invoked;042/038remain45
+settled. No new private-body reads/payload export or source/prompt/model/budget/
+scheduler changes. All192strict-inactive, quality-conditioned analyses pending.
+
 Checkpoint2026-10-07 15:18HKT: snapshot042/feedback038 independently reproduced
 07:17:13Z, all45trace/746actual request hashes and population/journal/control003.
 SHAf034585bb3d265965ac2b85a21220625b8dd383c04120173ff188fecae01916f /
