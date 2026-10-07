@@ -1,5 +1,41 @@
 # Resident Phase II results — in progress
 
+## Cell41 settled: all actions succeeded, original quality score0
+
+2026-10-07 14:05HKT. Video4/DeepSeek/Fast/E attempt1 completed with valid
+terminal output and original evaluator score0. Admission valid, no retry.
+Audit SHA `ee2ac6ead0c2c845020ecb50c8d605e52e5678339d98190614d9ba67e461055a`
+independently binds all source/state/startup/terminal/tc/shutdown evidence and
+6actual SDK contexts. No hidden semantic finalizer.
+
+| Recorded component | Cell41 |
+| --- | --- |
+| Manager / Verifier / specialist turns |3 /3 /0; no specialists created |
+| Physical calls / model requests / successful inference receipts |3 /1 /1 |
+| Typed failures |none |
+| E2E |54.749900806s |
+| Initial materialization, separate from Agent movement |9320768bytes /0.838005692s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |1.995775747s |
+| Inclusive successful Worker model-action work |7.466222887s; includes backend service |
+| Complete backend service / tokens / finish |7.453622537s /1368input,2output /stop |
+| Frozen-list-price cloud API USD |0.16554395354708406967937389548093915677860; not invoice |
+| Execution-grown graph |3action nodes /33artifact-flow edges /10snapshots /peak1action |
+
+Sequence:sample_frames -> make_contact_sheet -> successful invoke_model on
+resident-a4-vl4b-v1. Terminal consumes one artifact; raw model output equals
+canonical answer/frozen deterministic projection. No context/tool failure.
+Registered artifact movement0 does not mean all communication0; inclusive
+model action and backend service are overlapping scopes, not additive work.
+No evidence-loss/E-adherence/causal saving claim from compact wrong trajectory;
+private semantic diagnosis waits all192and strict inactivity. The33recorded
+artifact-flow edges must not be interpreted as33distinct action-DAG dependencies.
+
+41effective/41preserved/zero pending,151remaining; same007continues,
+next42Video4/Qwen/Slow/B0. Snapshot038 creator49490 running; feedback034
+not yet invoked.037/033 retain40-settled scope. No prompt/model/budget/scheduler
+change/new private body decoding/payload export/fresh full-test claim.
+
 Checkpoint2026-10-07 13:58HKT: snapshot037/feedback033 now closed, independently
 reproduced05:57:57Z:all40trace/702actual request hashes and population/journal/
 control003 bindings.40effective40preserved0pending/152remaining; same007continues.
