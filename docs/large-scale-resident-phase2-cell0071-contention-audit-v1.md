@@ -3,6 +3,45 @@
 Capture2026-10-07 11:43:43Z /19:43HKT. Metadata and owner-local admission
 investigation only, not the final private semantic audit.
 
+## Follow-up: actual service owner and resumption boundary
+
+Read-only11:48–11:51Z investigation independently traces engine3105968
+to Python3105959, then user-systemd3791. Both workload processes belong to
+`super`,UID1000, within
+`/user.slice/user-1000.slice/user@1000.service/app.slice/strata.service`.
+Unit fragment`/home/super/.config/systemd/user/strata.service` is owned by
+super,mtime06:36:10Z. It starts`/home/super/Strata/.venv/bin/python`
+with`serve/server.py` and`strata-iq2_xs.json`; description is
+`Strata Qwen3.8-Flash-Next IQ2_XS`. Description is not independent proof
+of model weights. Unit is enabled and uses`Restart=on-failure`,15s delay.
+
+Original user-journal lifecycle records show11:29:08Z start, SIGKILL exits
+at11:29:48/11:30:44Z, automatic restarts11:30:03/11:31:00Z, stop11:31:15Z
+and latest start11:34:49Z. SIGKILL alone does not establish OOM or who killed
+the process. At11:51:53Z unit remains active/running, same main/engine PIDs
+and invocation108ca52e8d284fefb93cc9b047bae9f6. GPU1reported13024MiB.
+Controller010remains terminal,70admitted/71preserved/0pending/1unresolved;
+no new dispatch, ancestor source or PhaseI journal change.
+
+The user explicitly says this external workload is not theirs. The available
+SSH login metadata identifies a contemporaneous key labelled
+`Home Workstation stage0` from172.28.221.223, alongside other super sessions.
+This is a lead, not proof that this key/session started the unit. No saved
+Strata systemctl command found in bash history; auditd inactive. The evidence
+identifies the account/service, not a specific person or starting client.
+No private key, full model payload, unrelated prompt or complete environment
+was exported. No foreign process/service/key/config modified.
+
+Resumption requires external resource isolation plus permissible disposition
+of original71. Current safe alternatives were checked: accepting its score
+would waive residency; repeating it as provider outage would invent an
+unsupported reason; skipping it changes frozen order; routing away fromGPU1
+changes frozen substrate; terminating another workload exceeds the inspected
+experiment-owned process scope. None has been performed. Thus the same
+external-coordination/protocol boundary persists, not a transient SSH timeout
+or a running experiment controller. All192and final audits remain required;
+normal16-cell cadence cannot resolve this immediate finding by itself.
+
 ## State and cause
 
 Controller010PID3068687 and supervisor3068686 are no longer live; exit1 at
