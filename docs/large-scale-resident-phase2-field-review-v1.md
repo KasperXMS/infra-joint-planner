@@ -1,5 +1,24 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell31 actual startup; live context feedback is not a completed outcome
+
+2026-10-07 10:54HKT. Same006controller owns cell31 Video3/Qwen/Slow/E
+attempt1, atomic2688530 independently verified live. Append-only startupSHA
+`09915d4bd718081d8ce57a55862ea4e15f341196593dce7408aca9f38375b04f`
+and config/freeze/state/residency sources independently reverified: four initially
+empty Worker stores, five resident instances, archived execution004 only.
+At02:54:15Z: five Manager reasoning starts, three physical starts/finishes, one
+context_limit_exceeded feedback, zero returned model receipts, no run.end/result.
+No terminal outcome or quality inferred. Natural continuation is not an
+authorized cell replacement or a hidden inference retry. No new body decoding,
+model calls or raw payload export by this startup audit. Creator succeeded once
+and must not be repeated.
+
+Snapshot028 creator32236 exited fail-closed when the raw journal advanced from
+thirty settled to a new cell31 reservation. It wrote no snapshot. Only read-only
+collection may be repeated at a later boundary; neither benchmark cell30 nor31
+is restarted. Successful older snapshots/feedback retain their fixed population.
+
 ## Cell30 actual Video startup and original admission audited
 
 2026-10-07 10:49HKT. Video3/DeepSeek/Slow/B0 attempt1 settled valid,
