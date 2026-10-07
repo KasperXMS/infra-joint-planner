@@ -1,5 +1,43 @@
 # Resident Phase II results — in progress
 
+## Cell28 settled: valid completion, original score1
+
+2026-10-07 10:26HKT. MultiHop3/DeepSeek/Fast/A attempt1 is formally valid,
+completed and format-valid with original evaluator score1.0. Independent
+admission/source/empty-store/residency/tc/Worker-exit/direct-terminal/14actual
+SDKcontext auditSHA
+`b6f7285848ee9d44e0450a3c08128d2005ac4305504908d0b7f90e096751dc2c`.
+Raw journalSHA
+`cbc590248d229f1c787c4f31f7a694b71fd2b46fa53f02190fdff046813926e9`;
+28effective/28preserved attempts/4original exact-reviewed findings/0pending
+at this capture. No ordinary retry or measured behavior change.
+
+Seven Manager/seven Verifier turns,13physical calls, no specialists. Sequence:
+three BM25 → context-rejected model → six BM25 → two reads → successful terminal
+model. Terminal selection is4090GPU0/qwen35, with225actual input/6output tokens,
+finish_reason=stop and0.463sbackend service. Its logical action has0direct artifact
+inputs; this does not prove absence of inline evidence or adequate retention.
+One context rejection is not an inference; separate SDK feedback records one
+semantic-validation and three phase-restriction failures. Semantic sufficiency
+and causal ledger contribution await the full strict-inactive private audit.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| E2E |83.284s |
+| Complete registered Agent artifact movement |0B /0s; not zero HTTP/RPC/control/prompt traffic |
+| Initial materialization, separately |7,696,522B /0.815s |
+| Tool execution work |4.139s |
+| Inclusive Worker model-action work |0.465s, not additional backend service work |
+| Frozen list-price API cost |USD0.165243; not an invoice |
+| Graph |13nodes /5edges /40snapshots /peak concurrency6 |
+
+Same006continuation remains; next cell29 Video3/Qwen/Fast/B1,164outcomes remain.
+Snapshot026creator42339 is in progress, not yet a completed projection. Latest
+finished snapshot025/feedback021 still cover27settled outcomes; they are not
+silently extended. No support/corpus/store-body decode, new audit model call or
+payload export. All192and final private/manual/failure/adoption/Q1–Q10 remain.
+Earlier live-cell28 and snapshot025 captures retain historical populations.
+
 ## Cell28 live; settled population remains27
 
 2026-10-07 10:23HKT. MultiHop3/DeepSeek/Fast/A attempt1 atomic2622426 is
