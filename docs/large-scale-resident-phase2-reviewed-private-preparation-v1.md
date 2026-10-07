@@ -33,6 +33,14 @@ A separate offline bundle is being prepared; validated invocation/evidence will
 be documented before any real final scan. Do not edit controller012's pinned
 sources or import report-only changes into measured execution.
 
+The new isolated final bundle is now validated (commit `c30d903`):1895full tests,
+29actual Linux tests, Ruff and strict Pyright pass; actual live012guard rejects
+before body access. Use its one complete-block invocation and externally pinned
+121-source inventory documented in
+[final audit preparation](large-scale-resident-final-audit-preparation-v1.md),
+rather than scheduling the standalone diagnostic plus a duplicate bundle scan.
+Preparation remains distinct from actual full193/private/manual completion.
+
 ## Current combined-review entrypoint: source verified, not invoked
 
 2026-10-07 15:03HKT. The old model-JSON-only invocation below is historical.
