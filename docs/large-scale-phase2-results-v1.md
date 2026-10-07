@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 19:24HKT:67effective settled68preserved1pending124unstarted;
+same010owned/live, new68LongBench5/Qwen/Fast/A attempt1atomic3092386,
+result absent at11:24:41Z. Seven originals retained, zero effective confounders.
+Full003-cell0064automatic audit independently closed at11:16:41Z:64traces/
+982actual provider requests,458Manager/458Verifier/66specialist;114profile/
+224ledger/108rule matches, exact journal/source/control bindings and original
+recipient isolation/shutdown checks pass. ReceiptSHA
+a9d3745c9c18c1abc1eff1468cf4b74a1c30500e0aaf4aecda0b7ccaa997fe49.
+Closed audit scope64does not include later65–67; next full80. No private-body
+audit or quality aggregation; visibility does not prove method adoption/benefit.
+All192and strict-inactive private/manual/recipient/failure/adoption/Q1-Q10remain.
+
 Current2026-10-07 19:02HKT:60effective settled61preserved1pending131unstarted;
 seven original findings retained, zero unresolved effective confounders.
 Control005/ledger005/manifest003 independently frozen/verified;010controller

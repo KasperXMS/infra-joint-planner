@@ -1,5 +1,35 @@
 # User-authorized Phase II audit cadence: 16 cells
 
+## Closed full checkpoint64;010continues
+
+2026-10-07 19:24HKT.010created the first automatic cadence receipt after64
+original admissions settled; it then dispatched65normally. This was a full
+original gate/sidecar/projection/actual SDK-wire audit, not a new benchmark
+execution or private semantic-body audit. Receipt
+`analysis/phase2-audit-cadence-freeze-003-cell0064.json`, SHA256
+`a9d3745c9c18c1abc1eff1468cf4b74a1c30500e0aaf4aecda0b7ccaa997fe49`.
+
+Independent11:16:41Z readback reproduced all source/reference/control bindings,
+the exact checkpoint journal prefix,64trace file hashes and982actual persisted
+provider request hashes across all64preserved attempts. No attempt omitted.
+458Manager/458fixed-Verifier/66specialist requests;114profile/224ledger/
+108rule feedback matches. Original recipient scans, fixed Verifier/model
+bindings, non-Manager feedback exclusion and saved Worker shutdown checks pass.
+PhaseI journal unchanged. Seven original findings remain in the raw journal;
+all exact reviews retained, effective confounders0. Feedback visibility is not
+proof of adoption, retained evidence or causal cost/quality improvement.
+No new Planner calls, corpus/store/support-body decodes or payload exports.
+
+Latest lightweight11:24:41Z:67effective settled68preserved1pending124unstarted;
+controller3068687/supervisor3068686owned/live. New68LongBench5/Qwen/Fast/A
+attempt1atomic3092386/start189932542owned/live, result absent. Zero effective
+confounders; same frozen010, no restart/retry. This live67count is newer than
+the closed64audit population; do not claim982request proof covers65–67.
+Next normal full checkpoint80then96/...192. No per-cell full creators or
+duplicate successful receipt creator. The whole192execution and final strict-
+inactive semantic/private/manual/failure/recipient/adoption/quality-conditioned
+Q1-Q10/named reports are still incomplete; no quality aggregate or winner.
+
 ## Current continuation:010 / manifest003
 
 2026-10-07 19:02HKT. After the exact independently verified cell60field proof,

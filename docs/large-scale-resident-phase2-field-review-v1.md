@@ -1,5 +1,20 @@
 # Held-out initial-record field misuse: offline audit
 
+## Full64cadence proof independently closed
+
+Automatic003-cell0064receiptSHA
+`a9d3745c9c18c1abc1eff1468cf4b74a1c30500e0aaf4aecda0b7ccaa997fe49`.
+Independent11:16:41Z reproduces64traces/982actual requests and exact source/
+reference/control/journal-prefix bindings;458Manager/458fixed-Verifier/
+66specialist,114profiles/224ledgers/108rules. All original recipient scans,
+non-Manager feedback isolation and Worker shutdown checks pass. Seven exact
+raw findings retained, no effective confounder; no private semantic/body scan.
+Latest lightweight11:24:41Z:67settled68preserved1pending, new68LongBench5/
+Qwen/Fast/A attempt1atomic3092386owned/live under same010. Full audit covers64,
+not the later67settled population. Next normal80, immediate finding stops remain.
+No retry/production module/prompt/model/budget/scheduler/evaluator change or
+payload export. All192and strict-inactive final audits remain required.
+
 ## Cell60 admitted by verified new freeze;010running61
 
 2026-10-07 19:02HKT. Exclusive control005/ledger005 and manifest003 creators
