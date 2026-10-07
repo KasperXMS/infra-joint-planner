@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 03:01HKT, new016supervisor3357525/start192673770 and controller
+3357526/start192673771 are independently owned/live. Original new96MultiHop5/
+P2/Fast/B0 attempt1atomic3357918/start192677949 is actually running;95effective/
+96settled+1pending=97preserved,0unresolved/1excluded,96genuinely unstarted.
+Live receipt SHA256 `f82fb1c30b310d2c36ded963c7566722d60821646e24b39e0f519112cb6ccebf`
+pins supervisor/current003authority/bootstrap003 and actual commands/start ticks.
+The actual final private guard rejects with `private body audit requires inactive
+queue and atomic actions` before private body/output. No95retry/old015restart;
+measured execution004/0ff0e9b remains unchanged. Full96checkpoint is still pending
+and gates97. Original192/all193 and final private/manual/terminal/failure/
+retention/adoption/quality/Q1–Q10 reports remain required and incomplete.
+
 At2026-10-08 02:58HKT, independent bootstrap003 completed exit0, receipt SHA256
 `fc9649b581fb31926c0dc2a227c0a2db36925ae8ca272cdbc424380a7678c078`.
 Full current control/all96traces and1,560actual request hashes pass,95effective/

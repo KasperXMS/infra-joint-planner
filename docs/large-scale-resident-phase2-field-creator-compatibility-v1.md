@@ -81,6 +81,20 @@ body/output; its probe file remains absent. Original journal/hash and manifest00
 remain exact; no audit model calls, private semantic body scan or score aggregate.
 Controller016 is the next separate action, not an already completed run here.
 
+### Actual unchanged-schedule continuation
+
+Controller016 was exclusively launched after bootstrap003 closure(audit commit
+e55c2ca). Supervisor3357525/start192673770, controller3357526/start192673771
+and new original96atomic3357918/start192677949 are independently verified live.
+At2026-10-07T19:01:34.753928UTC, the live readback receipt SHA256 is
+`f82fb1c30b310d2c36ded963c7566722d60821646e24b39e0f519112cb6ccebf`.
+It pins actual commands/manifest/source and tests the unchanged actual final
+private guard, which rejects before body/output.95effective/96settled+1pending=
+97preserved,0unresolved/1excluded. New96is MultiHop5/P2/Fast/B0 attempt1, not a
+95retry. Full96checkpoint remains pending and must pass before97; all192/all193
+strict-inactive final audits/manual reports remain mandatory. Source/run body,
+prompts, budgets, models, tasks, evaluator, scheduler and tc regimes are unchanged.
+
 ## Narrow repair
 
 New `large_scale_resident_phase2_renewed_field_review_v1.py` composes the exact
