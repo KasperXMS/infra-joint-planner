@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 23:49HKT: new014owned/live, controller3247654/start191509875,
+supervisor3247653/start191509873. New85LongBench3/DeepSeek/Fast/B1 attempt1
+atomic3247897/start191512794 is actually running.84effective,85settled preserved
++1pending=86attempts,0unresolved,1excluded,107unstarted. Live receipt
+39dd3647d31c4b73cd82510e3c02b813d34e68db1d94360306f13f71f26e1e62
+binds correct command/source/manifest; actual private guard rejects live queue
+before scans, no probe output. cf49105audit closes84 withoutretry; b3d83cfcode
+is external audit-only. Next full96notyetpresent; all192/all193finalanalysis
+remainsrequired, no quality/method aggregate or semantic primarycause claim.
+
 Update2026-10-07 23:45HKT: independent renewal closure passes84effective/
 85preserved/0pending/0unresolved/1excluded. All85traces/1299actual requests
 (597Manager/597fixedBlindVerifier/105specialist) verify; immutable bootstrap

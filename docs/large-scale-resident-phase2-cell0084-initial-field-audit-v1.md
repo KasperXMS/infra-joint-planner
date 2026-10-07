@@ -153,3 +153,23 @@ Validation and independent readback now close the narrow gate. Only a new014
 controller may dispatch never-executed85 onward; no old013restart or84replacement.
 The next normal full checkpoint remains96. All192/all193final private/manual/
 failure/adoption/quality-conditioned/Q1–Q10 reports remain outstanding.
+
+### Actual014 continuation —15:48:59UTC
+
+Report commit `cf49105` precedes the sole new launch. Supervisor3247653/start
+191509873 and controller3247654/start191509875 are independently command/PID
+verified live, with no exit record. Atomic3247897/start191512794 runs new85:
+`phase2-longbench_v2-3-2c9a631882b4f679-p1-fast-B1`, attempt1. At capture:
+84effective,85settled preserved plus one pending (86total attempts), zero
+unresolved, one excluded original71,107genuinely unstarted. Next full checkpoint96
+has not yet been created. No84attempt2 or old013restart occurs.
+
+Supervisor014 SHA256
+`d4df55e2ceb343f5181da2d8c128c6f0195e6ecb687126fd34842090c638bff1`;
+exclusive independent live receipt SHA256
+`39dd3647d31c4b73cd82510e3c02b813d34e68db1d94360306f13f71f26e1e62`.
+The actual current final entrypoint rejects live014 immediately with
+`private body audit requires inactive queue and atomic actions`, before any
+source/control/private scan, leaving no probe output. Atomic revision remains
+`0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`, execution freeze004 unchanged.
+This is verified continuation, not completed85 or scientific/final goal closure.
