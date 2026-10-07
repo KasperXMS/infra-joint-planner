@@ -1,5 +1,16 @@
 # Completion audit — not achieved
 
+Current2026-10-07 12:02HKT:35effective/35preserved/5raw findings retained/
+0pending. Cell35 exact sidecarSHAcd859f740c62e9f400289763c97ca8b688f50b4c48de68a947f9e0dfa6ad362f
+independently reproduces all three post-backend JSON failures and effective
+valid admission without retry, failed-work imputation or journal modification.
+Originalscore1 retained. Controller006 is terminal; continuation-control003
+creator26309 remains live, no controller007 launch. This is not a new completed
+35-cell snapshot: snapshot031/feedback027 retain34-cell scope. Remaining157
+and all192strict-inactive private/manual/recipient/adoption, quality-conditioned
+Q1-Q10/named reports remain incomplete. No new source/runtime/prompt/budget/
+model/scheduler changes, new private-body decoding or raw payload export.
+
 Current2026-10-07 11:58HKT:35attempts preserved/34effective/0pending.
 Cell35 LongBench4/DeepSeek/Slow/E completed with valid terminal/originalscore1;
 auditSHAaf2c1ce4eb8f3cd7b4e0ec74cbb547a5f3fc19b894318072587eaa6cf6ce7fd0
