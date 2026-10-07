@@ -16,6 +16,13 @@ full-population snapshot remains031/34cells, not a35-cell snapshot. Older pendin
 review captures below retain historical scope. No new private-body decoding or
 model calls by this audit; full192quality-conditioned final analysis remains.
 
+Additional independently hash-bound metadata04:05:47Z: four specialists used
+7/5/5/7reasoning turns, max7 below the shared eight-turn ceiling. Actions by
+owner:19Manager plus6/4/3/13specialist actions, total45. A13action trajectory
+is not thirteen reasoning turns. Final traceSHA
+`b92ffbf4e4b7b1fe12ba0ed9f366c84f807289750c5745cc02de38f7c1e70189`.
+No per-agent prompt or result text exported; no specialist utility claim.
+
 ## Cell35 terminal completion preserved; exact gate review pending
 
 2026-10-07 11:50HKT. LongBench4/DeepSeek/Slow/E attempt1 completed and

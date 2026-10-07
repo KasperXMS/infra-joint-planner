@@ -14,6 +14,14 @@ on these failures remain but must not be interpreted as inference never reached.
 Five returned successful receipts plus three proven post-backend failures imply
 at least eight backend completions; failed tokens/finish/service remain unknown.
 
+Independent04:05:47Z per-agent metadata readback binds final traceSHA
+`b92ffbf4e4b7b1fe12ba0ed9f366c84f807289750c5745cc02de38f7c1e70189`:
+specialist reasoning counts are7/5/5/7, total24, maximum7 against the frozen
+eight-turn per-specialist ceiling. Prepared actions by owner are19Manager and
+6/4/3/13specialist actions, total45. Physical-call count is not reasoning-turn
+count; no ceiling violation inferred from a specialist submitting13actions.
+These counts do not establish evidence adequacy or specialist benefit.
+
 Effective reviewed disposition is valid, original evaluator score1 unchanged.
 Original journalSHA `91e98fc45c025b9f5f0a88f84356e8e1eceee203b4bb78b6cf5189741720533e`
 is unchanged. Original admission/rejection and all historical controls retained;
