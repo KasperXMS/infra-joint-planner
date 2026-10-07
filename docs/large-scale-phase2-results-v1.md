@@ -1,5 +1,37 @@
 # Resident Phase II results — in progress
 
+## Current snapshot022:24 settled; next cell live (2026-10-07 09:12 HKT)
+
+Owner-local immutable snapshot022 at01:10:43Z records24admitted/24attempts,
+0pending/0effective confounders/3preserved raw rejections. SHA256
+`eadec1fc6d34c06e14f4a78ee3446e8029d416f810123056719cf8c13464baf2`;
+journalSHA `4e01dec8b63e8cea2203a1edd4cad11037bde495a4cb97333e5be897102e6a87`.
+Controller005 is running under the newly frozen disjoint review control;
+01:12:42Z monitor confirms owned supervisor2434639/controller2434640 and
+pending cell25atomic2480233. A subsequent reservation is not part of this
+snapshot's settled count. Remaining168 outcomes include this active cell.
+
+| Additional settled cell | Completion / format / original score | Manager / Verifier | Physical / returned inference | E2E, s | Initial bytes / seconds | Agent transfer bytes / seconds |
+| --- | --- | --- | --- | --- | --- | --- |
+|23 MultiHop6 / DeepSeek / Slow / E |true / valid /1 |10 /10 |13 /1 |155.267 |7,696,522 /22.117 |Successful0 /0; complete failed traffic unknown |
+|24 MultiHop6 / Qwen / Fast / B0 |true / valid /0 |7 /7 |5 /1 |120.261 |7,696,522 /.771 |5,204,596 /.909 |
+
+Cell24 follows aggregate_artifacts, BM25, context-rejected model request,
+BM25, then successful model inference on A28:4,137input/4output tokens,
+stop,72.534s backend service. One separate semantic-validation and one
+phase-restricted SDK feedback are recorded. Graph5nodes/4edges/16snapshots;
+no specialists, maximum actual concurrency1. Original admission is valid,
+with no operational or recipient findings. Quality0 remains a valid negative
+sample; no replacement or prompt tuning. Frozen-list-price API cost is
+USD0.085285, not an invoice. Inclusive Worker model-action work is not added
+to backend service work. Specific semantic failure remains for post-block audit.
+
+Feedback018 verifies392 actual contexts:191Manager/191Verifier/10specialist,
+53profile/93ledger/46rule matches; SHA
+`4bbbf57909c155421918076d1a2f39bb3be64e201d088eaab44e9e99c7b1d2ff`.
+All192 and inactive private/manual failure/adoption audits remain incomplete.
+Older captures and the historical22-row table below retain their own scope.
+
 Latest durable review:23effective/23preserved attempts/3raw confounders/
 0effective confounders/0pending. Cell23's original score1/completion/format are
 unchanged; its exact field sidecarSHA is

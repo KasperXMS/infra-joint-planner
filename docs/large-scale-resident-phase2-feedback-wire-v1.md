@@ -1,5 +1,18 @@
 # Held-out Phase II: actual feedback-wire audit
 
+## Latest: audit018, twenty-four settled cells
+
+Source snapshot022SHA
+`eadec1fc6d34c06e14f4a78ee3446e8029d416f810123056719cf8c13464baf2`;
+audit018SHA `4bbbf57909c155421918076d1a2f39bb3be64e201d088eaab44e9e99c7b1d2ff`.
+Owner-local actual requests contain392contexts:191Manager,191Verifier and
+10specialist. B1 profiles match53root decisions, A/E ledgers93, and E frozen
+rules46. Non-Manager recipients remain without these feedback prefixes;
+fixed Verifier model and original method/recipient scans pass. No new model
+calls, support/corpus/store-body reads or raw payload export. Visibility alone
+does not establish adoption, semantic sufficiency or causal cost savings.
+The earlier captures below retain their original settled populations.
+
 2026-10-07, Asia/Hong_Kong. This is a settled-request metadata audit, not final
 semantic/adoption analysis. The real controller continued the frozen schedule.
 No Agent code, instructions, budget, rule payload, scheduler or model was changed.
