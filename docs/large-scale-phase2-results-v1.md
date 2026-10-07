@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 02:39HKT, corrected offline creator38093 is terminal exit0;
+original95sidecar SHA25cd189659e77ab0e8e0c0392cb1817c2d9de18670c4b2e8309104a63f4a59a8
+is preserved and journal5e793191...fc36a is unchanged. The first003invocation
+rejected a wrong ledger filename prefix before authority writes. Corrected
+003renewal session84408/PID3347179/start192533324 is actually CPU-live and doing
+the existing full proof;manifest still absent at18:39:03UTC. No96reservation,
+95retry or newbenchmark call. Independent bootstrap003/016launch remain pending;
+95effective/96preserved is the required reviewed closure, not yet an independently
+verified current dispatch authority. Original192/all193/normal96/full final
+private/manual/terminal/failure/retention/adoption/quality/Q1–Q10 scope unchanged.
+
 At2026-10-08 02:28HKT, legacy sidecar creator79253is actually terminal(exit1),
 not live; it failed journal replay before writing because it omitted the pinned
 environment71exclusion(first reject sequence143), with derived81also unsupported.

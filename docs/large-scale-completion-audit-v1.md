@@ -1,5 +1,18 @@
 # Completion audit — not achieved
 
+### 2026-10-08 02:39HKT: successful95 proof, full renewal in progress
+
+The corrected original95sidecar creator actually exited0, preserving journal
+and raw evidence; SHA25cd189659e77ab0e8e0c0392cb1817c2d9de18670c4b2e8309104a63f4a59a8.
+No benchmark retry or model call. A wrong ledger filename in the initial003
+invocation rejected before writes; corrected original full renewal is actually
+running as84408/PID3347179/start192533324, with advancing CPU.003manifest and
+bootstrap remain uncompleted, no96reservation. Independent readonly review
+confirms no95retry authority, only the preserved71replacement, and required
+full96 audit before97. This turn makes concrete renewal progress and a verified
+wait; final all192/all193 and manual/private/semantic/retention/adoption/Q1–Q10
+deliverables remain incomplete. Do not mark the goal complete or blocked.
+
 ### 2026-10-08 02:28HKT: real offline creator defect repaired, proof running
 
 Previous goal turn was a verified wait. Current actual terminal output shows

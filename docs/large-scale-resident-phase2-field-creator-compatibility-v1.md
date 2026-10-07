@@ -26,6 +26,28 @@ or95retry occurred. Owner-local legacy failure receipt SHA256:
 `784b64526d7400c08c0efa1f6c25f4590825b897d7cd03064ba5cab5f5f348a1`.
 This offline creator failure is not a new benchmark runtime/provider failure.
 
+## Subsequent authoritative completion and renewal attempt
+
+The corrected creator38093 exited0 and exclusively produced the original95
+sidecar SHA256 `25cd189659e77ab0e8e0c0392cb1817c2d9de18670c4b2e8309104a63f4a59a8`.
+All three exact initial-field failures and nine actual Manager schema wires are
+covered by the unchanged proof. Journal SHA256 remains
+`5e79319170a95c674e687a4865100668458676b8d26acd57c3c36bd85a9fc36a`.
+No retry, model call, evidence mutation or new corpus/store body read occurred.
+Do not repeat either terminal creator79253 or38093.
+
+The first003 orchestration attempt rejected an incorrectly named ledger path
+at `field.owned` before writing any control/ledger/manifest. This was a filename
+error in the invocation, not a frozen-source/runtime defect. The corrected
+invocation uses the existing `field.LEDGER_PREFIX` and exclusively targets
+`phase2-field-ledger-freeze-008.json`. Session84408 is running the original full
+renewal proof. At2026-10-07T18:39:03.096669UTC its exact process3347179 /
+start192533324 was live, CPU ticks13205;003manifest remained absent. This is
+proof in progress, not a completed dispatch authority. Independent read-only
+review confirms unchanged ancestor inventories/review pairs/71exclusion,
+valid95 duplicate rejection, and full96 gate before97. Independent bootstrap003
+and controller016 must still complete their actual gates before new execution.
+
 ## Narrow repair
 
 New `large_scale_resident_phase2_renewed_field_review_v1.py` composes the exact
