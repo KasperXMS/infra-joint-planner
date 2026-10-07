@@ -6,13 +6,13 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
-from test_large_scale_field_only_review import fixture as field_fixture
 
 from infra_joint.control.provenance import provenance_sha256
 from infra_joint.experiments.attempt_ledger import AttemptLedger
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 review = importlib.import_module("large_scale_resident_phase2_field_review_v1")
+field_fixture = importlib.import_module("test_large_scale_field_only_review").fixture
 
 
 @pytest.fixture
