@@ -1,5 +1,38 @@
 # Reviewed held-out private audit preparation
 
+## Current membership: environment manifest002 (2026-10-07)
+
+The field-only003 recipe below is historical and **must not be used for the
+current final block**. Current control is environment manifest002, with exactly
+192nominal admitted outcomes plus the preserved excluded original71:193attempts.
+Its authoritative audit namespace is
+`audit-tools/resident-phase2-environment-control-002`, prepended to the archived
+Python paths recorded in `phase2-queue-supervisor-012.json`. Original measured
+revision remains `0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd`; archive commands retain
+that `INFRA_JOINT_CODE_REVISION`, not the latest local Git commit.
+
+Only after all192settle and the original global inactivity guard independently
+passes, the existing all-attempt diagnostic entrypoint accepts:
+
+```text
+python -m large_scale_resident_phase2_environment_private_v1
+  --manifest <ROOT>/phase2-environment-cadence-freeze-002.json
+  --manifest-sha256 cd4bdba7859bf7ce346fe7250cce341b8960ed91d22695c879266352a56e0023
+  --output <ROOT>/analysis/<new-exclusive-private-audit-name>.json
+```
+
+This is an API recipe, **not authorization to run it during a live/partial block**
+or to run multiple redundant final scans. It retains original scanner/guard
+semantics and all193attempts, but is intentionally not a comprehensive semantic
+audit. It returns `semantic_audit_complete=False`; manual primary causes and
+unannotated retention remain unknown. Before final completion the caller must
+also persist/bind all193actual recipient checks, exact PhaseII scanner-wrapper
+source, and the PhaseII model-JSON/field sidecar failure diagnostics. Legacy
+projection zero defaults are not measured absence of those reviewed failures.
+A separate offline bundle is being prepared; validated invocation/evidence will
+be documented before any real final scan. Do not edit controller012's pinned
+sources or import report-only changes into measured execution.
+
 ## Current combined-review entrypoint: source verified, not invoked
 
 2026-10-07 15:03HKT. The old model-JSON-only invocation below is historical.

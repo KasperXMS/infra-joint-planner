@@ -1,5 +1,19 @@
 # Completion audit — not achieved
 
+Current2026-10-07 21:31HKT: previous goal turn was progress, not a wait/no-progress
+turn: user-approved exclusion, full source/proof renewal, startup regression fix,
+independent readback and new012dispatch changed authoritative state. Current goal
+turn verifies the same live012and atomic process:74effective/76preserved/1pending.
+Original71remains excluded; the sole authorized replacement is valid and finished,
+metadata/tc/residency/shutdown receipt d5765a9155234bdb0490d0acd92557ae4ca1b0c41433e2f207073b88f25c63ce.
+All192execution, final193-attempt strict-inactive private/manual/recipient/source/
+adoption/retention/failure review and named per-task/cross-Planner/Q1–Q10 reports
+remain unfinished. Existing final diagnostic intentionally does not certify
+semantic completion. A source-bound offline final evidence bundle is necessary
+to retain recipient proof and correct PhaseII review-derived legacy zero fields;
+it must not modify controller012's frozen source or measured execution. No early
+private scan/aggregation, model calls, tuning, pruning or completion claim.
+
 Current2026-10-07 19:43HKT:010terminalexit1/11:36:16Z after cell71external
 GPU contention.70admitted settled/71preserved/0pending/121unstarted,
 8raw findings/1unresolved. Cell71score1/completed does not prove residency;

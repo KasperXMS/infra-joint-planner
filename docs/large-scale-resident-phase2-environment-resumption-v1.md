@@ -183,3 +183,21 @@ excluded regardless of its score. No success/quality claim for attempt2 before
 settlement; all192 and strict-inactive private failure/adoption/retention/Q1-Q10
 audit remain required. Trace archive is the earlier71-attempt snapshot and does
 not include the newly running replacement.
+
+### Authorized replacement admitted (13:23:03Z)
+
+An independent metadata-only check at13:30:42Z verified original reservation/
+settlement hash chain, unchanged execution SHA, valid original admission,
+execution completion,format-valid original benchmark score1,exit0,verified Worker
+shutdown,residency-validation passed and exact restored tc state for attempt2.
+Exclusive receipt `analysis/phase2-environment-replacement-settled-001.json` SHA256
+`d5765a9155234bdb0490d0acd92557ae4ca1b0c41433e2f207073b88f25c63ce`.
+This closes the authorized replacement, not the full193-recipient/private audit.
+Stored admission recipient checks pass; independent full feedback renewal remains
+at80rather than introducing a new per-cell full audit. Original71raw rejection and
+exclusion are untouched; no third attempt is allowed.
+
+At13:30:55Z the same012supervisor/controller are owned/live:74admitted,
+76preserved,one pending75Video3/DeepSeek/Slow/B1 atomic3169940/start190693765.
+Zero effective confounds,one original excluded;117unstarted plus the live cell.
+Completion of192and final reports remains unproven; no pooled accuracy.

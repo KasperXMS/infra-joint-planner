@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+Current2026-10-07 21:31HKT:012owned/live,74admitted76preserved1pending117unstarted;
+original71remains environmental-excluded, one authorized identical replacement
+settled13:23:03Z with valid format/score1/residency/tc/Worker shutdown. Metadata
+receipt d5765a9155234bdb0490d0acd92557ae4ca1b0c41433e2f207073b88f25c63ce.
+Full bootstrap002 independently covers all71original traces/1097actual requests;
+this is not a final audit of later cells. Next full80then96/...192; new findings
+stop. Measured execution004 unchanged. All192+193-attempt final strict-inactive
+private/manual/recipient/adoption/failure/retention/Q1–Q10 remain required.
+Independent final-path review found report-only joins/persistence/source-binding
+gaps; separate offline bundle preparation does not tune methods or live execution.
+No aggregate accuracy, causal adoption or method winner claim.
+
 Current2026-10-07 19:43HKT:010terminalexit1at11:36:16Z;70admitted settled/
 71preserved/0pending/121unstarted,8original findings/1unresolved. New71Video5/
 DeepSeek/Slow/E completed/format valid/score1but external GPU1Strata process
