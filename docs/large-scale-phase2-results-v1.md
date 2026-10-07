@@ -1,5 +1,45 @@
 # Resident Phase II results — in progress
 
+## Cell37 settled: valid score0; rule visibility is not causal evidence
+
+2026-10-07 13:08HKT. LongBench3/Qwen/Fast/E attempt1 completed with valid
+canonical terminal and original evaluator score0; original admission valid,
+no retry/replacement. End-auditSHA
+`5926c8f7a275c1a78082acc5739f7a292b04674df247584ce79f60adff7c6602`
+independently reproduces all source/state/terminal bindings and12SDK contexts.
+StartupSHA `949ba9d893f8d8c689a21871797069deade78c56cce1296191890c5a491538b7`.
+
+| Recorded component | Cell37 |
+| --- | --- |
+| Manager / Verifier / specialist turns |6 /6 /0; no specialists |
+| Physical calls / model requests / successful inference receipts |5 /2 /1 |
+| Typed failures |1context reject explicitly inference=false;1semantic validation |
+| E2E |89.419063866s |
+| Initial materialization, separate from Agent movement |967830bytes /0.123360969s |
+| Complete registered Agent movement |0bytes /0s; not all HTTP/RPC/prompt traffic |
+| Complete tool work |0.517319935s |
+| Inclusive successful Worker model-action work |16.775824944s; includes backend service |
+| Complete backend service / tokens / finish |16.667139426s /5902input,2output /stop |
+| Frozen-list-price cloud API USD |0.115794140235719315962210499740894776704452; not invoice |
+| Execution-grown graph |5nodes /3artifact-flow edges /16snapshots /peak1action |
+
+Sequence: BM25; context-rejected model; another BM25; select_fields; successful
+terminal inference on resident-a4-vl4b-v1 with one input artifact. Raw terminal
+text equals canonical answer and the frozen deterministic projection. No hidden
+semantic finalizer. Context-rejected request is not backend inference; abstract
+requirements matching does not prove the complete prompt/artifact envelope fits.
+Successful registered movement zero does not measure all transport/prompt traffic.
+Inclusive model-action work must not be added again to backend service; these
+persisted work receipts are not an additive E2E decomposition.
+
+Score0 is a valid quality failure; neither compact information flow nor a wrong
+answer alone proves evidence loss or E-rule adoption/causality. Those questions
+wait for all192strict-inactive private audit. Same007 continues;37effective/
+37preserved/zero pending/155remaining. Next38LongBench3/DeepSeek/Slow/A.
+Snapshot034 creator66401 running, not completed; feedback030 not invoked.
+Snapshot033/feedback029 retain36-settled scope. No score aggregation, old/new
+pooling, ordinary retry, prompt/model/budget/scheduler change or payload export.
+
 ## Cell37 running; snapshot033 still covers36settled
 
 2026-10-07 13:05HKT. LongBench3/Qwen/Fast/E attempt1 atomic2802358 actually
