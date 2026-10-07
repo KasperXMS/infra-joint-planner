@@ -1,5 +1,20 @@
 # Held-out initial-record field misuse: offline audit
 
+## Cell32 startup verified under the unchanged resident execution pool
+
+2026-10-07 11:05HKT. Same006controller2562901/supervisor2562900 owns
+cell32 Video3/DeepSeek/Fast/A attempt1, atomic2714910 independently verified
+live. Append-only startupSHA
+`101233e06cc158a36067ed776703ec4e9bf31423def9479a411c859d17322628`
+and bound config/freeze/state/residency sources independently reverified.
+Four initially empty Worker stores, five resident instances and archived
+source004-only atomic imports remain unchanged. No model reload, new audit
+namespace in execution, prompt/budget/model/scheduler change or ordinary retry.
+31settled+one pending at capture; no completed outcome or quality inferred.
+No new support/corpus/store-body decoding or raw payload export. Successful
+startup creator must not be repeated; original admission must be checked after
+settlement. Snapshot028/feedback024 remain their closed31-settled scope.
+
 ## Cell31 original admission and natural continuation audited
 
 2026-10-07 10:56HKT. Cell31 Video3/Qwen/Slow/E attempt1 settled valid,
@@ -20,8 +35,13 @@ are not established by correctness or by visible feedback. No new model calls,
 support/corpus/store-body decoding or payload export by these audits.
 Successful31startup/audit creators must not be repeated. Next scheduled cell32
 is Video3/DeepSeek/Fast/A. Snapshot028 read-only collection was restarted only
-after verifying the previous creator exited before writing; session29198 is
-currently running. Original journal and experiment attempts are untouched.
+after verifying the previous creator exited before writing; session29198 was
+running at this10:56capture and subsequently completed successfully at02:59:43Z.
+Its SHA is9c272b63fe737ce805ad7c073d7ecfb3e91332bb43c3378146f4df9f5b12ccf3;
+feedback024SHA2788d349b7176a820cc47926c3be2bbcceeddf038cb401125cd0ff0e2db17a19
+verifies486contexts. Both creators are finished and must not be repeated;
+see the results/feedback reports for the completed31-settled boundary.
+Original journal and experiment attempts are untouched.
 
 ## Cell31 actual startup; live context feedback is not a completed outcome
 
