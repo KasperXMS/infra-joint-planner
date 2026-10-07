@@ -1,5 +1,39 @@
 # Resident Phase II results — in progress
 
+## Cell35 terminal completion preserved; exact gate review pending
+
+2026-10-07 11:50HKT. LongBench4/DeepSeek/Slow/E attempt1 completed and
+received original evaluator score1 with valid output format. Original controller
+006 stopped on three JSON materialization findings; this capture is not a claim
+of35effective admission. Original trace/result/admission/journal remain immutable.
+Independent auditSHA `af2c1ce4eb8f3cd7b4e0ec74cbb547a5f3fc19b894318072587eaa6cf6ce7fd0`
+binds terminal provenance, Worker exit/store/residency/tc and fifty SDK contexts.
+
+| Receipt-derived metric | Value / scope |
+| --- | --- |
+| Reasoning |13Manager /13Verifier /24total specialist turns |
+| Specialists |4created /2peak-active; per-specialist ceiling unchanged |
+| Physical actions |45;5successful inference telemetry receipts |
+| Typed feedback |2context /3JSON /1oversized read /2semantic validation /1phase restriction |
+| E2E |350.104s |
+| Initial placement, separate |115,726B /0.387s |
+| Successful registered Agent movement |0B /0s; complete failed-inclusive movement unknown |
+| Successful tool work |2.896s; complete tool work unknown |
+| Inclusive successful model-action work |42.233s; includes backend service |
+| Complete model service/tokens |Unknown because failed-call telemetry is absent |
+| Returned successful model tokens |3,914input /1,230output;5stop receipts |
+| Frozen list-price API cost |USD0.785616062; not invoice |
+| Graph |45nodes /39artifact-flow edges /136snapshots /peak4 |
+
+Terminal is a successful prompt-only model output,69input/2output/stop/service
+0.278s; raw text equals canonical evaluated answer. No extra semantic finalizer
+or benchmark retry. Evidence sufficiency, specialist utility, E-rule adoption
+and causal quality/cost benefit are not established by these metadata. Complete
+failed-inclusive traffic/service work must not be replaced by the successful
+subtotals. Same frozen execution and schedule; next unexecuted cell36 is
+LongBench4/Qwen/Fast/B0. Full192strict-inactive private/manual/failure/adoption
+and quality-conditioned Q1-Q10 remain; no pooled scores or payload via the PC.
+
 ## Snapshot031 and feedback027 completed: thirty-four settled
 
 2026-10-07 11:38HKT. Snapshot031 completed03:37:02Z, SHA
