@@ -1,5 +1,22 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:28HKT, original111 (MultiHop3/P2/Slow/B1) and112
+(MultiHop3/P1/Fast/B0) both completed/valid with evaluator present, no terminal
+failure or admission problems, process exit0, all4Workers verified exited,
+resident5instances passed, and exact qdisc restoration/cleanup errorNone.
+111 admission34ae5410...6fa81/result7335cf4c...e2d5b/traceba676330...fad98
+(122events);112 admission47fd75f9...2894f/result8499ca49...7046b/
+tracec44df6b1...6ba9e (215events). Actual revision0ff... and fixed Qwen Verifier
+remain unchanged; Manager111Qwen/112DeepSeek match their registered cells.
+Same020 controller3735396/start197731109 remains owned/live and CPU-active in
+the ordinary full112 audit; receipt not yet present at09:27:48UTC. No113
+reservation:112admitted/113settled=113preserved/0pending/0unresolved/1excluded/
+80unstarted, journal ea2c5236...c0db9. Full112 must pass before113; do not
+restart020 or repeat any original attempt. This is execution/provenance
+confirmation, not partial quality aggregation or final semantic audit.
+All192/all193 and the final recipient/private/manual/retention/adoption/
+quality/Q1–Q10 reports remain required.
+
 At2026-10-08 17:18HKT, original110MultiHop3/P1/Slow/A attempt1 completed and
 passed originaladmission:executioncompleted/evaluatorpresent, problems[], no
 terminalfailure, exit0/all4Workersverifiedexited/residencypass5instances,
