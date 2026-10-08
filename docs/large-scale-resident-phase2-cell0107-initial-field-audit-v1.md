@@ -127,3 +127,23 @@ The renewed manifest and creator completion receipt do not yet exist. These
 partial writes are preserved, not overwritten or treated as completed authority.
 Original journal remainsc942...636f; no108/019/bootstrap. Poll87999 and exact
 3658983/start196777726; never restart a creator after partial writes.
+
+## Renewal authority closed; independent bootstrap started
+
+Creator87999 finished exit0 and its owned handle was absent at06:40:46UTC.
+Native-renewed001 manifest SHA256
+`16cc82e2be37a24a20cdbdad28e340ed2c84a04443154895391d42bd7700903a`;
+creator completion receipt SHA256
+`532988bb0d32f07a172d68f70b0833f84454ce3f6ef3253ee185e563ca57fa81`.
+Control011/ledger011 hashes above remain unchanged.14 source-bound pairs,
+with group counts4 model-JSON/7 initial-field/1 derived/1 filtered/1 native.
+Original107 is retained as valid semantic field misuse/recovery, without retry;
+original105 missing evaluation remains missing, not zero; original71 excluded.
+
+Independent bootstrap was submitted once, session13650, owner3666967/
+start196883167 at06:41:41UTC. It checks every108 preserved attempts and actual
+SDK recipient requests, the138-source closure/all135 ancestors, manifest,
+control/ledger/validation pins and the actual incomplete-final guard. At launch
+its receipt is absent and no019/108 launch is claimed. Expected/current manifest
+view107 admitted/108 preserved/0 pending/0 unresolved/1 excluded/85 unstarted;
+original journalc942...636f remains unchanged. Wait this handle; no resubmission.

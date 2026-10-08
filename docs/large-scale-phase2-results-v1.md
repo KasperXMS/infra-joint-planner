@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 14:41HKT, native-renewed001 authority closedexit0:
+manifest16cc82e2...903a/control21b9695c...1c0f/ledger15f1da9c...0ecb,
+14 preserved source-bound pairs, all5 original proof groups/no new waiver.
+Manifest view107admitted/108preserved/0pending/0unresolved/1excluded/85unstarted,
+originaljournalc942...636f unchanged. Independent bootstrap13650/owner3666967/
+start196883167 submittedONCE, all108 recipient requests/138actualsources and
+originalincomplete-finalguard to be checked. No019/original108 launch yet.
+No new model/Worker/tuning/privatebodyaudit/qualityaggregate. Nextordinary112;
+all192/all193 and all finalaudits/Q1–Q10/reports still required.
+
 At2026-10-08 14:24HKT,107's exclusive initial-field creator97337 finishedexit0:
 new sidecar02ec7481...2808, creatorreceipt71e453cb...d5a0, exact3misuses/9
 Manager schema wires, originalcompletion/evaluatorpresence preserved, no retry.
