@@ -47,3 +47,16 @@ new manual semantic audit occurred. Final audit still requires all192 resolved,
 all193 preserved and strict global inactivity. Admission validity is not answer
 correctness. Next ordinary full gate is128, with immediate gating for any new
 finding.
+
+## Continuing execution
+
+Original113 reservation timestamp09:36:00.812417UTC is strictly after both the
+full112 checkpoint and independent readback. Cell113 is LongBench task5/P2/
+Fast/E, attempt1; atomic3759059/start197929230 has the exact frozen7-argument
+execution command. Actual Manager/Verifier both Qwen3.8-Max, revision0ff...,
+config9330e3b3...5acb9/freeze09d444d0...8b63f/capabilitydaf64110...e013,
+20/64/20 budgets and1200s physical service timeout match the registered contract.
+At09:38:54UTC it remains owned/live,172 trace events; most recent header is
+`action.started`. No result, retry or new finding is inferred from that wait.
+112 admitted/113 settled+1 pending=114 preserved/0 unresolved/1 excluded/
+79 unstarted. Same020 owner pair remains unchanged; full128 is due before129.

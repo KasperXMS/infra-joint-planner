@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:39HKT, original113LongBench5/P2/Fast/E attempt1 is live:
+atomic3759059/start197929230 exactfrozenargv/revision0ff/ManagerQwen/
+VerifierQwen/20-64-20budgets/1200s service timeout verified. Its reservation
+09:36:00.812417UTC follows full11209:31:52 andindependentreadback09:34:48;
+no cadence bypass. Same020ownedlive,112admitted/113settled+1pending=
+114preserved/0unresolved/1excluded/79unstarted. Journal4a70b416...47e2fc.
+Trace172events/latestaction.started; no terminal result orqualityclaim yet.
+Nextfull128 before129; no retry/replacement/implementation/prompt change.
+All192/all193 andfinalaudit reports remain required.
+
 At2026-10-08 17:35HKT, full112 checkpoint completed09:31:52UTC, SHA
 b02d164a...5c481; independent owning-node readback09:34:48UTC persisted
 5caa70e9...584c9. All113 traces/admission provenance digests and1831 actualSDK
