@@ -87,3 +87,38 @@ It has not been transferred or used on the4090. No dataset, model, Worker store,
 benchmark payload, full SDK archive or secret file is in this source archive.
 Journal04e336a9...eb08a and unresolved109 remain unchanged until a full-source
 validated, exact proof and independently gated successor authority are complete.
+
+## Full validation closed; actual109 dry proof reproduced
+
+Local fullpytest53460 finished exit0:2768 passed/7 existing skips/255.91s.
+Whole Ruff, project strict Pyright and explicit four-script strict Pyright pass;
+diffcheck passes and all eight new source/test hashes stayed unchanged during
+validation. Source implementation commit `376bb25e4cab1dac4174969859b1ca91b9f7a185`.
+Only the183-member/1.9MB source archive was transferred; no dataset/model/store
+or raw SDK archive traversed the development PC. Installed fresh namespace
+`audit-tools/resident-phase2-derived-companion-control-001` reproduced actual144
+source hashes/pin ed90bbcb...88b9, every138 ancestor retained; atomic004 unchanged.
+Actual4090Linux97336 exited0:1182 passed/0skip/19.82s across35 files (all previous31
+plus4 new test files). The unchanged old test-only helper was used only by pytest,
+never on formal Python paths.
+
+Exclusive validation receipt SHA256:
+
+- Local: `a7c4c0b9963e82967dee83431e8ba111ccafe659c53286b59a4a114e9880e263`.
+- Linux: `dfbd8bcf4ab55e1709e74944642394f3bebbe982e732e1f700ecbd433d67ca16`.
+
+Readonly actual109 dry proof28046 exited0 at07:49:09UTC: exactly1 field misuse,
+1 read-limit,1 output-collision,1 context and1 phase companion,6 actual Manager
+schema wires and4 actual selected tool wires. The original completion/evaluator
+presence is retained. Reviewed admission canonical SHA256
+`c65b11784c89d2b6fe25d5329dd6f411b191c3e0f66f23d81907775edf056494`.
+No sidecar/receipt, new model call, retry, corpus/store body decode or journal
+mutation occurred during the dry proof.
+
+The separate source-bound creator was then submitted **once**: session60298,
+PID3702007/start197298645, started07:50:56UTC. At07:52:02UTC exact interpreter
+argv/start ticks prove it live; source-bound sidecar and creator completion
+receipt are still absent. Wait this owner; never resubmit or infer failure from
+duration. No successor authority/bootstrap or queue020 exists yet. Original109
+is not rerun;108 admitted/110 preserved, one unresolved, zero pending,83 unstarted.
+All192/all193 and final private/manual/quality/adoption/Q1–Q10 remain incomplete.

@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 15:52HKT,109offline-only source376bb25 passed fullpytest2768/7,
+actual4090Linux1182/0 across35 files, Ruff/project+four-scriptstrictPyright/diff.
+Actual144-source pin ed90bbcb...88b9 retains every138ancestor; no execution change.
+Readonly109dryproof reproduced1derivedfield+readlimit/collision/context/phase,
+6Manager schema wires/4actual selected wires, reviewedcanonicalc65b1178...6494.
+Creator60298/3702007/start197298645 launchedONCE07:50:56UTC and independently
+verifiedlive07:52:02UTC; sidecar/completionreceipt absent, never repeat.
+019 remains terminal/no110started;108admitted/110preserved/1unresolved/0pending/
+1excluded/83unstarted, journal04e336a9...eb08a unchanged. No109retry,020/authority/
+bootstrap or qualityclaim. Full112 still due; all192/all193 and finalaudits remain.
+
 At2026-10-08 15:13HKT, original108MultiHop6/P2/Fast/A completed at07:07:35UTC:
 executioncompleted/evaluatorpresent, originaladmission valid/problems[], allWorkers
 verifiedexited; trace96e45470...2d52. Original109MultiHop3/P2/Fast/E completed
