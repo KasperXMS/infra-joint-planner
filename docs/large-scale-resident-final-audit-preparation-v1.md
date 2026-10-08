@@ -1,5 +1,25 @@
 # Resident study final-audit preparation — not completion
 
+## Current cell136 gate — no dispatch authority yet
+
+2026-10-08 22:16HKT:queue021 is terminal (controller exit1 at13:56:54UTC),
+not live. Original136 execution completed with evaluator present but its raw
+validation_failed gate remains unresolved.135admitted/137preserved/0pending/
+1unresolved/1excluded/56unstarted; strictinactive/Strata-stopped pass14:06:22UTC.
+Journal e8e796e0...a3a9. Narrow metadata/actualSDK diagnosis proves the failed
+aggregate_artifacts request received three successful text/plain model outputs
+and the frozen tool's JSON-record description; one10-image context-limit
+companion is also recorded. See cell0136 artifact-type audit note.
+
+Additive offline media-type proof/adapter/tests are being prepared. No new
+source freeze, sidecar, successor authority, bootstrap or022launch exists yet.
+151-source v3/manifest9d68/control013 remain historical current authority, but
+cannot resolve this new finding. Do not use the older "021continues" snapshot
+below to dispatch or repeat an experiment. Full128 remains closed; full144/
+160/176/192 and all192/all193 final actual-recipient/private/manual audits,
+retention/adoption/quality/Q1–Q10 reports remain outstanding. No private body
+or quality aggregate, new model call, experimental tuning or retry occurs.
+
 ## Current companion-v3 preparation — supersedes all older recipes below
 
 Cadence amendment2026-10-08 21:15HKT: ordinary full128 checkpoint and its
