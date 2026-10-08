@@ -1,5 +1,20 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:54HKT, original115LongBench5/P2/Slow/B1 and116LongBench5/
+P1/Fast/B0 both completed/valid/evaluatorpresent. Both have problems[]/
+operationalincidents[]/terminalfailureNone/process0/all4Workersverifiedexited/
+resident5pass/tc cleanup_errorNone+exactqdiscrestore.115admissionf7c938fb...
+247b9/result4f21051e...f7666/tracead4aa644...1a5e(249events);
+116admissionb148ef44...83159/result16f9984c...75458/trace4f6642f7...c1dc7
+(142events). ActualManager115Qwen/116DeepSeek/fixedBlindQwenVerifier/revision0ff/
+20-64-20budgets/1200s service timeout unchanged. Same020supervisor3735395/
+197731107/controller3735396/197731109 ownedlive09:54:19UTC;116admitted/
+117settled=117preserved/0pending/0unresolved/1excluded/76unstarted. Journal
+ba5c5912...92371; original117 notyetreserved. Full112verified/nextfull128
+before129; no retry/replacement/qualityaggregate/tuning ornewimplementation.
+All192/all193/finalrecipient/private/manual/retention/adoption/quality/Q1–Q10
+reports remain required.
+
 At2026-10-08 17:47HKT, original114LongBench5/P1/Slow/A completed/valid/
 evaluatorpresent, problems[]/terminalfailureNone/process0/all4Workersverified
 exited/resident5pass/tc cleanup_errorNone+exactrestore. Admissionf074cd42...ab3ad/
