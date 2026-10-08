@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:03HKT, new020 launchedONCE/ownedlive: supervisor3735395/
+start197731107/controller3735396/start197731109; supervisorSHA7a565d50...43784.
+Independentlive receipt d508a1c3...81d957 verifies exactargv/startticks/source147
+andactualfirst-actionfinalguard rejection beforeprivatebody/output. Bootstrap
+47a04d9d...3250e0/currentmanifest e8bb0da9...bf0a8e remain pinned. Startup109
+admitted/110preserved/0pending/0unresolved/1excluded/83unstarted; noatomic110
+reservation yet09:03:41UTC. Neverrepeat020/creators/bootstrap, retry109 orrestart
+019. Nextordinaryfull112 before113; all192/all193/finalaudits/Q1–Q10 incomplete.
+Actualruntime004/revision0ff... unchanged; no quality or completion claim.
+
 At2026-10-08 17:01HKT, independentbootstrap93165 TERMINALexit0/owner3725356
 absent; receipt47a04d9d...3250e0 verifiesall110preserved attempts/1785actualSDK
 requests (802Manager/801BlindVerifier/182specialist), source147/all144ancestor

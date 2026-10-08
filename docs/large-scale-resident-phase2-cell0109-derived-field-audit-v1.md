@@ -252,3 +252,23 @@ All creators/authority/bootstrap are closed and must never repeat. New020 may
 now start original110 once with exactmanifest/source/bootstrap pins, followed
 by independent live-owner and first-action finalguard validation. Full112 must
 pass before113. Complete all192/all193 and all finalaudits/reports remain due.
+
+## New020 launched once; independent live guard passed
+
+New020 launch exited0 at09:03:00UTC. Exact supervisor3735395/start197731107 and
+controller3735396/start197731109 are independently verified alive. Supervisor
+receipt SHA256 `7a565d5021a3c24fb6a23b719e08588456c5d02d10a1991f2c2d3b4fb5d43784`.
+Independentlive receiptSHA256
+`d508a1c34c37c276eeacfc372710a9b419eee134ad4dd7677c7476497381d957`
+binds completeargv/startticks, source147/execution004 and actual finaladapter
+rejecting `private body audit requires inactive queue and atomic actions`
+before evidence/body/output. No probe file or private body audit was created.
+
+The source-only002 namespace is prepended to all019 formal paths; test-only
+support is excluded. Measured application0ff.../canonicalexecution00416453...
+remains unchanged. Startup counts at09:03:41UTC:109admitted/110preserved/
+0pending/0unresolved/1excluded/83unstarted; no original110 reservation yet.
+Do not repeat020 or any creator/authority/bootstrap, retry109 orrestart019.
+Monitor same owners with `phase2_cell109_v2_controller020_readonly_py` in V8;
+full112 before113 and all192/all193/finalprivate/manual/quality/adoption/Q1–Q10
+remain required. This launch is not a claim that new atomic tasks completed.
