@@ -2,6 +2,17 @@
 
 ## Current companion-v3 preparation — supersedes all older recipes below
 
+Completion amendment2026-10-08 20:30HKT:bootstrap00296813 exited0 and exact
+owner3863777/start198843690 is absent. Independent12:29:39UTC readback verified
+completion receipt SHA256 `f866c70d07e9f1ec2d193bacae57b7636d236d4df1470259bfa3e04d40f2bf09`:
+126admitted/127preserved/zero pending or unresolved/one excluded, all127trace/
+admission bindings/all2062actualSDK request byte hashes and151actual source
+hashes/pin51965a19...d80d. Incomplete final guard actually rejects all192/all193;
+probe absent. No actual final scan or semantic/manual/quality/Q1–Q10 completion.
+Use only this actual002 receipt for the future021 dispatch and checkpoint128
+readback; never repeat either submitted bootstrap or any successful creator.
+All older running/absent-receipt descriptions below are historical snapshots.
+
 Readback amendment2026-10-08 20:09HKT: independent00142335 exited1 at an ad-hoc
 namespace lookup before receipt persistence; it is not a completed bootstrap.
 Failure receipt SHA256 `e9758ff6bbfc0a1eb5475f9ed6dd336140cfdeb1209b9d3449de2e87e6bd80af`

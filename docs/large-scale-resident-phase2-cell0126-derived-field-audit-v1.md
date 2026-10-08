@@ -1,5 +1,26 @@
 # Phase II original126: typed-failure gate
 
+## Closed independent bootstrap — 2026-10-08 20:30HKT
+
+Readback002 session96813 exited0; owner3863777/start198843690 is absent.
+Independent12:29:39UTC metadata readback verified the actual completion receipt:
+`analysis/phase2-filtered-companion-bootstrap-readback-002.json`, SHA256
+`f866c70d07e9f1ec2d193bacae57b7636d236d4df1470259bfa3e04d40f2bf09`.
+It proves126 admitted/127 preserved/zero pending or unresolved/one original71
+exclusion, all127 original trace/admission bindings, all2062 actual SDK request
+byte hashes (931Manager/930fixedBlindVerifier/201specialist), and151 actual
+source hashes/pin51965a19...d80d. Historical105 remains incomplete with no
+evaluation; original126 remains completed with evaluation present, without a
+new answer/score review. Actual incomplete final guard rejected with
+`final bundle requires all192 resolved and all193 preserved`; probe absent.
+
+Original journal261ee83a...c3ab7, authority/sidecars and runtime0ff remain exact.
+No new experiment/retry/replacement/private body export or quality aggregate.
+Queue021 is not yet submitted at this readback; the next action is one gated
+launch using this actual002 receipt, then full128 before129. All192/all193 and
+final recipient/private/manual/retention/adoption/quality/Q1–Q10 remain required.
+Older in-progress entries below are immutable chronology, not current status.
+
 Original `phase2-multihop_rag-4-fffab28c23fbdeaf-p2-slow-A`, attempt1, is preserved.
 Queue020 exited1 at2026-10-08T10:43:52.249880UTC. Independent10:44:06UTC
 readback confirms supervisor3735395/start197731107 and controller3735396/

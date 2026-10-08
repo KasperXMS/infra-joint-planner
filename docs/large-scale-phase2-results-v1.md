@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 20:30HKT, bootstrap00296813 closedexit0; exactowner3863777/
+start198843690 absent. Independent12:29:39UTC readback PASSED:126admitted/
+127preserved/0pending/0unresolved/1excluded; all127trace+originaladmission
+bindings/all2062actualSDKrequest hashes (931Manager/930Verifier/201specialist)
+and151actualsource hashes/pin51965a19...d80d. Completionreceipt
+`analysis/phase2-filtered-companion-bootstrap-readback-002.json` SHA256
+`f866c70d07e9f1ec2d193bacae57b7636d236d4df1470259bfa3e04d40f2bf09`.
+Actual incompletefinalguard rejected all192/all193 requirement; probeabsent.
+Journal261ee83a...c3ab7 unchanged; no021yet/no modelcall/retry/replacement/
+qualityaggregate. Nextgated021ONCE, full128before129, all192/all193 andfinal
+inactive/private/manual/retention/adoption/quality/Q1–Q10. Prior status entries
+are preserved chronology. Goal remains the complete characterization.
+
 At2026-10-08 20:09HKT, independentreadback00142335 exited1 beforecompletion,
 offlinecommand namespace error atnative-admission lookup, NOT a benchmark/
 runtime failure ornewattempt. Originaljournal/source151/authority remainexact;
