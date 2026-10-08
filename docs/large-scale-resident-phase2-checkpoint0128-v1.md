@@ -61,3 +61,15 @@ answer correctness. Final completion still requires all 192 cells resolved,
 all 193 attempts preserved, strict inactivity, actual recipient/private scans,
 manual semantic/retention/adoption/failure audits, quality-conditioned analyses,
 Q1–Q10 and all named reports. The goal remains active.
+
+### Cell-129 continuation identity
+
+Original cell 129 was reserved at 13:11:55.967104 UTC, strictly after both
+checkpoint completion and independent readback. It is Video-MME task 5/P2/
+Fast/B1, attempt 1. Atomic 3900625/start199224751 is owned and live at
+13:12:51 UTC; its exact seven-argument execution command, runtime revision
+0ff0e9b6d0799bd62e725a76b157e64cd9df5ccd, Qwen Manager/fixed Qwen Verifier,
+capability daf641...4e013, 20/64/20 budget and 1200-second service timeout match.
+Config SHA-256: `cc803ce96ea1e0344dc50d1644b2f8ec09b301a9b928396057d9139b39990eed`.
+Attempt-freeze SHA-256: `1309d27fcf9a6eb1ab6ab59336bd3429ab0bc6d63e403a8edb93984371b4284d`.
+No completion or quality conclusion is inferred from this live observation.

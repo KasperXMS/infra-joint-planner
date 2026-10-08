@@ -1,5 +1,13 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 21:13 HKT, original129 Video-MME5/P2/Fast/B1 attempt1 is executing
+under the same021 controller. Reservation13:11:55UTC follows full128 and its
+independent readback. Atomic3900625/start199224751 owned/live13:12:51UTC;
+exactargv/runtime0ff/configcc803ce9...0eed/capabilitydaf/20-64-20/1200s verified.
+128admitted/129settled/130preserved/1pending/0unresolved/1excluded/63unstarted.
+This is a live identity check, not completion or quality. No new retry/tuning;
+next full gate144, with immediate gating for any finding.
+
 At 2026-10-08 21:11 HKT, full checkpoint 128 and independent readback PASSED.
 Checkpoint captured 13:06:25 UTC, SHA 1fe94143...a4a71; exclusive independent
 receipt persisted 13:10:15 UTC, SHA 22639e07...9530, creator exited 0/owner absent.
