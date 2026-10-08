@@ -184,3 +184,25 @@ PID3710239/start197415627, exact owner and stateR/CPU17958. Leaf proof passed;
 complete five-group historical proof is still pending, not inferred from unit
 tests. No new source-bound creator, authority, bootstrap or queue020 yet exists.
 Original109 is not rerun and the original journal remains04e336a9...eb08a.
+
+## Actual full preflight and exclusive v2 creator completed
+
+Readonly48054 exited0 at08:15:26UTC: real81header and complete five-group
+preflight passed, exact1field+readlimit/collision/context/phase companions,
+6Manager schema wires/4selected tool wires, reviewedcanonicalc65b1178...6494.
+No sidecar or corpus/store decode occurred in this readonly proof.
+
+New source-bound creator109-002 was submitted once (session97815/PID3712940/
+start197451703) and finished exit0. Owner absent08:24:37UTC; sidecarSHA256
+`0d4640d11f06b1cfacf4d7152d3e45e83a31bc111a007e27f297b92107a0acb7`,
+creatorcompletionreceiptSHA256
+`58b04c2be2bfea04be71b60c226e8c3789202ae2649af62c566427929d84997c`.
+Original journal/trace/result/graph and all five failures remain unchanged;
+newmodelcalls0/retryfalse/atomicexecutionchangedfalse. This is not a rerun of
+the failed creator or benchmark: it is a separately validated additive reviewer.
+
+Authority session38560/PID3717258/start197503190 submitted once08:25:02UTC;
+new control012/ledger012/v2manifest freeze is pending, not yet claimed complete.
+Wait this owner; never repeat creators. Independent all110 actual SDK source/
+recipient bootstrap remains required before020/original110. Next full112 before
+113; all192/all193 and private/manual/quality/adoption/Q1–Q10 remain due.

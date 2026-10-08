@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 16:25HKT, actual readonly v2 fullfive-group preflight48054 exited0;
+real81header dispatch reproduced. Newexclusive109-002 creator97815 exited0,
+owner3712940 absent08:24:37UTC;109sidecar0d4640d1...a0acb7 andcompletionreceipt
+58b04c2b...4997c persisted. Originaljournal04e336a9...eb08a unchanged; no109retry,
+newmodelcalls or privatequalityaggregation. Authority38560/3717258/start197503190
+submittedONCE08:25:02UTC; control012/ledger012/v2manifest completion pending.
+No bootstrap/020 yet; finalall192/all193/full112 still required. Oldfailed
+creator60298/failurereceipt/all144v1sources remain preserved.
+
 At2026-10-08 16:13HKT, additive v2 source757483d passed fullpytest2854/7existing
 skips/315.03s, whole Ruff/project+three-scriptstrictPyright/diff; actual4090Linux
 1268/0 across38files/19.73s. Actual147-source pin1f7f4b06...43af1 retains all144
