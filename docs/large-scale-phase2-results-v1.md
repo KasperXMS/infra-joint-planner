@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 20:38HKT, original unstarted127MultiHop4/P1/Slow/E attempt1 is
+executing once under021; atomic3879361/start199015610 ownedLIVE. Independent
+12:38:11UTC identity readback verifies exactargv/runtime0ff/ManagerDeepSeek/
+fixedBlindQwenVerifier/capabilitydaf641...4e013/configb2744008...8d5c2/budget
+20-64-20/1200s. FreezeSHA de727c50...1f3b9.126admitted127settled128preserved/
+1pending0unresolved1excluded65unstarted; growing trace observed by headers only.
+No completion/score/privatebody/qualityaggregate claim. Same021owners remain
+live; next full128. Original126 is not replayed; all192/all193/finalgoal active.
+
 At2026-10-08 20:32HKT, queue021 submittedONCE after actual002 completion and
 independent readback; supervisor3875600/start198979764 and controller3875601/
 start198979767 independently ownedLIVE12:31:34UTC. Supervisor metadata SHA256
