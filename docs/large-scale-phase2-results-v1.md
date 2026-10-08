@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 21:20 HKT, original130 Video-MME5/P1/Slow/B0 attempt1 settled VALID:
+execution complete/evaluator present/no terminal failure/no admission problems
+or operational incidents. Independent13:20:12UTC metadata verification proves
+atomic3905686/start199255295 exited0, all4Workers exited, exact tc restoration,
+resident5passed. Actualruntime0ff/DeepSeekManager/fixedBlindQwenVerifier/
+config9c39842f...a4988/capabilitydaf/20-64-20/1200 unchanged.
+Trace76events SHA256ccc0dc589e660fb4514304c9abf578407cd86c46357b35c53e2f4a3c57866230;
+admissionfile SHA25656bb7f3feccbb3f902ad1ac60c70bbc1ad5877eca275f026318622c806c2bc24.
+130admitted/131preserved/0pending/0unresolved/1excluded/62unstarted;
+journalb4cd225d987c277cafbaf3fbebdfb24f3fd935210c4b52b74fffd8b151526a9c.
+Same021owners live13:20:00UTC. Next original131; full144 remainsnextcadence.
+No answer/score decoded, no private semantic audit/qualityaggregate/retry.
+
 At 2026-10-08 21:15 HKT, original129 Video-MME5/P2/Fast/B1 attempt1 settled VALID,
 execution complete/evaluator present/terminal failure none, zero admission
 problems or operational incidents. Independent13:15:24UTC metadata check proves
