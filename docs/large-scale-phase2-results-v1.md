@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 12:48HKT, controller017 is terminal(exit1), all of its owned
+process handles are absent and journal03aec69d...8828c is unchanged. Original105
+MultiHop6/P1/Fast/E failed when the Manager generated syntactically invalid
+consult_specialist JSON. The frozen pure SDK reviewer reproduces this exact
+failure with unchanged native/SDK sources and strict schema; classification is
+workflow composition, not provider outage. Completionfalse/evaluationnull are
+preserved. No105retry/replacement and no106reservation. Current authority:
+104effective/106preserved/0pending/1unresolved/1excluded/87unstarted.
+Separate five-group offline audit integration is in progress; no new authority
+or resumed queue is yet claimed. Nextordinary112; no private/manual body audit
+or partial quality aggregate. Original192/all193 and all final requirements
+remain incomplete. See [cell105 audit](large-scale-resident-phase2-cell0105-native-json-audit-v1.md).
+
 At2026-10-08 05:28HKT, original104MultiHop5/P1/Fast/A attempt1 naturally
 settled valid at21:26:14.686412UTC; execution_completed=true and Worker shutdown
 verified. Original admission file SHA256
