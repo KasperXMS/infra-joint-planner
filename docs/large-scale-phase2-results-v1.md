@@ -1,5 +1,21 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 21:11 HKT, full checkpoint 128 and independent readback PASSED.
+Checkpoint captured 13:06:25 UTC, SHA 1fe94143...a4a71; exclusive independent
+receipt persisted 13:10:15 UTC, SHA 22639e07...9530, creator exited 0/owner absent.
+Repeated actual-byte verification passed 13:10:58 UTC: all 129 traces/original
+admissions, 2,082 SDK requests (941 Manager/940 Verifier/201 specialist), 151
+actual frozen sources and 38 controller sources. Zero recipient findings;
+fixed Blind Verifier/non-Manager isolation retained. Exact feedback visibility
+matches 239 profile/478 ledger/240 rules, not causal adoption. Both readbacks
+preceded any cell-129 reservation (no later journal events). Same 021 owner pair
+live 13:11:12 UTC, controller CPU progressing; 128 admitted/129 preserved,
+zero pending/unresolved, one exclusion, 64 unstarted. No model calls, payload
+export, quality aggregate or private semantic audit. See
+`large-scale-resident-phase2-checkpoint0128-v1.md` for full hashes and scope.
+Next same queue/cell129, then full144/160/176/192 and all193 final audits;
+full characterization remains incomplete. Earlier entries are chronology.
+
 At2026-10-08 21:01HKT, original128MultiHop4/P2/Fast/B0 attempt1 settledVALID,
 executioncomplete/evaluatorpresent/terminalfailureNone/0admissionproblems/
 0operationalincidents. Actualatomic3889160 exited0; all4Workers verifiedexited,
