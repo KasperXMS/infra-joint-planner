@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 18:44HKT, queue020 terminal1 at10:43:52UTC; independently
+confirmed both exact owners absent10:44:06UTC. Original126MultiHop4/P2/Slow/A
+completed/evaluatorpresent but rawtypedvalidationgate requiresaudit; NOTyet
+effectivelyadmitted.125admitted/127preserved-settled/0pending/1unresolved/
+1excluded/66unstarted; no127reservation. Journal261ee83a...c3ab7.
+FourWorkers exited/process0/resident5pass/tc cleanup_errorNone+exactrestore.
+Recorded failures: one derivedBM25 text/body misuse, one85536B read>65536,
+three context preflights, one failed-output reservation collision andsix
+synthesis guards. Existing source-bound generic reviewer is undergoing actual
+readonly fullpreflight; no sidecar/renewal/queue launch yet. No execution,
+prompt/tool/budget/source change, retry or qualityaggregate. See
+`large-scale-resident-phase2-cell0126-derived-field-audit-v1.md`.
+Full128 before129/all192/all193/finalaudits remain due.
+
 At2026-10-08 18:42HKT, original125MultiHop4/P1/Fast/B1 completed/valid/
 evaluatorpresent, problems[]/incidents[]/terminalfailureNone/process0/
 all4Workersverifiedexited/resident5pass/tc cleanup_errorNone+exactrestore.
