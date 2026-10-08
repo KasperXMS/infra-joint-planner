@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 21:51 HKT, original136 Video-MME3/P1/Fast/B0 attempt1 remains
+owned/live under the same021 queue; atomic3935767/start199438708. Independent
+13:48:25UTC identity check verifies exact7args/runtime0ff/DeepSeekManager/
+fixedBlindQwenVerifier/capabilitydaf/20-64-20/1200s, config SHA256
+cf370e686a465fa5918f10a1aef712c9cce45016e8db5160e632af44e3d85b72,
+attemptfreeze SHA256448811feeab4e7f4704cafce6f3e388175f38ed40f5729549b5542e0e2695809.
+Actual13:51:23UTC samePID/startticks present,97trace headers; most recent
+action.started13:49:45UTC. No process/controller exit receipt, no result or
+failure inferred from this wait.135admitted/136settled/137preserved/1pending/
+0unresolved/1excluded/56unstarted; journal72a73db8...74d96. Do not restart on
+observation timeout. Next same136 settlement, full144/160/176/192 and final
+all192/all193 strictinactive/manual audits. No private body/qualityaggregate.
+
 At 2026-10-08 21:45 HKT, original135 Video-MME3/P2/Slow/B1 attempt1 settled VALID:
 execution complete/evaluator present/no terminal failure, zero admission problems
 or operational incidents. Independent13:45:20UTC metadata check proves atomic
