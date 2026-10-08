@@ -1,5 +1,44 @@
 # Resident study final-audit preparation — not completion
 
+## Current companion-v3 preparation — supersedes all older recipes below
+
+2026-10-08 19:53HKT. Original126 now has a source-bound companion-v3 proof;
+successor authority42655 exited0 and all new authority digests and exact historical
+review/exclusion pairs were independently verified. Current manifest is
+`phase2-derived-companion-v3-environment-cadence-freeze-001.json`, serialized SHA256
+`9d68b6af24554d2a977a8b38073df15f8a4908844513e75fe278888350979050`.
+Control013 SHA256 `21b9695c9dfd017c267ce5855e3f1582c7fe891f5616839b021bf7ae21271c0f`;
+ledger013 SHA256 `b580ce1aa4f5b2f812665768bdf64a22411e81e7089d172abbe1a30cd797d304`.
+Creator receipt SHA256 `0b93d9ff98a83362173ebed6fcaf0ff5d5a049434282d781ded5cc0995156b3c`.
+
+Validated actual source closure is151, retaining every147 ancestor file hash;
+source commit `d9be54310e05b25f4931eebfb4fccfb12f84cf41`, canonical source-map pin
+`51965a19f0e1982565af50afd6a3697efead60062245e4937727f9d80cc1d80d`.
+Use `large_scale_resident_phase2_derived_companion_final_audit_v3`, with
+`audit-tools/resident-phase2-filtered-companion-control-001/scripts` prepended
+to the unchanged archived020 Python paths; never put test support on the formal path.
+Local3132passed/7existing skips, Linux1546passed/0skip/25.97s/42files, whole Ruff,
+project and explicit strict Pyright, and diff check passed before this source freeze.
+Measured execution004/revision0ff... and all semantic/physical experimental
+contracts remain unchanged. This is offline audit coverage, not a new method.
+
+Independent all127 bootstrap42335/owner3853204/start198716738 was submitted once
+at11:47:17UTC and is still live11:52:47UTC. Its planned output is
+`analysis/phase2-filtered-companion-bootstrap-readback-001.json`; the receipt is
+not yet present. It must reproduce126 admitted/127 preserved/zero unresolved,
+exact actual SDK recipient wires and all151 sources, retain historical missing
+evaluations, and prove the actual incomplete-final rejection before queue021.
+Do not infer success from an earlier version's bootstrap or synthetic tests.
+
+The final v3 adapter still requires all192 resolved/all193 preserved and strict
+global inactivity before any private body audit. The final bundle deliberately
+leaves semantic/manual/Q1–Q10/goal completion false. All final recipient and
+private evidence scans, manual evidence-retention/failure review, adoption and
+quality-conditioned comparisons, named reports and root Chinese summary remain
+required. No actual final scan, guard-probe completion, quality aggregate or
+goal completion is claimed by this preparation update. Historical recipes below
+are immutable context, not current dispatch authority.
+
 ## Current derived-proof preparation — supersedes earlier dispatch recipe
 
 2026-10-07 22:48HKT:013owned/live,81effective settled plus new82pending.
