@@ -95,3 +95,25 @@ It contains unchanged previous sources/tests plus the eight additive files;
 no dataset, model, Worker store or SDK archive. Actual owning-node Linux tests
 and source-bound leaf/full-preflight still remain required; no sidecar, authority
 or queue continuation is claimed yet.
+
+## Actual Linux/source validation closed
+
+Fresh namespace `audit-tools/resident-phase2-filtered-companion-control-001`
+reproduced151 actual source hashes/pin51965a19...d80d and every147 previously
+frozen ancestor hash. Atomic execution004 remains16453c24...9799c and measured
+application0ff... unchanged. Linux89397/owner3831960/start198455140 exited0:
+1546passed/0skip/25.97s across42files, retaining all38prior files. Test-only
+support is unchanged and excluded from all formal paths.
+
+Source implementation commit `d9be54310e05b25f4931eebfb4fccfb12f84cf41`.
+Exclusive owning-node validation receipts:
+
+- Local: `034509f7ba93f3f2184dea96b969c0109c600fd4f8dcc28aae3020e1b781393c`.
+- Linux: `1a6de2c3ad690fb05746ea02f24a0c3f6f626993c277cd6155855afd562f7bbe`.
+
+All eight additive source/test hashes remained unchanged through validation.
+Only the197-member source-only archive crossed the PC/network; no dataset,
+model, Worker store or SDK archive was transferred. A new read-only actual leaf
+and complete five-group preflight has been submitted using these validated
+sources. This is not a new benchmark attempt or repeat of the failed old proof:
+no model call, sidecar, successor authority or queue continuation yet.
