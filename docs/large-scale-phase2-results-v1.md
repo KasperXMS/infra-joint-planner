@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 13:17HKT, native001 authority completed exit0, SHA256
+`b3c48708b7595812dcac624dbfc82942bc6b7bf5cc17bcf581aa674e506ff96d`.
+All13 historical raw/effective pairs, original71 exclusion/replacement, all five
+proof groups, execution004 and schedule are preserved. Creator verifies
+105admitted/106preserved/0pending/0unresolved/1excluded; admitted includes valid
+semantic failures, not105execution successes. Original105 remains completionfalse
+and evaluationnull, rawjournal03aec...8828c unchanged. Independent bootstrap1887/
+PID3626140/start196379922 is live and must check all106actual recipient contexts,
+135actual sources/all132ancestors and actual incomplete-final guard. No106
+dispatch/018launch yet. Nextordinary112; original192/all193 and all final
+private/manual/retention/adoption/quality/Q1–Q10/report obligations are incomplete.
+See [cell105 audit](large-scale-resident-phase2-cell0105-native-json-audit-v1.md).
+
 At2026-10-08 13:06HKT, original105's exclusive source-bound native JSON
 sidecar creator has completed exit0; sidecar SHA256
 `da3d543320a59237e029d8921559b4b4c0c62ff808463312edf382004a1750cc`.

@@ -121,3 +121,25 @@ live: PID3620915/start196309434, session12553. It targets fresh
 `phase2-native-environment-cadence-freeze-001.json`. No authority completion,
 independent bootstrap or018 launch is yet claimed. Observe this exact creator,
 never restart017 or retry105. All final requirements remain incomplete.
+
+## Authority completed; independent bootstrap started
+
+Native001 authority creator12553 subsequently completed exit0. Manifest:
+`b3c48708b7595812dcac624dbfc82942bc6b7bf5cc17bcf581aa674e506ff96d`;
+control010: `e324868b2203de2f733d6b708f910115836ea8602411787dbdabe8bcb5586bf7`;
+ledger010: `1533b2b5eba3dd696c31a0f6856d73c69e2e2ac1bd40d09421768137c6ea9221`.
+The control payload remains byte-identical to009. All13 historical raw/effective
+review pairs, all five disjoint groups, original71 exclusion and its sole
+replacement, execution004 and original schedule remain bound. Raw journal
+03aec69d...8828c is unchanged. Creator verifies105 admitted nominal cells,
+106 preserved attempts, no pending/unresolved finding and one exclusion.
+**Admitted nominal cells include valid semantic failures; this does not mean
+105 execution completions or correct answers.**
+
+At2026-10-08T05:17:49.352243UTC independent bootstrap1887 is live:
+PID3626140/start196379922. It must reproduce the full original gate, all106
+trace/recipient request hashes, unchanged132 ancestor sources within the135
+actual-import closure, exact five-group membership, and the actual new final
+path's incomplete-inventory refusal before private body/output. No bootstrap
+receipt or018 launch yet. Observe this handle; do not resubmit. Nextordinary112;
+all192/all193 and all final private/manual/quality/Q1–Q10 obligations persist.
