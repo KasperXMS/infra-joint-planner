@@ -2,6 +2,13 @@
 
 ## Closed independent bootstrap — 2026-10-08 20:30HKT
 
+Dispatch amendment20:32HKT:queue021 launched exactly once after this readback,
+supervisor3875600/start198979764, controller3875601/start198979767; exact owners
+live12:31:34UTC. SupervisorSHA256 d1121372...e4f3da; launch report commit067c3ba.
+Actual live v3 final guard rejected before reads with the original inactivity
+message; probe absent. Original126 is not re-executed. Later startup state
+supersedes the pre-dispatch snapshot below; next full checkpoint128 remains.
+
 Readback002 session96813 exited0; owner3863777/start198843690 is absent.
 Independent12:29:39UTC metadata readback verified the actual completion receipt:
 `analysis/phase2-filtered-companion-bootstrap-readback-002.json`, SHA256

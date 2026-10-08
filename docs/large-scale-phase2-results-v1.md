@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 20:32HKT, queue021 submittedONCE after actual002 completion and
+independent readback; supervisor3875600/start198979764 and controller3875601/
+start198979767 independently ownedLIVE12:31:34UTC. Supervisor metadata SHA256
+`d1121372f791e6d47df8f358041fd058116cc64a350a47b2cd5e34329ce4f3da`, audit
+report commit067c3ba11a518b8817eedeb8c2d9d9f29cf4b757/source commitd9be543...
+cf41/runtime0ff/execution004 retained. Startup126admitted127preserved/0pending/
+0unresolved; nextfullcheckpoint128. Actual live v3 final guard rejects with
+`private body audit requires inactive queue and atomic actions` before reads;
+probe absent. Same registered owners only; no original126 replay or new retry.
+No quality aggregate/private semantic scan; all192/all193/finalaudit goal active.
+
 At2026-10-08 20:30HKT, bootstrap00296813 closedexit0; exactowner3863777/
 start198843690 absent. Independent12:29:39UTC readback PASSED:126admitted/
 127preserved/0pending/0unresolved/1excluded; all127trace+originaladmission
