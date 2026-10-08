@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:01HKT, independentbootstrap93165 TERMINALexit0/owner3725356
+absent; receipt47a04d9d...3250e0 verifiesall110preserved attempts/1785actualSDK
+requests (802Manager/801BlindVerifier/182specialist), source147/all144ancestor
+hashes unchanged, exact15reviewpairs/sole71exclusion/journal04e336a9...eb08a.
+Newactual finaladapter rejected incompleteall192/all193 beforeprivatebody/output.
+109admitted/110preserved/0pending/0unresolved/1excluded/83unstarted. No020yet;
+newlaunch permittedonlyonce fororiginal110 underexactbootstrap/sourcepins,
+thenindependentlive-finalguard check. No109retry/privatequalityaggregate or
+goalcompletionclaim; nextordinaryfull112 before113, finalall192/all193 due.
+
 At2026-10-08 16:44HKT, authority38560 TERMINALexit0/owner3717258 absent.
 Newv2manifest e8bb0da9...bf0a8e/control01221b9695c...c0f/ledger012b02fd8fd...510df;
 authorityreceipt185400ce...d2dff0,15 exactreviewpairs. Effective109admitted/
