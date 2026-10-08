@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 19:12HKT, original126 remainsrawtypedgate awaitingfullproof,
+notyetadmitted. Existing147-source leaf failedclosed on context-onlyfilter
+ancestry; additive purev4/companionV3 offlinecoverage nowfullvalidated, no
+executionchange. Local3132pass/7existing skips/Ruff/strictPyright/diffpass;
+Linux1546pass/0skip/25.97s/42files, actual151source closure retainsall147
+ancestorhashes. Sourcecommitd9be543...cf41/pin51965a19...d80d.
+Actualnewreadonly proof77457/3832864-start198468222 leafPASSED; fullfivegroup
+preflightownedLIVE11:12:10UTC. No sidecar/authority/newqueue yet;125admitted/
+127preserved/0pending/1unresolved/1excluded/66unstarted, originaljournal
+261ee83a...c3ab7. No retry/tuning/bodyexport/qualityaggregate. Source-only
+2.3MB archive was the only transfer; benchmark/model/store data staysremote.
+Full128before129/all192/all193/finalaudits remain required. See126audit note.
+
 At2026-10-08 18:44HKT, queue020 terminal1 at10:43:52UTC; independently
 confirmed both exact owners absent10:44:06UTC. Original126MultiHop4/P2/Slow/A
 completed/evaluatorpresent but rawtypedvalidationgate requiresaudit; NOTyet
