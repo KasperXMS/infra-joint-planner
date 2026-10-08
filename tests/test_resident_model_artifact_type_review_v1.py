@@ -81,6 +81,26 @@ def test_specialist_model_prompt_remains_exact_under_choice_task():
     reviewer._selected_arguments_binding(action, selected, task_output_contract=contract)
 
 
+def test_requirement_sets_are_bound_by_membership_not_hash_seed_serialization_order():
+    action, selected, contract = choice_binding_fixture()
+    selected["selected_tool_arguments"]["requirements"].update(
+        modalities=["image", "text"], required_capabilities=["model", "media.image"]
+    )
+    action["requirements"] = {
+        **selected["selected_tool_arguments"]["requirements"],
+        "modalities": ["text", "image"],
+        "required_capabilities": ["media.image", "model"],
+    }
+    reviewer._selected_arguments_binding(action, selected, task_output_contract=contract)
+
+
+def test_requirement_membership_difference_is_not_a_serialization_order_waiver():
+    action, selected, contract = choice_binding_fixture()
+    action["requirements"] = {**action["requirements"], "required_capabilities": ["different"]}
+    with pytest.raises(RuntimeError, match="selected model arguments differ"):
+        reviewer._selected_arguments_binding(action, selected, task_output_contract=contract)
+
+
 def fixture() -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, dict[str, Any]]]:
     trace: list[dict[str, Any]] = []
     graph = ExecutionGrownGraph()

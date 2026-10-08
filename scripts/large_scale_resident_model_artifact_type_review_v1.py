@@ -659,13 +659,14 @@ def _selected_arguments_binding(
             )
         try:
             requirement = ExecutionRequirements.model_validate(payload.get("requirements", {}))
+            prepared_requirement = ExecutionRequirements.model_validate(action["requirements"])
         except ValidationError as exc:
             raise RuntimeError("invalid raw selected model requirements") from exc
         if (
             set(arguments)
             - {"prompt", "output_artifact_id", "output_media_type", "output_semantic_type"}
             or transformed.get("prompt") != action["prompt"]
-            or requirement.model_dump(mode="json") != action["requirements"]
+            or requirement != prepared_requirement
             or arguments.get("output_media_type", "text/plain")
             != _object(declared[0])["media_type"]
             or arguments.get("output_semantic_type", "invoke_model_result")
