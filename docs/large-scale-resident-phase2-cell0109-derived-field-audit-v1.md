@@ -122,3 +122,34 @@ receipt are still absent. Wait this owner; never resubmit or infer failure from
 duration. No successor authority/bootstrap or queue020 exists yet. Original109
 is not rerun;108 admitted/110 preserved, one unresolved, zero pending,83 unstarted.
 All192/all193 and final private/manual/quality/adoption/Q1–Q10 remain incomplete.
+
+## Creator failed closed before writing: historical proof header mismatch
+
+Session60298 finished exit1 during the complete in-memory preflight, not during
+benchmark execution. At07:58:08UTC owner3702007 is absent,109 sidecar and creator
+completion receipt are absent; journal04e336a9...eb08a is unchanged. The strict
+inactive scanner passed again. An exclusive failure receipt preserves this:
+`analysis/phase2-derived-companion-field-creator-109-001-failure.json`, SHA256
+`e7e1677691c0fc3688ca0b3206c1f95de7ed10dc6cd0b7d894e67d7c8b4e4682`.
+
+Root cause is a genuine offline version-dispatch bug: v1's wrapper expected
+`phase2-source-propagated-derived-field-review-v1`, but the actual frozen81
+sidecar header is `metadata-bound-derived-record-field-proof-v1`. Its existing
+SHA256 remains exactly
+`fbcc67af95896a03f20dc27d4df68b7ebc529449d3d32b3aa9e04261a83159cf`.
+The original proof's `**verified` data determines the persisted header. Prior
+synthetic version-dispatch fixtures assumed the wrapper header and missed this
+real serialization detail; passing tests did not prove historical81 compatibility.
+
+The immutable v1 source namespace/archive/commit,144 source hashes and both
+validation receipts are retained, not patched in place. New v2 wrapper,
+environment and final adapter plus negative/real-header regressions are being
+prepared as additive files. Current authority remains the original renewed001
+(16cc...903a): no failed-v1 successor manifest/control/ledger exists. v2 must
+dispatch actual81 only to the unchanged original reviewer, reject the invented
+old wrapper header, prove a complete in-memory preflight, retain all144 hashes,
+and pass full pytest/Ruff/strict Pyright/diff/Linux before any new creator.
+Never resubmit60298, rerun109 or start020 until that separate successor is gated.
+This failure is not a new Planner/model/benchmark failure or an operational
+replacement.108 admitted/110 preserved, one unresolved, zero pending,83 unstarted;
+all full-goal completion/private/manual/quality/adoption/Q1–Q10 work remains due.

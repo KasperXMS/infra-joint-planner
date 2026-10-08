@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 15:58HKT, offline109creator60298 exited1 beforeanywrite; ownergone,
+109sidecar+completionreceipt absent, strictinactive passes, journalunchanged.
+Preservedfailuree7e16776...4682: exactold81header is metadata-bound-derived-record-
+field-proof-v1, not newwrapper's assumed phase2-source-propagated header.
+Genuineoffline dispatchbug; all144v1sources/validationreceipts preserved, no
+experimentretry. Additivev2+actual81header/fullpreflight regressions underway;
+no authority/bootstrap/020. Still108admitted/110preserved/1unresolved/0pending/
+1excluded/83unstarted. Nextfull112; all192/all193/finalaudits still required.
+
 At2026-10-08 15:52HKT,109offline-only source376bb25 passed fullpytest2768/7,
 actual4090Linux1182/0 across35 files, Ruff/project+four-scriptstrictPyright/diff.
 Actual144-source pin ed90bbcb...88b9 retains every138ancestor; no execution change.
