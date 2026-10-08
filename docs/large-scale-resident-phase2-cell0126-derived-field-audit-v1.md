@@ -117,3 +117,23 @@ model, Worker store or SDK archive was transferred. A new read-only actual leaf
 and complete five-group preflight has been submitted using these validated
 sources. This is not a new benchmark attempt or repeat of the failed old proof:
 no model call, sidecar, successor authority or queue continuation yet.
+
+## Actual read-only complete preflight passed
+
+77457 exited0 at11:13:10.786542UTC; independently owner3832864/start198468222
+is absent11:14:09UTC. Actual leaf and complete five-group preflight both passed,
+including the actual historical81 inner-header dispatch and all prior exact
+review/exclusion pairs. One field finding, one read limit, one reservation
+collision, three context and six phase companions are proven;14 actual Manager
+task-schema wires and six actual selected-tool wires match. Reviewed admission
+canonical SHA256:
+`ce0bfb34d6b2204e1bbda89b670d7537c174593ee2549dcd7c9abdc403f718bb`.
+Original completion/evaluator presence is preserved; no score/answer review,
+store/corpus body decode, sidecar write, model call or retry occurred in this
+read-only proof. Journal261ee83a...c3ab7 remained exact.
+
+A separate exclusive source-bound creator is now submitted once, using the
+validated151 sources and pinned v2 parent; it must reproduce the proof again
+before writing only the target sidecar and its completion receipt. Do not
+repeat it or infer success from the dry proof. No successor authority/bootstrap
+or queue021 is yet claimed; full128/all192/all193/finalaudits remain due.
