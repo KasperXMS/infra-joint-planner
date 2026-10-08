@@ -118,3 +118,12 @@ owner3658983/start196777726, for fresh control011/ledger011/native-renewed001.
 It must preserve all13 earlier pairs/native105/original71, then add107's exact
 initial-field proof as pair14. At this checkpoint no new authority or independent
 bootstrap/019 launch is claimed; poll this owner, never resubmit.
+
+At06:39:18UTC the same authority creator remains owned/live and CPU advances.
+Fresh control011 and ledger011 now exist, respectively SHA256
+`21b9695c9dfd017c267ce5855e3f1582c7fe891f5616839b021bf7ae21271c0f`
+and `15f1da9ca47b9ff4836becf4055219c823c3b6af2c85aeaac273030cafda0ecb`.
+The renewed manifest and creator completion receipt do not yet exist. These
+partial writes are preserved, not overwritten or treated as completed authority.
+Original journal remainsc942...636f; no108/019/bootstrap. Poll87999 and exact
+3658983/start196777726; never restart a creator after partial writes.
