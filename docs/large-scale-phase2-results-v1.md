@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:42HKT, original113LongBench5/P2/Fast/E completed/valid/
+evaluatorpresent, admissionproblems[]/terminalfailureNone, exit0/all4Workers
+verifiedexited/resident5pass/tc cleanup_errorNone+exactqdiscrestore. Admission
+c47aedc3...f2aee/resultd52448a3...95424/trace9517f931...154a2(241events).
+113admitted/114settled=114preserved/0pending/0unresolved/1excluded/79unstarted;
+journalb3a6943b...f541a. Same020ownedlive, checking unchanged environment
+beforeoriginal114. No retry/replacement/qualityaggregate orsemantic tuning.
+Full112 remainsverified/nextfull128; all192/all193/finalaudits remain required.
+
 At2026-10-08 17:39HKT, original113LongBench5/P2/Fast/E attempt1 is live:
 atomic3759059/start197929230 exactfrozenargv/revision0ff/ManagerQwen/
 VerifierQwen/20-64-20budgets/1200s service timeout verified. Its reservation
