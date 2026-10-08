@@ -1,5 +1,41 @@
 # Phase II original136: model-output media-type gate
 
+## Exact prompt-normalization repair — 2026-10-08 22:59 HKT
+
+Actual dry preflight001 exited1 before any sidecar creation: the pure reviewer
+compared the Manager's raw prompt directly with its prepared prompt. Frozen
+native execution applies the generic declared-choice output requirement to
+Manager model actions, including materialized intermediate outputs. The
+source-bound diagnostic finds requirements/media/semantic types identical;
+Manager prompts differ by that deterministic transformation, while specialist
+producer prompts remain exact. This is an offline proof defect, not a new
+experiment/runtime failure. Failed receipt SHA256:
+`4f92cbbda38361bb8aa39fd42fa4258e55f1d8636e2850c7b6d6fa582a659f43`.
+
+Commit `89bf695c17b5891cb608325f529f919bbd884642` passes the SDK-visible task
+output contract into the pure reviewer and reproduces the exact frozen native
+transformation. Unknown contract, wrong labels, arbitrary suffixes and applying
+Manager normalization to a specialist remain fail-closed. No prompt, runtime,
+operator, budget, benchmark or measured execution source is changed. Seven
+new regression tests cover this boundary;189 focused tests pass. Full pytest
+session32507 exits0 over3328 cases, with7 existing platform skips; full duration
+is unavailable and is not copied from the earlier run. Ruff, project and
+explicit four-script strict Pyright, and diff check pass.
+
+Fresh namespace `audit-tools/resident-phase2-artifact-type-control-002`
+passes1735 Linux tests/0skips across46 files in31.52s. The155-source closure
+retains every151 ancestor, new canonical pin
+`12a298795ed0a5c3f6d058618ef0820a8bb55a4d9b21a87fdaf9198ee29bfbe4`.
+Source-only archive002 has194 members/387223B, SHA256
+`dae90ba577324e79ffcd9d2508a241133e9e31f8829e73e93c66df796584afe1`.
+All prior archives/namespaces/receipts remain unchanged.
+
+- Local002 receipt: `281075fafff275a1362f09794555ae60f5e85985cea86b25b8243c356723788a`.
+- Linux003 receipt: `93400ad9d1d170525bca08b95457867368905f2c5959c009d7ec80d9deaed4dd`.
+
+Actual dry preflight002 is live in29470, owner3968005/start199869902.
+Original136 remains gated; no sidecar/admission/authority/queue022 is claimed.
+
 ## Additive source validation — 2026-10-08 22:43 HKT
 
 Offline implementation commit `b2a8178efc5adc5950283b03f0a90f1948ba422a`

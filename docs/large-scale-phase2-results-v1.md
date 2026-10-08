@@ -1,5 +1,12 @@
 # Resident Phase II results — in progress
 
+2026-10-08 22:59 HKT: no new experiment attempt. Actual proof001 failed closed
+on the already-frozen generic choice prompt transformation; offline-only repair
+89bf695 passes full3328 cases/7 existing skips and Linux1735/0, Ruff/strictPyright/
+diff. Source155 pin12a29879...fbe4 retains151 old sources. Fresh drypreflight002
+29470 is live; original136 remains gated and no sidecar/authority/queue022 yet.
+All original execution/config/evidence and the prior failed proof remain intact.
+
 2026-10-08 22:43 HKT: original136 still awaits admission. Additive offline
 audit commit b2a8178 passes local3314tests/7existing skips and Linux1728tests/
 0skips, with Ruff/strictPyright/diff pass; all151 old source hashes retained in
