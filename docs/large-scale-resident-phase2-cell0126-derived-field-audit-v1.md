@@ -16,7 +16,7 @@ runtime0ff.../fixedBlindQwenVerifier/20-64-20/1200s remain unchanged.
 Raw admission has exactly `typed_action_failure_requires_audit:validation_failed`.
 Admission file SHA256:
 `53e68f719ea113c93f56fb1304861cd1be6620713cd532f2b23fcae59fc8901f`.
-Result SHA256:
+Result canonical provenance SHA256 (not the serialized file-byte digest):
 `df195f75d82d0ac30dbd2d6ae0c228131637352f90d5ff1862d3a22d5deb1c9c`.
 Trace SHA256 (427events):
 `f80ef71acd2fbc39c5ae16b9cd1a350820aad967509e2781c718e5e18eca6eb3`.
@@ -137,3 +137,31 @@ validated151 sources and pinned v2 parent; it must reproduce the proof again
 before writing only the target sidecar and its completion receipt. Do not
 repeat it or infer success from the dry proof. No successor authority/bootstrap
 or queue021 is yet claimed; full128/all192/all193/finalaudits remain due.
+
+## Sidecar creator closed; successor authority in progress
+
+Exclusive creator91069 exited0, and owner3837178/start198522431 was independently
+absent at11:25:53UTC. It appended only the original126 proof and creator receipt:
+
+- Sidecar byte SHA256: `e14ebfcd8910e82ab720d0a364a5587eca61b6cf325317bd5aa92409c455b54b`.
+- Creator receipt byte SHA256: `f14c5ccfa33e69ef86f4aff4d48aab35488c6eda854b9280b33a091f3dba73c5`.
+- Reviewed admission canonical SHA256 remains `ce0bfb34d6b2204e1bbda89b670d7537c174593ee2549dcd7c9abdc403f718bb`.
+
+Successor authority creator42655/owner3843219/start198594865 was submitted once
+at11:26:58UTC and independently remains running at11:33:23UTC. Control013,
+ledger013, v3 manifest001 and authority receipt are not yet present. Do not repeat
+the creator; independent bootstrap and queue021 remain unsubmitted.
+
+A separate ad-hoc readback initially compared the result file-byte digest with
+the admission's canonical JSON provenance digest and failed that assertion.
+The unchanged production admission verifier explicitly uses
+`provenance_sha256(result)`. Actual readback confirms the original canonical
+digest `df195f75...deb1c9c` still matches admission; the serialized file-byte
+digest is `da86191822f6bf85da3ecc2414d17c5c404c385956ab62f1d82fc282f152b8bd`.
+Trace/admission/journal byte digests remain exact. This was a read-only diagnostic
+hash-convention error, not evidence drift or an experimental failure; no evidence
+or assertion in the frozen audit implementation was changed.
+
+Remaining gates: completed successor authority, independent all127 bootstrap
+and recipient/source checks, actual incomplete-final guard, then queue021; full128
+before129 and all192/all193 final inactive/private/manual analyses remain due.
