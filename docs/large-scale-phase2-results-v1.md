@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:35HKT, full112 checkpoint completed09:31:52UTC, SHA
+b02d164a...5c481; independent owning-node readback09:34:48UTC persisted
+5caa70e9...584c9. All113 traces/admission provenance digests and1831 actualSDK
+requests (825Manager/824fixedBlindVerifier/182specialist) match;147actualsources
+unchanged, currentmanifest/control012/ledger012 match. Actualrecipient scans,
+Verifier binding and non-Manager feedback isolation pass. Exact root feedback
+matches208profile/418ledger/211rules are visibility only, not adoption/quality.
+112admitted/113preserved/0pending/0unresolved/1excluded/80unstarted;
+no113reservation at independentreadback. Journal ea2c5236...c0db9 is the exact
+130193-byte checkpoint prefix. Nextfull128; any newfinding gates immediately.
+See `large-scale-resident-phase2-checkpoint0112-v1.md`. No retry, execution change,
+partialqualityaggregate or finalcompletionclaim; all192/all193/finalaudits due.
+
 At2026-10-08 17:28HKT, original111 (MultiHop3/P2/Slow/B1) and112
 (MultiHop3/P1/Fast/B0) both completed/valid with evaluator present, no terminal
 failure or admission problems, process exit0, all4Workers verified exited,
