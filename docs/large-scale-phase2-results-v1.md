@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 20:09HKT, independentreadback00142335 exited1 beforecompletion,
+offlinecommand namespace error atnative-admission lookup, NOT a benchmark/
+runtime failure ornewattempt. Originaljournal/source151/authority remainexact;
+noqueue021. Failedcommand+exception boundreceipt e9758ff6...bd80af preserved.
+Actualnamespace identity/source regressionpassed; no frozensource edit.
+Newexclusive readback00296813/3863777-start198843690 submittedONCE12:08:27UTC,
+alloriginalchecks retained, newreceipt/probe names andcorrectfrozenreviewer
+lookup only. Require its actual127recipient/source/incompleteguard completion
+receipt before021; NEVERrepeat001/002/creators/original126. Full128before129/
+all192/all193/finalaudits remain. No retry/replacement/qualityaggregate.
+
 At2026-10-08 19:48HKT, original126 source-bound successorauthority42655 closed
 exit0 at11:45:48UTC; exactowner absent11:46:34. Independentmetadatareadback
 11:47:04 verifiedcontrol013 21b9695c...71c0f/ledger013 b580ce1a...97d304/

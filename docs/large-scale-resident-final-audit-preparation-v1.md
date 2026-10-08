@@ -2,6 +2,17 @@
 
 ## Current companion-v3 preparation — supersedes all older recipes below
 
+Readback amendment2026-10-08 20:09HKT: independent00142335 exited1 at an ad-hoc
+namespace lookup before receipt persistence; it is not a completed bootstrap.
+Failure receipt SHA256 `e9758ff6bbfc0a1eb5475f9ed6dd336140cfdeb1209b9d3449de2e87e6bd80af`
+preserves the exact failed command. Correct frozen reviewer module/function
+identity and all151 source hashes passed an actual regression. New readback002
+96813/3863777-start198843690 is submitted once, with all checks retained and
+completion output `analysis/phase2-filtered-companion-bootstrap-readback-002.json`.
+Do not use the absent001 completion receipt or repeat either submitted command.
+No frozen source, experiment, model call or retry changed; final scan remains
+unperformed and all final requirements below continue to apply.
+
 2026-10-08 19:53HKT. Original126 now has a source-bound companion-v3 proof;
 successor authority42655 exited0 and all new authority digests and exact historical
 review/exclusion pairs were independently verified. Current manifest is

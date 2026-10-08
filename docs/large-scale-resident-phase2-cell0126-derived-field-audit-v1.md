@@ -187,3 +187,31 @@ preserved/zero unresolved, all151 source hashes, all actual127 recipient wires,
 the real incomplete-final rejection and historical failed/missing-evaluation
 status. No bootstrap success or queue021 launch is claimed yet. Original126
 execution/evaluator and raw rejection remain preserved; quality review is deferred.
+
+## Independent bootstrap001 diagnostic failure; new readback002
+
+42335 exited1 before the completion receipt; owner3853204 was independently
+absent12:06:21UTC. The ad-hoc readback command had already checked the actual
+incomplete-final rejection, full current control,126 admitted/127 preserved/zero
+unresolved and the source closure, but failed at line72 when looking up
+`env.previous.native`. That facade has no `native` attribute. This is an offline
+audit-command namespace error, not a benchmark/Agent/runtime failure and not a
+completed independent bootstrap. No output receipt, guard output or queue021 exists.
+
+The failed command, exact exception/session/owner and unchanged journal are
+append-preserved in `analysis/phase2-filtered-companion-bootstrap-failure-001.json`,
+SHA256 `e9758ff6bbfc0a1eb5475f9ed6dd336140cfdeb1209b9d3449de2e87e6bd80af`.
+An actual namespace identity regression confirms `env.previous.previous.native`
+is the already-frozen `large_scale_resident_phase2_native_argument_review_v1`
+module, and its `effective_admission` is exactly the expected function. Module
+SHA256 `f83a902d3a5bae874462bf4b8b2dc5fab267bc060d3370e4155d5fa3e13c5f6c`
+matches the unchanged151-file source map/pin51965a19...d80d. No frozen source
+was edited; no new formal freeze or model/experiment/replacement occurred.
+
+New exclusive independent readback002, session96813/owner3863777/start198843690,
+was submitted once at12:08:27.048864UTC. Only the command namespace lookup and
+new receipt/probe names changed; every original check remains, and the preceding
+failure receipt is explicitly pinned. The planned completion receipt is
+`analysis/phase2-filtered-companion-bootstrap-readback-002.json`. It must finish
+before the once-only021 launch; do not repeat either readback or infer a pass
+from checks reached before the failed command. Final192/193/manual/Q1-Q10 remain.
