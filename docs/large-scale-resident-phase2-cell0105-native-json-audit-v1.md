@@ -162,3 +162,25 @@ quality aggregation has been performed. Original105 completionfalse and null
 evaluation remain independently verified. Only now may a new018 controller
 resume original106 under unchanged16-cell cadence and execution004. Next112;
 old017 and original105 must never be restarted.
+
+## New018 resumed the original schedule
+
+After independent bootstrap success, an exclusive new018 launch completed.
+Supervisor3633931/start196483150 and controller3633932/start196483152 are bound
+to native001 and the exact readback receipt; supervisor file SHA256
+`80fd098c123c8da6d5f71d59ac3de253becf000ed9db532bcb6bfb5fe783b160`.
+The independently created live receipt
+`5b39773ac2d11176f56e122448583054094a0d9100bc27ec24dd20dfabd961ca`
+checks their exact argv, start ticks and metadata. Actual final guard rejects
+active execution with `private body audit requires inactive queue and atomic actions`,
+before private body/output. No live final probe file is created.
+
+At2026-10-08T05:37:00.625679UTC, original106
+`phase2-multihop_rag-6-21c8b34e79c81848-p2-slow-B0`, attempt1, is live:
+atomic3635073/start196494959.105admitted/106settled+1pending=107preserved,
+zero unresolved, one exclusion and86 unstarted. Journal SHA256
+`920e4cb0969d8df143a8ccfa044ad2c67a1d85c9af8e89b3989e4a4fa4cf51a8`
+extends the immutable original105 prefix. No105retry or old017restart. Ordinary
+cadence16, next112, measured execution004 and all source/privacy/quality gates
+remain unchanged. Original192/all193 and all final private/manual/terminal/
+failure/retention/adoption/quality/Planner/workload/Q1–Q10 audits remain required.

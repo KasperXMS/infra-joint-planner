@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 13:37HKT, independently gated new018 is live: supervisor3633931/
+start196483150, controller3633932/start196483152, supervisorSHA80fd098c...b160.
+Live receipt5b39773a...61ca checks exact argv/startticks and actual new final
+guard refusal beforeprivatebody/output. Original106MultiHop6/P2/Slow/B0 attempt1
+atomic3635073/start196494959 is live.105admitted/106settled+1pending=107preserved,
+0unresolved/1excluded/86unstarted; journal920e4cb0...51a8 extends original105's
+03aec...8828c prefix. No105retry/017restart or measuredexecution/configchange;
+nextordinary112. Original192/all193 and all finalprivate/manual/failure/
+retention/adoption/quality/Q1–Q10/report obligations remain incomplete.
+See [cell105 audit](large-scale-resident-phase2-cell0105-native-json-audit-v1.md).
+
 Independent native001 bootstrap completed exit0; receipt SHA256
 `c1fd724845148d6a9fb4cf45e11c648f071dbde69c6d95421247bdd986ce383f`.
 105admitted nominal/106preserved/0pending/0unresolved/1excluded/87unstarted;
