@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 15:13HKT, original108MultiHop6/P2/Fast/A completed at07:07:35UTC:
+executioncompleted/evaluatorpresent, originaladmission valid/problems[], allWorkers
+verifiedexited; trace96e45470...2d52. Original109MultiHop3/P2/Fast/E completed
+with evaluatorpresent but sole raw gate`typed_action_failure_requires_audit:validation_failed`;
+019 exited1 at07:11:09UTC, both owned handles absent, no110 reservation.
+108admitted/110preserved+settled/0pending/1unresolved/1excluded/83unstarted,
+journal04e336a9...eb08a. Narrow failure evidence: specialist BM25 requested
+absent`text` on aggregate; additional context90133+2048>32768, read89768>65536,
+synthesis guard and output-ID collision retained. Exact source/provenance review
+pending; no wildcard waiver, semantic retry, feedback/prompt/runtime change or
+quality claim. Nextordinary112 remains pending; finalall192/all193 still required.
+
 At2026-10-08 15:04HKT, same019 owns original108MultiHop6/P2/Fast/A attempt1:
 atomic3678180/start197017955 live.107admitted/108settled+1pending=109preserved/
 0unresolved/1excluded/84unstarted; journal926f5415...6805 extends frozen107
