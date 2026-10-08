@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+Independent native001 bootstrap completed exit0; receipt SHA256
+`c1fd724845148d6a9fb4cf45e11c648f071dbde69c6d95421247bdd986ce383f`.
+105admitted nominal/106preserved/0pending/0unresolved/1excluded/87unstarted;
+all106traces and1727actualSDKrequest hashes verified (777Manager/776fixed Blind
+Verifier/174specialist).135actualsources/all132historical hashes match.
+193profile/400ledger/205rules rootmatches establish visibility only, not adoption.
+Actual new final adapter refuses incomplete all192/all193 inventory before
+private body/output. No quality aggregate/manual body audit. Original105's
+semantic failure and missing evaluation are preserved; a fresh018 may now
+resume original106, not retry105 or restart017. Nextordinary112; all remaining
+original192/all193 plus finalprivate/manual/failure/retention/adoption/quality/
+Q1–Q10/report requirements remain incomplete. See [cell105 audit](large-scale-resident-phase2-cell0105-native-json-audit-v1.md).
+
 At2026-10-08 13:17HKT, native001 authority completed exit0, SHA256
 `b3c48708b7595812dcac624dbfc82942bc6b7bf5cc17bcf581aa674e506ff96d`.
 All13 historical raw/effective pairs, original71 exclusion/replacement, all five
