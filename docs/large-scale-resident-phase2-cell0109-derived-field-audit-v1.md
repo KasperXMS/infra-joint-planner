@@ -153,3 +153,34 @@ Never resubmit60298, rerun109 or start020 until that separate successor is gated
 This failure is not a new Planner/model/benchmark failure or an operational
 replacement.108 admitted/110 preserved, one unresolved, zero pending,83 unstarted;
 all full-goal completion/private/manual/quality/adoption/Q1–Q10 work remains due.
+
+## Additive v2 full validation closed; real complete preflight pending
+
+Source implementation `757483d453412320c222b3f5cb099c95b8643bf1` adds only three
+v2 scripts and three test files. Exact persisted old81 header routes to the
+unchanged original reviewer; invented outer header is rejected. The complete
+preflight regression exercises real v2 dispatch within all five proof groups.
+Independent read-only review found no new blocker; the actual4090 source closure
+is147 and every144 previously frozen source hash remains unchanged. Source pin:
+`1f7f4b0699212f937fc79bc7f86c7cfb24e75a68d8053d87e6e12a43c5d43af1`.
+
+Full local pytest25015 exited0:2854 passed/7existing skips/315.03s. Whole Ruff,
+strict project and explicit three-script Pyright plus diff check pass. Actual
+Linux28690 exited0:1268 passed/0skip/19.73s across38files, retaining all35 prior
+test files and unchanged test-only support outside formal paths. All14 source/
+test hashes from v1 and v2 stayed unchanged through validation.
+
+Fresh source-only namespace `audit-tools/resident-phase2-derived-companion-control-002`
+uses189 members/181 Python test files/2191360B archive SHA256
+`f1dc9fdcb9d56ba8593d81752c742aa81f6710fea0a7e452f8bc04e048727f57`.
+No dataset, model, Worker store or full SDK archive transfer occurred. New
+exclusive validation receipts preserve rather than overwrite v1:
+
+- Local: `82f9624a13cfd21ead5a9ec5c6b7dcc131ae583d523fb25294170615edddeda9`.
+- Linux: `510724650a7eedc53f107a2b545dc28a1b9349185443338015d884ab242da1cf`.
+
+Readonly actual leaf plus full-preflight session48054 remains live at08:13:28UTC,
+PID3710239/start197415627, exact owner and stateR/CPU17958. Leaf proof passed;
+complete five-group historical proof is still pending, not inferred from unit
+tests. No new source-bound creator, authority, bootstrap or queue020 yet exists.
+Original109 is not rerun and the original journal remains04e336a9...eb08a.

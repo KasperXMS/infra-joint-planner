@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 16:13HKT, additive v2 source757483d passed fullpytest2854/7existing
+skips/315.03s, whole Ruff/project+three-scriptstrictPyright/diff; actual4090Linux
+1268/0 across38files/19.73s. Actual147-source pin1f7f4b06...43af1 retains all144
+frozenancestor hashes. Freshsource-only namespacecontrol-002/archive189members
+f1dc9fdc...27f57; validation receipts local82f9624a...ddeda9/Linux51072465...da1cf.
+Independentreview confirms real81header dispatch and unchanged finalguards.
+Readonly actualcompletepreflight48054/3710239/start197415627 is live08:13:28UTC
+(exactowner/stateR/CPU17958); leafproof passed, fullfive-group proof not yet
+claimed. No newcreator/authority/bootstrap/020 or109retry. Counts remain108
+admitted/110preserved/1unresolved/0pending/1excluded/83unstarted. Full112 and
+all192/all193 plus finalprivate/manual/quality/adoption/Q1–Q10 remain required.
+
 At2026-10-08 15:58HKT, offline109creator60298 exited1 beforeanywrite; ownergone,
 109sidecar+completionreceipt absent, strictinactive passes, journalunchanged.
 Preservedfailuree7e16776...4682: exactold81header is metadata-bound-derived-record-
