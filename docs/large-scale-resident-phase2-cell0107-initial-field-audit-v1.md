@@ -102,3 +102,19 @@ The exact107 exclusive creator was submitted once, session97337, owner
 live owner; sidecar/creator receipt/new authority remained absent, journal
 unchanged and018 handles absent. Wait/poll this handle, never resubmit on an
 observation timeout. No new benchmark call or Worker is involved.
+
+## Original107 durable proof closed; authority renewal started
+
+Exclusive creator97337 finished exit0. The new107 initial-field sidecar SHA256 is
+`02ec7481ad7d5619843a366e5a11d69eefc91314d12971d5c1613cb0b8ab2808`,
+with exactly3 source-bound field failures and9 actual schema-bearing Manager
+requests. Creator receipt SHA256
+`71e453cb8c0ac406a28e0f13063b529f6589f1e57e41c8d02b8f93245e34d5a0`.
+The unchanged reviewed admission remains3f0a75de...f4f1; original completion
+and evaluator presence remain true. No task retry/new model/body decode.
+
+Separate authority creator87999 was submitted once at06:24:07UTC,
+owner3658983/start196777726, for fresh control011/ledger011/native-renewed001.
+It must preserve all13 earlier pairs/native105/original71, then add107's exact
+initial-field proof as pair14. At this checkpoint no new authority or independent
+bootstrap/019 launch is claimed; poll this owner, never resubmit.

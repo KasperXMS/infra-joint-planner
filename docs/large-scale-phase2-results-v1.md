@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 14:24HKT,107's exclusive initial-field creator97337 finishedexit0:
+new sidecar02ec7481...2808, creatorreceipt71e453cb...d5a0, exact3misuses/9
+Manager schema wires, originalcompletion/evaluatorpresence preserved, no retry.
+New authority creator87999/owner3658983/start196777726 is submitted ONCE for
+control011/ledger011/native-renewed001; no bootstrap/019 launch yet. Existing
+native001 still admits106/108preserved/one unresolved until renewal closes;
+journalc942...636f unchanged. Nextordinary112; all192/all193 plus final
+private/manual/failure/retention/adoption/quality/Q1–Q10 remain incomplete.
+
 At2026-10-08 14:17HKT,107's separate initial-field creator is owned/live
 PID3655315/start196732934, exclusive session97337; do not resubmit. No durable
 107 sidecar or renewed authority/019 queue exists yet.018 remains terminal,
