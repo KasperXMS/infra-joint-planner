@@ -1,5 +1,16 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:18HKT, original110MultiHop3/P1/Slow/A attempt1 completed and
+passed originaladmission:executioncompleted/evaluatorpresent, problems[], no
+terminalfailure, exit0/all4Workersverifiedexited/residencypass5instances,
+tc cleanupNone/qdisc restoredexact. Trace268events/SHA529d169a...d0e28,
+admission1c96b114...259c9/result e4fa1293...c2a0a. No score/qualityaggregate read.
+Same020ownedlive, original111MultiHop3/P2/Slow/B1 started, atomic3744060/
+start197805997 exactargv/revision0ff/budgets verified17:18UTC.110admitted/
+111settled+1pending=112preserved/0unresolved/1excluded/81unstarted. Journal
+c5fe1d17...e41ca extends original prefix; nextfull112 remainsbefore113.
+No retries/replacement/sourcechange; all192/all193/finalaudits still required.
+
 At2026-10-08 17:03HKT, new020 launchedONCE/ownedlive: supervisor3735395/
 start197731107/controller3735396/start197731109; supervisorSHA7a565d50...43784.
 Independentlive receipt d508a1c3...81d957 verifies exactargv/startticks/source147
