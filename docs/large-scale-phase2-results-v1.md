@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 21:35 HKT, original133 Video-MME3/P2/Fast/E attempt1 settled VALID:
+execution complete/evaluator present/no terminal failure, zero admission problems
+or operational incidents. Independent13:35:09UTC metadata check proves atomic
+3920671/start199346993 exited0, all4Workers exited without errors, exact tc
+restoration, resident5passed. Runtime0ff/QwenManager/fixedBlindQwenVerifier/
+configcb862af6...3c3c9/capabilitydaf/20-64-20/1200 unchanged.
+Trace123events SHA256322d9ccfbb6395a4c542b7f5bdf8db5eff58a1587e2b2cfba8c7d9dadaec14ca;
+admissionfile SHA25604adb7e9aa9ad5a2927a42c2412839656b155c806e462eedbeab1af20a2421f1.
+133admitted/134preserved/0pending/0unresolved/1excluded/59unstarted;
+journal556912ea56df3f884a41fc8709792c627d6ab62f5fcaf5670b113b5a9cf8e65f.
+Same021owners live13:34:59UTC; nextoriginal134, nextfullcadence144.
+No answer/score decoded, private semantic audit/qualityaggregate/retry/tuning.
+
 At 2026-10-08 21:30 HKT, original132 Video-MME5/P1/Fast/A attempt1 settled VALID:
 execution complete/evaluator present/no terminal failure, zero admission problems
 or operational incidents. Independent13:29:57UTC metadata verification proves
