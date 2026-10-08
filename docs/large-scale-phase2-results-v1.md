@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 20:51HKT, original127MultiHop4/P1/Slow/E attempt1 settledVALID,
+reason completed_or_valid_semantic_failure, executioncompleted/evaluatorpresent/
+terminalfailureNone; no admission problems oroperational incidents. Atomic
+3879361 exited0 andisabsent; all4Workers verifiedexited, tc cleanupNone+exact
+qdiscrestore, resident5 validationpassed. Independent12:51:20UTC metadata
+readback retainsconfigb274/runtime0ff/20-64-20/1200; no answer/score decode.
+Trace294events SHA256 da751d9d144b23f55816c59ba61f9a3904e8c1d4dfc649973ebe259c70561736;
+admissionfileSHA d28f613d8161ca3944580ff8fe427b2eb3b7a84d6d1023e8c14e81f72747abe7.
+Journal60c7835902f3cb6d876a40334d742e39d7b6537eed31a2b85ad221f54122a592;
+127admitted128preserved0pending0unresolved1excluded65unstarted.021owners remain
+live for next128; checkpoint128 absent. No retry/newmethod/privatebody/quality
+aggregate. This is admission metadata, not the required full128/final audit.
+
 At2026-10-08 20:38HKT, original unstarted127MultiHop4/P1/Slow/E attempt1 is
 executing once under021; atomic3879361/start199015610 ownedLIVE. Independent
 12:38:11UTC identity readback verifies exactargv/runtime0ff/ManagerDeepSeek/
