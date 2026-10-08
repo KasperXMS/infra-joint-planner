@@ -1,5 +1,31 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 22:08 HKT, original136 Video-MME3/P1/Fast/B0 has settled;
+queue021 stopped with controller exit1 at13:56:54.870181UTC. Independent
+14:00:43UTC /proc readback confirms supervisor3875600 and controller3875601
+absent, no pending atomic action,135admitted/137preserved/1unresolved/
+1excluded/56unstarted. Journal SHA256
+e8e796e0b9bb2e3ebf1c2492c96138a20e05fca246bcb029c205f799339fa3a9.
+Original136 execution completed/evaluator present/failure null; admission has
+exactly typed_action_failure_requires_audit:validation_failed. Atomic3935767
+exited0/all4Workers verified exited/tc restoredexact/resident5passed, unchanged
+runtime0ff/configcf370e68...85b72/20-64-20/1200. Trace225events SHA256
+77a809eb8c16a3f8d83126dba2d7d31a25ab6e5104c96f961797ce1548258c14;
+original admission byte SHA256
+1f9b682fcf42b59d879ea3065d9af07eee03683eeee70961de4152d976f76669.
+Strict inactivity and Strata-stopped checks pass14:06:22UTC.
+
+Narrow metadata diagnosis: Manager's10-image request fails context preflight
+(592promptbytes +10*4096 imagecost =41552, reserve2048/window32768); specialist
+then materializes three successful text/plain model outputs4612/1249/6011B and
+passes them to aggregate_artifacts, whose frozen JSON-only loader rejects the
+first input before body decoding. Existing offline reviewers do not cover this
+exact model-output media-type composition error. An additive pure metadata/source
+proof is being implemented; no effective admission, successor authority or
+continuation is claimed. No runtime/Agent/prompt/operator/budget change or cell
+retry; original attempt remains immutable. Answer/score not reviewed or
+aggregated. Full144/160/176/192 and final all192/all193 audits remain required.
+
 At 2026-10-08 21:51 HKT, original136 Video-MME3/P1/Fast/B0 attempt1 remains
 owned/live under the same021 queue; atomic3935767/start199438708. Independent
 13:48:25UTC identity check verifies exact7args/runtime0ff/DeepSeekManager/
