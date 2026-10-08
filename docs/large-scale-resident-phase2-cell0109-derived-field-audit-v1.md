@@ -39,3 +39,51 @@ alias text to body, change tools/prompts/budgets or claim quality. Original
 admission/journal/result/trace remain immutable. Any new authority requires full
 pytest/Ruff/strict Pyright/diff and remote source/recipient/bootstrap verification.
 All192/all193, final inactive private/manual audit and final reports remain due.
+
+## Independently confirmed metadata and additive audit implementation
+
+At07:21:59UTC the strict global inactive scanner, Strata-stopped check and
+current frozen manifest/source fence all passed. Both108/109 process exits are0,
+residency is valid, allWorkers exited, tc cleanup has no error and original qdisc
+equals restored qdisc.109 raw canonical admission SHA256
+`5f286e91ac41880f9ec3e7c6599858bc8b40959f228208219316f5bd9a3b7e16`;
+result SHA256 `fae278a40d3de8d2c7062d3ef4bc74149af5e5e2f16d384a0946c3224efb6be7`.
+108 raw canonical admission SHA256
+`3b04fd25b56eebd6dc3e68ca326b360612e1edbe3322b445cbe29a5d496c4ef4`.
+No score/answer/corpus body was exported or quality aggregated.
+
+The output collision is an earlier **reservation**, not a successfully produced
+artifact: the context-failed model action declared final-answer before physical
+selection; the frozen semantic validator keeps that declaration after failure.
+The later request reused its ID and was rejected before preparation/execution.
+Source-defined behavior is retained, not repaired. Both failed calls remain in
+the original trace; no context failure is counted as actual inference.
+
+Four additive offline source files and four new test files are prepared. v3
+proves exact read-limit/collision companions while retaining all original
+trace/result/graph hashes; creator binds four serialized Worker65536 settings,
+CLI/server/config sources, and actual SDK request/response/usage tool arguments.
+The generic specialist receipt category is not treated as its logical identity:
+the actual assignment, reasoning-input hash, selected decision/action ID and
+provider tool-call are explicitly joined. No prompt/query/answer body is copied
+into these new wire-proof metadata. Only the original derived map gains explicit
+version dispatch; old81 still uses its original v1 reviewer and all five groups
+remain exact. Final adapter retains strictinactive and all192/all193 guards.
+
+Independent read-only review reproduced source closure144 with every138 ancestor
+hash unchanged. Two draft integration issues (source-traversal wrapper ancestry
+and explicit CLI inclusion) were fixed before any source freeze or remote use.
+Current candidate source pin
+`ed90bbcb25d42d0807d0476e3758b071d8be0057d3d93be3c29a8268dee488b9`.
+Focused tests passed; whole Ruff, project strict Pyright and explicit four-script
+strict Pyright pass. Full local pytest is still live, session53460; no full-suite
+pass, Linux validation, formal source freeze,109 sidecar, successor manifest,
+bootstrap or queue020 launch is yet claimed.
+
+Source-only local archive is prepared (183 regular source members/178 Python test
+files,1918976B), SHA256
+`92440ed9f823f26ec65443c753d5ac31e36d06b65dcf1ee08ff7fa12a273885c`.
+It has not been transferred or used on the4090. No dataset, model, Worker store,
+benchmark payload, full SDK archive or secret file is in this source archive.
+Journal04e336a9...eb08a and unresolved109 remain unchanged until a full-source
+validated, exact proof and independently gated successor authority are complete.
