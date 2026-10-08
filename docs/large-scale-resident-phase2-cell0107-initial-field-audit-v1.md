@@ -96,3 +96,9 @@ At06:10:30UTC,018 handles remained absent,106 admitted/108 preserved/one
 unresolved, unchanged journalc942...636f and no108 reservation. These tests and
 source receipts do not themselves create107's durable proof, renew authority,
 run independent bootstrap or launch019. Those exclusive steps remain pending.
+
+The exact107 exclusive creator was submitted once, session97337, owner
+3655315/start196732934 at06:16:39UTC. Readback06:17:28UTC verified the same
+live owner; sidecar/creator receipt/new authority remained absent, journal
+unchanged and018 handles absent. Wait/poll this handle, never resubmit on an
+observation timeout. No new benchmark call or Worker is involved.

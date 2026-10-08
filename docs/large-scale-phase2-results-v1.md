@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 14:17HKT,107's separate initial-field creator is owned/live
+PID3655315/start196732934, exclusive session97337; do not resubmit. No durable
+107 sidecar or renewed authority/019 queue exists yet.018 remains terminal,
+106admitted/108preserved/oneunresolved/no pending; journalc942...636f unchanged.
+Offline-only implementationb4e45c5 passed fullpytest2530/7 existing skips,
+focused216, actual4090Linux944/0skip, Ruff/strictPyright/diff. Actual138-source
+closure retains every135ancestor hash; no measuredexecution or semantic change.
+Proof creation is not a new model/experiment run or retry. Nextordinary112.
+All192/all193 and finalprivate/manual/adoption/retention/quality/Q1–Q10 remain.
+
 At2026-10-08 13:51HKT,018 is terminal(exit1 at05:45:19.840039UTC), with no108
 reservation. Original107MultiHop6/P1/Slow/B1 **completed and invoked evaluator**,
 but three initial-shard BM25 `text` requests instead of declared `body` triggered
