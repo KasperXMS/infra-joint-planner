@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 18:12HKT, original120LongBench4/P2/Fast/A completed/valid/
+evaluatorpresent/problems[]/incidents[]/terminalfailureNone/process0/
+all4Workersverifiedexited/resident5pass/tc cleanup_errorNone+exactrestore.
+Admission13b2f862...20bcb/result6097dbf9...50174/tracef4a3fb5a...eb2ca
+(117events). Actualrevision0ff/ManagerQwen/fixedBlindQwenVerifier/20-64-20/
+1200s match. The earlier startup observation lacked an attempt-freeze file;
+this was a transient initialization observation, not an experiment failure or
+retry. Finalfreeze/config was verified from completed evidence, config9bda8757...
+6d4c7. Same020ownedlive10:12:20UTC;120admitted/121settled=121preserved/
+0pending/0unresolved/1excluded/72unstarted, journald871ccfd...ca5af. Original117
+remainsvalidfailure/evaluationmissing,not0. Full112verified/nextfull128before129;
+no new finding, replacement, semantic tuning orpartialqualityaggregate.
+All192/all193/finalaudits remain required.
+
 At2026-10-08 18:09HKT, original118LongBench4/P2/Slow/B0 and119LongBench4/
 P1/Slow/B1 both completed/valid/evaluatorpresent, problems[]/incidents[]/
 terminalfailureNone/process0/all4Workersverifiedexited/resident5pass/
