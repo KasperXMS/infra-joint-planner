@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 19:37HKT, original126 leaf/fullfivegroup proof and exclusive
+sidecarcreator have completed; creator91069 exited0 and exactowner absent.
+Sidecar e14ebfcd...55b54b/creatorreceipt f14c5ccf...ba73c5 preserve the raw
+attempt and proven recovered Agent misuse, with no execution or retry change.
+Successor authority42655/3843219-start198594865 submittedONCE11:26:58UTC
+remains ownedLIVE11:37:15UTC (CPU increasing). Targets control013/ledger013/
+v3manifest001 notyetpresent; independentbootstrap/new021 remainunsubmitted.
+Raw125admitted/127preserved/1unresolved/0pending/1excluded/66unstarted until
+newauthority closes. Ad-hoc result hash mismatch resolved as canonical JSON
+provenance vsfilebytes; original canonicalresult/admission/trace/journal match.
+All151sources/runtime0ff/prompts/models/20-64-20/1200s unchanged; noquality
+aggregate orreplacement. Full128before129/all192/all193/finalaudits required.
+
 At2026-10-08 19:12HKT, original126 remainsrawtypedgate awaitingfullproof,
 notyetadmitted. Existing147-source leaf failedclosed on context-onlyfilter
 ancestry; additive purev4/companionV3 offlinecoverage nowfullvalidated, no
