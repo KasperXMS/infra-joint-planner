@@ -46,3 +46,52 @@ dataset/store body read or quality claim is authorized by this finding. Original
 admission/journal/result/trace remain immutable. Full128 before129, all192/all193
 and final inactive recipient/private/manual/retention/adoption/quality/Q1-Q10
 audits and reports remain required.
+
+## Actual leaf failed closed: context-only filter ancestry
+
+Read-only preflight84617/owner3824498/start198351005 exited1 before sidecar or
+authority creation: frozen v3 infer raised `unknown record transformation`.
+Two successful `filter_records` producers feed the second/third context failures;
+the field finding and oversized read themselves still consume the unfiltered
+aggregate. A static assessment that the listed failure codes were covered did
+not prove their actual producer ancestry was supported.
+
+The two source-preserving filters select `source contains Verge/TechCrunch` from
+the same30-record retrieval aggregate. Their output metadata is24800B/56463B;
+possible field sets are preserved and actual record counts remain unknown within
+the conservative interval[1,30]. No corpus/store body was opened to invent exact
+counts. The context input sum81263B plus909/469 prompt bytes reproduces82172/
+81732. Initial six retrieval artifacts total85541B plus699 prompt bytes reproduces
+86240. Original read85536B is a distinct aggregate serialization size.
+
+An additive pure v4 reviewer is being implemented using the already-tested v2
+filter/count-interval semantics and unchanged v3 failure companions. New versioned
+wrapper/environment/final adapters will preserve v1/v2 dispatch and all147
+ancestor source hashes, five groups, final guards and original evidence. This is
+an offline audit coverage extension, not an Agent/runtime fix, repair or retry.
+Full local tests, Ruff, strict Pyright, diff check, Linux validation and actual
+source-bound proof must pass before any sidecar/renewal/queue continuation.
+
+## Additive candidate local validation
+
+New pure v4 and three companion-v3 adapters preserve all147 ancestor source
+hashes; actual local closure151 has pin
+`51965a19f0e1982565af50afd6a3697efead60062245e4937727f9d80cc1d80d`.
+Independent read-only review confirmed exact historical v1/v2 dispatch, unchanged
+failure companions, conservative context-only filter inference and v2 projection
+version/count retention. Draft parent-delegation/fixture issues were resolved
+before freeze; no frozen file was modified.
+
+Full local pytest97197 exited0:3132 passed/7existing skips (3139 collected).
+Ruff wholeproject, project strict Pyright using the actual venv interpreter,
+explicit four-new-script strict Pyright and diff check pass. Direct Pyright with
+an implicitly selected different interpreter initially misresolved existing
+dependencies; the correct explicit interpreter check passed without any source
+or type-checking relaxation. No exact full-suite duration was instrumented.
+
+Source-only archive197 regular members/185 Python test files/2334720B SHA256:
+`118c23d0b38019390e8d61c00facc1347c344344475647ae8045986b69854e22`.
+It contains unchanged previous sources/tests plus the eight additive files;
+no dataset, model, Worker store or SDK archive. Actual owning-node Linux tests
+and source-bound leaf/full-preflight still remain required; no sidecar, authority
+or queue continuation is claimed yet.
