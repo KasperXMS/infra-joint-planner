@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 18:00HKT, original117LongBench4/P1/Fast/E settled as valid semantic
+failure, NOT normal completion. Executionfalse/evaluationabsent (missing,not0):
+logical_loop_failed/AgentLoopError, "Blind verifier returned complete without
+a successful manager model candidate". Existing frozen terminal guard and its
+focused regression PASS(exit0), no implementation/harness change orretry.
+Admissionproblems[]/incidents[]/process0/all4Workersverifiedexited/resident5pass/
+tc cleanup_errorNone+exactrestore. Admission1a87d754...07f69/result29db8b33...
+77927/trace2049a9a2...0ad10(297events). Narrowterminalclassification:
+stopping/Verifiercompletionprotocol; deepersemantic/context causes deferred
+to finalmanualaudit. See `large-scale-resident-phase2-cell0117-stopping-audit-v1.md`.
+Same020ownedlive10:00:13UTC,117admitted/118settled=118preserved/0pending/
+0unresolved/1excluded/75unstarted; journale274d57a...c4557. No118reservationyet.
+Full112verified/nextfull128; all192/all193/finalaudits/qualityanalysis remain due.
+
 At2026-10-08 17:57HKT, original117LongBench4/P1/Fast/E attempt1 is ownedlive,
 atomic3777669/start198044780. Exactfrozenargv/revision0ff/ManagerDeepSeek/
 fixedBlindQwenVerifier/config8fe0c1b1...34a1a/capabilitydaf64110...e013 verified
