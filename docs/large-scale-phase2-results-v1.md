@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 14:58HKT, independent new bootstrap13650 closedexit0, ownerabsent,
+receipt161c28e4...4ee0: all108 attempts/1759actualSDKrequests(793Manager,
+792fixedBlindVerifier,174specialist),138actualsources/all135ancestors retained.
+New finaladapter's incomplete guard rejects beforeprivatebody/output. Exact14
+source-bound pairs/5maps, native105evaluationNone,107originalcompletion and71
+exclusion retained; no qualityaggregate/manualsemantic review.107admitted/
+108preserved/0pending/0unresolved/1excluded/85unstarted, journalc942...636f.
+No019/original108 launch during readback; gated new019 continuation is now
+available. Nextordinary112; all192/all193 and all finalaudits/Q1–Q10 remain.
+
 At2026-10-08 14:41HKT, native-renewed001 authority closedexit0:
 manifest16cc82e2...903a/control21b9695c...1c0f/ledger15f1da9c...0ecb,
 14 preserved source-bound pairs, all5 original proof groups/no new waiver.

@@ -147,3 +147,23 @@ control/ledger/validation pins and the actual incomplete-final guard. At launch
 its receipt is absent and no019/108 launch is claimed. Expected/current manifest
 view107 admitted/108 preserved/0 pending/0 unresolved/1 excluded/85 unstarted;
 original journalc942...636f remains unchanged. Wait this handle; no resubmission.
+
+## Independent bootstrap closed before queue restart
+
+Bootstrap13650 finished exit0; owner3666967/start196883167 absent at06:58:36UTC.
+Independent receipt SHA256
+`161c28e4d9dcb987947420c8a6bc83b54d795c03ae9708c0fce844fd13d94ee0`.
+Every108 preserved attempts and1759 actual SDK requests verified:793 Manager,
+792 fixed Blind Verifier,174 specialists. Actual138-source closure matches
+e3c99e...9861 and retains all135 ancestor hashes.14 proof pairs, exact current
+five-map inventory, source/metadata/control/ledger/validation and journal pins
+reproduced. Original105 completionfalse/evaluationNone is not imputed as zero;
+original107 completiontrue/evaluation-present is retained without quality claim.
+
+The actual new final adapter rejects the incomplete final bundle with
+`final bundle requires all192 resolved and all193 preserved`, before private
+semantic body/output; the probe output remains absent. No private/manual
+semantic review, quality aggregation or Q1–Q10 completion is claimed.
+No019/original108 launch occurred during bootstrap.107 admitted/108 preserved,
+zero pending/unresolved, one excluded,85 unstarted; unchangedc942...636f.
+New019 may be submitted once only after this receipt's external hash pin.
