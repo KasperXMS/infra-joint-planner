@@ -14,16 +14,20 @@ from __future__ import annotations
 import hashlib
 import math
 import re
+from functools import partial
+from types import SimpleNamespace
 from typing import Any, cast
 
 from pydantic import ValidationError
 
+from infra_joint.control import native_agents
 from infra_joint.control.contracts import (
     ExecutionRequirements,
     LogicalModelAction,
     LogicalToolAction,
 )
 from infra_joint.control.provenance import provenance_sha256
+from infra_joint.core.task import OutputContract
 from infra_joint.operators.artifacts import ProducedArtifact
 from infra_joint.operators.structured import AggregateArtifactsArguments
 from infra_joint.worker.model_backend import ModelCallTelemetry
@@ -92,6 +96,7 @@ def review(
     replica_metadata: dict[str, dict[str, Any]],
     *,
     image_context_tokens: int | None = None,
+    task_output_contract: OutputContract | None = None,
 ) -> dict[str, Any]:
     """Require exact original closed lifecycle and all failure companions.
 
@@ -105,6 +110,9 @@ def review(
         or result.get("failure")
     ):
         raise RuntimeError("completed original evaluated result required")
+    bind_selected_arguments = partial(
+        _selected_arguments_binding, task_output_contract=task_output_contract
+    )
     kinds = (
         "logical.action.selected",
         "logical.action.prepared",
@@ -401,7 +409,7 @@ def review(
         ):
             raise RuntimeError("failed physical/logical telemetry differs")
         if obs.get("failure_code") == "validation_failed":
-            _selected_arguments_binding(action, index["logical.action.selected"][identifier])
+            bind_selected_arguments(action, index["logical.action.selected"][identifier])
             try:
                 arguments = AggregateArtifactsArguments.model_validate(action.get("arguments"))
             except ValidationError as exc:
@@ -432,7 +440,7 @@ def review(
                     raise RuntimeError(
                         "type misuse needs three real materialized text model outputs"
                     )
-                _selected_arguments_binding(
+                bind_selected_arguments(
                     actions[producer], index["logical.action.selected"][producer]
                 )
                 item = {
@@ -464,7 +472,7 @@ def review(
                 }
             )
         elif obs.get("failure_code") == "context_limit_exceeded":
-            _selected_arguments_binding(action, index["logical.action.selected"][identifier])
+            bind_selected_arguments(action, index["logical.action.selected"][identifier])
             model = normalized[identifier]
             if not isinstance(model, LogicalModelAction):
                 raise RuntimeError("context companion must be a model action")
@@ -612,12 +620,18 @@ def _graph_proof(
         raise RuntimeError("graph did not close every exact action")
 
 
-def _selected_arguments_binding(action: dict[str, Any], selected: dict[str, Any]) -> None:
+def _selected_arguments_binding(
+    action: dict[str, Any],
+    selected: dict[str, Any],
+    *,
+    task_output_contract: OutputContract | None = None,
+) -> None:
     """Bind target raw SDK arguments through only declared output namespacing.
 
     Caller independently binds selected events to actual SDK request/response
-    wire. Terminal-only generic choice prompt suffixes are not part of this
-    target producer/preflight proof and remain caller/source-bound.
+    wire and task output contract. Reproduce only the exact frozen deterministic
+    Manager output-contract transformation, including materialized model actions.
+    No arbitrary suffix, specialist transformation, or semantic prompt repair is allowed.
     """
     payload = _object(selected.get("selected_tool_arguments"))
     arguments = _object(payload.get("arguments"))
@@ -634,6 +648,15 @@ def _selected_arguments_binding(action: dict[str, Any], selected: dict[str, Any]
     ):
         raise RuntimeError("raw selected output differs from namespaced declaration")
     if action["action_type"] == "model":
+        transformed = arguments
+        if task_output_contract is not None:
+            state = SimpleNamespace(
+                task_view=SimpleNamespace(output_contract=task_output_contract),
+                root_agent=SimpleNamespace(logical_agent_id="manager"),
+            )
+            transformed = vars(native_agents)["_with_terminal_output_requirement"](
+                state, action["owner_agent_id"], "invoke_model", arguments
+            )
         try:
             requirement = ExecutionRequirements.model_validate(payload.get("requirements", {}))
         except ValidationError as exc:
@@ -641,7 +664,7 @@ def _selected_arguments_binding(action: dict[str, Any], selected: dict[str, Any]
         if (
             set(arguments)
             - {"prompt", "output_artifact_id", "output_media_type", "output_semantic_type"}
-            or arguments.get("prompt") != action["prompt"]
+            or transformed.get("prompt") != action["prompt"]
             or requirement.model_dump(mode="json") != action["requirements"]
             or arguments.get("output_media_type", "text/plain")
             != _object(declared[0])["media_type"]

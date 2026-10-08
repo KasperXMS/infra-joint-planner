@@ -17,6 +17,7 @@ import large_scale_resident_phase2_native_renewed_environment_v1 as previous
 
 from infra_joint.control import native_agents
 from infra_joint.control.provenance import provenance_sha256
+from infra_joint.core.task import OutputContract
 from infra_joint.evaluation.trace import JsonlTraceWriter
 from infra_joint.experiments.attempt_ledger import Attempt, QueueLease
 from infra_joint.operators.structured import structured_operator_specs
@@ -308,7 +309,11 @@ def proof(root: Path, attempt: Attempt, parent_path: Path) -> dict[str, Any]:
     states = previous.read(directory / "private/worker-state-after.json")
     result = previous.read(directory / "runs" / attempt.run_id / "result.json")
     verified = pure.review(
-        events, result, states, image_context_tokens=binding["image_context_tokens"]
+        events,
+        result,
+        states,
+        image_context_tokens=binding["image_context_tokens"],
+        task_output_contract=OutputContract.model_validate(task["output_contract"]),
     )
     validate_context_proof(binding, verified)
     actual = original.bindings.frozen_sources(root, attempt, SOURCE_PATHS)

@@ -14,9 +14,71 @@ import pytest
 
 from infra_joint.control.contracts import LogicalModelAction, LogicalToolAction
 from infra_joint.control.graph import ExecutionGrownGraph
+from infra_joint.core.task import OutputContract, OutputFormat
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 reviewer = importlib.import_module("large_scale_resident_model_artifact_type_review_v1")
+
+
+def choice_binding_fixture():
+    action = LogicalModelAction(
+        action_id="manager:test",
+        owner_agent_id="manager",
+        prompt="Synthetic instruction  ",
+        outputs=(
+            {
+                "artifact_id": "derived/test/note",
+                "media_type": "text/plain",
+                "semantic_type": "invoke_model_result",
+            },
+        ),
+    ).model_dump(mode="json")
+    selected = {
+        "selected_tool_arguments": {
+            "inputs": [],
+            "arguments": {"prompt": action["prompt"], "output_artifact_id": "note"},
+            "requirements": action["requirements"],
+        }
+    }
+    contract = OutputContract(format=OutputFormat.CHOICE, choices=("A", "B", "C", "D"))
+    suffix = (
+        '\n\nTerminal output contract: begin the response with exactly one declared '
+        'canonical choice label from ["A","B","C","D"]. The label must be the first token and '
+        'may be followed by a delimiter and concise text. Do not put prose before the label.'
+    )
+    action["prompt"] = action["prompt"].rstrip() + suffix
+    return action, selected, contract
+
+
+def test_exact_frozen_choice_prompt_transform_for_materialized_manager_action():
+    action, selected, contract = choice_binding_fixture()
+    reviewer._selected_arguments_binding(action, selected, task_output_contract=contract)
+
+
+@pytest.mark.parametrize(
+    "mutation", ["missing_contract", "wrong_labels", "extra_suffix", "raw_prompt", "specialist"]
+)
+def test_choice_prompt_binding_rejects_unbound_or_modified_transformation(mutation):
+    action, selected, contract = choice_binding_fixture()
+    if mutation == "missing_contract":
+        contract = None
+    elif mutation == "wrong_labels":
+        contract = OutputContract(format=OutputFormat.CHOICE, choices=("X", "Y"))
+    elif mutation == "extra_suffix":
+        action["prompt"] += " Unknown modification"
+    elif mutation == "raw_prompt":
+        action["prompt"] = selected["selected_tool_arguments"]["arguments"]["prompt"]
+    else:
+        action["owner_agent_id"] = "specialist"
+    with pytest.raises(RuntimeError, match="selected model arguments differ"):
+        reviewer._selected_arguments_binding(action, selected, task_output_contract=contract)
+
+
+def test_specialist_model_prompt_remains_exact_under_choice_task():
+    action, selected, contract = choice_binding_fixture()
+    action["owner_agent_id"] = "specialist"
+    action["prompt"] = selected["selected_tool_arguments"]["arguments"]["prompt"]
+    reviewer._selected_arguments_binding(action, selected, task_output_contract=contract)
 
 
 def fixture() -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, dict[str, Any]]]:
