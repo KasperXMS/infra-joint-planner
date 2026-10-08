@@ -1,5 +1,59 @@
 # Phase II original136: model-output media-type gate
 
+## Closed historical proof; external environment gate — 2026-10-08 23:26 HKT
+
+The exact historical proof and complete five-group read-only preflight now pass.
+Session56594 exits0; independent15:24:58UTC verifies its owner3976893/
+start199986031 absent. The proof binds6 actual Manager schema wires and5 actual
+selected tool wires, three materialized model producers, exactly one JSON-only
+aggregation/type misuse and one image-context rejection. Reviewed-admission
+canonical candidate hash is
+`903195d27f7b59c51e5510de1693cc378d069f48300fb30e66ee6af8dec07b93`.
+This is a proof candidate, not an effective admission or a new experiment run.
+
+Final offline source commit `2232e2f771670f28e97cf5d6886e2b45633e446e`
+compares requirements using the frozen typed contract's unordered-set semantics,
+not hash-seed-dependent JSON ordering. Original serialized evidence/hashes stay
+exact; membership/context/reserve/quality differences still reject. The earlier
+historical-only proof failed on this offline comparison and is preserved. With
+the earlier exact choice normalization and task-view field-name round-trip
+repairs, no measured runtime/operator/prompt/budget/config source was changed.
+
+Final verification:3328 tests pass/7 existing platform skips in333.05s;196 focused
+tests pass; whole Ruff, project and explicit four-script strict Pyright, and diff
+check pass. Linux1742 tests/0skips in31.42s across46 files, retaining42 historical
+files. Fresh namespace is `audit-tools/resident-phase2-artifact-type-control-004`;
+all151 ancestor sources remain exact in the155-source closure, canonical pin
+`90542e4a488d654061cc3d64fdbe6f01ffcc164a8a69d5ec27b193d11b55690b`.
+
+| Closed artifact | SHA-256 |
+| --- | --- |
+| Source-only archive004,194 members/387646B | `a1764489218ee1d0ee4c97b5f0fa185154e6f11a3255a12878f32229dbc3af1a` |
+| Linux005 validation | `74728275ba75e122c79137e193291916a820f10c5e8d137fa8e4df6bdb4d699c` |
+| Local003 consolidated source validation | `83e1ae2a1cbdcec7e7b47ccc9734d4c66ad07b832fcdf317858ac67e873adf16` |
+| Historical-only proof002 | `77161a5753b6fc103023138acf310d63d19fe87200057532b491fd10f4113b74` |
+| Independent readback001 | `803ac29cf9e5f6dff77d4c75c3c51a01dcafefe299d7b53624de32a1d483e05e` |
+
+Independent15:26:33UTC readback verifies every hash, journal unchanged, no
+sidecar/successor authority/queue022 and strict inactivity of this experiment.
+No new model calls or quality aggregate. Original136 remains the sole unresolved
+admission:135admitted137preserved0pending1excluded56unstarted.
+
+The current external Strata boundary is **not restored**: GPU1 engine3968965/
+start199879073 began15:00:58.730UTC, parent3968962/start199879040, in a different
+`strata-mpc-worker.service`. It is active/running despite old `strata.service`
+being inactive/dead. Recorded GPU memory is9892MiB. This start is after
+original136's13:56:54UTC settlement, so it does not retroactively contaminate
+that attempt. Historical diagnosis executes no models and grants no dispatch;
+all live creator/authority/dispatch Strata guards remain intact. The process was
+not stopped or disabled by this work. Coordination was requested asynchronously.
+
+Next, only after the actual coordinated-off boundary passes: exclusive136
+sidecar, newcontrol014/ledger014/successor manifest, independentall137 bootstrap
+and incomplete-final guard, then one new022 launch. Never repeat136 or021.
+Full144/160/176/192, all192/all193, final inactive actual-recipient/private/manual
+audits, retention/adoption/quality/failure/Q1–Q10 and final reports remain due.
+
 ## Exact prompt-normalization repair — 2026-10-08 22:59 HKT
 
 Actual dry preflight001 exited1 before any sidecar creation: the pure reviewer

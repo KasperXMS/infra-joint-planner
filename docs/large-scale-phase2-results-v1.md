@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+2026-10-08 23:26 HKT: original136 historical source-bound proof and complete
+five-group read-only preflight pass; independent readback803ac29c...e05e closes
+its terminal owner and all bound hashes. Final offline-only source2232e2f passes
+3328tests/7 existing skip and Linux1742/0, Ruff/strictPyright/diff;155-source
+pin90542e4a...690b retains151 ancestors. Candidate admission903195d2...7b93 is
+not yet effective: no sidecar/authority022 created, same135admitted137preserved/
+1unresolved1excluded56unstarted. No score/quality aggregate.
+
+Forward dispatch is independently blocked by external GPU1 Strata engine3968965
+in strata-mpc-worker.service, started23:00:59HKT,9892MiB, unitactive/running while
+the old strata.service remainsinactive. It started after136 completed, so no new
+cell is contaminated. The external process was not killed; user coordination was
+requested. All measured sources and budgets remain frozen; new model calls0.
+
 2026-10-08 22:59 HKT: no new experiment attempt. Actual proof001 failed closed
 on the already-frozen generic choice prompt transformation; offline-only repair
 89bf695 passes full3328 cases/7 existing skips and Linux1735/0, Ruff/strictPyright/

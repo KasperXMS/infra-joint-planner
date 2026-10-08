@@ -1,6 +1,25 @@
 # Resident study final-audit preparation — not completion
 
-## Current cell136 gate — no dispatch authority yet
+## Current source closure and external environment gate — 2026-10-08 23:26 HKT
+
+The completed artifact-type proof is now in fresh audit namespace004, code
+2232e2f, actual source155/pin90542e4a...690b retaining151 ancestors. Full3328pass/
+7existing skips and Linux1742/0 plus Ruff/strictPyright/diff pass. Historical-only
+proof00277161a57...3b74 and independentreadback001803ac29c...e05e close its terminal
+owner, exact sources and original journal. No sidecar/effective admission/new
+authority/queue022 exists. Original136 must never repeat; finalguard remains
+all192resolved/all193preserved and private/manual goal completion is unproven.
+
+External GPU1 Strata restarted in strata-mpc-worker.service at23:00:59HKT,
+engine3968965/start199879073,parent3968962/start199879040,9892MiB. New unit is
+active/running although old strata.service isinactive. Original136 settled
+before this start and is unaffected; no new cell dispatched. User coordination
+requested; do not killunknownprocess, waive guard or infer closure from the old
+service alone. Only after actual coordinatedoff: exclusive136sidecar, fresh014
+control/ledger and artifact-type manifest, independentall137 bootstrap and
+incompletefinal guard, once022. All older launch recipes below are historical.
+
+## Earlier cell136 gate — superseded source preparation, no dispatch authority
 
 2026-10-08 22:16HKT:queue021 is terminal (controller exit1 at13:56:54UTC),
 not live. Original136 execution completed with evaluator present but its raw
