@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 18:29HKT, original123LongBench6/P1/Slow/E and124LongBench6/
+P2/Fast/B0 completed/valid/evaluatorpresent/problems[]/incidents[]/
+terminalfailureNone/process0/all4Workersverifiedexited/resident5pass/
+tc cleanup_errorNone+exactrestore.123admissionbfaf91af...397c9/resulta48e2628...
+6b3b1/trace0a6a6da9...a64d3(124events);124admissionefd63ffb...8a8da/
+resultbf19ef6a...0ddb2/trace6986644f...cf19a(96events). Actualconfigbytes match
+their freezes; runtime0ff/fixedBlindQwenVerifier/20-64-20/1200s unchanged.
+Same020ownedlive10:28:11UTC;124admitted/125settled=125preserved/0pending/
+0unresolved/1excluded/68unstarted, journal68ce9d53...370cc. No retry/replacement,
+tuning, sourcechange orpartialqualityaggregate. Original117 validfailure/
+evaluationmissingNOT0 retained. Full112verified/nextfull128before129;
+all192/all193/finalaudits remain required.
+
 At2026-10-08 18:20HKT, original121LongBench6/P1/Fast/B1 and122LongBench6/
 P2/Slow/A completed/valid/evaluatorpresent, problems[]/incidents[]/
 terminalfailureNone/process0/all4Workersverifiedexited/resident5pass/
