@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 21:01HKT, original128MultiHop4/P2/Fast/B0 attempt1 settledVALID,
+executioncomplete/evaluatorpresent/terminalfailureNone/0admissionproblems/
+0operationalincidents. Actualatomic3889160 exited0; all4Workers verifiedexited,
+tc restoredexact/cleanupNone, resident5pass. Independent13:01:14UTC metadata
+readback retains runtime0ff/config600f5e57...8942c/capabilitydaf/20-64-20/1200.
+Trace80events SHA256 303a7f0c81c426def6de8a92eb6d4fa7e8e17ae3fa8df92dd61ea7bfc72b23f3;
+admissionfileSHA 404c343902857e337aa5998b806a49786b1fe6056ee34e8cb9a37549c7b73e78.
+Journal6c18c1366f5fb1440100a38d9741b179fd18e120bb3944c5428902935f73177a;
+128admitted129preserved0pending0unresolved1excluded64unstarted.021controller
+3875601/start198979767 remainsownedLIVE, runningordinaryfull128 audit; actual
+checkpoint receipt NOTyetpresent, independent creator prepared NOTsubmitted.
+No129reservation/retry/newmethod/privatebody/scoredecode/qualityaggregate.
+Do not equate settlement with full128passed. All192/all193/finalgoal remains.
+
 At2026-10-08 20:51HKT, original127MultiHop4/P1/Slow/E attempt1 settledVALID,
 reason completed_or_valid_semantic_failure, executioncompleted/evaluatorpresent/
 terminalfailureNone; no admission problems oroperational incidents. Atomic
