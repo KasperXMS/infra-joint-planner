@@ -1,5 +1,14 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 15:00HKT, independently gated019 is owned/live: supervisor3676203/
+start196998739, controller3676204/start196998742, supervisorSHAa0d2e1d7...0113.
+Live receipt854bc771...8648 checks exactargv/startticks and actualnewfinalguard
+refusal beforeprivatebody/output. Bootstrap161c...4ee0 pinned; original107 is
+not retried,018 remains terminal.019 resumesoriginal108 under sameexecution/
+models/prompts/SDK/budget/tasks/scheduler and16-cell cadence, nextfull112.
+At startup107admitted/108preserved/0pending/0unresolved/1excluded/85unstarted;
+no qualityaggregate/privatebodyaudit or all192/all193 completion claim.
+
 At2026-10-08 14:58HKT, independent new bootstrap13650 closedexit0, ownerabsent,
 receipt161c28e4...4ee0: all108 attempts/1759actualSDKrequests(793Manager,
 792fixedBlindVerifier,174specialist),138actualsources/all135ancestors retained.
