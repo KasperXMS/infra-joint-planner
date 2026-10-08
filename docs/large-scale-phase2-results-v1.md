@@ -1,5 +1,13 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 18:02HKT, original118LongBench4/P2/Slow/B0 attempt1 ownedlive,
+atomic3782341/start198074724, exactargv/revision0ff/ManagerQwen/fixedBlind
+QwenVerifier/config25781799...46173/capabilitydaf64110...e013 verified10:02:27UTC.
+Same020owner pair unchanged;117admitted/118settled+1pending=119preserved/
+0unresolved/1excluded/74unstarted, journal396d7f52...002b8. Original117 valid
+semantic failure remains preserved (executionfalse/evaluationmissing,not0).
+No replacement/retry/tuning; nextfull128before129/all192/all193/finalaudits due.
+
 At2026-10-08 18:00HKT, original117LongBench4/P1/Fast/E settled as valid semantic
 failure, NOT normal completion. Executionfalse/evaluationabsent (missing,not0):
 logical_loop_failed/AgentLoopError, "Blind verifier returned complete without
