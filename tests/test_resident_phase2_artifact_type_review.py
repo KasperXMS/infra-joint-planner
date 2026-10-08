@@ -19,6 +19,22 @@ history = initial_tests.history
 native_history = initial_tests.native_history
 
 
+@pytest.mark.parametrize("by_alias", [False, True])
+def test_task_output_contract_round_trips_actual_sdk_serialization(by_alias):
+    contract = wrapper.OutputContract(format="choice", choices=("A", "B", "C", "D"))
+    task = {"output_contract": contract.model_dump(mode="json", by_alias=by_alias)}
+    assert wrapper.task_output_contract(task) == contract
+
+
+@pytest.mark.parametrize("extra", ["gold", "evaluator_id", "unknown_contract_field"])
+def test_task_output_contract_does_not_ignore_unknown_or_private_fields(extra):
+    contract = wrapper.OutputContract(format="choice", choices=("A", "B"))
+    payload = contract.model_dump(mode="json")
+    payload[extra] = "private"
+    with pytest.raises(ValueError):
+        wrapper.task_output_contract({"output_contract": payload})
+
+
 def put(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value), encoding="utf-8")

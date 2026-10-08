@@ -46,6 +46,11 @@ def _array(value: Any) -> list[Any]:
     return cast(list[Any], value)
 
 
+def task_output_contract(task: dict[str, Any]) -> OutputContract:
+    """Read the exact SDK task view, including its field-name serialization."""
+    return OutputContract.model_validate(task["output_contract"], by_name=True)
+
+
 def sources() -> dict[str, str]:
     return {
         **ancestor.sources(),
@@ -313,7 +318,7 @@ def proof(root: Path, attempt: Attempt, parent_path: Path) -> dict[str, Any]:
         result,
         states,
         image_context_tokens=binding["image_context_tokens"],
-        task_output_contract=OutputContract.model_validate(task["output_contract"]),
+        task_output_contract=task_output_contract(task),
     )
     validate_context_proof(binding, verified)
     actual = original.bindings.frozen_sources(root, attempt, SOURCE_PATHS)
