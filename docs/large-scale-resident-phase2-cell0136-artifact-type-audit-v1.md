@@ -1,5 +1,33 @@
 # Phase II original136: model-output media-type gate
 
+## Additive source validation — 2026-10-08 22:43 HKT
+
+Offline implementation commit `b2a8178efc5adc5950283b03f0a90f1948ba422a`
+adds four audit scripts and four test files only. Local full pytest passes
+3314 tests with7 existing platform skips in327.72s; whole Ruff, project strict
+Pyright, explicit four-script strict Pyright and diff check pass. Independent
+static review finds no blocking issue. The actual import closure is155 sources,
+retaining every151 previously frozen hash, canonical pin
+`dbf78478c32f8ca84eaf530374dac15989bc2d8a96b4f7ade2fd53d8719f7ba5`.
+
+The194-member source-only archive is378175B, SHA256
+`883d6cfd45705a2b7af0e551a99d378e796b35b9c92cf639fef3942ef80a7f9c`.
+It contains no dataset/model/store/full SDK evidence. Fresh Linux namespace
+`audit-tools/resident-phase2-artifact-type-control-001` reproduces the155-source
+pin. All42 historical test files plus4 new files pass1728 tests with no skips
+in31.83s. A first collection failure, caused by omitting the unchanged historical
+test-only helper from pytest's path, is preserved separately; the helper was
+used only for tests, never added to the formal controller path.
+
+Exclusive actual validation receipts:
+
+- Local: `6ffd86590beb753655b9058be2bb8caf4550b7139c8d65a91e8a100af394f77b`.
+- Linux002: `535e80b26b4ccd00d472c5f0333ad0ac808c1e94650d1a24cde433a007a0cb7b`.
+
+Actual dry proof/full five-group preflight is running in session56358,
+owner3960433/start199769137. No sidecar/effective admission/successor authority
+or new queue has been created. Original136 remains gated and must not be rerun.
+
 Queue021 stopped after the original attempt, not because of an observation
 timeout. Its controller exit receipt records exit1 at
 2026-10-08T13:56:54.870181UTC; independent14:00:43UTC /proc inspection confirms

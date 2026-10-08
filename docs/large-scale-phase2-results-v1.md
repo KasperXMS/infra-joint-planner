@@ -1,5 +1,12 @@
 # Resident Phase II results — in progress
 
+2026-10-08 22:43 HKT: original136 still awaits admission. Additive offline
+audit commit b2a8178 passes local3314tests/7existing skips and Linux1728tests/
+0skips, with Ruff/strictPyright/diff pass; all151 old source hashes retained in
+the155-source closure. Actual source-bound dry proof/full five-group preflight
+56358 is running. No sidecar, successor authority, retry or new queue is claimed.
+Journal/cell counts remain the22:08 snapshot below; no quality aggregate.
+
 At 2026-10-08 22:08 HKT, original136 Video-MME3/P1/Fast/B0 has settled;
 queue021 stopped with controller exit1 at13:56:54.870181UTC. Independent
 14:00:43UTC /proc readback confirms supervisor3875600 and controller3875601
