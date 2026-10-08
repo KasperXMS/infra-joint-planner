@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 16:44HKT, authority38560 TERMINALexit0/owner3717258 absent.
+Newv2manifest e8bb0da9...bf0a8e/control01221b9695c...c0f/ledger012b02fd8fd...510df;
+authorityreceipt185400ce...d2dff0,15 exactreviewpairs. Effective109admitted/
+110preserved/0unresolved/0pending/1excluded/83unstarted; journalunchanged.
+Independentall110 SDK/source bootstrap93165/3725356/start197609667 submitted
+ONCE08:42:46UTC, verifiedlive08:44:40UTC; completionreceiptABSENT, no020.
+Neverrepeatold/newcreators, authority orbootstrap. Waitsameowner, thenonlyon
+exactbootstrap success permit020/original110. No109retry, qualityaggregate or
+goalcompletionclaim; full112 before113/all192/all193 andfinalaudits remain.
+
 At2026-10-08 16:25HKT, actual readonly v2 fullfive-group preflight48054 exited0;
 real81header dispatch reproduced. Newexclusive109-002 creator97815 exited0,
 owner3712940 absent08:24:37UTC;109sidecar0d4640d1...a0acb7 andcompletionreceipt
