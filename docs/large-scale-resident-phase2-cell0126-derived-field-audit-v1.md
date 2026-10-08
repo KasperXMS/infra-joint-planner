@@ -165,3 +165,25 @@ or assertion in the frozen audit implementation was changed.
 Remaining gates: completed successor authority, independent all127 bootstrap
 and recipient/source checks, actual incomplete-final guard, then queue021; full128
 before129 and all192/all193 final inactive/private/manual analyses remain due.
+
+## Successor authority closed; independent bootstrap submitted
+
+Authority42655 exited0 at11:45:48.236538UTC; exactowner3843219 was independently
+absent11:46:34UTC. Independent metadata readback at11:47:04UTC verified all new
+authority file digests, sixteen raw/effective review pairs, exact historical
+fifteen-pair prefix, sole71 exclusion, original parent/schedule/baseline and
+unchanged journal. No new retry authority or model call was introduced.
+
+| New authority artifact | Serialized file SHA256 |
+| --- | --- |
+| control013 | `21b9695c9dfd017c267ce5855e3f1582c7fe891f5616839b021bf7ae21271c0f` |
+| ledger013 | `b580ce1aa4f5b2f812665768bdf64a22411e81e7089d172abbe1a30cd797d304` |
+| companion-v3 environment manifest001 | `9d68b6af24554d2a977a8b38073df15f8a4908844513e75fe278888350979050` |
+| authority creator receipt001 | `0b93d9ff98a83362173ebed6fcaf0ff5d5a049434282d781ded5cc0995156b3c` |
+
+Separate independent bootstrap42335/owner3853204/start198716738 was submitted
+once at11:47:17.500434UTC. It must independently reproduce126 admitted/127
+preserved/zero unresolved, all151 source hashes, all actual127 recipient wires,
+the real incomplete-final rejection and historical failed/missing-evaluation
+status. No bootstrap success or queue021 launch is claimed yet. Original126
+execution/evaluator and raw rejection remain preserved; quality review is deferred.

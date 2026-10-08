@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 19:48HKT, original126 source-bound successorauthority42655 closed
+exit0 at11:45:48UTC; exactowner absent11:46:34. Independentmetadatareadback
+11:47:04 verifiedcontrol013 21b9695c...71c0f/ledger013 b580ce1a...97d304/
+manifestV3 9d68b6af...979050/receipt0b93d9ff...5156b3c, exacthistorical15+126
+reviewpairs andsole71exclusion/parent/journal unchanged. Newall127independent
+bootstrap42335/3853204-start198716738 submittedONCE11:47:17UTC, stillpending.
+It mustverify126admitted/127preserved/0unresolved/all151sources/allactualSDK
+recipientwires/incompletefinalguard beforequeue021. No queue/newbenchmarkcall/
+retry/qualityaggregate. Full128before129/all192/all193/finalaudits remain.
+
 At2026-10-08 19:37HKT, original126 leaf/fullfivegroup proof and exclusive
 sidecarcreator have completed; creator91069 exited0 and exactowner absent.
 Sidecar e14ebfcd...55b54b/creatorreceipt f14c5ccf...ba73c5 preserve the raw
