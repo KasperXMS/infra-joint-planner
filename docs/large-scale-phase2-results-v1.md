@@ -1,5 +1,17 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 13:51HKT,018 is terminal(exit1 at05:45:19.840039UTC), with no108
+reservation. Original107MultiHop6/P1/Slow/B1 **completed and invoked evaluator**,
+but three initial-shard BM25 `text` requests instead of declared `body` triggered
+the conservative typed-validation gate. Frozen pure field proof passes3misuses/
+9actualManager SDK schema wires with unchanged operator sources. No outage or
+method/API audit problem; no retry/tuning/new model call.106admitted/108preserved/
+0pending/1unresolved/1excluded/85unstarted, journalc9429559...636f. Separate
+offline same-five-group renewal integration is in progress; no107sidecar/new
+authority/bootstrap/019launch yet. Nextordinary112; original192/all193 and all
+final private/manual/retention/adoption/quality/Q1–Q10/report requirements remain.
+See [cell107 audit](large-scale-resident-phase2-cell0107-initial-field-audit-v1.md).
+
 At2026-10-08 13:44HKT, original106MultiHop6/P2/Slow/B0 naturally settledvalid
 at05:39:24.843344UTC, executioncompleted and original evaluator invoked; Worker
 shutdown verified. Admissionfilecde6fe9c...6429/canonicalreceiptd469f363...b676;
