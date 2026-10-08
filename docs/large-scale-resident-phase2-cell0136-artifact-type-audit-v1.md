@@ -1,5 +1,13 @@
 # Phase II original136: model-output media-type gate
 
+External observation amendment23:30HKT: the new named service was restarted
+again at23:28:42HKT. Current MainPID3981708/GPU1engine3981717 replaces the earlier
+handles and still uses9892MiB. The unit remainsactive/running; frozen resident
+Ollama process IDs1130531/1130540 are unchanged in the snapshot. Human initiator
+is not established. Preserve both events; do not infer the boundary restored
+from disappearance of old3968962/3968965 or the old service's inactive state.
+No experiment cell or external-process modification occurred.
+
 ## Closed historical proof; external environment gate — 2026-10-08 23:26 HKT
 
 The exact historical proof and complete five-group read-only preflight now pass.
