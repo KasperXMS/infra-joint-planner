@@ -1,5 +1,19 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 13:06HKT, original105's exclusive source-bound native JSON
+sidecar creator has completed exit0; sidecar SHA256
+`da3d543320a59237e029d8921559b4b4c0c62ff808463312edf382004a1750cc`.
+Measured execution and raw journal are unchanged; its failure completionfalse/
+evaluationnull are preserved, no retry or new model call. New native001
+authority creator12553/PID3620915/start196309434 is live; no106reservation,
+bootstrap or018 launch yet. Offline sourcefreeze05aafae passes2423fulltests/
+7existingWindows skips,109newtests,837actualLinux tests withoutskip, Ruff and
+strictPyright. Actual135-source closure retainsall132old hashes, pine978...ad4c8.
+Current dispatch authority still104effective/106preserved/1unresolved until the
+new full five-group authority and independent bootstrap succeed. Nextordinary112;
+original192/all193 and final private/manual/quality/Q1–Q10 remain incomplete.
+See [cell105 audit](large-scale-resident-phase2-cell0105-native-json-audit-v1.md).
+
 At2026-10-08 12:48HKT, controller017 is terminal(exit1), all of its owned
 process handles are absent and journal03aec69d...8828c is unchanged. Original105
 MultiHop6/P1/Fast/E failed when the Manager generated syntactically invalid

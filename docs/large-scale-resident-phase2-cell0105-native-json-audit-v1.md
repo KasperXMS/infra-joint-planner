@@ -106,3 +106,18 @@ At2026-10-08T05:00:14.699957UTC the exclusive sidecar creator is live,
 PID3618263/start196274456, session97633. This is an audit process, not a task
 rerun. Its receipt, new native001 authority, independent bootstrap and018
 launch have not yet passed. Observe this same creator; do not resubmit it.
+
+The sidecar creator subsequently completed exit0. Exclusive sidecar SHA256:
+`da3d543320a59237e029d8921559b4b4c0c62ff808463312edf382004a1750cc`.
+It confirms one malformed native argument failure, with original journal
+03aec69d...8828c unchanged, no retry, no new model calls, no body export and
+no measured execution change. This append supersedes only the preceding live
+creator status; it does not change the historical attempt.
+
+At2026-10-08T05:06:04.492447UTC a distinct native001 authority creator is
+live: PID3620915/start196309434, session12553. It targets fresh
+`phase2-field-reviewed-control-freeze-010.json`,
+`phase2-field-ledger-freeze-010.json`, and
+`phase2-native-environment-cadence-freeze-001.json`. No authority completion,
+independent bootstrap or018 launch is yet claimed. Observe this exact creator,
+never restart017 or retry105. All final requirements remain incomplete.
