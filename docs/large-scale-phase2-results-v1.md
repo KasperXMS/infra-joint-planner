@@ -1,5 +1,12 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 15:04HKT, same019 owns original108MultiHop6/P2/Fast/A attempt1:
+atomic3678180/start197017955 live.107admitted/108settled+1pending=109preserved/
+0unresolved/1excluded/84unstarted; journal926f5415...6805 extends frozen107
+baselinec942...636f. No108 completion/quality claim, no107retry/018restart,
+no runtime/config/prompt/budget/evaluator change. Nextordinary112 pending;
+all192/all193 and all finalaudits/quality/Q1–Q10 remainincomplete.
+
 At2026-10-08 15:00HKT, independently gated019 is owned/live: supervisor3676203/
 start196998739, controller3676204/start196998742, supervisorSHAa0d2e1d7...0113.
 Live receipt854bc771...8648 checks exactargv/startticks and actualnewfinalguard
