@@ -1,5 +1,13 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 17:57HKT, original117LongBench4/P1/Fast/E attempt1 is ownedlive,
+atomic3777669/start198044780. Exactfrozenargv/revision0ff/ManagerDeepSeek/
+fixedBlindQwenVerifier/config8fe0c1b1...34a1a/capabilitydaf64110...e013 verified
+09:56:38UTC. Same020owner pair unchanged;116admitted/117settled+1pending=
+118preserved/0unresolved/1excluded/75unstarted, journal3d39c6ba...13a89.
+No result/qualityclaim yet; no retry/replacement/config orsemantic tuning.
+Full112verified; nextfull128 before129/all192/all193/finalaudits remain due.
+
 At2026-10-08 17:54HKT, original115LongBench5/P2/Slow/B1 and116LongBench5/
 P1/Fast/B0 both completed/valid/evaluatorpresent. Both have problems[]/
 operationalincidents[]/terminalfailureNone/process0/all4Workersverifiedexited/
