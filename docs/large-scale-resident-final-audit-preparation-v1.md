@@ -2,6 +2,18 @@
 
 ## Current companion-v3 preparation — supersedes all older recipes below
 
+Cadence amendment2026-10-08 21:15HKT: ordinary full128 checkpoint and its
+independent actual-byte readback are CLOSED, before original129 reservation.
+Checkpoint SHA2561fe9414361bb3f8014a38da97606fa3137b3e335ae53883d1cccf9a5d85a4a71;
+independent receipt SHA25622639e07d3294a4b88be9ec945c4cc27236245382e069bec020684c17ff09530.
+All129trace/admission hashes,2082actualSDKrequest files and151actualsources
+verified; no recipient findings. See `large-scale-resident-phase2-checkpoint0128-v1.md`.
+Current controller021 continues; original129 nowadmitted,130preserved,
+63unstarted. Source151/pin519/manifest9d68/control013/ledger013/bootstrap002f866
+remain the current authority. This is not a final private/semantic/quality scan.
+Continue full144/160/176/192 and all192/all193 strictinactive final audit;
+all manual, retention, adoption, quality-conditioned and Q1–Q10 duties remain.
+
 Completion amendment2026-10-08 20:30HKT:bootstrap00296813 exited0 and exact
 owner3863777/start198843690 is absent. Independent12:29:39UTC readback verified
 completion receipt SHA256 `f866c70d07e9f1ec2d193bacae57b7636d236d4df1470259bfa3e04d40f2bf09`:

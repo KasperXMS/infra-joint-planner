@@ -1,5 +1,18 @@
 # Resident Phase II results — in progress
 
+At 2026-10-08 21:15 HKT, original129 Video-MME5/P2/Fast/B1 attempt1 settled VALID,
+execution complete/evaluator present/terminal failure none, zero admission
+problems or operational incidents. Independent13:15:24UTC metadata check proves
+atomic3900625 exited0, all4Workers exited without errors, exact tc restoration,
+resident5 validationpassed; runtime0ff/configcc803ce9...0eed/capabilitydaf/
+20-64-20/1200s remain unchanged. Trace99events SHA256
+9c9e9d2b4d19d4deb139635d843dcfd51299ea5f6423c365f270a88ccba84888;
+admissionfile SHA25647bf49f8b7500375f3792387a1dcb5294ed666e29b0e032b145f7bb568fd69ed.
+129admitted/130preserved/0pending/0unresolved/1excluded/63unstarted;
+journal880bffade769859af58b40548a7cb7cca1dba8531c4b1be7720857dd1ff73bfd.
+Same021owners remainlive for original130. No answer/score decoded, no private
+semantic audit, quality aggregate or retry. Latest fullcadence128closed; next144.
+
 At 2026-10-08 21:13 HKT, original129 Video-MME5/P2/Fast/B1 attempt1 is executing
 under the same021 controller. Reservation13:11:55UTC follows full128 and its
 independent readback. Atomic3900625/start199224751 owned/live13:12:51UTC;
