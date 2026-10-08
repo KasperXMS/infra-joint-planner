@@ -1,5 +1,15 @@
 # Resident Phase II results — in progress
 
+At2026-10-08 13:44HKT, original106MultiHop6/P2/Slow/B0 naturally settledvalid
+at05:39:24.843344UTC, executioncompleted and original evaluator invoked; Worker
+shutdown verified. Admissionfilecde6fe9c...6429/canonicalreceiptd469f363...b676;
+no correctness claim. Same018ownedlive, original107MultiHop6/P1/Slow/B1 attempt1
+atomic3638660/start196514571 live; trace761225bytes/260headers, lastactionstart
+05:42:47.151029Z.106admitted/107settled+1pending=108preserved/0unresolved/
+1excluded/85unstarted; journale57588ea...0085. Nextordinary112 pending; no
+retry/tuning/privatebodyaudit/qualityaggregate. Original192/all193 plus all
+finalprivate/manual/terminal/failure/retention/adoption/quality/Q1–Q10 remain.
+
 At2026-10-08 13:37HKT, independently gated new018 is live: supervisor3633931/
 start196483150, controller3633932/start196483152, supervisorSHA80fd098c...b160.
 Live receipt5b39773a...61ca checks exact argv/startticks and actual new final

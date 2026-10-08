@@ -184,3 +184,20 @@ extends the immutable original105 prefix. No105retry or old017restart. Ordinary
 cadence16, next112, measured execution004 and all source/privacy/quality gates
 remain unchanged. Original192/all193 and all final private/manual/terminal/
 failure/retention/adoption/quality/Planner/workload/Q1–Q10 audits remain required.
+
+Original106 subsequently settled valid at2026-10-08T05:39:24.843344UTC:
+execution_completed=true, original evaluator invoked, Worker shutdown verified.
+Original admission file SHA256
+`cde6fe9ccda19f9ca374241274293f4e2316a1dee347f87da91fcf9a443a6429`;
+canonical journal receipt
+`d469f363199209ff4568d4de056c4ebd666462843bf2fd444cf46ec27c71b676`.
+This is an execution completion claim, not an answer correctness claim.
+
+At2026-10-08T05:44:53.393243UTC the same018 handles remain owned/live and
+original107MultiHop6/P1/Slow/B1 attempt1 atomic3638660/start196514571 is live.
+Its trace grows from331 bytes/one header to761225 bytes/260headers; latest
+action-start is05:42:47.151029Z. Payloads are not decoded by the monitor.
+106admitted/107settled+1pending=108preserved,0unresolved/1excluded/85unstarted;
+journal `e57588eac2d439eff8e49df36bf776a8bde1991cd43cfdd2dc1bd2613edd0085`.
+Next ordinary112 remains pending. No retry, new authority, private body audit
+or partial quality aggregate; all original final requirements remain incomplete.
