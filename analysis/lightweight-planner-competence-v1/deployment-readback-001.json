@@ -1,0 +1,41 @@
+{
+  "utc": "2026-10-11T12:04:56.535812+00:00",
+  "endpoint": "http://127.0.0.1:11437/v1",
+  "models": [
+    {
+      "name": "qwen-vl8b-resident-32k-v1:latest",
+      "model": "qwen-vl8b-resident-32k-v1:latest",
+      "size": 7962330398,
+      "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+      "details": {
+        "parent_model": "",
+        "format": "gguf",
+        "family": "qwen3vl",
+        "families": [
+          "qwen3vl"
+        ],
+        "parameter_size": "8.8B",
+        "quantization_level": "Q4_K_M"
+      },
+      "expires_at": "2319-01-21T19:46:08.7500515+08:00",
+      "size_vram": 7962330398,
+      "context_length": 32768
+    }
+  ],
+  "capabilities": [
+    "completion",
+    "vision",
+    "tools"
+  ],
+  "parameters": "num_ctx                        32768\ntemperature                    1\ntop_k                          20\ntop_p                          0.95",
+  "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315",
+  "model_info": {
+    "general.architecture": "qwen3vl",
+    "general.parameter_count": 8767123696,
+    "qwen3vl.context_length": 262144
+  },
+  "gpu_inventory_csv": "0, GPU-eba0a381-9ae1-4752-9171-6616ee9a0880, 24564 MiB, 20146 MiB, 0 %\n1, GPU-bf1b70c4-b2d7-ed3b-54d5-95685863f06d, 24564 MiB, 10538 MiB, 0 %\n",
+  "strata_units": "inactive\ninactive\n",
+  "no_model_download_or_reload": true,
+  "shared_with_physical_executor": true
+}

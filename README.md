@@ -37,6 +37,14 @@ action graph from observations and sends every tool/model action through one `Ac
 The physical layer selects workers and model deployments. The older runners under
 `experiments/` and `workflow/` remain available only for frozen historical replay.
 
+The [Lightweight Planner competence pilot](docs/lightweight-planner-competence-protocol-v1.md)
+is currently **No-Go at compatibility Gate 1**: the local Manager provider silently
+truncated an over-limit synthetic prompt. All 18 formal cells remain unexecuted;
+see the [compatibility audit](docs/lightweight-planner-compatibility-v1.md),
+[results](docs/lightweight-planner-pilot-results-v1.md), and
+[next-step decision](docs/lightweight-planner-next-step-v1.md). Historical Phase II
+remains terminated and is not resumed by this pilot.
+
 ## Development
 
 Python 3.12 and [`uv`](https://docs.astral.sh/uv/) are expected.

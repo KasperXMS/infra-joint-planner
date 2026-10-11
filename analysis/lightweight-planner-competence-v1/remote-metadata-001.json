@@ -1,0 +1,225 @@
+{
+  "version": "readback-001",
+  "gates": [
+    {
+      "path": "/home/super/xiaoming/lightweight-planner-competence-v1/gate-001/receipt.json",
+      "sha256": "f46bb658cb7a8eb20eecc7da449ad4eb24ef5aea14944b91fd8995eb399fdbd9",
+      "receipt": {
+        "version": "lightweight-native-compatibility-v1",
+        "started_utc": "2026-10-11T11:58:08.802915+00:00",
+        "ended_utc": "2026-10-11T11:58:11.912892+00:00",
+        "source_sha256": "d6f4b816daa658c63f08e0f5350864f4dd2899f6603014af4fc1b3b7e3594841",
+        "model": "qwen-vl8b-resident-32k-v1",
+        "base_url": "http://127.0.0.1:11437/v1",
+        "requests": 3,
+        "request_cap": 8,
+        "manager_turn_cap": 6,
+        "output_cap": 2048,
+        "timeout_seconds": 600,
+        "benchmark_cells": 0,
+        "cloud_requests": 0,
+        "passed_native_smoke": false,
+        "gateway_calls": [
+          "read_artifact",
+          "read_artifact"
+        ],
+        "error": {
+          "type": "UserError",
+          "message": "Error running tool invoke_model: 'LogicalModelAction' object has no attribute 'operator'"
+        },
+        "request_latencies_ms": [
+          1517.8679120726883,
+          236.052380874753,
+          700.0806108117104
+        ],
+        "provider_usage": [
+          {
+            "prompt_tokens": 5319,
+            "prompt_tokens_details": {
+              "cached_tokens": 1
+            },
+            "completion_tokens": 24,
+            "total_tokens": 5343
+          },
+          {
+            "prompt_tokens": 5407,
+            "prompt_tokens_details": {
+              "cached_tokens": 5342
+            },
+            "completion_tokens": 24,
+            "total_tokens": 5431
+          },
+          {
+            "prompt_tokens": 5479,
+            "prompt_tokens_details": {
+              "cached_tokens": 5430
+            },
+            "completion_tokens": 82,
+            "total_tokens": 5561
+          }
+        ],
+        "http_statuses": [
+          200,
+          200,
+          200
+        ],
+        "final_answer": null,
+        "context_full_envelope_validated": false,
+        "parallel_call_execution_validated": false,
+        "formal_gate_passed": false
+      }
+    },
+    {
+      "path": "/home/super/xiaoming/lightweight-planner-competence-v1/gate-002/receipt.json",
+      "sha256": "77d24ee1fd0e1537ae1c4d4b16061634042b9eb82b5d80eb1edd53f383e7ad6e",
+      "receipt": {
+        "version": "lightweight-native-compatibility-v1",
+        "started_utc": "2026-10-11T11:58:50.254064+00:00",
+        "ended_utc": "2026-10-11T11:58:51.897771+00:00",
+        "source_sha256": "6c337c319cb3df6c5c32fc503f1121449d5648d84c0154812d3b76197db2e6fc",
+        "model": "qwen-vl8b-resident-32k-v1",
+        "base_url": "http://127.0.0.1:11437/v1",
+        "requests": 3,
+        "request_cap": 8,
+        "manager_turn_cap": 6,
+        "output_cap": 2048,
+        "timeout_seconds": 600,
+        "benchmark_cells": 0,
+        "cloud_requests": 0,
+        "passed_native_smoke": false,
+        "gateway_calls": [
+          "read_artifact",
+          "invoke_model"
+        ],
+        "error": null,
+        "request_latencies_ms": [
+          237.57160222157836,
+          699.1605921648443,
+          58.73523699119687
+        ],
+        "provider_usage": [
+          {
+            "prompt_tokens": 5319,
+            "prompt_tokens_details": {
+              "cached_tokens": 5318
+            },
+            "completion_tokens": 24,
+            "total_tokens": 5343
+          },
+          {
+            "prompt_tokens": 5406,
+            "prompt_tokens_details": {
+              "cached_tokens": 5342
+            },
+            "completion_tokens": 82,
+            "total_tokens": 5488
+          },
+          {
+            "prompt_tokens": 5537,
+            "prompt_tokens_details": {
+              "cached_tokens": 5430
+            },
+            "completion_tokens": 2,
+            "total_tokens": 5539
+          }
+        ],
+        "http_statuses": [
+          200,
+          200,
+          200
+        ],
+        "final_answer": "A",
+        "context_full_envelope_validated": false,
+        "parallel_call_execution_validated": false,
+        "formal_gate_passed": false
+      }
+    }
+  ],
+  "task_audit": {
+    "tasks": [
+      {
+        "family": "multihop_rag",
+        "position": 1,
+        "task_id": "multihop-rag-train-4b6de4acbde051fee1f727f3",
+        "task_bundle_sha256": "178e287b098d8c7e3667fa68d986b7c7f0bace97cbb622d763ec0df876364ea4",
+        "agent_task_sha256": "704c98bc1a4050463f219d2d17513f2fd06aa474d5361903f7b02f1679451510",
+        "initial_manager_view_utf8_bytes": 2867,
+        "prepared_bytes": 7696522,
+        "artifact_count": 3
+      },
+      {
+        "family": "multihop_rag",
+        "position": 2,
+        "task_id": "multihop-rag-train-fe71f374676e35359d12c83e",
+        "task_bundle_sha256": "1292d49f402c122637731b33005b95891876bb82e17e2d0cd97a46b2a9c5a76b",
+        "agent_task_sha256": "6cef171c76ea4b99d51c5189ef3ecd151ed7a4643a70c9b6963c7d8f6d380a10",
+        "initial_manager_view_utf8_bytes": 2982,
+        "prepared_bytes": 7696522,
+        "artifact_count": 3
+      },
+      {
+        "family": "longbench_v2",
+        "position": 1,
+        "task_id": "66f2c44e821e116aacb2b826",
+        "task_bundle_sha256": "2fb48b41810afcd166a0917f28396d5fe8d704ce7550c376d5df8e56edd76ad0",
+        "agent_task_sha256": "d02518c93dd89fc352526c5aba01159ef6411ee984df50ef337defd5dfc3c391",
+        "initial_manager_view_utf8_bytes": 1526,
+        "prepared_bytes": 514789,
+        "artifact_count": 2
+      },
+      {
+        "family": "longbench_v2",
+        "position": 2,
+        "task_id": "66f94f9ebb02136c067c4fde",
+        "task_bundle_sha256": "bde8d96c779ff22658a7ed96eec0c44db85435053ea7e63b3d7ecae07b73db84",
+        "agent_task_sha256": "d0c46857bde3f36997fd1d9d3b4db983c42f4056625b22df9629723748aa3340",
+        "initial_manager_view_utf8_bytes": 2584,
+        "prepared_bytes": 2119778,
+        "artifact_count": 1
+      },
+      {
+        "family": "video_mme",
+        "position": 1,
+        "task_id": "602-2",
+        "task_bundle_sha256": "c5c60e9f3b346074dc84b96e2af23b7d47fa169852c2229530cdeaaa9e175be7",
+        "agent_task_sha256": "40a236d281252f0357d8b8f50215d8b2f220f1936578b60caf7573a63a10011d",
+        "initial_manager_view_utf8_bytes": 824,
+        "prepared_bytes": 213739837,
+        "artifact_count": 1
+      },
+      {
+        "family": "video_mme",
+        "position": 2,
+        "task_id": "131-3",
+        "task_bundle_sha256": "6019c5446f6061729625c20631108b62904ba1a20269b4321fc12e13f631bcdb",
+        "agent_task_sha256": "27b42e7a16b148ebc6a03dc9150f9d7bbcfa8c3192bc9ebf7d24f1ab48097f82",
+        "initial_manager_view_utf8_bytes": 624,
+        "prepared_bytes": 7037220,
+        "artifact_count": 1
+      }
+    ],
+    "model_calls": 0,
+    "formal_cells": 0,
+    "source_sha256": "81d9e80233f24ccbf115999799e438a52d3151e119f67f7e8e95d7ddc6b66af8",
+    "cloud_key_file_exists": true
+  },
+  "remote_app": "/home/super/xiaoming/large-scale-cost-guidance-resident-v1/app-E-query-contract-repair-004",
+  "frozen_source_hashes": {
+    "src/infra_joint/control/native_agents.py": "81d9e80233f24ccbf115999799e438a52d3151e119f67f7e8e95d7ddc6b66af8",
+    "src/infra_joint/control/verification.py": "6c7813735ceec02136008d74da99ae3e773ec93b95b5a50d8a8dd1fd992699e8",
+    "src/infra_joint/control/physical.py": "9702a386b286cbba2a1c565635153529d570ff877f192c110a08f7b51d685cc0",
+    "src/infra_joint/control/runner.py": "95123eb77a70a04bd68b4ee6e03ed684670446036b8dd0132a0a94cd0043e3a0",
+    "src/infra_joint/runtime/client.py": "622b4fdede11f42a5696d7e5a90331bb13617aa9fc5d66324786d54ff296fd21",
+    "src/infra_joint/operators/catalog.py": "dfb0b3f4f95d87ccf7a18c22f9a686b7f877ad58078f91d2bba5ce038286623b",
+    "src/infra_joint/experiments/sdk_api_meter.py": "b4479cd39c5fe0ef77dba700fe64ac7af4db538455d493036846270207250b9a",
+    "scripts/large_scale_execution_v1.py": "6ec986e9b52b8a6f4b2b2fb6fc0b97ecef0496a44a95795f04c8b65f95b699df",
+    "scripts/resource_blind_live_validation_v1.py": "5d389850a1e2ffb76836f2cffee4c9f9b3113b983470965f8536f92184e0504d",
+    "scripts/sdk_native_infra_preliminary_v1_3.py": "01bdfb33f61bd1cd8cc83f3ab4b189553374c4ae4ab249c26f0766d9dd0050c6",
+    "configs/experiments/infra-aware-predecision-resident-cardinality-v1.yaml": "618eeb6a5793044ee545d68344394a7cfececf6f79a9002def097f764d5448f1",
+    "configs/experiments/resident-diverse-environment-v1.yaml": "82873b2cb1da793383bf3ec9d2ed4385606ba27f7ec058a3e325e4b0dd327863"
+  },
+  "journal_candidates": [],
+  "formal_cells": 0,
+  "workers_started": false,
+  "network_modified": false
+}

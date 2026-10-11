@@ -1,0 +1,68 @@
+{
+  "utc": "2026-10-11T12:08:05.193098+00:00",
+  "journal_path": "/home/super/xiaoming/large-scale-cost-guidance-resident-v1/phase2-attempts.jsonl",
+  "journal_sha256": "e8e796e0b9bb2e3ebf1c2492c96138a20e05fca246bcb029c205f799339fa3a9",
+  "context_receipt_sha256": "aa0f5e58f177586e81a01d81e530fae7b14a437045ce1aed27dea73736481c04",
+  "source_and_residency_sha256": "b0b87b2c78bb42514cde9b9ea85258d201a245a3c16bae98b49099562f664bfa",
+  "source_counts": {
+    "strong-4090": 114,
+    "A4": 114,
+    "A5": 114,
+    "A28": 114
+  },
+  "resident_models": {
+    "strong-4090": {
+      "11436": [
+        {
+          "name": "qwen35-27b-resident-32k-v1:latest",
+          "digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+          "context_length": 32768,
+          "size_vram": 17399734598
+        }
+      ],
+      "11437": [
+        {
+          "name": "qwen-vl8b-resident-32k-v1:latest",
+          "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+          "context_length": 32768,
+          "size_vram": 7962330398
+        }
+      ]
+    },
+    "A4": {
+      "11436": [
+        {
+          "name": "qwen-vl4b-resident-32k-v1:latest",
+          "digest": "0a50c24974fb2775e5480a3577e53a235e690d25ee3b9ee3e0ce2451b9d18877",
+          "context_length": 32768,
+          "size_vram": 5692949790
+        }
+      ]
+    },
+    "A5": {
+      "11436": [
+        {
+          "name": "qwen-vl8b-resident-32k-v1:latest",
+          "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+          "context_length": 32768,
+          "size_vram": 7962330398
+        }
+      ]
+    },
+    "A28": {
+      "11436": [
+        {
+          "name": "qwen35-27b-resident-32k-v1:latest",
+          "digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+          "context_length": 32768,
+          "size_vram": 17536059964
+        }
+      ]
+    }
+  },
+  "formal_cells": 0,
+  "cloud_requests": 0,
+  "workers_started": false,
+  "tc_modified": false,
+  "phase2_resumed": false
+}

@@ -1,0 +1,28 @@
+{
+  "native_terminal_observed": true,
+  "strict_smoke_accepted": false,
+  "gaps": [
+    "frozen_recovery_smoke_not_passed",
+    "silent_context_truncation"
+  ],
+  "full_context_stress_required": false,
+  "model_must_choose_parallel_tools": false,
+  "formal_execution_allowed": false,
+  "interpretation": "readiness decision, not a benchmark competence score",
+  "status": "NO_GO_GATE1",
+  "primary_blocker": "local Manager silently truncates over-limit prompts; no validated fail-closed Manager context preflight",
+  "strict_smoke_scope": "over-specific read-retry criterion; not a proof of provider or semantic incapability",
+  "runtime_parallel_regression_passed": true,
+  "formal_cells": 0,
+  "gate_receipts": [
+    {
+      "path": "/home/super/xiaoming/lightweight-planner-competence-v1/gate-001/receipt.json",
+      "sha256": "f46bb658cb7a8eb20eecc7da449ad4eb24ef5aea14944b91fd8995eb399fdbd9"
+    },
+    {
+      "path": "/home/super/xiaoming/lightweight-planner-competence-v1/gate-002/receipt.json",
+      "sha256": "77d24ee1fd0e1537ae1c4d4b16061634042b9eb82b5d80eb1edd53f383e7ad6e"
+    }
+  ],
+  "context_receipt_sha256": "aa0f5e58f177586e81a01d81e530fae7b14a437045ce1aed27dea73736481c04"
+}

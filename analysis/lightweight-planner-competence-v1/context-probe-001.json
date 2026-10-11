@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-10-11T12:06:44.581481+00:00",
+  "requests": 1,
+  "request_cap": 1,
+  "timeout_seconds": 180,
+  "max_output_tokens": 1,
+  "elapsed_ms": 3388.195553794503,
+  "request_bytes": 106117,
+  "request_sha256": "8e5a779a76f7d834f97bd97ca72ddb6c0f385206a5cbecc46bc45241d941552d",
+  "status": 200,
+  "provider_usage": {
+    "prompt_tokens": 16386,
+    "prompt_tokens_details": {
+      "cached_tokens": 4
+    },
+    "completion_tokens": 1,
+    "total_tokens": 16387
+  },
+  "error_type": null,
+  "server_truncation_lines": [
+    "time=2026-10-11T20:06:44.896+08:00 level=WARN source=llama_server.go:317 msg=\"truncating input prompt\" limit=16386 prompt=42272 keep=4 new=16386"
+  ],
+  "server_log_delta_sha256": "176473d6286e38a9da64fcccce6fc5edc13ecd4324540f4529c695208d270553",
+  "formal_cells": 0,
+  "benchmark_inputs_used": false,
+  "cloud_requests": 0,
+  "interpretation": "transport/context boundary probe only; no semantic score"
+}

@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-11T12:13:39.245762+00:00",
+  "test_command": ".venv/Scripts/python.exe -m pytest tests/test_lightweight_planner_roles_v1.py tests/test_lightweight_planner_compatibility_v1.py tests/test_native_agents.py tests/test_sdk_api_meter.py",
+  "passed": 47,
+  "failed": 0,
+  "elapsed_seconds": 4.25,
+  "ruff": "passed on added Python sources",
+  "diff_check": "passed",
+  "live_model_requests_in_tests": 0,
+  "formal_benchmark_cells": 0,
+  "scope": "native parallel/dependency and API metering regressions plus new role isolation, harness fix, context-gate and missing-score invariants; not full repository suite"
+}

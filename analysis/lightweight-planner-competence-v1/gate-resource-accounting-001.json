@@ -1,0 +1,72 @@
+{
+  "utc": "2026-10-11T12:09:42.823683+00:00",
+  "per_probe": [
+    {
+      "probe": "gate-001",
+      "requests": 3,
+      "prompt_tokens": 16205,
+      "completion_tokens": 130,
+      "cached_prompt_tokens": 10773,
+      "http_latency_ms_sum": 2454.0009037591517,
+      "wall_seconds": 3.109977
+    },
+    {
+      "probe": "gate-002",
+      "requests": 3,
+      "prompt_tokens": 16262,
+      "completion_tokens": 108,
+      "cached_prompt_tokens": 16090,
+      "http_latency_ms_sum": 995.4674313776195,
+      "wall_seconds": 1.643707
+    },
+    {
+      "probe": "context-probe-001",
+      "requests": 1,
+      "prompt_tokens": 16386,
+      "completion_tokens": 1,
+      "cached_prompt_tokens": 4,
+      "elapsed_ms": 3388.195553794503
+    }
+  ],
+  "totals": {
+    "requests": 7,
+    "prompt_tokens": 48853,
+    "completion_tokens": 239,
+    "cached_prompt_tokens": 26867
+  },
+  "application_http_request_json_bytes": 259451,
+  "application_http_response_json_bytes": 3767,
+  "wire_network_bytes": null,
+  "local_planner_gpu_seconds": null,
+  "local_planner_energy_joules": null,
+  "local_planner_cost_usd": null,
+  "cloud_requests": 0,
+  "physical_executor_inference_calls": 0,
+  "formal_cells": 0,
+  "initial_materialization_bytes": 0,
+  "sdk_versions": {
+    "openai-agents": "0.20.0",
+    "openai": "2.54.0",
+    "httpx": "0.28.1"
+  },
+  "raw_gate_files_sha256": {
+    "gate-001/receipt.json": "f46bb658cb7a8eb20eecc7da449ad4eb24ef5aea14944b91fd8995eb399fdbd9",
+    "gate-001/request-01.json": "e0f365f3a8523cd2a893358500eaf4418b91dc09aa7e23f4414527be700ccfde",
+    "gate-001/request-02.json": "e3caaa20e1cc058d2b9832905e2284ea2a10986c27ee873ee1f77c373176e074",
+    "gate-001/request-03.json": "85c9368c60064d8db88d63cc146b2dfea8e1137c0badb77dc35840b2e4f8268b",
+    "gate-001/response-01.json": "f2661d6d0e3f86f39cbf02e66d6526871b9ae593d19fa99781d295f11a0f1e98",
+    "gate-001/response-02.json": "47493e04eca4698d63a7f8de98b796729430848ce7d036de5bd5f61b2755f616",
+    "gate-001/response-03.json": "3dc613bcc96f04bc0912fa75240bb924d3f9ddc316e303d8c708096399c94201",
+    "gate-002/receipt.json": "77d24ee1fd0e1537ae1c4d4b16061634042b9eb82b5d80eb1edd53f383e7ad6e",
+    "gate-002/request-01.json": "e0f365f3a8523cd2a893358500eaf4418b91dc09aa7e23f4414527be700ccfde",
+    "gate-002/request-02.json": "bb7433a4c5fee78f4b34d26deeaccd7638e155a99efa26d5adf457fe192f3548",
+    "gate-002/request-03.json": "65a9acb90cd9454d1f1942dad3bab2637f6d3b69ac436e859f25bbc4b7fea004",
+    "gate-002/response-01.json": "8f7a1ee6957e149089b4292f2c755322a378ca4e5dca010c83021b929e7016e8",
+    "gate-002/response-02.json": "9bc825ac64098272268b7e492867c8440b859d4a5a308f7ef224e601ea3f82db",
+    "gate-002/response-03.json": "cda65a4e08850cd5bab2776f94aa2f5faf96ff77c9076b2dff7aeb64ff21cf30",
+    "context-probe-001/receipt.json": "aa0f5e58f177586e81a01d81e530fae7b14a437045ce1aed27dea73736481c04",
+    "context-probe-001/request.json": "8e5a779a76f7d834f97bd97ca72ddb6c0f385206a5cbecc46bc45241d941552d",
+    "context-probe-001/response.json": "f71d0d34697b2680e7f53ced0666613440594e7383925949aac1744b5984fbbe",
+    "context-probe-001/server-log-delta.txt": "176473d6286e38a9da64fcccce6fc5edc13ecd4324540f4529c695208d270553"
+  }
+}
