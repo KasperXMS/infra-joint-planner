@@ -1,5 +1,19 @@
 # Phase II original136: model-output media-type gate
 
+## Resume after external load exited — 2026-10-11 14:16 HKT
+
+Actual remote inspection at06:15:57UTC finds both Strata services inactive/dead,
+MainPID0, and only the original resident Ollama1130531/1130540 plus RPC3763/3764
+GPU processes. The original journal remains e8e796e0...a3a9, no experiment is
+active, and no successor022/control014 exists at that inspection. Reuse the
+already-validated2232e2f audit implementation,155-source pin90542e4a...690b and
+closed local/Linux/proof/readback receipts; do not rerun tests or the benchmark.
+Exclusive136 sidecar creator was submitted once,950490/start222654425, and is
+pending. No effective admission or queue restart is claimed until actual receipts.
+The subsequent steps are existing authority014, independent137-attempt bootstrap,
+then once022 dispatch of original137. Ordinary complete audit cadence remains16,
+next144; task/model/prompt/tool/budget/scheduler/evaluator semantics stay frozen.
+
 External observation amendment23:30HKT: the new named service was restarted
 again at23:28:42HKT. Current MainPID3981708/GPU1engine3981717 replaces the earlier
 handles and still uses9892MiB. The unit remainsactive/running; frozen resident
