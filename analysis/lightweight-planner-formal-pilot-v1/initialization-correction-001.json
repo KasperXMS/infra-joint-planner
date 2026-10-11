@@ -1,0 +1,45 @@
+{
+  "preserved_namespace": "formal-pilot-001",
+  "reason": "wrong existing Worker app; contract mismatch before task start",
+  "excluded_from_competence_results": true,
+  "receipts": [
+    {
+      "cell": "LPC-01",
+      "model_requests": 0,
+      "task_started": false,
+      "worker_cleanup": {
+        "drained": true,
+        "verified_exited": true
+      },
+      "tc_receipt_sha256": "da34b9ad325dcc47473e2d32ca931b80761ea7ec239d5d435efb129eba6cd2e8",
+      "tc_keys": [
+        "applied_qdisc",
+        "cleanup_error",
+        "network",
+        "original_qdisc",
+        "restored_qdisc",
+        "run_id",
+        "worker_ports"
+      ]
+    },
+    {
+      "cell": "LPC-02",
+      "model_requests": 0,
+      "task_started": false,
+      "worker_cleanup": {
+        "drained": true,
+        "verified_exited": true
+      },
+      "tc_receipt_sha256": "4fe6edb09e009e6f2c4f0ff33e9a68e7e9a05bd5091f95158827dfde65181b7b",
+      "tc_keys": [
+        "applied_qdisc",
+        "cleanup_error",
+        "network",
+        "original_qdisc",
+        "restored_qdisc",
+        "run_id",
+        "worker_ports"
+      ]
+    }
+  ]
+}

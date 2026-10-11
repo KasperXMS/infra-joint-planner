@@ -1,0 +1,15 @@
+{
+  "cell": "LPC-15",
+  "model_requests_before_repair": 0,
+  "task_started": false,
+  "owned_workers_spawned": 0,
+  "network_restored": true,
+  "cause": "transient Worker port bind failure before launch; follow-up plain bind succeeded",
+  "time_wait_cause_inferred_not_captured": true,
+  "fix": "port availability socket uses SO_REUSEADDR, matching the existing Worker server",
+  "model_reruns": 0,
+  "completed_cells_retained": 14,
+  "original_source_sha256": "fe02c9c3120b48ab61bb834357e737067ba6953f531ad4075acec1cf0ada4e75",
+  "repaired_source_sha256": "4346e922faff92fcd5c62ada6c837a99877bbb3c5352dc48f0e01c155e534d45",
+  "only_worker_startup_changed": true
+}

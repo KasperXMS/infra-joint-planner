@@ -1,0 +1,10 @@
+{
+  "archive_sha256": "93ceb871b95b2b59323d6477242be42252bc94b573d20926f24171f8b91d199a",
+  "base_commit": "41d034d",
+  "preserved_zero_model_initializations": [
+    "formal-pilot-001",
+    "formal-pilot-002"
+  ],
+  "tc_commands_unchanged": true,
+  "tc_batch_single_sudo": true
+}

@@ -1,0 +1,9 @@
+{
+  "preserved_namespace": "formal-pilot-002",
+  "task_started": false,
+  "model_requests": 0,
+  "workers_started": 0,
+  "tc_restored": true,
+  "reason": "sudo per-call delay exceeded batched SSH timeout",
+  "not_competence_outcome": true
+}

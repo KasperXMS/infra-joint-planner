@@ -24,6 +24,12 @@
     "warnings": 0
   },
   "extra_capability_probes": false,
+  "linux_tcp_time_wait_regression": {
+    "passed": true,
+    "legacy_bind_errno": 98,
+    "reuse_bind_succeeded": true,
+    "model_requests": 0
+  },
   "raw_schema_cases": [
     "malformed_json",
     "missing_arguments",

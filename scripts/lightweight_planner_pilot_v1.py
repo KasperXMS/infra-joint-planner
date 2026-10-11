@@ -156,7 +156,9 @@ async def start_owned_worker(agent, config, store, run_id):
         "port": PORTS[agent],
     }
     code = "import json,os,socket,subprocess; from pathlib import Path; "
-    code += f'v={values!r}; s=socket.socket(); s.bind(("0.0.0.0",v["port"])); s.close(); '
+    code += f"v={values!r}; s=socket.socket(); "
+    code += "s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1); "
+    code += 's.bind(("0.0.0.0",v["port"])); s.close(); '
     code += 'env=dict(os.environ,PYTHONPATH=v["app"]+"/src",OLLAMA_API_KEY="ollama"); '
     code += 'p=subprocess.Popen([v["app"]+"/.venv/bin/python","-m","infra_joint.cli","worker",'
     code += '"--config",v["config"]],cwd=v["app"],env=env,stdin=subprocess.DEVNULL,'

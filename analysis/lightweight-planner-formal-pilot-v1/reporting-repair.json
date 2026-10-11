@@ -1,0 +1,11 @@
+{
+  "cause": "postprocessing used score instead of original evaluator benchmark_score",
+  "original_raw_result_sha256": "b9b54c89c38fb58d1ce1768ee4408f5299a67d31ea290ae2b7271de41a221471",
+  "completed_LPC01_score0_retained": true,
+  "model_reruns": 0,
+  "only_postprocessing_changed": true,
+  "original_source_sha256": "e56d1e4001251788a903365d4bab562564dd5ff392d7f9e175a7fc106971fa7b",
+  "repaired_source_sha256": "fe02c9c3120b48ab61bb834357e737067ba6953f531ad4075acec1cf0ada4e75",
+  "remaining_cells": 17,
+  "evaluator_changed": false
+}

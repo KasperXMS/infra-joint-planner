@@ -17,3 +17,5 @@ STOP 文件和 SIGTERM/SIGINT 停止后续请求与 cells，并进入 cleanup。
 启动修正单独保留：`formal-pilot-001` 误选旧 Worker app，在 task.start 前发生 surface mismatch，两次初始化的模型请求均为 0；`formal-pilot-002` 在 Worker 启动前因控制机逐条 sudo 的 DNS 延迟触发 tc 配置超时，模型请求也为 0。两个 namespace 和停止证据均保留，网络配置已还原，不计入能力结果。正式 owner 使用已有 `app-input-cardinality-repair-003`，不修改 Executor；相同冻结 tc 命令以一次获授权的 `sudo tc -batch -` 执行。只有 task.start 前且零模型请求的初始化故障可作此修正，模型开始后的能力结果不得选择性重跑。
 
 正式 LPC-01 的原始执行已完成且 benchmark_score=0，汇总器误读 `score` 引发 KeyError 后停止。修复仅替换两个后处理字段访问；保留原始结果、原始 source freeze 和停止记录，追加 source amendment 后从 LPC-02 继续。LPC-01 不重跑、不剔除、不改分，Evaluator 无修改；继续脚本在执行下一 cell 前验证上述边界。
+
+LPC-15 在第一台 Worker 的端口 bind 检查时发生初始化失败，尚未启动 Worker 或 task、模型请求为 0；退出后普通 bind 已恢复成功，TIME_WAIT 为推测原因，原 stderr 未被持久化。保留该零模型初始化证据并追加 source amendment，仅令端口检查使用与现有 Worker server 一致的 SO_REUSEADDR。原 14 个正式结果全部保留，从第 15 个继续，没有重跑任何模型结果。

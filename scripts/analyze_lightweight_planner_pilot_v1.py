@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 from collections import Counter
+from datetime import datetime
 from decimal import Decimal
 from pathlib import Path
 
@@ -40,6 +41,20 @@ def usd(rows, role="all"):
 
 def enrich(root, row):
     cell = root / "cells" / row["cell"]["cell_id"]
+    receipts = [read(p) for p in (cell / "private/api").rglob("*-usage.json")]
+    for role, metrics in row["roles"].items():
+        selected = [r.get("usage") or {} for r in receipts if r["recipient"] == role]
+        for target, source in (("input", "prompt_tokens"), ("output", "completion_tokens")):
+            metrics[f"known_{target}_tokens_subtotal"] = sum(
+                u[source] for u in selected if type(u.get(source)) is int
+            )
+        metrics["known_cached_input_tokens_subtotal"] = sum(
+            u.get("prompt_tokens_details", {}).get("cached_tokens", 0) for u in selected
+        )
+        metrics["unknown_token_usage_requests"] = sum(
+            type(u.get("prompt_tokens")) is not int or type(u.get("completion_tokens")) is not int
+            for u in selected
+        )
     traces = list((cell / "runs").glob("*/trace.jsonl"))
     events = [
         read_line for p in traces for read_line in map(json.loads, p.read_text().splitlines())
@@ -54,7 +69,7 @@ def enrich(root, row):
         if error:
             text = str(error).lower()
             category = (
-                "invalid_generated_json"
+                "provider_json_parse_error"
                 if "json" in text and "unexpected" in text
                 else "provider_error_other"
             )
@@ -65,8 +80,8 @@ def enrich(root, row):
         outcome = "incorrect_answer"
     elif row["context_rejections"] or "context_limit_exceeded" in message:
         outcome = "context_budget_exceeded"
-    elif provider_errors["invalid_generated_json"]:
-        outcome = "provider_generated_json_invalid"
+    elif provider_errors["provider_json_parse_error"]:
+        outcome = "provider_json_parse_error"
     elif "maxturns" in failure_type.lower() or "max turns" in message or "turn budget" in message:
         outcome = "turn_budget_exhausted"
     elif "budget" in failure_type.lower() or any(
@@ -142,11 +157,20 @@ def enrich(root, row):
     for p in sorted((cell / "private/residency-log-intervals").glob("*.json")):
         intervals = read(p)["intervals"]
         text = "\n".join(v["text"] for v in intervals.values())
+        units = Counter()
+        for kind, count, unit in re.findall(
+            r"(prompt eval|eval) time\s*=\s*[\d.]+\s*ms\s*/\s*(\d+)\s*(tokens|runs)",
+            text,
+        ):
+            units[("prompt_eval_" if kind == "prompt eval" else "decode_eval_") + unit] += int(
+                count
+            )
         per_node[p.stem] = {
             "runner_task_starts": len(re.findall(r"processing task, is_child = 0", text)),
             "reported_total_times_ms": [
                 float(v) for v in re.findall(r"total time\s*=\s*([\d.]+)\s*ms", text)
             ],
+            "reported_evaluation_units": dict(units),
         }
     row["resident_runner_work"] = {
         "nodes": per_node,
@@ -157,6 +181,10 @@ def enrich(root, row):
         "scope": (
             "all five resident runners, including local Planner and physical execution; "
             "partial service proxy, not GPU compute"
+        ),
+        "evaluation_units_note": (
+            "prompt evaluation excludes reused cached input; decode runs may differ from "
+            "output tokens under speculative decoding; never substitute these for API usage"
         ),
     }
     api_bytes = Counter()
@@ -181,6 +209,10 @@ def aggregate(rows):
                 "output_tokens",
                 "cached_input_tokens",
                 "provider_latency_ms",
+                "known_input_tokens_subtotal",
+                "known_output_tokens_subtotal",
+                "known_cached_input_tokens_subtotal",
+                "unknown_token_usage_requests",
             )
         }
         roles[role]["cloud_api_cost"] = usd(rows, role)
@@ -229,6 +261,8 @@ def report(data):
         f"Completed matrix: {len(data['cells'])}/18 cells. Base `41d034d`; no selective "
         "model reruns or additional capability gates. "
         "Prior No-Go reports remain historical evidence.",
+        f"Matrix wall: {data['matrix_wall_ms'] / 1000:.3f} s, including setup, cleanup "
+        "and documented repair pauses. Per-task E2E below excludes those intervals.",
         "",
         "| Group | Completion | TSR | Raw schema failures | Cloud API USD (known) | Full cost |",
         "|---|---:|---:|---:|---:|---|",
@@ -281,9 +315,20 @@ def report(data):
     ]
     for group, r in groups.items():
         for role, v in r["roles"].items():
+
+            def usage(field, v=v):
+                return (
+                    v[field]
+                    if v[field] is not None
+                    else (
+                        f"≥{v['known_' + field + '_subtotal']}; "
+                        f"{v['unknown_token_usage_requests']} requests unknown"
+                    )
+                )
+
             lines.append(
-                f"| {group}/{role} | {v['turns']} | {v['input_tokens']} | "
-                f"{v['output_tokens']} | {v['cached_input_tokens']} | "
+                f"| {group}/{role} | {v['turns']} | {usage('input_tokens')} | "
+                f"{usage('output_tokens')} | {usage('cached_input_tokens')} | "
                 f"{v['cloud_api_cost']['known_usd_subtotal']} |"
             )
     lines += [
@@ -391,7 +436,7 @@ def report(data):
     return "\n".join(lines).replace("| None |", "| unknown |") + "\n"
 
 
-def main(root, output):
+def main(root, output, adapter_decision, adapter_reason):
     if not (root / "matrix-complete.json").exists():
         raise RuntimeError("refusing to publish an incomplete matrix as completed")
     freeze = read(root / "execution-freeze.json")
@@ -403,26 +448,10 @@ def main(root, output):
     groups = {
         g: aggregate([r for r in rows if r["cell"]["group"] == g]) for g in ("B0", "B1", "B2")
     }
-    b2 = groups["B2"]
-    # A transparent feasibility heuristic, not an additional model admission gate.
-    go = b2["successful"] >= 4 and b2["completed"] >= 5
     decision = {
-        "decision": "GO_bounded_followup" if go else "NO_GO_adapter_now",
-        "posthoc_descriptive_heuristic": True,
-        "reason": (
-            "GO for a bounded adapter follow-up: B2 completes at least five and succeeds"
-            " on at least four of these six tasks. Use paired workflow/resource evidence"
-            " to select one infrastructure hypothesis; this pilot does not validate an "
-            "adapter or establish total-cost savings."
-        )
-        if go
-        else (
-            "NO-GO for adding the Infra-aware Workflow Adapter now: B2 does not meet the"
-            " descriptive feasibility threshold of five completions and four successes "
-            "out of six. Address the observed context/protocol/semantic competence "
-            "limitations first. Infrastructure adaptation has no demonstrated ability to"
-            " repair those failures; do not launch a further experiment automatically."
-        ),
+        "decision": adapter_decision,
+        "posthoc_descriptive_judgment": True,
+        "reason": adapter_reason,
     }
     data = {
         "version": "lightweight-planner-formal-results-v1",
@@ -437,11 +466,15 @@ def main(root, output):
                 )
                 for g in groups
             }
-            for family in {r["cell"]["family"] for r in rows}
+            for family in sorted({r["cell"]["family"] for r in rows})
         },
         "adapter_decision": decision,
         "cells": rows,
     }
+    journal = [json.loads(line) for line in (root / "journal.jsonl").read_text().splitlines()]
+    data["matrix_wall_ms"] = (
+        datetime.fromisoformat(journal[-1]["utc"]) - datetime.fromisoformat(journal[0]["utc"])
+    ).total_seconds() * 1000
     output.mkdir(parents=True, exist_ok=False)
     write(output / "pilot-results.json", data)
     (output / "report.md").write_text(report(data), encoding="utf-8", newline="\n")
@@ -454,15 +487,19 @@ def main(root, output):
         "initialization-correction-002.json",
     ):
         write(output / name, read(root / name))
-    for name in ("reporting-repair.json", "continuation-source-freeze.json"):
+    for name in (
+        "reporting-repair.json",
+        "continuation-source-freeze.json",
+        "startup-repair.json",
+        "startup-continuation-source-freeze.json",
+    ):
         if (root / name).exists():
             write(output / name, read(root / name))
     (output / "journal.jsonl").write_bytes((root / "journal.jsonl").read_bytes())
-    active_sources = (
-        read(root / "continuation-source-freeze.json")
-        if (root / "continuation-source-freeze.json").exists()
-        else freeze["source_sha256"]
-    )
+    active_sources = freeze["source_sha256"]
+    for name in ("continuation-source-freeze.json", "startup-continuation-source-freeze.json"):
+        if (root / name).exists():
+            active_sources = read(root / name)
     source_ok = all(
         hashlib.sha256((root / "app" / p).read_bytes()).hexdigest() == h
         for p, h in active_sources.items()
@@ -511,5 +548,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--adapter-decision",
+        required=True,
+        choices=("GO_bounded_followup", "NO_GO_adapter_now"),
+    )
+    parser.add_argument("--adapter-reason", required=True)
     args = parser.parse_args()
-    main(args.root, args.output)
+    main(args.root, args.output, args.adapter_decision, args.adapter_reason)
