@@ -4,6 +4,10 @@ Frozen before benchmark inference on 2026-10-11, based on `70a75ae`.
 The prior 18-cell pilot and its No-Go decisions remain historical observations.
 This experiment neither resumes Phase II nor implements an Infra-aware Adapter.
 
+The original preregistration below is retained. The resource-driven placement and
+Skills-selection amendments are recorded separately in
+[contended-host continuation](multiscale-planner-continuation-v1.md).
+
 ## Finite execution
 
 The [execution configuration](../configs/experiments/multiscale-planner-execution-v1.json)

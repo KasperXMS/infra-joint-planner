@@ -1,0 +1,13 @@
+{
+  "python": "3.12.14",
+  "packages": {
+    "openai-agents": "0.20.0",
+    "openai": "2.54.0",
+    "httpx": "0.28.1",
+    "jsonschema": "4.26.0",
+    "pydantic": "2.13.5"
+  },
+  "semantic_runtime_source_sha256": "7ca3bf7da500b1e05d075ad56be9235fcb0cd9d59b0c5aec770100aa99a15b27",
+  "baseline_commit": "70a75ae",
+  "scheduler_or_evaluator_modified": false
+}

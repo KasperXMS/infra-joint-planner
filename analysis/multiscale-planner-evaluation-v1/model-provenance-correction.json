@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "observed_utc": "2026-10-11T15:34:56.320204+00:00",
+  "scope": "Read-only identity correction for the preregistered resident 27B artifact; no inference, deployment, source freeze, execution order, historical evidence, or experiment configuration changes.",
+  "nominal_candidate_key_unchanged": "qwen35_27b",
+  "nominal_candidate_checkpoint": "Qwen/Qwen3.5-27B",
+  "actual_checkpoint_family": "Qwen3.8-27B",
+  "actual_official_checkpoint_url": "https://huggingface.co/Qwen/Qwen3.8-27B",
+  "actual_official_quantized_tag": "qwen3.8:27b-q4_K_M",
+  "actual_official_quantized_tag_url": "https://ollama.com/library/qwen3.8:27b-q4_K_M",
+  "identity_status": "resident_model_and_projector_digests_match_official_qwen38_registry",
+  "original_creation_evidence": {
+    "locator_kind": "sha256_of_private_remote_absolute_path_utf8",
+    "locator_sha256": "61595d67d4a57363180681cf4147a19fda8de232810d2c969e9df55f8fa50843",
+    "file_sha256": "28cc3fa2a47734730a8b54a7e916c2ccb50e885fb7024122d0017a324ff0c568",
+    "public_source_line": "FROM qwen3.8:27b",
+    "private_path_exported": false
+  },
+  "resident_metadata_observation": {
+    "general_basename": "Qwen3.8",
+    "general_version": "0814",
+    "general_architecture": "qwen35",
+    "general_parameter_count": 27320697856,
+    "quantization_level": "Q4_K_M",
+    "native_metadata_context_tokens": 262144,
+    "gguf_block_count_including_mtp": 65,
+    "nextn_predict_layers": 1,
+    "embedding_length": 5120,
+    "feed_forward_length": 17408,
+    "renderer": "qwen3.8",
+    "parser": "qwen3.5",
+    "architecture_label_is_checkpoint_identity": false
+  },
+  "official_registry_match": {
+    "request_method": "GET",
+    "accept": "application/vnd.docker.distribution.manifest.v2+json",
+    "manifest_url": "https://registry.ollama.ai/v2/library/qwen3.8/manifests/27b-q4_K_M",
+    "manifest_sha256": "25b843619e944cd0ae6069f94ff4e5e26a16e109ccbc0a66a0f05979ed70098e",
+    "model_blob_sha256": "f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+    "model_blob_bytes": 16810714464,
+    "model_matches_resident_manifest_descriptor": true,
+    "projector_blob_sha256": "ac3714bfdddeca31351f2752bf1a63f266f4df87c0b68c895e44945ca704448e",
+    "projector_blob_bytes": 931146016,
+    "projector_matches_resident_manifest_descriptor": true,
+    "verification_method": "Compared official registry descriptors with the resident source manifest and live api/show metadata. No weight download or full-blob rehash was performed during this read-only check; prior resident preparation receipts retain full content verification.",
+    "hf_safetensors_revision": null
+  },
+  "different_qwen35_reference": {
+    "official_checkpoint_url": "https://huggingface.co/Qwen/Qwen3.5-27B",
+    "manifest_url": "https://registry.ollama.ai/v2/library/qwen3.5/manifests/27b-q4_K_M",
+    "manifest_sha256": "64ae5b1d651fb2709d5928ccb8dcfb4bb2cc9c2c8001ac34497e36a6cf905b59",
+    "model_blob_sha256": "c7e0e920a0948849beb7074d8368cbd5ac6825fcd1f2450cf851276325d8a6a5",
+    "projector_blob_sha256": "2abfbdeed2794d147bfa9bfee7b7b1536755c2d79b5a7d3cd911b0104ad011de",
+    "model_matches_resident": false,
+    "projector_matches_resident": false,
+    "reference_deployed_or_substituted": false
+  },
+  "analysis_constraints": {
+    "report_actual_27b_name": "Qwen3.8-27B Q4_K_M (resident artifact; preregistered slot qwen35_27b)",
+    "same_qwen35_release_size_comparison_slots": ["qwen35_4b", "qwen35_9b"],
+    "same_family_4b_9b_comparison_is_pure_size_causal_estimate": false,
+    "same_family_limit": "Only the 4B and 9B slots belong to the same Qwen3.5 release family; their observational comparison still includes any recorded deployment, quantization, and runtime differences.",
+    "27b_pure_qwen35_size_comparison_allowed": false,
+    "27b_confounders": ["checkpoint_generation", "parameter_scale", "resident_hardware", "MTP_and_runtime_configuration"],
+    "historical_documents_rewritten": false,
+    "frozen_candidate_key_or_order_changed": false,
+    "benchmark_rerun_requested": false,
+    "executor_or_model_service_changed": false
+  }
+}
