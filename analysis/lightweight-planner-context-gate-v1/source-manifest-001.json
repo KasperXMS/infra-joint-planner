@@ -1,0 +1,31 @@
+{
+  "version": "context-gate-source-manifest-v1",
+  "base_commit": "0cdb087b593b81380e23688ecd0fba6cd6d2d618",
+  "files_sha256": {
+    ".gitattributes": "95cc39feca1d28f262ad722c73b7f9d91b3c11be70df21bc1678db246f1a0d4b",
+    "README.md": "e626e74b565c13e199ffc5527ed938b2296308f90c07a717fd43099659ac951c",
+    "docs/lightweight-planner-context-gate-v1.md": "e0407a2317a07df281cfece31fa9e8951efacaa711e5631fe5458a5445d5feff",
+    "configs/experiments/lightweight-planner-context-gate-v1.json": "5091b4b278ace7dd534bbc2c6c32962ac90abb9ea842f303f344c24535eeebff",
+    "src/infra_joint/experiments/manager_context.py": "2e2e59033de646b83b017d2a9fa1e0673b81ba767c5536670effb616a72f8dd9",
+    "scripts/lightweight_planner_context_gate_v1.py": "70ff3ea8fac3ceb555c506ac2dfc04595eb6784b7ea1687d6a9566d289e0af3b",
+    "scripts/audit_lightweight_planner_context_gate_v1.py": "1f0e201c78e8ff53702eebc17fe0a78264c6132b20cb6705368982b45f1cef2c",
+    "tests/test_manager_context.py": "ae4cc7fb64c2251752c68faeb047f826532d5e029770885ba8a7e80bef7b9997",
+    "tests/test_lightweight_planner_context_audit_v1.py": "2f686976937e5b5fa74a3d2d5e8b13409a340c6677559de55ba1d2234dfb4b16",
+    "analysis/lightweight-planner-context-gate-v1/audited-gate1-002.json": "cf0c5338c77042e73f19aae3b970f93a5c5456646e01e451f800f818c7ecc8d9",
+    "analysis/lightweight-planner-context-gate-v1/closure-metadata-001.json": "4c5b7b47b0510df925ba38e0696d1679a94c6b995ad520112bffdb183597fa2b",
+    "analysis/lightweight-planner-context-gate-v1/code-freeze-001.json": "ae93d1207f75ef9714136e6f69fd623d6e0779b7c9a22ed6e7d5662379f95070",
+    "analysis/lightweight-planner-context-gate-v1/protocol.json": "778e2fd069fdd4adf0060e6736a8caae558a516947b271d6c6d13dd7bd722a2b",
+    "analysis/lightweight-planner-context-gate-v1/receipt.json": "3a0e1ddc19b49cff39d77f5f92a83a2d2d13b2e8599dc5e73ef869c154f8b0af"
+  },
+  "hash_convention": "Git LF canonical bytes, raw copied JSON already LF",
+  "executed_archive_sha256": "832c40936db279a440592b2df0d2809eeb7dc1bd16b8ca4e64b7e28ef2f860b2",
+  "executed_source_manifest": "code-freeze-001.json",
+  "current_source_differences": [
+    "Correct normal truncated=0 classification; add regression",
+    "Record raw SDK function schema errors and require them to pass; no model response/default repair"
+  ],
+  "current_runner_reexecuted": false,
+  "audit_inference_requests": 0,
+  "gate1_passed": false,
+  "formal_execution_allowed": false
+}

@@ -38,8 +38,10 @@ The physical layer selects workers and model deployments. The older runners unde
 `experiments/` and `workflow/` remain available only for frozen historical replay.
 
 The [Lightweight Planner competence pilot](docs/lightweight-planner-competence-protocol-v1.md)
-is currently **No-Go at compatibility Gate 1**: the local Manager provider silently
-truncated an over-limit synthetic prompt. All 18 formal cells remain unexecuted;
+is currently **No-Go at compatibility Gate 1**: the Manager context guard now passes
+8K/16K/24K/30K integrity and overflow checks, but a raw function call omitted a
+required schema field. See the [context repair results](docs/lightweight-planner-context-gate-v1.md).
+All 18 formal cells remain unexecuted;
 see the [compatibility audit](docs/lightweight-planner-compatibility-v1.md),
 [results](docs/lightweight-planner-pilot-results-v1.md), and
 [next-step decision](docs/lightweight-planner-next-step-v1.md). Historical Phase II

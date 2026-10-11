@@ -1,0 +1,33 @@
+{
+  "version": "manager-context-gate-1-v2",
+  "config": {
+    "model": "qwen-vl8b-resident-32k-v1",
+    "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+    "model_blob": "sha256-1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466",
+    "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315",
+    "ollama_url": "http://127.0.0.1:11437",
+    "runner_url": "http://127.0.0.1:43715",
+    "context_window": 32768,
+    "reserved_output_tokens": 2048
+  },
+  "targets_total_prompt_tokens": [
+    8192,
+    16384,
+    24576,
+    30720,
+    30721,
+    42272
+  ],
+  "reserved_output_tokens": 2048,
+  "accepted_inference_max": 6,
+  "sdk_inference_request_max": 8,
+  "helper_request_max": 512,
+  "deadline_seconds": 1800,
+  "per_inference_timeout_seconds": 180,
+  "acceptance": "four exact context tiers preserve rendered markers, provider count, sentinel echoes and no truncation; paired legal wire unchanged; both overflows reject before inference; SDK native schema/typed failure/multiturn/terminal; role isolation; real SDK scripted concurrency. Exact reread is an optional diagnostic.",
+  "formal_cells_allowed": 0,
+  "phase2_resume_allowed": false,
+  "skills_sha256": "d8b75f3ce6e76ab19fa16328acc7f4ffce56988ab5d6abd794c95866d9b1f422",
+  "journal_sha256": "e8e796e0b9bb2e3ebf1c2492c96138a20e05fca246bcb029c205f799339fa3a9",
+  "source_sha256": "2f7a6c20103d05f04fa9fb3f455486cbbccc5f36316e2e05d8f0a9673b84d219"
+}

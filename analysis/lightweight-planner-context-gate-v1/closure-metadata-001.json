@@ -1,0 +1,168 @@
+{
+  "version": "context-gate-closure-v1",
+  "utc": "2026-10-11T12:59:42.563188+00:00",
+  "deployment": {
+    "version": {
+      "version": "0.34.0"
+    },
+    "show_parameters": "num_ctx                        32768\ntemperature                    1\ntop_k                          20\ntop_p                          0.95",
+    "ps": {
+      "models": [
+        {
+          "name": "qwen-vl8b-resident-32k-v1:latest",
+          "model": "qwen-vl8b-resident-32k-v1:latest",
+          "size": 7962330398,
+          "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen3vl",
+            "families": [
+              "qwen3vl"
+            ],
+            "parameter_size": "8.8B",
+            "quantization_level": "Q4_K_M"
+          },
+          "expires_at": "2319-01-21T19:54:04.824152928+08:00",
+          "size_vram": 7962330398,
+          "context_length": 32768
+        }
+      ]
+    },
+    "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315",
+    "environment": {
+      "1129016": [
+        "OLLAMA_HOST=127.0.0.1:11437",
+        "OLLAMA_NUM_PARALLEL=1",
+        "OLLAMA_MAX_LOADED_MODELS=1",
+        "OLLAMA_KV_CACHE_TYPE=q8_0",
+        "OLLAMA_FLASH_ATTENTION=1",
+        "CUDA_VISIBLE_DEVICES=GPU-bf1b70c4-b2d7-ed3b-54d5-95685863f06d"
+      ],
+      "1130540": [
+        "OLLAMA_HOST=127.0.0.1:11437",
+        "OLLAMA_NUM_PARALLEL=1",
+        "OLLAMA_MAX_LOADED_MODELS=1",
+        "OLLAMA_KV_CACHE_TYPE=q8_0",
+        "OLLAMA_FLASH_ATTENTION=1",
+        "CUDA_VISIBLE_DEVICES=GPU-bf1b70c4-b2d7-ed3b-54d5-95685863f06d"
+      ]
+    },
+    "listener_cmdline": {
+      "1129016": "/home/super/heterogeneous-v1/runtime/ollama-0.34.0/bin/ollama serve ",
+      "1130540": "/home/super/heterogeneous-v1/runtime/ollama-0.34.0/lib/ollama/llama-server --model /home/super/xiaoming/resident-model-pool-v1/instance-stores/gpu1/models/blobs/sha256-1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466 --port 43715 --host 127.0.0.1 --no-webui --offline -c 32768 -np 1 --log-verbosity 4 --no-log-prefix --no-log-timestamps --no-jinja --chat-template chatml --mmproj /home/super/xiaoming/resident-model-pool-v1/instance-stores/gpu1/models/blobs/sha256-1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466 --image-min-tokens 1024 --cache-type-k q8_0 --cache-type-v q8_0 --flash-attn on -b 1024 -ub 1024 --context-shift --keep 4 "
+    }
+  },
+  "runner": {
+    "n_ctx": 32768,
+    "total_slots": 1,
+    "model_path": "/home/super/xiaoming/resident-model-pool-v1/instance-stores/gpu1/models/blobs/sha256-1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466"
+  },
+  "listener_processes_unchanged": true,
+  "nodes": [
+    {
+      "node": "strong-4090",
+      "source_file_count": 114,
+      "source_unchanged": true,
+      "resident_models": {
+        "11436": [
+          {
+            "name": "qwen35-27b-resident-32k-v1:latest",
+            "digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+            "context_length": 32768
+          }
+        ],
+        "11437": [
+          {
+            "name": "qwen-vl8b-resident-32k-v1:latest",
+            "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+            "context_length": 32768
+          }
+        ]
+      },
+      "resident_digests_unchanged": true
+    },
+    {
+      "node": "A4",
+      "error": "A4edge@192.168.0.104: Permission denied (publickey,password).\n"
+    },
+    {
+      "node": "A5",
+      "error": "A5edge@192.168.0.105: Permission denied (publickey,password).\n"
+    },
+    {
+      "node": "A28",
+      "error": "A28edge@192.168.0.128: Permission denied (publickey,password).\n"
+    }
+  ],
+  "journal_sha256": "e8e796e0b9bb2e3ebf1c2492c96138a20e05fca246bcb029c205f799339fa3a9",
+  "diagnostic_inference": {
+    "created_at": "2026-10-11T12:35:36.469286074Z",
+    "prompt_eval_count": 5319,
+    "prompt_eval_cached_count": 5318,
+    "eval_count": 24,
+    "total_duration": 2606283650
+  },
+  "resource_accounting": {
+    "gate_inference_requests": 8,
+    "diagnostic_inference_requests": 1,
+    "total_real_inference_requests_this_round": 9,
+    "gate_helper_requests": 126,
+    "diagnostic_helper_requests": "not separately metered",
+    "gpu_seconds": null,
+    "monetary_cost": null,
+    "formal_cells": 0,
+    "cloud_inference_requests": 0
+  },
+  "files_sha256": {
+    "apply-template.json": "8836cbc5318c6b9671e0e5a5b1877b65430397d4dfd92febf9a5d84a578f8549",
+    "audit-context-gate-001.py": "991c0a197d48683890cdcaf5def47617b773648bede2f43e75dd48b9e55d1da4",
+    "audit-context-gate-002.py": "1f0e201c78e8ff53702eebc17fe0a78264c6132b20cb6705368982b45f1cef2c",
+    "audited-gate1-002.json": "cf0c5338c77042e73f19aae3b970f93a5c5456646e01e451f800f818c7ecc8d9",
+    "code-001.tar.gz": "832c40936db279a440592b2df0d2809eeb7dc1bd16b8ca4e64b7e28ef2f860b2",
+    "code-freeze-001.json": "ae93d1207f75ef9714136e6f69fd623d6e0779b7c9a22ed6e7d5662379f95070",
+    "context-preflight-log-fix-001.py": "2e2e59033de646b83b017d2a9fa1e0673b81ba767c5536670effb616a72f8dd9",
+    "initial-audit.json": "94e0be5521efc73f31aecf2edd8983c2ac824baaeafe5c449a58fde7a551d865",
+    "official-api-types.go": "40c2647781a54fd3baedca021d495f3f7f899e217fce9697405e90b7930b9d8e",
+    "official-llm-llama_server.go": "bae8450e77202e810760ad331004ebe244747f5fb98b4f07f4c6c0d6efcc971c",
+    "official-openai-openai.go": "425c68495c50a6f5020466d01e1f588ac8ebcf112e223b2fba29ca99aec72b3b",
+    "official-openai.go": "425c68495c50a6f5020466d01e1f588ac8ebcf112e223b2fba29ca99aec72b3b",
+    "official-server-prompt.go": "79411c4e15ff27fb8bac4dcd96076407e035ec407c0ab1a1840035f9668b4654",
+    "props.json": "0f83fa718c38336c70e3e8fd5e7f7d365c2429fa273648a472a95a2a7ebc315a",
+    "render-only-probe.json": "026ee25f055763d1e8d80fd8220cc5abd4704e4f6336945087fd864099b0df65",
+    "render-probe.json": "97e83899da45529677d73f9a0c420adb033ec0ac3db3d40664d2fd1af8c5d6ef",
+    "run-001/capacity-16384-request.json": "58e7a1447953ed0ae7f28053772194323c1617611babc510cd79b29cfec68f55",
+    "run-001/capacity-24576-request.json": "c7916932bf53ef47a91163194277e5b0f2d9cf4730c12cb9e54b6ee144a498ce",
+    "run-001/capacity-30720-request.json": "259d51eb73b0a90c7e9bc3ff365db2617b390cd5819cff3c61822e95503005fb",
+    "run-001/capacity-30721-request.json": "c16734df9c7a29570c74c825f2dddb91f45a66db60bc896e7cd2f5970f4a7073",
+    "run-001/capacity-42272-request.json": "8d4048591393d7816dcdcc88f6d6192ffeef67d0dd130ae472b25eeae205f4dd",
+    "run-001/capacity-8192-request.json": "c15c79d7d42a08ce574d32d0ab8d3b384aa816d40b3ea05b36d8cdff60fecb7f",
+    "run-001/native-result.json": "3107ee5072c2835fb8e74067aa75b61f30a12efb60cfdb54a57073a931d221dd",
+    "run-001/protocol.json": "778e2fd069fdd4adf0060e6736a8caae558a516947b271d6c6d13dd7bd722a2b",
+    "run-001/receipt.json": "3a0e1ddc19b49cff39d77f5f92a83a2d2d13b2e8599dc5e73ef869c154f8b0af",
+    "run-001/request-01.json": "55bd1b66c1ddba164e7edf1101f4e73b580971fc2a1ef94ffbccefe273a552d8",
+    "run-001/request-02.json": "55bd1b66c1ddba164e7edf1101f4e73b580971fc2a1ef94ffbccefe273a552d8",
+    "run-001/request-03.json": "eb67469f5bab91af0b15b896d77e90cadd63b48600bc75f67f2b65d2f7930a84",
+    "run-001/request-04.json": "4abba2ca7a4ad3c19d9992d8af5b249f67642ef178d3e71e6848846f1531f80b",
+    "run-001/request-05.json": "e57656740661e79946c8b856a3c25053949acb38a76cdae4089e2c25189c2d2e",
+    "run-001/request-06.json": "e0f365f3a8523cd2a893358500eaf4418b91dc09aa7e23f4414527be700ccfde",
+    "run-001/request-07.json": "b9191efcd063b51d69c5d4c16e2bd4ba51d0c379a99c2b3a92e0b01b52bf428e",
+    "run-001/request-08.json": "25f717a8a1d7f9d9ec4f8508492a4c3fd3e91bcefb01b584be1ffcf8cf20dc2c",
+    "run-001/response-01.json": "44cc7ec953ed6c327242a30e171128e93ef61b1a7bad3ef22620d1dfd9855024",
+    "run-001/response-02.json": "183214e33cd0cfb0d290750f79f188584a813c6b207d06a9e9d9f59f038b1be3",
+    "run-001/response-03.json": "f2b076b21e87b94772ebf78d08be9d799baaae07f7c54dced5820455387dba5a",
+    "run-001/response-04.json": "f84a0f0f092be4bccad3800e12094aff217e68d2b7d335b7fbd3acd47b767b8c",
+    "run-001/response-05.json": "39ac6296a699cb5972cef5875f204adcc99eab0b1bce4a2d81192a0127a34438",
+    "run-001/response-06.json": "a8448257d68a54992a7f8ef6b980597da93054c9ba9b77c14c2ce42def618816",
+    "run-001/response-07.json": "b685e8bd4b8e79d098c02d1ff86ac7a4f598ebdb4b321821cfe14e92901e0b6c",
+    "run-001/response-08.json": "3372153a36969210f7187c4a7ff639856e8fe9d67d8620ecd101779178ad779b",
+    "run-001/sdk-parallel.json": "15525014e9fe1c2935043b28d6231791d4cb5eb817462c645be946e5cee0d6bb",
+    "run-001/server-log-delta.txt": "a89c5680d4efee1e06bf6832257f3bfd14688a0b1ca875a46941cf8b3d6ae9e1",
+    "run-001/trace.jsonl": "341817989de016dd82da331dd8605ccbdececa2dbfc5b9d155ab9289d74bf82b",
+    "tokenize.json": "188b93e5eb0ff473aa3c1c372b377aa0cddca4482843b49c5c789f44d3f51880"
+  },
+  "formal_execution_allowed": false,
+  "historical_phase2_resumed": false,
+  "executor_deployments_modified": false,
+  "model_tags_created": 0
+}

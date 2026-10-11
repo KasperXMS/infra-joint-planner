@@ -1,0 +1,186 @@
+{
+  "version": "manager-context-gate-1-independent-audit-v1",
+  "utc": "2026-10-11T12:57:27.561762+00:00",
+  "gate1_passed": false,
+  "checks": {
+    "run_has_no_execution_error": true,
+    "predeclared_targets_unchanged": true,
+    "four_context_tiers_complete": true,
+    "four_context_tiers_integrity": true,
+    "two_overflows_rejected_before_inference": true,
+    "accepted_preflights_verified": true,
+    "rejected_preflights_not_forwarded": true,
+    "paired_legal_wire_identical": true,
+    "log_delta_hash_matches": true,
+    "no_actual_truncation": true,
+    "native_function_schema_validated": false,
+    "native_failure_multiturn_terminal": true,
+    "fixed_strong_roles_isolated": true,
+    "real_sdk_parallel_semantics": true,
+    "skills_unchanged": true,
+    "historical_journal_unchanged": true,
+    "no_formal_dispatch": true
+  },
+  "capacity": [
+    {
+      "target": 8192,
+      "preflight": {
+        "prompt_tokens": 8192,
+        "context_window": 32768,
+        "reserved_output_tokens": 2048,
+        "effective_input_budget": 30720,
+        "rendered_sha256": "7f868de8afa930791883daed2a3e7ccb674472cdb1d12b455baee19268b6792b",
+        "decision": "allow",
+        "count_source": "truncate=false native renderer + resident /tokenize"
+      },
+      "provider_prompt_tokens": 8192,
+      "echo_correct": true,
+      "inference_requests": 1,
+      "wire_sha256": "55bd1b66c1ddba164e7edf1101f4e73b580971fc2a1ef94ffbccefe273a552d8",
+      "passed": true
+    },
+    {
+      "target": 16384,
+      "preflight": {
+        "prompt_tokens": 16384,
+        "context_window": 32768,
+        "reserved_output_tokens": 2048,
+        "effective_input_budget": 30720,
+        "rendered_sha256": "0cb2f2483ff00e75c5bec43c0fcad3a3528e1ae7255015fa15db2b5edacac9b4",
+        "decision": "allow",
+        "count_source": "truncate=false native renderer + resident /tokenize"
+      },
+      "provider_prompt_tokens": 16384,
+      "echo_correct": true,
+      "inference_requests": 1,
+      "wire_sha256": "eb67469f5bab91af0b15b896d77e90cadd63b48600bc75f67f2b65d2f7930a84",
+      "passed": true
+    },
+    {
+      "target": 24576,
+      "preflight": {
+        "prompt_tokens": 24576,
+        "context_window": 32768,
+        "reserved_output_tokens": 2048,
+        "effective_input_budget": 30720,
+        "rendered_sha256": "8a72423e3cefbdae90c8139f458b305aabf27104b9deb451aa57884578ed3f55",
+        "decision": "allow",
+        "count_source": "truncate=false native renderer + resident /tokenize"
+      },
+      "provider_prompt_tokens": 24576,
+      "echo_correct": true,
+      "inference_requests": 1,
+      "wire_sha256": "4abba2ca7a4ad3c19d9992d8af5b249f67642ef178d3e71e6848846f1531f80b",
+      "passed": true
+    },
+    {
+      "target": 30720,
+      "preflight": {
+        "prompt_tokens": 30720,
+        "context_window": 32768,
+        "reserved_output_tokens": 2048,
+        "effective_input_budget": 30720,
+        "rendered_sha256": "3f1724fadd7ffc976d957486e6969d48e3d4cd6f337adbccd6c714f96fec5803",
+        "decision": "allow",
+        "count_source": "truncate=false native renderer + resident /tokenize"
+      },
+      "provider_prompt_tokens": 30720,
+      "echo_correct": true,
+      "inference_requests": 1,
+      "wire_sha256": "e57656740661e79946c8b856a3c25053949acb38a76cdae4089e2c25189c2d2e",
+      "passed": true
+    },
+    {
+      "target": 30721,
+      "preflight": {
+        "prompt_tokens": 30721,
+        "context_window": 32768,
+        "reserved_output_tokens": 2048,
+        "effective_input_budget": 30720,
+        "rendered_sha256": "31d190a9e2d1b1c83d5d285d885c0edf927b9157d14900183f5454effab2d2b8",
+        "decision": "context_limit_exceeded",
+        "count_source": "truncate=false native renderer + resident /tokenize"
+      },
+      "error_code": "context_limit_exceeded",
+      "inference_requests": 0,
+      "passed": true
+    },
+    {
+      "target": 42272,
+      "preflight": {
+        "prompt_tokens": 42272,
+        "context_window": 32768,
+        "reserved_output_tokens": 2048,
+        "effective_input_budget": 30720,
+        "rendered_sha256": "55267926448f884e8ba7da37bac3d2970074da2d7ce4a030588c602671870b50",
+        "decision": "context_limit_exceeded",
+        "count_source": "truncate=false native renderer + resident /tokenize"
+      },
+      "error_code": "context_limit_exceeded",
+      "inference_requests": 0,
+      "passed": true
+    }
+  ],
+  "native_smoke": {
+    "native_protocol_passed": true,
+    "original_strict_read_retry_passed": false,
+    "gateway_calls": [
+      "read_artifact",
+      "invoke_model"
+    ],
+    "usage": {
+      "manager_turns": 3,
+      "subagent_turns": 0,
+      "tool_model_calls": 2,
+      "created_subagents": 0,
+      "peak_active_subagents": 0,
+      "verifier_calls": 0
+    },
+    "final_answer": "A",
+    "role_isolation_passed": true,
+    "specialist_model": "qwen3.8-max",
+    "verifier_model": "qwen3.8-max",
+    "cloud_transport_attempts": 0,
+    "scope": "strong roles constructed with exact settings; not invoked"
+  },
+  "sdk_parallel": {
+    "passed": true,
+    "peak_concurrent_actions": 2,
+    "scripted_http_requests": 2,
+    "live_model_requests": 0,
+    "gateway_calls": [
+      "invoke_model",
+      "invoke_model"
+    ]
+  },
+  "actual_tool_calls": [
+    "read_artifact",
+    "invoke_model"
+  ],
+  "raw_schema_checks": [
+    {
+      "request_index": 6,
+      "tool": "read_artifact",
+      "valid": false,
+      "errors": [
+        "'arguments' is a required property"
+      ]
+    },
+    {
+      "request_index": 7,
+      "tool": "invoke_model",
+      "valid": true,
+      "errors": []
+    }
+  ],
+  "truncation_events": [],
+  "original_receipt_gate1_passed": false,
+  "original_receipt_sha256": "3a0e1ddc19b49cff39d77f5f92a83a2d2d13b2e8599dc5e73ef869c154f8b0af",
+  "audit_source_sha256": "1f0e201c78e8ff53702eebc17fe0a78264c6132b20cb6705368982b45f1cef2c",
+  "log_parser_source_sha256": "2e2e59033de646b83b017d2a9fa1e0673b81ba767c5536670effb616a72f8dd9",
+  "adjudication": "Original receipt retained. The substring log parser misclassified truncated=0; corrected offline. Raw schema errors remain blocking, even when the existing native runtime supplies a default empty arguments object. No model rerun, schema repair, or acceptance relaxation.",
+  "inference_requests_during_audit": 0,
+  "formal_execution_allowed": false,
+  "formal_cells": 0,
+  "historical_phase2_resumed": false
+}
