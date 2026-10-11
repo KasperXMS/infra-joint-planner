@@ -1,0 +1,234 @@
+{
+  "schema_version": "multiscale-hardware-survey-v1",
+  "audit_date_utc": "2026-10-11",
+  "residency_sample_utc": "2026-10-11T15:14:59Z",
+  "method": "Read-only SSH; free -m, df -h, nvidia-smi, filtered /proc process metadata, Ollama GET version/ps/tags, POST show metadata, resident GET slots.",
+  "inference_requests": 0,
+  "service_mutations": 0,
+  "secret_contents_read": false,
+  "memory_units": "MiB as reported by free -m and nvidia-smi; Ollama residency bytes separately",
+  "timing_note": "Memory and disk samples precede the residency sample within this audit; available capacity is a snapshot, not a validated new-model fit.",
+  "nodes": [
+    {
+      "node_id": "strong-4090",
+      "ram_total_mib": 64077,
+      "ram_available_mib": 43678,
+      "swap_total_mib": 2047,
+      "swap_used_mib": 1901,
+      "disk_available_display": "337G",
+      "disk_used_percent": 91,
+      "gpu_devices": [
+        {
+          "device_id": "gpu0",
+          "name": "NVIDIA GeForce RTX 4090",
+          "total_mib": 24564,
+          "used_mib": 20146,
+          "free_mib": 3936,
+          "resident_runner_used_mib": 19702,
+          "other_reported_compute_used_mib": 386
+        },
+        {
+          "device_id": "gpu1",
+          "name": "NVIDIA GeForce RTX 4090",
+          "total_mib": 24564,
+          "used_mib": 10540,
+          "free_mib": 13542,
+          "resident_runner_used_mib": 10124,
+          "other_reported_compute_used_mib": 386
+        }
+      ],
+      "resident_instances": [
+        {
+          "endpoint_alias": "strong-4090-gpu0-resident",
+          "port": 11436,
+          "model": "qwen35-27b-resident-32k-v1",
+          "family": "qwen35",
+          "parameter_size_reported": "27.3B",
+          "quantization": "Q4_K_M",
+          "context_tokens": 32768,
+          "ollama_version": "0.34.0",
+          "manifest_digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+          "model_blob_sha256": "f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+          "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315",
+          "resident_bytes": 17399734598,
+          "renderer": "qwen3.8",
+          "parser": "qwen3.5",
+          "idle": true,
+          "speculative": true
+        },
+        {
+          "endpoint_alias": "strong-4090-gpu1-resident",
+          "port": 11437,
+          "model": "qwen-vl8b-resident-32k-v1",
+          "family": "qwen3vl",
+          "parameter_size_reported": "8.8B",
+          "quantization": "Q4_K_M",
+          "context_tokens": 32768,
+          "ollama_version": "0.34.0",
+          "manifest_digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+          "model_blob_sha256": "1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466",
+          "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315",
+          "resident_bytes": 7962330398,
+          "renderer": "qwen3-vl-instruct",
+          "parser": "qwen3-vl-instruct",
+          "idle": true,
+          "speculative": false
+        }
+      ],
+      "other_servers": [
+        {
+          "port": 11434,
+          "version": "0.34.0",
+          "resident_models": 0
+        },
+        {
+          "port": 11435,
+          "version": "0.34.0",
+          "resident_models": 0
+        }
+      ],
+      "cached_model_families": [
+        "Qwen3-VL 4B instruct",
+        "Qwen3-VL 8B instruct",
+        "Qwen3-VL 8B thinking",
+        "Qwen3.5-family 27B under historical qwen3.8 tags"
+      ],
+      "spare_capacity_assessment": "GPU1 is the preferred location for a separate new Planner endpoint; 2B/4B/9B Q4 candidates require measured admission with reserved headroom. GPU0 has only 3936 MiB free, so do not load a second large model there."
+    },
+    {
+      "node_id": "A4",
+      "ram_total_mib": 30609,
+      "ram_available_mib": 10825,
+      "swap_total_mib": 0,
+      "swap_used_mib": 0,
+      "disk_available_display": "25G",
+      "disk_used_percent": 78,
+      "resident_instances": [
+        {
+          "endpoint_alias": "A4-resident",
+          "port": 11436,
+          "model": "qwen-vl4b-resident-32k-v1",
+          "family": "qwen3vl",
+          "parameter_size_reported": "4.4B",
+          "quantization": "Q4_K_M",
+          "context_tokens": 32768,
+          "ollama_version": "0.34.0",
+          "manifest_digest": "0a50c24974fb2775e5480a3577e53a235e690d25ee3b9ee3e0ce2451b9d18877",
+          "model_blob_sha256": "16b83be682148a4d8201dbf720ea7eace5de98b69f63f05e0c908b4d7977ecb5",
+          "resident_bytes": 5692949790,
+          "idle": true,
+          "speculative": false
+        }
+      ],
+      "other_servers": [
+        {
+          "port": 11434,
+          "version": "0.33.3",
+          "resident_models": 0
+        }
+      ],
+      "cached_model_families": [
+        "Qwen3-VL 4B instruct"
+      ],
+      "spare_capacity_assessment": "Unified-memory headroom is limited to approximately 10.6 GiB available; no new fit validated."
+    },
+    {
+      "node_id": "A5",
+      "ram_total_mib": 30609,
+      "ram_available_mib": 8032,
+      "swap_total_mib": 0,
+      "swap_used_mib": 0,
+      "disk_available_display": "46G",
+      "disk_used_percent": 59,
+      "resident_instances": [
+        {
+          "endpoint_alias": "A5-resident",
+          "port": 11436,
+          "model": "qwen-vl8b-resident-32k-v1",
+          "family": "qwen3vl",
+          "parameter_size_reported": "8.8B",
+          "quantization": "Q4_K_M",
+          "context_tokens": 32768,
+          "ollama_version": "0.34.0",
+          "manifest_digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+          "model_blob_sha256": "1329cd5ab37e5ef6faef37cd8ff8660ffc96ed5b47b34fddf8eb0912e6c82466",
+          "resident_bytes": 7962330398,
+          "idle": true,
+          "speculative": false
+        }
+      ],
+      "other_servers": [
+        {
+          "port": 11434,
+          "version": "0.33.3",
+          "resident_models": 0
+        }
+      ],
+      "cached_model_families": [
+        "Qwen3-VL 4B instruct",
+        "Qwen3-VL 8B instruct"
+      ],
+      "spare_capacity_assessment": "Unified-memory headroom is limited to approximately 7.8 GiB available; no new fit validated."
+    },
+    {
+      "node_id": "A28",
+      "ram_total_mib": 62817,
+      "ram_available_mib": 28414,
+      "swap_total_mib": 0,
+      "swap_used_mib": 0,
+      "disk_available_display": "100G",
+      "disk_used_percent": 56,
+      "resident_instances": [
+        {
+          "endpoint_alias": "A28-resident",
+          "port": 11436,
+          "model": "qwen35-27b-resident-32k-v1",
+          "family": "qwen35",
+          "parameter_size_reported": "27.3B",
+          "quantization": "Q4_K_M",
+          "context_tokens": 32768,
+          "ollama_version": "0.34.0",
+          "manifest_digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+          "model_blob_sha256": "f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+          "resident_bytes": 17536059964,
+          "idle": true,
+          "speculative": true
+        }
+      ],
+      "other_servers": [
+        {
+          "port": 11434,
+          "version": "0.33.3",
+          "resident_models": 0
+        },
+        {
+          "port": 11435,
+          "version": "0.34.0",
+          "resident_models": 0
+        }
+      ],
+      "cached_model_families": [
+        "Qwen3-VL 4B instruct",
+        "Qwen3-VL 4B thinking",
+        "Qwen2.5-VL 3B without tools capability",
+        "Qwen3.5-family 27B under historical qwen3.8 tags"
+      ],
+      "spare_capacity_assessment": "Largest edge spare unified-memory capacity, approximately 27.7 GiB available. An isolated larger Planner may be feasible after measured headroom admission; no new fit validated."
+    }
+  ],
+  "shared_resource_note": "All five existing resident instances are Executor deployments. Reusing their endpoints for Planner preserves weights and service settings but shares scheduling and memory with Executor; logical role isolation does not imply physical GPU isolation.",
+  "cache_scope": "Existing resident stores, historical heterogeneous stores, legacy Ollama API tags, and known default stores were inspected. No cached requested Qwen3.5 2B/4B/9B, Ministral 3, Gemma 4, or GPT-OSS 20B checkpoint was found in this scope.",
+  "safety_constraints": [
+    "Do not unload or reconfigure existing Executor deployments.",
+    "Use an independent endpoint, independent model store, and single new loaded Planner at a time.",
+    "Check memory headroom before loading; stop on OOM or Executor residency drift.",
+    "Record model loading cost and contention; existing capacity snapshots do not establish throughput or context integrity."
+  ],
+  "unmeasured": [
+    "Power draw",
+    "Actual new-candidate context memory",
+    "New-candidate inference latency",
+    "New-candidate hardware fit",
+    "GPU hourly prices"
+  ]
+}

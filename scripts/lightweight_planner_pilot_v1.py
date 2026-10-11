@@ -63,6 +63,9 @@ WORKER_APPS = {
     for a, h in HOSTS.items()
 }
 PORTS = {"A4": 62004, "A5": 62005, "A28": 62028, "strong-4090": 62112}
+EDGE_ROOT = Path("/mnt/ssd/lightweight-planner-competence-v1/formal-pilot-003")
+ARTIFACT_NAMESPACE = "lightweight-planner-competence-v1/formal-pilot-003"
+RUN_PREFIX = "lightweight-planner-competence-v1-formal-003"
 
 
 def digest(path):
@@ -132,11 +135,7 @@ def protected_hashes():
 
 async def start_owned_worker(agent, config, store, run_id):
     host = HOSTS[agent]
-    base = (
-        ROOT
-        if host is None
-        else Path("/mnt/ssd/lightweight-planner-competence-v1/formal-pilot-003")
-    )
+    base = ROOT if host is None else EDGE_ROOT
     target = config if host is None else base / "worker-configs" / config.name
     code = "import json; from pathlib import Path; "
     code += f"base=Path({str(base)!r}); base.mkdir(parents=True,exist_ok=True); "
@@ -393,6 +392,10 @@ async def execute(cell, out, config, protocol):
                 if local
                 else strong
             )
+            if local and protocol["groups"][group].get("request_extra_body"):
+                manager = ModelRequestBodyAdapter(
+                    manager, protocol["groups"][group]["request_extra_body"]
+                )
             roles = role_isolated_sdk(
                 agents,
                 manager_model=manager,
@@ -705,11 +708,12 @@ def inspect_cell(cell, out, config, cleanup, protected):
 async def one_cell(cell, protocol, pool, protected):
     out = ROOT / "cells" / cell["cell_id"]
     out.mkdir(parents=True, exist_ok=False)
-    run_id = f"lightweight-planner-competence-v1-formal-003-{cell['cell_id']}"
+    run_id = f"{RUN_PREFIX}-{cell['cell_id']}"
     stores = {
         a: str(
             (Path("/home/super") if h is None else Path("/mnt/ssd"))
-            / "heterogeneous-v1/artifacts/lightweight-planner-competence-v1/formal-pilot-003"
+            / "heterogeneous-v1/artifacts"
+            / ARTIFACT_NAMESPACE
             / cell["cell_id"]
             / a
         )

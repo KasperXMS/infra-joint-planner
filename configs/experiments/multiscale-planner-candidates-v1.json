@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "experiment": "multiscale-planner-evaluation-v1",
+  "survey_date": "2026-10-11",
+  "baseline_commit": "70a75ae",
+  "selection_basis": "Frozen before new benchmark scores: same-family scale coverage plus one small cross-family comparison; finite deployment and memory limits.",
+  "candidate_cap": 4,
+  "selected_order": ["qwen35_4b", "qwen35_9b", "qwen35_27b", "ministral3_3b"],
+  "replacement_downloads_allowed": false,
+  "score_dependent_reruns_allowed": false,
+  "planner_settings": {
+    "num_ctx": 32768,
+    "max_tokens": 2048,
+    "maximum_input_tokens_before_stricter_backend_limits": 30720,
+    "thinking": false,
+    "qwen_openai_reasoning_effort": "none",
+    "ministral_reasoning_effort_field": null,
+    "raw_function_schema_validation": "strict_before_execution",
+    "invalid_call_repair": false,
+    "blocking_failures": ["context_integrity", "execution_safety", "budget_boundary"],
+    "nonblocking_observations": ["schema_failure", "model_output_error", "incorrect_answer", "legal_budget_exhaustion"]
+  },
+  "hardware_policy": {
+    "gpu1_spare_mib_at_selection": 13542,
+    "new_manager_endpoint": "independent_endpoint_and_store_sequential_single_model",
+    "existing_27b": "reuse_resident_gpu0_only_after_actual_provenance_attestation",
+    "existing_executor_mutations_allowed": false,
+    "shared_gpu_contention_recorded": true,
+    "package_size_is_peak_memory": false
+  },
+  "candidates": [
+    {"id":"qwen35_2b","selected":false,"checkpoint":"Qwen/Qwen3.5-2B","official_url":"https://huggingface.co/Qwen/Qwen3.5-2B","license":"Apache-2.0","architecture":"dense_hybrid_deltanet_attention","nominal_lm_parameters_billion":2,"exact_active_parameters_billion":null,"native_context_tokens":262144,"default_thinking":false,"ollama_tag":"qwen3.5:2b","listing_lm_parameters_billion":1.88,"listing_vision_parameters_billion":0.331,"listing_quantization":"Q8_0","deployment_status":"survey_only","exclusion_reason":"finite_four_candidate_cap"},
+    {"id":"qwen35_4b","selected":true,"checkpoint":"Qwen/Qwen3.5-4B","official_url":"https://huggingface.co/Qwen/Qwen3.5-4B","license":"Apache-2.0","architecture":"dense_hybrid_deltanet_attention","nominal_lm_parameters_billion":4,"exact_active_parameters_billion":null,"native_context_tokens":262144,"default_thinking":true,"ollama_tag":"qwen3.5:4b-q4_K_M","ollama_url":"https://ollama.com/library/qwen3.5:4b-q4_K_M","listing_lm_parameters_billion":4.21,"listing_vision_parameters_billion":0.334,"listing_quantization":"Q4_K_M","listing_package_gb_approx":3.3,"deployment_plan":"download_official_ollama_independent_planner","actual_manifest_digest":null,"actual_blob_sha256":null,"actual_template_sha256":null},
+    {"id":"qwen35_9b","selected":true,"checkpoint":"Qwen/Qwen3.5-9B","official_url":"https://huggingface.co/Qwen/Qwen3.5-9B","license":"Apache-2.0","architecture":"dense_hybrid_deltanet_attention","nominal_lm_parameters_billion":9,"exact_active_parameters_billion":null,"native_context_tokens":262144,"default_thinking":true,"ollama_tag":"qwen3.5:9b-q4_K_M","ollama_url":"https://ollama.com/library/qwen3.5:9b-q4_K_M","listing_lm_parameters_billion":8.95,"listing_vision_parameters_billion":0.456,"listing_quantization":"Q4_K_M","listing_package_gb_approx":6.6,"deployment_plan":"download_official_ollama_independent_planner","actual_manifest_digest":null,"actual_blob_sha256":null,"actual_template_sha256":null},
+    {"id":"qwen35_27b","selected":true,"checkpoint":"Qwen/Qwen3.5-27B","official_url":"https://huggingface.co/Qwen/Qwen3.5-27B","license":"Apache-2.0","architecture":"dense_hybrid_deltanet_attention","nominal_lm_parameters_billion":27,"exact_active_parameters_billion":null,"native_context_tokens":262144,"default_thinking":true,"reference_ollama_tag":"qwen3.5:27b-q4_K_M","ollama_url":"https://ollama.com/library/qwen3.5:27b-q4_K_M","reference_listing_lm_parameters_billion":26.9,"reference_listing_vision_parameters_billion":0.461,"reference_listing_quantization":"Q4_K_M","reference_listing_package_gb_approx":17,"deployment_plan":"attest_and_reuse_existing_gpu0_resident_without_reconfiguration","existing_resident_matches_current_reference_tag":null,"actual_manifest_digest":null,"actual_blob_sha256":null,"actual_template_sha256":null},
+    {"id":"ministral3_3b","selected":true,"checkpoint":"mistralai/Ministral-3-3B-Instruct-2512","official_url":"https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512","license":"Apache-2.0","architecture":"dense","lm_parameters_billion":3.4,"vision_parameters_billion":0.4,"exact_active_parameters_billion":null,"native_context_claim":"256K","checkpoint_quantization":"FP8","ollama_tag":"ministral-3:3b","ollama_url":"https://ollama.com/library/ministral-3","listing_package_gb_approx":3.0,"deployment_plan":"download_official_ollama_independent_planner","actual_quantization":null,"actual_manifest_digest":null,"actual_blob_sha256":null,"actual_template_sha256":null},
+    {"id":"ministral3_8b","selected":false,"checkpoint":"mistralai/Ministral-3-8B-Instruct-2512","official_url":"https://huggingface.co/mistralai/Ministral-3-8B-Instruct-2512","license":"Apache-2.0","architecture":"dense","lm_parameters_billion":8.4,"vision_parameters_billion":0.4,"exact_active_parameters_billion":null,"native_context_claim":"256K","checkpoint_quantization":"FP8","listing_package_gb_approx":6.0,"deployment_status":"survey_only","exclusion_reason":"finite_four_candidate_cap_memory_and_time"},
+    {"id":"ministral3_14b","selected":false,"checkpoint":"mistralai/Ministral-3-14B-Instruct-2512","official_url":"https://huggingface.co/mistralai/Ministral-3-14B-Instruct-2512","license":"Apache-2.0","architecture":"dense","lm_parameters_billion":13.5,"vision_parameters_billion":0.4,"exact_active_parameters_billion":null,"native_context_claim":"256K","checkpoint_quantization":"FP8","listing_package_gb_approx":9.1,"deployment_status":"survey_only","exclusion_reason":"finite_four_candidate_cap_memory_and_time"},
+    {"id":"gemma4_e4b","selected":false,"checkpoint":"google/gemma-4-E4B-it","official_url":"https://huggingface.co/google/gemma-4-E4B-it","license":"Apache-2.0","architecture":"dense_with_per_layer_embeddings","effective_parameters_billion":4.5,"embeddings_inclusive_parameters_billion":8,"exact_active_parameters_billion":null,"native_context_claim":"128K","ollama_url":"https://ollama.com/library/gemma4:e4b","listing_quantization":"Q4_K_M","listing_package_gb_approx":6.6,"deployment_status":"survey_only","exclusion_reason":"finite_four_candidate_cap_memory_and_time"},
+    {"id":"gemma4_12b","selected":false,"checkpoint":"google/gemma-4-12B-it","official_url":"https://huggingface.co/google/gemma-4-12B-it","license":"Apache-2.0","architecture":"dense_unified_multimodal","total_parameters_billion":11.95,"exact_active_parameters_billion":null,"native_context_claim":"256K","ollama_url":"https://ollama.com/library/gemma4:12b","listing_quantization":"Q4_K_M","listing_package_gb_approx":8.0,"deployment_status":"survey_only","exclusion_reason":"finite_four_candidate_cap_memory_and_time"},
+    {"id":"gpt_oss_20b","selected":false,"checkpoint":"openai/gpt-oss-20b","official_url":"https://huggingface.co/openai/gpt-oss-20b","license":"Apache-2.0","architecture":"mixture_of_experts","total_parameters_billion":20.9,"active_parameters_billion":3.6,"native_context_claim":"128K","required_protocol":"Harmony","ollama_url":"https://ollama.com/library/gpt-oss:20b","listing_quantization":"MXFP4","listing_package_gb_approx":14,"official_minimum_memory_claim_gb":16,"deployment_status":"survey_only","exclusion_reason":"finite_four_candidate_cap_and_insufficient_independent_gpu1_headroom_for_safe_32k_deployment"}
+  ],
+  "official_registry_references_not_deployment_attestations": {
+    "registry_url_pattern": "https://registry.ollama.ai/v2/library/qwen3.5/manifests/{tag}",
+    "qwen35_4b_q4_K_M": {"manifest_sha256":"d8b0f5e9760cd1682034f292d7ef72ec46f432149be0df7574bf2d6e92e38c04","model_sha256":"a9d0a3e1d8c91732a3812becd31f8d4a8ff57414903f226306069f0437e2ac50","model_bytes":2648593216,"projector_sha256":"e56a899b1540860385465756dd308c84417410b94dbc1c380adffd20a921ca60","projector_bytes":675569120},
+    "qwen35_9b_q4_K_M": {"manifest_sha256":"56671c2ab9385f9cfcb404638e32cd62d88e3501d44822208363c010179a3c90","model_sha256":"02d45dc1cf451ba2475ac33b301c2dd8f985abe4c182ce04a1f2f5bf0260278d","model_bytes":5629109120,"projector_sha256":"f836f08f921193f4d6b6a6952dba0a6fb116759d26a757bcb395d570d73976ca","projector_bytes":921704832},
+    "qwen35_27b_q4_K_M": {"manifest_sha256":"64ae5b1d651fb2709d5928ccb8dcfb4bb2cc9c2c8001ac34497e36a6cf905b59","model_sha256":"c7e0e920a0948849beb7074d8368cbd5ac6825fcd1f2450cf851276325d8a6a5","model_bytes":16547399008,"projector_sha256":"2abfbdeed2794d147bfa9bfee7b7b1536755c2d79b5a7d3cd911b0104ad011de","projector_bytes":931145984},
+    "qwen_template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315",
+    "template_note": "The 13-byte {{ .Prompt }} layer is not the full built-in renderer/parser implementation."
+  },
+  "official_protocol_sources": {
+    "qwen_template":"https://huggingface.co/Qwen/Qwen3.5-9B/resolve/main/chat_template.jinja",
+    "ollama_v034_openai_mapping":"https://raw.githubusercontent.com/ollama/ollama/v0.34.0/openai/openai.go",
+    "gemma_model_card":"https://ai.google.dev/gemma/docs/core/model_card_4",
+    "gemma_function_calling":"https://ai.google.dev/gemma/docs/capabilities/text/function-calling-gemma4",
+    "gpt_oss_model_card":"https://deploymentsafety.openai.com/gpt-oss",
+    "gpt_oss_harmony_repository":"https://github.com/openai/gpt-oss"
+  },
+  "limitations":["Official native context is not the experimental effective context.","Official listing package sizes are not measured memory peaks.","Actual deployed provenance and compatibility are recorded separately.","No MoE model is selected, so this round does not establish MoE or reasoning scaling.","Unknown GPU pricing remains unknown."]
+}
