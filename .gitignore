@@ -16,6 +16,8 @@ artifacts/
 runs/
 traces/
 *.jsonl
+!/analysis/avoidable-work-opportunities-v1.jsonl
+!/analysis/avoidable-work-resources-v1.jsonl
 
 # Local experiment evidence. Historical results already tracked by Git remain tracked;
 # new raw/private evidence should be summarized in docs before it is published.
