@@ -1,4 +1,40 @@
-# Resident Phase II results — in progress
+# Resident Phase II results — terminated at user request
+
+## Termination — 2026-10-11 14:27 HKT
+
+The user terminated this experiment; do not resume its queue without a new
+instruction. The pending offline136 admission creator950490/start222654425 was
+identity-checked and stopped with SIGTERM. Independent /proc inspection finds no
+remaining experiment Python process. No136 sidecar, control014, ledger014,
+successor manifest or queue022 exists. Resident model services and unrelated
+workloads were not stopped. No historical evidence was deleted or overwritten.
+
+Final scope:136 nominal cells executed,137 attempts preserved (including the
+excluded original71 and its authorized replacement),135 admitted, one unresolved
+admission136,56 nominal cells unstarted. This is an incomplete PhaseII study,
+not a completed192-cell characterization. Of135 admitted samples,133 completed
+and reached evaluation;105 and117 are retained incomplete Agent failures.
+Original136 completed with valid format and score1.0, but remains separately
+reported rather than silently added to the admitted population.
+
+| Benchmark | Admitted | Completed/evaluated | Score1 / evaluated |
+| --- | ---: | ---: | ---: |
+| MultiHop-RAG |48|47|31/47|
+| LongBench-v2 |44|43|20/43|
+| Video-MME |43|43|30/43|
+
+These are partial descriptive results, not pooled benchmark accuracy or a
+method ranking. Conditions are incomplete/unbalanced and n=1. Missing evaluation
+is unknown, not zero. The partial read-only summary was explicitly requested by
+the user after the original end-of-matrix analysis schedule; no Agent inputs,
+execution sources, prompts, budgets or frozen task selection were changed.
+
+Owner-local termination receipt:
+`analysis/phase2-user-termination-20261011-001.json`, SHA256
+`7de62c5e15582d11fb9d9a133d5a0f81377a8317d794796b2be7e3f6cdd9756e`.
+Original journal SHA256 remains
+`e8e796e0b9bb2e3ebf1c2492c96138a20e05fca246bcb029c205f799339fa3a9`.
+Earlier progress/next-step entries below are historical, not dispatch authority.
 
 2026-10-08 23:26 HKT: original136 historical source-bound proof and complete
 five-group read-only preflight pass; independent readback803ac29c...e05e closes

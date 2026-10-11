@@ -1,5 +1,17 @@
 # Phase II original136: model-output media-type gate
 
+## User terminated experiment — 2026-10-11 14:27 HKT
+
+The user requested termination and commit/push. Pending exclusive creator950490/
+start222654425 was stopped by identity-checked SIGTERM; actual process inventory
+is empty afterward. No sidecar or completion receipt was created, and no
+authority014 or queue022 was started. Preserve all historical proofs/results;
+do not replay the interrupted creator or continue this experiment automatically.
+The original136 benchmark execution remains completed/format-valid/score1.0;
+its effective admission remains unresolved. Termination receipt SHA256:
+`7de62c5e15582d11fb9d9a133d5a0f81377a8317d794796b2be7e3f6cdd9756e`.
+The resume and next-action notes below are superseded by this termination.
+
 ## Resume after external load exited — 2026-10-11 14:16 HKT
 
 Actual remote inspection at06:15:57UTC finds both Strata services inactive/dead,
