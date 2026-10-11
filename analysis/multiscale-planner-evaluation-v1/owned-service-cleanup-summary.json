@@ -1,0 +1,23 @@
+{
+  "version": "multiscale-owned-service-cleanup-summary-v1",
+  "receipt_sha256": "972d290ed91822ef880fac3738f0b15f75121eda9010188acecad407654eb5b4",
+  "started_utc": "2026-10-11T20:04:11Z",
+  "finished_utc": "2026-10-11T20:04:13Z",
+  "status": "completed",
+  "matrix_complete": true,
+  "matrix_daemon_exited": true,
+  "owned_servers_stopped": 2,
+  "owned_tunnels_stopped": 1,
+  "owned_tunnels_already_exited": 8,
+  "ports_closed": {
+    "11450": true,
+    "11451": true,
+    "11452": true
+  },
+  "original_executor_instances_checked": 5,
+  "original_five_executors_unchanged": true,
+  "original_executor_context_tokens": 32768,
+  "foreign_processes_untouched": true,
+  "cache_and_logs_preserved": true,
+  "contains_commands_environment_paths_or_payloads": false
+}
