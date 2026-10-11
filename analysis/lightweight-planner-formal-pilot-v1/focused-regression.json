@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-11",
+  "base_commit": "41d034d",
+  "model_requests": 0,
+  "pytest": {
+    "passed": 59,
+    "failed": 0,
+    "files": {
+      "tests/test_native_agents.py": 37,
+      "tests/test_pilot_safety.py": 2,
+      "tests/test_lightweight_planner_roles_v1.py": 5,
+      "tests/test_lightweight_planner_context_audit_v1.py": 1,
+      "tests/test_lightweight_planner_compatibility_v1.py": 1,
+      "tests/test_manager_context.py": 11,
+      "tests/test_lightweight_planner_tc_v1.py": 2
+    }
+  },
+  "pyright": {
+    "files": [
+      "src/infra_joint/control/native_agents.py",
+      "src/infra_joint/experiments/pilot_safety.py"
+    ],
+    "errors": 0,
+    "warnings": 0
+  },
+  "extra_capability_probes": false,
+  "raw_schema_cases": [
+    "malformed_json",
+    "missing_arguments",
+    "incorrect_input_type",
+    "additional_property",
+    "later_legal_call_recovery"
+  ],
+  "safety_cases": [
+    "concurrent_request_quota_is_enforced_before_network",
+    "stop_file_and_deadline",
+    "serialized_control_input_budget",
+    "physical_request_quota",
+    "partial_tc_apply_restores_network",
+    "cell_failure_restores_network"
+  ]
+}

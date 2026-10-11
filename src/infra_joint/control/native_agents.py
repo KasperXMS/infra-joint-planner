@@ -91,6 +91,7 @@ class _AgentObject(Protocol):
 
 class _FunctionToolObject(Protocol):
     on_invoke_tool: Any
+    params_json_schema: dict[str, Any]
 
 
 class SpecialistRequest(ContractModel):
@@ -120,30 +121,18 @@ class _NativeState:
     observations: list[LogicalObservation] = field(
         default_factory=lambda: list[LogicalObservation]()
     )
-    subagent_results: list[SubagentResult] = field(
-        default_factory=lambda: list[SubagentResult]()
-    )
+    subagent_results: list[SubagentResult] = field(default_factory=lambda: list[SubagentResult]())
     planner_steps: list[PlannerStepTelemetry] = field(
         default_factory=lambda: list[PlannerStepTelemetry]()
     )
     verification_steps: list[VerificationTelemetry] = field(
         default_factory=lambda: list[VerificationTelemetry]()
     )
-    accessible: dict[str, set[str]] = field(
-        default_factory=lambda: dict[str, set[str]]()
-    )
-    produced: dict[str, set[str]] = field(
-        default_factory=lambda: dict[str, set[str]]()
-    )
-    actions: dict[str, LogicalAction] = field(
-        default_factory=lambda: dict[str, LogicalAction]()
-    )
-    turn_by_agent: dict[str, int] = field(
-        default_factory=lambda: dict[str, int]()
-    )
-    llm_started: dict[str, float] = field(
-        default_factory=lambda: dict[str, float]()
-    )
+    accessible: dict[str, set[str]] = field(default_factory=lambda: dict[str, set[str]]())
+    produced: dict[str, set[str]] = field(default_factory=lambda: dict[str, set[str]]())
+    actions: dict[str, LogicalAction] = field(default_factory=lambda: dict[str, LogicalAction]())
+    turn_by_agent: dict[str, int] = field(default_factory=lambda: dict[str, int]())
+    llm_started: dict[str, float] = field(default_factory=lambda: dict[str, float]())
     manager_turns: int = 0
     subagent_turns: int = 0
     tool_model_calls: int = 0
@@ -192,7 +181,7 @@ class _NativeHooks:
             items = semantic_input_items(input_items)
             profile = next(
                 (
-                    json.loads(item["content"][len(PROFILE_MESSAGE_PREFIX):])
+                    json.loads(item["content"][len(PROFILE_MESSAGE_PREFIX) :])
                     for item in reversed(items)
                     if item.get("role") == "user"
                     and isinstance(item.get("content"), str)
@@ -301,6 +290,7 @@ class OpenAIAgentsNativeRuntime:
         blind_verifier: BlindVerifier | None = None,
         predecision_profiles: bool = False,
         record_input_provenance: bool = False,
+        validate_raw_tool_calls: bool = False,
     ) -> None:
         self._name = name
         self._instructions = instructions
@@ -312,6 +302,7 @@ class OpenAIAgentsNativeRuntime:
         self._blind_verifier = blind_verifier
         self._predecision_profiles = predecision_profiles
         self._record_input_provenance = record_input_provenance
+        self._validate_raw_tool_calls = validate_raw_tool_calls
         unknown = sorted(item for item in self._available_operations if item not in registry)
         if unknown:
             raise ValueError(f"native tool space references unknown operators: {unknown}")
@@ -348,9 +339,7 @@ class OpenAIAgentsNativeRuntime:
                     argument_schema=self._registry.binding(name).spec.argument_schema
                     or {"type": "object"},
                     output_schema=self._registry.binding(name).spec.output_schema or {},
-                    required_capabilities=self._registry.binding(
-                        name
-                    ).spec.capability_requirements,
+                    required_capabilities=self._registry.binding(name).spec.capability_requirements,
                 )
                 for name in self._available_operations
             ),
@@ -402,9 +391,7 @@ class OpenAIAgentsNativeRuntime:
             tools=function_tools,
             max_parallel=True,
         )
-        specialist_tool = self._specialist_tool(
-            specialist, state, resolved_budget, hooks
-        )
+        specialist_tool = self._specialist_tool(specialist, state, resolved_budget, hooks)
         manager = self._agent(
             sdk,
             name=root.logical_agent_id,
@@ -436,9 +423,7 @@ class OpenAIAgentsNativeRuntime:
         if not isinstance(output, str) or not output.strip():
             raise AgentLoopError("SDK-native manager returned no textual final answer")
         if verifier is not None and state.phase not in {"synthesis", "complete"}:
-            raise AgentLoopError(
-                "Blind verifier did not authorize the terminal synthesis phase"
-            )
+            raise AgentLoopError("Blind verifier did not authorize the terminal synthesis phase")
         answer = _deterministic_terminal_answer(task.output_contract, output)
         terminal = self._terminal_source(state, answer, task.output_contract)
         _validate_output_contract(task, answer)
@@ -489,10 +474,12 @@ class OpenAIAgentsNativeRuntime:
                     {"decision_id": decision_id, "profile": profile.model_dump(mode="json")},
                 )
                 items = [item for item in items if not is_profile_message(item)]
-                items.append({
-                    "role": "user",
-                    "content": PROFILE_MESSAGE_PREFIX + profile.model_dump_json(),
-                })
+                items.append(
+                    {
+                        "role": "user",
+                        "content": PROFILE_MESSAGE_PREFIX + profile.model_dump_json(),
+                    }
+                )
             elif blind_input_profile_findings(semantic_input_items(items)):
                 raise AgentLoopError("Blind recipient dynamic profile isolation violated")
             return type(model_data)(input=items, instructions=model_data.instructions)
@@ -508,6 +495,12 @@ class OpenAIAgentsNativeRuntime:
         constructor = cast(_FunctionToolConstructor, sdk.__dict__["FunctionTool"])
 
         async def invoke(context: object, input_json: str) -> str:
+            if self._validate_raw_tool_calls:
+                failure = self._validate_raw_call(
+                    state, context, spec.operator_id, _native_tool_schema(spec), input_json
+                )
+                if failure is not None:
+                    return failure
             return await self._invoke_operator(state, context, spec, input_json)
 
         return constructor(
@@ -560,9 +553,7 @@ class OpenAIAgentsNativeRuntime:
             return json.dumps(
                 {
                     "assignment": options["params"],
-                    "static_capability_contract": state.static_capabilities.model_dump(
-                        mode="json"
-                    ),
+                    "static_capability_contract": state.static_capabilities.model_dump(mode="json"),
                 },
                 ensure_ascii=False,
                 sort_keys=True,
@@ -584,6 +575,12 @@ class OpenAIAgentsNativeRuntime:
         async def invoke(context: object, input_json: str) -> str:
             parent = state.root_agent.logical_agent_id
             call_id = str(getattr(context, "tool_call_id", "specialist"))
+            if self._validate_raw_tool_calls:
+                failure = self._validate_raw_call(
+                    state, context, "consult_specialist", tool.params_json_schema, input_json
+                )
+                if failure is not None:
+                    return failure
             if state.phase == "synthesis":
                 return self._record_logical_failure(
                     state,
@@ -644,9 +641,7 @@ class OpenAIAgentsNativeRuntime:
                     if action.owner_agent_id == request.logical_agent_id
                 ]
                 terminal = (
-                    owned_actions[-1]
-                    if owned_actions
-                    else f"subagent:{request.logical_agent_id}"
+                    owned_actions[-1] if owned_actions else f"subagent:{request.logical_agent_id}"
                 )
                 subagent_result = SubagentResult(
                     call_id=str(getattr(context, "tool_call_id", request.logical_agent_id)),
@@ -745,8 +740,7 @@ class OpenAIAgentsNativeRuntime:
                 for item in state.observations
             )
             operator_descriptions = {
-                item.operator: item.description
-                for item in state.static_capabilities.operators
+                item.operator: item.description for item in state.static_capabilities.operators
             }
             actions = tuple(
                 _verifier_action_view(action, operator_descriptions)
@@ -762,9 +756,7 @@ class OpenAIAgentsNativeRuntime:
                 workflow=state.graph.snapshot(),
                 actions=actions,
                 observations=observations,
-                produced_artifacts=tuple(
-                    produced_by_id[key] for key in sorted(produced_by_id)
-                ),
+                produced_artifacts=tuple(produced_by_id[key] for key in sorted(produced_by_id)),
                 phase=cast(Any, state.phase),
                 remaining_budget=VerifierBudgetView(
                     remaining_manager_turns=max(
@@ -822,16 +814,11 @@ class OpenAIAgentsNativeRuntime:
                         "exception_type": type(exc).__name__,
                     },
                 )
-            raise AgentLoopError(
-                f"Blind verifier failed: {type(exc).__name__}: {exc}"
-            ) from exc
+            raise AgentLoopError(f"Blind verifier failed: {type(exc).__name__}: {exc}") from exc
         raw_verdict = telemetry.result
-        if (
-            raw_verdict.status == "complete"
-            and (
-                state.task_view.output_contract.format == OutputFormat.CHOICE
-                or state.task_view.output_contract.canonical_labels is not None
-            )
+        if raw_verdict.status == "complete" and (
+            state.task_view.output_contract.format == OutputFormat.CHOICE
+            or state.task_view.output_contract.canonical_labels is not None
         ):
             raw_candidate, _ = _latest_terminal_candidate(state)
             try:
@@ -877,15 +864,11 @@ class OpenAIAgentsNativeRuntime:
                     "status": telemetry.result.status,
                     "failure_stage": telemetry.result.failure_stage,
                     "reason": telemetry.result.reason,
-                    "missing_requirements": list(
-                        telemetry.result.missing_requirements
-                    ),
+                    "missing_requirements": list(telemetry.result.missing_requirements),
                     "latency_ms": telemetry.latency_ms,
                     "input_tokens": telemetry.input_tokens,
                     "output_tokens": telemetry.output_tokens,
-                    "remaining_budget": telemetry.remaining_budget.model_dump(
-                        mode="json"
-                    ),
+                    "remaining_budget": telemetry.remaining_budget.model_dump(mode="json"),
                 },
             )
             previous = state.phase
@@ -989,9 +972,7 @@ class OpenAIAgentsNativeRuntime:
                     "artifact_not_materialized",
                     f"input artifacts are unavailable to the current agent: {missing}",
                 )
-            decision_id = (
-                f"{owner}:native-turn:{state.turn_by_agent.get(owner, 1)}"
-            )
+            decision_id = f"{owner}:native-turn:{state.turn_by_agent.get(owner, 1)}"
             batch_id = f"{decision_id}:batch:{call_id}"
             validation = {
                 "batch_id": batch_id,
@@ -1031,7 +1012,8 @@ class OpenAIAgentsNativeRuntime:
                         "input_lineage": {
                             artifact_id: next(
                                 (
-                                    producer.action_id for producer in state.actions.values()
+                                    producer.action_id
+                                    for producer in state.actions.values()
                                     if any(o.artifact_id == artifact_id for o in producer.outputs)
                                 ),
                                 "initial_task_artifact",
@@ -1055,10 +1037,14 @@ class OpenAIAgentsNativeRuntime:
                 },
             )
             if state.record_input_provenance:
-                state.emit("action.started", {
-                    "action_id": action_id, "decision_id": decision_id,
-                    "logical_agent_id": owner,
-                })
+                state.emit(
+                    "action.started",
+                    {
+                        "action_id": action_id,
+                        "decision_id": decision_id,
+                        "logical_agent_id": owner,
+                    },
+                )
 
         expose_profile = (
             state.visibility == ProfileVisibility.AWARE
@@ -1066,7 +1052,8 @@ class OpenAIAgentsNativeRuntime:
         )
         try:
             outcomes = await state.gateway.execute_batch(
-                (action,), expose_profile=expose_profile,
+                (action,),
+                expose_profile=expose_profile,
             )
         except asyncio.CancelledError:
             await self._close_interrupted_action(
@@ -1093,9 +1080,13 @@ class OpenAIAgentsNativeRuntime:
             raise
         outcome = outcomes[0]
         if not expose_profile and outcome.observation.physical_profile is not None:
-            outcome = outcome.model_copy(update={
-                "observation": outcome.observation.model_copy(update={"physical_profile": None}),
-            })
+            outcome = outcome.model_copy(
+                update={
+                    "observation": outcome.observation.model_copy(
+                        update={"physical_profile": None}
+                    ),
+                }
+            )
         observation = outcome.observation
         async with state.state_lock:
             state.observations.append(observation)
@@ -1112,10 +1103,15 @@ class OpenAIAgentsNativeRuntime:
             if isinstance(action, LogicalModelAction):
                 self._emit_model_outcome(state, action, outcome)
             if state.record_input_provenance:
-                state.emit("action.completed", {
-                    "action_id": action_id, "decision_id": decision_id,
-                    "logical_agent_id": owner, "succeeded": observation.succeeded,
-                })
+                state.emit(
+                    "action.completed",
+                    {
+                        "action_id": action_id,
+                        "decision_id": decision_id,
+                        "logical_agent_id": owner,
+                        "succeeded": observation.succeeded,
+                    },
+                )
             state.emit(
                 "logical.batch.completed",
                 {
@@ -1157,10 +1153,15 @@ class OpenAIAgentsNativeRuntime:
             if physical_outcome is not None:
                 self._emit_physical_outcome(state, batch_id, action_id, physical_outcome)
             if state.record_input_provenance:
-                state.emit("action.completed", {
-                    "action_id": action_id, "decision_id": decision_id,
-                    "logical_agent_id": owner, "succeeded": False,
-                })
+                state.emit(
+                    "action.completed",
+                    {
+                        "action_id": action_id,
+                        "decision_id": decision_id,
+                        "logical_agent_id": owner,
+                        "succeeded": False,
+                    },
+                )
             state.emit(
                 "logical.batch.completed",
                 {
@@ -1173,6 +1174,41 @@ class OpenAIAgentsNativeRuntime:
                     "agent_state": "ready_for_reasoning",
                 },
             )
+
+    def _validate_raw_call(
+        self,
+        state: _NativeState,
+        context: object,
+        name: str,
+        schema: dict[str, Any],
+        input_json: str,
+    ) -> str | None:
+        owner = _logical_owner(context, state.root_agent.logical_agent_id)
+        call_id = str(getattr(context, "tool_call_id", "schema-invalid"))
+        errors: list[str] = []
+        try:
+            payload: object = json.loads(input_json)
+            errors = [
+                e.message
+                for e in Draft202012Validator(schema).iter_errors(cast(Any, payload))  # pyright: ignore[reportUnknownMemberType]
+            ]
+        except (ValueError, TypeError) as exc:
+            errors = [f"invalid JSON: {type(exc).__name__}"]
+        state.emit(
+            "logical.tool.schema_validation",
+            {
+                "action_id": f"{owner}:{call_id}",
+                "owner_agent_id": owner,
+                "tool": name,
+                "valid": not errors,
+                "errors": errors,
+            },
+        )
+        if not errors:
+            return None
+        return self._record_logical_failure(
+            state, f"{owner}:{call_id}", owner, "schema_validation_failed", "; ".join(errors)
+        )
 
     def _record_logical_failure(
         self,
@@ -1252,9 +1288,7 @@ class OpenAIAgentsNativeRuntime:
                 "succeeded": outcome.observation.succeeded,
                 "failure_code": outcome.observation.failure_code,
                 "static_feasible": bool(
-                    state.static_capabilities.matching_model_classes(
-                        action.requirements
-                    )
+                    state.static_capabilities.matching_model_classes(action.requirements)
                 ),
                 "physical_selection_succeeded": outcome.selection is not None,
                 "reached_model_inference": (
@@ -1296,9 +1330,7 @@ class OpenAIAgentsNativeRuntime:
         return json.dumps(
             {
                 "task": task.model_dump(mode="json"),
-                "static_capability_contract": static_capabilities.model_dump(
-                    mode="json"
-                ),
+                "static_capability_contract": static_capabilities.model_dump(mode="json"),
             },
             ensure_ascii=False,
             sort_keys=True,
@@ -1336,8 +1368,7 @@ class OpenAIAgentsNativeRuntime:
 
 def _native_tool_schema(spec: OperatorSpec) -> dict[str, Any]:
     input_schema = copy.deepcopy(
-        spec.input_schema
-        or {"type": "array", "items": {"type": "string"}}
+        spec.input_schema or {"type": "array", "items": {"type": "string"}}
     )
     argument_schema = _nest_local_references(
         copy.deepcopy(spec.argument_schema or {"type": "object"}),
@@ -1390,10 +1421,7 @@ def _nest_local_references(value: object, prefix: str) -> object:
                 result[str(key)] = _nest_local_references(nested, prefix)
         return result
     if isinstance(value, list):
-        return [
-            _nest_local_references(item, prefix)
-            for item in cast(list[object], value)
-        ]
+        return [_nest_local_references(item, prefix) for item in cast(list[object], value)]
     return value
 
 
@@ -1467,9 +1495,7 @@ def _logical_outputs(
         "make_contact_sheet": "image/jpeg",
         "invoke_model": str(arguments.get("output_media_type", "text/plain")),
     }.get(operator, "application/json")
-    semantic_type = str(
-        arguments.get("output_semantic_type", f"{operator}_result")
-    )
+    semantic_type = str(arguments.get("output_semantic_type", f"{operator}_result"))
     return (
         LogicalOutput(
             artifact_id=artifact_id,
@@ -1515,7 +1541,8 @@ def _with_terminal_output_requirement(
         if isinstance(prompt, str):
             return {
                 **arguments,
-                "prompt": prompt.rstrip() + "\n\nTerminal output contract: return exactly one "
+                "prompt": prompt.rstrip()
+                + "\n\nTerminal output contract: return exactly one "
                 + f"declared label from {json.dumps(contract.canonical_labels)}. "
                 + "No punctuation, Markdown, explanation, or wrapper.",
             }
@@ -1627,9 +1654,7 @@ def _attach_verification_feedback(
     else:
         parsed = {"tool_result": original}
     parsed["blind_verification"] = telemetry.result.model_dump(mode="json")
-    parsed["remaining_logical_budget"] = telemetry.remaining_budget.model_dump(
-        mode="json"
-    )
+    parsed["remaining_logical_budget"] = telemetry.remaining_budget.model_dump(mode="json")
     if telemetry.result.status == "ready_for_synthesis":
         parsed["verifier_feedback"] = (
             "The independent Blind verifier found the materialized semantic evidence "
@@ -1830,9 +1855,7 @@ def _sdk_hooks(sdk: object, state: _NativeState) -> object:
             system_prompt: str | None,
             input_items: list[object],
         ) -> None:
-            await delegate.on_llm_start(
-                context, agent, system_prompt, input_items
-            )
+            await delegate.on_llm_start(context, agent, system_prompt, input_items)
 
         async def on_llm_end(
             self,
@@ -1845,9 +1868,7 @@ def _sdk_hooks(sdk: object, state: _NativeState) -> object:
         async def on_agent_start(self, context: object, agent: object) -> None:
             await delegate.on_agent_start(context, agent)
 
-        async def on_agent_end(
-            self, context: object, agent: object, output: object
-        ) -> None:
+        async def on_agent_end(self, context: object, agent: object, output: object) -> None:
             await delegate.on_agent_end(context, agent, output)
 
         async def on_handoff(
@@ -1858,9 +1879,7 @@ def _sdk_hooks(sdk: object, state: _NativeState) -> object:
         ) -> None:
             await delegate.on_handoff(context, from_agent, to_agent)
 
-        async def on_tool_start(
-            self, context: object, agent: object, tool: object
-        ) -> None:
+        async def on_tool_start(self, context: object, agent: object, tool: object) -> None:
             await delegate.on_tool_start(context, agent, tool)
 
         async def on_tool_end(

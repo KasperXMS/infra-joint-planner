@@ -337,6 +337,7 @@ def runtime_and_gateway(
     operations: tuple[str, ...],
     *,
     verifier: FakeVerifier | None = None,
+    validate_raw_tool_calls: bool = False,
 ) -> tuple[OpenAIAgentsNativeRuntime, RuntimeActionGateway]:
     registry = build_operator_catalog()
     runtime = OpenAIAgentsNativeRuntime(
@@ -347,6 +348,7 @@ def runtime_and_gateway(
         available_operations=operations,
         sdk_module=FAKE_SDK,
         blind_verifier=verifier,
+        validate_raw_tool_calls=validate_raw_tool_calls,
     )
     gateway = RuntimeActionGateway(
         SemanticActionValidator(task, registry, operations),
@@ -355,12 +357,56 @@ def runtime_and_gateway(
     return runtime, gateway
 
 
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "invalid",
+    [
+        '{"inputs":["source-0"]}',
+        '{"inputs":"source-0","arguments":{}}',
+        '{"inputs":["source-0"],"arguments":{},"extra":1}',
+        "{bad json",
+    ],
+)
+async def test_strict_raw_schema_rejects_before_gateway_and_allows_budgeted_recovery(invalid):
+    task = benchmark_task()
+    physical = FakePhysicalService()
+    runtime, gateway = runtime_and_gateway(
+        task, physical, ("read_artifact", "invoke_model"), validate_raw_tool_calls=True
+    )
+    sink = MemorySink()
+
+    async def behavior(agent, _input, context, hooks):
+        await reasoning_start(hooks, context, agent)
+        failed = await tool(agent, "read_artifact").on_invoke_tool(
+            tool_context(agent, context, "invalid"), invalid
+        )
+        assert json.loads(failed)["failure_code"] == "schema_validation_failed"
+        assert physical.actions == []
+        await reasoning_end(hooks, context, agent)
+        await reasoning_start(hooks, context, agent)
+        recovered = await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "recovered"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return A"}}),
+        )
+        assert json.loads(recovered)["succeeded"]
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway, trace=WorkflowTraceRecorder("schema", sink))
+    assert result.final_answer == "A"
+    assert result.usage.manager_turns == 2
+    assert len(physical.actions) == 1
+    validations = [
+        e.payload for e in sink.events if e.event_type == "logical.tool.schema_validation"
+    ]
+    assert [e["valid"] for e in validations] == [False, True]
+
+
 def test_native_schema_rebases_nested_operator_definitions() -> None:
     spec = build_operator_catalog().binding("aggregate_records").spec
     schema = _native_tool_schema(spec)
-    reference = schema["properties"]["arguments"]["properties"]["aggregations"][
-        "items"
-    ]["$ref"]
+    reference = schema["properties"]["arguments"]["properties"]["aggregations"]["items"]["$ref"]
     assert reference == "#/properties/arguments/$defs/Aggregation"
 
 
@@ -427,9 +473,7 @@ async def resolve_tool_batch(
 async def test_native_function_tools_cross_gateway_and_recover_from_typed_failure() -> None:
     task = benchmark_task()
     physical = FakePhysicalService(fail_read_once=True)
-    runtime, gateway = runtime_and_gateway(
-        task, physical, ("read_artifact", "invoke_model")
-    )
+    runtime, gateway = runtime_and_gateway(task, physical, ("read_artifact", "invoke_model"))
 
     async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
         await reasoning_start(hooks, context, agent)
@@ -535,13 +579,9 @@ async def test_cancelled_native_tool_call_closes_running_graph_node() -> None:
     FakeRunner.behavior = behavior
     result = await runtime.run(task, gateway)
 
-    cancelled = next(
-        item for item in result.observations if item.action_id == "manager:cancelled"
-    )
+    cancelled = next(item for item in result.observations if item.action_id == "manager:cancelled")
     assert cancelled.failure_code == "action_cancelled"
-    statuses = {
-        item.action_id: item.status for item in result.graph_snapshots[-1].nodes
-    }
+    statuses = {item.action_id: item.status for item in result.graph_snapshots[-1].nodes}
     assert statuses == {"manager:cancelled": "failed", "manager:answer": "succeeded"}
 
 
@@ -555,27 +595,44 @@ async def test_interrupted_native_action_preserves_exception_and_records_only_ph
 
     class InterruptOnce(FakePhysicalService):
         async def execute(
-            self, action: object, *, expose_profile: bool,
+            self,
+            action: object,
+            *,
+            expose_profile: bool,
         ) -> PhysicalExecutionOutcome:
             if action.action_id == "manager:interrupted":
                 if with_receipt:
-                    before = InfrastructureState(agents=(), deployments=(), artifacts=(), links=(),
-                                                 observed_at=datetime.now(UTC))
+                    before = InfrastructureState(
+                        agents=(),
+                        deployments=(),
+                        artifacts=(),
+                        links=(),
+                        observed_at=datetime.now(UTC),
+                    )
                     receipt = PhysicalExecutionOutcome(
-                        observation=LogicalObservation(action_id=action.action_id,
-                            owner_agent_id="manager", succeeded=False,
+                        observation=LogicalObservation(
+                            action_id=action.action_id,
+                            owner_agent_id="manager",
+                            succeeded=False,
                             failure_code="physical_execution_failed",
-                            failure_message="unrecoverable physical execution error: ReadTimeout"),
-                        infrastructure_before=before, infrastructure_after=before,
-                        selection=PhysicalSelection(decision={"policy": "auto"},
+                            failure_message="unrecoverable physical execution error: ReadTimeout",
+                        ),
+                        infrastructure_before=before,
+                        infrastructure_after=before,
+                        selection=PhysicalSelection(
+                            decision={"policy": "auto"},
                             selected_agent_id="secret-worker",
                             selected_deployment_id="secret-model",
-                            rationale="frozen selection"),
+                            rationale="frozen selection",
+                        ),
                         failure=PhysicalFailureTelemetry(
-                            operator="read_artifact", stage="execution",
-                            failure_code="physical_execution_failed", duration_ms=123,
+                            operator="read_artifact",
+                            stage="execution",
+                            failure_code="physical_execution_failed",
+                            duration_ms=123,
                             failure_message="unrecoverable physical execution error: ReadTimeout",
-                            exception_type="ReadTimeout"),
+                            exception_type="ReadTimeout",
+                        ),
                     )
                     error.__dict__["_infra_joint_physical_outcome"] = receipt
                 raise error
@@ -589,30 +646,40 @@ async def test_interrupted_native_action_preserves_exception_and_records_only_ph
         with pytest.raises(httpx.ReadTimeout) as raised:
             await tool(agent, "read_artifact").on_invoke_tool(
                 tool_context(agent, context, "interrupted"),
-                json.dumps({"inputs": ["source-0"], "arguments": {}}))
+                json.dumps({"inputs": ["source-0"], "arguments": {}}),
+            )
         assert raised.value is error  # not converted into a successful SDK tool return
         await reasoning_end(hooks, context, agent)
         await reasoning_start(hooks, context, agent)
         await tool(agent, "invoke_model").on_invoke_tool(
             tool_context(agent, context, "answer"),
-            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return A."}}))
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return A."}}),
+        )
         await reasoning_end(hooks, context, agent)
         return "A"
 
     FakeRunner.behavior = behavior
     result = await runtime.run(
-        task, gateway, trace=WorkflowTraceRecorder("native-transport-audit", sink),
+        task,
+        gateway,
+        trace=WorkflowTraceRecorder("native-transport-audit", sink),
     )
     assert result.final_answer == "A"
     assert len(result.observations) == 2  # no duplicate failed observation
     assert result.usage.tool_model_calls == 2
     assert result.observations[0].failure_message == (
-        "unrecoverable physical execution error: ReadTimeout")
+        "unrecoverable physical execution error: ReadTimeout"
+    )
     assert all(item.physical_profile is None for item in result.observations)
     assert {item.action_id: item.status for item in result.graph_snapshots[-1].nodes} == {
-        "manager:interrupted": "failed", "manager:answer": "succeeded"}
-    physical = [e.payload for e in sink.events if e.event_type == "physical.execution"
-                and e.payload["action_id"] == "manager:interrupted"]
+        "manager:interrupted": "failed",
+        "manager:answer": "succeeded",
+    }
+    physical = [
+        e.payload
+        for e in sink.events
+        if e.event_type == "physical.execution" and e.payload["action_id"] == "manager:interrupted"
+    ]
     assert len(physical) == int(with_receipt)
     if with_receipt:
         assert physical[0]["selection"]["selected_agent_id"] == "secret-worker"
@@ -712,10 +779,7 @@ async def test_two_native_bm25_tools_run_in_parallel() -> None:
 
         results = await asyncio.gather(retrieve(0), retrieve(1))
         assert all(json.loads(item)["succeeded"] for item in results)
-        hits = [
-            json.loads(item)["produced_information"][0]["artifact_id"]
-            for item in results
-        ]
+        hits = [json.loads(item)["produced_information"][0]["artifact_id"] for item in results]
         await reasoning_end(hooks, context, agent)
         await reasoning_start(hooks, context, agent)
         await tool(agent, "invoke_model").on_invoke_tool(
@@ -798,8 +862,7 @@ async def test_dependent_native_call_waits_for_producer_result() -> None:
     assert len(model_actions) == 1
     assert model_actions[0].action_id == "manager:after-observation"
     assert any(
-        item.action_id == "manager:premature" and not item.succeeded
-        for item in result.observations
+        item.action_id == "manager:premature" and not item.succeeded for item in result.observations
     )
 
 
@@ -868,8 +931,7 @@ async def test_manager_specialist_tool_handoff_then_manager_continues() -> None:
     assert len(result.subagent_results) == 1
     assert result.subagent_results[0].logical_agent_id == "evidence-specialist"
     assert any(
-        item.information_id.endswith("/evidence-note")
-        for item in result.graph_snapshots[-1].edges
+        item.information_id.endswith("/evidence-note") for item in result.graph_snapshots[-1].edges
     )
 
 
@@ -943,9 +1005,7 @@ async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -
     )
     assert requirements.payload["static_feasible"] is True
     assert requirements.payload["matching_model_classes"] == ["model-class-01"]
-    outcome = next(
-        item for item in sink.events if item.event_type == "logical.model.outcome"
-    )
+    outcome = next(item for item in sink.events if item.event_type == "logical.model.outcome")
     assert outcome.payload["reached_model_inference"] is False
 
 
@@ -998,27 +1058,42 @@ async def test_aware_manager_shares_blind_verifier_without_profile_leakage() -> 
 @pytest.mark.parametrize("visibility", [ProfileVisibility.BLIND, ProfileVisibility.AWARE])
 @pytest.mark.parametrize("fail_first_read", [False, True])
 async def test_specialist_tool_results_stay_blind_and_manager_continues(
-    visibility: ProfileVisibility, fail_first_read: bool,
+    visibility: ProfileVisibility,
+    fail_first_read: bool,
 ) -> None:
     class FailureProfilePhysicalService(FakePhysicalService):
         async def execute(
-            self, action: object, *, expose_profile: bool,
+            self,
+            action: object,
+            *,
+            expose_profile: bool,
         ) -> PhysicalExecutionOutcome:
             outcome = await super().execute(action, expose_profile=expose_profile)
             if expose_profile and not outcome.observation.succeeded:
-                return outcome.model_copy(update={"observation": outcome.observation.model_copy(
-                    update={"physical_profile": PhysicalProfileView(
-                        candidate_count=2, input_bytes=10, network_class="constrained",
-                        remote_input_count_range=(0, 1),
-                    )},
-                )})
+                return outcome.model_copy(
+                    update={
+                        "observation": outcome.observation.model_copy(
+                            update={
+                                "physical_profile": PhysicalProfileView(
+                                    candidate_count=2,
+                                    input_bytes=10,
+                                    network_class="constrained",
+                                    remote_input_count_range=(0, 1),
+                                )
+                            },
+                        )
+                    }
+                )
             return outcome
 
     task = benchmark_task()
     physical = FailureProfilePhysicalService(fail_read_once=fail_first_read)
     verifier = FakeVerifier((complete_verdict(),))
     runtime, gateway = runtime_and_gateway(
-        task, physical, ("read_artifact", "invoke_model"), verifier=verifier,
+        task,
+        physical,
+        ("read_artifact", "invoke_model"),
+        verifier=verifier,
     )
     specialist_results: list[str] = []
 
@@ -1045,10 +1120,17 @@ async def test_specialist_tool_results_stay_blind_and_manager_continues(
             await reasoning_start(hooks, context, agent)
             model = await tool(agent, "invoke_model").on_invoke_tool(
                 tool_context(agent, context, "specialist-model"),
-                json.dumps({"inputs": ["source-0"], "arguments": {
-                    "prompt": "Extract evidence.", "output_artifact_id": "evidence-note",
-                    "output_semantic_type": "evidence_note", "output_media_type": "text/plain",
-                }}),
+                json.dumps(
+                    {
+                        "inputs": ["source-0"],
+                        "arguments": {
+                            "prompt": "Extract evidence.",
+                            "output_artifact_id": "evidence-note",
+                            "output_semantic_type": "evidence_note",
+                            "output_media_type": "text/plain",
+                        },
+                    }
+                ),
             )
             specialist_results.append(model)
             assert "physical_profile" not in json.loads(model)
@@ -1058,9 +1140,15 @@ async def test_specialist_tool_results_stay_blind_and_manager_continues(
 
         delegated = await tool(agent, "consult_specialist").on_invoke_tool(
             tool_context(agent, context, "delegate"),
-            json.dumps({"logical_agent_id": "evidence-specialist", "role": "evidence specialist",
-                        "objective": "extract evidence", "instruction": "Produce a note.",
-                        "input_artifacts": ["source-0"]}),
+            json.dumps(
+                {
+                    "logical_agent_id": "evidence-specialist",
+                    "role": "evidence specialist",
+                    "objective": "extract evidence",
+                    "instruction": "Produce a note.",
+                    "input_artifacts": ["source-0"],
+                }
+            ),
         )
         note = json.loads(delegated)["produced_artifact_ids"][0]
         await reasoning_end(hooks, context, agent)
@@ -1082,8 +1170,9 @@ async def test_specialist_tool_results_stay_blind_and_manager_continues(
     assert physical.expose_profile_values == [False] * (3 if fail_first_read else 2) + [
         visibility == ProfileVisibility.AWARE,
     ]
-    assert all(o.physical_profile is None for o in result.observations
-               if o.owner_agent_id != "manager")
+    assert all(
+        o.physical_profile is None for o in result.observations if o.owner_agent_id != "manager"
+    )
     assert "network_class" not in json.dumps(verifier.contexts[0].model_dump(mode="json"))
 
 
@@ -1114,9 +1203,14 @@ async def test_initial_native_input_has_no_profile_and_tool_feedback_arrives_nex
             visibility == ProfileVisibility.AWARE
         )
         inspected_inputs.append(json.loads(observation))
-        await hooks.on_llm_start(context, agent, None, [
-            {"type": "function_call_output", "output": observation},
-        ])
+        await hooks.on_llm_start(
+            context,
+            agent,
+            None,
+            [
+                {"type": "function_call_output", "output": observation},
+            ],
+        )
         await reasoning_end(hooks, context, agent)
         await tool(agent, "invoke_model").on_invoke_tool(
             tool_context(agent, context, "answer"),
@@ -1125,8 +1219,12 @@ async def test_initial_native_input_has_no_profile_and_tool_feedback_arrives_nex
         return "A"
 
     FakeRunner.behavior = behavior
-    await runtime.run(task, gateway, profile_visibility=visibility,
-                      trace=WorkflowTraceRecorder("profile-timing", sink))
+    await runtime.run(
+        task,
+        gateway,
+        profile_visibility=visibility,
+        trace=WorkflowTraceRecorder("profile-timing", sink),
+    )
     assert "physical_profile" not in json.dumps(inspected_inputs[0])
     assert ("physical_profile" in inspected_inputs[1]) == (visibility == ProfileVisibility.AWARE)
     assert physical.expose_profile_values == [visibility == ProfileVisibility.AWARE] * 2
@@ -1169,9 +1267,7 @@ async def test_openai_agents_blind_verifier_uses_required_function_tool() -> Non
         ) -> object:
             assert max_turns == 1
             parsed_context = json.loads(input)
-            assert parsed_context["task"]["objective"] == (
-                "Choose A from the available evidence."
-            )
+            assert parsed_context["task"]["objective"] == ("Choose A from the available evidence.")
             submit = tool(agent, "submit_verification")
             output = await submit.on_invoke_tool(
                 SimpleNamespace(),
@@ -1276,9 +1372,7 @@ async def test_blind_verifier_feedback_reaches_next_manager_turn_without_leakage
         feedback = await complete_tool_batch(agent, ((read_tool, read),))
         verification = json.loads(feedback[0])["blind_verification"]
         assert verification["status"] == "continue"
-        assert verification["missing_requirements"] == [
-            "independent supporting evidence"
-        ]
+        assert verification["missing_requirements"] == ["independent supporting evidence"]
         assert "task incomplete" in json.loads(feedback[0])["verifier_feedback"]
         assert json.loads(feedback[0])["remaining_logical_budget"] == {
             "remaining_created_subagents": 4,
@@ -1387,9 +1481,7 @@ async def test_blind_verifier_failure_is_traced_and_typed() -> None:
 
     event_types = [item.event_type for item in sink.events]
     assert "logical.verification.started" in event_types
-    failure = next(
-        item for item in sink.events if item.event_type == "logical.verification.failed"
-    )
+    failure = next(item for item in sink.events if item.event_type == "logical.verification.failed")
     assert failure.payload["exception_type"] == "RuntimeError"
     assert failure.payload["phase"] == "evidence_collection"
 
@@ -1437,9 +1529,7 @@ async def test_complete_verdict_returns_exact_successful_model_candidate() -> No
     assert result.usage.verifier_calls == 1
     assert result.verification_steps[0].result.status == "complete"
     selected = next(
-        item
-        for item in sink.events
-        if item.event_type == "logical.terminal.candidate_selected"
+        item for item in sink.events if item.event_type == "logical.terminal.candidate_selected"
     )
     assert selected.payload["source_action_id"] == result.terminal_action_id
 
@@ -1483,9 +1573,7 @@ async def test_complete_verdict_deterministically_extracts_leading_choice() -> N
 
     assert result.final_answer == "A"
     selected = next(
-        item
-        for item in sink.events
-        if item.event_type == "logical.terminal.candidate_selected"
+        item for item in sink.events if item.event_type == "logical.terminal.candidate_selected"
     )
     assert selected.payload["deterministic_format_extraction"] is True
 
@@ -1525,9 +1613,7 @@ async def test_choice_contract_rejects_prose_completion_then_allows_next_turn() 
         await reasoning_end(hooks, context, agent)
         first, outputs = await resolve_tool_batch(agent, ((model_tool, prose),))
         assert not first.is_final_output
-        assert json.loads(outputs[0])["blind_verification"]["status"] == (
-            "ready_for_synthesis"
-        )
+        assert json.loads(outputs[0])["blind_verification"]["status"] == ("ready_for_synthesis")
 
         physical.model_text = "ship. The evidence supports this label."
         await reasoning_start(hooks, context, agent)
@@ -1560,14 +1646,11 @@ async def test_choice_contract_rejects_prose_completion_then_allows_next_turn() 
         "complete",
     ]
     prompts = [
-        action.prompt
-        for action in physical.actions
-        if isinstance(action, LogicalModelAction)
+        action.prompt for action in physical.actions if isinstance(action, LogicalModelAction)
     ]
     assert all('canonical choice label from ["ship","harbor"]' in item for item in prompts)
     assert any(
-        item.event_type == "logical.verification.terminal_contract_enforced"
-        for item in sink.events
+        item.event_type == "logical.verification.terminal_contract_enforced" for item in sink.events
     )
 
 
@@ -1600,9 +1683,7 @@ async def test_short_text_model_prompt_is_unchanged_by_choice_contract() -> None
     result = await runtime.run(task, gateway)
 
     assert result.final_answer == "ordinary short answer"
-    action = next(
-        item for item in physical.actions if isinstance(item, LogicalModelAction)
-    )
+    action = next(item for item in physical.actions if isinstance(item, LogicalModelAction))
     assert action.prompt == original_prompt
 
 
