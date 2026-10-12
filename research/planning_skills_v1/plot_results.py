@@ -63,8 +63,8 @@ def plot(directory):
         xs = [sum(r["prompt_tokens"] for r in group) / len(group) / 1000 for _, group in values]
         ys = [sum(r["success"] for r in group) / len(group) for _, group in values]
         for x, y, (c, group) in zip(xs, ys, values):
-            axes[mi].scatter(x, y, s=55, color=colors[ORDER.index(c)])
-            axes[mi].annotate(LABELS[c], (x, y), xytext=(4, 4), textcoords="offset points", fontsize=8)
+            axes[mi].scatter(x, y, s=65, color=colors[ORDER.index(c)], label=LABELS[c])
+        axes[mi].legend(loc="upper right", frameon=False, fontsize=9)
         axes[mi].set_title(model)
         axes[mi].set_xlabel("Mean prompt tokens / attempted workflow (thousands)")
         axes[mi].set_ylim(-.04, 1.05)

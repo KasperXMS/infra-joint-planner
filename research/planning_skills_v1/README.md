@@ -41,6 +41,7 @@ All task data in this new microbenchmark is synthetic. Reference solving is isol
 - [Literature and novelty ledger](literature-novelty-ledger.md)
 - [Research journal and next decisions](research-journal.md)
 - [Completed development findings and resource tables](development-findings.md)
+- [Completed primary held-out findings](heldout-findings.md)
 - [Frozen held-out protocol](heldout-protocol.md)
 - [Mechanism scope and closest prior work](mechanism-scope.md)
 - [Mainland deployment details](mainland-reproducibility.md)
