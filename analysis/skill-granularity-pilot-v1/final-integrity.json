@@ -1,0 +1,24 @@
+{
+  "sha256": "12a2c64fadc22a9d38473eeb60ad1aca334694bcb0d9f11432818e303af6548e",
+  "identity": {
+    "version": "skill-granularity-final-integrity-v1"
+  },
+  "numeric_evidence": {
+    "matrix_complete": true,
+    "executed_cell_records": 30,
+    "planned_cells": 30,
+    "source_unchanged": true,
+    "protected_history_tasks_and_skills_unchanged": true,
+    "original_five_executor_instances_unchanged": true,
+    "network_restored": true,
+    "all_executed_workers_drained_and_exited": true,
+    "source_files_checked": 564,
+    "protected_files_checked": 95,
+    "system_problems": [],
+    "analysis_errors": [],
+    "semantic_retries": 0,
+    "private_raw_evidence_exported": false
+  },
+  "system_problems": [],
+  "analysis_errors": []
+}

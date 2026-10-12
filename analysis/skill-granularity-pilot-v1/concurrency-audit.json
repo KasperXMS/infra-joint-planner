@@ -1,0 +1,621 @@
+{
+  "applicable": true,
+  "passed": true,
+  "checks": {
+    "administration_source_matches_amendment": true,
+    "original_pre_registration_preserved": true,
+    "original_freeze_hash_matches_amendment": true,
+    "serial_and_concurrent_sets_disjoint": true,
+    "serial_and_concurrent_cover_frozen_plan": true,
+    "every_concurrent_cell_dispatched_exactly_once": true,
+    "no_duplicate_cell_dispatch": true,
+    "serial_cells_excluded_from_waves": true,
+    "fixed_remaining_dispatch_order_preserved": true,
+    "all_wave_checks_passed": true,
+    "all_model_drain_receipts_have_wave_records": true
+  },
+  "administration_source_expected_sha256": "0c75b31195b20e6e4c0df1fba7fa5e68d37197dc355c707c8e5b4263bbad1871",
+  "administration_source_observed_sha256": "0c75b31195b20e6e4c0df1fba7fa5e68d37197dc355c707c8e5b4263bbad1871",
+  "protocol_amendment_sha256": "fff1fdc835a257f688a86e70755e42b1e4124706f23698b5558421e428b06a1f",
+  "serial_cell_ids": [
+    "qwen35-4b-t1-S0",
+    "qwen35-4b-t1-S1"
+  ],
+  "expected_concurrent_cell_ids": [
+    "qwen35-27b-t1-S0",
+    "qwen35-27b-t1-S3",
+    "qwen35-27b-t2-S0",
+    "qwen35-27b-t2-S3",
+    "qwen35-27b-t3-S0",
+    "qwen35-27b-t3-S3",
+    "qwen35-4b-t1-S2",
+    "qwen35-4b-t1-S3",
+    "qwen35-4b-t2-S0",
+    "qwen35-4b-t2-S1",
+    "qwen35-4b-t2-S2",
+    "qwen35-4b-t2-S3",
+    "qwen35-4b-t3-S0",
+    "qwen35-4b-t3-S1",
+    "qwen35-4b-t3-S2",
+    "qwen35-4b-t3-S3",
+    "qwen35-9b-t1-S0",
+    "qwen35-9b-t1-S1",
+    "qwen35-9b-t1-S2",
+    "qwen35-9b-t1-S3",
+    "qwen35-9b-t2-S0",
+    "qwen35-9b-t2-S1",
+    "qwen35-9b-t2-S2",
+    "qwen35-9b-t2-S3",
+    "qwen35-9b-t3-S0",
+    "qwen35-9b-t3-S1",
+    "qwen35-9b-t3-S2",
+    "qwen35-9b-t3-S3"
+  ],
+  "dispatched_cell_count": 28,
+  "unique_dispatched_cell_count": 28,
+  "wave_count": 10,
+  "waves": [
+    {
+      "wave_id": "wave-001",
+      "cell_ids": [
+        "qwen35-4b-t1-S2",
+        "qwen35-4b-t1-S3",
+        "qwen35-4b-t2-S1"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "325725b1c95011fa8cdd70340f57dc91eb81d7c024ecb5bb113f7ce392a9b039",
+      "drain_receipt_sha256": "7d88b4df4baa55c09a68010d93121175f6bd197b71a736d393ccd53ea216c50e",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-4b-t1-S2",
+          "sha256": "9874fd265d184526daeffedaf04740c5b9a114beac573921570e620712ff54d0"
+        },
+        {
+          "cell_id": "qwen35-4b-t1-S3",
+          "sha256": "0054a1e6ab2d9c1d06fbb1b2be192feafe5c1c16553b77680b090cc4577cffb7"
+        },
+        {
+          "cell_id": "qwen35-4b-t2-S1",
+          "sha256": "72c3d3cf9cd47e1b47579eca03388a3dd28a954e2d4c83ba138838d66ae1da66"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-002",
+      "cell_ids": [
+        "qwen35-4b-t2-S2",
+        "qwen35-4b-t2-S3",
+        "qwen35-4b-t2-S0"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "691f9e2312c0eb17690dda1f83fdd4f1ecb54463506009c3d30a75af88f47729",
+      "drain_receipt_sha256": "45d3dc70ffffce5fabcb05433453b355b5d4bd23ab5a44efcc6ab9c4efdc74b1",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-4b-t2-S2",
+          "sha256": "d8f4b3379854a93c872f89a182b45541de85cdec34c98c6b0d84a2571291f13c"
+        },
+        {
+          "cell_id": "qwen35-4b-t2-S3",
+          "sha256": "67274f3f6d2cf315417faf8018c26eb26c4bd61f01f6b9c1a0cf9540df89fad5"
+        },
+        {
+          "cell_id": "qwen35-4b-t2-S0",
+          "sha256": "5e4a394ac9ef22a7a82b7445523bccb031fa2e5d3d3679444a47569cec270b49"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-003",
+      "cell_ids": [
+        "qwen35-4b-t3-S2",
+        "qwen35-4b-t3-S3",
+        "qwen35-4b-t3-S0"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "43e35dd1de43ca04625f9575babbb4433771e5bdb2cb11844d26d81235dcd1b7",
+      "drain_receipt_sha256": "b5d2e1a899b06020b076aff7d8fb326d6777b431fdb17814de501fe9999f9c8b",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-4b-t3-S2",
+          "sha256": "880a8e3cd8310c37d98d69ee22ec6d91d5d749d5469f226690ba5a9bc3354de2"
+        },
+        {
+          "cell_id": "qwen35-4b-t3-S3",
+          "sha256": "55e83756fcb0a1558c06ccd02112bebb857425568b2132be1c11b8b80f96d26d"
+        },
+        {
+          "cell_id": "qwen35-4b-t3-S0",
+          "sha256": "d7d7323207362ecb12186d22c0abfdeed1a0e29771ab2c3317bb2c5b864d547f"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-004",
+      "cell_ids": [
+        "qwen35-4b-t3-S1"
+      ],
+      "actual_wave_size": 1,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "389a30458b9d4af88930cd245d7639d4339aa92029c29c36ead5c505c3801be7",
+      "drain_receipt_sha256": "b6687a74f5b93aec493660d8778ac0b694d1dbbddffa4f94b3b6f949c1f007c3",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-4b-t3-S1",
+          "sha256": "fd5d5d9f948c08321f684adae184bd805700470096eac9d51ecd38bf07d24582"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-005",
+      "cell_ids": [
+        "qwen35-9b-t1-S0",
+        "qwen35-9b-t1-S1",
+        "qwen35-9b-t1-S2"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "56135424874da421ce2a255c8465fb474369bdedbf9a647bea1d5bc84fd85fe9",
+      "drain_receipt_sha256": "4a1c6ae81f0763be87a3b7bad0feb15b79f27461719de6428375fe700e0db1e5",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-9b-t1-S0",
+          "sha256": "a7d095ff5b4e533c752115fcd1dc027623fe1dd184ac6b39d2bb643dee073801"
+        },
+        {
+          "cell_id": "qwen35-9b-t1-S1",
+          "sha256": "2c2b04fa307adbd60b96e5a857efdb232c82088e2499d5c67a43695fc7888211"
+        },
+        {
+          "cell_id": "qwen35-9b-t1-S2",
+          "sha256": "9d9752ab84b8ee6224328b6450ccf279a0cbc335be88f5812d8fb7cad41facca"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-006",
+      "cell_ids": [
+        "qwen35-9b-t1-S3",
+        "qwen35-9b-t2-S1",
+        "qwen35-9b-t2-S2"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "3ce8a34801bb62681ca38bb9a70f796f349d7bcf008d75fa94b9333b60267a4b",
+      "drain_receipt_sha256": "a01d5dda1855b1124aba9ab9c48902379f6e186016a3a4a79e5a7c09e717be9f",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-9b-t1-S3",
+          "sha256": "6c7ea5841a88f703a2724017144bdc383b6bf0b92e28d6b87361f871f389ec43"
+        },
+        {
+          "cell_id": "qwen35-9b-t2-S1",
+          "sha256": "b5cc7ec128d2246932f7c0ff8c214338dc7dadcedb75b95e628a1dbbfddb74cd"
+        },
+        {
+          "cell_id": "qwen35-9b-t2-S2",
+          "sha256": "aba8cd539e78207252197dadffff93fcd0a0f0090cecd0236f693968ab1599f0"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-007",
+      "cell_ids": [
+        "qwen35-9b-t2-S3",
+        "qwen35-9b-t2-S0",
+        "qwen35-9b-t3-S2"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "bf3a0a9de300efbf5398f96ffbf17cbace0962c2a5532790c78ca0b5a22da4cd",
+      "drain_receipt_sha256": "69d5e0a561985118fabd9397a6bc5982affe530bfb07d4ae70fba9e476dbc10e",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-9b-t2-S3",
+          "sha256": "aec488cc2d84c4fd28a97571d8a6900dccc8d319f7497729cb7b9fb7f22a3f56"
+        },
+        {
+          "cell_id": "qwen35-9b-t2-S0",
+          "sha256": "281ce37e87055e559633b116a7fafc0b6bc1d4cabc659eb853c305a6326a90e4"
+        },
+        {
+          "cell_id": "qwen35-9b-t3-S2",
+          "sha256": "a8f524fe599f15ea5b68e3d5ee2d26b5ba9c2e2480ae4fb1928585d8b72e2a6a"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-008",
+      "cell_ids": [
+        "qwen35-9b-t3-S3",
+        "qwen35-9b-t3-S0",
+        "qwen35-9b-t3-S1"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "51ddba936272396feaeed57571cbd09ea07f3e4eae86a80878aa53689ddf7c3e",
+      "drain_receipt_sha256": "7d9c1edf02b96f5b3b3eed908ad7d43bcee04c10e0e2e4dc28b36f79844bfb29",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-9b-t3-S3",
+          "sha256": "2408c34fe7681057be96e5b0a57b795510911a02caa8073493e7e2f30a27b2bb"
+        },
+        {
+          "cell_id": "qwen35-9b-t3-S0",
+          "sha256": "ac3790670006f3991a09e3cf12262c98a2d516b2d32f457aba2c466e1ca60af3"
+        },
+        {
+          "cell_id": "qwen35-9b-t3-S1",
+          "sha256": "ff7bdb11fa4fbe763071197c7a5ab40be4b0605b2f657299e2b5481feadaa139"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-009",
+      "cell_ids": [
+        "qwen35-27b-t1-S0",
+        "qwen35-27b-t1-S3",
+        "qwen35-27b-t2-S3"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "4120c58c34c32fc9cb5c115853ce2029d2d934c28a5f719148701dca296d389f",
+      "drain_receipt_sha256": "8457399eb0f757f8017471c15c17a524cf0476a70b0c9a3da63f11a92fdeac9b",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-27b-t1-S0",
+          "sha256": "6e2dd8a7627c67b00903a03e014546100d4d7fa34e1f2cc8f394813ef40c7edd"
+        },
+        {
+          "cell_id": "qwen35-27b-t1-S3",
+          "sha256": "3a76f8a4ded224bcd8bc31fb0d118e2a1e369002275ecd8a38171533d864c170"
+        },
+        {
+          "cell_id": "qwen35-27b-t2-S3",
+          "sha256": "05606deee18be3fd0bd2941c6696eb18da6f7d65dbe7cfa937f6c830607a46e2"
+        }
+      ]
+    },
+    {
+      "wave_id": "wave-010",
+      "cell_ids": [
+        "qwen35-27b-t2-S0",
+        "qwen35-27b-t3-S0",
+        "qwen35-27b-t3-S3"
+      ],
+      "actual_wave_size": 3,
+      "maximum_concurrency": 3,
+      "serving_request_parallelism": 1,
+      "system_error_count": 0,
+      "all_child_processes_exited": true,
+      "all_shared_models_idle": true,
+      "resident_slot_metrics": {
+        "observed_slots": 5,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "planner_slot_metrics": {
+        "observed_slots": 1,
+        "processing_slots": 0,
+        "invalid_slot_flags": 0
+      },
+      "checks": {
+        "declared_size_matches_cells": true,
+        "wave_size_within_dispatch_limit": true,
+        "maximum_concurrency_unchanged": true,
+        "serving_request_parallelism_unchanged": true,
+        "no_recorded_system_errors": true,
+        "all_child_processes_exited": true,
+        "drain_receipt_present": true,
+        "real_drain_observation": true,
+        "all_shared_models_idle": true,
+        "observed_resident_slots_idle": true,
+        "observed_planner_slots_idle": true,
+        "one_candidate_per_wave": true,
+        "cell_receipts_match_wave": true,
+        "cell_slots_unique_and_complete": true
+      },
+      "passed": true,
+      "wave_receipt_sha256": "cc625245a423e3b967b509909ef4650313b4e4a254921843b4488aae93ed4f5e",
+      "drain_receipt_sha256": "d81fab5a8f0e284d87b2570e962e6d0e17a79bd76bbe33179dccbe692755056f",
+      "cell_receipt_hashes": [
+        {
+          "cell_id": "qwen35-27b-t2-S0",
+          "sha256": "327170e6f712d05e803658252306220e64b77628d8bfdb116dca25579f3bc8ea"
+        },
+        {
+          "cell_id": "qwen35-27b-t3-S0",
+          "sha256": "ddbb18dc5c1586f257dd51918646f7d531a41a50c6aefdbd9909f3cd1df9ce29"
+        },
+        {
+          "cell_id": "qwen35-27b-t3-S3",
+          "sha256": "1c9018c5687c359b85e345fd2071dc590954819995841bfa50cab2e376de53b4"
+        }
+      ]
+    }
+  ],
+  "audit_scope": "Final dispatch, exit and real-drain metadata only; no service query or historical source scan.",
+  "new_inference_calls": 0
+}

@@ -1,0 +1,54 @@
+{
+  "answers_exported": false,
+  "executed_preparation_script_sha256": "037ad90c3e53b2f7c47736b1c7faf856b527adaed2185628d100f18fff05c515",
+  "executed_source_preserved_relative_to_freeze": "preparation-source.py",
+  "frozen_task_reload_passed": true,
+  "manifest_sha256": "e0e242db5140d75f5d3c9f8559db205994eeb0cfba17797325d0b53545fc212a",
+  "novelty": {
+    "claim_limit": "Project-evidence novelty only; no claim about pretraining or unrecorded external use",
+    "distinct_scanned_content_count": 19533,
+    "run_id_count": 713,
+    "scanned_file_count": 41226,
+    "scope": "All matching existing research-project roots; run results/task-start traces, selection/freeze receipts, repository scripts/configs/docs including Skills design material",
+    "used_id_count": 20171
+  },
+  "novelty_private_sha256": "5b3dc06a00451ba84febc06e58d086182927f4a5e411b8c2a1316fa38db359b9",
+  "planner_calls": 0,
+  "repository_preparation_script_sha256": "4157ea515edc33eac8408af4b64f5f9171bcfbd14a36cfea03693518222840f9",
+  "repository_source_differs_only_in_string_literal_layout": true,
+  "selection_before_adaptation_sha256": "663f9367e4e02999e67932c2d9f4732399b46ba94b7894188700c74abc277d83",
+  "selection_policy": "first unused source row; video-level exclusion; no answer/difficulty/outcome filtering",
+  "tasks": [
+    {
+      "agent_task_sha256": "3076f714b9a80f774214632d9f59edfa80a92f5df152003091ff67c600354ce4",
+      "evaluator_implementation_sha256": "1827d44c974d1ae8211218c7ae1b801b834f604dcc3bf129e4d6bbe4c9a354cc",
+      "family": "multihop_rag",
+      "initial_bytes": 7696522,
+      "position": 1,
+      "source_row_ordinal": 10,
+      "source_task_id": "multihop-rag-train-c384ed264fb5a5112e8e0d7e",
+      "task_bundle_sha256": "4896addfad62be36c8e3604a86113f1b7d715e17480a84a0eea07a2c164b3000"
+    },
+    {
+      "agent_task_sha256": "bb5e7c332c0112157a7f2a6f6d9cbedcfaadb133028594a180d7856b8734e891",
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "longbench_v2",
+      "initial_bytes": 258133,
+      "position": 1,
+      "source_row_ordinal": 2,
+      "source_task_id": "66ec0c4c821e116aacb1994a",
+      "task_bundle_sha256": "152e9494457afe26b6991b9242aa22803148553ad0a342910627669c961adf06"
+    },
+    {
+      "agent_task_sha256": "a53e12e8827f8c5c4f52a475628980a0410ae2e7f03bb6af22d33a7ebf1a78e0",
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "video_mme",
+      "initial_bytes": 21696914,
+      "position": 1,
+      "source_row_ordinal": 1467,
+      "source_task_id": "490-1",
+      "task_bundle_sha256": "e02c876f2c4087a6c881b6f35b78eb8436957c57d185764fa3199d396d7cd26f"
+    }
+  ],
+  "version": "skill-granularity-task-freeze-public-v1"
+}
