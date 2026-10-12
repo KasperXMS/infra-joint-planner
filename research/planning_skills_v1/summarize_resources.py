@@ -16,7 +16,7 @@ def summarize(root, output):
         if not batches:
             continue
         stages.append({"stage": str(p.parent.relative_to(root / "results")),
-                       "engineering_invalidated": (p.parent.parent / "engineering-invalidated.json").exists(),
+                       "engineering_invalidated": (p.parent / "engineering-invalidated.json").exists() or (p.parent.parent / "engineering-invalidated.json").exists(),
                        "physical_generate_batches": len(batches),
                        "logical_model_requests": sum(b["requests"] for b in batches),
                        "model_service_batch_wall_seconds": sum(b["provider_seconds"] for b in batches),
