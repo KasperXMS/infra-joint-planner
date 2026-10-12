@@ -40,7 +40,8 @@ def details(directory):
     maximum_prompt = 0
     support_total = 0
     initial_prefix = []
-    for record in jsonl(directory / "trace.jsonl"):
+    trace_records = jsonl(directory / "trace.jsonl")
+    for record in trace_records:
         maximum_prompt = max(maximum_prompt, record.get("prompt_tokens", 0))
         support_total += record.get("support_tokens", 0)
         if record["event"] != "inference":
@@ -89,6 +90,45 @@ def details(directory):
         observation, replay_category = env.step(record["raw_output"])
         if observation != record["observation"] or replay_category != category:
             raise RuntimeError("Independent replay mismatch")
+    # Artifact values never mutate: updates invalidate old handles and create
+    # fresh ones. Actual executed decisions can therefore be scored against the
+    # immutable parent values after replay, including unconditional/root rules.
+    executed = []
+    for event, record in zip(env.events, (r for r in trace_records if r["event"] == "inference")):
+        if event["observation"].get("status") != "computed":
+            continue
+        args = event["action"]["arguments"]
+        node = nodes[args["node"]]
+        values = [env.artifacts[handle]["value"] for handle in args["inputs"]]
+        gold = correct_operation(node, values)
+        executed.append({"turn": record["turn"], "artifact": event["observation"]["artifact"],
+                         "node": node["node"], "parents": args["inputs"], "values": values,
+                         "chosen": args["operation"], "gold": gold, "correct": args["operation"] == gold,
+                         "conditional": node["predicate"] != "always"})
+    all_executed_correct = all(d["correct"] for d in executed)
+    counts["executed_policy_decisions"] = len(executed)
+    counts["executed_policy_correct"] = sum(d["correct"] for d in executed)
+    counts["unconditional_policy_decisions"] = sum(not d["conditional"] for d in executed)
+    counts["unconditional_policy_correct"] = sum(not d["conditional"] and d["correct"] for d in executed)
+    submitted_handle = None
+    if env.completed:
+        terminal = next(event for event in reversed(env.events) if event["observation"].get("status") == "submitted")
+        submitted_handle = terminal["action"]["arguments"]["artifact"]
+    used = set()
+    stack = [submitted_handle] if submitted_handle else []
+    while stack:
+        handle = stack.pop()
+        if handle in used:
+            continue
+        used.add(handle)
+        stack.extend(env.artifacts[handle]["parents"])
+    final_errors = [d for d in executed if d["artifact"] in used and not d["correct"]]
+    final_compliant = not final_errors if env.completed else None
+    if env.completed:
+        if not all(env.valid(handle) for handle in used):
+            raise RuntimeError("Submitted provenance contains an invalid artifact")
+        if final_compliant and not env.success:
+            raise RuntimeError("Numeric evaluator conflicts with policy-compliant submitted provenance")
     affected = {task.changed_source}
     for node in task.nodes:
         if any(parent in affected for parent in node["parents"]):
@@ -106,7 +146,16 @@ def details(directory):
             "minimum_successful_calls": minimum,
             "excess_turns_over_minimum": row["turns"] - minimum,
             "max_prompt_tokens": maximum_prompt, "support_tokens": support_total,
-            "all_executed_policy_choices_correct": all(d["correct"] for d in decisions),
+            "policy_decisions": len(executed), "policy_correct": sum(d["correct"] for d in executed),
+            "all_executed_policy_choices_correct": all_executed_correct,
+            "first_policy_error_turn": next((d["turn"] for d in executed if not d["correct"]), None),
+            "submitted_artifact": submitted_handle,
+            "submitted_provenance_policy_compliant": final_compliant,
+            "submitted_provenance_policy_errors": len(final_errors) if env.completed else None,
+            "submitted_provenance_error_decisions": final_errors,
+            "numeric_success_with_policy_violation": row["success"] and final_compliant is False,
+            "recovered_policy_provenance": not all_executed_correct and final_compliant is True,
+            "executed_policy_decisions": executed,
             "initial_through_update_prefix_sha256": hashlib.sha256(json.dumps(initial_prefix, sort_keys=True).encode()).hexdigest(),
             "initial_through_update_turns": len(initial_prefix),
             "decisions": decisions}
@@ -139,6 +188,9 @@ def aggregate(rows):
             "completed_after_source_update": sum(r["source_update_observed"] and r["completion"] for r in rows),
             "completed_verify_attempts": sum(r["tool_counts"].get("verify", 0) for r in rows if r["completion"]),
             "completed_required_verify_attempts": sum(r["required_verify_attempts_for_correct_path"] for r in rows if r["completion"]),
+            "policy_compliant_completion_count": sum(r["submitted_provenance_policy_compliant"] is True for r in rows),
+            "numeric_success_with_policy_violation": sum(r["numeric_success_with_policy_violation"] for r in rows),
+            "policy_provenance_recoveries": sum(r["recovered_policy_provenance"] for r in rows),
             "success_despite_policy_error": sum(r["success"] and not r["all_executed_policy_choices_correct"] for r in rows)}
 
 
