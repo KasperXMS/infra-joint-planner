@@ -1,0 +1,26 @@
+{
+  "experiment": "skill-granularity-pilot-v2",
+  "admission_status": "blocked_before_first_cell",
+  "reason": "Ollama 0.34.0 disables parallel requests for qwen35 architecture",
+  "requested_parallel_slots": 3,
+  "observed_parallel_slots": 1,
+  "observed_runner_args": ["-c", "32768", "-np", "1"],
+  "observed_runner_log": "model architecture does not currently support parallel requests",
+  "observed_context_per_slot": 32768,
+  "model_checked": "multiscale-qwen35-9b-32k-v1",
+  "model_digest": "86a0db6f4ae0a6ed01dc3a0f12d981637e095520ed6f86763fd6d2e05ec5c341",
+  "weight_quantization": "Q4_K_M",
+  "ollama_version": "0.34.0",
+  "a28_mem_available_kib_after_load": 21034580,
+  "generated_model_tokens": 0,
+  "formal_cells_started": 0,
+  "formal_cells_completed": 0,
+  "service_cleanup": {
+    "owned_server_stopped": true,
+    "owned_api_tunnel_stopped": true,
+    "original_executor_unchanged": true,
+    "foreign_processes_untouched": true
+  },
+  "raw_evidence_location": "/mnt/ssd/skill-granularity-pilot-v2/run-001/planner-service-001/server.log",
+  "controller_receipt_location": "/home/super/xiaoming/skill-granularity-pilot-v2/run-001/owned-service-cleanup.json"
+}

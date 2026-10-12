@@ -1,0 +1,9 @@
+# Skill Granularity Pilot v2: serving admission
+
+The requested 30-cell rerun did not start. Its required three-slot Ollama serving configuration was unavailable for the pinned Qwen3.5 model on Ollama 0.34.0. This is a serving compatibility block discovered before any formal cell, not a model-capability result or a timeout in the matrix.
+
+The new A28 service was launched with `OLLAMA_NUM_PARALLEL=3`, `OLLAMA_MAX_LOADED_MODELS=1`, flash attention enabled, and q8_0 KV cache. A non-generating 9B load used the unchanged Q4_K_M manifest digest `86a0db6f4ae0a6ed01dc3a0f12d981637e095520ed6f86763fd6d2e05ec5c341` and requested `num_ctx=32768`. Ollama logged `model architecture does not currently support parallel requests` for `qwen35`, then launched `llama-server` with `-c 32768 -np 1`. The runner confirmed `n_slots = 1, n_ctx_slot = 32768`. The server accepted the environment setting but overrode effective parallelism to one slot. A28 still had 21,034,580 KiB MemAvailable after the load, so the observed one-slot decision was architectural rather than a measured memory fallback.
+
+Starting three workflow cells under that runner would put Manager requests into an unobserved single-slot queue and violate the specified request-to-slot limit. Reducing the configured parallelism to two would still yield one effective slot. Independent one-slot replicas or a backend/version change would alter the specified serving design and were not substituted into this run.
+
+No official cell was claimed or run; no v2 Completion, TSR, latency, cost, or v1 timeout comparison exists. The v1 30-cell results and all frozen tasks, Skills, evaluator, Executor and Scheduler remain unchanged. The new owned Ollama server and tunnel were stopped; their cleanup receipt confirms that the original A28 Executor was unchanged and external processes were untouched. The raw Ollama log remains on A28 at the path in [admission.json](admission.json).
