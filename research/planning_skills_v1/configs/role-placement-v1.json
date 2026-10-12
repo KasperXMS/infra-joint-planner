@@ -1,0 +1,736 @@
+{
+  "batch_size": 4,
+  "conditions": [
+    "none",
+    "static",
+    "static_system"
+  ],
+  "context_tokens": 16384,
+  "design": "Development placement ablation: identical static rule bank appended as latest user message versus persistent system instructions; repeat all tasks with an internal no-skill reference.",
+  "experiment_id": "role-placement-v1",
+  "max_new_tokens": 256,
+  "models": [
+    "Qwen3.5-4B",
+    "Qwen3.5-9B"
+  ],
+  "request_timeout_seconds": 300,
+  "sampling": "greedy",
+  "seed": 1701,
+  "task_timeout_seconds": 3600,
+  "tasks": [
+    {
+      "changed_source": "d5065",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d5065",
+            "d7828"
+          ],
+          "policy": "Use max if the first input is greater than 18; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d7828",
+            "d5065"
+          ],
+          "policy": "Use min if the first input is greater than 13; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 38,
+      "root": "droot",
+      "seed": 11,
+      "sources": {
+        "d5065": 16,
+        "d7828": 8
+      },
+      "split": "development",
+      "task_id": "development-comparison-s11-d1-w2-r0-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d2538",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d2538",
+            "d5126"
+          ],
+          "policy": "Use min if the first input is greater than 16; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d5126",
+            "d2538"
+          ],
+          "policy": "Use sum if the first input is greater than 8; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 45,
+      "root": "droot",
+      "seed": 23,
+      "sources": {
+        "d2538": 4,
+        "d5126": 3
+      },
+      "split": "development",
+      "task_id": "development-comparison-s23-d1-w2-r0-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d5065",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d5065",
+            "d7828"
+          ],
+          "policy": "Use max if the first input is greater than 18; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d7828",
+            "d5065"
+          ],
+          "policy": "Use min if the first input is greater than 13; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 38,
+      "root": "droot",
+      "seed": 11,
+      "sources": {
+        "d5065": 16,
+        "d7828": 8
+      },
+      "split": "development",
+      "task_id": "development-comparison-s11-d1-w2-r1-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d2538",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d2538",
+            "d5126"
+          ],
+          "policy": "Use min if the first input is greater than 16; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d5126",
+            "d2538"
+          ],
+          "policy": "Use sum if the first input is greater than 8; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 45,
+      "root": "droot",
+      "seed": 23,
+      "sources": {
+        "d2538": 4,
+        "d5126": 3
+      },
+      "split": "development",
+      "task_id": "development-comparison-s23-d1-w2-r1-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d3619",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d9610",
+            "d3619"
+          ],
+          "policy": "Use sum if the first input is greater than 11; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d3619",
+            "d9610"
+          ],
+          "policy": "Use min if the first input is greater than 11; otherwise use sum.",
+          "predicate": "greater",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "dn1_0",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use max if the first input is greater than 8; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "dn1_1",
+          "parents": [
+            "dn0_1",
+            "dn0_0"
+          ],
+          "policy": "Use difference if the first input is greater than 16; otherwise use sum.",
+          "predicate": "greater",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "dn2_0",
+          "parents": [
+            "dn1_0",
+            "dn1_1"
+          ],
+          "policy": "Use sum if the first input is greater than 7; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn2_1",
+          "parents": [
+            "dn1_1",
+            "dn1_0"
+          ],
+          "policy": "Use min if the first input is greater than 6; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn2_0",
+            "dn2_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 30,
+      "root": "droot",
+      "seed": 11,
+      "sources": {
+        "d3619": 19,
+        "d9610": 21
+      },
+      "split": "development",
+      "task_id": "development-comparison-s11-d3-w2-r0-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d4089",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d4089",
+            "d1548"
+          ],
+          "policy": "Use max if the first input is greater than 15; otherwise use min.",
+          "predicate": "greater",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d1548",
+            "d4089"
+          ],
+          "policy": "Use max if the first input is greater than 11; otherwise use min.",
+          "predicate": "greater",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "dn1_0",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use min if the first input is greater than 7; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "dn1_1",
+          "parents": [
+            "dn0_1",
+            "dn0_0"
+          ],
+          "policy": "Use difference if the first input is greater than 6; otherwise use sum.",
+          "predicate": "greater",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn2_0",
+          "parents": [
+            "dn1_0",
+            "dn1_1"
+          ],
+          "policy": "Use min if the first input is greater than 6; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "dn2_1",
+          "parents": [
+            "dn1_1",
+            "dn1_0"
+          ],
+          "policy": "Use difference if the first input is greater than 18; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn2_0",
+            "dn2_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 47,
+      "root": "droot",
+      "seed": 23,
+      "sources": {
+        "d1548": 23,
+        "d4089": 23
+      },
+      "split": "development",
+      "task_id": "development-comparison-s23-d3-w2-r0-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d3619",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d9610",
+            "d3619"
+          ],
+          "policy": "Use sum if the first input is greater than 11; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d3619",
+            "d9610"
+          ],
+          "policy": "Use min if the first input is greater than 11; otherwise use sum.",
+          "predicate": "greater",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "dn1_0",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use max if the first input is greater than 8; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "dn1_1",
+          "parents": [
+            "dn0_1",
+            "dn0_0"
+          ],
+          "policy": "Use difference if the first input is greater than 16; otherwise use sum.",
+          "predicate": "greater",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "dn2_0",
+          "parents": [
+            "dn1_0",
+            "dn1_1"
+          ],
+          "policy": "Use sum if the first input is greater than 7; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn2_1",
+          "parents": [
+            "dn1_1",
+            "dn1_0"
+          ],
+          "policy": "Use min if the first input is greater than 6; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn2_0",
+            "dn2_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 30,
+      "root": "droot",
+      "seed": 11,
+      "sources": {
+        "d3619": 19,
+        "d9610": 21
+      },
+      "split": "development",
+      "task_id": "development-comparison-s11-d3-w2-r1-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    },
+    {
+      "changed_source": "d4089",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "dn0_0",
+          "parents": [
+            "d4089",
+            "d1548"
+          ],
+          "policy": "Use max if the first input is greater than 15; otherwise use min.",
+          "predicate": "greater",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "dn0_1",
+          "parents": [
+            "d1548",
+            "d4089"
+          ],
+          "policy": "Use max if the first input is greater than 11; otherwise use min.",
+          "predicate": "greater",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "dn1_0",
+          "parents": [
+            "dn0_0",
+            "dn0_1"
+          ],
+          "policy": "Use min if the first input is greater than 7; otherwise use difference.",
+          "predicate": "greater",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "dn1_1",
+          "parents": [
+            "dn0_1",
+            "dn0_0"
+          ],
+          "policy": "Use difference if the first input is greater than 6; otherwise use sum.",
+          "predicate": "greater",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "dn2_0",
+          "parents": [
+            "dn1_0",
+            "dn1_1"
+          ],
+          "policy": "Use min if the first input is greater than 6; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "dn2_1",
+          "parents": [
+            "dn1_1",
+            "dn1_0"
+          ],
+          "policy": "Use difference if the first input is greater than 18; otherwise use max.",
+          "predicate": "greater",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "droot",
+          "parents": [
+            "dn2_0",
+            "dn2_1"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 47,
+      "root": "droot",
+      "seed": 23,
+      "sources": {
+        "d1548": 23,
+        "d4089": 23
+      },
+      "split": "development",
+      "task_id": "development-comparison-s23-d3-w2-r1-e0",
+      "template": "comparison",
+      "transient": false,
+      "width": 2
+    }
+  ],
+  "thinking": false,
+  "turn_budget": 48
+}

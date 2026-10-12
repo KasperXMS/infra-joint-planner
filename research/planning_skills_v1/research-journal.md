@@ -31,3 +31,45 @@ After both development models finish, inspect aggregate failures and selected ra
 ### Mainland transport adjustment before inference
 
 The official ModelScope SDK resolved to `modelscope-hub`, whose installed primary source sets one range-download stream per file by default. Most files progressed around 1–3 MB/s, but one 9B shard lagged markedly. At epoch 1791827515, the owned downloader was identity-checked and stopped once, before any evaluation manifest existed. Its 18,987,614,208 already-downloaded prefix bytes were preserved into the SDK's resumable range parts. Download resumed with the SDK's supported `MODELSCOPE_DOWNLOAD_PARALLEL_WORKERS=8`; repositories and revisions were unchanged. This is transport optimization, not model/backend/hyperparameter search or an evaluation rerun. The SDK source inspection and exact prefix bytes are recorded in administration metadata. Temporary prefixes are retained until completed weights can be checked.
+
+## Engineering exclusion: chat EOS framing, followed by complete diagnostic-v2
+
+The first actual 4B generation exposed a harness mistake: the checkpoint generation configuration uses endoftext (248044), while the tokenizer's chat EOS is im_end (248046). Generated actions were valid JSON followed by the chat terminator, a newline and endoftext. The decoder removed only the latter, causing spurious strict JSON failures. All conditions were affected. Diagnostic-v1 was stopped as a system issue; its entire namespace, raw tokens, traces and exact source were retained and explicitly marked **not ability evidence**. There are 404 recorded requests/101 service batches, eight finished episodes and additional interrupted episodes; unrecorded in-flight work is not inferred. These costs remain part of total rental/work accounting.
+
+The corrected decoder stops at both configured endoftext and tokenizer chat EOS at the token boundary. It still performs no JSON/argument repair, fence removal, tool substitution or constrained decoding. A new `diagnostic-v2` repeats **all eight tasks × four conditions × two models**, not a result-selected subset. The tasks, rules, model bytes, precision, budgets and evaluator are unchanged. Both models completed 32/32 episodes; deterministic replay validated every recorded observation and final evaluator result. The exact executing source was copied into each stage before subsequent development.
+
+| Model | Condition | Completion | Success | Turns |
+| --- | --- | --- | --- | --- |
+| 4B | none | 8/8 | 2/8 | 108 |
+| 4B | static | 4/8 | 1/8 | 240 |
+| 4B | local | 8/8 | 2/8 | 104 |
+| 4B | ledger + static | 5/8 | 1/8 | 195 |
+| 9B | none | 8/8 | 2/8 | 107 |
+| 9B | static | 8/8 | 2/8 | 108 |
+| 9B | local | 8/8 | 2/8 | 108 |
+| 9B | ledger + static | 8/8 | 2/8 | 107 |
+
+These eight-task/two-seed development figures do not support a universal capacity or skill claim. There were no raw JSON/schema failures after framing correction. The 4B static/ledger arms instead looped on dependency mismatches or non-root verification. Completion cannot stand in for correctness: 9B completed every workflow but its aggregate success was only 8/32.
+
+Selected raw traces reveal a more specific hypothesis: refreshing artifact handles does not necessarily refresh the **operation choice**. On development s11/depth1/update, the 9B baseline refetched the changed input from 16 to 38, yet reused difference where the observed policy now requires max, submitting 68 rather than 76. The verifier correctly certified provenance, not semantics. This is action-policy anchoring, not stale-handle reuse or a provider parse failure. Similar initial multi-level policy mistakes occur without refresh.
+
+Two confounds require targeted development checks before held-out validation: (1) static rules were appended as the latest user message, so placement/recency may explain 4B regressions; (2) source values, policies and handles are available but spread across history, so incorrect binding may resemble inability to evaluate a simple condition. The next low-cost experiments will compare static placement and identical observed compute decisions under full-history versus locally bound input/policy cards. Cards will contain only already observed values and the public policy, never the correct operation or answer. These are diagnostic decision probes, not whole-workflow TSR or a new capability Gate.
+
+## Development ablations completed: placement and observed-value binding
+
+`role-placement-v1` executed 48/48 full workflows: all eight development tasks on both models under none/latest-user-static/system-static. The 4B latest-user arm reproduced 4/8 completion and 240 turns; putting the **identical rule bank** in the system instructions restored 8/8 completion and 106 turns, but success remained 2/8. The 9B arms all completed 8/8 and succeeded 2/8. This is a placement confound in the apparent capacity interaction, not evidence that more explicit skills intrinsically harm 4B. These are repeated development tasks, not independent held-out replication.
+
+`decision-context-probe-v1` froze all 48 valid non-root compute decisions from the eight 9B no-skill trajectories, including correct and incorrect decisions. Both models answered the same queries under full history + target node/handles, full history + observed current values/public policy card, and isolated card. No correct operation, private source or evaluator answer entered a prompt. The cards use actual observed intermediate values even where an earlier model operation was wrong; scoring is therefore local decision correctness conditional on observed inputs, not global task success. All 288 requests completed with valid schemas; these probes execute no tools and are not presented as workflow TSR.
+
+| Model | Full target | Full history + card | Isolated card |
+| --- | --- | --- | --- |
+| 4B operator accuracy | 28/48 | 45/48 | 39/48 |
+| 9B operator accuracy | 26/48 | 44/48 | 39/48 |
+
+9B full-card target fidelity was 46/48, so its joint decision score is 42/48 rather than 44/48. All other target-fidelity scores were 48/48. Full-card post-update operator correctness was 16/16 (4B) and 12/16 (9B), versus 8/16 and 6/16 for full-target. Full history with a card outperformed a shorter isolated card on this development set; the gain is not explained simply by removing all history. A card can still change salience or repeat relevant facts, so joined-binding versus equally informed/unjoined length-matched support is required before attribution.
+
+### Chosen next hypothesis and controls
+
+Test **runtime value–policy binding**, not a new static granularity scale. An observation-only adapter can instantiate each public node policy with its currently observed ordered parent handles/values, without selecting a next node or operation and without executing or repairing any action. A matched unjoined table will contain the same current artifact facts and policies, with per-state token length matched. Conventional system-static, latest-user-static, local rules, and ledger-only variants separate placement, generic procedural prompting and bookkeeping.
+
+Held-out tasks will use new relative/parity policy templates and seeds, with matched no-update, genuine-value-update/policy-stable, and genuine-value-update/policy-flipping variants. The stable/flip distinction is constructed and scored by the private generator/evaluator, never disclosed to the planner. This isolates semantic re-decision from provenance rebuilding. All mechanisms and tasks will freeze before held-out inference. The generator's selection of policy-sensitive graphs will be disclosed; this is a diagnostic stress distribution, not a natural benchmark prevalence estimate.

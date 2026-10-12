@@ -39,6 +39,8 @@ def support(condition, env) -> tuple[str, dict]:
         return "", metadata
     if condition == "static":
         return STATIC, metadata
+    if condition == "static_system":
+        return STATIC, {**metadata, "placement": "system"}
     if condition == "local":
         key, text = local_rule(env.events)
         return "Currently relevant procedural support:\n" + text, {**metadata, "selected_rule": key}

@@ -12,6 +12,7 @@
 /configs/experiments/lightweight-planner-context-gate-v1.json text eol=lf
 /.gitattributes text eol=lf
 /research/planning_skills_v1/*.sh text eol=lf
+/research/planning_skills_v1/configs/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 /configs/experiments/lightweight-planner-pilot-execution-v1.json text eol=lf
 /analysis/lightweight-planner-formal-pilot-v1/** text eol=lf
 /analysis/multiscale-planner-evaluation-v1/** text eol=lf

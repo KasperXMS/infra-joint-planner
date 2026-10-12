@@ -94,6 +94,11 @@ def run(root: Path, config_path: Path, model_name: str):
     generation.max_new_tokens = config["max_new_tokens"]
     generation.use_cache = True
     generation.pad_token_id = tokenizer.pad_token_id
+    # The checkpoint's generation EOS can be endoftext, while chat messages end
+    # at im_end. Stop on both at the token boundary, before strict JSON parsing.
+    configured_eos = generation.eos_token_id
+    generation.eos_token_id = sorted(set((configured_eos if isinstance(configured_eos, list)
+                                          else [configured_eos]) + [tokenizer.eos_token_id]) - {None})
     write_json(stage / "deployment.json", {"load_seconds": time.time() - begun,
                "generation_config": generation.to_dict(), "model_class": type(model).__name__,
                "model_config": model.config.to_dict(),
@@ -156,10 +161,11 @@ def run(root: Path, config_path: Path, model_name: str):
                 state["finish_reason"] = "task_timeout"
                 continue
             text, metadata = support(state["condition"], state["env"])
-            messages = [{"role": "system", "content": BASE_PROMPT},
+            system_content = BASE_PROMPT + ("\n" + text if metadata.get("placement") == "system" else "")
+            messages = [{"role": "system", "content": system_content},
                         {"role": "user", "content": task_text(state["env"].task)}]
             messages += state["history"]
-            if text:
+            if text and metadata.get("placement") != "system":
                 messages.append({"role": "user", "content": text})
             prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True,
                                                     enable_thinking=False)

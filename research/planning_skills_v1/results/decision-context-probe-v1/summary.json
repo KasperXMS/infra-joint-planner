@@ -1,0 +1,184 @@
+{
+  "Qwen3.5-4B": {
+    "actual_tool_executions": 0,
+    "groups": [
+      {
+        "after_update": false,
+        "categories": {
+          "null": 32
+        },
+        "completion_tokens": 896,
+        "condition": "full_card",
+        "decision_correct": 29,
+        "n": 32,
+        "operator_correct": 29,
+        "prompt_tokens": 45568,
+        "schema_valid": 32,
+        "target_correct": 32
+      },
+      {
+        "after_update": true,
+        "categories": {
+          "null": 16
+        },
+        "completion_tokens": 470,
+        "condition": "full_card",
+        "decision_correct": 16,
+        "n": 16,
+        "operator_correct": 16,
+        "prompt_tokens": 34145,
+        "schema_valid": 16,
+        "target_correct": 16
+      },
+      {
+        "after_update": false,
+        "categories": {
+          "null": 32
+        },
+        "completion_tokens": 896,
+        "condition": "full_target",
+        "decision_correct": 20,
+        "n": 32,
+        "operator_correct": 20,
+        "prompt_tokens": 42594,
+        "schema_valid": 32,
+        "target_correct": 32
+      },
+      {
+        "after_update": true,
+        "categories": {
+          "null": 16
+        },
+        "completion_tokens": 470,
+        "condition": "full_target",
+        "decision_correct": 8,
+        "n": 16,
+        "operator_correct": 8,
+        "prompt_tokens": 32634,
+        "schema_valid": 16,
+        "target_correct": 16
+      },
+      {
+        "after_update": false,
+        "categories": {
+          "null": 32
+        },
+        "completion_tokens": 1184,
+        "condition": "isolated_card",
+        "decision_correct": 26,
+        "n": 32,
+        "operator_correct": 26,
+        "prompt_tokens": 20702,
+        "schema_valid": 32,
+        "target_correct": 32
+      },
+      {
+        "after_update": true,
+        "categories": {
+          "null": 16
+        },
+        "completion_tokens": 614,
+        "condition": "isolated_card",
+        "decision_correct": 13,
+        "n": 16,
+        "operator_correct": 13,
+        "prompt_tokens": 10397,
+        "schema_valid": 16,
+        "target_correct": 16
+      }
+    ],
+    "interpretation": "development decision accuracy, not workflow TSR",
+    "raw_decisions_sha256": "d7d3d7f4d38736a9d3b0d4dcf9efeed8834d6e9013f9be2177402187ae4f3398"
+  },
+  "Qwen3.5-9B": {
+    "actual_tool_executions": 0,
+    "groups": [
+      {
+        "after_update": false,
+        "categories": {
+          "null": 32
+        },
+        "completion_tokens": 896,
+        "condition": "full_card",
+        "decision_correct": 30,
+        "n": 32,
+        "operator_correct": 32,
+        "prompt_tokens": 45568,
+        "schema_valid": 32,
+        "target_correct": 30
+      },
+      {
+        "after_update": true,
+        "categories": {
+          "null": 16
+        },
+        "completion_tokens": 470,
+        "condition": "full_card",
+        "decision_correct": 12,
+        "n": 16,
+        "operator_correct": 12,
+        "prompt_tokens": 34145,
+        "schema_valid": 16,
+        "target_correct": 16
+      },
+      {
+        "after_update": false,
+        "categories": {
+          "null": 32
+        },
+        "completion_tokens": 896,
+        "condition": "full_target",
+        "decision_correct": 20,
+        "n": 32,
+        "operator_correct": 20,
+        "prompt_tokens": 42594,
+        "schema_valid": 32,
+        "target_correct": 32
+      },
+      {
+        "after_update": true,
+        "categories": {
+          "null": 16
+        },
+        "completion_tokens": 470,
+        "condition": "full_target",
+        "decision_correct": 6,
+        "n": 16,
+        "operator_correct": 6,
+        "prompt_tokens": 32634,
+        "schema_valid": 16,
+        "target_correct": 16
+      },
+      {
+        "after_update": false,
+        "categories": {
+          "null": 32
+        },
+        "completion_tokens": 896,
+        "condition": "isolated_card",
+        "decision_correct": 26,
+        "n": 32,
+        "operator_correct": 26,
+        "prompt_tokens": 20702,
+        "schema_valid": 32,
+        "target_correct": 32
+      },
+      {
+        "after_update": true,
+        "categories": {
+          "null": 16
+        },
+        "completion_tokens": 470,
+        "condition": "isolated_card",
+        "decision_correct": 13,
+        "n": 16,
+        "operator_correct": 13,
+        "prompt_tokens": 10397,
+        "schema_valid": 16,
+        "target_correct": 16
+      }
+    ],
+    "interpretation": "development decision accuracy, not workflow TSR",
+    "raw_decisions_sha256": "5cee041bcb8da773ef2b681eb2a1386cd137abe3f343309d548a2cd0b16c7834"
+  }
+}
