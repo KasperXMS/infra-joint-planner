@@ -1,0 +1,19 @@
+{
+  "experiment": "skill-granularity-pilot-v2",
+  "status": "user_paused",
+  "pause_time_utc": "2026-10-12T16:12:36Z",
+  "planned_cells": 30,
+  "completed_result_cells": 8,
+  "interrupted_attempt_receipts": 1,
+  "interrupted_cell_id": "qwen35-4b-t2-S3",
+  "unattempted_cells": 21,
+  "next_wave_dispatched": false,
+  "stop_flag_preserved": true,
+  "batch_process_exited": true,
+  "worker_cleanup_receipts": 9,
+  "interrupted_cell_workers_verified_exited": true,
+  "owned_planner_models_unloaded": true,
+  "owned_idle_ollama_servers_preserved_for_possible_resume": true,
+  "raw_traces_location": "experiment_machine_only",
+  "note": "The interrupted cell has an attempt receipt but no raw result. It must not be counted as a completed evaluation result. No cells were rerun."
+}
