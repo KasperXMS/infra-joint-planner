@@ -1,0 +1,20 @@
+{
+  "archives": [
+    {
+      "bytes": 7645542,
+      "filename": "planning-skills-research-v1-traces.tar.gz",
+      "members": 3411,
+      "sha256": "c80856a584718b9652bed9921fca7b509e9db0d394771773ab99ac8ea0b90aeb"
+    },
+    {
+      "bytes": 340882,
+      "filename": "final-frozen-inference-source.tar.gz",
+      "members": 242,
+      "sha256": "a6799c0a84c70be740812fb814e02df60cdee1372744ff05bba030c6a0fb9408"
+    }
+  ],
+  "artifact_receipt_outputs_sha256": "all six outputs match original receipt",
+  "epoch": 1791842851.1825151,
+  "note": "Private raw archive delivered outside Git in first workspace. Every archive member is unique, expected, and matches its byte length and SHA256; no extraction to filesystem. Shared backup verification remains separate.",
+  "status": "pass"
+}

@@ -1,6 +1,6 @@
 # Mechanism ablations and what they identify
 
-This map concerns the completed development and 504-episode primary studies. Independent structural transfer and the frozen 338-decision follow-up remain unfinished; their outcomes cannot be inferred here. All primary comparisons retain the same model, tools, sampling, task population, turn contract and frozen procedural bank. Figures/counts below come from [validated primary results](results/heldout-binding-v1/summary.json), not a new model execution.
+This map concerns the completed development, 504-episode primary, 384-episode structural transfer and 2,028-request conditional-decision diagnosis. All primary comparisons retain the same model, tools, sampling, task population, turn contract and frozen procedural bank. The initial contrasts below come from [validated primary results](results/heldout-binding-v1/summary.json); final follow-up findings are recorded separately below, without rewriting those primary contrasts.
 
 | Contrast | What changes | What is controlled | Observed primary result | Attribution limit |
 | --- | --- | --- | --- | --- |
@@ -46,5 +46,22 @@ Conversely, the 333 wrong-answer episodes with no unexpected tool error show tha
 Joined versus unjoined reduces 4B prompt work from 2,514,657 to 1,790,113 tokens (28.8%) and turns from 781 to 639 (18.2%). The 9B reductions are much smaller: 1,770,069→1,746,728 tokens (1.3%) and 637→633 turns (0.6%). Against static/system, joining adds prompt work for both models despite fewer turns. Thus neither a universal efficiency gain nor a free representation follows from higher success.
 
 E2E depends on the frozen mixed-condition tensor batches. Prompt work and summed request latency are not GPU kernel time or prices. Primary renderer wall was not measured and remains unknown; transfer prospectively records it. Local GPU USD remains unknown. Whole-instance CNY rental includes preparation and engineering-invalidated work separately.
+
+## Completed independent transfer and decision diagnosis
+
+| Contrast / measurement | Actual follow-up result | What remains unidentified |
+| --- | --- | --- |
+| Joined vs matched unjoined, new opaque-name/shuffled-order graphs | 4B numeric TSR 2/48 vs 2/48; 9B 7/48 vs 3/48. Cluster intervals for effects include zero: [-8.33,10.42] and [-10.42,27.08] pp | Reliable population-level TSR improvement or a universal capacity interaction; cross-stage depth/seeds/presentation change together |
+| Joined vs static/system, same transfer tasks | Completion 30→42/48 for 4B, 38→48/48 for 9B; numeric success 1→2 and 3→7 | Added facts/length and organization are combined in this contrast; matched unjoined remains the sharper control |
+| Numeric score vs final ancestry policy compliance | Only 7/19 numeric successes are ancestry-compliant; 4B joined 0/2, 9B joined 5/7 | Arithmetic collision prevalence outside this selected synthetic distribution; frozen numeric evaluator is not regraded |
+| Provided target full-card vs target-only, all 338 eligible primary observed decisions | Joint accuracy 159→250/338 (4B), 169→271/338 (9B), with 4.75% more prompt tokens | Autonomous scheduling/recovery, pure organization vs repetition/length, natural 4B visited-state accuracy |
+| Full-card vs isolated-card | Full-card 250 vs 185/338 and 271 vs 202/338 | History interference alone; isolation also removes other task context |
+| Failure-inclusive cost of joined vs unjoined transfer | 4B prompt work -23.1%, turns -17.1%; 9B -7.3%, -4.8% | Mixed-batch GPU money, minimal production renderer cost, guaranteed cost-per-success benefit |
+
+Transfer renderer attempts average about 6.1–6.4 ms, including construction of both matched support variants, projection, tokenization and padding. This is a measured implementation overhead, not the minimal join cost or the full input pipeline. It was instrumented before transfer; primary time remains unknown. Across the entire research, 14,498 recorded physical batches consume 24,186.127 summed batch-service seconds, including 101 engineering-invalidated batches. See [inventory](results/experimental-inventory.md) and [final accounting](evidence/final-derived-totals.json).
+
+All 2,028 diagnostic requests pass exact prompt/token/raw-output/public-policy/schema checks. The query pool is post-hoc from all observed first node/phase decisions in primary 9B baseline: 11 observed source graph clusters, three trajectories with no eligible decisions. It is neither an independent held-out workflow test nor evidence that the one-step gain can be multiplied across a whole graph. Full-card still gets 88/338 (4B) and 67/338 (9B) decisions wrong despite supplied target and handles.
+
+The final interpretation is bounded: delivery/organization changes completion and work more consistently than autonomous task correctness. No universal optimal granularity or Type I mechanism discovery follows. The [final report](final-research-report.md) gives the single nine-field recommendation, remaining alternatives and the marginal-information stopping decision.
 
 The existing [mechanism scope](mechanism-scope.md) and [literature ledger](literature-novelty-ledger.md) explain why state rendering, compiled interfaces and generic granularity are not themselves new algorithms. These ablations support bounded characterization rather than a claim that static skills solve small-model planning.

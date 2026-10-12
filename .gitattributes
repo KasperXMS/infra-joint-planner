@@ -13,6 +13,10 @@
 /.gitattributes text eol=lf
 /research/planning_skills_v1/*.sh text eol=lf
 /research/planning_skills_v1/configs/*.json -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/research/planning_skills_v1/evidence/final-* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/research/planning_skills_v1/results/structural-transfer-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/research/planning_skills_v1/results/decision-generalization-v1/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/research/planning_skills_v1/results/structural-transfer-v1/*.svg whitespace=-blank-at-eol,blank-at-eof,space-before-tab
 /configs/experiments/lightweight-planner-pilot-execution-v1.json text eol=lf
 /analysis/lightweight-planner-formal-pilot-v1/** text eol=lf
 /analysis/multiscale-planner-evaluation-v1/** text eol=lf

@@ -1,0 +1,161 @@
+{
+  "accounting_note": "Includes setup and invalidated engineering work. Unrecorded in-flight work is not inferred. Batch wall is not GPU kernel time. No allocation of mixed-condition batch costs to individual treatments.",
+  "baseline_epoch": 1791824705,
+  "cloud_api_usd": 0.0,
+  "elapsed_seconds_through_last_sample": 17825.43414902687,
+  "gpu_energy_note": "Trapezoidal NVML board-power estimate over observed gaps <=180s, not metered energy or currency.",
+  "last_sample_epoch": 1791842530.434149,
+  "local_gpu_usd": null,
+  "rate_cny_per_hour": 6.06,
+  "sampled_gpu_energy_wh_estimate": {
+    "0": 1206.7550223760657,
+    "1": 1417.207889761219
+  },
+  "stages": [
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791829302.1355338,
+      "last_request_epoch": 1791829362.0273705,
+      "logical_model_requests": 144,
+      "model_service_batch_wall_seconds": 59.419634103775024,
+      "padded_input_token_positions": null,
+      "physical_generate_batches": 36,
+      "stage": "decision-context-probe-v1/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 186040
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791829305.6783638,
+      "last_request_epoch": 1791829363.2895644,
+      "logical_model_requests": 144,
+      "model_service_batch_wall_seconds": 57.142597913742065,
+      "padded_input_token_positions": null,
+      "physical_generate_batches": 36,
+      "stage": "decision-context-probe-v1/Qwen3.5-9B",
+      "unpadding_prompt_tokens": 186040
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791841307.4071345,
+      "last_request_epoch": 1791842003.4905472,
+      "logical_model_requests": 1014,
+      "model_service_batch_wall_seconds": 691.3923714160919,
+      "padded_input_token_positions": null,
+      "physical_generate_batches": 507,
+      "stage": "decision-generalization-v1/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 1613426
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791841790.926881,
+      "last_request_epoch": 1791842486.6339278,
+      "logical_model_requests": 1014,
+      "model_service_batch_wall_seconds": 691.0762059688568,
+      "padded_input_token_positions": null,
+      "physical_generate_batches": 507,
+      "stage": "decision-generalization-v1/Qwen3.5-9B",
+      "unpadding_prompt_tokens": 1613426
+    },
+    {
+      "engineering_invalidated": true,
+      "first_request_epoch": 1791827753.4403732,
+      "last_request_epoch": 1791827896.2755527,
+      "logical_model_requests": 404,
+      "model_service_batch_wall_seconds": 138.5658106803894,
+      "padded_input_token_positions": 935684,
+      "physical_generate_batches": 101,
+      "stage": "diagnostic-v1/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 865925
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791827972.89414,
+      "last_request_epoch": 1791828344.825662,
+      "logical_model_requests": 647,
+      "model_service_batch_wall_seconds": 364.93292021751404,
+      "padded_input_token_positions": 2229432,
+      "physical_generate_batches": 176,
+      "stage": "diagnostic-v2/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 1527834
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791828085.602888,
+      "last_request_epoch": 1791828345.5052912,
+      "logical_model_requests": 430,
+      "model_service_batch_wall_seconds": 255.98723220825195,
+      "padded_input_token_positions": 927062,
+      "physical_generate_batches": 108,
+      "stage": "diagnostic-v2/Qwen3.5-9B",
+      "unpadding_prompt_tokens": 759661
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791830577.0837247,
+      "last_request_epoch": 1791835981.247076,
+      "logical_model_requests": 6950,
+      "model_service_batch_wall_seconds": 5312.475565671921,
+      "padded_input_token_positions": 25092452,
+      "physical_generate_batches": 3485,
+      "stage": "heldout-binding-v1/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 20189514
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791830580.0587435,
+      "last_request_epoch": 1791836125.254348,
+      "logical_model_requests": 5852,
+      "model_service_batch_wall_seconds": 5471.015273809433,
+      "padded_input_token_positions": 19906222,
+      "physical_generate_batches": 2938,
+      "stage": "heldout-binding-v1/Qwen3.5-9B",
+      "unpadding_prompt_tokens": 16142848
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791829011.1267333,
+      "last_request_epoch": 1791829273.0050173,
+      "logical_model_requests": 454,
+      "model_service_batch_wall_seconds": 256.9163610935211,
+      "padded_input_token_positions": 1518574,
+      "physical_generate_batches": 124,
+      "stage": "role-placement-v1/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 1035162
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791829013.9559577,
+      "last_request_epoch": 1791829199.8707728,
+      "logical_model_requests": 322,
+      "model_service_batch_wall_seconds": 182.792062997818,
+      "padded_input_token_positions": 681932,
+      "physical_generate_batches": 88,
+      "stage": "role-placement-v1/Qwen3.5-9B",
+      "unpadding_prompt_tokens": 551358
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791836009.169088,
+      "last_request_epoch": 1791841290.901401,
+      "logical_model_requests": 6955,
+      "model_service_batch_wall_seconds": 5169.942650079727,
+      "padded_input_token_positions": 28339101,
+      "physical_generate_batches": 3489,
+      "stage": "structural-transfer-v1/Qwen3.5-4B",
+      "unpadding_prompt_tokens": 23449978
+    },
+    {
+      "engineering_invalidated": false,
+      "first_request_epoch": 1791836151.7300115,
+      "last_request_epoch": 1791841773.571352,
+      "logical_model_requests": 5778,
+      "model_service_batch_wall_seconds": 5534.468609333038,
+      "padded_input_token_positions": 21600993,
+      "physical_generate_batches": 2903,
+      "stage": "structural-transfer-v1/Qwen3.5-9B",
+      "unpadding_prompt_tokens": 17927743
+    }
+  ],
+  "telemetry_samples": 210,
+  "whole_instance_rental_cny_estimate": 30.006147484195232
+}

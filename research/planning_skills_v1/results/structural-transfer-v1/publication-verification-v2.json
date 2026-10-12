@@ -1,0 +1,19 @@
+{
+  "correction": "Original receipt accidentally indexed its own still-empty file. That self-entry is excluded here; every other original data/figure SHA matches. Original receipt/data/figures retained unchanged.",
+  "original_publication_receipt_sha256": "b09d7d1199f97112c11919718723345ae565b5a49960475cd92f6210b3916653",
+  "status": "pass",
+  "verified_files": {
+    "episode-results.json": "08059623b6220953d4a4d97894d768c6728121c43d42565229a07b5c6dcf793c",
+    "exact-prompt-audit.json": "360ec1f77f8ee6d4720fd322e10b9f2eb8ca25c50dfbda46213c7ecf9274edea",
+    "postprocess-complete.json": "6544f92dc5179b3f603e902b60e2723fd5f4daa8ba11c2a11674f4ea31fbcb33",
+    "result-tables.md": "e1c981553f15cd751909ceabcb938d07775c4164c1be56a79acb1563502885e7",
+    "results.csv": "69b0ddf8e47d633b58589ab674b50b753c0608b6c40ea3086b43f027ccc0458c",
+    "summary.json": "d1dd1cc41d4c1c699d89410e461c64f2afd854a967351eb535801da76e8bb78e",
+    "task-success.png": "66221eff74b5fff92e465548a724cec25d2b33d777a017d3059bcd1674caeab7",
+    "task-success.svg": "9beae9a7f580e6c11ce68523ec277b4bed2abd8b35cbaa848d195a8511db79b7",
+    "token-work-success.png": "8a67c056182b36426204cdcd6cc90e05bd553b2f8b6ded0bc6be70f16c509612",
+    "token-work-success.svg": "e3f4350191c541441e9f2aec9b38e451955b9aa423a85dd6dfa270a956ccacbe",
+    "trace-index.json": "51115c93f30048635e24c47778aa8c342ed953b054d5478ca9a1bd296f9ba52b"
+  },
+  "visual_inspection": "Both PNG figures inspected; labels, legends and intervals readable."
+}

@@ -1,0 +1,17 @@
+{
+  "actual_provider_invoice": "unknown",
+  "api_response": "unknown; connection closed before return capture",
+  "baseline_epoch": 1791824705,
+  "bash_attempt": "SSH connection closed by remote host after /bin/bash /usr/bin/shutdown invocation",
+  "direct_attempt": "errno 8 Exec format error before wrapper execution",
+  "estimate_through_connection_observation_cny": 31.666866666666664,
+  "foreign_inference_workers_before_request": 0,
+  "last_verified_remote_checkpoint_epoch": 1791843197.3389437,
+  "note": "Observed disconnect/unreachability is consistent with instance shutdown, not an independent billing-console confirmation. Durable backup and first-workspace archives verified before invocation; no new instance or model run started.",
+  "observed_utc": "2026-10-12 22:18:37 UTC",
+  "own_gpu_workers_before_request": 0,
+  "rate_cny_per_hour": 6.06,
+  "resource_guard_before_request": "armed",
+  "status": "observed_with_billing_uncertainty",
+  "subsequent_ssh_check": "5-second connection timeout"
+}

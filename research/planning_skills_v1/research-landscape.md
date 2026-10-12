@@ -34,3 +34,9 @@ This is deliberately narrower than claiming that state tracking, skill compilati
 ## Evidence required before a recommendation
 
 The primary held-out study must retain all failures and compare joined/unjoined support, ordinary state bookkeeping, static prompting, local delivery and role placement. A useful current-fact effect then requires independent structural transfer with unchanged mechanisms. Remaining errors must be located in actual scheduling, dependency use, branch choice or terminal control. Positive aggregate TSR alone is insufficient to recommend a new research direction, and a negative result can still support a bounded characterization.
+
+## Where the completed evidence leaves this landscape
+
+The necessary primary, independent structural transfer and post-hoc decision diagnosis are complete. They support the narrower evaluation problem: a state representation can improve legal completion and reduce repeated work while leaving semantic operation choices wrong; numeric answer equality may even hide those wrong choices. Transfer has 19 numeric successes but only seven policy-compliant final ancestries. This is conditional synthetic evidence, not a demonstrated assumption failure for all open-ended agents.
+
+The final report retains one nine-field characterization/measurement direction. It explicitly compares StateMem, SkillSmith and SkVM, preserves the current mechanism's overlap with prior work, and calls for new-domain, cost-matched semantic-controller comparisons only as future requirements. It makes no claim that a new name, a small checkpoint, or a negative example alone establishes novelty. No broad skill-granularity or capacity scaling law follows from two checkpoints and the selected graph clusters.

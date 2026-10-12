@@ -1,0 +1,787 @@
+{
+  "actual_model_directed_tool_executions": 0,
+  "cloud_api_usd": 0.0,
+  "coverage": [
+    {
+      "cluster_id": "graph-8cd446f5050c",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 9,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 9,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "7dcdc35c0a5b91c4a07462bd9f29cad9a98893eb965a822129d8a0001359f2f4",
+      "task_id": "case-0ca29bf57b138176",
+      "template": "relative",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-f9db22ccf876",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "55bfc2e584e5ed5de00b85f605164a7d983af608c45b4b38777341c2304343d5",
+      "task_id": "case-0dfe129feda66cd0",
+      "template": "parity",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-c4f47f3f5f90",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 17,
+      "observed_post_node_phases": 8,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "f6c48b74720a25dd59b211a6db8436f15a5dd81d30071ffb4fd345f09558742c",
+      "task_id": "case-1d820f4de7b2b667",
+      "template": "relative",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-2344f59e7915",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 3,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 3,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "744a79a05f6eeead4e4609b4aa596169bb658f324663f95322ce7fac03b2b32f",
+      "task_id": "case-26299b04b1106fce",
+      "template": "relative",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-f96035b55cd1",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "f5926aced3ca3edfbdb4351adaed49e889091e34d8a0e7834a4348d4c8680db3",
+      "task_id": "case-2b04cd7bdca50c41",
+      "template": "parity",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-ddd894119c93",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 5,
+      "observed_post_node_phases": 2,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "4496e7bab5207c101f6684a1b7a3356f6504f4e12219852b7b1fb2422fcaa66c",
+      "task_id": "case-2f891276952e66a6",
+      "template": "relative",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-94b4b8a3e739",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 6,
+      "observed_post_node_phases": 3,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "9e1ef7dcae1f6e278b15da822927602f1a6d681ff9829403ef4db6327c365396",
+      "task_id": "case-307332941031898f",
+      "template": "parity",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-f9db22ccf876",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "4fc26f118013f10ccc96585dd566aa0a635f9f6871e16b48f6ce5ca05b3766db",
+      "task_id": "case-4f8ed6a9239f1323",
+      "template": "parity",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-8cd446f5050c",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "e25b1a49e739c155b58498156ececc19442438067042fc651271797e236ae5cd",
+      "task_id": "case-51681d36ae83610c",
+      "template": "relative",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-b0153dff085b",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 3,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 3,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "b057419bad9e447a2561afab7b5023e6e46d6e57b128f06794c46cf998b4f6c9",
+      "task_id": "case-5d5e34b87505a592",
+      "template": "parity",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-b0153dff085b",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 6,
+      "observed_post_node_phases": 3,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "71d2b062b5f98fe5c4a9b2f4fe6ccca5964db513476f221245e92738255fdee3",
+      "task_id": "case-6079080f5343a53b",
+      "template": "parity",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-f9db22ccf876",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 9,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 9,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "d19a0b1ecb96446e851e5ee029ce886499888e03cb2df6a18e128fae319202ea",
+      "task_id": "case-6204e730e51843c3",
+      "template": "parity",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-c4f47f3f5f90",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 17,
+      "observed_post_node_phases": 8,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "eb391321ae33759395a62955e9b1a287e7ada50f3150ff85656e7a2c9cd7a880",
+      "task_id": "case-6c0a660eb7b1cf17",
+      "template": "relative",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-05029fb561e0",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 0,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 0,
+      "reached_update": false,
+      "source_completion": false,
+      "source_trace_sha256": "94cbcd912c7c26b1beca0dbbeaa2645100f2421fdaa570d0d8a7de7c5f39c935",
+      "task_id": "case-715d642ff7c675f9",
+      "template": "relative",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-ddd894119c93",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 5,
+      "observed_post_node_phases": 2,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "51116da841bc91686821120e2d504a32214856ba3fed7abdfc8c9359537e939f",
+      "task_id": "case-77a96074d690c7cc",
+      "template": "relative",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-f4224615f571",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "c77da23775c3b3e84ffca54fa7cee67b9e420cbba912844a9dc4c1fba460ae9a",
+      "task_id": "case-78d613b0a7d7794b",
+      "template": "relative",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-2344f59e7915",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 6,
+      "observed_post_node_phases": 3,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "ed16266ab78f88d8759a7ae2a7aa2cc5e06e6908f9e8cf3b4b012234e19196bc",
+      "task_id": "case-79755fc28b12b6a9",
+      "template": "relative",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-f96035b55cd1",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 9,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 9,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "3035473edb99cdec59f73899a229c76495a9753a68e646df0e4724278967e832",
+      "task_id": "case-7aa81ce4a9055b98",
+      "template": "parity",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-2344f59e7915",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 6,
+      "observed_post_node_phases": 3,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "9121ac05dbfaf64853d4a4fa7538b1d546f260b45c4a4b5609d1408ee3974ec4",
+      "task_id": "case-7f278dd6aa440c3e",
+      "template": "relative",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-05029fb561e0",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 0,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 0,
+      "reached_update": false,
+      "source_completion": false,
+      "source_trace_sha256": "28f9676e7473665dd40843642a0d3cae24ab49b6b23016f9d5dbb877dd6a80f8",
+      "task_id": "case-8567744b7f07a327",
+      "template": "relative",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-84805cc22893",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "8c81b7c3c0e447f21d1d351c8c53c8e00b2e53ab3c69fc174bfee38ea41ea7a3",
+      "task_id": "case-89cd9b9c3a6db7f5",
+      "template": "parity",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-f4224615f571",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "7fb792f397217052cf9b8baa02e3b40016f38bf19f0df5cfbc79c6e8c8c7b984",
+      "task_id": "case-a266bf9e7726f4ac",
+      "template": "relative",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-f4224615f571",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 9,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 9,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "765a812b7a37b12498d2f5aac0e494d50482b98c061b8378211437d1f89f3a05",
+      "task_id": "case-b3e8aec7c89f72ad",
+      "template": "relative",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-84805cc22893",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 17,
+      "observed_post_node_phases": 8,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "2f5aa66be593ab563d6a72052d4a992ee1540648db8186f384c08e8f38185132",
+      "task_id": "case-b690eac48bb0256b",
+      "template": "parity",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-f96035b55cd1",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "5544cc8538898df31c5075329ed08c21385da70f4bdf7c3757af36b7c36b18b0",
+      "task_id": "case-bbb319e9e609ef37",
+      "template": "parity",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-c4f47f3f5f90",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 9,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 9,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "f27741a3896821599b7a8b4886e4a0a3672d2ad0a8868e3ca6e15b84308e2cf0",
+      "task_id": "case-c2c8a3ff4af27ecf",
+      "template": "relative",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-ddd894119c93",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 3,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 3,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "581fc8703fe659ed16f55b802cde041ea9a460c55b308057f314ed3a789cff36",
+      "task_id": "case-d7bf60452a60708a",
+      "template": "relative",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-b0153dff085b",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 6,
+      "observed_post_node_phases": 3,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "10248816f736463e76b2bc0f8ceaa4ef104e8a619d22dbf9db03972c270287cb",
+      "task_id": "case-d80af6471db56d01",
+      "template": "parity",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-7f0fa4948872",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 5,
+      "observed_post_node_phases": 2,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "a56fc994e2ce65c4c89df37c806b83c2d9066c70ba08b950d35bffb164848967",
+      "task_id": "case-d83460fdfa587e59",
+      "template": "parity",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-7f0fa4948872",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 5,
+      "observed_post_node_phases": 2,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "f0e8633ff18f0628c1bb419f36807df5f0cc0129995dd6bf6c4e42c9105260c9",
+      "task_id": "case-da614f6236cd044b",
+      "template": "parity",
+      "update_mode": "flip"
+    },
+    {
+      "cluster_id": "graph-84805cc22893",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 9,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 9,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "63e391948fab3cb2d31483738d8defecf1112323bf82aaf46bb21bbfc61f339f",
+      "task_id": "case-ddb372a7f086a193",
+      "template": "parity",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-94b4b8a3e739",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 6,
+      "observed_post_node_phases": 3,
+      "observed_pre_node_phases": 3,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "267fbc371d7b06fc8482eb551aebd5f646bcd69649b1b3999a3dc68b307123e5",
+      "task_id": "case-deab7f7e4c9748cd",
+      "template": "parity",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-7f0fa4948872",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 3,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 3,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "6099eb6066b1349f72860ae610f43f40e2720e025d6ef2df71d33385e2f3910e",
+      "task_id": "case-e5376cc31f663c55",
+      "template": "parity",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-05029fb561e0",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 0,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 0,
+      "reached_update": false,
+      "source_completion": false,
+      "source_trace_sha256": "37fd024411d25537564954022468597ef746137f3c73a590823fc54cbf7fddea",
+      "task_id": "case-e8b59ae37ad89df0",
+      "template": "relative",
+      "update_mode": "stable"
+    },
+    {
+      "cluster_id": "graph-94b4b8a3e739",
+      "conditional_nodes_in_graph": 3,
+      "depth": 1,
+      "eligible_queries": 3,
+      "observed_post_node_phases": 0,
+      "observed_pre_node_phases": 3,
+      "reached_update": false,
+      "source_completion": true,
+      "source_trace_sha256": "c6c030ebf3113090de59eebd69c7a75e152294766593dd862d79a78aabd20716",
+      "task_id": "case-eb3276f725679159",
+      "template": "parity",
+      "update_mode": "none"
+    },
+    {
+      "cluster_id": "graph-8cd446f5050c",
+      "conditional_nodes_in_graph": 9,
+      "depth": 3,
+      "eligible_queries": 18,
+      "observed_post_node_phases": 9,
+      "observed_pre_node_phases": 9,
+      "reached_update": true,
+      "source_completion": true,
+      "source_trace_sha256": "bd644dc4db8033c9ac4416023497c5e641cbb4a0e0908f78c32ab286ecf9b2f2",
+      "task_id": "case-feecad846263f3e5",
+      "template": "relative",
+      "update_mode": "stable"
+    }
+  ],
+  "exclusions": {},
+  "experiment_id": "decision-generalization-v1",
+  "groups": [
+    {
+      "categories": {
+        "None": 338
+      },
+      "completion_tokens": 10528,
+      "condition": "full_card",
+      "decision_correct": 250,
+      "model": "Qwen3.5-4B",
+      "n": 338,
+      "operator_correct": 250,
+      "original_correct_regressed": 23,
+      "original_wrong_rescued": 97,
+      "post": {
+        "decision_correct": 94,
+        "n": 131,
+        "operator_correct": 94
+      },
+      "pre": {
+        "decision_correct": 156,
+        "n": 207,
+        "operator_correct": 156
+      },
+      "prompt_tokens": 712996,
+      "schema_valid": 338,
+      "target_correct": 338
+    },
+    {
+      "categories": {
+        "None": 338
+      },
+      "completion_tokens": 10528,
+      "condition": "full_target",
+      "decision_correct": 159,
+      "model": "Qwen3.5-4B",
+      "n": 338,
+      "operator_correct": 159,
+      "original_correct_regressed": 30,
+      "original_wrong_rescued": 13,
+      "post": {
+        "decision_correct": 64,
+        "n": 131,
+        "operator_correct": 64
+      },
+      "pre": {
+        "decision_correct": 95,
+        "n": 207,
+        "operator_correct": 95
+      },
+      "prompt_tokens": 680652,
+      "schema_valid": 338,
+      "target_correct": 338
+    },
+    {
+      "categories": {
+        "None": 338
+      },
+      "completion_tokens": 12688,
+      "condition": "isolated_card",
+      "decision_correct": 185,
+      "model": "Qwen3.5-4B",
+      "n": 338,
+      "operator_correct": 185,
+      "original_correct_regressed": 38,
+      "original_wrong_rescued": 47,
+      "post": {
+        "decision_correct": 68,
+        "n": 131,
+        "operator_correct": 68
+      },
+      "pre": {
+        "decision_correct": 117,
+        "n": 207,
+        "operator_correct": 117
+      },
+      "prompt_tokens": 219778,
+      "schema_valid": 338,
+      "target_correct": 338
+    },
+    {
+      "categories": {
+        "None": 338
+      },
+      "completion_tokens": 10528,
+      "condition": "full_card",
+      "decision_correct": 271,
+      "model": "Qwen3.5-9B",
+      "n": 338,
+      "operator_correct": 271,
+      "original_correct_regressed": 28,
+      "original_wrong_rescued": 123,
+      "post": {
+        "decision_correct": 101,
+        "n": 131,
+        "operator_correct": 101
+      },
+      "pre": {
+        "decision_correct": 170,
+        "n": 207,
+        "operator_correct": 170
+      },
+      "prompt_tokens": 712996,
+      "schema_valid": 338,
+      "target_correct": 338
+    },
+    {
+      "categories": {
+        "None": 338
+      },
+      "completion_tokens": 10528,
+      "condition": "full_target",
+      "decision_correct": 169,
+      "model": "Qwen3.5-9B",
+      "n": 338,
+      "operator_correct": 169,
+      "original_correct_regressed": 18,
+      "original_wrong_rescued": 11,
+      "post": {
+        "decision_correct": 63,
+        "n": 131,
+        "operator_correct": 63
+      },
+      "pre": {
+        "decision_correct": 106,
+        "n": 207,
+        "operator_correct": 106
+      },
+      "prompt_tokens": 680652,
+      "schema_valid": 338,
+      "target_correct": 338
+    },
+    {
+      "categories": {
+        "None": 338
+      },
+      "completion_tokens": 9646,
+      "condition": "isolated_card",
+      "decision_correct": 202,
+      "model": "Qwen3.5-9B",
+      "n": 338,
+      "operator_correct": 202,
+      "original_correct_regressed": 38,
+      "original_wrong_rescued": 64,
+      "post": {
+        "decision_correct": 77,
+        "n": 131,
+        "operator_correct": 77
+      },
+      "pre": {
+        "decision_correct": 125,
+        "n": 207,
+        "operator_correct": 125
+      },
+      "prompt_tokens": 219778,
+      "schema_valid": 338,
+      "target_correct": 338
+    }
+  ],
+  "local_gpu_usd": null,
+  "models": [
+    {
+      "config_sha256": "7ae597b3ef5ccde3c7a86e3b67adc05e1928f1e0eda09552241096e107e2325f",
+      "frozen_source_files_verified": 8,
+      "manifest_sha256": "7cc6df1478e274d8f6656dd35921c203771e5a6a98140eac80b1e742810f700b",
+      "model": "Qwen3.5-4B",
+      "raw_decisions_sha256": "d6d64aa20d611e6ced8ca835a8a34465a74bfb16aa5a2f5e0556340b55d34339",
+      "requests": 1014
+    },
+    {
+      "config_sha256": "7ae597b3ef5ccde3c7a86e3b67adc05e1928f1e0eda09552241096e107e2325f",
+      "frozen_source_files_verified": 8,
+      "manifest_sha256": "d7d5d02524170c88e2f45c4e3d2cf1ce280404fe21fa31d4612b9ccf8e6abc5a",
+      "model": "Qwen3.5-9B",
+      "raw_decisions_sha256": "e5cc159cae6b47ddd4855bdd48cba9e622874c53de328fff7224bacc38b1878d",
+      "requests": 1014
+    }
+  ],
+  "observed_query_graph_clusters": 11,
+  "paired": [
+    {
+      "baseline": "full_target",
+      "macro_graph_joint_accuracy_effect": {
+        "bootstrap_replicates": 5000,
+        "cluster_bootstrap_percentile95": [
+          0.1706618962432916,
+          0.32338772338772337
+        ],
+        "graph_clusters": 11,
+        "mean": 0.25180196829245455
+      },
+      "model": "Qwen3.5-4B",
+      "treatment": "full_card"
+    },
+    {
+      "baseline": "full_target",
+      "macro_graph_joint_accuracy_effect": {
+        "bootstrap_replicates": 5000,
+        "cluster_bootstrap_percentile95": [
+          -0.05609797766245969,
+          0.16951627184185325
+        ],
+        "graph_clusters": 11,
+        "mean": 0.06076293919845717
+      },
+      "model": "Qwen3.5-4B",
+      "treatment": "isolated_card"
+    },
+    {
+      "baseline": "isolated_card",
+      "macro_graph_joint_accuracy_effect": {
+        "bootstrap_replicates": 5000,
+        "cluster_bootstrap_percentile95": [
+          0.033280930955349564,
+          0.3480257116620753
+        ],
+        "graph_clusters": 11,
+        "mean": 0.19103902909399736
+      },
+      "model": "Qwen3.5-4B",
+      "treatment": "full_card"
+    },
+    {
+      "baseline": "full_target",
+      "macro_graph_joint_accuracy_effect": {
+        "bootstrap_replicates": 5000,
+        "cluster_bootstrap_percentile95": [
+          0.2204139295048386,
+          0.40574980574980574
+        ],
+        "graph_clusters": 11,
+        "mean": 0.3166518822967026
+      },
+      "model": "Qwen3.5-9B",
+      "treatment": "full_card"
+    },
+    {
+      "baseline": "full_target",
+      "macro_graph_joint_accuracy_effect": {
+        "bootstrap_replicates": 5000,
+        "cluster_bootstrap_percentile95": [
+          -0.0014485397149244883,
+          0.23138360347662673
+        ],
+        "graph_clusters": 11,
+        "mean": 0.11691726173755772
+      },
+      "model": "Qwen3.5-9B",
+      "treatment": "isolated_card"
+    },
+    {
+      "baseline": "isolated_card",
+      "macro_graph_joint_accuracy_effect": {
+        "bootstrap_replicates": 5000,
+        "cluster_bootstrap_percentile95": [
+          0.07326057780603235,
+          0.3182378345169043
+        ],
+        "graph_clusters": 11,
+        "mean": 0.19973462055914487
+      },
+      "model": "Qwen3.5-9B",
+      "treatment": "full_card"
+    }
+  ],
+  "queries": 338,
+  "requests": 2028,
+  "service": {
+    "first_request_epoch": 1791841307.4071345,
+    "last_request_epoch": 1791842486.6339278,
+    "model_batch_wall_seconds": 1382.4685773849487,
+    "physical_generate_batches": 1014
+  },
+  "source_graph_clusters": 12,
+  "statistical_note": "Post-hoc mechanism diagnosis from the complete frozen primary source; not workflow TSR or independent held-out performance validation. Overall accuracy is query-weighted; paired effects average queries within each of 11 observed graph clusters then weight those graphs equally. Source coverage contains 12 graphs; graphs/decisions never actually executed cannot enter this conditional probe and are not imputed. Batch wall is not kernel time.",
+  "status": "pass"
+}

@@ -1,0 +1,21 @@
+{
+  "counts": {
+    "episodes": 384,
+    "exact_prompt_token_output_checks": 12733,
+    "matched_fact_inventories": 5063
+  },
+  "models": {
+    "Qwen3.5-4B": {
+      "episodes": 192,
+      "exact_prompt_token_output_checks": 6955,
+      "matched_fact_inventories": 2863
+    },
+    "Qwen3.5-9B": {
+      "episodes": 192,
+      "exact_prompt_token_output_checks": 5778,
+      "matched_fact_inventories": 2200
+    }
+  },
+  "note": "No model inference. Full prompt SHA/tokenization, raw output decoding, support facts and event replay checked once after batch.",
+  "status": "pass"
+}

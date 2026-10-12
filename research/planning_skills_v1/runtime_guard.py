@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import errno
 import json
 import os
 import shutil
@@ -48,6 +49,16 @@ def stop_owned(root: Path) -> None:
             pass
 
 
+def shutdown_instance() -> None:
+    """Support the trusted AutoDL shell wrapper even when it lacks a shebang."""
+    try:
+        subprocess.run(["/usr/bin/shutdown"], check=True)
+    except OSError as error:
+        if error.errno != errno.ENOEXEC:
+            raise
+        subprocess.run(["/bin/bash", "/usr/bin/shutdown"], check=True)
+
+
 def main(root: Path, backup: Path) -> None:
     root.mkdir(parents=True, exist_ok=True)
     backup.mkdir(parents=True, exist_ok=True)
@@ -89,7 +100,7 @@ def main(root: Path, backup: Path) -> None:
                 if (root / name).exists():
                     shutil.copy2(root / name, backup / name)
             os.sync()
-            subprocess.run(["/usr/bin/shutdown"], check=True)
+            shutdown_instance()
             return
         time.sleep(min(60, max(1, budget["hard_seconds"] - elapsed)))
 

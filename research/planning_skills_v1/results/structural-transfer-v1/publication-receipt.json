@@ -1,0 +1,30 @@
+{
+  "analysis_import_source_sha256": {
+    "analyze.py": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee",
+    "analyze_heldout.py": "cc71ba110e60da0462aa354148b41b8838f3e8a59f1097056e2f0217c97cacd4",
+    "finalize_analysis.py": "5b6aaf44059f1eb4e5ab5adb5db2cef643285549c76c8b68b375767a3be36dd3",
+    "microbench.py": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7",
+    "transfer_microbench.py": "a85971c4ba31f376f68491568b7a795d0b418366b3973481b48c1d1d051a65ea"
+  },
+  "epoch": 1791842664.8366675,
+  "files": {
+    "episode-results.json": "08059623b6220953d4a4d97894d768c6728121c43d42565229a07b5c6dcf793c",
+    "exact-prompt-audit.json": "360ec1f77f8ee6d4720fd322e10b9f2eb8ca25c50dfbda46213c7ecf9274edea",
+    "postprocess-complete.json": "6544f92dc5179b3f603e902b60e2723fd5f4daa8ba11c2a11674f4ea31fbcb33",
+    "publication-receipt.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "result-tables.md": "e1c981553f15cd751909ceabcb938d07775c4164c1be56a79acb1563502885e7",
+    "results.csv": "69b0ddf8e47d633b58589ab674b50b753c0608b6c40ea3086b43f027ccc0458c",
+    "summary.json": "d1dd1cc41d4c1c699d89410e461c64f2afd854a967351eb535801da76e8bb78e",
+    "task-success.png": "66221eff74b5fff92e465548a724cec25d2b33d777a017d3059bcd1674caeab7",
+    "task-success.svg": "9beae9a7f580e6c11ce68523ec277b4bed2abd8b35cbaa848d195a8511db79b7",
+    "token-work-success.png": "8a67c056182b36426204cdcd6cc90e05bd553b2f8b6ded0bc6be70f16c509612",
+    "token-work-success.svg": "e3f4350191c541441e9f2aec9b38e451955b9aa423a85dd6dfa270a956ccacbe",
+    "trace-index.json": "51115c93f30048635e24c47778aa8c342ed953b054d5478ca9a1bd296f9ba52b"
+  },
+  "note": "Sanitized tables/figures only; original exact-prompt audit copied byte-for-byte after versioned analysis. No inference or score changes. Visual inspection remains required.",
+  "source_sha256": {
+    "plot_results.py": "83c2c383546ad31acc3fc982d92636637718d2ad269bc0a2c52983f12c80b9d9",
+    "publish_tables.py": "073e220df31c761fb5610072231db7c26b0e5524de9d7748d8c65d53e4927449"
+  },
+  "status": "pass"
+}

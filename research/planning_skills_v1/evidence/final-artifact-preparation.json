@@ -1,0 +1,33 @@
+{
+  "begun_epoch": 1791842511.55141,
+  "controller_source_sha256": "9c316044f684a4602e603a3078383bd3664e66642898027b9eb75cbaa961bc8d",
+  "finished_epoch": 1791842551.5863736,
+  "note": "All selected model inference and original unified audits completed before preparation. This is not proof that interpretation, private archive transfer/member verification, final report, publication or instance cleanup is complete.",
+  "outputs": {
+    "final-evidence-index.json": {
+      "bytes": 2285576,
+      "sha256": "5ca634a13d6fbdf17ea03fa5d885a950b8f522336b2e17588a9d9e6f50da920c"
+    },
+    "final-frozen-inference-source.tar.gz": {
+      "bytes": 340882,
+      "sha256": "a6799c0a84c70be740812fb814e02df60cdee1372744ff05bba030c6a0fb9408"
+    },
+    "final-frozen-source-index.json": {
+      "bytes": 50178,
+      "sha256": "3e21a832664d2a93d2d9ddbeb22629b44ad3227951f91f1275ef88f9f1238c52"
+    },
+    "final-model-byte-recheck.json": {
+      "bytes": 5246,
+      "sha256": "e0f038467e936b640a4494419b0656ecb95ce1175129db71d16dd6362f13f83c"
+    },
+    "final-resource-work.json": {
+      "bytes": 6282,
+      "sha256": "14175a7c364f141ca497e41156beb30e7bb15a1d5b5bd6023097bc28b923d03a"
+    },
+    "planning-skills-research-v1-traces.tar.gz": {
+      "bytes": 7645542,
+      "sha256": "c80856a584718b9652bed9921fca7b509e9db0d394771773ab99ac8ea0b90aeb"
+    }
+  },
+  "status": "pass"
+}

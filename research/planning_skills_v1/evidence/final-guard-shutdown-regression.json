@@ -1,0 +1,11 @@
+{
+  "cases": [
+    "normal executable",
+    "ENOEXEC trusted-wrapper Bash fallback",
+    "unrelated OS error propagated"
+  ],
+  "note": "Mocked subprocess regression only; no Windows shutdown. Actual remote Bash invocation closed SSH before an API response; no forced 20-hour end-to-end test.",
+  "phase": "post-inference portability fix; original executed guard/source snapshots preserved",
+  "source_sha256": "1ada69d4bff2297c833aa79da8a53787e12d036916dd74cbd67d1ab1e5151ba1",
+  "status": "pass"
+}

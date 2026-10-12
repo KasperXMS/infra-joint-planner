@@ -1,0 +1,52 @@
+{
+  "baseline": "a8da9a76fdcc13611c8e596bd28e03446ea5e1d1",
+  "branch": "planning-skills-research-v1",
+  "checks": "Original outcomes/index/work totals/publication hashes/archives/links/fields/source syntax/scope/credential-shaped content",
+  "decision_queries": 2316,
+  "documents_checked": [
+    "README.md",
+    "final-research-report.md",
+    "completion-evidence-map.md",
+    "research-landscape.md",
+    "literature-novelty-ledger.md",
+    "research-journal.md",
+    "mechanism-ablations.md",
+    "reproducibility.md"
+  ],
+  "note": "No inference or repeated exact-token/tool replay. Original member/audit receipts retained. Credential scan is targeted, not an exhaustive secrecy proof. Invoice and independent billing acknowledgement unknown. Git publication is verified separately after commit/push.",
+  "physical_batches": 14498,
+  "private_archive_sha256": "c80856a584718b9652bed9921fca7b509e9db0d394771773ab99ac8ea0b90aeb",
+  "recorded_requests": 30108,
+  "report_sha256": "7b05af781e57aea3b4009755b97850272acbecabcb1c3dc397de3f4f50c5ef87",
+  "scope": "Only research/planning_skills_v1 and its scoped .gitattributes rules",
+  "source_archive_members": 242,
+  "status": "pass",
+  "studies": {
+    "diagnostic-v2": {
+      "completion": 57,
+      "episodes": 64,
+      "numeric_success": 14
+    },
+    "heldout-binding-v1": {
+      "completion": 430,
+      "episodes": 504,
+      "numeric_policy_collisions": 2,
+      "numeric_success": 22,
+      "policy_compliant_success": 20
+    },
+    "role-placement-v1": {
+      "completion": 44,
+      "episodes": 48,
+      "numeric_success": 11
+    },
+    "structural-transfer-v1": {
+      "completion": 296,
+      "episodes": 384,
+      "numeric_policy_collisions": 12,
+      "numeric_success": 19,
+      "policy_compliant_success": 7
+    }
+  },
+  "valid_workflows": 1000,
+  "workflow_groups": 36
+}

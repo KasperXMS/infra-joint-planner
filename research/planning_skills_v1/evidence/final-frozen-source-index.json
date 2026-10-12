@@ -1,0 +1,1221 @@
+{
+  "archive": {
+    "bytes": 340882,
+    "filename": "final-frozen-inference-source.tar.gz",
+    "sha256": "a6799c0a84c70be740812fb814e02df60cdee1372744ff05bba030c6a0fb9408"
+  },
+  "files": [
+    {
+      "bytes": 14692,
+      "path": "checkpoints/analyze-heldout-at-postprocess-launch.py",
+      "sha256": "c6a62ebb2d1bf25b025ae20ded53e57644463f9b558d04c6fb714769b920667d"
+    },
+    {
+      "bytes": 4355,
+      "path": "checkpoints/analyze_dependency_dead_ends.py",
+      "sha256": "f7a6f2036583c1d4c68e2052499a26e4bc490dc5e305f852ff9dab573be8aaf9"
+    },
+    {
+      "bytes": 8571,
+      "path": "checkpoints/decision-generalization-v1-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 15534,
+      "path": "checkpoints/decision-generalization-v1-source/analyze_heldout.py",
+      "sha256": "8761f7e2f0037618a0d70db62297a6ca2ea058835e8af133b23cd35497e68cc4"
+    },
+    {
+      "bytes": 11211,
+      "path": "checkpoints/decision-generalization-v1-source/audit_generalization_probe.py",
+      "sha256": "ba9ae63773b8447a635a41e601e17ab0fd5429ff1f8c88c70bc602b2a386b0a2"
+    },
+    {
+      "bytes": 6246,
+      "path": "checkpoints/decision-generalization-v1-source/launch_queued_probe.py",
+      "sha256": "3a67c24c76a3516c43564e8befcd5c95bfa0c7c6efb854aa496ad3d46664e999"
+    },
+    {
+      "bytes": 8568,
+      "path": "checkpoints/decision-generalization-v1-source/make_generalization_probe.py",
+      "sha256": "0e6057533ad38d3e33396abf8764bf965ef59de4572dd5b9f7b9e6d131334b65"
+    },
+    {
+      "bytes": 14750,
+      "path": "checkpoints/decision-generalization-v1-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 9083,
+      "path": "checkpoints/decision-generalization-v1-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 4355,
+      "path": "checkpoints/decision-generalization-v1-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 8571,
+      "path": "checkpoints/final-analysis-v2-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 18977,
+      "path": "checkpoints/final-analysis-v2-source/analyze_heldout.py",
+      "sha256": "cc71ba110e60da0462aa354148b41b8838f3e8a59f1097056e2f0217c97cacd4"
+    },
+    {
+      "bytes": 4775,
+      "path": "checkpoints/final-analysis-v2-source/finalize_analysis.py",
+      "sha256": "5b6aaf44059f1eb4e5ab5adb5db2cef643285549c76c8b68b375767a3be36dd3"
+    },
+    {
+      "bytes": 14750,
+      "path": "checkpoints/final-analysis-v2-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 985,
+      "path": "checkpoints/final-analysis-v2-source/transfer_microbench.py",
+      "sha256": "a85971c4ba31f376f68491568b7a795d0b418366b3973481b48c1d1d051a65ea"
+    },
+    {
+      "bytes": 7734,
+      "path": "checkpoints/final-delivery-source-5a3fdcb/finalize_research_artifacts.py",
+      "sha256": "9c316044f684a4602e603a3078383bd3664e66642898027b9eb75cbaa961bc8d"
+    },
+    {
+      "bytes": 9683,
+      "path": "checkpoints/final-delivery-source-5a3fdcb/make_evidence_index.py",
+      "sha256": "4700cf6f8506f8810c7fb2b75948a8d7f70e196cfaa17bcacf065cc510837d1c"
+    },
+    {
+      "bytes": 4355,
+      "path": "checkpoints/final-delivery-source-5a3fdcb/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 6367,
+      "path": "checkpoints/final-delivery-source-5a3fdcb/summarize_failure_modes.py",
+      "sha256": "1128f81bea9516bf44a8be6d19b9f26d7a4ea3e81298657f210316f5570a4330"
+    },
+    {
+      "bytes": 3753,
+      "path": "checkpoints/final-delivery-source-5a3fdcb/summarize_resources.py",
+      "sha256": "9299ed17ef58aff1b7a6bcb39914ae9567e4234d9b8c7251dd310fd48679bdc3"
+    },
+    {
+      "bytes": 3892,
+      "path": "checkpoints/final-publishing-source-56aed75/plot_results.py",
+      "sha256": "83c2c383546ad31acc3fc982d92636637718d2ad269bc0a2c52983f12c80b9d9"
+    },
+    {
+      "bytes": 6521,
+      "path": "checkpoints/final-publishing-source-56aed75/publish_tables.py",
+      "sha256": "073e220df31c761fb5610072231db7c26b0e5524de9d7748d8c65d53e4927449"
+    },
+    {
+      "bytes": 11211,
+      "path": "checkpoints/legacy-final-check-source/audit_generalization_probe.py",
+      "sha256": "ba9ae63773b8447a635a41e601e17ab0fd5429ff1f8c88c70bc602b2a386b0a2"
+    },
+    {
+      "bytes": 6277,
+      "path": "checkpoints/legacy-final-check-source/audit_legacy_development.py",
+      "sha256": "8e6eea863be089ecd541604fae567f3f13319fd0ff54e64f71bee5ae186c37d7"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 15592,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/run_model.py",
+      "sha256": "5a2b633f35c18f4c38cbbe3632109588b4512889559ec7ef518186f92f5f598e"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3241,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/skills.py",
+      "sha256": "5ddfc0182400f63775ae1e10adea1d6fcc36cde97a779e5ce62843465879aa39"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/decision-context-probe-v1/Qwen3.5-4B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 15592,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/run_model.py",
+      "sha256": "5a2b633f35c18f4c38cbbe3632109588b4512889559ec7ef518186f92f5f598e"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3241,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/skills.py",
+      "sha256": "5ddfc0182400f63775ae1e10adea1d6fcc36cde97a779e5ce62843465879aa39"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/decision-context-probe-v1/Qwen3.5-9B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 15534,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/analyze_heldout.py",
+      "sha256": "8761f7e2f0037618a0d70db62297a6ca2ea058835e8af133b23cd35497e68cc4"
+    },
+    {
+      "bytes": 11211,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/audit_generalization_probe.py",
+      "sha256": "ba9ae63773b8447a635a41e601e17ab0fd5429ff1f8c88c70bc602b2a386b0a2"
+    },
+    {
+      "bytes": 6246,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/launch_queued_probe.py",
+      "sha256": "3a67c24c76a3516c43564e8befcd5c95bfa0c7c6efb854aa496ad3d46664e999"
+    },
+    {
+      "bytes": 8568,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/make_generalization_probe.py",
+      "sha256": "0e6057533ad38d3e33396abf8764bf965ef59de4572dd5b9f7b9e6d131334b65"
+    },
+    {
+      "bytes": 14750,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/decision-generalization-v1/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 15534,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/analyze_heldout.py",
+      "sha256": "8761f7e2f0037618a0d70db62297a6ca2ea058835e8af133b23cd35497e68cc4"
+    },
+    {
+      "bytes": 11211,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/audit_generalization_probe.py",
+      "sha256": "ba9ae63773b8447a635a41e601e17ab0fd5429ff1f8c88c70bc602b2a386b0a2"
+    },
+    {
+      "bytes": 6246,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/launch_queued_probe.py",
+      "sha256": "3a67c24c76a3516c43564e8befcd5c95bfa0c7c6efb854aa496ad3d46664e999"
+    },
+    {
+      "bytes": 8568,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/make_generalization_probe.py",
+      "sha256": "0e6057533ad38d3e33396abf8764bf965ef59de4572dd5b9f7b9e6d131334b65"
+    },
+    {
+      "bytes": 14750,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/decision-generalization-v1/Qwen3.5-9B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 15039,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/run_model.py",
+      "sha256": "d095f43a90a794087f067ce069e8d73509e05c30bd29ca67ecd58b6193e803d4"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3145,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/skills.py",
+      "sha256": "518a8e0ddb58ba971aff55e47c338feba0d8936a722a8f51db1a74363f779191"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/diagnostic-v1/Qwen3.5-4B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2656,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/launch_experiment.py",
+      "sha256": "68413d9f881b091f834899fafe107470f6cc67284645856c4ceea36b132d5832"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 15441,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/run_model.py",
+      "sha256": "c24569d856c0259759269ccd2e7343eaac51676ca6df27374de5201e04518605"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3145,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/skills.py",
+      "sha256": "518a8e0ddb58ba971aff55e47c338feba0d8936a722a8f51db1a74363f779191"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/diagnostic-v2/Qwen3.5-4B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2656,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/launch_experiment.py",
+      "sha256": "68413d9f881b091f834899fafe107470f6cc67284645856c4ceea36b132d5832"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 15441,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/run_model.py",
+      "sha256": "c24569d856c0259759269ccd2e7343eaac51676ca6df27374de5201e04518605"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3145,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/skills.py",
+      "sha256": "518a8e0ddb58ba971aff55e47c338feba0d8936a722a8f51db1a74363f779191"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/diagnostic-v2/Qwen3.5-9B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2608,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/check_heldout_controls.py",
+      "sha256": "fed97822c29ae78403cb69600672a207720437633ba4af001dc1ea546c152558"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 4459,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/make_heldout.py",
+      "sha256": "a5310f8e33c8fd91d919938b13f7d086114caf57c579ee095e3ea802f2a0c6cc"
+    },
+    {
+      "bytes": 14750,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 16108,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/run_model.py",
+      "sha256": "fa4f0c98b1719441da8a4cdebb97ab6128d061334b04fc8f1f768cbd8b32e228"
+    },
+    {
+      "bytes": 3143,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/runtime_binding.py",
+      "sha256": "f5f5aa60dc4285e17824f6f888f8a72ebfd7f490057fbfb96e85aa1a202f334d"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 4103,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/skills.py",
+      "sha256": "66468cf2e09134206b32ebb077c3bc4ef6a87186a1a45bedae0935778f9d3eed"
+    },
+    {
+      "bytes": 2819,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/test_binding.py",
+      "sha256": "343669adbaad0876c0b9c4082405669b2b46803303649d1ee80d4624fd0d7a67"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/heldout-binding-v1/Qwen3.5-4B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2608,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/check_heldout_controls.py",
+      "sha256": "fed97822c29ae78403cb69600672a207720437633ba4af001dc1ea546c152558"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 4459,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/make_heldout.py",
+      "sha256": "a5310f8e33c8fd91d919938b13f7d086114caf57c579ee095e3ea802f2a0c6cc"
+    },
+    {
+      "bytes": 14750,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 16108,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/run_model.py",
+      "sha256": "fa4f0c98b1719441da8a4cdebb97ab6128d061334b04fc8f1f768cbd8b32e228"
+    },
+    {
+      "bytes": 3143,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/runtime_binding.py",
+      "sha256": "f5f5aa60dc4285e17824f6f888f8a72ebfd7f490057fbfb96e85aa1a202f334d"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 4103,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/skills.py",
+      "sha256": "66468cf2e09134206b32ebb077c3bc4ef6a87186a1a45bedae0935778f9d3eed"
+    },
+    {
+      "bytes": 2819,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/test_binding.py",
+      "sha256": "343669adbaad0876c0b9c4082405669b2b46803303649d1ee80d4624fd0d7a67"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/heldout-binding-v1/Qwen3.5-9B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 15592,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/run_model.py",
+      "sha256": "5a2b633f35c18f4c38cbbe3632109588b4512889559ec7ef518186f92f5f598e"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3241,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/skills.py",
+      "sha256": "5ddfc0182400f63775ae1e10adea1d6fcc36cde97a779e5ce62843465879aa39"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/role-placement-v1/Qwen3.5-4B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 844,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 14091,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/microbench.py",
+      "sha256": "4efe0aea3e6480cda3a3ed2b6708a858e9dca56a777d3f3b2e3a392c59fd0a01"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 15592,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/run_model.py",
+      "sha256": "5a2b633f35c18f4c38cbbe3632109588b4512889559ec7ef518186f92f5f598e"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 3241,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/skills.py",
+      "sha256": "5ddfc0182400f63775ae1e10adea1d6fcc36cde97a779e5ce62843465879aa39"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/role-placement-v1/Qwen3.5-9B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 15534,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/analyze_heldout.py",
+      "sha256": "8761f7e2f0037618a0d70db62297a6ca2ea058835e8af133b23cd35497e68cc4"
+    },
+    {
+      "bytes": 2763,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/analyze_transfer.py",
+      "sha256": "5f4d17f8d5faf1fda0208f76f69f7dfe2bcd63d253196d4cfb8873fd69c61799"
+    },
+    {
+      "bytes": 4621,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/audit_frozen_prompts.py",
+      "sha256": "ac6d1d32ae3d0a76bbce03b65718c12974ff9d1171729aace29b93876712887d"
+    },
+    {
+      "bytes": 844,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2608,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/check_heldout_controls.py",
+      "sha256": "fed97822c29ae78403cb69600672a207720437633ba4af001dc1ea546c152558"
+    },
+    {
+      "bytes": 7937,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/launch_conditional_transfer.py",
+      "sha256": "a4c6f1d7abf2f4fa52147032a64a6ba9113877d4dadb85e3151a083d883b2e5a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 4459,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/make_heldout.py",
+      "sha256": "a5310f8e33c8fd91d919938b13f7d086114caf57c579ee095e3ea802f2a0c6cc"
+    },
+    {
+      "bytes": 5166,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/make_transfer.py",
+      "sha256": "f44140c6735c3e93f9e562ff95b95058b82550b69785e2c0d82972bd7e7ab3a8"
+    },
+    {
+      "bytes": 14750,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 2230,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/postprocess_when_complete.py",
+      "sha256": "eec49b7b4d2374e839f39b71b105482a2a6c186c80ae710b965091ba9d6ead63"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 16108,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/run_model.py",
+      "sha256": "fa4f0c98b1719441da8a4cdebb97ab6128d061334b04fc8f1f768cbd8b32e228"
+    },
+    {
+      "bytes": 1295,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/run_transfer_model.py",
+      "sha256": "fb773b2082e4b01c395ff873a83a52c3b4fc629f1cac7aee91dca900d67b33c1"
+    },
+    {
+      "bytes": 3143,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/runtime_binding.py",
+      "sha256": "f5f5aa60dc4285e17824f6f888f8a72ebfd7f490057fbfb96e85aa1a202f334d"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 4103,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/skills.py",
+      "sha256": "66468cf2e09134206b32ebb077c3bc4ef6a87186a1a45bedae0935778f9d3eed"
+    },
+    {
+      "bytes": 3697,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/summarize_resources.py",
+      "sha256": "639a8364bb3a6fd28235a472d114655c41bbe82ce108c4a9426a0b6e1b5a80b4"
+    },
+    {
+      "bytes": 2819,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/test_binding.py",
+      "sha256": "343669adbaad0876c0b9c4082405669b2b46803303649d1ee80d4624fd0d7a67"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 3260,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/test_transfer.py",
+      "sha256": "b2eade4c82a4fe7ba54f051ac49211a9d7d94f5d2b88c4a6327abd81b477bff6"
+    },
+    {
+      "bytes": 985,
+      "path": "results/structural-transfer-v1/Qwen3.5-4B/frozen-source/transfer_microbench.py",
+      "sha256": "a85971c4ba31f376f68491568b7a795d0b418366b3973481b48c1d1d051a65ea"
+    },
+    {
+      "bytes": 8571,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/analyze.py",
+      "sha256": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee"
+    },
+    {
+      "bytes": 15534,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/analyze_heldout.py",
+      "sha256": "8761f7e2f0037618a0d70db62297a6ca2ea058835e8af133b23cd35497e68cc4"
+    },
+    {
+      "bytes": 2763,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/analyze_transfer.py",
+      "sha256": "5f4d17f8d5faf1fda0208f76f69f7dfe2bcd63d253196d4cfb8873fd69c61799"
+    },
+    {
+      "bytes": 4621,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/audit_frozen_prompts.py",
+      "sha256": "ac6d1d32ae3d0a76bbce03b65718c12974ff9d1171729aace29b93876712887d"
+    },
+    {
+      "bytes": 844,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/bootstrap.sh",
+      "sha256": "327a3b7d85d9a98d92a3c2bcbd73660dbc932d8311fd962b2eed17b541d4e37a"
+    },
+    {
+      "bytes": 2608,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/check_heldout_controls.py",
+      "sha256": "fed97822c29ae78403cb69600672a207720437633ba4af001dc1ea546c152558"
+    },
+    {
+      "bytes": 7937,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/launch_conditional_transfer.py",
+      "sha256": "a4c6f1d7abf2f4fa52147032a64a6ba9113877d4dadb85e3151a083d883b2e5a"
+    },
+    {
+      "bytes": 2326,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/launch_diagnostic.py",
+      "sha256": "4d5984f84c5959eb5ac5ada6853278b4baa3a2c42194248b7ce785fe0b2a77d9"
+    },
+    {
+      "bytes": 2764,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/launch_experiment.py",
+      "sha256": "618aaa47560a56c68241a05610e2c6cdd97a4646fead2cc2c654c002d438abee"
+    },
+    {
+      "bytes": 1571,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/launch_prepare.py",
+      "sha256": "2de1e407d822496f099c88951a9e925610bb1af84c281ca455aec512507d7e35"
+    },
+    {
+      "bytes": 1169,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/make_config.py",
+      "sha256": "58d70e1c68e42819a8208bed1db70be9e8e1fd5d53b79ce5341f2d191a13c781"
+    },
+    {
+      "bytes": 3649,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/make_decision_probe.py",
+      "sha256": "054ec119b26fd0fe380baa8ca6448caa40fe17918ec118ffe351ee43ca5eddd5"
+    },
+    {
+      "bytes": 4459,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/make_heldout.py",
+      "sha256": "a5310f8e33c8fd91d919938b13f7d086114caf57c579ee095e3ea802f2a0c6cc"
+    },
+    {
+      "bytes": 5166,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/make_transfer.py",
+      "sha256": "f44140c6735c3e93f9e562ff95b95058b82550b69785e2c0d82972bd7e7ab3a8"
+    },
+    {
+      "bytes": 14750,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/microbench.py",
+      "sha256": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7"
+    },
+    {
+      "bytes": 2230,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/postprocess_when_complete.py",
+      "sha256": "eec49b7b4d2374e839f39b71b105482a2a6c186c80ae710b965091ba9d6ead63"
+    },
+    {
+      "bytes": 2190,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/prepare_models.py",
+      "sha256": "a3c7a2ecdd2d08b5f39607da103860cf7d00fa57324739650768f05b305618b8"
+    },
+    {
+      "bytes": 3232,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/resume_parallel_download.py",
+      "sha256": "399a26cab712511fe4345155ef8ae910e79cbdd540a1b80eaca9a74bb3ac223d"
+    },
+    {
+      "bytes": 9083,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/run_decision_probe.py",
+      "sha256": "0ab59ddce5021d4c921d2298fb8fbd92f63a3b2ed57c2ebed3706e011d454e76"
+    },
+    {
+      "bytes": 415,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/run_development_queue.py",
+      "sha256": "6508b37de8f53fae6f81f1763e7c861c3febb794f3089a1a8bf44d0931534677"
+    },
+    {
+      "bytes": 16108,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/run_model.py",
+      "sha256": "fa4f0c98b1719441da8a4cdebb97ab6128d061334b04fc8f1f768cbd8b32e228"
+    },
+    {
+      "bytes": 1295,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/run_transfer_model.py",
+      "sha256": "fb773b2082e4b01c395ff873a83a52c3b4fc629f1cac7aee91dca900d67b33c1"
+    },
+    {
+      "bytes": 3143,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/runtime_binding.py",
+      "sha256": "f5f5aa60dc4285e17824f6f888f8a72ebfd7f490057fbfb96e85aa1a202f334d"
+    },
+    {
+      "bytes": 4355,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/runtime_guard.py",
+      "sha256": "9c13a8275ea6616c34632e2cfabe6241199600b44312f3618309ea8b2e704046"
+    },
+    {
+      "bytes": 4103,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/skills.py",
+      "sha256": "66468cf2e09134206b32ebb077c3bc4ef6a87186a1a45bedae0935778f9d3eed"
+    },
+    {
+      "bytes": 3697,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/summarize_resources.py",
+      "sha256": "639a8364bb3a6fd28235a472d114655c41bbe82ce108c4a9426a0b6e1b5a80b4"
+    },
+    {
+      "bytes": 2819,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/test_binding.py",
+      "sha256": "343669adbaad0876c0b9c4082405669b2b46803303649d1ee80d4624fd0d7a67"
+    },
+    {
+      "bytes": 6082,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/test_microbench.py",
+      "sha256": "4cec44a7777626ea0650e62d95294e2ab3b8d80b1b344ca08fd004194c23328f"
+    },
+    {
+      "bytes": 3260,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/test_transfer.py",
+      "sha256": "b2eade4c82a4fe7ba54f051ac49211a9d7d94f5d2b88c4a6327abd81b477bff6"
+    },
+    {
+      "bytes": 985,
+      "path": "results/structural-transfer-v1/Qwen3.5-9B/frozen-source/transfer_microbench.py",
+      "sha256": "a85971c4ba31f376f68491568b7a795d0b418366b3973481b48c1d1d051a65ea"
+    }
+  ],
+  "note": "Exact executed/frozen Python and shell sources from the final private evidence snapshot, including later transfer, queued diagnostic and final-analysis revisions. Configs, histories, values, traces, download logs and credentials are excluded. Earlier source export remains unchanged.",
+  "status": "pass"
+}

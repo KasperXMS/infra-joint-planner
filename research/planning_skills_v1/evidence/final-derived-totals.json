@@ -1,0 +1,13 @@
+{
+  "all_recorded_completion_tokens": 865696,
+  "all_recorded_model_requests": 30108,
+  "all_recorded_prompt_tokens": 86048955,
+  "batch_service_wall_seconds": 24186.12729549408,
+  "engineering_completion_tokens": 8484,
+  "engineering_prompt_tokens": 865925,
+  "note": "All completed valid studies included; engineering output count uses retained raw generated-token IDs, not a guessed result field. Unrecorded interrupted in-flight work remains unknown. Batch service wall is not kernel time.",
+  "physical_generate_batches": 14498,
+  "recorded_engineering_requests": 404,
+  "valid_completion_tokens": 857212,
+  "valid_model_requests": 29704
+}

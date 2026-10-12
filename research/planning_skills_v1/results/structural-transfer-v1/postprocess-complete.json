@@ -1,0 +1,30 @@
+{
+  "epoch": 1791842523.4473546,
+  "exact_prompt_audit": "Original once-per-study audit retained unchanged; no repeated tokenizer audit or model execution.",
+  "executing_source_sha256": {
+    "analyze.py": "04e9930831f2dbb9f8782c6f50c9ca723ed1038b2d3f247f1c8ecd1b287715ee",
+    "analyze_heldout.py": "cc71ba110e60da0462aa354148b41b8838f3e8a59f1097056e2f0217c97cacd4",
+    "finalize_analysis.py": "5b6aaf44059f1eb4e5ab5adb5db2cef643285549c76c8b68b375767a3be36dd3",
+    "microbench.py": "2a96433d4019d4a96df5b81a797d3f8141ff64f7331069a9aedafe5e7dd10ba7",
+    "transfer_microbench.py": "a85971c4ba31f376f68491568b7a795d0b418366b3973481b48c1d1d051a65ea"
+  },
+  "invariant": {
+    "corrected_field_changes": {
+      "all_executed_policy_choices_correct": 0,
+      "policy_correct": 0,
+      "policy_decisions": 0
+    },
+    "episodes": 384,
+    "note": "All other original per-episode fields and existing conditional counts are identical, including completion, numeric success, traces, turns, tokens and timing.",
+    "status": "pass"
+  },
+  "numeric_evaluator": "Unchanged. Policy provenance is an additional diagnostic, never a replacement for frozen TSR.",
+  "original_analysis_sha256": {
+    "episode-results.json": "c9f572fbf922871a8956e255a0f7018260cf7018b5b808e044797891d1625765",
+    "exact-prompt-audit.json": "360ec1f77f8ee6d4720fd322e10b9f2eb8ca25c50dfbda46213c7ecf9274edea",
+    "postprocess-complete.json": "22b74c688a14013d3afee31cf0a586e2c3e98f205232f5c1ef4fd3dc734a463e",
+    "summary.json": "a93e303d8465ea6fff040c4c47f68ca9913a267cac8b3137d71a397de5dab7a3"
+  },
+  "revision": "policy-provenance-v2",
+  "status": "pass"
+}

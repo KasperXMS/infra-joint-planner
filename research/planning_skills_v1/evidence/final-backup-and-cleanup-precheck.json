@@ -1,0 +1,42 @@
+{
+  "backup_archives": [
+    {
+      "bytes": 7645542,
+      "filename": "planning-skills-research-v1-traces.tar.gz",
+      "sha256": "c80856a584718b9652bed9921fca7b509e9db0d394771773ab99ac8ea0b90aeb"
+    },
+    {
+      "bytes": 340882,
+      "filename": "final-frozen-inference-source.tar.gz",
+      "sha256": "a6799c0a84c70be740812fb814e02df60cdee1372744ff05bba030c6a0fb9408"
+    },
+    {
+      "bytes": 2285576,
+      "filename": "final-evidence-index.json",
+      "sha256": "5ca634a13d6fbdf17ea03fa5d885a950b8f522336b2e17588a9d9e6f50da920c"
+    }
+  ],
+  "epoch": 1791843197.3389437,
+  "gpu_compute_apps": "",
+  "live_owned_processes": [
+    {
+      "pid": 4709,
+      "purpose": "resource_guard",
+      "state": "S"
+    }
+  ],
+  "note": "Explicit persistent backup SHA verification after all selected inference/audits; resource guard stays armed until instance shutdown. No process was terminated by this check.",
+  "other_python_processes": [
+    {
+      "executable": "python",
+      "pid": 1219,
+      "program": "tensorboard"
+    },
+    {
+      "executable": "python",
+      "pid": 1221,
+      "program": "jupyter-lab"
+    }
+  ],
+  "status": "pass"
+}
