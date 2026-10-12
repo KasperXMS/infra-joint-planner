@@ -104,7 +104,7 @@ def collect(root):
     for experiment, group in groups.items():
         if group["ability"] and group["models"] != group["expected"]:
             raise RuntimeError(f"Missing model stages: {experiment}")
-        if experiment in ("heldout-binding-v1", "structural-transfer-v1"):
+        if experiment in ("heldout-binding-v1", "structural-transfer-v1", "decision-generalization-v1"):
             complete = root / "results" / experiment / "analysis/postprocess-complete.json"
             if not complete.exists() or json.loads(complete.read_text())["status"] != "pass":
                 raise RuntimeError(f"Final postprocessing is unfinished: {experiment}")
@@ -117,7 +117,8 @@ def collect(root):
                 capture(path)
     names = ["resource-budget.json", "resources.jsonl", "administration.jsonl", "owned-processes.jsonl",
              "repository-file-sizes.json", "environment-freeze.txt",
-             "structural-transfer-v1-launch-policy.json", "structural-transfer-v1-not-launched.json"]
+             "structural-transfer-v1-launch-policy.json", "structural-transfer-v1-not-launched.json",
+             "decision-generalization-v1-launch-policy.json"]
     names += [path.name for path in root.glob("Qwen*-identity.json")]
     for name in names:
         path = root / name
