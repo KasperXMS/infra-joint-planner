@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+from collections import defaultdict
 from pathlib import Path
 
 import analyze
@@ -28,6 +29,15 @@ if __name__ == "__main__":
     cluster_count = len({r["cluster_id"] for r in json.loads((args.output / "episode-results.json").read_text())})
     summary["statistical_note"] = f"Exploratory paired graph-cluster bootstrap; {cluster_count} graphs, synthetic structural transfer, no universal significance claim."
     summary["presentation"] = "Opaque node/source identifiers and shuffled public node order; evaluator private topological order unchanged."
+    support_work = defaultdict(lambda: {"render_attempts": 0, "support_wall_seconds": 0.0})
+    for work_path in sorted(args.root.glob("*/support-work.jsonl")):
+        for line in work_path.read_text().splitlines():
+            record = json.loads(line)
+            group = support_work[(work_path.parent.name, record["condition"])]
+            group["render_attempts"] += 1
+            group["support_wall_seconds"] += record["support_wall_seconds"]
+    summary["support_runtime_work"] = [{"model": key[0], "condition": key[1], **value} for key, value in sorted(support_work.items())]
+    summary["support_runtime_work_note"] = "Measured renderer wall time includes projection/join and its matching tokenization. Excludes shared chat-template/full-prompt tokenization and telemetry append; not CPU monetary cost. Primary stage had no separate renderer timer and is not backfilled."
     summary_path.write_text(json.dumps(summary, indent=2, sort_keys=True))
     audit_frozen_prompts.audit(args.root, args.output / "exact-prompt-audit.json")
     with (args.output / "executing-analysis-source.json").open("x") as stream:

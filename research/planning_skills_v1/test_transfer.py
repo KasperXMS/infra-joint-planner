@@ -1,4 +1,8 @@
 import unittest
+import json
+import tempfile
+from pathlib import Path
+from types import SimpleNamespace
 
 from make_heldout import paired_tasks
 from make_transfer import transform
@@ -9,6 +13,18 @@ from test_microbench import action, reference_execution
 
 
 class TransferTests(unittest.TestCase):
+    def test_renderer_measurement_preserves_prompt_content(self):
+        from run_transfer_model import instrument_support
+        with tempfile.TemporaryDirectory() as directory:
+            original = lambda condition, env, tokenizer: ("exact unchanged support", {"system_skill": True})
+            wrapped = instrument_support(original, Path(directory))
+            text, metadata = wrapped("binding_system", SimpleNamespace(task=SimpleNamespace(task_id="test")), tokenizer=None)
+            self.assertEqual(text, "exact unchanged support")
+            self.assertTrue(metadata["system_skill"])
+            self.assertGreaterEqual(metadata["support_wall_seconds"], 0)
+            record = json.loads((Path(directory) / "support-work.jsonl").read_text())
+            self.assertEqual(record["episode_id"], "test__binding_system")
+
     def test_frozen_launch_trigger_uses_complete_groups_without_model_selection(self):
         def rows(a, b, c):
             return [{"condition": condition, "success": i < count}
