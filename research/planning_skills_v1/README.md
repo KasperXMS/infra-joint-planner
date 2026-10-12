@@ -40,6 +40,7 @@ All task data in this new microbenchmark is synthetic. Reference solving is isol
 
 - [Literature and novelty ledger](literature-novelty-ledger.md)
 - [Research journal and next decisions](research-journal.md)
+- [Completed development findings and resource tables](development-findings.md)
 - [Frozen held-out protocol](heldout-protocol.md)
 - [Mechanism scope and closest prior work](mechanism-scope.md)
 - [Mainland deployment details](mainland-reproducibility.md)
@@ -49,3 +50,5 @@ All task data in this new microbenchmark is synthetic. Reference solving is isol
 - `run_model.py`: real inference, exact context preflight, raw traces, measured resource counters
 
 The held-out study is running. Its outcome will determine independent transfer/remaining mechanism tests; launching a matrix does not constitute research completion. `analyze_heldout.py` performs deterministic trace replay and paired graph-cluster analysis; `audit_frozen_prompts.py` reconstructs exact prompts/token counts and support facts once after the batch, without inference. `summarize_resources.py` includes preparation and engineering work; `plot_results.py` renders standalone scientific figures from validated real results.
+
+`finalize_analysis.py` applies the documented policy-provenance diagnostic correction to a completed study into a **new** analysis directory. It retains the initial summary and exact-prompt audit, verifies every original per-episode field outside the explicitly corrected diagnostics is unchanged, and performs no model calls. Example after the original postprocessing passes: `python finalize_analysis.py --root ROOT/results/heldout-binding-v1 --output ROOT/results/heldout-binding-v1/analysis-v2`. Run each study in a separate process so its explicit task constructor remains isolated. The frozen numeric success evaluator is unchanged, including numerically correct outputs that happen to use an incorrect operation.
