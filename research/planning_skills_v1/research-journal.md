@@ -27,3 +27,7 @@ The resource baseline was corrected before any model inference to active-goal cr
 ### Next decision
 
 After both development models finish, inspect aggregate failures and selected raw synthetic traces. Freeze a justified mechanism/control set before held-out inference. Do not select a successful single trajectory as evidence. Add matched length/content or execution-support ablations only when they resolve a concrete ambiguity. Stop a direction if new experiments cease to identify useful differences.
+
+### Mainland transport adjustment before inference
+
+The official ModelScope SDK resolved to `modelscope-hub`, whose installed primary source sets one range-download stream per file by default. Most files progressed around 1–3 MB/s, but one 9B shard lagged markedly. At epoch 1791827515, the owned downloader was identity-checked and stopped once, before any evaluation manifest existed. Its 18,987,614,208 already-downloaded prefix bytes were preserved into the SDK's resumable range parts. Download resumed with the SDK's supported `MODELSCOPE_DOWNLOAD_PARALLEL_WORKERS=8`; repositories and revisions were unchanged. This is transport optimization, not model/backend/hyperparameter search or an evaluation rerun. The SDK source inspection and exact prefix bytes are recorded in administration metadata. Temporary prefixes are retained until completed weights can be checked.

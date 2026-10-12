@@ -44,6 +44,12 @@ def run(root: Path, config_path: Path, model_name: str):
     if manifest_path.exists():
         raise RuntimeError("Existing experiment namespace: do not rerun or overwrite; inspect checkpoint first")
     identity = json.loads((root / f"{model_name}-identity.json").read_text())
+    sizes_path = root / "repository-file-sizes.json"
+    if sizes_path.exists():
+        expected_sizes = json.loads(sizes_path.read_text())[model_name]
+        for file in identity["files"]:
+            if file["path"] in expected_sizes and file["bytes"] != expected_sizes[file["path"]]["bytes"]:
+                raise RuntimeError(f"Official repository file-size mismatch: {file['path']}")
     source_files = {p.name: file_hash(p) for p in Path(__file__).parent.glob("*.py")}
     write_json(manifest_path, {"config": config, "config_sha256": file_hash(config_path),
                               "source_sha256": source_files, "model_identity": identity,

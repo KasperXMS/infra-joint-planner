@@ -3,6 +3,7 @@ set -euo pipefail
 RESEARCH_ROOT=/root/autodl-tmp/xiaoming/planning-skills-research-v1/run-001
 export HF_HOME="$RESEARCH_ROOT/cache/huggingface"
 export MODELSCOPE_CACHE="$RESEARCH_ROOT/cache/modelscope"
+export MODELSCOPE_DOWNLOAD_PARALLEL_WORKERS=8
 export PIP_CACHE_DIR="$RESEARCH_ROOT/cache/pip"
 export OMP_NUM_THREADS=8
 export TOKENIZERS_PARALLELISM=false

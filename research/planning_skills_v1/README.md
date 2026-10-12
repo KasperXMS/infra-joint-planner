@@ -8,6 +8,8 @@ The AutoDL instance is in mainland China. ModelScope supplies the **official `Qw
 
 Avoid `raw.githubusercontent.com` or Hugging Face as mandatory runtime dependencies. Transfer tracked source/configuration over SSH and retain a persistent evidence copy on the instance's shared storage. Public papers are read from arXiv HTML when PDFs/author GitHub are unavailable. Domestic transport does not justify substituting a different model or changing scientific conditions unnoticed.
 
+The ModelScope SDK's supported `MODELSCOPE_DOWNLOAD_PARALLEL_WORKERS=8` enables range streams for large files. `resume_parallel_download.py` documents the one-time pre-inference migration of existing single-stream prefixes to the SDK's resumable parts, rather than redownloading them. File sizes are checked against official repository metadata and actual completed weight/config/tokenizer bytes are hashed. These transport settings are unrelated to inference concurrency.
+
 ## Preparation and bounded execution
 
 The runtime guard records whole-instance CNY lease estimates and GPU/cgroup telemetry. It checkpoints small evidence every minute, marks a 10-hour soft target and applies a 20-hour hard stop including AutoDL shutdown. Model files and environments are not copied repeatedly. Owned processes are checked by PID **and process start identity** before termination; process groups are killed only when explicitly registered as our own isolated session.
