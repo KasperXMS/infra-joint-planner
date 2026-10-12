@@ -1,0 +1,541 @@
+{
+  "version": "skill-granularity-pilot-v2-replicated-serving",
+  "base_commit": "1813266",
+  "task_freeze_sha256": "e0e242db5140d75f5d3c9f8559db205994eeb0cfba17797325d0b53545fc212a",
+  "tasks": [
+    {
+      "agent_task_sha256": "3076f714b9a80f774214632d9f59edfa80a92f5df152003091ff67c600354ce4",
+      "evaluator_implementation_sha256": "1827d44c974d1ae8211218c7ae1b801b834f604dcc3bf129e4d6bbe4c9a354cc",
+      "family": "multihop_rag",
+      "initial_bytes": 7696522,
+      "position": 1,
+      "source_row_ordinal": 10,
+      "source_task_id": "multihop-rag-train-c384ed264fb5a5112e8e0d7e",
+      "task_bundle_sha256": "4896addfad62be36c8e3604a86113f1b7d715e17480a84a0eea07a2c164b3000"
+    },
+    {
+      "agent_task_sha256": "bb5e7c332c0112157a7f2a6f6d9cbedcfaadb133028594a180d7856b8734e891",
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "longbench_v2",
+      "initial_bytes": 258133,
+      "position": 1,
+      "source_row_ordinal": 2,
+      "source_task_id": "66ec0c4c821e116aacb1994a",
+      "task_bundle_sha256": "152e9494457afe26b6991b9242aa22803148553ad0a342910627669c961adf06"
+    },
+    {
+      "agent_task_sha256": "a53e12e8827f8c5c4f52a475628980a0410ae2e7f03bb6af22d33a7ebf1a78e0",
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "video_mme",
+      "initial_bytes": 21696914,
+      "position": 1,
+      "source_row_ordinal": 1467,
+      "source_task_id": "490-1",
+      "task_bundle_sha256": "e02c876f2c4087a6c881b6f35b78eb8436957c57d185764fa3199d396d7cd26f"
+    }
+  ],
+  "task_selection": "first unused source row; video-level exclusion; no answer/difficulty/outcome filtering",
+  "novelty_receipt_sha256": "5b3dc06a00451ba84febc06e58d086182927f4a5e411b8c2a1316fa38db359b9",
+  "skills": {
+    "S0": {
+      "path": null,
+      "sha256": null,
+      "utf8_bytes": 0,
+      "description": "unchanged base Manager instructions"
+    },
+    "S1": {
+      "path": "configs/skills/planner-procedural-v1.md",
+      "sha256": "d8b75f3ce6e76ab19fa16328acc7f4ffce56988ab5d6abd794c95866d9b1f422",
+      "utf8_bytes": 1555
+    },
+    "S2": {
+      "path": "configs/skills/planner-procedure-v1.md",
+      "sha256": "efce55db2b70739539651839e9493ec188d463221e6416d9259a280c3f9c6b26",
+      "utf8_bytes": 11342
+    },
+    "S3": {
+      "path": "configs/skills/planner-atomic-sop-v1.md",
+      "sha256": "b5801d28a53efb4f7c121140a74580f343824e4c3bef56a48b710156ec8456be",
+      "utf8_bytes": 12565
+    }
+  },
+  "candidate_order": [
+    "qwen35-4b",
+    "qwen35-9b",
+    "qwen35-27b"
+  ],
+  "models": {
+    "qwen35-4b": {
+      "model": "multiscale-qwen35-4b-32k-v1",
+      "digest": "4da6b5b4d7d7f2ff27fbf83d4f84d5cff821a6459b413eff496a497916d1a4a9",
+      "model_blob": "sha256-a9d0a3e1d8c91732a3812becd31f8d4a8ff57414903f226306069f0437e2ac50",
+      "renderer": "qwen3.5",
+      "parser": "qwen3.5",
+      "display_name": "Qwen3.5-4B",
+      "placement": "A28",
+      "quantization": "Q4_K_M",
+      "num_ctx": 32768,
+      "max_tokens": 2048,
+      "temperature": 1,
+      "top_p": 0.95,
+      "reasoning_effort": "none",
+      "thinking": false,
+      "serving_backend": "Ollama 0.34.0"
+    },
+    "qwen35-9b": {
+      "model": "multiscale-qwen35-9b-32k-v1",
+      "digest": "86a0db6f4ae0a6ed01dc3a0f12d981637e095520ed6f86763fd6d2e05ec5c341",
+      "model_blob": "sha256-02d45dc1cf451ba2475ac33b301c2dd8f985abe4c182ce04a1f2f5bf0260278d",
+      "renderer": "qwen3.5",
+      "parser": "qwen3.5",
+      "display_name": "Qwen3.5-9B",
+      "placement": "A28",
+      "quantization": "Q4_K_M",
+      "num_ctx": 32768,
+      "max_tokens": 2048,
+      "temperature": 1,
+      "top_p": 0.95,
+      "reasoning_effort": "none",
+      "thinking": false,
+      "serving_backend": "Ollama 0.34.0"
+    },
+    "qwen35-27b": {
+      "model": "qwen35-27b-resident-32k-v1",
+      "digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+      "model_blob": "sha256-f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+      "renderer": "qwen3.8",
+      "parser": "qwen3.5",
+      "display_name": "Qwen3.8-27B",
+      "placement": "strong-4090-gpu0",
+      "quantization": "Q4_K_M",
+      "num_ctx": 32768,
+      "max_tokens": 2048,
+      "temperature": 1,
+      "top_p": 0.95,
+      "reasoning_effort": "none",
+      "thinking": false,
+      "serving_backend": "Ollama 0.34.0"
+    }
+  },
+  "strong_cloud": {
+    "provider": "Alibaba Cloud Model Studio",
+    "base_url": "https://llm-6tbxas81ayf65rd1.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+    "model": "qwen3.8-max",
+    "request_extra_body": {
+      "enable_thinking": false
+    },
+    "temperature": "provider_default",
+    "timeout_seconds": 180,
+    "max_retries": 0,
+    "context_window": 1000000
+  },
+  "fixed_specialist": {
+    "model": "qwen3.8-max",
+    "instructions": "unchanged bounded specialist instructions",
+    "settings": "unchanged native runtime settings"
+  },
+  "fixed_verifier": {
+    "model": "qwen3.8-max",
+    "temperature": 0,
+    "tool_choice": "required",
+    "max_turns": 1,
+    "instructions": "unchanged blind evidence verifier instructions"
+  },
+  "infrastructure_design": {
+    "profile_visibility": "blind",
+    "network": {
+      "regime": "fast",
+      "bandwidth_mbps": 100,
+      "added_rtt_ms": 5
+    },
+    "network_applied": false,
+    "new_formal_workers_started": false,
+    "model_join_leave": false,
+    "model_pool_path": "configs/experiments/resident-diverse-environment-v1.yaml",
+    "frozen_harness_path": "configs/experiments/infra-aware-predecision-resident-cardinality-v1.yaml",
+    "fresh_stores": "one namespace per cell on each original worker",
+    "model_cache": "warm resident; fresh artifacts do not imply cold model cache"
+  },
+  "loop_budget": {
+    "max_manager_turns": 20,
+    "max_subagent_turns": 8,
+    "max_tool_model_calls": 64,
+    "max_created_subagents": 4,
+    "max_active_subagents": 2,
+    "max_verifier_calls": 20
+  },
+  "request_budgets": {
+    "control_requests": 72,
+    "physical_requests": 64,
+    "helper_requests": 4096,
+    "control_bytes": 134217728
+  },
+  "task_timeout_seconds": 3600,
+  "cleanup_timeout_seconds": 1260,
+  "cell_wall_ceiling_seconds": 5100,
+  "matrix_wall_ceiling_seconds": 216000,
+  "maximum_cells": 30,
+  "attempts_per_cell": 1,
+  "order": [
+    {
+      "cell_id": "qwen35-4b-t1-S0",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t1-S1",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S1",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t1-S2",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S2",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t1-S3",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t2-S1",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S1",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t2-S2",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S2",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t2-S3",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t2-S0",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t3-S2",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S2",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t3-S3",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t3-S0",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-4b-t3-S1",
+      "candidate": "qwen35-4b",
+      "skill_condition": "S1",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t1-S0",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t1-S1",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S1",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t1-S2",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S2",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t1-S3",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t2-S1",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S1",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t2-S2",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S2",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t2-S3",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t2-S0",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S2",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S2",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S3",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S0",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S1",
+      "candidate": "qwen35-9b",
+      "skill_condition": "S1",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-27b-t1-S0",
+      "candidate": "qwen35-27b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-27b-t1-S3",
+      "candidate": "qwen35-27b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 1,
+      "family": "multihop_rag",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-27b-t2-S3",
+      "candidate": "qwen35-27b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-27b-t2-S0",
+      "candidate": "qwen35-27b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 2,
+      "family": "longbench_v2",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-27b-t3-S0",
+      "candidate": "qwen35-27b",
+      "skill_condition": "S0",
+      "skills": false,
+      "group": "B1",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    },
+    {
+      "cell_id": "qwen35-27b-t3-S3",
+      "candidate": "qwen35-27b",
+      "skill_condition": "S3",
+      "skills": true,
+      "group": "B2",
+      "task_index": 3,
+      "family": "video_mme",
+      "position": 1,
+      "stage": "skill-granularity"
+    }
+  ],
+  "order_rationale": "model blocks minimize loads; within each model consecutive same-task conditions rotate S0/S1/S2/S3, and 27B alternates S0/S3; fixed before inference, no outcome-based changes",
+  "network_application": "one unchanged Fast tc plan for continuous batch, restored in finally",
+  "execution_policy": "three concurrent workflow cells; two admitted independent A28 Ollama single-slot replicas; per-endpoint client admission; no ability gates; startup/final full audits only",
+  "stop_file": "STOP",
+  "system_stop_only": true,
+  "no_dynamic_skill_retrieval": true,
+  "no_harness_guard": true,
+  "no_training": true,
+  "semantic_retries": 0,
+  "historical_phase2_resumed": false,
+  "unknown_gpu_price": true,
+  "exploratory_only": true,
+  "length_and_explicit_tool_reference_are_confounders": true,
+  "serving_change_from_v1": {
+    "reason": "Ollama 0.34.0 qwen35 architecture does not support multiple slots per runner",
+    "deployment": "two independent A28 Ollama 0.34.0 single-slot services",
+    "a28_replica_count": 2,
+    "runner_slots_per_replica": 1,
+    "total_a28_manager_request_capacity": 2,
+    "max_concurrent_cells": 3,
+    "manager_http_timeout_seconds": 300,
+    "num_ctx_per_request": 32768,
+    "max_tokens": 2048,
+    "temperature": 1,
+    "top_p": 0.95,
+    "reasoning_effort": "none",
+    "sdk_retries": 0,
+    "qwen35_27b_gpu0": "unchanged original one-slot resident service",
+    "third_workflow": "client-side admission wait; no server-side queue"
+  }
+}
