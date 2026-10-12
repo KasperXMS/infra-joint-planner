@@ -4,7 +4,7 @@ Active objective: [objective.md](objective.md). This independent namespace does 
 
 Completed development: 64 corrected workflows, 48 role-placement workflows, and 288 one-step context/decision probes. The latter are not workflow TSR. The frozen [held-out study](heldout-protocol.md) contains 504 workflows across 12 graph clusters, seven support conditions and both models. It uses batch two per GPU and 64 turns. Frozen configs and manifests define each stage; the first-stage budgets below do not describe every later stage.
 
-The primary's 504/504 episodes and all 12,802 prompt/tool/evaluator checks are complete. Independent structural transfer is running; the separately frozen [conditional-decision follow-up](decision-generalization-protocol.md) queues 2,028 requests after GPU handoff. Final research recommendations and all-stage raw export remain pending those selected studies.
+The primary's 504/504 episodes and all 12,802 prompt/tool/evaluator checks are complete. Independent structural transfer completed 384/384 episodes and passed 12,733 exact request checks / 5,063 matched fact-state checks. The separately frozen [conditional-decision follow-up](decision-generalization-protocol.md) is running 2,028 requests after verified GPU handoff. Transfer's additional versioned ancestry analysis, final recommendations and all-stage raw export remain pending final postprocessing.
 
 ## Network and provenance
 
