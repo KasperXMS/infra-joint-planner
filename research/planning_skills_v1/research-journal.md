@@ -20,7 +20,9 @@ Tools really fetch hidden numeric source records, compute requested operations, 
 
 The ledger is reconstructed from observations only. It contains no action recommendation, dependency frontier, branch evaluation or expected answer. Local rule selection uses only the last visible event category, from a fixed task-independent rule bank. No held-out task has been run or used to design these rules. Development templates use numeric threshold comparisons; later independent templates will use relative/parity conditions and new seeds if the mechanism remains worth testing.
 
-Contract tests exercise all three templates, source-update/transient recovery, strict schema rejection with no side effects, incorrect-answer completion, and absence of private source values/branch choices in public prompts. Four tests passed, including thirty full reference recovery paths. The reference executor exists only in tests; inference does not import it.
+Contract tests exercise all three templates, source-update/transient recovery, strict schema rejection with no side effects, incorrect-answer completion, and absence of private source values/branch choices in public prompts. Six tests passed, including thirty full reference recovery paths and a separately hand-calculated branch-flip case (root 16 before source update, 20 after). Premature verification cannot trigger a source update: recovery requires constructing a valid root first. The reference executor exists only in tests; inference does not import it.
+
+The resource baseline was corrected before any model inference to active-goal creation (epoch 1791824705), including approximately fifteen minutes of earlier reading/preparation. The guard's own PID/start identity was checked before its one restart; inference/download jobs were not restarted. Soft/hard deadlines are 1791860705/1791896705. Rental estimates therefore include setup time rather than starting only when weights finish downloading.
 
 ### Next decision
 

@@ -34,7 +34,7 @@ def file_hash(path):
 def run(root: Path, config_path: Path, model_name: str):
     import torch
     import transformers
-    from transformers import AutoModelForImageTextToText, AutoTokenizer
+    from transformers import AutoModelForImageTextToText, AutoTokenizer, StoppingCriteria, StoppingCriteriaList
 
     register(root, f"inference_{model_name}")
     config = json.loads(config_path.read_text())
@@ -66,11 +66,25 @@ def run(root: Path, config_path: Path, model_name: str):
                                                       dtype=torch.bfloat16, device_map={"": "cuda:0"},
                                                       attn_implementation="sdpa")
     model.eval()
+
+    class BudgetStop(StoppingCriteria):
+        def __init__(self):
+            self.deadline = time.monotonic() + config["request_timeout_seconds"]
+            self.reason = None
+
+        def __call__(self, input_ids, scores, **kwargs):
+            if (root / "STOP").exists():
+                self.reason = "stop_requested"
+            elif time.monotonic() >= self.deadline:
+                self.reason = "request_timeout"
+            return torch.full((input_ids.shape[0],), self.reason is not None, device=input_ids.device, dtype=torch.bool)
     generation = copy.deepcopy(model.generation_config)
     generation.do_sample = False
     generation.temperature = None
     generation.top_p = None
     generation.top_k = None
+    generation.repetition_penalty = 1.0
+    generation.no_repeat_ngram_size = 0
     generation.max_new_tokens = config["max_new_tokens"]
     generation.use_cache = True
     generation.pad_token_id = tokenizer.pad_token_id
@@ -132,6 +146,7 @@ def run(root: Path, config_path: Path, model_name: str):
         candidates, prompts, support_metadata = [], [], []
         for state in active:
             if time.time() - state["started"] > config["task_timeout_seconds"]:
+                state["errors"]["task_timeout"] += 1
                 state["finish_reason"] = "task_timeout"
                 continue
             text, metadata = support(state["condition"], state["env"])
@@ -153,7 +168,8 @@ def run(root: Path, config_path: Path, model_name: str):
             candidates.append(state)
             prompts.append(prompt)
             support_metadata.append({**metadata, "support_tokens": len(tokenizer.encode(text, add_special_tokens=False)),
-                                     "prompt_tokens": token_count})
+                                     "prompt_tokens": token_count,
+                                     "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest()})
         for state in list(active):
             if state["finish_reason"]:
                 finish(state)
@@ -168,8 +184,10 @@ def run(root: Path, config_path: Path, model_name: str):
             raise RuntimeError("Tokenizer/preflight context integrity mismatch")
         torch.cuda.synchronize()
         begun = time.time()
+        budget_stop = BudgetStop()
         with torch.inference_mode():
-            outputs = model.generate(**inputs, generation_config=generation)
+            outputs = model.generate(**inputs, generation_config=generation,
+                                     stopping_criteria=StoppingCriteriaList([budget_stop]))
         torch.cuda.synchronize()
         finished = time.time()
         latency = finished - begun
@@ -190,6 +208,20 @@ def run(root: Path, config_path: Path, model_name: str):
             state["prompt_tokens"] += metadata["prompt_tokens"]
             state["completion_tokens"] += len(kept)
             state["provider_latency_sum"] += latency
+            rejection = budget_stop.reason
+            if time.time() - state["started"] >= config["task_timeout_seconds"]:
+                rejection = "task_timeout"
+            if rejection:
+                state["errors"][rejection] += 1
+                state["finish_reason"] = rejection
+                append(stage / "episodes" / state["id"] / "trace.jsonl", {
+                    "event": "inference_budget_rejected", "turn": state["turns"], "batch_index": batch_index,
+                    "request_started_epoch": begun, "request_finished_epoch": finished,
+                    "provider_latency_seconds": latency, "raw_token_ids": kept, "raw_output": raw,
+                    "category": rejection, "action_executed": False, **metadata})
+                finish(state)
+                active.remove(state)
+                continue
             tool_start = time.perf_counter()
             observation, category = state["env"].step(raw)
             tool_seconds = time.perf_counter() - tool_start
@@ -207,6 +239,7 @@ def run(root: Path, config_path: Path, model_name: str):
                 "provider_latency_seconds": latency, "queue_wait_seconds": 0.0,
                 "queue_note": "Exclusive local synchronous batch; no provider queue. Admission waiting excluded.",
                 "context_preflight": "allow", "raw_token_ids": kept, "raw_output": raw,
+                "generation_finish_reason": "eos" if kept and kept[-1] in stops else "output_token_budget",
                 "action": event["action"], "observation": observation, "category": category,
                 "tool_seconds": tool_seconds, **metadata})
             if state["env"].completed:

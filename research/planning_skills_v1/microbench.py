@@ -151,7 +151,7 @@ BASE_PROMPT = """You control a deterministic evidence workflow. Output exactly O
 Tools:
 fetch(key): get a source value and its artifact handle.
 compute(node,operation,inputs): execute an operation on artifact handles in exactly the node's declared parent order. It does NOT choose the correct operation for you. sum adds inputs, difference subtracts the second from the first, max/min select the largest/smallest.
-verify(artifact): validate current root provenance and issue a receipt. A source may change on the first verify; the observation explicitly reports changed sources and invalidated handles. A transient failure may occur once and is retryable. Verification never reveals or checks the correct numeric answer.
+verify(artifact): validate current root provenance and issue a receipt. A source may change on the first valid-root verification; the observation explicitly reports changed sources and invalidated handles. A transient failure may occur once and is retryable. Premature verification cannot trigger updates. Verification never reveals or checks the correct numeric answer.
 submit(artifact,receipt): end the workflow using the verified root and matching receipt. After a receipt is issued, only submit is permitted. A submitted wrong numeric value is an evaluated task failure.
 Inputs must be existing, currently valid artifact handles. A source update invalidates all its descendants and all earlier receipts. Tool errors do not end the task; each response consumes one turn. The action schema below is authoritative.
 SCHEMA=""" + json.dumps(ACTION_SCHEMA, separators=(",", ":"))
@@ -201,6 +201,11 @@ class Environment:
             value = apply_op(args["operation"], [self.artifacts[h]["value"] for h in handles])
             return {"status": "computed", **self.new_artifact(node["node"], value, handles)}
         if name == "verify":
+            handle = args["artifact"]
+            if not self.valid(handle):
+                return {"error": "invalid_or_stale_artifact"}
+            if self.artifacts[handle]["node"] != self.task.root:
+                return {"error": "not_root"}
             if self.task.transient and not self.transient_seen:
                 self.transient_seen = True
                 return {"error": "transient_unavailable", "retryable": True}
@@ -216,11 +221,6 @@ class Environment:
                 self.receipts.clear()
                 return {"error": "source_updated", "changed_sources": [key], "invalidated": invalidated,
                         "receipts_invalidated": True}
-            handle = args["artifact"]
-            if not self.valid(handle):
-                return {"error": "invalid_or_stale_artifact"}
-            if self.artifacts[handle]["node"] != self.task.root:
-                return {"error": "not_root"}
             receipt = f"v{len(self.receipts) + 1}"
             self.receipts[receipt] = handle
             self.phase = "submit"

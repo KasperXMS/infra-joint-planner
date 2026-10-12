@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from microbench import Environment, expected, make_task, task_text
+from microbench import Environment, Task, apply_op, expected, make_task, task_text
 
 
 def action(env, name, **arguments):
@@ -30,6 +30,25 @@ def reference_execution(env):
 
 
 class ContractTests(unittest.TestCase):
+    def test_hand_calculated_branch_flip_and_arithmetic(self):
+        self.assertEqual([apply_op(op, [4, 10]) for op in ("sum", "difference", "max", "min")],
+                         [14, -6, 10, 4])
+        task = Task("manual", "development", 0, 1, 2, True, False, {"u": 4, "v": 10}, 9, "u", [
+            {"node": "n0", "parents": ["u", "v"], "policy": "Use sum if the first input is greater than 6; otherwise max.",
+             "predicate": "greater", "threshold": 6, "choices": ["sum", "max"]},
+            {"node": "n1", "parents": ["v", "u"], "policy": "Use difference.",
+             "predicate": "always", "threshold": 0, "choices": ["difference", "difference"]},
+            {"node": "root", "parents": ["n0", "n1"], "policy": "Use sum.",
+             "predicate": "always", "threshold": 0, "choices": ["sum", "sum"]}], "root", "manual")
+        self.assertEqual(expected(task, False), 16)
+        self.assertEqual(expected(task, True), 20)
+        env = Environment(task)
+        root = reference_execution(env)
+        self.assertEqual(env.artifacts[root]["value"], 16)
+        action(env, "verify", artifact=root)
+        root = reference_execution(env)
+        self.assertEqual(env.artifacts[root]["value"], 20)
+
     def test_all_templates_recover_without_oracle_observations(self):
         for template in ("comparison", "relative", "parity"):
             for seed in range(10):
@@ -58,6 +77,14 @@ class ContractTests(unittest.TestCase):
             result, category = env.step(raw)
             self.assertIn(category, ("schema_validation_failed", "json_parse_failed"))
             self.assertEqual(len(env.artifacts), 0)
+
+    def test_premature_verify_cannot_bypass_recovery(self):
+        env = Environment(make_task("development", 7, refresh=True, transient=True))
+        self.assertEqual(action(env, "verify", artifact="a999")["error"], "invalid_or_stale_artifact")
+        source = action(env, "fetch", key=next(iter(env.sources)))["artifact"]
+        self.assertEqual(action(env, "verify", artifact=source)["error"], "not_root")
+        self.assertFalse(env.changed)
+        self.assertFalse(env.transient_seen)
 
     def test_wrong_answer_can_complete(self):
         env = Environment(make_task("development", 99, depth=1))
