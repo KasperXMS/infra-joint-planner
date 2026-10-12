@@ -29,6 +29,8 @@
 
 11 个超时单独记录，不全部解释为模型能力不足。9B 的 S0 三个 cells 均为超时，尤其不宜把其他条件较高的 Completion 直接归因于 Skills。共享服务排队与固定请求超时可能影响 TSR，当前证据不能分离排队时间与推理时间的贡献。所有正式结果保留，不补跑。
 
+后续只读[超时诊断](skill-granularity-timeout-diagnosis-v1.md)确认了三路 cell 流水、Orin 单槽服务和固定 180 秒等待的配置冲突，并提供了明确的排队案例。逐请求精确 queue/prefill/decode 分解仍有限制；原始分数及首次交付不变，不能把这些观测 TSR 当作独立的模型能力结论。
+
 27B 在两个条件下都完成全部任务，但 MultiHop-RAG、LongBench 答案均错误，仅 Video-MME 正确。合法终结及 Verifier 检查通过并不保证 benchmark evaluator 判对。
 
 ## 成本与行为

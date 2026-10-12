@@ -1,0 +1,663 @@
+{
+  "version": "skill-granularity-timeout-server-evidence-v1",
+  "read_only": true,
+  "additional_model_calls": 0,
+  "runtime_or_service_modified": false,
+  "source_log": {
+    "node_alias": "A28",
+    "name": "owned-planner-server.log",
+    "sha256": "96c8bfb6e8837b981bb13036bb14410b8021a70923c74b9721cb0ec1fed71165",
+    "bytes": 1213067,
+    "lines": 12500
+  },
+  "backend": {
+    "device": "NVIDIA Jetson AGX Orin",
+    "library": "CUDA",
+    "compute_capability": "8.7",
+    "model_layers_offloaded": 33,
+    "model_layers_total": 33,
+    "slots": 1,
+    "context_window": 32768,
+    "threads": 8,
+    "threads_batch": 8,
+    "q4_quantization_unchanged": true,
+    "safe_configuration_log_evidence": [
+      {
+        "line": 28,
+        "text": "cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | REPACK = 1 | CUDA : ARCHS = 750,800,860,870,890,900,1000,1030,1100,1200,1210 | USE_GRAPHS = 1 | "
+      },
+      {
+        "line": 185,
+        "text": "load_tensors: offloaded 33/33 layers to GPU"
+      },
+      {
+        "line": 270,
+        "text": "srv    load_model: initializing, n_slots = 1, n_ctx_slot = 32768, kv_unified = 'false'"
+      },
+      {
+        "line": 1806,
+        "text": "cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | REPACK = 1 | CUDA : ARCHS = 750,800,860,870,890,900,1000,1030,1100,1200,1210 | USE_GRAPHS = 1 | "
+      },
+      {
+        "line": 1963,
+        "text": "load_tensors: offloaded 33/33 layers to GPU"
+      },
+      {
+        "line": 2048,
+        "text": "srv    load_model: initializing, n_slots = 1, n_ctx_slot = 32768, kv_unified = 'false'"
+      },
+      {
+        "line": 7703,
+        "text": "cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | REPACK = 1 | CUDA : ARCHS = 750,800,860,870,890,900,1000,1030,1100,1200,1210 | USE_GRAPHS = 1 | "
+      },
+      {
+        "line": 7859,
+        "text": "load_tensors: offloaded 33/33 layers to GPU"
+      },
+      {
+        "line": 7944,
+        "text": "srv    load_model: initializing, n_slots = 1, n_ctx_slot = 32768, kv_unified = 'false'"
+      },
+      {
+        "line": 7987,
+        "text": "cmn  common_param: system_info: n_threads = 8 (n_threads_batch = 8) / 8 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | REPACK = 1 | CUDA : ARCHS = 750,800,860,870,890,900,1000,1030,1100,1200,1210 | USE_GRAPHS = 1 | "
+      },
+      {
+        "line": 8143,
+        "text": "load_tensors: offloaded 33/33 layers to GPU"
+      },
+      {
+        "line": 8228,
+        "text": "srv    load_model: initializing, n_slots = 1, n_ctx_slot = 32768, kv_unified = 'false'"
+      }
+    ]
+  },
+  "counts": {
+    "manager_apitimeout_receipts": 11,
+    "server_http500_cancellation_events": 11,
+    "4b": 4,
+    "9b": 7
+  },
+  "timestamp_limits": [
+    "Request start is estimated from receipt file mtime minus measured model-attempt latency; request-prepared mtime is separately retained. Neither is an on-wire server receive timestamp.",
+    "GIN wall timestamps have whole-second precision, shown as UTC after converting original +08:00.",
+    "Runner slot/task progress lines have no wall timestamps; exact queue duration is unknown.",
+    "Task-to-cell mapping uses unique end-time proximity and matching model block, not a propagated request ID.",
+    "Cancelled requests generally lack final prefill/decode totals; progress numbers are partial.",
+    "Three concurrent cell log intervals overlap; full owned server log is used once, rather than summing intervals."
+  ],
+  "requests": [
+    {
+      "cell_id": "qwen35-4b-t2-S0",
+      "role": "manager",
+      "candidate": "qwen35-4b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.48027948616073,
+      "request_start_utc_estimated": "2026-10-12T10:08:24.382104+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T10:08:24.858224+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T10:11:24.862383+00:00",
+      "server_http500_utc": "2026-10-12T10:11:24+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 17317,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 6009,
+      "server_http500_line": 6080,
+      "server_cancel_line": 6082,
+      "previous_http_completion_utc": "2026-10-12T10:09:01+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 36.617896,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 26403,
+      "last_prefill_progress": {
+        "source_line": 6053,
+        "values": [
+          17661,
+          1.0,
+          59.85
+        ]
+      },
+      "last_decode_progress": {
+        "source_line": 6079,
+        "values": [
+          650,
+          8.14
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 6083,
+        "values": [
+          27055,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "28b70047ccb9a618ab824d1e92c0da0d235ec646aaa6936b5dfa1584fa2a000c",
+      "raw_request_receipt_sha256": "7cb5dd58b470dcde514c51b15c7f0b535e7cebe60dcba14d27e90bb07b5783d1",
+      "cell_planner_interval_receipt_sha256": "f6fe5159fe3aa6c6e1b258789d83dd0a0672ef92c8a6982a661a6829da885c50"
+    },
+    {
+      "cell_id": "qwen35-4b-t2-S2",
+      "role": "manager",
+      "candidate": "qwen35-4b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.14202542509884,
+      "request_start_utc_estimated": "2026-10-12T10:08:46.146616+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T10:08:46.284481+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T10:11:46.288641+00:00",
+      "server_http500_utc": "2026-10-12T10:11:46+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 17990,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 6109,
+      "server_http500_line": 6123,
+      "server_cancel_line": 6125,
+      "previous_http_completion_utc": "2026-10-12T10:11:24+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 157.853384,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 11575,
+      "last_prefill_progress": null,
+      "last_decode_progress": {
+        "source_line": 6122,
+        "values": [
+          157,
+          9.39
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 6126,
+        "values": [
+          11755,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "f67ac489fc00682e4a768d329efbb6a5dd2bc0daab02be2628b4a1e949f1fa63",
+      "raw_request_receipt_sha256": "e8b959b85ba41a788ca3f3310be17034e0f728df562ad026898285d41dda89c2",
+      "cell_planner_interval_receipt_sha256": "cc4b6f73b86983cf699e1d1bc3817ec51ca078da0c72f7f033bc7ce71cc57697"
+    },
+    {
+      "cell_id": "qwen35-4b-t2-S3",
+      "role": "manager",
+      "candidate": "qwen35-4b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.28789110900834,
+      "request_start_utc_estimated": "2026-10-12T10:09:05.018979+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T10:09:05.303708+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T10:12:05.306870+00:00",
+      "server_http500_utc": "2026-10-12T10:12:05+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 18174,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 6152,
+      "server_http500_line": 6165,
+      "server_cancel_line": 6166,
+      "previous_http_completion_utc": "2026-10-12T10:11:46+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 160.981021,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 12701,
+      "last_prefill_progress": null,
+      "last_decode_progress": {
+        "source_line": 6164,
+        "values": [
+          128,
+          9.22
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 6167,
+        "values": [
+          12849,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "e3a36849869161521040fb233362679b586945a5846fc68087b8c2cc5d24d3c8",
+      "raw_request_receipt_sha256": "76777ab4fa58f730f1306e60f3b118787375fab26e10176fd25cd60bb81b4559",
+      "cell_planner_interval_receipt_sha256": "c16fbad78a54fd61963bbb9ff930930668d916c83c38631e88658bdaeebfa56d"
+    },
+    {
+      "cell_id": "qwen35-4b-t3-S0",
+      "role": "manager",
+      "candidate": "qwen35-4b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.30684067867696,
+      "request_start_utc_estimated": "2026-10-12T10:14:58.133017+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T10:14:58.435514+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T10:17:58.439858+00:00",
+      "server_http500_utc": "2026-10-12T10:17:58+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 20161,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 6719,
+      "server_http500_line": 6751,
+      "server_cancel_line": 6753,
+      "previous_http_completion_utc": "2026-10-12T10:17:09+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 130.866983,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 10801,
+      "last_prefill_progress": {
+        "source_line": 6739,
+        "values": [
+          4697,
+          1.0,
+          13.04
+        ]
+      },
+      "last_decode_progress": {
+        "source_line": 6750,
+        "values": [
+          303,
+          9.44
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 6754,
+        "values": [
+          11111,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "06da045f99fd216344a9f6d6fba2a8a8e91013f2fb6e5e1fd68b3aeee57741c6",
+      "raw_request_receipt_sha256": "b9fa9eb8bf245934c5259f44ae1a10ec7b267cb84101958c862cb2eca6538676",
+      "cell_planner_interval_receipt_sha256": "a1daba51bc21d68895a017e5a767c3e77de094cc7c977155ee3654f9fed4544f"
+    },
+    {
+      "cell_id": "qwen35-9b-t1-S0",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.27456391835585,
+      "request_start_utc_estimated": "2026-10-12T10:40:30.488693+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T10:40:30.761518+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T10:43:30.763257+00:00",
+      "server_http500_utc": "2026-10-12T10:43:30+00:00",
+      "server_logged_duration": "2m59s",
+      "server_log_task_id": 518,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 8402,
+      "server_http500_line": 8422,
+      "server_cancel_line": 8424,
+      "previous_http_completion_utc": "2026-10-12T10:43:05+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 154.511307,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 6433,
+      "last_prefill_progress": {
+        "source_line": 8420,
+        "values": [
+          5120,
+          0.8,
+          21.58
+        ]
+      },
+      "last_decode_progress": null,
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 8426,
+        "values": [
+          5409,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "7f3a320efa5308566f737068d4442a6dd4b2e563980508574c7aa40c89cd6e43",
+      "raw_request_receipt_sha256": "29caf1c3be47aff82871c2fae02ff73281e12e439f7d98a69838369e67538845",
+      "cell_planner_interval_receipt_sha256": "3cb1b1793f73b7dd5dcaa5f1773c5c1fed9cce3d07a1bb6a018f084a546b2c5e"
+    },
+    {
+      "cell_id": "qwen35-9b-t1-S3",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.31471938779578,
+      "request_start_utc_estimated": "2026-10-12T11:09:19.550891+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T11:09:19.863322+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T11:12:19.865610+00:00",
+      "server_http500_utc": "2026-10-12T11:12:19+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 7250,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 9905,
+      "server_http500_line": 9943,
+      "server_cancel_line": 9949,
+      "previous_http_completion_utc": "2026-10-12T11:11:04+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 104.449109,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 9267,
+      "last_prefill_progress": {
+        "source_line": 9934,
+        "values": [
+          9263,
+          1.0,
+          42.78
+        ]
+      },
+      "last_decode_progress": {
+        "source_line": 9942,
+        "values": [
+          180,
+          6.61
+        ]
+      },
+      "final_prefill_ms_tokens": {
+        "source_line": 9945,
+        "values": [
+          47269.29,
+          9267
+        ]
+      },
+      "final_decode_ms_tokens": {
+        "source_line": 9946,
+        "values": [
+          27813.75,
+          185
+        ]
+      },
+      "final_inference_ms": {
+        "source_line": 9947,
+        "values": [
+          75083.04
+        ]
+      },
+      "attempt_minus_recorded_inference_seconds": 105.231679,
+      "attempt_minus_inference_limit": "Residual includes queue plus request-side/setup overhead, not isolated queue time.",
+      "release_n_tokens_and_truncated": {
+        "source_line": 9950,
+        "values": [
+          9451,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "1b547f556086b13d35f71590f3bb7627a74936cf6233ad43df957e4d91f724bc",
+      "raw_request_receipt_sha256": "08aac45572cab571b7e4b40bb2019c635eda5e87fca0f9e790a5c31ff2e26530",
+      "cell_planner_interval_receipt_sha256": "f25fb9fe62acb117091e7a2e96a29b92f1efd84af9654360a505661f3eb727ae"
+    },
+    {
+      "cell_id": "qwen35-9b-t2-S0",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.17554472899064,
+      "request_start_utc_estimated": "2026-10-12T11:33:11.386374+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T11:33:11.558701+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T11:36:11.561919+00:00",
+      "server_http500_utc": "2026-10-12T11:36:11+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 14505,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 11713,
+      "server_http500_line": 11735,
+      "server_cancel_line": 11738,
+      "previous_http_completion_utc": "2026-10-12T11:35:10+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 118.613626,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 6305,
+      "last_prefill_progress": {
+        "source_line": 11725,
+        "values": [
+          4253,
+          1.0,
+          21.54
+        ]
+      },
+      "last_decode_progress": {
+        "source_line": 11734,
+        "values": [
+          205,
+          6.72
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 11739,
+        "values": [
+          6528,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "d9421e227be85bcbc9db3d1a5d7f44e1d0f529f443b438aef1daf3ec3e06efd7",
+      "raw_request_receipt_sha256": "31da7340196262319ae39248af7c0a1070e16dfc4699cc41de2a9b1eab83b82a",
+      "cell_planner_interval_receipt_sha256": "1b8531a0a0012c0b32452677bf5c474c9bbfa24fba871b8d1302cf7fed8fc359"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S0",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.49812472844496,
+      "request_start_utc_estimated": "2026-10-12T11:47:35.653801+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T11:47:36.148608+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T11:50:36.151926+00:00",
+      "server_http500_utc": "2026-10-12T11:50:36+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 18540,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 12465,
+      "server_http500_line": 12489,
+      "server_cancel_line": 12490,
+      "previous_http_completion_utc": "2026-10-12T11:49:37+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 121.346199,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 10416,
+      "last_prefill_progress": {
+        "source_line": 12479,
+        "values": [
+          4714,
+          1.0,
+          20.08
+        ]
+      },
+      "last_decode_progress": {
+        "source_line": 12488,
+        "values": [
+          200,
+          6.48
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 12491,
+        "values": [
+          10633,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "1e11dc3c4aa3c09fd44920347048879cb64297f2003c60eadd33a8b53a37f023",
+      "raw_request_receipt_sha256": "e391a9011a0903b3977d499758233c2c96d12d393be1c03750a5cee0ab2b5205",
+      "cell_planner_interval_receipt_sha256": "012437cbee9554eabaabeb044819b24cfd184c8ff8dc4f4aa47dd77810d05b89"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S1",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.31111751915887,
+      "request_start_utc_estimated": "2026-10-12T11:45:08.992916+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T11:45:09.300723+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T11:48:09.304034+00:00",
+      "server_http500_utc": "2026-10-12T11:48:09+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 18068,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 12335,
+      "server_http500_line": 12360,
+      "server_cancel_line": 12362,
+      "previous_http_completion_utc": "2026-10-12T11:47:30+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 141.007084,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 5982,
+      "last_prefill_progress": {
+        "source_line": 12356,
+        "values": [
+          5978,
+          1.0,
+          26.0
+        ]
+      },
+      "last_decode_progress": null,
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 12363,
+        "values": [
+          6041,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "f685f7218c683900dff4489301a11174dba8e409270576c151ab04e8400e59ab",
+      "raw_request_receipt_sha256": "b93393e2245eb32c0205d7b48c9bcf796274a1a21b5696d727a09ac91b38dc30",
+      "cell_planner_interval_receipt_sha256": "cb1b2ea8c43b2fd26b6aa24adad4507f032d5cf860a8395a8aa22de4918ee793"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S2",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.28569855494425,
+      "request_start_utc_estimated": "2026-10-12T11:32:10.249463+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T11:32:10.532959+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T11:35:10.535162+00:00",
+      "server_http500_utc": "2026-10-12T11:35:10+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 14502,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 11688,
+      "server_http500_line": 11700,
+      "server_cancel_line": 11702,
+      "previous_http_completion_utc": "2026-10-12T11:35:06+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 175.750537,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 8237,
+      "last_prefill_progress": null,
+      "last_decode_progress": null,
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 11704,
+        "values": [
+          2048,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "3a9375323f638161e234d4c05d1ea9cf23c90c6ab88ff10e744eddccf3b13628",
+      "raw_request_receipt_sha256": "75a7f1b3db32ea9066469f7e9171509a6e46146a9e90d57c9939a94f529ad8af",
+      "cell_planner_interval_receipt_sha256": "b6a56553c353145f5b20781891aa1ca04fbb4343dd315f65bbfbcc328ac2bd03"
+    },
+    {
+      "cell_id": "qwen35-9b-t3-S3",
+      "role": "manager",
+      "candidate": "qwen35-9b",
+      "http_calls": 1,
+      "model_attempt_latency_seconds": 180.262599254027,
+      "request_start_utc_estimated": "2026-10-12T11:46:37.614576+00:00",
+      "request_prepared_receipt_mtime_utc": "2026-10-12T11:46:37.875859+00:00",
+      "attempt_end_receipt_mtime_utc": "2026-10-12T11:49:37.877175+00:00",
+      "server_http500_utc": "2026-10-12T11:49:37+00:00",
+      "server_logged_duration": "3m0s",
+      "server_log_task_id": 18136,
+      "slot_id": 0,
+      "mapping": "unique HTTP500/cancel event within 1.1s of failed Manager attempt receipt mtime; log has no cross-layer request ID",
+      "server_launch_line": 12395,
+      "server_http500_line": 12428,
+      "server_cancel_line": 12431,
+      "previous_http_completion_utc": "2026-10-12T11:48:09+00:00",
+      "elapsed_from_attempt_start_to_previous_completion_seconds": 91.385424,
+      "queue_wait_lower_bound_seconds": null,
+      "queue_wait_exact_seconds": null,
+      "queue_proxy_limit": "Previous completion is an admission-time anchor only: runner slot lines have no wall timestamp; this interval includes any preflight/transport overhead and is not a measured queue duration.",
+      "prompt_tokens": 13478,
+      "last_prefill_progress": {
+        "source_line": 12409,
+        "values": [
+          4942,
+          1.0,
+          21.62
+        ]
+      },
+      "last_decode_progress": {
+        "source_line": 12432,
+        "values": [
+          399,
+          6.41
+        ]
+      },
+      "final_prefill_ms_tokens": null,
+      "final_decode_ms_tokens": null,
+      "final_inference_ms": null,
+      "attempt_minus_recorded_inference_seconds": null,
+      "attempt_minus_inference_limit": null,
+      "release_n_tokens_and_truncated": {
+        "source_line": 12433,
+        "values": [
+          13876,
+          0
+        ]
+      },
+      "raw_attempt_receipt_sha256": "46714fe6eed233b41ebcd0a2ccbff87ac9368f360585be31db492209834fc64e",
+      "raw_request_receipt_sha256": "b80bd96e6e8037217b7321603499408fdffcab4e4cec94f3d9bf23ddfa6a99e6",
+      "cell_planner_interval_receipt_sha256": "566dcb477a4f9c166a33498f960c1fd322802cf1e3ebb8f5250ea7aa391cdc93"
+    }
+  ]
+}
