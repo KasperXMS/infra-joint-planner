@@ -4,6 +4,8 @@ Active objective: [objective.md](objective.md). This independent namespace does 
 
 Completed development: 64 corrected workflows, 48 role-placement workflows, and 288 one-step context/decision probes. The latter are not workflow TSR. The frozen [held-out study](heldout-protocol.md) contains 504 workflows across 12 graph clusters, seven support conditions and both models. It uses batch two per GPU and 64 turns. Frozen configs and manifests define each stage; the first-stage budgets below do not describe every later stage.
 
+The primary's 504/504 episodes and all 12,802 prompt/tool/evaluator checks are complete. Independent structural transfer is running; the separately frozen [conditional-decision follow-up](decision-generalization-protocol.md) queues 2,028 requests after GPU handoff. Final research recommendations and all-stage raw export remain pending those selected studies.
+
 ## Network and provenance
 
 The AutoDL instance is in mainland China. ModelScope supplies the **official `Qwen/...` repositories**, rather than an unofficial re-quantization. The TUNA PyPI mirror is selected per installation command, without changing machine-wide indexes. Weight/config/tokenizer SHA256 manifests identify the bytes actually used. A mutable download revision is not falsely presented as a commit pin. Experiment inference is offline after materialization; no HF token or cloud API key is required.
@@ -45,11 +47,12 @@ All task data in this new microbenchmark is synthetic. Reference solving is isol
 - [Frozen held-out protocol](heldout-protocol.md)
 - [Mechanism scope and closest prior work](mechanism-scope.md)
 - [Mainland deployment details](mainland-reproducibility.md)
+- [Reproducibility, observed package constraints and model hashes](reproducibility.md)
 - `microbench.py`: parameterized tasks, strict actions, deterministic environment/evaluator
 - `skills.py`: frozen generic full/local procedural rule bank and observation-only ledger
 - `configs/diagnostic-v1.json`: first development design and task identities
 - `run_model.py`: real inference, exact context preflight, raw traces, measured resource counters
 
-The held-out study is running. Its outcome will determine independent transfer/remaining mechanism tests; launching a matrix does not constitute research completion. `analyze_heldout.py` performs deterministic trace replay and paired graph-cluster analysis; `audit_frozen_prompts.py` reconstructs exact prompts/token counts and support facts once after the batch, without inference. `summarize_resources.py` includes preparation and engineering work; `plot_results.py` renders standalone scientific figures from validated real results.
+The completed primary findings and selected follow-ups determine the final recommendation; launching a matrix does not constitute research completion. `analyze_heldout.py` performs deterministic trace replay and paired graph-cluster analysis; `audit_frozen_prompts.py` reconstructs exact prompts/token counts and support facts once after the batch, without inference. `summarize_resources.py` includes preparation and engineering work; `plot_results.py` renders standalone scientific figures from validated real results.
 
 `finalize_analysis.py` applies the documented policy-provenance diagnostic correction to a completed study into a **new** analysis directory. It retains the initial summary and exact-prompt audit, verifies every original per-episode field outside the explicitly corrected diagnostics is unchanged, and performs no model calls. Example after the original postprocessing passes: `python finalize_analysis.py --root ROOT/results/heldout-binding-v1 --output ROOT/results/heldout-binding-v1/analysis-v2`. Run each study in a separate process so its explicit task constructor remains isolated. The frozen numeric success evaluator is unchanged, including numerically correct outputs that happen to use an incorrect operation.

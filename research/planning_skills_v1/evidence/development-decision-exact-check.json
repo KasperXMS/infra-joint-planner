@@ -1,0 +1,21 @@
+{
+  "actual_model_directed_tool_executions": 0,
+  "config_sha256": "e5518f6b004c39fbd27c6d7ed880801c8ee5bc3dd8495b63dd57f3e27b9d0af1",
+  "models": [
+    {
+      "model": "Qwen3.5-4B",
+      "raw_decisions_sha256": "d7d3d7f4d38736a9d3b0d4dcf9efeed8834d6e9013f9be2177402187ae4f3398",
+      "requests": 144
+    },
+    {
+      "model": "Qwen3.5-9B",
+      "raw_decisions_sha256": "5cee041bcb8da773ef2b681eb2a1386cd137abe3f343309d548a2cd0b16c7834",
+      "requests": 144
+    }
+  ],
+  "note": "Final once-only exact prompt/token/output/public-policy/schema/target audit; frozen historical core modules, no model inference.",
+  "queries": 48,
+  "requests": 288,
+  "stage": "decision-context-probe-v1",
+  "status": "pass"
+}
