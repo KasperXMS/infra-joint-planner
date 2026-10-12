@@ -100,6 +100,9 @@ def details(directory):
         minimum += 1
     return {**row, "cluster_id": task.cluster_id, "update_mode": task.update_mode,
             "conditional_counts": dict(counts), "unexpected_errors": dict(errors),
+            "recovered_after_unexpected_error": bool(errors) and row["completion"],
+            "succeeded_after_unexpected_error": bool(errors) and row["success"],
+            "required_verify_attempts_for_correct_path": 1 + int(task.refresh) + int(task.transient),
             "minimum_successful_calls": minimum,
             "excess_turns_over_minimum": row["turns"] - minimum,
             "max_prompt_tokens": maximum_prompt, "support_tokens": support_total,
@@ -131,6 +134,11 @@ def aggregate(rows):
             "max_prompt_tokens": max(r["max_prompt_tokens"] for r in rows),
             "errors": dict(errors), "finish_reasons": dict(finishes),
             "counts": dict(counts), "tool_counts": dict(tools),
+            "recovered_after_unexpected_error": sum(r["recovered_after_unexpected_error"] for r in rows),
+            "succeeded_after_unexpected_error": sum(r["succeeded_after_unexpected_error"] for r in rows),
+            "completed_after_source_update": sum(r["source_update_observed"] and r["completion"] for r in rows),
+            "completed_verify_attempts": sum(r["tool_counts"].get("verify", 0) for r in rows if r["completion"]),
+            "completed_required_verify_attempts": sum(r["required_verify_attempts_for_correct_path"] for r in rows if r["completion"]),
             "success_despite_policy_error": sum(r["success"] and not r["all_executed_policy_choices_correct"] for r in rows)}
 
 
