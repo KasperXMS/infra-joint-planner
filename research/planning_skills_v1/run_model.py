@@ -138,6 +138,7 @@ def run(root: Path, config_path: Path, model_name: str):
                   "task_id": env.task.task_id, "split": env.task.split, "depth": env.task.depth,
                   "width": env.task.width, "refresh": env.task.refresh, "transient": env.task.transient,
                   "template": env.task.template, "completion": env.completed, "success": env.success,
+                  "cluster_id": env.task.cluster_id, "update_mode": env.task.update_mode,
                   "turns": state["turns"], "prompt_tokens": state["prompt_tokens"],
                   "completion_tokens": state["completion_tokens"], "error_counts": dict(state["errors"]),
                   "tool_counts": dict(state["tool_counts"]), "tool_seconds": state["tool_seconds"],
@@ -160,8 +161,9 @@ def run(root: Path, config_path: Path, model_name: str):
                 state["errors"]["task_timeout"] += 1
                 state["finish_reason"] = "task_timeout"
                 continue
-            text, metadata = support(state["condition"], state["env"])
-            system_content = BASE_PROMPT + ("\n" + text if metadata.get("placement") == "system" else "")
+            text, metadata = support(state["condition"], state["env"], tokenizer=tokenizer)
+            system_text = STATIC if metadata.get("system_skill") else text if metadata.get("placement") == "system" else ""
+            system_content = BASE_PROMPT + ("\n" + system_text if system_text else "")
             messages = [{"role": "system", "content": system_content},
                         {"role": "user", "content": task_text(state["env"].task)}]
             messages += state["history"]
@@ -179,7 +181,11 @@ def run(root: Path, config_path: Path, model_name: str):
                 continue
             candidates.append(state)
             prompts.append(prompt)
-            support_metadata.append({**metadata, "support_tokens": len(tokenizer.encode(text, add_special_tokens=False)),
+            support_tokens = len(tokenizer.encode(text, add_special_tokens=False))
+            if metadata.get("system_skill"):
+                support_tokens += len(tokenizer.encode(STATIC, add_special_tokens=False))
+            support_metadata.append({**metadata, "support_tokens": support_tokens,
+                                     "support_tokens_scope": "extra content blocks, excluding role/template boundaries",
                                      "prompt_tokens": token_count,
                                      "prompt_sha256": hashlib.sha256(prompt.encode()).hexdigest()})
         for state in list(active):

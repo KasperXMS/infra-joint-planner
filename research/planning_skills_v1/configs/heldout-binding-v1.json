@@ -1,0 +1,4517 @@
+{
+  "analysis_unit": "12 independent generated graphs; update modes paired within graph. Do not treat all 36 task variants as independent.",
+  "batch_size": 2,
+  "conditions": [
+    "none",
+    "static_system",
+    "static",
+    "local",
+    "ledger_system",
+    "binding_system",
+    "unbound_system"
+  ],
+  "context_tokens": 16384,
+  "design": "Held-out relative/parity templates and new seeds; three paired update regimes per graph. Seven controlled support/placement conditions. No static rule changes.",
+  "experiment_id": "heldout-binding-v1",
+  "generator_records": [
+    {
+      "actual_seed": 343026,
+      "cluster_id": "graph-05029fb561e0",
+      "depth": 1,
+      "flip_candidates": 52,
+      "requested_seed": 43017,
+      "resampling_attempts": 3,
+      "stable_candidates": 11,
+      "template": "relative"
+    },
+    {
+      "actual_seed": 43033,
+      "cluster_id": "graph-ddd894119c93",
+      "depth": 1,
+      "flip_candidates": 10,
+      "requested_seed": 43033,
+      "resampling_attempts": 0,
+      "stable_candidates": 52,
+      "template": "relative"
+    },
+    {
+      "actual_seed": 43059,
+      "cluster_id": "graph-2344f59e7915",
+      "depth": 1,
+      "flip_candidates": 50,
+      "requested_seed": 43059,
+      "resampling_attempts": 0,
+      "stable_candidates": 13,
+      "template": "relative"
+    },
+    {
+      "actual_seed": 243023,
+      "cluster_id": "graph-8cd446f5050c",
+      "depth": 3,
+      "flip_candidates": 58,
+      "requested_seed": 43017,
+      "resampling_attempts": 2,
+      "stable_candidates": 3,
+      "template": "relative"
+    },
+    {
+      "actual_seed": 43033,
+      "cluster_id": "graph-c4f47f3f5f90",
+      "depth": 3,
+      "flip_candidates": 59,
+      "requested_seed": 43033,
+      "resampling_attempts": 0,
+      "stable_candidates": 3,
+      "template": "relative"
+    },
+    {
+      "actual_seed": 143062,
+      "cluster_id": "graph-f4224615f571",
+      "depth": 3,
+      "flip_candidates": 56,
+      "requested_seed": 43059,
+      "resampling_attempts": 1,
+      "stable_candidates": 7,
+      "template": "relative"
+    },
+    {
+      "actual_seed": 43017,
+      "cluster_id": "graph-7f0fa4948872",
+      "depth": 1,
+      "flip_candidates": 32,
+      "requested_seed": 43017,
+      "resampling_attempts": 0,
+      "stable_candidates": 31,
+      "template": "parity"
+    },
+    {
+      "actual_seed": 43033,
+      "cluster_id": "graph-94b4b8a3e739",
+      "depth": 1,
+      "flip_candidates": 32,
+      "requested_seed": 43033,
+      "resampling_attempts": 0,
+      "stable_candidates": 31,
+      "template": "parity"
+    },
+    {
+      "actual_seed": 43059,
+      "cluster_id": "graph-b0153dff085b",
+      "depth": 1,
+      "flip_candidates": 32,
+      "requested_seed": 43059,
+      "resampling_attempts": 0,
+      "stable_candidates": 31,
+      "template": "parity"
+    },
+    {
+      "actual_seed": 43017,
+      "cluster_id": "graph-f96035b55cd1",
+      "depth": 3,
+      "flip_candidates": 34,
+      "requested_seed": 43017,
+      "resampling_attempts": 0,
+      "stable_candidates": 29,
+      "template": "parity"
+    },
+    {
+      "actual_seed": 243039,
+      "cluster_id": "graph-84805cc22893",
+      "depth": 3,
+      "flip_candidates": 60,
+      "requested_seed": 43033,
+      "resampling_attempts": 2,
+      "stable_candidates": 3,
+      "template": "parity"
+    },
+    {
+      "actual_seed": 43059,
+      "cluster_id": "graph-f9db22ccf876",
+      "depth": 3,
+      "flip_candidates": 31,
+      "requested_seed": 43059,
+      "resampling_attempts": 0,
+      "stable_candidates": 30,
+      "template": "parity"
+    }
+  ],
+  "independent_graph_clusters": 12,
+  "max_new_tokens": 256,
+  "models": [
+    "Qwen3.5-4B",
+    "Qwen3.5-9B"
+  ],
+  "planned_episodes": 504,
+  "primary_contrasts": [
+    "binding_system vs unbound_system: per-state information/repetition/token-matched join",
+    "binding_system vs static_system: combined runtime binding support",
+    "static vs static_system: same-rule placement",
+    "ledger_system vs static_system: bookkeeping",
+    "local vs static_system: selective delivery, not pure granularity"
+  ],
+  "request_timeout_seconds": 300,
+  "sampling": "greedy",
+  "seed": 1701,
+  "selection_limit": "Diagnostic graphs are selected before inference to admit genuine value changes both with stable and with changed reference operation vectors; root outcomes must also change. This is not natural-task prevalence.",
+  "task_timeout_seconds": 3600,
+  "tasks": [
+    {
+      "changed_source": "h9242",
+      "cluster_id": "graph-2344f59e7915",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h5094",
+            "h9242"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9242",
+            "h5677"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h5677",
+            "h5094"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 48,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h5094": 19,
+        "h5677": 6,
+        "h9242": 16
+      },
+      "split": "heldout",
+      "task_id": "case-7f278dd6aa440c3e",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h1968",
+      "cluster_id": "graph-94b4b8a3e739",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1339",
+            "h1968"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1968",
+            "h4257"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4257",
+            "h1339"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 59,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1339": 11,
+        "h1968": 6,
+        "h4257": 7
+      },
+      "split": "heldout",
+      "task_id": "case-307332941031898f",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h7366",
+      "cluster_id": "graph-f4224615f571",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7366",
+            "h8839"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8839",
+            "h9574"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h9574",
+            "h7366"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "max",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 143062,
+      "sources": {
+        "h7366": 17,
+        "h8839": 18,
+        "h9574": 8
+      },
+      "split": "heldout",
+      "task_id": "case-b3e8aec7c89f72ad",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h1987",
+      "cluster_id": "graph-f9db22ccf876",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7345",
+            "h1987"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1987",
+            "h4973"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4973",
+            "h7345"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h1987": 15,
+        "h4973": 13,
+        "h7345": 19
+      },
+      "split": "heldout",
+      "task_id": "case-6204e730e51843c3",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h6483",
+      "cluster_id": "graph-ddd894119c93",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h6483",
+            "h1720"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1720",
+            "h7665"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h7665",
+            "h6483"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 9,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1720": 11,
+        "h6483": 15,
+        "h7665": 11
+      },
+      "split": "heldout",
+      "task_id": "case-77a96074d690c7cc",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h7219",
+      "cluster_id": "graph-05029fb561e0",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7219",
+            "h8464"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8464",
+            "h6980"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h6980",
+            "h7219"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 343026,
+      "sources": {
+        "h6980": 12,
+        "h7219": 7,
+        "h8464": 19
+      },
+      "split": "heldout",
+      "task_id": "case-715d642ff7c675f9",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h2723",
+      "cluster_id": "graph-f96035b55cd1",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h6196",
+            "h8592"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8592",
+            "h2723"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h2723",
+            "h6196"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 10
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 10
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 38,
+      "root": "hroot",
+      "seed": 43017,
+      "sources": {
+        "h2723": 9,
+        "h6196": 15,
+        "h8592": 19
+      },
+      "split": "heldout",
+      "task_id": "case-bbb319e9e609ef37",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h1968",
+      "cluster_id": "graph-94b4b8a3e739",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1339",
+            "h1968"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1968",
+            "h4257"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4257",
+            "h1339"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1339": 11,
+        "h1968": 6,
+        "h4257": 7
+      },
+      "split": "heldout",
+      "task_id": "case-eb3276f725679159",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h7219",
+      "cluster_id": "graph-05029fb561e0",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7219",
+            "h8464"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8464",
+            "h6980"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h6980",
+            "h7219"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 23,
+      "root": "hroot",
+      "seed": 343026,
+      "sources": {
+        "h6980": 12,
+        "h7219": 7,
+        "h8464": 19
+      },
+      "split": "heldout",
+      "task_id": "case-8567744b7f07a327",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h1345",
+      "cluster_id": "graph-7f0fa4948872",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1345",
+            "h1518"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1518",
+            "h3155"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h3155",
+            "h1345"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43017,
+      "sources": {
+        "h1345": 16,
+        "h1518": 15,
+        "h3155": 9
+      },
+      "split": "heldout",
+      "task_id": "case-e5376cc31f663c55",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h6483",
+      "cluster_id": "graph-ddd894119c93",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h6483",
+            "h1720"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1720",
+            "h7665"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h7665",
+            "h6483"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1720": 11,
+        "h6483": 15,
+        "h7665": 11
+      },
+      "split": "heldout",
+      "task_id": "case-d7bf60452a60708a",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h4668",
+      "cluster_id": "graph-b0153dff085b",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h9685",
+            "h4668"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h4668",
+            "h5800"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h5800",
+            "h9685"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 21,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h4668": 13,
+        "h5800": 15,
+        "h9685": 16
+      },
+      "split": "heldout",
+      "task_id": "case-d80af6471db56d01",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h1987",
+      "cluster_id": "graph-f9db22ccf876",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7345",
+            "h1987"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1987",
+            "h4973"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4973",
+            "h7345"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 63,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h1987": 15,
+        "h4973": 13,
+        "h7345": 19
+      },
+      "split": "heldout",
+      "task_id": "case-0dfe129feda66cd0",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h9242",
+      "cluster_id": "graph-2344f59e7915",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h5094",
+            "h9242"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9242",
+            "h5677"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h5677",
+            "h5094"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h5094": 19,
+        "h5677": 6,
+        "h9242": 16
+      },
+      "split": "heldout",
+      "task_id": "case-26299b04b1106fce",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h6483",
+      "cluster_id": "graph-ddd894119c93",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h6483",
+            "h1720"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1720",
+            "h7665"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h7665",
+            "h6483"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 44,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1720": 11,
+        "h6483": 15,
+        "h7665": 11
+      },
+      "split": "heldout",
+      "task_id": "case-2f891276952e66a6",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h4668",
+      "cluster_id": "graph-b0153dff085b",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h9685",
+            "h4668"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h4668",
+            "h5800"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h5800",
+            "h9685"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 46,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h4668": 13,
+        "h5800": 15,
+        "h9685": 16
+      },
+      "split": "heldout",
+      "task_id": "case-6079080f5343a53b",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h9836",
+      "cluster_id": "graph-8cd446f5050c",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1443",
+            "h9836"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9836",
+            "h4571"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4571",
+            "h1443"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 243023,
+      "sources": {
+        "h1443": 2,
+        "h4571": 6,
+        "h9836": 8
+      },
+      "split": "heldout",
+      "task_id": "case-0ca29bf57b138176",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h1987",
+      "cluster_id": "graph-f9db22ccf876",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7345",
+            "h1987"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1987",
+            "h4973"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4973",
+            "h7345"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 16,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h1987": 15,
+        "h4973": 13,
+        "h7345": 19
+      },
+      "split": "heldout",
+      "task_id": "case-4f8ed6a9239f1323",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h7219",
+      "cluster_id": "graph-05029fb561e0",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7219",
+            "h8464"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8464",
+            "h6980"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h6980",
+            "h7219"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 12,
+      "root": "hroot",
+      "seed": 343026,
+      "sources": {
+        "h6980": 12,
+        "h7219": 7,
+        "h8464": 19
+      },
+      "split": "heldout",
+      "task_id": "case-e8b59ae37ad89df0",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h4918",
+      "cluster_id": "graph-84805cc22893",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h9509",
+            "h9008"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9008",
+            "h4918"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4918",
+            "h9509"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "max",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 2,
+      "root": "hroot",
+      "seed": 243039,
+      "sources": {
+        "h4918": 8,
+        "h9008": 9,
+        "h9509": 4
+      },
+      "split": "heldout",
+      "task_id": "case-89cd9b9c3a6db7f5",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h4918",
+      "cluster_id": "graph-84805cc22893",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h9509",
+            "h9008"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9008",
+            "h4918"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4918",
+            "h9509"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "max",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 243039,
+      "sources": {
+        "h4918": 8,
+        "h9008": 9,
+        "h9509": 4
+      },
+      "split": "heldout",
+      "task_id": "case-ddb372a7f086a193",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h2723",
+      "cluster_id": "graph-f96035b55cd1",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h6196",
+            "h8592"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8592",
+            "h2723"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h2723",
+            "h6196"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 10
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 10
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43017,
+      "sources": {
+        "h2723": 9,
+        "h6196": 15,
+        "h8592": 19
+      },
+      "split": "heldout",
+      "task_id": "case-7aa81ce4a9055b98",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h9836",
+      "cluster_id": "graph-8cd446f5050c",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1443",
+            "h9836"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9836",
+            "h4571"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4571",
+            "h1443"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 25,
+      "root": "hroot",
+      "seed": 243023,
+      "sources": {
+        "h1443": 2,
+        "h4571": 6,
+        "h9836": 8
+      },
+      "split": "heldout",
+      "task_id": "case-51681d36ae83610c",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h1345",
+      "cluster_id": "graph-7f0fa4948872",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1345",
+            "h1518"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1518",
+            "h3155"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h3155",
+            "h1345"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 7,
+      "root": "hroot",
+      "seed": 43017,
+      "sources": {
+        "h1345": 16,
+        "h1518": 15,
+        "h3155": 9
+      },
+      "split": "heldout",
+      "task_id": "case-da614f6236cd044b",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h4668",
+      "cluster_id": "graph-b0153dff085b",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h9685",
+            "h4668"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h4668",
+            "h5800"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h5800",
+            "h9685"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h4668": 13,
+        "h5800": 15,
+        "h9685": 16
+      },
+      "split": "heldout",
+      "task_id": "case-5d5e34b87505a592",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h1345",
+      "cluster_id": "graph-7f0fa4948872",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1345",
+            "h1518"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1518",
+            "h3155"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h3155",
+            "h1345"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 56,
+      "root": "hroot",
+      "seed": 43017,
+      "sources": {
+        "h1345": 16,
+        "h1518": 15,
+        "h3155": 9
+      },
+      "split": "heldout",
+      "task_id": "case-d83460fdfa587e59",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h4918",
+      "cluster_id": "graph-84805cc22893",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h9509",
+            "h9008"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9008",
+            "h4918"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4918",
+            "h9509"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "max",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 55,
+      "root": "hroot",
+      "seed": 243039,
+      "sources": {
+        "h4918": 8,
+        "h9008": 9,
+        "h9509": 4
+      },
+      "split": "heldout",
+      "task_id": "case-b690eac48bb0256b",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h7697",
+      "cluster_id": "graph-c4f47f3f5f90",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1789",
+            "h3723"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h3723",
+            "h7697"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h7697",
+            "h1789"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 12,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1789": 14,
+        "h3723": 23,
+        "h7697": 13
+      },
+      "split": "heldout",
+      "task_id": "case-6c0a660eb7b1cf17",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h9836",
+      "cluster_id": "graph-8cd446f5050c",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1443",
+            "h9836"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9836",
+            "h4571"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4571",
+            "h1443"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 12
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 17
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 9,
+      "root": "hroot",
+      "seed": 243023,
+      "sources": {
+        "h1443": 2,
+        "h4571": 6,
+        "h9836": 8
+      },
+      "split": "heldout",
+      "task_id": "case-feecad846263f3e5",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h7697",
+      "cluster_id": "graph-c4f47f3f5f90",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1789",
+            "h3723"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h3723",
+            "h7697"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h7697",
+            "h1789"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": false,
+      "replacement": 64,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1789": 14,
+        "h3723": 23,
+        "h7697": 13
+      },
+      "split": "heldout",
+      "task_id": "case-c2c8a3ff4af27ecf",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "none",
+      "width": 3
+    },
+    {
+      "changed_source": "h2723",
+      "cluster_id": "graph-f96035b55cd1",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h6196",
+            "h8592"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8592",
+            "h2723"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h2723",
+            "h6196"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 10
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "Choose max when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "sum"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose sum when it is odd.",
+          "predicate": "even",
+          "threshold": 10
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 31,
+      "root": "hroot",
+      "seed": 43017,
+      "sources": {
+        "h2723": 9,
+        "h6196": 15,
+        "h8592": 19
+      },
+      "split": "heldout",
+      "task_id": "case-2b04cd7bdca50c41",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h7366",
+      "cluster_id": "graph-f4224615f571",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7366",
+            "h8839"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8839",
+            "h9574"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h9574",
+            "h7366"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "max",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 58,
+      "root": "hroot",
+      "seed": 143062,
+      "sources": {
+        "h7366": 17,
+        "h8839": 18,
+        "h9574": 8
+      },
+      "split": "heldout",
+      "task_id": "case-a266bf9e7726f4ac",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h1968",
+      "cluster_id": "graph-94b4b8a3e739",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1339",
+            "h1968"
+          ],
+          "policy": "Choose sum when the first input is an even integer. Choose max when it is odd.",
+          "predicate": "even",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h1968",
+            "h4257"
+          ],
+          "policy": "Choose difference when the first input is an even integer. Choose min when it is odd.",
+          "predicate": "even",
+          "threshold": 9
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h4257",
+            "h1339"
+          ],
+          "policy": "Choose min when the first input is an even integer. Choose difference when it is odd.",
+          "predicate": "even",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 36,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1339": 11,
+        "h1968": 6,
+        "h4257": 7
+      },
+      "split": "heldout",
+      "task_id": "case-deab7f7e4c9748cd",
+      "template": "parity",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h9242",
+      "cluster_id": "graph-2344f59e7915",
+      "depth": 1,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h5094",
+            "h9242"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 11
+        },
+        {
+          "choices": [
+            "difference",
+            "sum"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h9242",
+            "h5677"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h5677",
+            "h5094"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn0_0",
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 7,
+      "root": "hroot",
+      "seed": 43059,
+      "sources": {
+        "h5094": 19,
+        "h5677": 6,
+        "h9242": 16
+      },
+      "split": "heldout",
+      "task_id": "case-79755fc28b12b6a9",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    },
+    {
+      "changed_source": "h7697",
+      "cluster_id": "graph-c4f47f3f5f90",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h1789",
+            "h3723"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h3723",
+            "h7697"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h7697",
+            "h1789"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "min"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 6
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "max"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "max"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "min",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use min; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 7
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 17,
+      "root": "hroot",
+      "seed": 43033,
+      "sources": {
+        "h1789": 14,
+        "h3723": 23,
+        "h7697": 13
+      },
+      "split": "heldout",
+      "task_id": "case-1d820f4de7b2b667",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "flip",
+      "width": 3
+    },
+    {
+      "changed_source": "h7366",
+      "cluster_id": "graph-f4224615f571",
+      "depth": 3,
+      "nodes": [
+        {
+          "choices": [
+            "max",
+            "min"
+          ],
+          "node": "hn0_0",
+          "parents": [
+            "h7366",
+            "h8839"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 8
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_1",
+          "parents": [
+            "h8839",
+            "h9574"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "sum",
+            "min"
+          ],
+          "node": "hn0_2",
+          "parents": [
+            "h9574",
+            "h7366"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use min.",
+          "predicate": "less_second",
+          "threshold": 16
+        },
+        {
+          "choices": [
+            "sum",
+            "difference"
+          ],
+          "node": "hn1_0",
+          "parents": [
+            "hn0_0",
+            "hn0_1"
+          ],
+          "policy": "When the first input is smaller than the second, use sum; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 15
+        },
+        {
+          "choices": [
+            "max",
+            "sum"
+          ],
+          "node": "hn1_1",
+          "parents": [
+            "hn0_1",
+            "hn0_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use sum.",
+          "predicate": "less_second",
+          "threshold": 14
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn1_2",
+          "parents": [
+            "hn0_2",
+            "hn0_0"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_0",
+          "parents": [
+            "hn1_0",
+            "hn1_1"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 19
+        },
+        {
+          "choices": [
+            "max",
+            "difference"
+          ],
+          "node": "hn2_1",
+          "parents": [
+            "hn1_1",
+            "hn1_2"
+          ],
+          "policy": "When the first input is smaller than the second, use max; in all other cases use difference.",
+          "predicate": "less_second",
+          "threshold": 18
+        },
+        {
+          "choices": [
+            "difference",
+            "max"
+          ],
+          "node": "hn2_2",
+          "parents": [
+            "hn1_2",
+            "hn1_0"
+          ],
+          "policy": "When the first input is smaller than the second, use difference; in all other cases use max.",
+          "predicate": "less_second",
+          "threshold": 13
+        },
+        {
+          "choices": [
+            "sum",
+            "sum"
+          ],
+          "node": "hroot",
+          "parents": [
+            "hn2_0",
+            "hn2_1",
+            "hn2_2"
+          ],
+          "policy": "Use sum.",
+          "predicate": "always",
+          "threshold": 0
+        }
+      ],
+      "refresh": true,
+      "replacement": 15,
+      "root": "hroot",
+      "seed": 143062,
+      "sources": {
+        "h7366": 17,
+        "h8839": 18,
+        "h9574": 8
+      },
+      "split": "heldout",
+      "task_id": "case-78d613b0a7d7794b",
+      "template": "relative",
+      "transient": false,
+      "update_mode": "stable",
+      "width": 3
+    }
+  ],
+  "thinking": false,
+  "turn_budget": 64
+}

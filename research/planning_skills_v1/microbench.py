@@ -45,12 +45,21 @@ class Task:
     nodes: list[dict]
     root: str
     template: str
+    cluster_id: str = ""
+    update_mode: str = "random"
 
     def public(self) -> dict:
         result = asdict(self)
-        for key in ("sources", "replacement", "changed_source", "seed"):
+        for key in ("sources", "replacement", "changed_source", "seed", "cluster_id", "update_mode"):
             result.pop(key)
         result["sources"] = list(self.sources)
+        if self.cluster_id:
+            # Counterfactual stable/flip variants have byte-identical public
+            # tasks before the update, including no condition-bearing ID.
+            result.pop("task_id")
+        for node in result["nodes"]:
+            for key in ("predicate", "threshold", "choices"):
+                node.pop(key, None)
         return result
 
 
@@ -97,9 +106,10 @@ def make_task(split: str, seed: int, depth=2, width=2, refresh=False,
                 changed_source=rng.choice(names), nodes=nodes, root=f"{prefix}root", template=template)
 
 
-def expected(task: Task, refreshed: bool) -> int:
-    """Private reference calculation; never called by tool observations or support."""
+def reference(task: Task, refreshed: bool) -> dict:
+    """Private reference; used for evaluation/controlled task generation only."""
     values = dict(task.sources)
+    operations = {}
     if refreshed:
         values[task.changed_source] = task.replacement
     for node in task.nodes:
@@ -108,15 +118,20 @@ def expected(task: Task, refreshed: bool) -> int:
         yes = {"greater": operands[0] > node["threshold"],
                "less_second": operands[0] < operands[1],
                "even": operands[0] % 2 == 0, "always": True}[predicate]
-        values[node["node"]] = apply_op(node["choices"][0 if yes else 1], operands)
-    return values[task.root]
+        operations[node["node"]] = node["choices"][0 if yes else 1]
+        values[node["node"]] = apply_op(operations[node["node"]], operands)
+    return {"values": values, "operations": operations}
+
+
+def expected(task: Task, refreshed: bool) -> int:
+    return reference(task, refreshed)["values"][task.root]
 
 
 def task_text(task: Task) -> str:
     public = task.public()
     for node in public["nodes"]:
         for key in ("predicate", "threshold", "choices"):
-            node.pop(key)
+                node.pop(key, None)
     return ("Build the specified root artifact from fetched sources. The input order in each node is meaningful. "
             "Select operations by the node's policy and the observed numeric inputs. "
             "Obtain a verification receipt for the root, then submit that exact artifact and receipt. "

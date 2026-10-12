@@ -33,7 +33,7 @@ def local_rule(events: list[dict]) -> tuple[str, str]:
     return key, RULES[key]
 
 
-def support(condition, env) -> tuple[str, dict]:
+def support(condition, env, tokenizer=None) -> tuple[str, dict]:
     metadata = {"condition": condition, "oracle_access": False}
     if condition == "none":
         return "", metadata
@@ -46,4 +46,16 @@ def support(condition, env) -> tuple[str, dict]:
         return "Currently relevant procedural support:\n" + text, {**metadata, "selected_rule": key}
     if condition == "ledger":
         return STATIC + "\nOBSERVATION-ONLY STATE PROJECTION=" + json.dumps(env.state_projection(), sort_keys=True), metadata
+    if condition in ("ledger_system", "binding_system", "unbound_system"):
+        metadata["system_skill"] = True
+        projection = env.state_projection()
+        if projection["phase"] == "submit":
+            return "OBSERVED_TERMINAL_STATE=" + json.dumps({"phase": projection["phase"], "receipt": projection["receipt"]}, sort_keys=True), metadata
+        if condition == "ledger_system":
+            return "OBSERVATION-ONLY STATE PROJECTION=" + json.dumps(projection, sort_keys=True), metadata
+        if tokenizer is None:
+            raise ValueError("Binding controls require the frozen model tokenizer")
+        from runtime_binding import matched_texts
+        joined, unjoined, count = matched_texts(env, tokenizer)
+        return joined if condition == "binding_system" else unjoined, {**metadata, "matched_dynamic_tokens": count}
     raise ValueError(condition)
