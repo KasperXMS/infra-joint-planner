@@ -214,3 +214,56 @@ A null thinking field means the sanitized metadata does not establish that switc
 | private_raw_evidence_exported | no |
 | source_files_checked | 511 |
 | protected_files_checked | 26 |
+
+## Failure case analysis
+
+42 cells 中有 15 次成功、27 次非成功；其中 9 次已完成但答案错误，18 次未完成。下表是互斥的最终结果，schema 错误是过程中发生的事件，不另计为一类最终失败。t1（MultiHop-RAG 第一题）和 t4（LongBench 第二题）在全部七个条件下均未成功，共占 14/27 次非成功，说明这两个任务是本轮的共同难点，不能单凭共同失败认定 evaluator 有问题。
+
+| 最终失败类型 | Cells | 位置 |
+|---|---:|---|
+| incorrect_answer | 9 | B0 t1；27B plain/Skills t1、t4；9B plain t1、t2；9B Skills t2；Ministral t5 |
+| control_plane_failed / HTTP 500 | 7 | 9B plain t3、t4、t5；9B Skills t1、t5；Ministral t1、t2 |
+| turn_budget_exhausted | 5 | 4B t2、t3、t4；9B Skills t3、t4 |
+| terminal_contract_failed | 4 | 4B t6；Ministral t3、t4、t6 |
+| context_budget_exceeded | 1 | 4B t1，Manager preflight 拒绝 |
+| verification_failed | 1 | B0 t4，Verifier complete 与 Manager 候选所有权契约冲突 |
+
+以下归因依据既有私有 traces、API error receipts 和服务日志的只读检查，没有新增 inference、恢复服务或重跑 cell。[脱敏 trace 时间线](../analysis/multiscale-planner-evaluation-v1/failure-case-trace-summary-v1.json)记录 42 cells 的错误代码、阶段变化、schema 类别及原始 trace/result SHA256；[provider 解析故障摘要](../analysis/multiscale-planner-evaluation-v1/failure-provider-findings-v1.json)补充七次 HTTP 500 的定位。题目、实体、候选答案和原始模型响应不写入本节。
+
+### 27B t1 和 t4：完成合成仍然答错
+
+实际 Qwen3.8-27B plain/Skills 在 t1 都进行了六路分片检索，两次 physical context 检查拒绝后降低 top_k、重新检索，最终成功调用 Executor 合成，但 evaluator 判错。两组都记录 18 个 BM25 节点。plain 有 1 次输出命名碰撞；Skills 有 1 次 schema 错误和 7 次命名碰撞（1 次合成、6 次检索），最终正确性未变。B0 t1 则经过两路主题检索、2 次阶段限制拒绝后成功合成，格式合法但同样判错。t4 两个 27B 条件均经过两主题检索、一次 physical context 拒绝、降低 top_k 后成功合成同一错误选项；Skills 消除了 plain 的 1 次合成输出命名碰撞，却没有修复错误答案。
+
+这里可证实的是：工具调用最终完成、格式合法和 Verifier complete 并不能保证答案正确。相关 Verifier 判断依据非空候选和合法输出格式，并未建立 ground-truth 正确性。原 Worker store 已为空，现存 trace 主要保存检索产物元数据，无法核实最终合成输入是否覆盖全部 gold 证据。因此不能进一步断言是漏检关键证据、压缩丢失关系、错误证据连接还是 Executor 合成推理错误；对这几种语义根因保留 unknown，不能直接称为 hallucination。增加检索次数没有在本轮修复 t1。
+
+### 9B Skills t3：已获准合成，却在阶段和参数错误中耗尽轮次
+
+第 1 次 aggregate_artifacts 后，Verifier 将流程切入 synthesis；当前 runtime 在该阶段只允许 invoke_model 或最终回答。接下来发生 8 次 phase_restricted 和 9 次 schema_validation_failed。Verifier 共 13 次返回 ready_for_synthesis，但 Manager 没有及时形成合法、可执行且输入适配的合成调用。第 14 次验证前的 invoke_model 又被 physical context 检查拒绝，流程退回取证阶段，最终用完 20 个 Manager turns，只形成 3 个 action nodes。
+
+Schema 错误包括省略 arguments、将 top_k 放错层级，以及空 inputs。此例的直接瓶颈是阶段规则、参数结构和反馈恢复，不能解释为单纯“还缺更多推理轮次”。注意：phase_restricted 和 schema 错误是不同检查点，其计数不能简单相加当作互斥失败轮次。
+
+### 4B t2/t3/t4 与 9B Skills t4：修复动作没有稳定收束
+
+4B t2/t3 在 evidence_collection 与 synthesis 间反复切换；Verifier 分别有 6/5 次 ready_for_synthesis，但后续出现未 materialize 的 artifact、过大 Executor 输入、参数及语义校验错误，最终各耗尽 20 轮。4B t4 做了 7 次 filter_records、3 次 physical context 拒绝，Verifier 20 次均为 continue。9B Skills t4 则有 11 次 schema 错误，包括缺 arguments、将嵌套参数摊平以及把应为 object 的 arguments 生成为字符串；即便局部调用修复成功，仍没有在预算内完成。
+
+这五个 turn-budget failures 合计消耗 100 个 Manager turns 和 100 个 Verifier turns。模型可以在某次错误后恢复一个合法调用，却仍不能完成任务；因此“出现 later-valid call”不等于有效的整体恢复。这也解释了弱 Planner 为什么会放大强 Verifier 的成本。
+
+### 七次 HTTP 500：发生在应用层 Schema 校验之前的解析故障
+
+五个 9B cells 的日志明确定位到 Ollama 原生工具调用 XML parser（qwen3coder.go → qwen35.go）。plain t3/t4/t5 和 Skills t5 的 function 标签被 parameter 结束标签关闭；Skills t1 则相反。它们没有形成可交付应用层 validator 的 Function Call，故没有被计作 schema_validation_failed，不能据此认为应用层静默执行了非法调用。
+
+Ministral t1/t2 的错误 body 分别为 object key 后出现非法右花括号、string literal 内出现非法换行，已定位到 JSON 语法解析失败；服务日志没有足够调用栈进一步确认具体 parser/renderer 组件。七次失败请求均通过 Manager context preflight，相关日志未见 OOM、timeout 或非零 truncation 标志。它们是有效的部署栈协议失败，与任务答案错误分开报告；不能全部归为纯推理能力差，也不能仅凭日志未见某标志证明其绝对不存在。
+
+### 提前结束和终结契约失败
+
+Ministral t3 尚未执行工具就返回文本，未获 Verifier 合成授权；t4 在一次 aggregate_artifacts 后返回空文本；t6 虽委派强 Specialist 并完成部分视频分析，Manager 在 Verifier 仍要求继续取证时结束。4B t6 进入 synthesis 后经历非法 invoke_model 参数、未 materialize artifact 和阶段违规，最后返回 752 字符、7 行文本，被选择题输出契约拒绝。这四例属于未完成，不能拿其中看似合理的文本当作已提交答案评分。
+
+B0 t4 是另一种契约问题：三次 physical context 拒绝后，Specialist 有一次成功合成并 handoff；最终 Verifier 返回 complete，但 Manager 没有自己的成功 model candidate。Runtime 因 `verifier returned complete without a successful manager model candidate` 拒绝终结。该例还包含输出命名碰撞、phase_restricted 和 artifact_too_large。它说明强 Specialist 的局部成功不会自动形成合法 Manager 最终产物；不能把 B0 t4 简化为错误答案或一般预算耗尽。
+
+### Context 和 Skills 的解释边界
+
+只有 4B t1 命中了本地 Manager 的 tokenizer preflight：rendered prompt 为 30,723 tokens，超过 32,768 减去 2,048 输出预留后的 30,720 预算，因此 fail-closed，禁止发送并静默截断。其他多次 context_limit_exceeded 来自被冻结的 Physical resolver：其 estimated_input 对文本使用 UTF-8/文件字节数、对图像使用 image_token_cost，是保守输入大小 proxy，不能写成实际 tokenizer tokens。比如 4B t4 的一次估计值为 2,120,902，表示其输入打包规模过大，并不证明模型实际收到两百万 tokens。
+
+全矩阵有 78 次 schema-invalid calls，其中 25 次缺少 arguments。一个调用可能违反多条 schema 规则；脱敏摘要另记录 30 条额外/错层字段错误和 10 条类型错误，不能与 78 次调用直接相加。当前 Frozen Skills 只提供抽象的“检查 schema、遵守预算、根据反馈恢复”，没有提供每个 operator 的嵌套参数实例、阶段转换操作步骤或超大 artifact 的压缩方案。本轮证据支持“这份固定指导不足以稳定解决这些错误”，不支持“所有 Skills 无效”。
+
+下一轮的建议是先针对这些已观察到的路径设计具体 SOP：合法 inputs/arguments 示例、按当前 phase 选择动作、Executor 输入缩减及证据保留、Manager 最终候选与输出格式检查。对 27B plain 的 Adapter 研究仍是有条件 Go，但应区分输入路由/资源优化与语义正确性；不能预先声称调度或减少节点会修复 t1/t4 的答案。以上均为未来方案，本轮未改 Skills、Prompt、Evaluator、Scheduler 或结果。

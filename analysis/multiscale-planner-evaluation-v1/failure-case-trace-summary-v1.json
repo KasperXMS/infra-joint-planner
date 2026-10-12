@@ -1,0 +1,4655 @@
+{
+  "version": "multiscale-planner-failure-trace-summary-v1",
+  "created_utc": "2026-10-12T07:38:51.939960+00:00",
+  "source": "preserved_private_traces_read_only",
+  "new_inference_calls": 0,
+  "raw_payload_exported": false,
+  "notes": [
+    "Schema entry counts can exceed invalid call counts; a call can violate multiple fields.",
+    "Physical context estimated_input is a conservative byte/image-cost proxy, not tokenizer tokens."
+  ],
+  "schema_error_entries": {
+    "input_cardinality": 12,
+    "other_schema": 2,
+    "wrong_type": 10,
+    "missing_required:arguments": 25,
+    "empty_inputs": 2,
+    "additional_or_misnested_fields": 30,
+    "missing_required:inputs": 7,
+    "missing_required:output_artifact_id": 3,
+    "missing_required:top_k": 8,
+    "missing_required:prompt": 2
+  },
+  "cells": [
+    {
+      "cell_id": "B0-t1-plain",
+      "trace_sha256": "415453ab1b4a7ea9f58cd293c25b4390ff72f204cad47bd98fcce0cb33f8620c",
+      "result_sha256": "e2bc9218c801454d44bcaa1e2bd5e0591202dc612fd597463ff8a9d70e8eb72d",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 2
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 2,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 4
+        }
+      ]
+    },
+    {
+      "cell_id": "B0-t2-plain",
+      "trace_sha256": "8ad91f5e72a0eb4bad0be26eb9f511287117eb220859574fff03bc79a46cb3e8",
+      "result_sha256": "db8167a7a99bebe65a05aee975b819f58350444a14415a4d88b5a58aa7d7ab61",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {},
+      "schema_error_entry_counts": {},
+      "phase_transitions": 2,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 3
+        }
+      ]
+    },
+    {
+      "cell_id": "B0-t3-plain",
+      "trace_sha256": "ac84ce08e275aa70650d6e0b34a53a1345d34505dbd6eb2995aed52e152ba8ce",
+      "result_sha256": "3068cb7eeb7a7a5f43ca1f695c4f3ad98a3f7c577814f5448751c516c2862c8a",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "context_limit_exceeded": 2,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 3
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 8
+        }
+      ]
+    },
+    {
+      "cell_id": "B0-t4-plain",
+      "trace_sha256": "1133eda9bb057c1d6bd1a72f3087e310858e30d0e96c7ca20e9aa8ac55e0a87e",
+      "result_sha256": "cda8e6c5886a1e2f0e5c8e8f99073acf682de4c4a2359ca3e3263f842b35b866",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "artifact_too_large": 1,
+        "phase_restricted": 2,
+        "context_limit_exceeded": 3,
+        "semantic_validation_failed": 2
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 2,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "artifact_too_large",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 3
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 6
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        }
+      ]
+    },
+    {
+      "cell_id": "B0-t5-plain",
+      "trace_sha256": "e562079f373fd01547931672791326c27129533252956801e42dff1d35853bab",
+      "result_sha256": "236c8ddc9a5d367c997ef6267b563f402ded44fa6e6fb0b57c96c763efb17803",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 3
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 4
+        }
+      ]
+    },
+    {
+      "cell_id": "B0-t6-plain",
+      "trace_sha256": "ac8b53405fc3cf9f3bfdc6aabeb663d5b083bfdafec4d7a5e704fae7392bbc35",
+      "result_sha256": "1e7ec380d7b21d9451d578810a2dd9dc0ae2374834f89de5b8f8a7b40a980713",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "semantic_validation_failed": 1,
+        "phase_restricted": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 2,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 4
+        }
+      ]
+    },
+    {
+      "cell_id": "ministral3-3b-t1-plain",
+      "trace_sha256": "af6211ab0a067334ca71c7c01e66a6c2c2334d602bb20eeb018314b740359ea5",
+      "result_sha256": "f2bddb5ac76e52d253f50ab7b52f89737207f0dc04f495cdc47ff04615178733",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 2
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 2
+      },
+      "phase_transitions": 0,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        }
+      ]
+    },
+    {
+      "cell_id": "ministral3-3b-t2-plain",
+      "trace_sha256": "af0f1e44de305886028fc0e6d5dfb909dac55b61d30a5135a29dfb2f337162a7",
+      "result_sha256": "9430eeed94e824911ecdbd3af75ab3d60ba636baeaf7508300a3284bb2b51ad5",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 3
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 2,
+        "other_schema": 1,
+        "wrong_type": 1
+      },
+      "phase_transitions": 0,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "filter_records",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "select_fields",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        }
+      ]
+    },
+    {
+      "cell_id": "ministral3-3b-t3-plain",
+      "trace_sha256": "0a8dc54e629855e886822f955f50121a7d36fa8b2a6c82780cc8cdc02b2482bf",
+      "result_sha256": "5dcabe96725a3a755647dd2e5b2146b3740da128f8d69ab33410d7ae180c3622",
+      "execution_completed": false,
+      "terminal_category": "synthesis_not_authorized",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {},
+      "schema_error_entry_counts": {},
+      "phase_transitions": 0,
+      "timeline": []
+    },
+    {
+      "cell_id": "ministral3-3b-t4-plain",
+      "trace_sha256": "6db0406900b0f49e85f7bf851cee84eaa5c47d0fee8948d111d1b12a321d85ca",
+      "result_sha256": "3e1d3192c8f541c80477dba456f48142f0dabdb2216e302c0f204ef73eb447c3",
+      "execution_completed": false,
+      "terminal_category": "no_textual_final_answer",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {},
+      "schema_error_entry_counts": {},
+      "phase_transitions": 0,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        }
+      ]
+    },
+    {
+      "cell_id": "ministral3-3b-t5-plain",
+      "trace_sha256": "1488b29adbe4fd4cfc28e1df33cee13b14a1b41cd4ff1bc0c0371828b6497695",
+      "result_sha256": "c4d91a1c806d102bcfe507389e231fa91ea43f25e5668e9b6919098403f78644",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "schema_validation_failed": 3
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 1,
+        "empty_inputs": 1,
+        "additional_or_misnested_fields": 1
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 5
+        }
+      ]
+    },
+    {
+      "cell_id": "ministral3-3b-t6-plain",
+      "trace_sha256": "d90e3c8cf52f8602cede07956bddbb3f900a07940eb075ac2f9c737f01727592",
+      "result_sha256": "1f562dc31c9e8720547c3122b4d7e2d2c89d251b09923e877325d8fa907526aa",
+      "execution_completed": false,
+      "terminal_category": "synthesis_not_authorized",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "artifact_too_large": 1,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 0,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "artifact_too_large",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t1-plain",
+      "trace_sha256": "dd8dda84be79c80e93f732f1dafdfd41f0cbdf45df1d188732b7bd9eac3715fc",
+      "result_sha256": "b4397ef54119130f98a98929f774eff502e7bd60b73c6cba46ed42d633b22f48",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "context_limit_exceeded": 2,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 3
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 8
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t1-skills",
+      "trace_sha256": "af7e8d577342506663efcd90bd5e016681ac8233c1a0568ca29c67db378060ef",
+      "result_sha256": "db832b52757e65d3f441854a1946d84de345234ded5078eee551ea8dc9ce2d4d",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 2,
+        "schema_validation_failed": 1,
+        "context_limit_exceeded": 2,
+        "semantic_validation_failed": 7
+      },
+      "schema_error_entry_counts": {
+        "additional_or_misnested_fields": 1,
+        "missing_required:inputs": 1
+      },
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "consult_specialist",
+          "phase": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "consult_specialist",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 4
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 10
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t2-plain",
+      "trace_sha256": "25583657ffbcc42c1d555c8049364079f9f3b2df86fee9bfcf9c8ec2fb4c45e5",
+      "result_sha256": "36b822d9f980039e3735d0dd9b73c4438f30bf89b46070bb93d32dc67dc05ad8",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "schema_validation_failed": 1,
+        "context_limit_exceeded": 1,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {
+        "additional_or_misnested_fields": 1,
+        "missing_required:inputs": 1
+      },
+      "phase_transitions": 4,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 4
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 5
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 7
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t2-skills",
+      "trace_sha256": "c0e0f4926242c500db23a0fbd418f9fcb2a572cf801303d7a920c4b50dfeaad0",
+      "result_sha256": "fa98b560b234ae93e3b0fd61e3175672e95d60d6b90801548d8346d13701a437",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 4,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 3
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 5
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 6
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t3-plain",
+      "trace_sha256": "d4b0ab7b1d3610c5b2db433929c1b3056f6f89c1200048727311b87592f5f04c",
+      "result_sha256": "56630bfa18ebd8f4ff59b3457e97b2ff5f5fae1fc4e2f86ea11eb104acdd3094",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 2
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 4
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t3-skills",
+      "trace_sha256": "b595a84f738d7c2e05458680c38dee20363f3ca40d49ccc322ab956ffab5f162",
+      "result_sha256": "2608f354066def4b5a7ab7f79d8a418171586c1fb0d67ef8b87f79f5fceb9f9a",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 2,
+        "context_limit_exceeded": 2
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 4
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 8
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t4-plain",
+      "trace_sha256": "75cb650d8994312d4db941d1af4eb04157305df835c2e8d47658d26f0f99d9a5",
+      "result_sha256": "1077a9fc58a759bc86e4a76975f37adaca670fc0d05cd138f055f52a7be02651",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "context_limit_exceeded": 1,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 2
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 5
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t4-skills",
+      "trace_sha256": "a172dd5e827c5b36f0d4a15bda83d7bcfde06a69c08a8d033931d64c2908042d",
+      "result_sha256": "593dcc526df9079aa4721686e48066433bd66c307d0a26f1ed0d001528d2444a",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 2
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 4
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t5-plain",
+      "trace_sha256": "161642394c299791498fb56e67a342f921656244a64363623aeb28da8e12ead6",
+      "result_sha256": "a6c57c1e73b47ab8fba7267f41e5c98e67784449aa291661d0edf2657a547c18",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 3
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 5
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t5-skills",
+      "trace_sha256": "d81487192a1693a59b1eeec57385a64c6806b1b880fca1fa22dc9e7a9236d77c",
+      "result_sha256": "cba9d9a754b6927861b2ee496dff35e4249d8043c766535639ee565a59ceb240",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "semantic_validation_failed": 2,
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 6
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t6-plain",
+      "trace_sha256": "6e2d35ed70948b5a4d4a84bac43fac0ed1af62c3f444af5b51bb326922bac4fa",
+      "result_sha256": "9e3152969061ef2bad79bdc9c683ce0a554d28452e73860eea3dc720f6f0542c",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "semantic_validation_failed": 2,
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 6
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-27b-t6-skills",
+      "trace_sha256": "ceda8f9945ca2f014128e9fc172aa46781e5231bdc14aa692f6b9185ea56fc8a",
+      "result_sha256": "2e566eab77d5c927ba1e94fa2d4afaee44ef80614b404d01eb821e9a79bb9999",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "semantic_validation_failed": 2,
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 6
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-4b-t1-plain",
+      "trace_sha256": "6c49175a3deeea305689f97371eee9471e3bdc27ecda4e3011f87b0ca2c462e8",
+      "result_sha256": "79d50bfc1998bab39fb5b04b074c08c31481441522a5dcfb51bb2897c6f61d96",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "APIConnectionError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 5,
+        "artifact_too_large": 1,
+        "validation_failed": 3,
+        "semantic_validation_failed": 2,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 2,
+        "wrong_type": 3
+      },
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_too_large",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "top_k_records",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 13
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 16
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 17
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 18,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-4b-t2-plain",
+      "trace_sha256": "017ef73a3ba505a9f6d00a4c1a56f95b306685d9da84964ff62875aae259168f",
+      "result_sha256": "f7d238eaf6ccd5231d49e03c90a3a4ce2b9e069ddbffa4c8e3753419d0cf0674",
+      "execution_completed": false,
+      "terminal_category": "manager_turn_budget_exhausted",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 1,
+        "validation_failed": 5,
+        "semantic_validation_failed": 4,
+        "phase_restricted": 2,
+        "artifact_not_materialized": 1,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 1
+      },
+      "phase_transitions": 6,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 6
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 9
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 16
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "top_k_records",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 18,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 18
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 19,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 19
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 20,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 20
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-4b-t3-plain",
+      "trace_sha256": "24dbe194b57603ff9539ca9545184df677a3406ff7279f39352ef7c5c30ae510",
+      "result_sha256": "a21a14b7f377336943f5e4a78694605522a5791f7dc3a1d9142f86cc898000bd",
+      "execution_completed": false,
+      "terminal_category": "manager_turn_budget_exhausted",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 3,
+        "phase_restricted": 1,
+        "artifact_not_materialized": 1,
+        "context_limit_exceeded": 2,
+        "validation_failed": 3,
+        "semantic_validation_failed": 2
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 2,
+        "input_cardinality": 1,
+        "additional_or_misnested_fields": 1
+      },
+      "phase_transitions": 5,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 7
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "top_k_records",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "top_k_records",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 18,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 18
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 19,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 19
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 20,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 20
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-4b-t4-plain",
+      "trace_sha256": "f15309c3a7b933e5c0abfd6225777173fa22941a04ebc2714d97fe441b415f4b",
+      "result_sha256": "b54985c2da7f2a423bdc7effc2d0246048acd117ffb9441a5d72a5de57010e98",
+      "execution_completed": false,
+      "terminal_category": "manager_turn_budget_exhausted",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 4,
+        "context_limit_exceeded": 3,
+        "semantic_validation_failed": 1,
+        "validation_failed": 1
+      },
+      "schema_error_entry_counts": {
+        "additional_or_misnested_fields": 3,
+        "missing_required:output_artifact_id": 1,
+        "missing_required:top_k": 1
+      },
+      "phase_transitions": 0,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "select_fields",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "aggregate_artifacts",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 18,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 19,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 20,
+          "status": "continue",
+          "stage": "execution"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-4b-t5-plain",
+      "trace_sha256": "b51b3d30c6eb1b9275f68a3bd21366a588bb5d6778d22fb21600a7648ba29cb9",
+      "result_sha256": "21301ee6fbb2546102f0d964ab5bffaa55fd59fd7a384e9e3b6b7a7ca7d2f72a",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "schema_validation_failed": 4,
+        "phase_restricted": 1,
+        "artifact_not_materialized": 3,
+        "semantic_validation_failed": 1
+      },
+      "schema_error_entry_counts": {
+        "missing_required:inputs": 3,
+        "missing_required:arguments": 2,
+        "additional_or_misnested_fields": 2,
+        "other_schema": 1
+      },
+      "phase_transitions": 4,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 7
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 11
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 16
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-4b-t6-plain",
+      "trace_sha256": "67d043ee1c2bc1178caaa3f31f38b9904773a7e462a3fa9ee25b0a525f047fdd",
+      "result_sha256": "a5d7475bcc77a080e390923d88421bb3faf64ef2dae3cc1290d95e07479861b0",
+      "execution_completed": false,
+      "terminal_category": "choice_output_contract_violation",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 2,
+        "artifact_not_materialized": 1,
+        "phase_restricted": 1
+      },
+      "schema_error_entry_counts": {
+        "additional_or_misnested_fields": 2
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t1-plain",
+      "trace_sha256": "8bf9dbeb5b8f2c7047700ef47a5c0770832ed79bb8c5928a7f886675c8e59420",
+      "result_sha256": "2fdb1b4af21a7275f4b9544310e3ed13c175626a3b4e01224d0db77f25d11e07",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "schema_validation_failed": 3,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 1,
+        "additional_or_misnested_fields": 2
+      },
+      "phase_transitions": 4,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 3
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 7
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 10
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 11
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t1-skills",
+      "trace_sha256": "1db4d1e7817bbfec2759faeb6394205c43b703af2e4615a2d491790808c701f7",
+      "result_sha256": "367ecfd319a5bea92a6a72e491affe3466f8fa658e5aa934b90e4dfd4f09a7d9",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 3,
+        "phase_restricted": 1
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 1,
+        "missing_required:arguments": 3
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 3
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "select_fields",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t2-plain",
+      "trace_sha256": "415a9ea53f08cca2e8830a76777ad265244ad9e1ddd80e08d210249280f5d2cd",
+      "result_sha256": "6eb33bd7ad023169381527ffbf1a6cb3c507368935c132ed03d030bb04841d3b",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "validation_failed": 2,
+        "semantic_validation_failed": 3,
+        "phase_restricted": 1,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {},
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 6
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 12
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t2-skills",
+      "trace_sha256": "23c72d8c2da918cbe746ee4825410ac9925b30a08a6db10327816754e16537e5",
+      "result_sha256": "c880ee25e746deb11ee6b458e74f98942056789d541890e6fc45d083b07d7788",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "schema_validation_failed": 3,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 1,
+        "additional_or_misnested_fields": 2
+      },
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 6
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 8
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t3-plain",
+      "trace_sha256": "7df4dee31b07e862e77b35eaf0ffc33a0eb05b54db0c0b0bc64d41361c4447a0",
+      "result_sha256": "14a9360c3026b6cb22fc537257f91d8a5bbdbe8ba06767e171e723becac62c50",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 2,
+        "phase_restricted": 2
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 1,
+        "additional_or_misnested_fields": 1
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 2
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t3-skills",
+      "trace_sha256": "adbc94cc52cad6d914d431e37cd5a7396ffd2777999bbba39def906e0d9a7919",
+      "result_sha256": "3f34fb104d6005eedf0ecea592cee1264aea85d72c16ccc0eb4e0d6c38b52f20",
+      "execution_completed": false,
+      "terminal_category": "manager_turn_budget_exhausted",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "phase_restricted": 8,
+        "schema_validation_failed": 9,
+        "context_limit_exceeded": 1
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 2,
+        "missing_required:top_k": 7,
+        "additional_or_misnested_fields": 6,
+        "empty_inputs": 1
+      },
+      "phase_transitions": 2,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "aggregate_artifacts",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 14
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 18,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 19,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 20,
+          "status": "continue",
+          "stage": "evidence_collection"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t4-plain",
+      "trace_sha256": "50ce6235bc247e6bf4434d612b6434b60bf4939fb56f1f8da0f64a45664f2239",
+      "result_sha256": "e6a9afd65ebfe0e935307b9bebc8533441e862bf99706463aaeaf232b54b7dd5",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 5
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 4,
+        "input_cardinality": 1,
+        "additional_or_misnested_fields": 1
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 3
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t4-skills",
+      "trace_sha256": "810079d4b0e2405497d05a7518f98cf94a09d2604dfa0bfeb2be06ff4ddc2d90",
+      "result_sha256": "f7a0f850b1aa240424dcda90f9ae4d4ebe07706d1e1157074dec49de275364d8",
+      "execution_completed": false,
+      "terminal_category": "manager_turn_budget_exhausted",
+      "failure_exception_type": "AgentLoopError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 11,
+        "context_limit_exceeded": 2
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 3,
+        "missing_required:inputs": 1,
+        "additional_or_misnested_fields": 2,
+        "missing_required:output_artifact_id": 2,
+        "wrong_type": 5
+      },
+      "phase_transitions": 2,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 4
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 7
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "bm25_retrieve",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "select_fields",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 18,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 19,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 20,
+          "status": "continue",
+          "stage": "synthesis"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t5-plain",
+      "trace_sha256": "69be9395440c510e2dbd9773df6728f51d425ea4149fe5661944d09c60f7cc78",
+      "result_sha256": "d059a3e833159ada28ef7572879f58061c58f7e2e58d7fab131f7b2f426c41cb",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "schema_validation_failed": 1
+      },
+      "schema_error_entry_counts": {
+        "wrong_type": 1
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t5-skills",
+      "trace_sha256": "fe5962db4a8445c55f9a7e6c88958fc02c3f8c1a096333e7c2e377ff09908cc4",
+      "result_sha256": "8dbe9c621580bbd9002c73a89474f167f26359654c6b93e515d536c2a765f6aa",
+      "execution_completed": false,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": "InternalServerError",
+      "observation_failure_counts": {
+        "schema_validation_failed": 6
+      },
+      "schema_error_entry_counts": {
+        "missing_required:arguments": 3,
+        "missing_required:inputs": 1,
+        "additional_or_misnested_fields": 2,
+        "missing_required:prompt": 1
+      },
+      "phase_transitions": 1,
+      "timeline": [
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 7
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t6-plain",
+      "trace_sha256": "e333b71efbaeef561061a044be3705ee43a997795e8ddbd3f1a44b107ec57007",
+      "result_sha256": "23cf135eba9e2264742dbda96c9b3528947d49a0802a0644885bbca1e16a0f0f",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "semantic_validation_failed": 1,
+        "schema_validation_failed": 4,
+        "phase_restricted": 1,
+        "validation_failed": 4,
+        "artifact_not_materialized": 2
+      },
+      "schema_error_entry_counts": {
+        "input_cardinality": 1,
+        "missing_required:arguments": 3,
+        "missing_required:prompt": 1,
+        "additional_or_misnested_fields": 1
+      },
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "semantic_validation_failed",
+          "tool": "sample_frames",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "continue",
+          "stage": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 5
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 7
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 8,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 9,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 10,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 11,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "validation_failed",
+          "tool": "aggregate_artifacts",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 12,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 13,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "read_artifact",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 14,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 15,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "failure",
+          "code": "artifact_not_materialized",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 16,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 17,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 17
+        }
+      ]
+    },
+    {
+      "cell_id": "qwen35-9b-t6-skills",
+      "trace_sha256": "5b4e9e114da7676ea2f1a44a518352d5d29c9ef9a4b93b57da3123ab9467966a",
+      "result_sha256": "afc598ffc5e76f312caaa9a09ec9d0dbfa0a8888b0f6e723d6a79506dbade81f",
+      "execution_completed": true,
+      "terminal_category": "other_or_none",
+      "failure_exception_type": null,
+      "observation_failure_counts": {
+        "phase_restricted": 1,
+        "schema_validation_failed": 2,
+        "context_limit_exceeded": 2
+      },
+      "schema_error_entry_counts": {
+        "additional_or_misnested_fields": 2
+      },
+      "phase_transitions": 3,
+      "timeline": [
+        {
+          "event": "verification",
+          "index": 1,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "synthesis",
+          "verification_index": 1
+        },
+        {
+          "event": "failure",
+          "code": "phase_restricted",
+          "tool": "make_contact_sheet",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 2,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 3,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "schema_validation_failed",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 4,
+          "status": "ready_for_synthesis",
+          "stage": "none"
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "synthesis"
+        },
+        {
+          "event": "verification",
+          "index": 5,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "phase",
+          "to": "evidence_collection",
+          "verification_index": 5
+        },
+        {
+          "event": "failure",
+          "code": "context_limit_exceeded",
+          "tool": "invoke_model",
+          "phase": "evidence_collection"
+        },
+        {
+          "event": "verification",
+          "index": 6,
+          "status": "continue",
+          "stage": "execution"
+        },
+        {
+          "event": "verification",
+          "index": 7,
+          "status": "complete",
+          "stage": "none"
+        },
+        {
+          "event": "phase",
+          "to": "complete",
+          "verification_index": 7
+        }
+      ]
+    }
+  ]
+}

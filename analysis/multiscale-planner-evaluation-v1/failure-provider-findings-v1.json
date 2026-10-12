@@ -1,0 +1,278 @@
+{
+  "schema_version": "failure-provider-findings-v1",
+  "generated_utc": "2026-10-12T07:41:45.024126+00:00",
+  "run_id": "run-001",
+  "method": "Read-only diagnosis of existing cell-private error responses and Manager service log intervals; only this sanitized reporting artifact was added.",
+  "cells": [
+    {
+      "cell_id": "qwen35-9b-t3-plain",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "xml_tool_call_parser",
+      "sanitized_error_message": "XML syntax error on line 8: element <function> closed by </parameter>",
+      "component_attribution": {
+        "status": "confirmed",
+        "component": "Ollama native Qwen tool-call XML parser",
+        "source_locations": [
+          "qwen3coder.go:71",
+          "qwen35.go:108"
+        ],
+        "limit": null,
+        "inference": null
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "98ed790644e2e4c0679abebfbe274375b72192cc2c6ca48db375ef0da18a9f3e",
+        "private_service_log_interval_file_sha256": "bc422641deeaa7d089d17dca0238650b2cde80109e4cada0e77665f0b45c0491",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 9547,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    },
+    {
+      "cell_id": "qwen35-9b-t4-plain",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "xml_tool_call_parser",
+      "sanitized_error_message": "XML syntax error on line 11: element <function> closed by </parameter>",
+      "component_attribution": {
+        "status": "confirmed",
+        "component": "Ollama native Qwen tool-call XML parser",
+        "source_locations": [
+          "qwen3coder.go:71",
+          "qwen35.go:108"
+        ],
+        "limit": null,
+        "inference": null
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "871d5ef4491fd159e78e49eae882cfe31a6c3ef3a346732f73a6654558e3612e",
+        "private_service_log_interval_file_sha256": "639d7a0810c70948d0157a0ff54d33c9712f951e871a64af5a53a998b1428947",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 10571,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    },
+    {
+      "cell_id": "qwen35-9b-t5-plain",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "xml_tool_call_parser",
+      "sanitized_error_message": "XML syntax error on line 8: element <function> closed by </parameter>",
+      "component_attribution": {
+        "status": "confirmed",
+        "component": "Ollama native Qwen tool-call XML parser",
+        "source_locations": [
+          "qwen3coder.go:71",
+          "qwen35.go:108"
+        ],
+        "limit": null,
+        "inference": null
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "98ed790644e2e4c0679abebfbe274375b72192cc2c6ca48db375ef0da18a9f3e",
+        "private_service_log_interval_file_sha256": "e49b93a2cd26f85a31063cd63bd040da37338c3257feec392e5c6bf0c7de3dcc",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 13106,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    },
+    {
+      "cell_id": "qwen35-9b-t1-skills",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "xml_tool_call_parser",
+      "sanitized_error_message": "XML syntax error on line 19: element <parameter> closed by </function>",
+      "component_attribution": {
+        "status": "confirmed",
+        "component": "Ollama native Qwen tool-call XML parser",
+        "source_locations": [
+          "qwen3coder.go:71",
+          "qwen35.go:108"
+        ],
+        "limit": null,
+        "inference": null
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "852d273577605a5720eae4e766489cc7434ef8f3674cffc5b4e68632369d490e",
+        "private_service_log_interval_file_sha256": "dcb96418e7343c0e96a18bc168cdd194a2694902b12ef3bba061e597e297c370",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 10357,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    },
+    {
+      "cell_id": "qwen35-9b-t5-skills",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "xml_tool_call_parser",
+      "sanitized_error_message": "XML syntax error on line 30: element <function> closed by </parameter>",
+      "component_attribution": {
+        "status": "confirmed",
+        "component": "Ollama native Qwen tool-call XML parser",
+        "source_locations": [
+          "qwen3coder.go:71",
+          "qwen35.go:108"
+        ],
+        "limit": null,
+        "inference": null
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "6966fea61f52bad385238c4406abc634a9fd10fc74c9c3d2537d942c2d3c8979",
+        "private_service_log_interval_file_sha256": "502bbd30408025dd8301ac392ab9e673a043059daf8edd4ab498983394da48cd",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 20569,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    },
+    {
+      "cell_id": "ministral3-3b-t1-plain",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "json_syntax_parser",
+      "sanitized_error_message": "invalid character '}' after object key",
+      "component_attribution": {
+        "status": "unknown",
+        "component": null,
+        "source_locations": [],
+        "limit": "JSON syntax parsing is confirmed; the available evidence does not identify the specific parser or renderer component.",
+        "inference": "Generation-output JSON parsing is consistent with the existing request timing and runner activity, but is not a confirmed component attribution."
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "11707911b01f7a9109c5a50427fb8ea7f64b05565727092e14320bb183cd6e27",
+        "private_service_log_interval_file_sha256": "fddf528415eaa374f67b68e803d8c1c4a98447e6e193351b39ffa13bcceba61f",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 6537,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    },
+    {
+      "cell_id": "ministral3-3b-t2-plain",
+      "http_status": 500,
+      "sdk_exception_type": "InternalServerError",
+      "provider_error_type": "api_error",
+      "confirmed_parser_category": "json_syntax_parser",
+      "sanitized_error_message": "invalid character '\\n' in string literal",
+      "component_attribution": {
+        "status": "unknown",
+        "component": null,
+        "source_locations": [],
+        "limit": "JSON syntax parsing is confirmed; the available evidence does not identify the specific parser or renderer component.",
+        "inference": "Generation-output JSON parsing is consistent with the existing request timing and runner activity, but is not a confirmed component attribution."
+      },
+      "evidence": {
+        "private_provider_error_file_sha256": "6f65c28c173c3526b87a81748f6697ee6d1c6a510a02a9ea82d4a0de0d8c4bfd",
+        "private_service_log_interval_file_sha256": "f066e73ecf86315856102376b6eadece585f9a338f0dd0909c7a485f79e38d79",
+        "raw_paths_exported": false,
+        "raw_requests_or_responses_exported": false
+      },
+      "context_preflight": {
+        "decision": "allow",
+        "inference_forwarded": true,
+        "prompt_tokens": 7305,
+        "input_budget_tokens": 30720
+      },
+      "observed_service_log_signals": {
+        "oom": false,
+        "timeout": false,
+        "nonzero_truncation": false,
+        "scope": "Previously inspected cell-local Manager service log interval only; absence of a marker is not a system-wide exclusion."
+      },
+      "application_schema_boundary": "The failing HTTP 500 did not deliver a parsed Function Call to the application Schema validator; this provider failure is distinct from an observed schema_validation_failed event.",
+      "new_inference_calls": 0
+    }
+  ],
+  "cell_count": 7,
+  "new_inference_calls": 0,
+  "task_reruns": 0,
+  "service_or_model_configuration_changes": 0,
+  "raw_sensitive_evidence_exported": false,
+  "limitations": [
+    "The five Qwen XML parser failures are confirmed service-level tool-call parsing failures; they do not establish pure task-reasoning failure.",
+    "The two Ministral responses confirm JSON syntax errors, but available logs do not identify a specific parser or renderer source component.",
+    "No observed OOM, timeout or truncation marker applies only to the inspected cell log intervals."
+  ]
+}
