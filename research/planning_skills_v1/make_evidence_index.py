@@ -111,7 +111,7 @@ def collect(root):
 
     # Freeze exact final study/config/analysis bytes. Never copy weights, caches,
     # environments, root download logs, device-info or unlisted home files.
-    for base in (root / "results", root / "configs"):
+    for base in (root / "results", root / "configs", root / "checkpoints"):
         for path in sorted(base.rglob("*")):
             if path.is_file() and path.suffix in (".json", ".jsonl", ".py", ".sh", ".csv", ".md", ".txt") and "__pycache__" not in path.parts:
                 capture(path)

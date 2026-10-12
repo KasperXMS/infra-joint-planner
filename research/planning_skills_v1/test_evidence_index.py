@@ -27,7 +27,13 @@ class EvidenceTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "unfinished"):
                 collect(root)
             (stage / "engineering-invalidated.json").write_text(json.dumps({"reason": "fixture framing failure"}))
+            (root / "checkpoints").mkdir()
+            (root / "checkpoints/receipt.json").write_text('{"status":"fixture"}')
+            (root / "models").mkdir()
+            (root / "models/uncopied.txt").write_text("fixture model bytes outside archive whitelist")
             index, payload = collect(root)
+            self.assertIn("checkpoints/receipt.json", payload)
+            self.assertFalse(any(name.startswith("models/") for name in payload))
             self.assertFalse(index["studies"][0]["ability_evidence"])
             self.assertEqual(index["episodes"][0]["state"], "interrupted_engineering")
             self.assertEqual(index["episodes"][0]["trace_sha256"], hashlib.sha256(trace).hexdigest())
