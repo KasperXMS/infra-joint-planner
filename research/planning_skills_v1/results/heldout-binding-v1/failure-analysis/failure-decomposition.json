@@ -1,0 +1,3741 @@
+{
+  "counts": {
+    "budget_before_valid_compute": 22,
+    "budget_with_observed_policy_error": 52,
+    "success_after_discarded_policy_error": 6,
+    "success_clean_policy_history": 14,
+    "success_with_retained_policy_error": 2,
+    "wrong_answer_with_unexpected_tool_error": 75,
+    "wrong_answer_without_unexpected_tool_error": 333
+  },
+  "depth_strata": [
+    {
+      "counts": {
+        "budget_before_valid_compute": 6,
+        "budget_with_observed_policy_error": 14,
+        "success_after_discarded_policy_error": 5,
+        "success_clean_policy_history": 3,
+        "wrong_answer_with_unexpected_tool_error": 12,
+        "wrong_answer_without_unexpected_tool_error": 86
+      },
+      "depth": 1,
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "counts": {
+        "budget_with_observed_policy_error": 30,
+        "success_with_retained_policy_error": 1,
+        "wrong_answer_with_unexpected_tool_error": 10,
+        "wrong_answer_without_unexpected_tool_error": 85
+      },
+      "depth": 3,
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "counts": {
+        "budget_before_valid_compute": 11,
+        "success_after_discarded_policy_error": 1,
+        "success_clean_policy_history": 11,
+        "wrong_answer_with_unexpected_tool_error": 28,
+        "wrong_answer_without_unexpected_tool_error": 75
+      },
+      "depth": 1,
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "counts": {
+        "budget_before_valid_compute": 5,
+        "budget_with_observed_policy_error": 8,
+        "success_with_retained_policy_error": 1,
+        "wrong_answer_with_unexpected_tool_error": 25,
+        "wrong_answer_without_unexpected_tool_error": 87
+      },
+      "depth": 3,
+      "model": "Qwen3.5-9B"
+    }
+  ],
+  "episode_categories": [
+    {
+      "category": "success_with_retained_policy_error",
+      "episode_id": "case-0ca29bf57b138176__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "51c90fce090c390fbb3fd87927e905b0b88e8125e0cba1599cd4510199bc38af"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "7111b08cbe8b7c3f76866a4d1631c6c832df271c879ae540681e218baabf4c25"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "8df0cd0a592e65a48eda9b933adc467b1e4282f90f51b54eef62f82187671e6d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "f5f49db012dc898e69b5ffe50ea4478846d7017f9e75f4d17b37d3458273c946"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-0ca29bf57b138176__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "ff576e3e853a26e7c0e2579b9dd0643a0d7a61c32893ed4d7ba59dd38adeb885"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "8f6f8d280b0e7947062ac1383fd0b533c1db92b5e585964513a1170468099448"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "65230434613d33e4ec4b00e7690a20232cf901f9b65355d1e749f76fb79d2658"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "004eef2f8f36bb629d02e0e9a74b6618dbde5a278ee484abe30349fb053c3a41"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "69ec91eadd81f119e282c815dc4db9d62137415fc07bc4b2c16932cd421276c2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "2f9c06b782b3ff2f808ad9813239105016c684fed6457013741ba250f9bf6a93"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "ff072f76aaafb1953102c3345f468c2d34128fb669b88b17beafd409c4f597e5"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-0dfe129feda66cd0__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "cc2c93ed0dfd59882eebd8f002ec279886d0530062736f8429b275d9e8d33bc4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "ede508fd31265c0ff2c18ead7b8ddd4d3b02332e7cb96fe02e2de9debe876ba4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "ad0352931b4d3ee5ec28637b8fb1762fd931a8db092422684064d28ee06fb2ed"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "7147a4a3338bf15e88cf91042b6d18803e578ec4b6abcfa3c8e851f81f07b03c"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-1d820f4de7b2b667__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 17,
+      "trace_sha256": "5b7cfc439b9449a514cfcdb6134cb6b04e8894991ff475897057b4fed1b0c3a8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "7e92cb95e7767229ce58bb445007eda81b51e9a02c1d803371f87148033a3fc4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "71a8456499cf959f8588b942428c7f491a772d589657b0ad708c5aa7fb9e0b06"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-1d820f4de7b2b667__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 59,
+      "trace_sha256": "c4f1b47435925bba6bbd68dfd8212228e73689f362cd91ed4dcc0922717e1529"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "2453444fc6007e89f8c845f34135b4e9b644cb3e5b3c9987532142198dc5526c"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "f4a83521c3f0c90e4a143a8333eb3501b47f65b298f884425ac55dc734a701cf"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "bfb4e2391f09c1cf741f5b5203fc7c6c30ae9b05221cb44a543fcbfb4ad4a22c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "f374e0ecea27c445d52a3ba609c911fcfef197558c514aeaf87327bfe3f53a29"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "42084f6a68e8e42e5ac197a881485b5c59e6363e0ab6823a383a7bef98745ebe"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "17004b340546bca80e89272b9883acef0db640f46a739a7dfb778671c78b1ecb"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-26299b04b1106fce__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 3,
+      "trace_sha256": "eb6d77dfc6898bb0dcac3aa07a81077e8a27926caca8e813957cc2f3d1454254"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "76a881e9ee8110eec8814c5b6c47e21317e0ac1322d19f651f1aa38820b362d5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "8f2f3d2cacfa9268bf794762830955d0d1433c398c37a531041da4d23bd271b3"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "54ececa421b551b84195f0dfca17bca0d22028dbe1e457318fdbd27f2f3c5d0e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "a5a2377d71b1698b992bc9e4cad918992f549a445f3f43c5b2226ac158f14eee"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "da3a88a16470cdbe92676c884aaed9b68b78543172f7b1662d2078b5edcfa7d3"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "f757118bb55fe84fc9bb3c3e233c8da5614b7983e63a2c18473947da565ba9bc"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-2b04cd7bdca50c41__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 57,
+      "trace_sha256": "9a31b581e7f3aad5e3393fed68ea5f0d951fedd7ee0cc427d7634aa59b53923e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "954d9a08fa1db4309f8a79f68230a53cc82243eab2a7d34d1c3750a3340cd960"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "88d4f0a78a7508b14139901feb29e4310cba7d82acd4df8739b60770dd7decea"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "0773763e8498d82bdbb782ff14fc19adab8dc504b80946774abf3849b307280f"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 52,
+      "trace_sha256": "3dc34f1c0e09e39f01e4f2a54374eede58acdc43f9fc8bdca660c6787cdcc898"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "466d16f75d62c48fe40d57bc743b5243d4a52cad050d9b0bff234b01b111a55a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "b913ad0e95705ae611fd9e6e300d353538809fdf733c693c2d09300d3a3e0278"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "a768ff7e9a7f842a1a73df3f4d67fcb5c933a0cf1c55d5cd86b72a8775a8023c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "2ec3f3e054f9a63a12ea5ff12dba2760d514e3a181d36fd168336c6242944cca"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "081d437971c88e9e3a7293ba13444bc3ec0ca2efaefb4809010e70a513432d30"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "529f6e98cd5cffe8c7ec957dc4be84bc873d289949c068d697d9b172477d735d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "05eb3e5dfaff39f8219a11b2d73168adbb898ad98fe481c8c42d885cff3e89ce"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "b5e86900d8d7b0c0a31d68c9a95fdd347e6f33ffbba6cef7b205de0ec1932926"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "03fa82afb122aad95b7bad314c49b5463dd22747e07728d4dcca87d913dac108"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-307332941031898f__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 59,
+      "trace_sha256": "fd175d4a50a1723def1651d276d2a70a6faa9a74925a4a25a59fcac5625fbbf9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "fe521ee0c3886af50bdef24e9279dd0d0a4fb35a326ad8d5267e268a0a25a99c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "56dca3097f59d74037af506d3c47ff6f01a8579d3c76324ebd9ec096774ce6d7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "e1dda590b18d1ef5a8ad605d7abba45b490f23d18e7940c9214b4b8ecafbf8db"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "f49f211b1c6d8a3cd6a2d6fd1df59fd920fc575eefbd6865e0b24879f12b56f9"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-4f8ed6a9239f1323__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "3151a9f2269895da32ecccd03245a06cfb24dc81228dd1df3dc77db00846d2ce"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "d907038162bfbf5498b3a8399e8fb4f56693308d7e63794f574ed1ba72676ebb"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-4f8ed6a9239f1323__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "b0d8d9e4705b979b2555a1ac396d7a6096c0fcaa2ebe51084320e24074f11307"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "9219f5485f7d369b4dbd096e5143da07837b3f03b8307b1c762db1e78b5f2800"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "14d7408b9c2107c49f36b72e425c774986264513b20d99eb8e36fbaff54b43f6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "25cc75e83bf82343a6ce287850ab22b1dc43de7c5c3908ae4cea81cae8fdd6df"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 21,
+      "trace_sha256": "6e478e5d77ae6169b5a783688b04bc6998ace5b54be0cca2c01021c2c1c50367"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "e0cb4090aa9f3ad0c375a0c49e4971400d1a726fdfc0ce8450cb15192560cd67"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "061b791664226b6ec731446fcfab3dff3c25f138a4a3a59b0d7ee2b457201422"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-51681d36ae83610c__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "506b73005366bc2ee05946c9d4f1914ebb5a5aaabf9b1a0606a2a9148bad42b5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "2f68a8795b6cba6a913340559cd0ef5f986d295acbb03ac5ad3e980e0c706b37"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "2098540445c58f25573782fadc088c30a72a2f73cf84732f96698d1b677a3d66"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-5d5e34b87505a592__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "66fb692555aa02a9227376cf4034b5fb564d0f4d9e1e3e3fc83ddee119b67ef1"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "37ddc08a492e023c88c82290e28b81654d8e7511284f5ddc956e9ca81712c7c7"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-5d5e34b87505a592__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 0,
+      "trace_sha256": "f74e787aca33cb03d4cebfacc7401b71921ab2ac794bd8fda74a199264841ac2"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "5c6c9b71340d62bc64532691a886dfd7c2405dcb46dd449182e9bc0c0ab98168"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-5d5e34b87505a592__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 0,
+      "trace_sha256": "3e9b373f704d34371a9a505f1754483eb85cddeae2a6c9715e449af91bfbc95b"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "04b956ad12cbeb8bbd8e29a56fa9495021026cfbce30b54b402fa6d7cb69f8a6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "724a473b2a06628031ce4da69b763a5f1be3d59da0af01bbd95233ae11d9f724"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-6079080f5343a53b__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "0fdbe542fad1c5297b7862a2b54906ae35fc85c005bb40e5fa3436936647d284"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-6079080f5343a53b__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "5943bc00df3b469032191b36e12de5a2ada438cfc2e805952d49c84d8559f8de"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-6079080f5343a53b__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 0,
+      "trace_sha256": "a1f7b00450cf0fda709c6344aaff3d462fdf5dcbbbf6f7314e02c64477a51c34"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "5d7756aa7ef745f952dadff5ab14dc03512f0d76c6bd23f2ca662b7c516f4b66"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-6079080f5343a53b__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 0,
+      "trace_sha256": "760835c7ce64f6d9f55e0eb385229ed42b4bc82288f9343e953a8fa9e8ea7be2"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "33a9832da95634f58b311f37b05d5ab021a87f7751738fafefbcd1f4d3c0d623"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "0553196a3065385c9d20ccfd5ae1dd9f967feaf2f1a036c9668028b655c54b98"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "c12670bc9af325e1d4ca3ae792604bcade6297d78799cb3b0754e9a8dd4fd03e"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-6204e730e51843c3__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "262fa70b302878086b665fb27d6af4bef9d200cd5a15a2552851321ab6d2a6a0"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-6204e730e51843c3__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "a0fac3cdecd380f0339636e52c385695036ec3120f4ef528dac07c99108b6f90"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "cbfd7e8f4697a8d313013f6b6533cccd9739afe49e8dd2bf1846acd10c548f1c"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-6204e730e51843c3__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "3dd2a1068fcf85c26e683a004476d6540d7c01bf2c0b79c6c5d72c20e6b0c2cb"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "88a122a193811f2d765cf15187cd1da264658dba8667b3ec1d4de0030f72afa3"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "a1db2bfcedcd4c1c1ca0ed067817736fd00366f820da784689cf8aa3b7a07d14"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "9227bb56e037810173752bbe18279284828daa972f9025aba74daabde591f867"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-6c0a660eb7b1cf17__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 17,
+      "trace_sha256": "7b310150d3446b9b0bc2d49d5c9d8bcced79bc794fd13c01be67d153a1b6d625"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "09e47e7f406fd05516c2b5bdc892e34412d19281bccb0f6ec459fe5ffff79ee2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "8712650ebbfce9ca821a8d12188c6d5915f3ccbc990927f3f5d7556f5b57a860"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-6c0a660eb7b1cf17__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 59,
+      "trace_sha256": "7e7e1f265084dd5b2b7aa6062757240bd2008f65d3cd595e50ea7391a0469ed8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "04a9e616175ec2097b1e1fd2341f5aff0c2d09c39e57a4d9acdcc32b066b2385"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "9d9777f372c9fcf85321116733d7df367d5652855e0c035cae4d668339cdf1b8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "80aea0b17cc35a25eca0a8031a9d5bdf86af2270e77cb22a52c1c1b5719ae33c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "528215d25d33d7f3fd8095286fe10b6c073aeadaff920c888117bdaf980d2b6b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "6a1886c875ee8b76a25ed5270427a129c9f537c14a4163715e6c5e27b080981e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "f854a22242348acfb879d33dfc1859d17ef4dc156e38dbaf5595e60fef6b5fa9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 7,
+      "trace_sha256": "675d37fccd2f5fcaa383fe6018e7da3dad9b9a2b3653702dedf73724b4267426"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "35a85588f50f2f83ed56544082991dfb1c343cdecdbddb1f7d98fb82e4a30b0a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "16d130b9bdbbf19c7510ee81b32f9ed32c10ae1d0ba3e02a040ff599c6fb078c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "fc1fec3ebf3700bff0cd5318cec1ab778efd5c0cbb5a6ae82a058c58e4f7aeae"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-77a96074d690c7cc__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "24652655baa44fe2f6de14e272808dca7528d7bcd3bdb4643e79c34b4f8fb609"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "6996a1592e12501dbb37e6af87e72dc981670c0df3066dff5eabdedd7ceb3738"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "d79e46425a7e32c0a6dc670feb220fd02211f0952f995e8373b6c705c8acef60"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-77a96074d690c7cc__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 54,
+      "trace_sha256": "1714103a1683098f217d718275844ab10ca8f1ab0c02d1135d0478fac186197e"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "54bdb7581cbba2da5fd890e32b83667ba3f29ebe71ac4c0f3c8f03cf5a720aa4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "9a9239980323637186a6b60d73407c05d52de91af15725f9742b3bc27904a4df"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "a892205a4643433c88cd99d6e8a59b1574bccb2d222c734b0564c3c51d6c0bc0"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "4792fa419cda3f955e436c771fbbe15c635271521122881dfd7fdbbf28e2bdeb"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-78d613b0a7d7794b__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "f05f4d37fd8721c3d39d0f4e96304051de65573e521a244e2a0596ef5fb5e5c4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "6a7e4a47aa1f8d9100a4af934ef697223a1bef83bffac54b045600a4bef2c5bc"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-78d613b0a7d7794b__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "37a88a4d014f76502e52727e717dee1dacacf5eb6c4a10915f0c178b0b6b20b4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "3f828ee4a1e7e7121afc6a0149655b3eb6f0797f80912b45a74225011ec1cdf9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "fe2c82a0aaf3149d715e1d4c3226f5c995384440b9249818a06cee83306b5d8d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 7,
+      "trace_sha256": "b93d83c1b28715a7db8148471da4c4c8c117130ef87957e0158b12ea6cabbe1f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "d0b234c1483ff90d1ee7c6f9b6abebb919a386d8e5796900658a7f20d5ab7679"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "d01270e512a156418f17ebf8cbfca5bc635ffd8171dac081cccbaf48ff47e2f9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "bdb4ef3bc54c572489badf724f4b34d0801420f3ebd2ba13fdf52be308d87aab"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-79755fc28b12b6a9__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 3,
+      "trace_sha256": "14aa80a2f789651283f93a5a349074d8311bc73bcf817d8e3ccc7a1310e67701"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "53703fecf7b585821e2e1737dcae70a7623be35e1e5ccaff6938460b2eaaf2d0"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "2dca6c53a06d9c24acac0380e38db8776eafc7c046bd5cdcb80d84fa93cb4f62"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "466e452aa17805b4d06f67df9120abd697a2a2d0df2da7e64a81d6ac65bb3c62"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "b6ebc9698100591b217db02e9f77d48fa47b9cfc56298305c26d06899b23e616"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "6c64a75e4f9e5f3a8efaa228d1fa8fa0c69c4f47dbc03e8d0325412b27eab0ee"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "0a000b85b418db3321478cd3c2f98786d0e0f45478a00cbabb7e7ef915ae3864"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 12,
+      "trace_sha256": "1b1e0131bff2e0800b9c5961610a77ff4ed273bf6f9dca22c9dd1f1afdae8f8c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "7255f871c56cfe2c455ffca25ecf80d1082746195e2dbc05037b8fc74d0fe4da"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "368a52d694bd56ff7db2344cf8e39554a346ad36adf2c23d09257d8e46b58270"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "6854fcb6086a5f0fffcebfe500bca00ca360d9d983297c9d0a66ae243307ce07"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "3c2282565940c6ed1f83ae5c037296e0af305b4626241b156efad370cdb2097a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "e3f13050bbf68308080d833e6ce305047589fda86e5bc9d97fd01b0d859c0279"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "5d1fb383390282ec3f7c119cde5ac4ff9f5a0093a04281da81733375e52f30ad"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-7f278dd6aa440c3e__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 3,
+      "trace_sha256": "64e9d53cd90461b451455749a31b67c0dcb53b6db4e551e468361f891715c428"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "c330d62511398545a7386e00211e1c8ae9f476cf036b052d7d901f8fe21bd173"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "438bfcec0c667e777ce461568632bcd91deedfb5337deda73afbc6329f3bb970"
+    },
+    {
+      "category": "success_after_discarded_policy_error",
+      "episode_id": "case-8567744b7f07a327__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "d1938b3f2c2ca3b878b63f5e180a7188225378a48ae5ea1329fc6d54988b9659"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "49a51eb35c4f52daaafc659f7b9d9da62e0482c0f31dbf194e03ae27157224f5"
+    },
+    {
+      "category": "success_after_discarded_policy_error",
+      "episode_id": "case-8567744b7f07a327__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "6f0bebab87fda72eeb64081273ffea85c57f18fbbe4073fa72de17215531d670"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "ad8bde31e23f53c4bd47e1d22c73970f422c97e55315ee917c71ab9c900829c1"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-8567744b7f07a327__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 57,
+      "trace_sha256": "5c9a59a05495df433a15763a76b88a8deceacf8e4d303bd53bf76712d1bf144a"
+    },
+    {
+      "category": "success_after_discarded_policy_error",
+      "episode_id": "case-8567744b7f07a327__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "707b51f0c0e456bff39ba50b92212735bf457f7e99bfd878d5f1e401fa807386"
+    },
+    {
+      "category": "success_after_discarded_policy_error",
+      "episode_id": "case-8567744b7f07a327__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "567144c3a158618ad03a9eaeeabb6eaae8fd7cbb68aed30c3f5b06e5be20aea7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "2346a928a9096779d04fc60baae585984e97cdb1ec1323b8ecb2ba01aaf8ffca"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "a4183fd872085cafc88aa29df65ed790806eacb6ca69a5e472099b6851c1ea4d"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "87137f2cae566be10d3cc6b1e51d723dd69d5ded166376cfb5380e2fea8e2583"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "2f742f90a1af80d715006a7e7cbc0bd7091755fe691bbb8f2ed2418acf3680e9"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "b4ae9f189bb96d72f22f4266ccb62b6234b060dff0c310b2425d89078f03f7e3"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "289fd2678c5f0fe0fb3647cff1592e0d7e308141519c31c8576bc8cf9e54ee77"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 18,
+      "trace_sha256": "596d06098c71c539cc56584a19782f00fbed7efcf02ba55f826678346916b675"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "275d959f6750b156f95f19029dcf5559d8299584e1b36e135993c5cb3e38b213"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "809b9a3d43a0e86b895db0373182e4fb2029a254478a54596864b91442f6c561"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-a266bf9e7726f4ac__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "74194a71c1f7d00dcc7907c24258b5bbee8faf8cd428060e44650859f1455ba2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "841ab5bc2b378c5538b1796030172c8d5f4dd96c922044ef3a320ebadd4d252f"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-a266bf9e7726f4ac__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "75a6e7839d49f0d8f0dc7e2fa73c223c7a54b2f0b49b6b43859fe5bcec5aa338"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "82c300fc434dbfd8abe45dfdaf902f7784cefdb22994d8e6616eca09ceb99c77"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "4be78329343cd6590db87c8d2cab6b7b5a77daa4803959ccc2ffa683a3aae1d9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "58f14d32ccec951323f651cc8b11a12974b7162e1a1354b02ce1e7a284a3e630"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "b4bc0fecb5eee02ea561b7d85cffc9efc96f69e5df47fed507273463aa948fa3"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b3e8aec7c89f72ad__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "ed7316883b4bb7c3ffb0f8564a1bc22697f247b9f9c37fd3c7f829351d57af7a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "feb97bd4b610e9cb21ca7d38a912aa0f7cc6b57bc2460038e67a54a65f7e33d2"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b3e8aec7c89f72ad__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "e7c1da55d5b8962ccabbebbd84971259208b638d1099e5105ba1209814c7bc6e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "766e8910699f7f54e5c656d8901e3d44d3cfed8ba72bed6d2bb80d91897d70f2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "ee30f78eb343d48d148a1e597a49905df73f747603a050a639455e10a6c11f64"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "709e8bd44b93060f42a2f4f5470f14bad9ceedbba5f8e40e48fcbea3d054a3db"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b690eac48bb0256b__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 18,
+      "trace_sha256": "6a2f203b99951b3aaad4ae48ef8c8a998c40170164afeeb4b104a2c2d8537b16"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b690eac48bb0256b__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "cacdeecb65d4775cb2b209a3025bee82d77908f471204eaa92e968a4ca7ab987"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "1fa7da66d525f154fbffa92270a7a0044274d9511397ae7dc4dd6353c372d0df"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b690eac48bb0256b__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "dd43472795ea2a27b1ed5ad42e7f707bdcb983d4534f9421bdbd73bc0078c767"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "002194ac67076829334fda3e41ca98eb6d2ae1159ebc52abcaa4cbfcdbfa55be"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b690eac48bb0256b__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 18,
+      "trace_sha256": "c4210e79d4937842e350fd3e015b62a24f6524fe5cf58bf39a94f9505f6be310"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "792abe68f0da56faf2cd9c1fbe789d54e81390fb285f0ab97e92fd3f06cb7266"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "c23c1dff2b2a0bdfdd9c4630e98b0dcb17127b56c801dc5894c14097f1129d89"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "3711af27e745156581f5ed34dd81c2f5fecdfbce82c6cb27799f9e406323709c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "96cad4acb079b0d32eaed65e63c57a68f150f881ae54cbf2f3b1c3c8fb1d1a36"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-bbb319e9e609ef37__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "663244fa3272ff8a10da5e817704dba12687094f24de3cdd5474f302d509849f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "42d5629138a1e27aaf39310d63d238d19030e2ed6ac2a9d2ee4ae49019652bc5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "7a4b86b6c954529edcc1c464fd325fc5a471a47d5c11d5dc1fda8b592f76b5ce"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "3c7c922d96b132b143ed3ff7c86f3cc5f502efdfd93daed74d610f39398bac80"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "d4ea6bc94ecff2fa3f37b1a02e19f6205f8197bee1127177d48916e23cda4094"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "737aa99f9cc33db44f315f484f73af662625ed5f113a1261dc49b7ada6cad048"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "30099091574c885fb4001baf589b12a68d9473d68934e31784fc36cf137f7106"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 12,
+      "trace_sha256": "442cdc21a51952409ed92dbd080846f4e0bb613ea8fc3a93d89b37ca0d0056dc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "e0b603e74795f942afa65f7a0c3a3cdb698f221186f8c8040533f64b810b019d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "393b1d6d2eef4faae048a60b654155920113dbffc08a9eae0915a7fd0917933e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "97c572bfb417fa9d167479538c7646daedefcead5bfb6b5f63c8d36389e061c6"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "cfbc595066df2cc1512e38a34ba07e15613e88dd6651cdc662b8c921bc7e7137"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "56169f46f8fe6f21b1d5762583c06167bf2baf363fb15c770472e2627093bd0f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "561d6fec253e936bb47f21dfd8cd6475e84bbc615221ce682bb187d9b693b2a8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 7,
+      "trace_sha256": "a4a74b2e611ce6901664ebc807d9e5a77a5948e62a049631f32c72dd637ffbf2"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "1e7f5b3bf60084dfe5672c3dbb252e34e91ca881355ecd962726680a900d8ce1"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "cdb3f05ee3f218f9d16d9d6a3e26bb740ca43a85e7b9b8e69c542da43195e845"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "09351b89d84730b2190111b17d25f8b0ed9a8da65d9f2c45ae5562e38bd3d4a0"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "f3afa88c2eaf201071122db3d340d0f065413436aa91fbc7ade9f3f3f39589b2"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-d80af6471db56d01__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 0,
+      "trace_sha256": "30f266cea84ddf82609b6a8d4aed05637debbcdfdaf14da5beaf5f5d71b281c9"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "b8a3d7cc4209f4352a100cc64e2dfd0c494a958cda07b278a34e062157003215"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-d80af6471db56d01__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 0,
+      "trace_sha256": "2d4dc73ff9c8137a09e280e4d40bf12c49713549f0110f85111d4966414def6d"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "2b3abf0dfaa3b324627ef1a1d2a19822e8e185518bb6e1851893f00f6d3725d3"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-d80af6471db56d01__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "03f13752a894a5faabc3dc4e0735d066ac01bc5a5b74a8209cba052b9ed1768c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "b95ea2cb0a3561ed97b57c21defa0fdb12cd0ff30f3894f8671b7c101402b3f8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "cddfa4048903c58c00645696174ac95d8aeeacceb712f90e7e7b9750139723b7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "39f782a54ff77485cd30d202bffa2dbf22d01b5c8faea9db08710ac205f2d581"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "0d19ab709746bcba6b3feac3c3f49273b233b4bf54b70fc80faff02b3e0ffd94"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-d83460fdfa587e59__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 3,
+      "trace_sha256": "b2b0c41db188b1940136d0138a84d768416b39e941d47e421235cd0e9d1f6c82"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "05717f555d681ccacd51cf54583c1798e4677607ac876a281055568c887f0396"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "f4c3b0d5a8a84ef0a22e4f9b05011e37a7b5326d771f78276b748859bea9bf91"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "fd5fea198a8180a8fdae9c280e82dd4a6332d11cde9d369532ba588887b2d8b2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "357becd3fec88279527621bf6a137e0842293452ed0634534e5e22668a869a8c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "fe04d4ebb7a529adc8838cc861b93e2d64bc556aa520dab0770165068d76d1cc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "c13a164b3c1376c333ce0cda8ab6fad8fea828301ffa2ed106d80ea0dcd95c23"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-da614f6236cd044b__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 57,
+      "trace_sha256": "74845e29dbdb1ee27c5777a78a6030894dc3988998f0a004f1485a1a97b3c7c7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "ffcd108b9085462eac3b53b2126f4774851b859bf6cf3580e829892fc15ce46a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "9e574422e1f45f1637548f8e8c6541b0de89410c88361da0a84aff63cfd3e194"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "e59aecb0153732cac27c4c919cff5fd682e612c6b3b3f2a9d01675fb8a8efe0b"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "a025abf67f0d51cc7fe48768e630c7d40bd19646c9583e1cc09613d2824dffcc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "0158b657cebc61dbbc1eb950b0b6415f961baf34f128ba792f4599009ebe366e"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "4fd8db3e008a9359af2279a1a370a99bd28227cd8efb7c2a8132ee2d06152177"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-ddb372a7f086a193__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "f5d2c8efbdc4cbdb5239359ffa2b20193fddea352b957d465fee2dfe4b02067c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "d58321206c668ddcf3f3cd7d8ceaedf3a8cd5fff176127cbbe18c3ba570fabae"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 10,
+      "trace_sha256": "ce9b36afff2bd4cfd3fbbbe01600a4219d051b319d863e1fdb4e4dcdf9f8bcdd"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "f2db22057e7bd91fbd98ea7a849d75dd23ba2612ca7618b0e901c25f29a31f0c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "85f6ed1ff411f5c22c93652b32cf2795bd308f593929ca82cafb3a6d3a50a746"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "9a8343d8b9819fd6f754433cf0b2cc6ac15f344bae650be978a2e8d3761f8439"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "fa1c971e67fcb218eeb725683671ccb6d494153b06eda31fd5a470d2b54596f0"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-deab7f7e4c9748cd__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 59,
+      "trace_sha256": "a11d713bc07a9da8d3e08a638b5c61b320dccedfdfa4e4fa9c1cf796be6eb313"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "14b27fea44bbe8891c4e243749ae892336be0d54c2291540d195226f8a9fa448"
+    },
+    {
+      "category": "success_after_discarded_policy_error",
+      "episode_id": "case-deab7f7e4c9748cd__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "bb95b8ca99ce5d6c33932f1053290fca719f9ffa3f2f76bb57e9892bab9995a1"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "75e348d103bcd563432710582b93b3427a832c8e68a7f1fde7212342d88f13dc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "47ac2c2be23bf68f92119c8200d31b9731edb70020bc9c572d6692ea1a74e64b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "dbd1493d26548ab8508d1c6df99db7e32efe374ebdfd1af8259a6318ef4a0d0d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "09e392d88d94ec3fed81bb90004dc8f6478aa8fcf0508de2989d53ec8b8bd252"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-e5376cc31f663c55__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 3,
+      "trace_sha256": "a207c05a149ec893785c2b32a395e432fb48a5a9a3cd5e0fc0f1847a0d39b325"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "22b24a39c167cba8fe93bef9a7e5bfbc5e599b97094e5c0baf316d8aff0124c0"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "387fa69f02c0be560896fb67a8dc16eda4be7658e224899baa310a5bf3efe21d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "d3cf351f0793f7659c5018d04f8937fbc2d5058e5821ab2d10d062438d8972c6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "a653dd92eb63cc851059a09655582218948a7106fa7c7306b2e1450c30941a8f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "0cec91bf9180417cd024b738004ea2532398541e666db29f8174093da36b23b6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "055e51da13d7c6be19d7b8c0fe715675f82ed288c032ed354b0fbe545a58d2cf"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-e8b59ae37ad89df0__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 57,
+      "trace_sha256": "5469b422374af0fc15ba3c857b1c01b03318a7011f635fbcb9fc8212ee86c686"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "a3755320e685784b7c08b4c697680a2815e5a6810ed8d5e6ad56ac85dffc874b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 8,
+      "trace_sha256": "1242a0c91c41fb9956b9c32e481c06e5ec82a0f5384c799f79d663079f52fcd2"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-eb3276f725679159__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "33f22db49af7418a6a674051396a01c78a6089d9e73ce2d79d33729e92802eb8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "0aefabc252f69126d2cb666651e87330b582f2f9b632d7bb31efbed6a9677953"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "a988a97ae2df489ba0765b8d6472585aeb682886e4d35d5f98c9f3adc0376a33"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "be9b5820b629c797e0e85684bbdd0f56d48141e9c42b25bc84c733f4213462db"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 7,
+      "trace_sha256": "bd4403c19f94528237c2f3933ac0823cef6a9eda3e3605189e902db76d59c949"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "0cc033648cd5e7cb37cfeea510498d2c1b342b0b5448ff3dc123f4339de3d61b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 4,
+      "trace_sha256": "604a746334bcdb492b4a798c859cf92c992ea1a9609cb8414b7ec2bbe3eb1401"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__binding_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "5d94dbbe2fd7bc3987ef37e9d9fe3776180a91b2c3324c05918e0de63af503a9"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-feecad846263f3e5__ledger_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 19,
+      "trace_sha256": "ce0cd25c2dd3fd18ad58aee1a8c15e8939c8fa0e5efa670b8ae2ef361633051a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__local",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "fc1c812a887db456c78de8b9e74740236cd64b72a4b0a757f511e2f23ab00753"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__none",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "f310949ec667f63c832d1ae5f078bb5f44953895058a0743bee947c11e457f35"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-feecad846263f3e5__static",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 9,
+      "trace_sha256": "6f1e3d1ac91b9d5257f18f7c74a3d6d127fb3556534eaa4e7d8e61eaf04d3080"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__static_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "bdba2a4daa5effd007541dfd9e33dbc768980024436063d6f296660393bfa7c5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__unbound_system",
+      "model": "Qwen3.5-4B",
+      "policy_decisions": 20,
+      "trace_sha256": "1f0ad91f07d4c48d2db1cbb89c71f549d5bdca3248b64f5106c02a70c444e54c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "fe1aceecb4257d9fba7acaae7219a9b558b69a879b9d2321467e2f4cfde09eca"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "ed3570b7e3267d809cddf4613b1423b0071c1e4cc0d23e384577313cc22ba5ba"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "5110435e813afc58a377c3c7394a1e2b0dba7d421c252a104c2303ef36040d64"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "7dcdc35c0a5b91c4a07462bd9f29cad9a98893eb965a822129d8a0001359f2f4"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "f222d0312d51d354e542a3ce08b054c1275b196c604506058ed4b04f41c4e265"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "2ee133cebf2e8bf1711d5312b6b9bf9fe361e322de28caadad7c31e63704db8c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0ca29bf57b138176__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "b535e4ed9d0c34509120ec49c068b56f83d2f03c45f6c667609a516e34063023"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "2434beb74585e1c14ccc8a6531a51b95f79b18b5f773f159ee6ae67b37f92afa"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-0dfe129feda66cd0__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 59,
+      "trace_sha256": "494c1d157f65a79622b392ea65160cfbceef873309d6b24d7a21b57d28005778"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "4066f02fe88225c0364eaff35bf9b8032b36b61af9bdc7c30d5d8817dedc001f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "55bfc2e584e5ed5de00b85f605164a7d983af608c45b4b38777341c2304343d5"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-0dfe129feda66cd0__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 9,
+      "trace_sha256": "925f69031486082a9093c2e19c270536625804eb16da339a15bc980ae35496cc"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "0945813c9e183112e35aa671ebbe1f3342574fea4f5d398ac9ed7411bfbd41e2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-0dfe129feda66cd0__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "a42573d0fe8a4784409071adf551317eb2b609c390522201d460a8b7b6b5b99e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "813bf7a3030181e7101fbaccfae1175d0249ed626b6f3cf7156bec3fa5ce69bb"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 37,
+      "trace_sha256": "5da19f3da079992723ce250d02529543c248650efa0e1e5d1749b5a85c40db34"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "364ab4f385cd0492a05b02f06e0164db735b57905afd0616eb61b9551a55cc6c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "f6c48b74720a25dd59b211a6db8436f15a5dd81d30071ffb4fd345f09558742c"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-1d820f4de7b2b667__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "2866c57a8a0716a275e59eb3d7c72c2f5c447f3c0674b5a54696928be93578bd"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "73cad895878b2d98d6751753f3603778ab0170fcb4a1b06a43b54e377b93e3fa"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-1d820f4de7b2b667__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "bbcbd22b14bba3eefcb618a3eb3d9f0af4e910a4fddd94b0c6f4fb8b5d2f9071"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "8f1e8c6c658c6716d9426f306c1fd3f057c7a397db0a48808ec75ee75cb99a9e"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "014ab7969678b0744233e50f9b80d4208d857a263225aa575b29eb79ba7ecc5a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "95979abcc6c5fa633aa97ca5fb960bd71d81b427f253a7f32ed72d4f02a9f314"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "744a79a05f6eeead4e4609b4aa596169bb658f324663f95322ce7fac03b2b32f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "eecc5e85c484aa2f922afdaa8f3716fe2277c2ca167c44dc86e24693b8ebaaa7"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "1c25f53b8d2e61c0c833999b50861edccad75fe0715ae6ef5709336544d92154"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-26299b04b1106fce__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "73c1c9444465c9ce2c2fd7aa81334560c2a8a7f0d81869c598d34e49113bf7d3"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "ff4842cde82ac5a7f93244948062911ff75f667341b4fcaaf7b2ff8c12bd4043"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "ee04938cf25c27c07deeac8f7769bdd08200505b11a8ef9a4c5f8c09e174ec06"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "947fc13b360a47852fbbb25ceecc25c03627c095db0acd94e98562f0f9b99c32"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "f5926aced3ca3edfbdb4351adaed49e889091e34d8a0e7834a4348d4c8680db3"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "6cd47296c84aa882b70a06814d4e4ae6e91ea2925568d124cdab9150a7a3f43f"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "1fe253d633e514b256b18e34a11250ce7caf15dbc8c6ec0d825457299c579e3c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2b04cd7bdca50c41__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "b0647c5d6917d14f903b693a90f2cd6d3ec4fc6ee8443f86ae16444fb28e4a63"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-2f891276952e66a6__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "217cfef39bb9f213fe06cb5d9cf39519cf2b752963255b67e3a38e3a4f821872"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "88c0ad2fc25fa04fb1e17a9fbc5626876083416f2934d8b93fe18ad67637a296"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-2f891276952e66a6__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "777d33a1636732dd0d4b47a0fe1c314eacdf829ce26a994b7d4e8582b773b4ef"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-2f891276952e66a6__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "4496e7bab5207c101f6684a1b7a3356f6504f4e12219852b7b1fb2422fcaa66c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "aceccf950f9c922cb22c97356903505d6304add66b7f483ebba5e5bd5a2b25ec"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-2f891276952e66a6__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "ede7243c0ab171952310b0d73217ac0806c86a33d93a772c62bf328175bc2727"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-2f891276952e66a6__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "d067ff69f359af5d9bdf4756225d5538ec65f380a5d27f8d17b809098936a201"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "5b7d4b923574782470771c1785f4131cbac505e4183c979ffffed7249df4684b"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-307332941031898f__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "c4d642e067b6a0c483b69fb95c5f4f2d55a45a87433605c82e823681b36d4324"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "103c691f33147318c3cdde91d89608b225564b34c45a2b31655cc5d9365a1c31"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "9e1ef7dcae1f6e278b15da822927602f1a6d681ff9829403ef4db6327c365396"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "262ff3d2b5eec268bfda77808f4b5e2502f16e90dc873125fcad9bfe9b89e079"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "b38060f0351c62ba321bf468fd8561b402f8134dedfcbc459e6caaaa3fa21444"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-307332941031898f__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "dd98a08c9a96a875d94ec9161657077dbd679821c143c1b8ea329c83751d8390"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "45a67f93ffd066fc1fa5261b837ab4c8aba801891baa29c679d36c1c1ca0d1f6"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-4f8ed6a9239f1323__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 59,
+      "trace_sha256": "5fbea2dbf9aeb3c6d73a033d145a2037aaaa922d67f59cdadeb89d3f4080a6a5"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-4f8ed6a9239f1323__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 9,
+      "trace_sha256": "532af4cafcb79df7735343f02d27ae2a32a36903d2bedf0eaa10ef5610e628de"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "4fc26f118013f10ccc96585dd566aa0a635f9f6871e16b48f6ce5ca05b3766db"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "c0fd103da9110e70f0343306fc962a8471dfcb203c5250ff55d82c4adf4a1063"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "f761008caba7e533b383c9f8cecf945376c5e5d037ec507245325d0df7f5a325"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-4f8ed6a9239f1323__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "4cdc5655e5480d58927e36a6110a47f9759b07ec574b82c17c1e1ae92c87e8bc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "3c91a4c7c6ac1ee715855ccca787f428f3ade497aafbeea50b83bed73239b4d0"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "221016123b13e4c60740a13167d5ca23535ac7c127fe58080d93917194527422"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "11299798764c8c47cc6b4be622aad66b38b6616480682751e2ecaa4ecba34ff8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "e25b1a49e739c155b58498156ececc19442438067042fc651271797e236ae5cd"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "69e1c193cdce2db36aeed00a69215095862c716bc91e43b95ec35a02cc92fab6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "12ff8ad9a75ab04ac14a93e993f84635601415d3e0ba5b5bec1f4568dedb9a16"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-51681d36ae83610c__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "c569489fa0e7515aba601d07903dfd4a99cbf189ae113766d6401ad9c20afdac"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "c545d92a05f3efef717ce818cf40ebe180f84af0c9a1e97bb7faed881a258e18"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "02ac9015e370c590b954afa3e26a787bbb4c618f5bc3b9175c1c4b3622930318"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-5d5e34b87505a592__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "7aa87842a5ffad39e820ade500619553130d08bc51d2f80ba98b228aad2b89c2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "b057419bad9e447a2561afab7b5023e6e46d6e57b128f06794c46cf998b4f6c9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "d1af0e800fe89d714ebd8fe7bb96051dacc5d5075b559db2eec005d37bc43b8e"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "af1be5c262229fb5a0d4d0db0fe92aec6a6143df2ad09006825d1ed032d30bac"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-5d5e34b87505a592__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "7bf7e589958c6ffd194afb78af029bdb4e09c1bd40ccbafdccee7298be980bea"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "424b41b1be8c65b2e32953ae58fb13d7996c6156b39ff7702fbf4d127546a82b"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "5a70677241d6936d9de7e7a983744640a861ba152d7bc51b05df548d1e88ee16"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-6079080f5343a53b__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "789ba38d6a150be2e469761852dca6d2cdc28a2020003c9c432947cde7b20380"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "71d2b062b5f98fe5c4a9b2f4fe6ccca5964db513476f221245e92738255fdee3"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "ba7c445d0b3c0f5c10dd4e1f53b07825af692ea1204e704d453e83062a0d441c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "9747eec0c51c8cef1e7828b746839a9f9e15878a4fc6123b3df80d2aa9d8f5ce"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6079080f5343a53b__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "34b2b17ca51cb3e796e035db9c3d59651720ada726875f61c395a0e800e56f02"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "b4b3a3bac8816abdb4d8c072445a62d613fe7d57b68014ff14d4330dc64d4dbe"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "79a48be3f34dee9823c5c732c52abd8503f0110c586da145482a02f8136dba0c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "5ae4a388b64ef75daee6cd2146eadd8b1533e44fe0ab083d4839af77539e7856"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "d19a0b1ecb96446e851e5ee029ce886499888e03cb2df6a18e128fae319202ea"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "fea112d0223b93c1539d6034efcc2b689970b7889f45b8e21feaaaa138a85d18"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "ab5ef641dc69d2a0234510d39f96cb4bb7e145805d95f7f3115822b7889b4247"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6204e730e51843c3__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "2d7caf27f167353f11aa58e481a10f396e55991fd29dddae1b9d871b8c0e1c21"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "a452411db1c31ff913d6da8ce9aef9c70d2cc49031ab1e2e5f7c6e2d3c249206"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-6c0a660eb7b1cf17__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "cb83f49b93a8ab855a2e88ab41e8f2f863a99c38e616637e1e7018eba8334a05"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "34c11c66cf43e67279230945482efe10d3d6fa9d6437a9921170e5c1c2e57e53"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "eb391321ae33759395a62955e9b1a287e7ada50f3150ff85656e7a2c9cd7a880"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-6c0a660eb7b1cf17__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "f3b69c5e6bb81f6ac611a9440c7706411160f995c7efbaaa674cb7c7ec68fe06"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "7b2bce12fcdec1945f1251b90113560ce8a13021bc4e5f8183af4cc7a38e7ad7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-6c0a660eb7b1cf17__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "2e54e57bffe98f174a7581df3de8b6cc3188e0c9a720df3941e850ac4800aeaf"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "2f12800bd4f2499759496688485fd7057a74f8bd4e937ffe342cf51fcfa31141"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "26722b71b8d12d2f58d0b08d04be10e00a24da97dbbcb1a483419d8a87fc4842"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-715d642ff7c675f9__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "7cdf13f452f24e474e71ba94353251f75191f984177edc0c681d9a558134827d"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-715d642ff7c675f9__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "94cbcd912c7c26b1beca0dbbeaa2645100f2421fdaa570d0d8a7de7c5f39c935"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "df3dea957cd246eeea401bac01195d122b258500cacfb8e264ce9b358c358476"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "984f12f1b5bb762f605c0d26c64d5603a60647a7092bd8be3db82b69729d9ec5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-715d642ff7c675f9__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "9b4af59359b21219d7d7f260cc18699e48a3881d4008bb3e392bb219505fdb53"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "cb76533fb3bbaa046726a970931a54e99008c9abecbe8eba1f86e52e44b9d187"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "d9658e04826a448161170f76ee6b7e11db9386e8d7199c26ad07344de5cab350"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "36efb7a88d520740d91f3891a130f094b7872e0a3e9a947aee34af3dce4ec592"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "51116da841bc91686821120e2d504a32214856ba3fed7abdfc8c9359537e939f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "56769c1ed37bde1c85443a7c1bc961f29a64c02a8ec3c74c0479361442b4d925"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "e2e38fbb3d76e9c1d5dffe1dd12ee18f4ac9e51c71e29e0afbe4dc1b49aa564b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-77a96074d690c7cc__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "a1e22f36462300308903225b15f14d7ecd8a6914e79eac7eef4e24ef38bee86e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "0e6296f0b4c05e658ac149e855f9dc36d616abc8c32f04a1f71a4562235bfad2"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "d17eb6d4990a485603bb0049f2325720cf577121f8b07b172d6a8a15c9c63133"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "df3797b1b7d45ddd5b3ee64304bb8d471c8b30dc6c73061235919518489dcdc6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "c77da23775c3b3e84ffca54fa7cee67b9e420cbba912844a9dc4c1fba460ae9a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "0ad3a106694e544ff104308441d187d230b71415dbb67effdda44fe8fcbca7bf"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "00f9cc6425d6bda7e20ecb75340c14c6d5bf99ce84d008538f084e12cf0482b7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-78d613b0a7d7794b__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "3315f06d0d95824eeb356c39eb79b2b07541bf04016dd20597237ff372250a55"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "01c8fa4adf33e2c0048ecd72ac3b279818efcc43359923a26216cd57a562ed0a"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "c99fb2e92cea9b24ef8df089ad62918336ab5627cca9a9d25a2035cb22b1c101"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "46a7acb6cac49da610bdf27e0baf5df08064179f6e61da18bf786ccba8c22ac2"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "ed16266ab78f88d8759a7ae2a7aa2cc5e06e6908f9e8cf3b4b012234e19196bc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "e03ed70d56a8e4bd734bcddf2948dbb38c6b289d83568a7b024eb8a07369108d"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "6620fa3388e89e819d4642cb15f6e09edbc00783ca198405e10d9e41cb2a4556"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-79755fc28b12b6a9__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "7e53d795139d00316a8ab9486b6a5f7ed19fe17f0ea8fc53c19b9d863d64f3d4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "f283589aeb49aca136feecb7fd27cc521c403e1392c6ea176d09753357bd91af"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "8b325b3dd31283d2d500b42a353961a10600a28315cbb00e6dbb8adef3145669"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "a12508a1147cfd40192aabcedeac1163717c88321c67d1999e752af2b6bc2699"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "3035473edb99cdec59f73899a229c76495a9753a68e646df0e4724278967e832"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "7184ad089238b716f861f812d54223bee5f0c9b490f5c479f8b2a3e1065ddc2e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "3c25ff0213bef0280f0a93d8441ada7ca929b3070e8290a31aeffde2070dfdad"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7aa81ce4a9055b98__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "3f61fe73b69ccdc6b2103341dbd346656ee01fead191c44c9fa11e61d5c5e8b0"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "d7bfb7979ab49522bf2c0897c4849cb72f8927df983891138264a1b82e1a9351"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "9835decf8933fd5fb31148f5790e4b4262a08d36a4b524cb37396c4d1a697cf1"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "931ff82675d9124907d867273c74a48d001fada4bda53e802f24fe31692c0ed9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "9121ac05dbfaf64853d4a4fa7538b1d546f260b45c4a4b5609d1408ee3974ec4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "9bda3da90c68d1528fecf9f23e8a18b1801877dbe9dfc01abd1f641247ea071a"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "74cf8bc29b5cff5e4890dd14c28ce6c5a8f60eccfbd40f4d32bfe24ac0408c8c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-7f278dd6aa440c3e__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "cad776173ab90001fc942b04ebc36f9f6c7b1dbd6334187f2b6dc3bde35b9edf"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "f63304e86c0d4dac9efbf67855a415aec05500d0387bad4af13264ef0df865a9"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "524a1307672bc274c0fb660d1453bfb1f1f86b56a6eaab470910a205bca5bfca"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-8567744b7f07a327__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "fa831c52b030fa803c7a5cf60d7a3e4a5631bfc2b9ff1e0d96f15a3a5e42f4f3"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-8567744b7f07a327__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "28f9676e7473665dd40843642a0d3cae24ab49b6b23016f9d5dbb877dd6a80f8"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "0ab8e390ce3a1e2bfa03d0158ff262f66764804989c90126dbaa929a5456adab"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "21bbda111b7be89864c3bd8f2e98ad5d50b4a20c2d893300a7362425096e82d0"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-8567744b7f07a327__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "fe3a8cb5a1d45f51acd9826fdcdae190c7f390aa771108615d103df1889dcbed"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "fbee668c456d65ce1f7be61a04ad13c76429df31015121d5f00e0c7783240942"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 22,
+      "trace_sha256": "30903c1a19db29435dc33573f20e221d7888b5e84fd51998614223b87608e41d"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "576f6a2f912ebc3bc589356c080d6803569ebd81be13980430d5835944bc96b9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "8c81b7c3c0e447f21d1d351c8c53c8e00b2e53ab3c69fc174bfee38ea41ea7a3"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "2bcee3cbf9904e235ca3a8b795b099fbd2144b7fe687c92f31d5b32b76b6d64b"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "a6f777cd170c35d6359f40ae1ed763119c57b4e733f3d70c9b9cd606c3ca8f5e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-89cd9b9c3a6db7f5__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "293ef4a80ed7651c2142ee73de73f321b8962c369988438096e6120ec6dae3fb"
+    },
+    {
+      "category": "success_with_retained_policy_error",
+      "episode_id": "case-a266bf9e7726f4ac__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "94102f59e9e792bf119c5643f0a68cfa9330f63bb8aac7fbbd52028826d3d683"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "e72df1cabd2dcd12a7ad76193c081a4ad04a8df8addbb5bb014b52fc78738198"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "d2b49880a36d08c4ce5482371a8adfa4b788ea05f79803c80b95e35800efee5b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "7fb792f397217052cf9b8baa02e3b40016f38bf19f0df5cfbc79c6e8c8c7b984"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "21042fabe8baf2defcbe0bf334d999d498c79cb804624e447b7f3cf36e25d22c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "14ee97ec141d851c311c3a138960ce0e78ba744eaffc36dc8647a7c7b8f030fc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-a266bf9e7726f4ac__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "d05a6b623d8d4bb50b6c78f244655129d43174c505d549252b013d1346a3ce9e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "c2f91de42a579ac59c9ebc05c22ec03b2bb2592b8a57e7d767950559a584bc25"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "8d01202de1382c3ca49e89e3af9c925d30600d84415b4d6617e94e417d0bdf2a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "b670347286a8ca912ddc305d1b8e0b0e516abd90aef701183a908e6646b5c3c5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "765a812b7a37b12498d2f5aac0e494d50482b98c061b8378211437d1f89f3a05"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "4a2d4e2f4847bec76f5cca7ef2213d91da9e6daf1e9f85b10a7f08078423b432"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "78a345b0e35b3cf638b9ccf6f8236513a8d493791cabd2d8dcad3c749bc4a295"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b3e8aec7c89f72ad__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "f3d9c45884e4fc7718b4eb2a6b12d047f5a7eec9e267c5e3fcc51e77be3e6f91"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "6c9e24e305f4dab7123df187fa172136ef63f2156ef2cd01c26372619cd0900d"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 46,
+      "trace_sha256": "fd7bcf4deab0892a461601466ec852a96f355debe41b8e20cd41086c3e5e6a51"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "5fb61e899b38724a7eefa19c9888b08431478ff2e7c84c111612d8b5b693040a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "2f5aa66be593ab563d6a72052d4a992ee1540648db8186f384c08e8f38185132"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-b690eac48bb0256b__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 58,
+      "trace_sha256": "2f985497fb91dfde8f8bc3cbe4a400f051e749a891caae342866043f38ee1754"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "7d8cdaa7486c251789e3d457a34e0cc227d789de17df15b40481a2a614c5227f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-b690eac48bb0256b__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "3dc042f8a03a996e642778fb677e55a0fbf4f8a1dbb57458dc55c93353a92991"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "81489d2cad9950426b247ce978c5142c1dc78ac5258a64cd4b265d86104b5abb"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "fd3f42db6471de05c83e45114de3203ab193d0285e636acf4cdf0e34f6ce357e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "0a72e1b9175b063b6e3025e43fde165847972b4c7f56be9943d1563a233dd7a5"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "5544cc8538898df31c5075329ed08c21385da70f4bdf7c3757af36b7c36b18b0"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "98f82529ef42416c9c1d213f37eb29013bc5c00076b9e1d60a470fcf6bc53cc0"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "6050d3755dbbbcb6304adec4485cbeca61349f5e3eca2bde642db9b54a90ba2f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-bbb319e9e609ef37__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "ecfa1bcdf91f28f59739baccc5efd4ffa120ac843f268a20ef4da82198f7ea98"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "fbe0d9be7186dd0a117d0c450b370d75fbb94782408a38061fdb7477cd72c434"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-c2c8a3ff4af27ecf__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "20e0c0134452185ae0990b4cfdbcb87f10d5a93bd8be34bb7e39a5097d613f5e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "17165c2a70d5988d3719e5e816a1fc4ab2dd843041ced38381f941f634e108df"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "f27741a3896821599b7a8b4886e4a0a3672d2ad0a8868e3ca6e15b84308e2cf0"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-c2c8a3ff4af27ecf__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "e02ca8ba7053dd21c81c305c0b32c4c060a4ec9b6c92673f73f07edf1da8d1da"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "6479358fa834098e092aad63134e1e200999b703b8eb4a645d17e6a78acd128d"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-c2c8a3ff4af27ecf__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "e01559b734647991ca1afa0c450d544b7d90847458927897d2317e311c86568e"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-d7bf60452a60708a__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "9cddaef0a7e75a50834148ec2bab46f06cd5428e0e870d6dce9b316792b274ae"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "6ef3534af94156d640d81e3679c6d9b3dce9cf3f8f8c17e0b89dc802cdb9781d"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-d7bf60452a60708a__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "a8a23b89b01ce1f9d08502224edd598647dab3aa42744c626e385052126f39ce"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-d7bf60452a60708a__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "581fc8703fe659ed16f55b802cde041ea9a460c55b308057f314ed3a789cff36"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-d7bf60452a60708a__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "93cdf4f0f0b7abd3b09b22e299ec5364536a6a84b0da6d617e4e077c057d23be"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d7bf60452a60708a__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "0ed9525c3ea1fb9d428084b1f01d92dbfbacb1313273cce3a5a5121d1f85db63"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-d7bf60452a60708a__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "83b93a0395c795e7122fa3dced99e41336d48def737e56454681149a7ee44c58"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "76f5a9293844c9ede8ab8ddc414112854c36076831865b90577e28a4d16f7f1c"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "a329dcab1affa9136f60b96520134e8e48c78bf94a2858ed2e02bc44885c6574"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-d80af6471db56d01__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "f07680d5e6974d4dfae90fcb52207b35afdc58c5c65a01585ddc0bc49fb963e1"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "10248816f736463e76b2bc0f8ceaa4ef104e8a619d22dbf9db03972c270287cb"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "cf8483634dae3af0b6bade407583312dd7f2b999114c9acc0f7f18745a154c23"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "691dd5361baa08af763fc80e317e6553bee543cc64115ab018bd95ad527c0c6b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d80af6471db56d01__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "e88ec9bc7a59284e8082b053b439884233035b590c6ed11cd3f278f4563ff273"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "c4f915cfa7752806c0a9f989f01a1cc77db0f1f31c24a8b6c43b2aa2310986e6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "ad5f3fea1f74d8de80334cac0eef74f7001da359b439558f444d16a66cfb87c5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "157bb179a58d120fb1b2f3e3ae93c5ba53bdc488194680f95e26a1144d6c0db7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "a56fc994e2ce65c4c89df37c806b83c2d9066c70ba08b950d35bffb164848967"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "b448f0681aba4b8598dbf6459560f32ce51f2e86f86fc51648b4c936e4728477"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "df5979901143f54c77e715c28e40a5f679733400b4a92f985b2f1b46de283ec6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-d83460fdfa587e59__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "e01adacb1fb21289ecce5d72ecd50cae2837a0cc7e9918fbc174b1502da660e6"
+    },
+    {
+      "category": "success_after_discarded_policy_error",
+      "episode_id": "case-da614f6236cd044b__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "e6923341ec052ddc3915ef15042b39f092f4e21bbaf2fd44398728f50320b24a"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "9a66b39a3ce209702f1cd301f4a625145015ffaec35e56a9d107136b72b9f232"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "1e3879c313b8dc4bd58cb1ed05206529900b96f98dbaac5756c4cf92ae183d7e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "f0e8633ff18f0628c1bb419f36807df5f0cc0129995dd6bf6c4e42c9105260c9"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "42977810b47bdee46fd8d2a11910950f6fbb3559a33ac0bf3c771b367c6f9a67"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "f8ca6fa5bc52816ce6099da03529f605da6a6e7ae976237c33e626749cc93fa4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-da614f6236cd044b__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "c9faf02de3efdc382cfd05f74ae11b628bd4bd9f1e98b140ae53ffcf38a93291"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "a6bb860f7216055acf39a46c2385f41484fc2b219e47769e38e07c5cf1f0c502"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "b2e266673c0ecd60ab7acf29fb52978c37bd8f93b824ebae660d90826b30c220"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "3d5085118f79759bba7a30a9a60ed678c47df37ee0a1a41bb4f21baf1612ed3b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "63e391948fab3cb2d31483738d8defecf1112323bf82aaf46bb21bbfc61f339f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "7f176fc89b5b6a6650b085220e8845ff714d1feba94746b3f1ddfc21f9cd137d"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "eb6f3162022f252ea5549e2b1c4b4511f25288931f215677150e7a2b8153025f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-ddb372a7f086a193__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 10,
+      "trace_sha256": "e876bd3d9556ace106b4c0301c730f97966e03817e850f5d45cd315b136a70f4"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "96c82c9e3a580cb36a31dcb9eecdbef51fd4ff144e8a406c09ad2f23345c0dfb"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-deab7f7e4c9748cd__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "68be6402c44c2c6de8a6d3bc5f2c4aa9d9595d37230c6d7d1dc43d93a5c23fb6"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "e92cbbf8e46158eaef0aec42138316348cc323fa013d6e3633bc27bb1018c410"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "267fbc371d7b06fc8482eb551aebd5f646bcd69649b1b3999a3dc68b307123e5"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "988f92037761ffc15521d5c4d77a9f9f1512b4f4e3f3b4406efe6307707d32e8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "d110c249f14eaf82aaa325be2a27788819c14beaa832fd5261f3490c1548367f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-deab7f7e4c9748cd__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "424624e9f1ee9abaa1340f0dad2b7fe4d910d2aaf5752d1cbfb1b8e60560f946"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "ef429254014a720cb962b7bedb74e084326ce4f56d083b3da6e5fafed3c46c3e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "d6f39b8977cf49c44a1be2cb84716065d2ac02383dd4f9cf1494221f777f37bc"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "6e33b9963ea3dc0e829f5f2396e3dd15d507a622aaddf174acb3c333aa6f4b63"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "6099eb6066b1349f72860ae610f43f40e2720e025d6ef2df71d33385e2f3910e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "dc4d76a70b6076aa364c90d911ac809777c1fdf901e7bfa871df9d46ce4b9436"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "82f295d6f91cca70d73fb11f4d250064e3c00699b1fbe880874695f9a4621be8"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e5376cc31f663c55__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "cb7db5d6f2abad551cfd3f3f42dedea5d4c88b986ae040c8fa56ebdcd9c913c1"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "168433618568378a681480f75c90de574d7822fafdc8c892a3da8fabe85adb65"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "6a0121fceade5ef9ec0f288f23e255f1edf86cce97c6155f8a415f160967a5fb"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-e8b59ae37ad89df0__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "e4a98a3b7fc02f312f65b4dee6edd167758d25ab04b4c6ac822873a5495ed888"
+    },
+    {
+      "category": "budget_before_valid_compute",
+      "episode_id": "case-e8b59ae37ad89df0__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 0,
+      "trace_sha256": "37fd024411d25537564954022468597ef746137f3c73a590823fc54cbf7fddea"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 8,
+      "trace_sha256": "1096f92a8667c949d1428430005984235657c83bdad8f718d346d04d630d602e"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "a3e0bc1672f28c22671cedf819801752050ec2b1525a5f61681a8744056e6f8e"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-e8b59ae37ad89df0__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 7,
+      "trace_sha256": "a7ec3440a8da286ebc996a44361c6fe8a8e1d30c35d1a801cee058e8c27f1684"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-eb3276f725679159__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "69e3c3ad10ddf4ddbd742c51e9f6a538706aec46187a954089a0941e9d0d52ff"
+    },
+    {
+      "category": "wrong_answer_with_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "1cfde2ada7c34926a77a8435400d289f4a433fc8d8e7ca469024f2f8227c6a61"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "d5a67f4dcd827a97e20b1b5b85bad02ebcd9cb08496dab07f4f565d7f232aa8c"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "c6c030ebf3113090de59eebd69c7a75e152294766593dd862d79a78aabd20716"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "b95260816944bad6e149425510f61aeece6a3a7389ad77345ed20de52e035939"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-eb3276f725679159__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "99fc683dabba7f29be6e24904b2a661955482743cf4f9a6eb1c70868b01923f3"
+    },
+    {
+      "category": "success_clean_policy_history",
+      "episode_id": "case-eb3276f725679159__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 4,
+      "trace_sha256": "eb062453e2837d8b3d60067e8e85025f2e630e954ca6cf4d12f07187bf315d1b"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__binding_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "e1d17d8610c489aaa139ef78f619358c9f0fbe7a3d10045859e0386f73202f94"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-feecad846263f3e5__ledger_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 59,
+      "trace_sha256": "f3387fa95240bc28b0886e562f2a1801880ecbd06b2833c1a9584fd70a1e0b52"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__local",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "c0b92a72a7e9a6bf5cb05a800dac06e1691e7e3939bd79b130466eede7308e04"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__none",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "bd644dc4db8033c9ac4416023497c5e641cbb4a0e0908f78c32ab286ecf9b2f2"
+    },
+    {
+      "category": "budget_with_observed_policy_error",
+      "episode_id": "case-feecad846263f3e5__static",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 19,
+      "trace_sha256": "87fae7c7a4ac280cb970b4e42be599870bd4d344cf99d073faae3fd09074f9e7"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__static_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "4cdb7b513cf7aaa4766b09bcb2e4feb81a97b7a55b5a2e395aa1d9f8b7fab13f"
+    },
+    {
+      "category": "wrong_answer_without_unexpected_tool_error",
+      "episode_id": "case-feecad846263f3e5__unbound_system",
+      "model": "Qwen3.5-9B",
+      "policy_decisions": 20,
+      "trace_sha256": "64475e30c5c5a8c7cf506f67a87e50d3c89ffc3803e1a6e0681d56e88a5b200e"
+    }
+  ],
+  "episodes": 504,
+  "executing_source_sha256": "1128f81bea9516bf44a8be6d19b9f26d7a4ea3e81298657f210316f5570a4330",
+  "groups": [
+    {
+      "condition": "binding_system",
+      "counts": {
+        "success_after_discarded_policy_error": 1,
+        "success_clean_policy_history": 3,
+        "success_with_retained_policy_error": 1,
+        "wrong_answer_without_unexpected_tool_error": 31
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "ledger_system",
+      "counts": {
+        "budget_with_observed_policy_error": 7,
+        "wrong_answer_with_unexpected_tool_error": 8,
+        "wrong_answer_without_unexpected_tool_error": 21
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "budget_before_valid_compute": 3,
+        "budget_with_observed_policy_error": 7,
+        "success_after_discarded_policy_error": 1,
+        "wrong_answer_without_unexpected_tool_error": 25
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "none",
+      "counts": {
+        "wrong_answer_with_unexpected_tool_error": 6,
+        "wrong_answer_without_unexpected_tool_error": 30
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "budget_before_valid_compute": 3,
+        "budget_with_observed_policy_error": 27,
+        "wrong_answer_without_unexpected_tool_error": 6
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "static_system",
+      "counts": {
+        "success_after_discarded_policy_error": 1,
+        "wrong_answer_with_unexpected_tool_error": 5,
+        "wrong_answer_without_unexpected_tool_error": 30
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "unbound_system",
+      "counts": {
+        "budget_with_observed_policy_error": 3,
+        "success_after_discarded_policy_error": 2,
+        "wrong_answer_with_unexpected_tool_error": 3,
+        "wrong_answer_without_unexpected_tool_error": 28
+      },
+      "model": "Qwen3.5-4B"
+    },
+    {
+      "condition": "binding_system",
+      "counts": {
+        "success_after_discarded_policy_error": 1,
+        "success_clean_policy_history": 3,
+        "success_with_retained_policy_error": 1,
+        "wrong_answer_with_unexpected_tool_error": 2,
+        "wrong_answer_without_unexpected_tool_error": 29
+      },
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "condition": "ledger_system",
+      "counts": {
+        "budget_before_valid_compute": 4,
+        "budget_with_observed_policy_error": 3,
+        "wrong_answer_with_unexpected_tool_error": 19,
+        "wrong_answer_without_unexpected_tool_error": 10
+      },
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "budget_before_valid_compute": 6,
+        "budget_with_observed_policy_error": 1,
+        "success_clean_policy_history": 2,
+        "wrong_answer_with_unexpected_tool_error": 4,
+        "wrong_answer_without_unexpected_tool_error": 23
+      },
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "condition": "none",
+      "counts": {
+        "budget_before_valid_compute": 3,
+        "success_clean_policy_history": 2,
+        "wrong_answer_with_unexpected_tool_error": 3,
+        "wrong_answer_without_unexpected_tool_error": 28
+      },
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "budget_before_valid_compute": 3,
+        "budget_with_observed_policy_error": 4,
+        "success_clean_policy_history": 1,
+        "wrong_answer_with_unexpected_tool_error": 7,
+        "wrong_answer_without_unexpected_tool_error": 21
+      },
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "condition": "static_system",
+      "counts": {
+        "wrong_answer_with_unexpected_tool_error": 17,
+        "wrong_answer_without_unexpected_tool_error": 19
+      },
+      "model": "Qwen3.5-9B"
+    },
+    {
+      "condition": "unbound_system",
+      "counts": {
+        "success_clean_policy_history": 3,
+        "wrong_answer_with_unexpected_tool_error": 1,
+        "wrong_answer_without_unexpected_tool_error": 32
+      },
+      "model": "Qwen3.5-9B"
+    }
+  ],
+  "input_episode_results_sha256": "0f35077d0352152ecbbfb8b5440d99ce087e589e8f337a95595e0378fbf44bba",
+  "labels": {
+    "budget_before_valid_compute": "Turn exhaustion; no valid computation executed",
+    "budget_with_observed_policy_error": "Turn exhaustion; a valid computation chose a wrong policy",
+    "budget_with_valid_compute_no_observed_policy_error": "Turn exhaustion; valid partial computation, no observed policy error",
+    "success_after_discarded_policy_error": "Numeric success; compliant submitted ancestry after an earlier policy error",
+    "success_clean_policy_history": "Numeric success; all executed policies correct",
+    "success_with_retained_policy_error": "Numeric success; retained policy violation",
+    "wrong_answer_with_unexpected_tool_error": "Wrong answer; unexpected tool error also observed",
+    "wrong_answer_without_unexpected_tool_error": "Wrong answer; no unexpected tool error"
+  },
+  "note": "Descriptive partitions, not causal first-failure attribution. Wrong-answer branches concern submitted numeric results; rejected calls can coexist with policy errors. Zero valid compute is not evidence of correct operation choice. Original numeric evaluator and every outcome are unchanged.",
+  "zero_valid_compute_tool_errors": {
+    "dependency_mismatch": 1342
+  }
+}
