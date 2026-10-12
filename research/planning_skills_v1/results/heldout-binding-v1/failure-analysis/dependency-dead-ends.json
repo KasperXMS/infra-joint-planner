@@ -1,0 +1,413 @@
+{
+  "counts": {
+    "adjacent_dependency_rejections": 1320,
+    "all_supplied_inputs_are_sources": 1342,
+    "dependency_mismatches": 1342,
+    "identical_arguments_after_rejection": 1320,
+    "only_operation_changed_after_rejection": 0,
+    "requested_root": 0,
+    "requires_unbuilt_derived_parent": 0,
+    "same_parent_set_wrong_order_only": 1342
+  },
+  "episode_results": [
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-5d5e34b87505a592__local",
+      "model": "Qwen3.5-4B",
+      "trace_sha256": "f74e787aca33cb03d4cebfacc7401b71921ab2ac794bd8fda74a199264841ac2",
+      "turns": 64
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-5d5e34b87505a592__static",
+      "model": "Qwen3.5-4B",
+      "trace_sha256": "3e9b373f704d34371a9a505f1754483eb85cddeae2a6c9715e449af91bfbc95b",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-6079080f5343a53b__local",
+      "model": "Qwen3.5-4B",
+      "trace_sha256": "a1f7b00450cf0fda709c6344aaff3d462fdf5dcbbbf6f7314e02c64477a51c34",
+      "turns": 64
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-6079080f5343a53b__static",
+      "model": "Qwen3.5-4B",
+      "trace_sha256": "760835c7ce64f6d9f55e0eb385229ed42b4bc82288f9343e953a8fa9e8ea7be2",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-d80af6471db56d01__local",
+      "model": "Qwen3.5-4B",
+      "trace_sha256": "30f266cea84ddf82609b6a8d4aed05637debbcdfdaf14da5beaf5f5d71b281c9",
+      "turns": 64
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-d80af6471db56d01__static",
+      "model": "Qwen3.5-4B",
+      "trace_sha256": "2d4dc73ff9c8137a09e280e4d40bf12c49713549f0110f85111d4966414def6d",
+      "turns": 64
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-1d820f4de7b2b667__static",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "2866c57a8a0716a275e59eb3d7c72c2f5c447f3c0674b5a54696928be93578bd",
+      "turns": 64
+    },
+    {
+      "condition": "ledger_system",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-307332941031898f__ledger_system",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "c4d642e067b6a0c483b69fb95c5f4f2d55a45a87433605c82e823681b36d4324",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-5d5e34b87505a592__local",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "7aa87842a5ffad39e820ade500619553130d08bc51d2f80ba98b228aad2b89c2",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-6079080f5343a53b__local",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "789ba38d6a150be2e469761852dca6d2cdc28a2020003c9c432947cde7b20380",
+      "turns": 64
+    },
+    {
+      "condition": "ledger_system",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-6c0a660eb7b1cf17__ledger_system",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "cb83f49b93a8ab855a2e88ab41e8f2f863a99c38e616637e1e7018eba8334a05",
+      "turns": 64
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-6c0a660eb7b1cf17__static",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "f3b69c5e6bb81f6ac611a9440c7706411160f995c7efbaaa674cb7c7ec68fe06",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-715d642ff7c675f9__local",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "7cdf13f452f24e474e71ba94353251f75191f984177edc0c681d9a558134827d",
+      "turns": 64
+    },
+    {
+      "condition": "none",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-715d642ff7c675f9__none",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "94cbcd912c7c26b1beca0dbbeaa2645100f2421fdaa570d0d8a7de7c5f39c935",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-8567744b7f07a327__local",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "fa831c52b030fa803c7a5cf60d7a3e4a5631bfc2b9ff1e0d96f15a3a5e42f4f3",
+      "turns": 64
+    },
+    {
+      "condition": "none",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-8567744b7f07a327__none",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "28f9676e7473665dd40843642a0d3cae24ab49b6b23016f9d5dbb877dd6a80f8",
+      "turns": 64
+    },
+    {
+      "condition": "ledger_system",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-c2c8a3ff4af27ecf__ledger_system",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "20e0c0134452185ae0990b4cfdbcb87f10d5a93bd8be34bb7e39a5097d613f5e",
+      "turns": 64
+    },
+    {
+      "condition": "static",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-c2c8a3ff4af27ecf__static",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "e02ca8ba7053dd21c81c305c0b32c4c060a4ec9b6c92673f73f07edf1da8d1da",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-d80af6471db56d01__local",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "f07680d5e6974d4dfae90fcb52207b35afdc58c5c65a01585ddc0bc49fb963e1",
+      "turns": 64
+    },
+    {
+      "condition": "ledger_system",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-deab7f7e4c9748cd__ledger_system",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "68be6402c44c2c6de8a6d3bc5f2c4aa9d9595d37230c6d7d1dc43d93a5c23fb6",
+      "turns": 64
+    },
+    {
+      "condition": "local",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-e8b59ae37ad89df0__local",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "e4a98a3b7fc02f312f65b4dee6edd167758d25ab04b4c6ac822873a5495ed888",
+      "turns": 64
+    },
+    {
+      "condition": "none",
+      "counts": {
+        "adjacent_dependency_rejections": 60,
+        "all_supplied_inputs_are_sources": 61,
+        "dependency_mismatches": 61,
+        "identical_arguments_after_rejection": 60,
+        "only_operation_changed_after_rejection": 0,
+        "requested_root": 0,
+        "requires_unbuilt_derived_parent": 0,
+        "same_parent_set_wrong_order_only": 61
+      },
+      "distinct_rejected_argument_objects": 1,
+      "episode_id": "case-e8b59ae37ad89df0__none",
+      "model": "Qwen3.5-9B",
+      "trace_sha256": "37fd024411d25537564954022468597ef746137f3c73a590823fc54cbf7fddea",
+      "turns": 64
+    }
+  ],
+  "episodes": 22,
+  "executing_source_sha256": "f7a6f2036583c1d4c68e2052499a26e4bc490dc5e305f852ff9dab573be8aaf9",
+  "note": "All completed-cohort failures with zero accepted computations, including every condition/model. Descriptive post-hoc localization, not causal attribution or an intervention. Adjacent repetition compares canonical arguments, not raw formatting. No values, policies/gold labels or raw actions exported; scores and traces are unchanged."
+}
