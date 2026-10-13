@@ -21,11 +21,16 @@ def metrics(pairs):
                       for condition in (0, 1)}
     request_completion = {condition: sum(x['request_metrics']['api_completion_tokens'] for x in (pair[condition] for pair in records))
                           for condition in (0, 1)}
+    def normal_agent_turn(row):
+        return (row['error_category'] is None
+                and row['trajectory_summary']['event_type_counts'].get('agent_message', 0) > 0)
     return {'n_paired_tasks': n, 's0_passes': s0, 's1_passes': s1,
             's0_resolution_rate': s0 / n, 's1_resolution_rate': s1 / n,
             'paired_lift': (s1 - s0) / n, 'rescue': rescue, 'regression': regression,
             'both_pass': sum(a['official_resolution'] and b['official_resolution'] for a, b in records),
             'both_fail': sum(not a['official_resolution'] and not b['official_resolution'] for a, b in records),
+            's0_normal_agent_turns': sum(normal_agent_turn(a) for a, _ in records),
+            's1_normal_agent_turns': sum(normal_agent_turn(b) for _, b in records),
             's0_fractional_reward_mean': sum(a['official_fractional_reward'] for a, _ in records) / n,
             's1_fractional_reward_mean': sum(b['official_fractional_reward'] for _, b in records) / n,
             's0_prompt_tokens': request_prompt[0], 's1_prompt_tokens': request_prompt[1],

@@ -61,6 +61,8 @@ Primary outcome: original official task resolution reward, with exact numerator,
 
 Secondary outcomes: workflow completion (separately defined from official reward), skill available/presented/discovered/read/applied/executed, tool-call errors, planning turns, repeated failed operations, recovery, tokens, model latency, task E2E, setup/build time, and rental. `audit_skill_visibility.py` checks exact official Skill directory names in `<name>` tags of the first model system message; this establishes menu delivery only, not attention or use. ACP actions and private artifacts are reviewed separately for consumption and application. File access alone is evidence of reading, not correct use. Failure categories must cite actual trace spans and distinguish knowledge, discovery, tool grounding, sequencing/state, recovery, and termination/artifact errors. Categories are provisional until development evidence exists.
 
+`completion-measurement-rubric.md` fixes the secondary distinction between a normally ended Agent turn, required output delivery, substantive artifact validity, and official task success. The paired analysis counts only the first of these automatically; artifact delivery and validity require task-specific original-verifier evidence and an explicit `unknown` where evidence is insufficient. A normal final message is not labeled successful task completion.
+
 RQ1–RQ8 require actual matched model runs and are presently unanswered. RQ2 repeatability requires predeclared complete paired repeats beyond the initial trial. RQ9 novelty is not established by reproducing a positive skill lift. Without a validated new mechanism, report an honest reproduction/diagnostic study.
 
 ## Literature gate
