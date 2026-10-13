@@ -1,0 +1,3 @@
+# Extra Linux x86_64 development tools; core project dependencies remain in uv.lock.
+uv==0.12.7 --hash=sha256:4545e87c7ac64af317d8daffd279e23e93b0e05035662363033d3525923339d2
+nodejs-wheel-binaries==24.19.0 --hash=sha256:4196a947bcc883f2003ab101762d729f3e99b5e86b75bd09151563403e2eceb8

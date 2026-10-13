@@ -1,0 +1,135 @@
+{
+  "status": "pass",
+  "verified_utc": "2026-10-13T03:40:50.131898+00:00",
+  "root": "/root/autodl-tmp/infra-joint-planner-rtx6000/setup-20261013",
+  "receipts": {
+    "setup.json": {
+      "status": "pass",
+      "started_epoch": 1791862331.635668,
+      "stages": {
+        "inference": "dependencies_ready",
+        "project": "dependencies_ready",
+        "verification": "pass"
+      },
+      "root": "/root/autodl-tmp/infra-joint-planner-rtx6000/setup-20261013",
+      "model_downloads": 0,
+      "model_services_started": 0,
+      "base": {
+        "python": "3.12.3",
+        "torch": "2.8.0+cu128",
+        "torchvision": "0.23.0+cu128"
+      },
+      "source_sha256": {
+        "uv.lock": "fd5567330529b9f8cc3db2d557eb01e5c7bfe69d1190d5706fc1da022652c2ac",
+        "pyproject.toml": "317e5280c470ffe4ccb1619fa527722059b53f5a2d6189a9dd05cea4022db336",
+        "research/planning_skills_v1/requirements-inference.txt": "21e05393582ad25ca7cca82abe7e401a9cb06d34c44c9b1c675da05f3cafbfe3",
+        "research/planning_skills_v1/constraints-observed.txt": "4c85496750d339411a65373d0c6ec6e699ebdbb2e78df51fb1f9865bf91cd8ac"
+      },
+      "finished_epoch": 1791862803.4473317
+    },
+    "system-tools.json": {
+      "status": "pass",
+      "started_epoch": 1791862440.882166,
+      "packages": [
+        "ffmpeg",
+        "tmux",
+        "iproute2"
+      ],
+      "index": "https://mirrors.tuna.tsinghua.edu.cn/ubuntu/",
+      "global_apt_sources_modified": false,
+      "executables": {
+        "ffmpeg": "/usr/bin/ffmpeg",
+        "ffprobe": "/usr/bin/ffprobe",
+        "tmux": "/usr/bin/tmux",
+        "ss": "/usr/bin/ss"
+      },
+      "finished_epoch": 1791862480.222443
+    },
+    "dev-tools.json": {
+      "status": "pass",
+      "started_epoch": 1791862656.4163954,
+      "scope": "uv CLI and local Node runtime for existing pyright wrapper",
+      "wheel_sha256": {
+        "uv-0.12.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "4545e87c7ac64af317d8daffd279e23e93b0e05035662363033d3525923339d2",
+        "nodejs_wheel_binaries-24.19.0-py2.py3-none-manylinux_2_28_x86_64.whl": "4196a947bcc883f2003ab101762d729f3e99b5e86b75bd09151563403e2eceb8"
+      },
+      "phase": "downloaded_waiting_for_primary_setup",
+      "versions": {
+        "uv": "uv 0.12.7 (x86_64-unknown-linux-gnu)",
+        "pyright": "pyright 1.1.414",
+        "ruff": "ruff 0.16.8",
+        "node": "v24.19.0"
+      },
+      "finished_epoch": 1791862814.9523761
+    }
+  },
+  "inference_smoke": {
+    "status": "pass",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "compute_capability": [
+      12,
+      0
+    ],
+    "checks": [
+      "CUDA reduction",
+      "BF16 matrix multiplication",
+      "SDPA",
+      "Qwen3.5 class import"
+    ],
+    "packages": {
+      "torch": "2.8.0+cu128",
+      "torchvision": "0.23.0+cu128",
+      "transformers": "5.19.0",
+      "accelerate": "1.15.0",
+      "modelscope": "1.40.2",
+      "modelscope-hub": "0.4.6",
+      "huggingface_hub": "2.2.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.23.3",
+      "jsonschema": "4.25.0",
+      "numpy": "2.3.2",
+      "matplotlib": "3.10.5"
+    },
+    "loaded_model_checkpoints": 0,
+    "qwen_class": "Qwen3_5ForConditionalGeneration"
+  },
+  "project_versions": {
+    "infra-joint-planner": "0.1.0",
+    "openai": "2.54.0",
+    "openai-agents": "0.20.0",
+    "langgraph": "1.2.11",
+    "fastapi": "0.141.1",
+    "httpx": "0.28.1",
+    "pydantic": "2.13.5",
+    "jsonschema": "4.26.0",
+    "pytest": "9.1.1",
+    "ruff": "0.16.8",
+    "pyright": "1.1.414",
+    "uv": "0.12.7",
+    "nodejs-wheel-binaries": "24.19.0"
+  },
+  "microbench_tests_passed": 6,
+  "worker_contract_tests_passed": 27,
+  "media_smoke": "32x32 video encode, frame decode, PIL load and ffprobe dimensions passed",
+  "package_counts": {
+    "project": 83,
+    "inference": 176
+  },
+  "gpu_compute_apps_after_setup": "",
+  "models_downloaded": 0,
+  "model_services_started": 0,
+  "experiments_started": 0,
+  "global_python_modified": false,
+  "apt_sources_modified": false,
+  "new_lease_price": "unknown",
+  "source_bundle": {
+    "files": 798,
+    "bytes": 1629017,
+    "sha256": "ec30b3ed017fe8bbbea65610936707949b8eb9989b6ec4704df25b816d789adf"
+  },
+  "source_base_commit": "a92d52b7efe8d502f84453ba83a411c269757bf2",
+  "preparation_scripts_sha256": {
+    "scripts/bootstrap_autodl_rtx6000.py": "e29ef1c14bc8b63037eaae522c4d31ec779af91b4253e1684db38e46761e078d",
+    "scripts/check_autodl_rtx6000.py": "6ddc33b24711db79dcd281facae62ea2140dea0694572837c0503ecdb57425eb"
+  }
+}
