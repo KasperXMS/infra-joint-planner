@@ -1,0 +1,113 @@
+{
+  "created_utc": "2026-10-13T17:24:03.649302+00:00",
+  "formal_bridge_main_condition": false,
+  "historical_results_mutated": false,
+  "raw_dataset_and_credentials_exported": false,
+  "raw_deployment_modelfiles_exported": false,
+  "services": {
+    "A28": {
+      "context_length": 32768,
+      "digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+      "name": "qwen35-27b-resident-32k-v1:latest",
+      "parameter_size": "27.3B",
+      "quantization": "Q4_K_M",
+      "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315"
+    },
+    "A4": {
+      "context_length": 32768,
+      "digest": "0a50c24974fb2775e5480a3577e53a235e690d25ee3b9ee3e0ce2451b9d18877",
+      "name": "qwen-vl4b-resident-32k-v1:latest",
+      "parameter_size": "4.4B",
+      "quantization": "Q4_K_M",
+      "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315"
+    },
+    "A5": {
+      "context_length": 32768,
+      "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+      "name": "qwen-vl8b-resident-32k-v1:latest",
+      "parameter_size": "8.8B",
+      "quantization": "Q4_K_M",
+      "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315"
+    },
+    "strong-4090-gpu0": {
+      "context_length": 32768,
+      "digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+      "name": "qwen35-27b-resident-32k-v1:latest",
+      "parameter_size": "27.3B",
+      "quantization": "Q4_K_M",
+      "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315"
+    },
+    "strong-4090-gpu1": {
+      "context_length": 32768,
+      "digest": "8af2c13de2205715e2088787387b9a7d29d63f4c628a270ea66d56c41a7c4936",
+      "name": "qwen-vl8b-resident-32k-v1:latest",
+      "parameter_size": "8.8B",
+      "quantization": "Q4_K_M",
+      "template_sha256": "b507b9c2f6ca642bffcd06665ea7c91f235fd32daeefdf875a0f938db05fb315"
+    }
+  },
+  "source_sha256": {
+    "configs/experiments/blind-baseline-6task-competent-v2.yaml": "42fdb9a5e315075b8d027c6d8a103f2876ea581a47921c7f4789e156e07e3ce8",
+    "configs/experiments/lightweight-planner-competence-v1.json": "dcabee4b09d29e62cd132f6436baa8b118a9daf0d78f02d44181ab421aae3a92",
+    "configs/experiments/resident-diverse-environment-v1.yaml": "82873b2cb1da793383bf3ec9d2ed4385606ba27f7ec058a3e325e4b0dd327863",
+    "configs/skills/planner-procedural-v1.md": "d8b75f3ce6e76ab19fa16328acc7f4ffce56988ab5d6abd794c95866d9b1f422",
+    "src/infra_joint/benchmarks/longbench_v2.py": "b5b53ded293f5a44c8bdfa43165256821517e1cdaf7b849c0388c9cc574da692",
+    "src/infra_joint/benchmarks/multihop_rag.py": "1827d44c974d1ae8211218c7ae1b801b834f604dcc3bf129e4d6bbe4c9a354cc",
+    "src/infra_joint/benchmarks/video_mme.py": "8e9659171e61f65b78677462760214d47c19d67d09eedc0fbc4d942d7aed6ffa",
+    "src/infra_joint/control/gateway.py": "004263e0181fb668eff8b0abe28ef2f0f15be55b96e5aded60d60c94652de695",
+    "src/infra_joint/control/ledger_native.py": "a956157e76218359d93ae97a9db935ab2ba8ef2c31b51dfa98dd45ea6082d80f",
+    "src/infra_joint/control/native_agents.py": "c71d0de6a582899919fbb7f712071c4261eff8ed612d873611ced6a3861188a0",
+    "src/infra_joint/control/native_workflow_bridge.py": "290bf9c4c3816df51012edea9caa10dc50d195080f0059fdcc72e71b22b1c76b",
+    "src/infra_joint/control/runner.py": "0f64cf4406aaf4fcff6c9754344bb8079727c76c880160d4f170d82ebb6d585e",
+    "src/infra_joint/control/verification.py": "c30b13f63d40df1db429388f3821481c5619637a488cdd6f0be05eb7f54f8ebb",
+    "src/infra_joint/control/workflow_state.py": "036772be7ed5cb80d89abbcc391fbe22cdd1193ca86783081cd141429b3ade47",
+    "src/infra_joint/runtime/action_receipts.py": "1eac5eb144491c72313419818720b1b62abf5eef03dce175f74c068c1e13eae7",
+    "src/infra_joint/worker/server.py": "365213c9a66378d0e366e9f9f8109262b7024119decfb237d2c0160750c4c4f7"
+  },
+  "task_manifest_sha256": "25e65b22b452bc164efe61ad895d20e5fcf3c8d407e4e9c7380a204bbec9b3ad",
+  "task_selection": [
+    {
+      "evaluator_implementation_sha256": "1827d44c974d1ae8211218c7ae1b801b834f604dcc3bf129e4d6bbe4c9a354cc",
+      "family": "multihop_rag",
+      "position": 1,
+      "source_task_id": "multihop-rag-train-4b6de4acbde051fee1f727f3",
+      "task_bundle_sha256": "178e287b098d8c7e3667fa68d986b7c7f0bace97cbb622d763ec0df876364ea4"
+    },
+    {
+      "evaluator_implementation_sha256": "1827d44c974d1ae8211218c7ae1b801b834f604dcc3bf129e4d6bbe4c9a354cc",
+      "family": "multihop_rag",
+      "position": 2,
+      "source_task_id": "multihop-rag-train-fe71f374676e35359d12c83e",
+      "task_bundle_sha256": "1292d49f402c122637731b33005b95891876bb82e17e2d0cd97a46b2a9c5a76b"
+    },
+    {
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "longbench_v2",
+      "position": 1,
+      "source_task_id": "66f2c44e821e116aacb2b826",
+      "task_bundle_sha256": "2fb48b41810afcd166a0917f28396d5fe8d704ce7550c376d5df8e56edd76ad0"
+    },
+    {
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "longbench_v2",
+      "position": 2,
+      "source_task_id": "66f94f9ebb02136c067c4fde",
+      "task_bundle_sha256": "bde8d96c779ff22658a7ed96eec0c44db85435053ea7e63b3d7ecae07b73db84"
+    },
+    {
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "video_mme",
+      "position": 1,
+      "source_task_id": "602-2",
+      "task_bundle_sha256": "c5c60e9f3b346074dc84b96e2af23b7d47fa169852c2229530cdeaaa9e175be7"
+    },
+    {
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "video_mme",
+      "position": 2,
+      "source_task_id": "131-3",
+      "task_bundle_sha256": "6019c5446f6061729625c20631108b62904ba1a20269b4321fc12e13f631bcdb"
+    }
+  ],
+  "version": "harness-v2-stage0-public-001"
+}

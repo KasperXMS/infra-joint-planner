@@ -1,0 +1,94 @@
+{
+  "raw_source_paths_and_contents_exported": false,
+  "selection": [
+    "multihop-multisource",
+    "longbench-multidoc",
+    "video-long-payload"
+  ],
+  "selection_before_stage2_outcomes": true,
+  "source_config_sha256": "42fdb9a5e315075b8d027c6d8a103f2876ea581a47921c7f4789e156e07e3ce8",
+  "tasks": [
+    {
+      "agent_task_sha256": "38e669fa6766be3aff28ff5769d995c9796871b8b7629d13fc63e2f5a2552145",
+      "artifacts": [
+        {
+          "artifact_id": "full-corpus-shard-0001",
+          "initial_worker": "A4",
+          "sha256": "f5316c6ad28aad07dd86ad13cec01e662d99450ad5641ab4ba5dc8fef2c4e81a",
+          "size_bytes": 2772674
+        },
+        {
+          "artifact_id": "full-corpus-shard-0002",
+          "initial_worker": "A5",
+          "sha256": "664e30a64b5aa5a9939ec7d4191cea5aabf62a3b9428e0171de4eaf6d07ae368",
+          "size_bytes": 2431922
+        },
+        {
+          "artifact_id": "full-corpus-shard-0003",
+          "initial_worker": "A28",
+          "sha256": "2ccde45eecb04e0e20a7005eeb5bd4b6020e54928e826e29e04ccf7e419e17b7",
+          "size_bytes": 2491926
+        }
+      ],
+      "evaluator_implementation_sha256": "1827d44c974d1ae8211218c7ae1b801b834f604dcc3bf129e4d6bbe4c9a354cc",
+      "family": "multihop_rag",
+      "label": "multihop-multisource",
+      "position": 100,
+      "source_task_id": "multihop-rag-train-9bae0079038050a37a1ae583",
+      "task_bundle_sha256": "c1d56593179cbafdcb7787bd43681e3912e8eaa33a24834a065fa08423d1ee43"
+    },
+    {
+      "agent_task_sha256": "2ec4763608073b2e7510d61c2a8fe5f0271af88cf898199ddd038f6c21724220",
+      "artifacts": [
+        {
+          "artifact_id": "longbench-multidoc-01",
+          "initial_worker": "A4",
+          "sha256": "77465dcfebe065432b50649a8844bac92d86de4dae98f473e3c1850dbc7ffc8d",
+          "size_bytes": 143568
+        },
+        {
+          "artifact_id": "longbench-multidoc-02",
+          "initial_worker": "A5",
+          "sha256": "b1ea934db39139edfa75f6532db4b8f9168f2052c4295e02b48d768c38f37077",
+          "size_bytes": 270619
+        },
+        {
+          "artifact_id": "longbench-multidoc-03",
+          "initial_worker": "A28",
+          "sha256": "91978785441f3cd72b9bb494ecc870a3734386e75bca0509d78e55d9c71bb9a1",
+          "size_bytes": 326926
+        },
+        {
+          "artifact_id": "longbench-multidoc-04",
+          "initial_worker": "A5",
+          "sha256": "5855e452d4a28b41c4ab2e1f96ea18142db80f602ddb74c5e2c9b798956d81af",
+          "size_bytes": 340037
+        }
+      ],
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "longbench_v2",
+      "label": "longbench-multidoc",
+      "position": 100,
+      "source_task_id": "66f7c780bb02136c067c35e8",
+      "task_bundle_sha256": "50fa32a77241b2c52b84d0ef3b5b7ab8653a045db0cea5c55401baab3eabe266"
+    },
+    {
+      "agent_task_sha256": "0ce95d091e36f85bd74301593479f65fb138250daae6cbc795cd91db89329668",
+      "artifacts": [
+        {
+          "artifact_id": "video-mme-795-complete-original",
+          "initial_worker": "A4",
+          "sha256": "78c7158b4ea8a29a418f84cabe77caf0a35fb0f5416c8c1592fe781b5783a4b9",
+          "size_bytes": 282442048
+        }
+      ],
+      "evaluator_implementation_sha256": "8ade0b3b0fcd7e63826bc5c8147a3814d84c788c64fda8c56b5b940d511c8e72",
+      "family": "video_mme",
+      "label": "video-long-payload",
+      "position": 100,
+      "source_task_id": "video_mme:795",
+      "task_bundle_sha256": "6055a9bae2e71b373bf136dbd19ad08f614b7d517382f638c9637980cb4ab7cc"
+    }
+  ],
+  "version": "harness-v2-stage2-anchor-public-001"
+}

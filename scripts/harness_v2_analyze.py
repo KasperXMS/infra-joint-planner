@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -90,8 +91,13 @@ def workflow(evs: list[dict[str, Any]]) -> dict[str, Any]:
         for index, action in enumerate(actions)
         for output in action.get("outputs", [])
     }
+    owners = {"manager": "manager"}
     signature = []
+    semantic_fingerprints = []
     for action in actions:
+        owner = action.get("owner_agent_id")
+        if owner not in owners:
+            owners[owner] = f"specialist_{len(owners)}"
         operator = action.get("operator") if action.get("action_type") == "tool" else "invoke_model"
         signature.append(
             {
@@ -103,21 +109,38 @@ def workflow(evs: list[dict[str, Any]]) -> dict[str, Any]:
                 ],
                 "depends_on": [by_id.get(dep, "unknown") for dep in action.get("depends_on", [])],
                 "output_media_types": [out.get("media_type") for out in action.get("outputs", [])],
+                "output_semantic_types": [
+                    out.get("semantic_type") for out in action.get("outputs", [])
+                ],
                 "requirements": action.get("requirements")
                 if action.get("action_type") == "model"
                 else None,
-                "owner": action.get("owner_agent_id"),
+                "owner": owners[owner],
+            }
+        )
+        semantic_fingerprints.append(
+            {
+                "arguments_sha256": hashlib.sha256(
+                    json.dumps(action.get("arguments", {}), sort_keys=True).encode()
+                ).hexdigest()
+                if action.get("action_type") == "tool"
+                else None,
+                "prompt_sha256": hashlib.sha256(str(action.get("prompt", "")).encode()).hexdigest()
+                if action.get("action_type") == "model"
+                else None,
             }
         )
     physical = [e["payload"] for e in evs if e["event_type"] == "physical.execution"]
-    placements = [
+    placements: list[dict[str, Any]] = [
         {
             "action_index": by_id.get(item.get("action_id"), "unknown"),
             "agent_ids": (item.get("execution") or {}).get("agent_ids"),
-            "deployment_id": (item.get("execution") or {}).get("deployment_id"),
+            "selected_agent_id": (item.get("selection") or {}).get("selected_agent_id"),
+            "selected_deployment_id": (item.get("selection") or {}).get("selected_deployment_id"),
         }
         for item in physical
     ]
+    placements.sort(key=lambda item: str(item["action_index"]))
     graph = next(
         (e["payload"] for e in reversed(evs) if e["event_type"] == "workflow.graph.snapshot"), None
     )
@@ -132,6 +155,7 @@ def workflow(evs: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "operator_sequence": [item["operator"] for item in signature],
         "logical_signature": signature,
+        "semantic_fingerprints": semantic_fingerprints,
         "graph_node_count": len((graph or {}).get("nodes", [])),
         "graph_edge_count": len((graph or {}).get("edges", [])),
         "synthesis_action_index": None
@@ -167,6 +191,7 @@ def one(stage: str, out: Path) -> dict[str, Any]:
     initial = [] if result is None else result.get("initial_transfers", [])
     telemetry = {} if result is None else result.get("telemetry") or {}
     verification = [e["payload"] for e in trace if e["event_type"] == "logical.verification"]
+    reasoning = [e["payload"] for e in trace if e["event_type"] == "logical.reasoning.started"]
     schema = [e["payload"] for e in trace if e["event_type"] == "logical.tool.schema_validation"]
     verifier_schema = (
         read(out / "verifier-schema.json") if (out / "verifier-schema.json").exists() else []
@@ -206,6 +231,11 @@ def one(stage: str, out: Path) -> dict[str, Any]:
             and str(failure.get("message", "")).startswith(
                 "Blind verifier failed: ValidationError:"
             )
+            else "verifier_semantic_validation_failed"
+            if failure
+            and str(failure.get("message", "")).startswith(
+                "Blind verifier failed: UserError: Error running tool submit_verification:"
+            )
             else None
         ),
         "system_problems": finished["system_problems"],
@@ -218,6 +248,12 @@ def one(stage: str, out: Path) -> dict[str, Any]:
         },
         "role_usage": role_usage(out),
         "loop_usage": usage,
+        "manager_turns_observed": sum(
+            item.get("logical_agent_id") == "manager" for item in reasoning
+        ),
+        "specialist_turns_observed": sum(
+            item.get("logical_agent_id") != "manager" for item in reasoning
+        ),
         "cloud_api_usd": cloud.get("complete_usd_total"),
         "unknown_cloud_cost_calls": cloud.get("unknown_usd_calls"),
         "e2e_ms": telemetry.get("e2e_latency_ms", finished.get("wall_ms")),
@@ -308,8 +344,18 @@ def differences(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                     "trial": key[2],
                     "method": name,
                     "change_level": level,
+                    "textual_content_changed": (
+                        baseline["workflow"]["semantic_fingerprints"]
+                        != method["workflow"]["semantic_fingerprints"]
+                    ),
                     "blind_score": baseline["score"],
                     "method_score": method["score"],
+                    "blind_completed": baseline["execution_completed"],
+                    "method_completed": method["execution_completed"],
+                    "blind_cloud_api_usd": baseline["cloud_api_usd"],
+                    "method_cloud_api_usd": method["cloud_api_usd"],
+                    "blind_verifier_schema_invalid": baseline["verifier_schema_invalid"],
+                    "method_verifier_schema_invalid": method["verifier_schema_invalid"],
                     "blind_e2e_ms": baseline["e2e_ms"],
                     "method_e2e_ms": method["e2e_ms"],
                     "blind_transfer_bytes": baseline["initial_bytes"]
