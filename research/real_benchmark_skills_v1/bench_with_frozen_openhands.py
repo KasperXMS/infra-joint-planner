@@ -27,12 +27,18 @@ configure_condenser = (
     f"d['condenser']={condenser_settings!r}; "
     "d['condenser']['llm']={**d['llm'],'usage_id':'condenser'}; p.write_text(json.dumps(d))"
 )
-launch = launch.replace(" && openhands acp", " && python3 -c " + shlex.quote(configure_condenser) + " && openhands acp")
+# Some official task images contain no system python3. The pinned OpenHands
+# installation already provides a Python interpreter in its entrypoint shebang.
+# Use that exact interpreter only to write the unchanged condenser settings.
+openhands_python = '"$(head -n 1 "$(command -v openhands)" | cut -c 3-)"'
+launch = launch.replace(" && openhands acp", " && " + openhands_python + " -c "
+                        + shlex.quote(configure_condenser) + " && openhands acp")
 kwargs = {name: getattr(original, name) for name in inspect.signature(register_agent).parameters}
 kwargs["launch_cmd"] = launch
 register_agent(**kwargs)
 receipt = {"adapter": "official openhands ACP", "llm_settings": settings,
            "native_condenser_settings": condenser_settings,
+           "condenser_config_interpreter": "Python from pinned OpenHands entrypoint shebang",
            "official_launch_sha256": hashlib.sha256(original.launch_cmd.encode()).hexdigest(),
            "configured_launch_sha256": hashlib.sha256(launch.encode()).hexdigest(),
            "official_install_sha256": hashlib.sha256(original.install_cmd.encode()).hexdigest()}

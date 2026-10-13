@@ -218,7 +218,7 @@
   "rental_cny_per_hour": 7.35,
   "runner_source_sha256": {
     "run_stage.py": "e6818daee9771f100a49c5b0e5c05df0b33eeba249a4a60dd10fc7dd330009f3",
-    "bench_with_frozen_openhands.py": "9ee0e00ea70b23281f82b145958a348d18d06a7491b9f8dc551ffcd83464c8b9",
+    "bench_with_frozen_openhands.py": "a9c59476bf9e95d0102764e5c28f23f06990f652843ffb73614690f4502d22af",
     "model_bridge.py": "36fc0ddfb712b616f39632fcf56e72bf9b9f29f956c246616f429a06220c1685",
     "qwen3_coder_arguments.py": "9973ea3308cfb4bc492eac38ceb2dfa2f7b6ba7ba8ce82f820095f20334b053d",
     "qwen3_coder_parameter_decoder.py": "4716afa11822a8ed5f2d226a639a2c6e10573e3f7626b46446f16ee1e12ce64d",
@@ -226,5 +226,20 @@
     "switch_guarded_model.py": "e61fb71e520f678416271a13d9cd306ce34001289d59156927ac0540d55d97e7",
     "task-selection.lock.json": "759aebd6e005fd60071927fcaebca2b5b5805e713e57993c7588a206c513c31e",
     "models.lock.json": "033210ccd7b5ac7c44d3a3a73177e0dd222788075eb8734f36eae95c145f9ee5"
+  },
+  "evaluation_amendment": {
+    "id": "eval-infrastructure-repair-1",
+    "recorded_epoch": 1791905919.3794205,
+    "reason": "The official Spring Boot task image lacks system python3; the condenser-settings bootstrap failed before any Agent or verifier execution.",
+    "scope": "same revised OpenHands bootstrap in every formal evaluation S0/S1 cell for both models",
+    "behavioral_change": "Use the Python interpreter of the pinned OpenHands executable to write the unchanged condenser settings JSON.",
+    "excluded_setup_attempt": "evaluation-4b-spring-boot-jakarta-migration-s0-t1-setup-fault-1791905029",
+    "excluded_attempt_archive_sha256": "72a588cfa54eb46e71a3e61fead75461dc931c92d5f57e1a491bab4fa51a0c33",
+    "old_config_sha256": "4ef39de0532d82955f35ab392d77c7eee393522b22cefc26a108243b0f97176d",
+    "old_launcher_sha256": "9ee0e00ea70b23281f82b145958a348d18d06a7491b9f8dc551ffcd83464c8b9",
+    "new_launcher_sha256": "a9c59476bf9e95d0102764e5c28f23f06990f652843ffb73614690f4502d22af",
+    "development_config_unchanged_in_frozen_receipt": true,
+    "task_or_verifier_changed": false,
+    "model_or_prompt_changed": false
   }
 }

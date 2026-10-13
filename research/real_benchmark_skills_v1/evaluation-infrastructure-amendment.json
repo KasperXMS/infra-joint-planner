@@ -1,0 +1,18 @@
+{
+  "id": "eval-infrastructure-repair-1",
+  "recorded_epoch": 1791905919.3794205,
+  "reason": "The official Spring Boot task image lacks system python3; the condenser-settings bootstrap failed before any Agent or verifier execution.",
+  "scope": "same revised OpenHands bootstrap in every formal evaluation S0/S1 cell for both models",
+  "behavioral_change": "Use the Python interpreter of the pinned OpenHands executable to write the unchanged condenser settings JSON.",
+  "excluded_setup_attempt": "evaluation-4b-spring-boot-jakarta-migration-s0-t1-setup-fault-1791905029",
+  "excluded_attempt_archive_sha256": "72a588cfa54eb46e71a3e61fead75461dc931c92d5f57e1a491bab4fa51a0c33",
+  "old_config_sha256": "4ef39de0532d82955f35ab392d77c7eee393522b22cefc26a108243b0f97176d",
+  "old_launcher_sha256": "9ee0e00ea70b23281f82b145958a348d18d06a7491b9f8dc551ffcd83464c8b9",
+  "new_launcher_sha256": "a9c59476bf9e95d0102764e5c28f23f06990f652843ffb73614690f4502d22af",
+  "development_config_unchanged_in_frozen_receipt": true,
+  "task_or_verifier_changed": false,
+  "model_or_prompt_changed": false,
+  "new_config_sha256": "0323f5431e46b9ec518846356426288a431a7deebcae5c1140dd690f71260483",
+  "new_launch_receipt_sha256": "c7d133b7e2709dc37af24934091623af299f6316915027a5e86d551e4475a9cb",
+  "development_freeze_receipt_sha256": "500c0be1bf2963bcbe14ed219e59f3a9f4cebc257f8f2002e114969ec441f248"
+}

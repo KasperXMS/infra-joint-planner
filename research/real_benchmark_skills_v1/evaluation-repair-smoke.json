@@ -1,0 +1,12 @@
+{
+  "classification": "excluded infrastructure smoke after uniform evaluation harness amendment",
+  "run_id": "infrastructure-repair-springboot-4b-1791905343",
+  "original_task": "spring-boot-jakarta-migration",
+  "agent": "pinned OpenHands ACP",
+  "acp_session_established": true,
+  "prompt_accepted": true,
+  "model_chat_requests": 0,
+  "included_in_formal_denominator": false,
+  "study_owned_smoke_container_removed": true,
+  "private_log_sha256": "01b9c8b71b461621f458ce72d23da2ef55c397ce27cb218adc0fc394ebf62f6d"
+}
