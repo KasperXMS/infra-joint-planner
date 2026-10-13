@@ -39,7 +39,9 @@ def signal_row(path):
     task = tasks[cell['task_id']]
     actions = {'skill_discovery': [], 'skill_file_read': [], 'skill_reference_read': [],
                'skill_script_execution': [], 'skill_mentioned_in_thought': [],
-               'failed_tool_calls': [], 'completed_tool_calls': []}
+               'failed_tool_calls': [], 'failed_executable_actions': [],
+               'failed_think_calls': [], 'failed_other_kind_calls': [],
+               'completed_tool_calls': []}
     for step, event in enumerate(events):
         kind = event.get('kind')
         title = event.get('title', '')
@@ -49,6 +51,12 @@ def signal_row(path):
             continue
         if event.get('status') == 'failed':
             actions['failed_tool_calls'].append(step)
+            if kind in ('execute', 'read', 'edit'):
+                actions['failed_executable_actions'].append(step)
+            elif kind == 'think':
+                actions['failed_think_calls'].append(step)
+            else:
+                actions['failed_other_kind_calls'].append(step)
         elif event.get('status') == 'completed':
             actions['completed_tool_calls'].append(step)
         if not selected_text(title, task):
