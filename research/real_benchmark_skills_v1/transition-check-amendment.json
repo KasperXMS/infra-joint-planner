@@ -1,0 +1,7 @@
+{
+  "old_pid": 55909,
+  "new_pid": 74286,
+  "epoch": 1791873579.558362,
+  "reason": "Transformers serve GET /v1/models returned HTTP 500; transition now verifies /study/status and a real 9B response identity.",
+  "effect_on_formal_cells": "none; 4B BenchFlow runner was neither stopped nor changed"
+}

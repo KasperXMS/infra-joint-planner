@@ -39,6 +39,22 @@ def api(route):
         return json.load(response)
 
 
+def probe_9b():
+    """One excluded real API request verifies the newly loaded model identity."""
+    key = (root / 'private/bridge.key').read_text().strip()
+    url = 'http://172.17.0.1:18080/runs/development-transition/v1/chat/completions'
+    body = {'model': 'Qwen3.5-9B', 'messages': [{'role': 'user', 'content': 'Reply OK.'}],
+            'temperature': 0, 'stream': False}
+    request = urllib.request.Request(url, data=json.dumps(body).encode(),
+                                     headers={'Authorization': 'Bearer ' + key,
+                                              'Content-Type': 'application/json'})
+    with urllib.request.urlopen(request, timeout=90) as response:
+        answer = json.load(response)
+    if 'Qwen3.5-9B' not in answer.get('model', '') or not answer.get('choices') or not answer.get('usage'):
+        raise RuntimeError('9B model response identity/usage contract failed')
+    return answer['usage']
+
+
 try:
     prior = json.loads((root / 'evidence/development-Qwen3.5-4B-batch.json').read_bytes())
     while live_command(prior['pid']):
@@ -80,23 +96,28 @@ try:
     deadline = time.time() + 240
     while time.time() < deadline:
         try:
-            models = api('models')
             status = api('study_status')
-            if any('Qwen3.5-9B' in m.get('id', '') for m in models.get('data', [])) and not status['pending_requests']:
+            if not status['pending_requests'] and not status['running_generations']:
                 break
         except Exception:
             pass
         time.sleep(5)
     else:
         raise RuntimeError('9B API did not become ready within 240 seconds')
-    save('launching_9b', service_pid=switch['pid'], service_source_sha256=switch['service_source_sha256'])
+    usage = probe_9b()
+    status = api('study_status')
+    if status['pending_requests'] or status['running_generations']:
+        raise RuntimeError('9B probe did not drain before batch launch')
+    save('launching_9b', service_pid=switch['pid'], service_source_sha256=switch['service_source_sha256'],
+         excluded_api_probe_usage=usage)
     result = subprocess.run(['/usr/bin/python3', str(source / 'launch_stage_batch.py'),
                              '--stage', 'development', '--model', 'Qwen3.5-9B'],
                             cwd=root, capture_output=True, text=True)
     if result.returncode:
         raise RuntimeError('9B launch failed: ' + result.stderr[-1000:])
     launched = json.loads(result.stdout)
-    save('launched_9b', service_pid=switch['pid'], runner_pid=launched['pid'], four_b_cells=16)
+    save('launched_9b', service_pid=switch['pid'], runner_pid=launched['pid'], four_b_cells=16,
+         excluded_api_probe_usage=usage)
 except Exception as exc:
     save('stopped_for_audit', error_type=type(exc).__name__, error=str(exc)[-1500:])
     raise
