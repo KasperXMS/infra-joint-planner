@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 root = Path('/root/skillsbench-local-20261013')
-source = Path('/mnt/d/Codes/infra-aware-mas-new/infra-joint-planner/research/real_benchmark_skills_v1')
+source = Path(__file__).resolve().parent
 selection = json.loads((source / 'task-selection.lock.json').read_bytes())
 
 

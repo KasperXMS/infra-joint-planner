@@ -1,0 +1,585 @@
+{
+  "stage": "development",
+  "classification": "observed tool exit and ACP status signals on official cells",
+  "method_limit": "Last Exit code in ACP terminal output; shell pipelines/compound commands may mask failures. Nonzero exploratory probes need manual review. ACP failed status and shell nonzero are distinct signals.",
+  "overall": {
+    "cells": 32,
+    "terminal_exits_reported": 918,
+    "terminal_nonzero_exits": 202,
+    "terminal_nonzero_exit_rate_among_reported": 0.22004357298474944,
+    "terminal_exits_unreported": 7,
+    "acp_failed_executable_actions": 1,
+    "acp_failed_think_calls": 14,
+    "acp_failed_other_kind_calls": 6,
+    "cells_with_incomplete_terminal_trajectory": 4,
+    "pending_tool_calls_at_timeout": 9
+  },
+  "by_model_condition": {
+    "Qwen3.5-4B": {
+      "s0": {
+        "cells": 8,
+        "terminal_exits_reported": 216,
+        "terminal_nonzero_exits": 61,
+        "terminal_nonzero_exit_rate_among_reported": 0.2824074074074074,
+        "terminal_exits_unreported": 2,
+        "acp_failed_executable_actions": 1,
+        "acp_failed_think_calls": 0,
+        "acp_failed_other_kind_calls": 2,
+        "cells_with_incomplete_terminal_trajectory": 2,
+        "pending_tool_calls_at_timeout": 4
+      },
+      "s1": {
+        "cells": 8,
+        "terminal_exits_reported": 237,
+        "terminal_nonzero_exits": 39,
+        "terminal_nonzero_exit_rate_among_reported": 0.16455696202531644,
+        "terminal_exits_unreported": 4,
+        "acp_failed_executable_actions": 0,
+        "acp_failed_think_calls": 8,
+        "acp_failed_other_kind_calls": 0,
+        "cells_with_incomplete_terminal_trajectory": 1,
+        "pending_tool_calls_at_timeout": 4
+      }
+    },
+    "Qwen3.5-9B": {
+      "s0": {
+        "cells": 8,
+        "terminal_exits_reported": 253,
+        "terminal_nonzero_exits": 57,
+        "terminal_nonzero_exit_rate_among_reported": 0.22529644268774704,
+        "terminal_exits_unreported": 1,
+        "acp_failed_executable_actions": 0,
+        "acp_failed_think_calls": 4,
+        "acp_failed_other_kind_calls": 3,
+        "cells_with_incomplete_terminal_trajectory": 1,
+        "pending_tool_calls_at_timeout": 1
+      },
+      "s1": {
+        "cells": 8,
+        "terminal_exits_reported": 212,
+        "terminal_nonzero_exits": 45,
+        "terminal_nonzero_exit_rate_among_reported": 0.21226415094339623,
+        "terminal_exits_unreported": 0,
+        "acp_failed_executable_actions": 0,
+        "acp_failed_think_calls": 2,
+        "acp_failed_other_kind_calls": 1,
+        "cells_with_incomplete_terminal_trajectory": 0,
+        "pending_tool_calls_at_timeout": 0
+      }
+    }
+  },
+  "cells": [
+    {
+      "run_id": "development-4b-adaptive-cruise-control-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "adaptive-cruise-control",
+      "trace_terminal_complete": false,
+      "terminal_exit_observation": {
+        "reported_count": 16,
+        "nonzero_count": 2,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 1
+    },
+    {
+      "run_id": "development-4b-adaptive-cruise-control-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "adaptive-cruise-control",
+      "trace_terminal_complete": false,
+      "terminal_exit_observation": {
+        "reported_count": 51,
+        "nonzero_count": 5,
+        "unreported_count": 4,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-azure-bgp-oscillation-route-leak-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 2,
+        "nonzero_count": 0,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-azure-bgp-oscillation-route-leak-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 2,
+        "nonzero_count": 0,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-civ6-adjacency-optimizer-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "civ6-adjacency-optimizer",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 36,
+        "nonzero_count": 4,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-civ6-adjacency-optimizer-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "civ6-adjacency-optimizer",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 48,
+        "nonzero_count": 6,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-court-form-filling-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "court-form-filling",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 77,
+        "nonzero_count": 30,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 1
+    },
+    {
+      "run_id": "development-4b-court-form-filling-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "court-form-filling",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 42,
+        "nonzero_count": 12,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-crystallographic-wyckoff-position-analysis-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 29,
+        "nonzero_count": 14,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-crystallographic-wyckoff-position-analysis-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 21,
+        "nonzero_count": 3,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-dapt-intrusion-detection-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "dapt-intrusion-detection",
+      "trace_terminal_complete": false,
+      "terminal_exit_observation": {
+        "reported_count": 10,
+        "nonzero_count": 4,
+        "unreported_count": 1,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-dapt-intrusion-detection-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "dapt-intrusion-detection",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 14,
+        "nonzero_count": 6,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-dialogue-parser-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "dialogue-parser",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 12,
+        "nonzero_count": 0,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-dialogue-parser-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "dialogue-parser",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 14,
+        "nonzero_count": 0,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-econ-detrending-correlation-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "econ-detrending-correlation",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 34,
+        "nonzero_count": 7,
+        "unreported_count": 1,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 1,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-4b-econ-detrending-correlation-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "econ-detrending-correlation",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 45,
+        "nonzero_count": 7,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 8,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-adaptive-cruise-control-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "adaptive-cruise-control",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 45,
+        "nonzero_count": 3,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-adaptive-cruise-control-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "adaptive-cruise-control",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 14,
+        "nonzero_count": 1,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-azure-bgp-oscillation-route-leak-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 5,
+        "nonzero_count": 0,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-azure-bgp-oscillation-route-leak-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 9,
+        "nonzero_count": 0,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-civ6-adjacency-optimizer-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "civ6-adjacency-optimizer",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 71,
+        "nonzero_count": 17,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-civ6-adjacency-optimizer-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "civ6-adjacency-optimizer",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 56,
+        "nonzero_count": 14,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-court-form-filling-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "court-form-filling",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 50,
+        "nonzero_count": 24,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-court-form-filling-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "court-form-filling",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 62,
+        "nonzero_count": 20,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-crystallographic-wyckoff-position-analysis-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 35,
+        "nonzero_count": 8,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-crystallographic-wyckoff-position-analysis-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 26,
+        "nonzero_count": 5,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-dapt-intrusion-detection-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "dapt-intrusion-detection",
+      "trace_terminal_complete": false,
+      "terminal_exit_observation": {
+        "reported_count": 9,
+        "nonzero_count": 2,
+        "unreported_count": 1,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-dapt-intrusion-detection-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "dapt-intrusion-detection",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 8,
+        "nonzero_count": 1,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-dialogue-parser-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "dialogue-parser",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 17,
+        "nonzero_count": 1,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 2,
+      "acp_failed_other_kind_calls": 3
+    },
+    {
+      "run_id": "development-9b-dialogue-parser-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "dialogue-parser",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 9,
+        "nonzero_count": 1,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 2,
+      "acp_failed_other_kind_calls": 1
+    },
+    {
+      "run_id": "development-9b-econ-detrending-correlation-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "econ-detrending-correlation",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 21,
+        "nonzero_count": 2,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 2,
+      "acp_failed_other_kind_calls": 0
+    },
+    {
+      "run_id": "development-9b-econ-detrending-correlation-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "econ-detrending-correlation",
+      "trace_terminal_complete": true,
+      "terminal_exit_observation": {
+        "reported_count": 28,
+        "nonzero_count": 3,
+        "unreported_count": 0,
+        "limit": "Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure."
+      },
+      "acp_failed_executable_actions": 0,
+      "acp_failed_think_calls": 0,
+      "acp_failed_other_kind_calls": 0
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "stage": "development",
+  "decision": "omit_s2",
+  "decision_basis": "32 complete official development cells and literature boundary review before held-out outcomes",
+  "rationale": "All 16 matched task/model pairs failed binary resolution in both S0 and S1; three S1 cells accessed a main Skill body without completing the task, while most showed no observed content access. The observed failures are heterogeneous. Candidate routing, compression, executable-interface and path-repair mechanisms overlap prior published methods, and no literature-distinct, faithful and fair S2 was validated on development official resolution. Adding one now would turn an unvalidated idea or task-specific repair into a formal condition.",
+  "heldout_conditions": ["s0", "s1"],
+  "heldout_expected_cells": 64,
+  "original_task_and_verifier_changes": false,
+  "outcome_driven_reruns": false
+}

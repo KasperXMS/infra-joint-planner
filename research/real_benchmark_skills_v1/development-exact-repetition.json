@@ -1,0 +1,397 @@
+{
+  "stage": "development",
+  "classification": "exact adjacent ACP title/output repetition, not task success or tool failure",
+  "method_limit": "Only consecutive completed execute/read/edit calls with byte-identical titles and text outputs. Manual review is required to identify useless repetition and recovery.",
+  "completed_cells": 32,
+  "expected_cells": 32,
+  "cells_with_repeats": 7,
+  "repeat_cell_ids": [
+    "development-4b-civ6-adjacency-optimizer-s0-t1",
+    "development-4b-civ6-adjacency-optimizer-s1-t1",
+    "development-4b-court-form-filling-s0-t1",
+    "development-4b-court-form-filling-s1-t1",
+    "development-4b-crystallographic-wyckoff-position-analysis-s0-t1",
+    "development-9b-civ6-adjacency-optimizer-s1-t1",
+    "development-9b-court-form-filling-s0-t1"
+  ],
+  "repeat_actions_beyond_first": 19,
+  "rows": [
+    {
+      "run_id": "development-4b-adaptive-cruise-control-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "adaptive-cruise-control",
+      "trajectory_sha256": "d4c463e474c72315cf0877fecffe45d61e62c603194f83db8ef9676384ae7b46",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-adaptive-cruise-control-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "adaptive-cruise-control",
+      "trajectory_sha256": "26ea20e29e3932a57cbada5af37ccc81b1685ea67d9d6bb52f7390ee6e238a75",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-azure-bgp-oscillation-route-leak-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trajectory_sha256": "25f52d75919507dd9722800eacb54530e6e0b026bed3b95a3739383ab2560d9d",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-azure-bgp-oscillation-route-leak-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trajectory_sha256": "67e5ed29c3b88bb084788a68240fff83515c9844941ef1bf7c503ffc22992824",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-civ6-adjacency-optimizer-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "civ6-adjacency-optimizer",
+      "trajectory_sha256": "a5b71d66b8ab7f7dc9da0d357eef0f06703710ea364091bb416e1d4f1b8f392b",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            48,
+            49,
+            50,
+            51
+          ],
+          "kind": "execute",
+          "title_sha256": "0e3f86d016ba13b66f70ad4346f4ba1792d7b4920405f43c3f6c68a7121fd187",
+          "output_sha256": "a3427a037ba3b724ed67ddc67255c06b8fa7607665ac8dc393980242fcdaf5c4",
+          "last_reported_exit": 0
+        }
+      ],
+      "repeat_actions_beyond_first": 3
+    },
+    {
+      "run_id": "development-4b-civ6-adjacency-optimizer-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "civ6-adjacency-optimizer",
+      "trajectory_sha256": "f88c35e97893ad71cd9cf6b14a46dbe63d761a7776b1a7dd13e8b11053ae5fc8",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            111,
+            112,
+            113,
+            114
+          ],
+          "kind": "execute",
+          "title_sha256": "cb6f988e2a7feafed226b18cf8d9af5fc76eb4f5ac4d98d32e8a96a92c52ac6d",
+          "output_sha256": "58fd4b2fd6e95115aeb2a1eb5eddcee2a3ad088bb9152aa24e88aae4d673fdbb",
+          "last_reported_exit": 0
+        }
+      ],
+      "repeat_actions_beyond_first": 3
+    },
+    {
+      "run_id": "development-4b-court-form-filling-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "court-form-filling",
+      "trajectory_sha256": "8d1cfd8ef06cf51c168e338c4dfe48d02c06473bd1bf69789c154cf4161d0cad",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            120,
+            121
+          ],
+          "kind": "execute",
+          "title_sha256": "72edc14a345bfe45c87232df9abd5739c85df7f0887e7a73009f10c85dfa4d98",
+          "output_sha256": "76adbf926fb579eefa13df5b65655b5ec1e8260bc6bb9879caa491126229fc0d",
+          "last_reported_exit": 1
+        }
+      ],
+      "repeat_actions_beyond_first": 1
+    },
+    {
+      "run_id": "development-4b-court-form-filling-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "court-form-filling",
+      "trajectory_sha256": "5bd9f89363502664ac30d3309da94822af8a36aa144ef9d2b53a5003e278ceae",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            54,
+            55,
+            56,
+            57
+          ],
+          "kind": "execute",
+          "title_sha256": "66ebcad04e118814b41def6e57cc6ba6d6294a2eb8f1ab00b09d40332ba1fc3e",
+          "output_sha256": "4388d5e21d79d9c0432ffb3d000f2bdb3775de5a6131a68cff8926476edbefcb",
+          "last_reported_exit": 0
+        }
+      ],
+      "repeat_actions_beyond_first": 3
+    },
+    {
+      "run_id": "development-4b-crystallographic-wyckoff-position-analysis-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trajectory_sha256": "ea350ff68d2af17bb7b65bb3c33cc4c673a9517584df8d343158c956cf1a32fb",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            33,
+            34,
+            35,
+            36
+          ],
+          "kind": "execute",
+          "title_sha256": "ff424e0b9dc538abb6762d91a2fa67cbc59ce9cbded0e204ac09f0fbdae0de13",
+          "output_sha256": "0ca5a3b15ef3fac3a2aa741ec88fd02d9c3bace0dcd37039fb76c91862c830b0",
+          "last_reported_exit": 1
+        }
+      ],
+      "repeat_actions_beyond_first": 3
+    },
+    {
+      "run_id": "development-4b-crystallographic-wyckoff-position-analysis-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trajectory_sha256": "b5b85ab47478cdbe68ac9c732df769623b7c549b458b88a2d2b960eeaa617a9e",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-dapt-intrusion-detection-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "dapt-intrusion-detection",
+      "trajectory_sha256": "60d10aa8092212c781ca814601402012f13265ae97bb40d347b7d9fd76d4db1c",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-dapt-intrusion-detection-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "dapt-intrusion-detection",
+      "trajectory_sha256": "61ae6e64dcb2456175a287a22980c2877cea6f767e737084eb7796e877025034",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-dialogue-parser-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "dialogue-parser",
+      "trajectory_sha256": "3e66ff687dcf7d03f2d2ed1e392466028979ee48c2bc2920a82190ebcf6a9162",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-dialogue-parser-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "dialogue-parser",
+      "trajectory_sha256": "b1734cf192c7b5e8a2a1d495822d6f0ffc12a1bfadaa9d689cbf894f5ef485e7",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-econ-detrending-correlation-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "econ-detrending-correlation",
+      "trajectory_sha256": "36a1010c0a3444c2f82e5e031cc2b5eaa1cf261fd0123ff9c0dbe1d226698619",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-4b-econ-detrending-correlation-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "econ-detrending-correlation",
+      "trajectory_sha256": "461a81032b6765f83173811146af4fd945227037d56c88e5c4771563a8a5a510",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-adaptive-cruise-control-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "adaptive-cruise-control",
+      "trajectory_sha256": "7d73c1b7fa6fc5badf51e18cc0ab3cb5dc09d1d27b20d79b5494e5ed66fbd215",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-adaptive-cruise-control-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "adaptive-cruise-control",
+      "trajectory_sha256": "9f8aafaf67ba3d83f92662f11a3d57f69f383e1fa5e3a390b1a416b82a008b35",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-azure-bgp-oscillation-route-leak-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trajectory_sha256": "a261296f2ed7f6b00913ff5626c10d9ceb70a47618611ef042d7862e49abc9bd",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-azure-bgp-oscillation-route-leak-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "trajectory_sha256": "7f4099d40cb2a1483f39a5b005ffb8343797402e53498540a9a749e31e7be006",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-civ6-adjacency-optimizer-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "civ6-adjacency-optimizer",
+      "trajectory_sha256": "ab1740d361c6405969e82dd23d341aceb5fb39bfa0ec652dba98d81b276cf15a",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-civ6-adjacency-optimizer-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "civ6-adjacency-optimizer",
+      "trajectory_sha256": "1f85e83ca4f476073011e002d104224cc9a08af21e9d3b909fa8129f773c4e7a",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            92,
+            93,
+            94,
+            95
+          ],
+          "kind": "execute",
+          "title_sha256": "6277424df1f20ed05917efce64171e238829104ea7dbee90b9e3be12207a8f49",
+          "output_sha256": "1f21a8d2881c1efb7bf08bdbdcd8d85fcaa051ff98b9f399eb20788b14799948",
+          "last_reported_exit": 0
+        }
+      ],
+      "repeat_actions_beyond_first": 3
+    },
+    {
+      "run_id": "development-9b-court-form-filling-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "court-form-filling",
+      "trajectory_sha256": "fe3eb15cdd3082d104c877239ffcac78c990064f4d4620c045336be985849b38",
+      "exact_adjacent_repeat_sequences": [
+        {
+          "step_indices": [
+            63,
+            64,
+            65,
+            66
+          ],
+          "kind": "execute",
+          "title_sha256": "8c415d9695b2d334e67d20b74d7921f52049a5aa0b2663bc14807478a44ec94c",
+          "output_sha256": "34d88c17c3b4c563f4de0fcd0d8b97b3afbb5186711d275af1de29ffcaeb6f81",
+          "last_reported_exit": 0
+        }
+      ],
+      "repeat_actions_beyond_first": 3
+    },
+    {
+      "run_id": "development-9b-court-form-filling-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "court-form-filling",
+      "trajectory_sha256": "2425b23a1dd72d0ff9e4bf09ec5ef5ee94bdfb883631c64ef6a7961f6f3139e8",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-crystallographic-wyckoff-position-analysis-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trajectory_sha256": "027e1e6b74314fe5d62c7cd1af997293dc4860d39d9aa03b83aac4182681f967",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-crystallographic-wyckoff-position-analysis-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "trajectory_sha256": "3cc4ca1fc8e8f05b98168e6d415d23db94068379b09eb051832f2a606fe5ff7c",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-dapt-intrusion-detection-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "dapt-intrusion-detection",
+      "trajectory_sha256": "ca2efc670be18f50439f55570cd0e63eb7b6be1d2086120b51c786cfc130f654",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-dapt-intrusion-detection-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "dapt-intrusion-detection",
+      "trajectory_sha256": "daa438dd97d6fb9dad0f8dfd889c4d659c0b5e1b8c770c35fcce2e9d6172ba74",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-dialogue-parser-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "dialogue-parser",
+      "trajectory_sha256": "53c65e9f27cce723b8b71e75467f889df9c1d7de5d7c35e14a7fc6c125094fed",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-dialogue-parser-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "dialogue-parser",
+      "trajectory_sha256": "2c2ea53c7f7a1990fa0f0b8b1ff55052911a1939068041ff9343a302fd123493",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-econ-detrending-correlation-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "econ-detrending-correlation",
+      "trajectory_sha256": "663457a05111ff619a26fe9b9778f89564da29dd03969f67c85e45deefcfc253",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    },
+    {
+      "run_id": "development-9b-econ-detrending-correlation-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "econ-detrending-correlation",
+      "trajectory_sha256": "b881715ee172da52c80b4ed2c890e7820b020fd9333002c7acb3d9c672a56f12",
+      "exact_adjacent_repeat_sequences": [],
+      "repeat_actions_beyond_first": 0
+    }
+  ]
+}

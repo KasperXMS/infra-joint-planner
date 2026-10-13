@@ -1,0 +1,25 @@
+{
+  "classification": "development analysis and S2 decision frozen before held-out outcomes",
+  "created_epoch": 1791904809.4537544,
+  "development_cells": 32,
+  "heldout_cells_started": 0,
+  "decision": "omit_s2",
+  "backend_snapshot_sha256": "4eb49c5e61e8b63548e355dab2d535589b878d2c63a74dcc8c848804411d33bd",
+  "private_backups_verified": 32,
+  "source_file_sha256": {
+    "task-selection.lock.json": "759aebd6e005fd60071927fcaebca2b5b5805e713e57993c7588a206c513c31e",
+    "run-config.frozen.json": "4ef39de0532d82955f35ab392d77c7eee393522b22cefc26a108243b0f97176d",
+    "development-analysis.md": "fea7b8239614ff402ede7c7dda88cb052dd2d6c9e8677a10946fcd2fa1070af5",
+    "development-method-decision.json": "a06f316e33cd78606d9d98e2dcea0a813243d7c1e9a054bf7363f0ab9a8d1114",
+    "development-results.json": "a84548fcab098271eaf992bf6ce97112b27585787f1143c5d912dd26f2750301",
+    "development-trace-signals.json": "0785d3ea4812cc1f00a54060361783eedfbb22b179a1e2b5908fe244f6aa33b3",
+    "development-skill-visibility.json": "41cce0245cabf6e244a7a22c60a10ea41df4b911f334c9a4487520278dd7b89c",
+    "development-exact-repetition.json": "758760dfc4662a8b0256d414b950d2231bab675d94990faad0cf7931ed43737b",
+    "development-paired-analysis.json": "3c5e3f31d730859ac6ef5ce1174173c2ec51b1486d47b6141ffbe1c5e3569992",
+    "development-skill-usage.json": "2da42bdb15a03d77231afe19739886edbb4c1c12fe1a232b3fe8b2adf37b2992",
+    "development-tool-errors.json": "cbb61159304467a73a44454566885c66a287ab7719d239efa84c9c34b930acbf",
+    "development-backend-reconciliation.json": "c9110047b7026eb70cbff42cfec8e6360991ffb31517a7e3fb84efd4cb7215be",
+    "development-costs.json": "bfbe288f82c9d5784b25ac8e2847923b89aa2c0e316749b7da71b16f18d67262"
+  },
+  "wsl_run_config_sha256": "4ef39de0532d82955f35ab392d77c7eee393522b22cefc26a108243b0f97176d"
+}

@@ -1,0 +1,564 @@
+{
+  "stage": "development",
+  "classification": "first-request native Skill metadata visibility; not a file read or invocation",
+  "method": "Exact official Skill directory names within <name> tags in the initial model system message.",
+  "completed_cells": 32,
+  "expected_cells": 32,
+  "s1_all_names_offered": 16,
+  "s1_cells": 16,
+  "s0_any_name_offered": 0,
+  "rows": [
+    {
+      "run_id": "development-4b-adaptive-cruise-control-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "adaptive-cruise-control",
+      "official_native_skill_names": [
+        "csv-processing",
+        "pid-controller",
+        "simulation-metrics",
+        "vehicle-dynamics",
+        "yaml-config"
+      ],
+      "names_in_first_system_message": {
+        "csv-processing": false,
+        "pid-controller": false,
+        "simulation-metrics": false,
+        "vehicle-dynamics": false,
+        "yaml-config": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "3e42fe7faacf17e2852f3fb9496c1612e396fc30adb08ba65086b70859372bab"
+    },
+    {
+      "run_id": "development-4b-adaptive-cruise-control-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "adaptive-cruise-control",
+      "official_native_skill_names": [
+        "csv-processing",
+        "pid-controller",
+        "simulation-metrics",
+        "vehicle-dynamics",
+        "yaml-config"
+      ],
+      "names_in_first_system_message": {
+        "csv-processing": true,
+        "pid-controller": true,
+        "simulation-metrics": true,
+        "vehicle-dynamics": true,
+        "yaml-config": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "8accfbc16042247d5f47d2004b445972f46e4f7a12a21951863803bd17babe5b"
+    },
+    {
+      "run_id": "development-4b-azure-bgp-oscillation-route-leak-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "official_native_skill_names": [
+        "azure-bgp"
+      ],
+      "names_in_first_system_message": {
+        "azure-bgp": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "d288284c70a4e77216cf031cbc3160bb43bccac6b382e6fd7114b05de370b679"
+    },
+    {
+      "run_id": "development-4b-azure-bgp-oscillation-route-leak-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "official_native_skill_names": [
+        "azure-bgp"
+      ],
+      "names_in_first_system_message": {
+        "azure-bgp": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "2efe86947f777cfb8ece5a8024639726f4c0fce4af575968e26fdfcc1855dcb4"
+    },
+    {
+      "run_id": "development-4b-civ6-adjacency-optimizer-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "civ6-adjacency-optimizer",
+      "official_native_skill_names": [
+        "civ6lib",
+        "hex-grid-spatial",
+        "map-optimization-strategy",
+        "sqlite-map-parser"
+      ],
+      "names_in_first_system_message": {
+        "civ6lib": false,
+        "hex-grid-spatial": false,
+        "map-optimization-strategy": false,
+        "sqlite-map-parser": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "d134cfc93390b04b5a862d4072895e649d5be5804ed884415735b854a45040be"
+    },
+    {
+      "run_id": "development-4b-civ6-adjacency-optimizer-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "civ6-adjacency-optimizer",
+      "official_native_skill_names": [
+        "civ6lib",
+        "hex-grid-spatial",
+        "map-optimization-strategy",
+        "sqlite-map-parser"
+      ],
+      "names_in_first_system_message": {
+        "civ6lib": true,
+        "hex-grid-spatial": true,
+        "map-optimization-strategy": true,
+        "sqlite-map-parser": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "bec27b3ba246eb5837e9cf280a9e73ac59eddce882b5403521a81952fc88a06d"
+    },
+    {
+      "run_id": "development-4b-court-form-filling-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "court-form-filling",
+      "official_native_skill_names": [
+        "pdf"
+      ],
+      "names_in_first_system_message": {
+        "pdf": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "8eb1662966b47095afd061af3b8c867cdf4c4ab4a9c75953132fd2087863a9ed"
+    },
+    {
+      "run_id": "development-4b-court-form-filling-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "court-form-filling",
+      "official_native_skill_names": [
+        "pdf"
+      ],
+      "names_in_first_system_message": {
+        "pdf": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "ccc66a0e0c1789c4936f9d50cdd3e5fc98b47779217535de2268787980facf1a"
+    },
+    {
+      "run_id": "development-4b-crystallographic-wyckoff-position-analysis-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "official_native_skill_names": [
+        "pymatgen",
+        "sympy"
+      ],
+      "names_in_first_system_message": {
+        "pymatgen": false,
+        "sympy": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "2fa9345954ba9e84083a2d3668b749a6781a4b477d9363650b68fb2c6e883488"
+    },
+    {
+      "run_id": "development-4b-crystallographic-wyckoff-position-analysis-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "official_native_skill_names": [
+        "pymatgen",
+        "sympy"
+      ],
+      "names_in_first_system_message": {
+        "pymatgen": true,
+        "sympy": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "05aafb28f42935f284425fe047f381d0cecbe1c4b48491602bbfa57cbd1ab24f"
+    },
+    {
+      "run_id": "development-4b-dapt-intrusion-detection-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "dapt-intrusion-detection",
+      "official_native_skill_names": [
+        "pcap-analysis",
+        "threat-detection"
+      ],
+      "names_in_first_system_message": {
+        "pcap-analysis": false,
+        "threat-detection": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "db3168f3a4a9b590100dce430475573e1dc96024556d5b031afef8fd11c610db"
+    },
+    {
+      "run_id": "development-4b-dapt-intrusion-detection-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "dapt-intrusion-detection",
+      "official_native_skill_names": [
+        "pcap-analysis",
+        "threat-detection"
+      ],
+      "names_in_first_system_message": {
+        "pcap-analysis": true,
+        "threat-detection": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "158561d06d8c469260bd651858458265fcdff66926f3f4fe535195da528bc8dd"
+    },
+    {
+      "run_id": "development-4b-dialogue-parser-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "dialogue-parser",
+      "official_native_skill_names": [
+        "dialogue-graph"
+      ],
+      "names_in_first_system_message": {
+        "dialogue-graph": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "90ee170206bfcc53270bcf19b3a9bd181ed0e0d331a86c1ac301b3e67043f946"
+    },
+    {
+      "run_id": "development-4b-dialogue-parser-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "dialogue-parser",
+      "official_native_skill_names": [
+        "dialogue-graph"
+      ],
+      "names_in_first_system_message": {
+        "dialogue-graph": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "9b18bd6d271a0c43856a0de657d3c2e991981888f4795e174fa53f735078a98c"
+    },
+    {
+      "run_id": "development-4b-econ-detrending-correlation-s0-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s0",
+      "task_id": "econ-detrending-correlation",
+      "official_native_skill_names": [
+        "timeseries-detrending"
+      ],
+      "names_in_first_system_message": {
+        "timeseries-detrending": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "7ea0ed1a9938aa8fc78b38071cd0ae26676550d842a6f7cf10ce1935a71ebd60"
+    },
+    {
+      "run_id": "development-4b-econ-detrending-correlation-s1-t1",
+      "model": "Qwen3.5-4B",
+      "condition": "s1",
+      "task_id": "econ-detrending-correlation",
+      "official_native_skill_names": [
+        "timeseries-detrending"
+      ],
+      "names_in_first_system_message": {
+        "timeseries-detrending": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "160696cfcdae6339e1b5f076be32c0f7d5b59b9ea44b1735f149e79404db2927"
+    },
+    {
+      "run_id": "development-9b-adaptive-cruise-control-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "adaptive-cruise-control",
+      "official_native_skill_names": [
+        "csv-processing",
+        "pid-controller",
+        "simulation-metrics",
+        "vehicle-dynamics",
+        "yaml-config"
+      ],
+      "names_in_first_system_message": {
+        "csv-processing": false,
+        "pid-controller": false,
+        "simulation-metrics": false,
+        "vehicle-dynamics": false,
+        "yaml-config": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "de831197b91be2477c96966bb4968c834ccc2d36c30fe0e83dd30d9a3cfade8a"
+    },
+    {
+      "run_id": "development-9b-adaptive-cruise-control-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "adaptive-cruise-control",
+      "official_native_skill_names": [
+        "csv-processing",
+        "pid-controller",
+        "simulation-metrics",
+        "vehicle-dynamics",
+        "yaml-config"
+      ],
+      "names_in_first_system_message": {
+        "csv-processing": true,
+        "pid-controller": true,
+        "simulation-metrics": true,
+        "vehicle-dynamics": true,
+        "yaml-config": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "5e0e315a925a97d52a5642356f55b928ab3518c9a790b0cd7e501cc3f57ac89d"
+    },
+    {
+      "run_id": "development-9b-azure-bgp-oscillation-route-leak-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "official_native_skill_names": [
+        "azure-bgp"
+      ],
+      "names_in_first_system_message": {
+        "azure-bgp": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "bd2928e7bbe25e0cbd9ee3b265b07947ba948df871ad2a212677b11979f7dc9b"
+    },
+    {
+      "run_id": "development-9b-azure-bgp-oscillation-route-leak-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "azure-bgp-oscillation-route-leak",
+      "official_native_skill_names": [
+        "azure-bgp"
+      ],
+      "names_in_first_system_message": {
+        "azure-bgp": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "8a9c3ffa2e08be965149c904a64f1aad2301131321f374b9876ee71bf7382ade"
+    },
+    {
+      "run_id": "development-9b-civ6-adjacency-optimizer-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "civ6-adjacency-optimizer",
+      "official_native_skill_names": [
+        "civ6lib",
+        "hex-grid-spatial",
+        "map-optimization-strategy",
+        "sqlite-map-parser"
+      ],
+      "names_in_first_system_message": {
+        "civ6lib": false,
+        "hex-grid-spatial": false,
+        "map-optimization-strategy": false,
+        "sqlite-map-parser": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "075c613b33f685a019e38750ea9b54d53f8b8e8a259c1835094147bbfeec303c"
+    },
+    {
+      "run_id": "development-9b-civ6-adjacency-optimizer-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "civ6-adjacency-optimizer",
+      "official_native_skill_names": [
+        "civ6lib",
+        "hex-grid-spatial",
+        "map-optimization-strategy",
+        "sqlite-map-parser"
+      ],
+      "names_in_first_system_message": {
+        "civ6lib": true,
+        "hex-grid-spatial": true,
+        "map-optimization-strategy": true,
+        "sqlite-map-parser": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "67f940735404f4fccb11e4deeb618ae6cdaf3b317c9e10f7bea4e843f643e9f9"
+    },
+    {
+      "run_id": "development-9b-court-form-filling-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "court-form-filling",
+      "official_native_skill_names": [
+        "pdf"
+      ],
+      "names_in_first_system_message": {
+        "pdf": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "b963610fba7ef57daef81b20ef43d33a63f4a335608ad6923e6082f3048cce84"
+    },
+    {
+      "run_id": "development-9b-court-form-filling-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "court-form-filling",
+      "official_native_skill_names": [
+        "pdf"
+      ],
+      "names_in_first_system_message": {
+        "pdf": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "3b20c8b70ff0daa40b47ee3188eb6c2d201aadc6717cfe2299e4873f16bc1bec"
+    },
+    {
+      "run_id": "development-9b-crystallographic-wyckoff-position-analysis-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "official_native_skill_names": [
+        "pymatgen",
+        "sympy"
+      ],
+      "names_in_first_system_message": {
+        "pymatgen": false,
+        "sympy": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "560700b77f20f28643fcc9c1e7b0692d33c6b5420a1b784376226d5eeac72366"
+    },
+    {
+      "run_id": "development-9b-crystallographic-wyckoff-position-analysis-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "crystallographic-wyckoff-position-analysis",
+      "official_native_skill_names": [
+        "pymatgen",
+        "sympy"
+      ],
+      "names_in_first_system_message": {
+        "pymatgen": true,
+        "sympy": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "a11f5f52c04b0292c1855a6414247dea2caabe676103443b4c96fe87cab83f6f"
+    },
+    {
+      "run_id": "development-9b-dapt-intrusion-detection-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "dapt-intrusion-detection",
+      "official_native_skill_names": [
+        "pcap-analysis",
+        "threat-detection"
+      ],
+      "names_in_first_system_message": {
+        "pcap-analysis": false,
+        "threat-detection": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "bff7d8bf74e31831c75aa3aaf71d9d60ca33fab58f3803bc9c78a47287429806"
+    },
+    {
+      "run_id": "development-9b-dapt-intrusion-detection-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "dapt-intrusion-detection",
+      "official_native_skill_names": [
+        "pcap-analysis",
+        "threat-detection"
+      ],
+      "names_in_first_system_message": {
+        "pcap-analysis": true,
+        "threat-detection": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "2a060ca19b50546b1fa2ba94e5591abdf7e6ba206c2122e6ff0066ff074b7ae2"
+    },
+    {
+      "run_id": "development-9b-dialogue-parser-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "dialogue-parser",
+      "official_native_skill_names": [
+        "dialogue-graph"
+      ],
+      "names_in_first_system_message": {
+        "dialogue-graph": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "d4bc3bb90b4c3e490704441978daf71801e99c16e897c35fbc56f8bc17920c96"
+    },
+    {
+      "run_id": "development-9b-dialogue-parser-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "dialogue-parser",
+      "official_native_skill_names": [
+        "dialogue-graph"
+      ],
+      "names_in_first_system_message": {
+        "dialogue-graph": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "f42f0de25f7d42f234ee5b6a4443cf105bde2209c01ebf6ae82b0ea4ed91b6bd"
+    },
+    {
+      "run_id": "development-9b-econ-detrending-correlation-s0-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s0",
+      "task_id": "econ-detrending-correlation",
+      "official_native_skill_names": [
+        "timeseries-detrending"
+      ],
+      "names_in_first_system_message": {
+        "timeseries-detrending": false
+      },
+      "all_names_offered": false,
+      "any_name_offered": false,
+      "llm_trajectory_sha256": "6ebdabc3d19e910e4deb02953472d2887857bef944da1658750f7e48d135d517"
+    },
+    {
+      "run_id": "development-9b-econ-detrending-correlation-s1-t1",
+      "model": "Qwen3.5-9B",
+      "condition": "s1",
+      "task_id": "econ-detrending-correlation",
+      "official_native_skill_names": [
+        "timeseries-detrending"
+      ],
+      "names_in_first_system_message": {
+        "timeseries-detrending": true
+      },
+      "all_names_offered": true,
+      "any_name_offered": true,
+      "llm_trajectory_sha256": "444ce06fc07fd2a92d0d4919fd14857b1bcffaff4c1fbcbb1800fd497fde024b"
+    }
+  ]
+}
