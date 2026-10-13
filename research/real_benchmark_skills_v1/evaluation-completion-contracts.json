@@ -1,0 +1,24 @@
+{
+  "classification": "pre-outcome secondary completion coding on frozen held-out task.md contracts",
+  "scope": "all 16 held-out tasks, both models and both native Skill conditions",
+  "primary_outcome_unchanged": "Original SkillsBench verifier binary resolution only",
+  "method": "Required deliverables below are read from original task.md. Verify presence at scorer time using original verifier and preserved private artifacts. Record unknown when neither proves presence. Presence never implies semantic validity or task success.",
+  "contracts": [
+    {"task_id": "spring-boot-jakarta-migration", "kind": "source_transformation", "required": ["migrated /workspace/ Java and Maven project"], "presence_note": "No single output filename; use original verifier's compile/test evidence and private changed-file evidence, with unknown when unavailable."},
+    {"task_id": "tictoc-unnecessary-abort-detection", "kind": "single_file", "required": ["/root/unnecessary_aborts.json"]},
+    {"task_id": "data-to-d3", "kind": "multiple_files", "required": ["/root/output/index.html", "/root/output/js/d3.v6.min.js", "/root/output/js/visualization.js", "/root/output/css/style.css", "/root/output/data/ copy of input data"]},
+    {"task_id": "sec-financial-report", "kind": "single_file", "required": ["/root/answers.json"]},
+    {"task_id": "xlsx-recover-data", "kind": "single_file_relative", "required": ["nasa_budget_recovered.xlsx"], "presence_note": "Resolve the task's relative output filename against the original verifier contract."},
+    {"task_id": "lab-unit-harmonization", "kind": "single_file", "required": ["/root/ckd_lab_data_harmonized.csv"]},
+    {"task_id": "gravitational-wave-detection", "kind": "single_file", "required": ["/root/detection_results.csv"]},
+    {"task_id": "glm-lake-mendota", "kind": "output_plus_configuration", "required": ["/root/output/output.nc", "final /root/glm3.nml configuration"], "presence_note": "The configuration exists initially; count substantive final configuration separately from output-file presence."},
+    {"task_id": "radar-vital-signs", "kind": "single_file", "required": ["/root/results.csv"]},
+    {"task_id": "manufacturing-fjsp-optimization", "kind": "multiple_files", "required": ["/app/output/solution.json", "/app/output/schedule.csv"]},
+    {"task_id": "manufacturing-codebook-normalization", "kind": "single_file", "required": ["/app/output/solution.json"]},
+    {"task_id": "pddl-airport-planning", "kind": "dynamic_multiple_files", "required": ["every plan_output path listed in problem.json"], "presence_note": "Resolve the complete input-driven plan list; a subset of plans is partial delivery."},
+    {"task_id": "bike-rebalance", "kind": "single_file_relative", "required": ["report.json"], "presence_note": "Resolve the task's relative output filename against the original verifier contract."},
+    {"task_id": "software-dependency-audit", "kind": "single_file", "required": ["/root/security_audit.csv"]},
+    {"task_id": "setup-fuzzing-py", "kind": "dynamic_multiple_files", "required": ["/app/libraries.txt", "/app/<lib>/notes_for_testing.txt for each listed library", "/app/<lib>/fuzz.py for each listed library", "/app/<lib>/.venv for each listed library", "/app/<lib>/fuzz.log for each listed library"], "presence_note": "Original task states five libraries; verify the input set and all per-library outputs."},
+    {"task_id": "offer-letter-generator", "kind": "single_file", "required": ["/root/offer_letter_filled.docx"]}
+  ]
+}
