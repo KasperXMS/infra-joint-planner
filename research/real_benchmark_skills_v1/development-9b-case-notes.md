@@ -30,3 +30,9 @@ S0 → S1 used 13 → 37 tool calls, 302,192 → 839,113 provider tokens, and 29
 | --- | --- | --- | --- |
 | S0 | `de3e8aab00d2beb3efebb296aa09d9c9c63f87c1cb8e14b5d5fe94c43714086d` | `a261296f2ed7f6b00913ff5626c10d9ceb70a47618611ef042d7862e49abc9bd` | `9a1aa9fd4c18716f95c81bb6e8b535f584aa0b054b6ade2a2e8e3f4e61737189` |
 | S1 | `5796bffb84ea123fb49b46218ab088a3ad33f41ea7a66f6a47d4ceef55ed19fe` | `7f4099d40cb2a1483f39a5b005ffb8343797402e53498540a9a749e31e7be006` | `310ba13d57d34b1580cfe45cabf24197c5800ecc0c1157217b098524baf8b616` |
+
+## `econ-detrending-correlation`, S0 pending its paired S1
+
+The S0 No Skill cell had official reward zero and binary resolution **fail** after the original 900-second Agent wall-clock limit. The untouched verifier found no `/root/answer.txt`, failed its file-existence check, and skipped three dependent checks; there was no framework or verifier error. The complete timeout trajectory contains 23 tool calls and no pending action. Its two ACP `failed` entries are `think` events, not failed executable terminal calls. The original per-task result records 830,723 prompt and 21,445 completion tokens (852,168 total) and 962.4 seconds end-to-end. This is a missing required artifact, with no valid paired comparison until S1 finishes. The independent private archive and SHA256 receipt are saved.
+
+S0 evidence identifiers: official `result.json` SHA256 `d0ea08dadb0a76085c629bd7fe78d91d3f1f7434ad817a4c7ae3a846479baaf6`; native ACP trajectory SHA256 `663457a05111ff619a26fe9b9778f89564da29dd03969f67c85e45deefcfc253`; untouched verifier CTRF SHA256 `bf4ee4233a85960226a04578de48d8ee1282fa4da052218d6ba33b80a77ec106`.
