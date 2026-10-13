@@ -1,0 +1,26 @@
+# Minimal Harness v2 design proposal
+
+**Engineering decision: No-Go for a rigorous Infra-aware Logical Workflow Adapter experiment on the SDK-native execution graph as it stands.** The existing formal KEEP/PATCH validator is usable and should be retained. The missing piece is a safe, explicit bridge from Manager proposal to versioned pending plan plus complete enough execution-state reconciliation. No framework migration or production implementation is part of this audit.
+
+The smallest ordered change set is:
+
+1. **Settle physical batches per action (H-01).** Give each action ID a durable state: reserved, started, succeeded/failed, indeterminate, reconciled. Commit confirmed siblings even when one child raises. For a remote timeout, inspect worker/artifact idempotency record before retry. Record both logical outcome and physical telemetry. This is correctness work independent of Adapter research.
+2. **Bind terminal verdict to one candidate and type child results (H-02/H-05).** Extend Verifier `complete` with a validated Manager candidate action ID. Preserve child success/failure/status and real source action ID at `Agent.as_tool` boundary. Decide terminal policy *before* new experiments: either require Manager synthesis and make `ready_for_synthesis` the only valid no-Manager-candidate verdict, or preregister explicit adoption of a typed Specialist candidate. Do not mix policies within one comparison.
+3. **Define an Adapter transaction over the existing formal plan (H-06).** Keep a `SemanticWorkflowPlan` with immutable completed/running prefix, versioned pending actions, explicit artifact and information dependencies, and terminal ID. Adapter proposes a finite KEEP/PATCH against the current version; `workflow_validation.py` remains the authority for legality. Commit revision only at a quiescent frontier after checking artifact lineage and current capability envelope. An SDK Manager may propose semantic goals/requirements; the adapter, validator and scheduler retain distinct ownership.
+4. **Add a checkpoint/reconcile boundary before any resumable run (H-07).** Snapshot SDK conversation reference/state, formal workflow version/partitions, budgets, graph, reservations, produced-artifact hashes, and in-flight action IDs. On restore, reconcile observed effects; never blindly reexecute an indeterminate call. If the next Adapter evaluation is strictly finite with no crash resume claim, this can be explicitly out of scope, but the protocol must mark interrupted cells incomplete and never selective-rerun them.
+5. **Then optimize Verifier scheduling (H-04).** Separate deterministic schema/visibility/phase/readiness checks from semantic evidence judgment. Cache a verifier-state fingerprint to skip identical or purely invalid-call states while logging every skip. Validate equivalence on frozen traces before changing the live policy. Preserve an independent blind semantic judgment for new evidence and terminal candidates.
+
+The interface boundaries should be explicit:
+
+| Component | Owns | Must not own |
+|---|---|---|
+| Manager / Specialist | Semantic intent, evidence requests, bounded subtask delegation | Deployment ID, worker placement, private evaluator, budget override |
+| Harness | Typed tool contracts, state/trace, artifact lineage, terminal policy, revision and replay rules | Fabricated gold labels or GPU price |
+| Infra-aware Adapter | Physical-profile-informed KEEP/PATCH proposal on **pending** semantic actions | Mutating executed/running prefix or bypassing semantic validator |
+| Physical Scheduler | Feasible binding/placement against live infrastructure and fixed action | Changing semantic goal, task/evaluator, or answer |
+| Executor / Worker | Side effect, artifact hash/receipt, typed result | Deciding that semantic answer is correct |
+| Blind Verifier | Independent semantic sufficiency / candidate judgment | Resource placement, deterministic schema repair, benchmark gold access |
+
+Reuse the existing [`apply_workflow_patch`](../../src/infra_joint/control/workflow_validation.py#L186-L263) rather than introduce a second graph mutation API. Add explicit information edges only where source IDs can be attached; unknown free-text provenance should block transformations that require proof of independence. Preserve static resource blindness in B0/B1/B2 comparisons, fixed skills, benchmark evaluator, request budgets, 32K context preflight, role isolation and unknown GPU monetary cost. An eventual v2 study needs a new protocol/namespace and cannot be described as a direct continuation of frozen pilots.
+
+Acceptance criteria before Adapter Go: (a) H-01 fault-injection tests pass for partial success and uncertain remote completion; (b) every terminal `complete` names an existing successful candidate; (c) child failure is typed; (d) formal patch rejects any executed-prefix or undeclared information-edge violation; (e) checkpoint/reconcile policy is explicit for interruption, even if the study chooses fail-closed no-resume; (f) source and cost counters reconcile per action. Performance optimization H-04 is desirable before a cost-efficiency study, but its savings require measured validation, not an estimate in this report.
