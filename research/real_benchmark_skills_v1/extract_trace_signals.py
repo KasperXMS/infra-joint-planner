@@ -1,8 +1,8 @@
 """Index private ACP trajectories without exporting their contents.
 
-The path/name screen is a conservative candidate for manual review. A file
-mention does not prove correct skill application, and absent path hits do not
-prove the model never internalized skill content from a different route.
+The path screen is a conservative candidate for manual review. A file mention
+does not prove correct skill application, and absent path hits do not prove
+the model never internalized skill content from a different route.
 """
 import argparse
 import hashlib
@@ -20,23 +20,25 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def selected_text(text, task):
-    names = [re.escape(name) for name in task['skill_directories']]
-    generic = r'(?:SKILL\.md|(?:^|[\s/])(?:\.agents/)?skills(?:/|\b))'
-    return bool(re.search('|'.join(names + [generic]), text, re.I))
+def selected_skill_path(text):
+    # Directory names such as "pdf" or "pymatgen" also occur in ordinary task
+    # files and libraries. Require the native Skill directory or SKILL.md.
+    pattern = r'(?:SKILL\.md\b|/skills(?:/|(?=[\s"\x27`]|$))|(?<![\w./-])skills/)'
+    return bool(re.search(pattern, text, re.I))
 
 
 def signal_row(path):
     cell = json.loads(path.read_bytes())
     if cell.get('status') != 'completed':
         return None
+    if cell['task_id'] not in tasks:
+        raise RuntimeError('Unrecognized frozen task: ' + cell['task_id'])
     result_path = next((path.parent / 'bench').rglob('result.json'))
     result = json.loads(result_path.read_bytes())
     trajectory = result_path.parent / 'agent/acp_trajectory.jsonl'
     if not trajectory.exists():
         raise RuntimeError('Missing native ACP trajectory: ' + cell['run_id'])
     events = [json.loads(line) for line in trajectory.read_text().splitlines()]
-    task = tasks[cell['task_id']]
     actions = {'skill_discovery': [], 'skill_file_read': [], 'skill_reference_read': [],
                'skill_script_execution': [], 'skill_mentioned_in_thought': [],
                'failed_tool_calls': [], 'failed_executable_actions': [],
@@ -47,7 +49,7 @@ def signal_row(path):
     for step, event in enumerate(events):
         kind = event.get('kind')
         title = event.get('title', '')
-        if event.get('type') == 'agent_thought' and selected_text(event.get('text', ''), task):
+        if event.get('type') == 'agent_thought' and selected_skill_path(event.get('text', '')):
             actions['skill_mentioned_in_thought'].append(step)
         if event.get('type') != 'tool_call':
             continue
@@ -72,7 +74,7 @@ def signal_row(path):
                 actions['terminal_zero_exit_steps'].append(step)
             else:
                 actions['terminal_nonzero_exit_steps'].append(step)
-        if not selected_text(title, task):
+        if not selected_skill_path(title):
             continue
         if kind in ('read', 'execute'):
             actions['skill_discovery'].append(step)
@@ -105,7 +107,7 @@ def signal_row(path):
             'pending_tool_call_count': len(timeout.get('pending_tool_call_ids') or []),
             'trace_terminal_complete': (timeout.get('terminal_trajectory_complete')
                                         if timeout else not result.get('partial_trajectory', False)),
-            'method_limit': 'Path/name screen and ACP tool kinds; human trace review required for actual use or causality.'}
+            'method_limit': 'Native Skill path screen and ACP tool kinds; human trace review required for actual use or causality.'}
 
 
 def main(stage, require_complete):

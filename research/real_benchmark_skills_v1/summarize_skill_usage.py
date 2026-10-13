@@ -70,7 +70,7 @@ def main(stage):
     report = {
         'stage': stage,
         'classification': 'observed native Skill access in official S1 cells',
-        'method_limit': 'ACP path/name and tool-kind screen plus harness invocation counts. Candidates require manual review; no causal attribution.',
+        'method_limit': 'ACP native Skill path and tool-kind screen plus harness invocation counts. Candidates require manual review; no causal attribution.',
         'overall': summarize(rows),
         'by_model': {model: summarize(row for row in rows if row['model'] == model)
                      for model in ('Qwen3.5-4B', 'Qwen3.5-9B')},
