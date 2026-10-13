@@ -44,6 +44,28 @@ def direct_skill_script_execution(title):
                 or re.search(boundary + assignments + script, command, re.I))
 
 
+def skill_file_target_in_read(title):
+    """Exclude directory views from native Skill file-read candidates."""
+    match = re.search(r'"path":\s*"([^"\n]+)"', title)
+    if not match:
+        match = re.search(r'\bReading\s+(/\S+)', title)
+    if not match:
+        return None
+    path = match.group(1).rstrip('"\x27,')
+    return path if selected_skill_path(path) and Path(path).suffix else None
+
+
+def terminal_skill_content_read(title):
+    """Screen commands that inspect native Skill file contents, not listings."""
+    if '$' not in title:
+        return False
+    command = title.split('$', 1)[1].strip()
+    reader = r'(?:cat|sed|head|tail|grep|rg|awk|nl|less|more)\b'
+    path = r'(?:/skills/|(?<![\w./-])skills/)'
+    return bool(re.search(r'(?:^|[;&|]\s*)' + reader + r'[^;&|]*' + path,
+                          command, re.I))
+
+
 def signal_row(path):
     cell = json.loads(path.read_bytes())
     if cell.get('status') != 'completed':
@@ -95,8 +117,15 @@ def signal_row(path):
             continue
         if kind in ('read', 'execute'):
             actions['skill_discovery'].append(step)
-        if kind == 'read':
-            key = 'skill_file_read' if re.search(r'SKILL\.md', title, re.I) else 'skill_reference_read'
+        if kind == 'read' and event.get('status') == 'completed':
+            target = skill_file_target_in_read(title)
+            if target:
+                key = 'skill_file_read' if re.search(r'SKILL\.md$', target, re.I) else 'skill_reference_read'
+                actions[key].append(step)
+        if kind == 'execute' and terminal_skill_content_read(title):
+            command = title.split('$', 1)[1]
+            skill_md_path = r'(?:/skills/|(?<![\w./-])skills/)[^\s"\x27;&|]*SKILL\.md\b'
+            key = 'skill_file_read' if re.search(skill_md_path, command, re.I) else 'skill_reference_read'
             actions[key].append(step)
         if kind == 'execute' and direct_skill_script_execution(title):
             actions['skill_script_execution'].append(step)
@@ -124,7 +153,7 @@ def signal_row(path):
             'pending_tool_call_count': len(timeout.get('pending_tool_call_ids') or []),
             'trace_terminal_complete': (timeout.get('terminal_trajectory_complete')
                                         if timeout else not result.get('partial_trajectory', False)),
-            'method_limit': 'Native Skill path and direct interpreter/script-launch screens; indirect imports may be missed. Human trace review required for actual use or causality.'}
+            'method_limit': 'Native Skill path, editor file view, terminal content-reader, and direct script-launch screens. Directory listings are discovery only; indirect reads/imports may be missed. Human review required for actual use or causality.'}
 
 
 def main(stage, require_complete):
