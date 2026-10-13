@@ -55,6 +55,32 @@ class SemanticWorkflowPlan(ContractModel):
         return {item.action_id: item for item in self.actions}
 
 
+class OpenSemanticWorkflowPlan(ContractModel):
+    """Versioned partial proposal; it has no invented terminal action."""
+
+    schema_version: Literal["open-semantic-workflow-v2"] = "open-semantic-workflow-v2"
+    workflow_id: str = Field(min_length=1)
+    version: int = Field(ge=0)
+    actions: tuple[LogicalAction, ...] = ()
+    dependencies: tuple[WorkflowDependency, ...] = ()
+    terminal_action_id: None = None
+
+    @model_validator(mode="after")
+    def identifiers_are_unique(self) -> Self:
+        action_ids = tuple(item.action_id for item in self.actions)
+        if len(action_ids) != len(set(action_ids)):
+            raise ValueError("open workflow action IDs must be unique")
+        if len(self.dependencies) != len(set(self.dependencies)):
+            raise ValueError("open workflow dependencies must be unique")
+        return self
+
+    def action_map(self) -> dict[str, LogicalAction]:
+        return {item.action_id: item for item in self.actions}
+
+    def canonical_sha256(self) -> str:
+        return canonical_sha256(self.model_dump(mode="json"))
+
+
 class WorkflowRuntimeState(ContractModel):
     """Execution partition for one plan version.
 
@@ -88,10 +114,12 @@ class WorkflowRuntimeState(ContractModel):
         return self
 
     @classmethod
-    def initialize(cls, plan: SemanticWorkflowPlan) -> WorkflowRuntimeState:
+    def initialize(
+        cls, plan: SemanticWorkflowPlan | OpenSemanticWorkflowPlan
+    ) -> WorkflowRuntimeState:
         return cls(pending_action_ids=tuple(item.action_id for item in plan.actions))
 
-    def validate_against(self, plan: SemanticWorkflowPlan) -> None:
+    def validate_against(self, plan: SemanticWorkflowPlan | OpenSemanticWorkflowPlan) -> None:
         expected = {item.action_id for item in plan.actions}
         actual = (
             set(self.completed_action_ids)

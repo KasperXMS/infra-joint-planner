@@ -11,7 +11,7 @@ from infra_joint.control.contracts import (
     StaticCapabilityContract,
     StaticModelCapabilityClass,
 )
-from infra_joint.control.workflow import SemanticWorkflowPlan
+from infra_joint.control.workflow import OpenSemanticWorkflowPlan, SemanticWorkflowPlan
 from infra_joint.core.base import ContractModel
 from infra_joint.core.task import ArtifactContentSchema, TaskContract
 from infra_joint.worker.model_backend import is_text_media_type
@@ -45,7 +45,7 @@ class StaticWorkflowFeasibility(ContractModel):
 
 
 def analyze_static_workflow(
-    plan: SemanticWorkflowPlan,
+    plan: SemanticWorkflowPlan | OpenSemanticWorkflowPlan,
     task: TaskContract,
     capabilities: StaticCapabilityContract,
 ) -> StaticWorkflowFeasibility:
@@ -96,11 +96,7 @@ def derive_output_envelopes(
     if operator == "bm25_retrieve" and schema is not None:
         top_k = int(arguments["top_k"])
         record_count = min(schema.record_count or top_k, top_k)
-        max_record = (
-            schema.max_record_bytes + 128
-            if schema.max_record_bytes is not None
-            else None
-        )
+        max_record = schema.max_record_bytes + 128 if schema.max_record_bytes is not None else None
         output_schema = schema.model_copy(
             update={
                 "fields": {**schema.fields, "_bm25_score": "number"},
@@ -263,9 +259,7 @@ def _validate_schema_arguments(
                 f"{action.operator} {label} must name an input artifact schema field"
             )
         if text and not schema.fields[field].startswith("string"):
-            raise StaticFeasibilityError(
-                f"{action.operator} {label} must name a string field"
-            )
+            raise StaticFeasibilityError(f"{action.operator} {label} must name a string field")
 
     if action.operator == "bm25_retrieve":
         require(action.arguments.get("text_field"), "text_field", text=True)
@@ -303,9 +297,7 @@ def _validate_output_media_types(action: LogicalAction) -> None:
         "make_contact_sheet": "image/jpeg",
     }.get(action.operator)
     if expected is not None and any(item.media_type != expected for item in action.outputs):
-        raise StaticFeasibilityError(
-            f"{action.operator} output media type must be {expected}"
-        )
+        raise StaticFeasibilityError(f"{action.operator} output media type must be {expected}")
 
 
 def _aggregate_schema(inputs: tuple[ArtifactEnvelope, ...]) -> ArtifactContentSchema | None:
@@ -330,7 +322,9 @@ def _aggregate_schema(inputs: tuple[ArtifactEnvelope, ...]) -> ArtifactContentSc
     )
 
 
-def _topological_actions(plan: SemanticWorkflowPlan) -> tuple[LogicalAction, ...]:
+def _topological_actions(
+    plan: SemanticWorkflowPlan | OpenSemanticWorkflowPlan,
+) -> tuple[LogicalAction, ...]:
     actions = plan.action_map()
     order = {item.action_id: index for index, item in enumerate(plan.actions)}
     indegree = dict.fromkeys(actions, 0)

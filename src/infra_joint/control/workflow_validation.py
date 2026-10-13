@@ -16,6 +16,7 @@ from infra_joint.control.validation import semantic_action
 from infra_joint.control.workflow import (
     AddAction,
     AddDependency,
+    OpenSemanticWorkflowPlan,
     RemovePendingAction,
     ReplacePendingAction,
     SemanticWorkflowPlan,
@@ -32,21 +33,27 @@ class WorkflowValidationError(ValueError):
 
 
 def validate_semantic_workflow(
-    plan: SemanticWorkflowPlan,
+    plan: SemanticWorkflowPlan | OpenSemanticWorkflowPlan,
     task: TaskContract,
     capabilities: StaticCapabilityContract,
     registry: OperatorRegistry,
+    *,
+    require_terminal: bool = True,
 ) -> None:
     """Validate a complete semantic plan without reading infrastructure state."""
 
     actions = plan.action_map()
-    if not actions:
+    if not actions and require_terminal:
         raise WorkflowValidationError("semantic workflow must contain actions")
-    terminal = actions.get(plan.terminal_action_id)
-    if terminal is None:
-        raise WorkflowValidationError("terminal action does not exist")
-    if not isinstance(terminal, LogicalModelAction):
-        raise WorkflowValidationError("terminal action must be a logical model action")
+    if require_terminal:
+        terminal_id = plan.terminal_action_id
+        if terminal_id is None:
+            raise WorkflowValidationError("complete workflow requires a terminal action")
+        terminal = actions.get(terminal_id)
+        if terminal is None:
+            raise WorkflowValidationError("terminal action does not exist")
+        if not isinstance(terminal, LogicalModelAction):
+            raise WorkflowValidationError("terminal action must be a logical model action")
 
     operator_contracts = {item.operator: item for item in capabilities.operators}
     task_artifacts = {item.artifact_id for item in task.artifacts}
@@ -130,10 +137,14 @@ def validate_semantic_workflow(
     ordered = _topological_order(plan)
     if len(ordered) != len(actions):
         raise WorkflowValidationError("semantic workflow graph must be acyclic")
-    reachable = _reverse_reachable(plan.terminal_action_id, dependencies)
-    unreachable = sorted(set(actions) - reachable)
-    if unreachable:
-        raise WorkflowValidationError(f"all actions must reach the terminal action: {unreachable}")
+    if require_terminal:
+        assert plan.terminal_action_id is not None
+        reachable = _reverse_reachable(plan.terminal_action_id, dependencies)
+        unreachable = sorted(set(actions) - reachable)
+        if unreachable:
+            raise WorkflowValidationError(
+                f"all actions must reach the terminal action: {unreachable}"
+            )
     try:
         analyze_static_workflow(plan, task, capabilities)
     except StaticFeasibilityError as exc:
@@ -297,7 +308,9 @@ def _require_pending(action_id: str, pending: set[str]) -> None:
         )
 
 
-def _topological_order(plan: SemanticWorkflowPlan) -> tuple[str, ...]:
+def _topological_order(
+    plan: SemanticWorkflowPlan | OpenSemanticWorkflowPlan,
+) -> tuple[str, ...]:
     action_ids = [item.action_id for item in plan.actions]
     declared = {action_id: index for index, action_id in enumerate(action_ids)}
     indegree = dict.fromkeys(action_ids, 0)
