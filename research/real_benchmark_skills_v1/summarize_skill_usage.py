@@ -16,6 +16,7 @@ def summarize(rows):
     return {
         's1_cells': len(rows),
         'official_resolutions': sum(row['resolved'] for row in rows),
+        'native_skill_menu_presented_cells': sum(row['native_skill_menu_presented'] for row in rows),
         'harness_invocation_cells': sum(row['harness_invocation'] for row in rows),
         'skill_file_read_candidates': sum(row['skill_file_read'] for row in rows),
         'skill_reference_read_candidates': sum(row['skill_reference_read'] for row in rows),
@@ -34,7 +35,10 @@ def summarize(rows):
 def main(stage):
     results = json.loads((source / f'{stage}-results.json').read_bytes())
     signals = json.loads((source / f'{stage}-trace-signals.json').read_bytes())
-    if results['completed_cells'] != results['expected_cells'] or signals['completed_cells'] != results['expected_cells']:
+    visibility = json.loads((source / f'{stage}-skill-visibility.json').read_bytes())
+    if (results['completed_cells'] != results['expected_cells']
+            or signals['completed_cells'] != results['expected_cells']
+            or visibility['completed_cells'] != results['expected_cells']):
         raise RuntimeError('Skill usage requires a complete official stage')
     by_id = {row['run_id']: row for row in results['cells']}
     if len(by_id) != results['expected_cells']:
@@ -42,6 +46,9 @@ def main(stage):
     signal_ids = {row['run_id'] for row in signals['rows']}
     if signal_ids != set(by_id) or len(signals['rows']) != len(signal_ids):
         raise RuntimeError('Trace signal/result ID mismatch')
+    visibility_by_id = {row['run_id']: row for row in visibility['rows']}
+    if len(visibility_by_id) != len(visibility['rows']) or set(visibility_by_id) != set(by_id):
+        raise RuntimeError('Skill visibility/result ID mismatch')
 
     rows = []
     for signal in signals['rows']:
@@ -50,12 +57,16 @@ def main(stage):
             continue
         if not result['native_skill_available'] or not signal['native_skill_available']:
             raise RuntimeError('Native Skills missing in S1: ' + signal['run_id'])
+        presented = visibility_by_id[signal['run_id']]
+        if presented['condition'] != 's1' or presented['task_id'] != result['task_id']:
+            raise RuntimeError('Skill visibility metadata mismatch: ' + signal['run_id'])
         steps = signal['step_indices']
         rows.append({
             'run_id': signal['run_id'],
             'model': result['model'],
             'task_id': result['task_id'],
             'resolved': result['official_resolution'],
+            'native_skill_menu_presented': presented['all_names_offered'],
             'harness_invocation': result['skill_invocations'] > 0,
             'skill_file_read': bool(steps['skill_file_read']),
             'skill_reference_read': bool(steps['skill_reference_read']),
@@ -70,7 +81,8 @@ def main(stage):
     report = {
         'stage': stage,
         'classification': 'observed native Skill access in official S1 cells',
-        'method_limit': 'ACP native Skill path and tool-kind screen plus harness invocation counts. Candidates require manual review; no causal attribution.',
+        'method_limit': 'Initial system-message Skill name tags measure delivery only. ACP native Skill path/tool-kind screens and harness invocation counts measure candidate access. Manual review is required for use and causality.',
+        's0_native_skill_name_contamination_cells': visibility['s0_any_name_offered'],
         'overall': summarize(rows),
         'by_model': {model: summarize(row for row in rows if row['model'] == model)
                      for model in ('Qwen3.5-4B', 'Qwen3.5-9B')},

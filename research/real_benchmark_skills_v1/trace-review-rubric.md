@@ -7,6 +7,7 @@ For each S1 cell, code the following evidence levels independently:
 | Code | Minimum evidence | Limit |
 | --- | --- | --- |
 | Available | BenchFlow `include_task_skills=true` plus sandbox proof for native directory | Does not show the model noticed the skill |
+| Presented | The first model system message contains the exact official native Skill names in `<name>` tags | Shows delivery to the model request, not attention, reading, or use; check with `audit_skill_visibility.py` |
 | Discovered | Agent lists/references the native skill path or name in a tool action or thought | Could be a superficial mention |
 | Read | Tool action opens `SKILL.md` or a bundled reference/script for content | Reading alone does not show correct use |
 | Executed | Tool action runs a bundled script or command from the skill | Execution may fail or target the wrong data |
