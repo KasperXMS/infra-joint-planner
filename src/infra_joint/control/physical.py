@@ -25,13 +25,15 @@ from infra_joint.core.state import DeploymentSpec, EnvironmentSpec, Infrastructu
 from infra_joint.infrastructure.observer import InfrastructureObserver
 from infra_joint.operators.artifacts import ProducedArtifact
 from infra_joint.operators.registry import OperatorRegistry
-from infra_joint.runtime.executor import ExecutionResult, RuntimeExecutor
+from infra_joint.runtime.action_receipts import request_sha256
+from infra_joint.runtime.executor import ActionExecutor, ExecutionResult, RuntimeExecutor
 from infra_joint.runtime.resolver import (
     BindingResolutionError,
     DeterministicResolver,
     ResolutionErrorCode,
     ResolvedBinding,
 )
+from infra_joint.worker.server import ExecuteOperatorResponse
 from infra_joint.workflow.costing import ExecutionCostProfile
 
 NetworkClass = Literal["local", "constrained", "moderate", "fast", "unknown"]
@@ -61,6 +63,7 @@ class PhysicalExecutionOutcome(ContractModel):
         default=None,
         pattern=r"^[0-9a-f]{64}$",
     )
+    reconciled_from_worker_receipt: bool = False
 
 
 class PreparedPhysicalAction(ContractModel):
@@ -140,9 +143,7 @@ class PhysicalFeasibilityValidator:
         infrastructure: InfrastructureState,
         registry: OperatorRegistry,
     ) -> tuple[DeploymentSpec, ...]:
-        available_agents = {
-            item.agent_id for item in infrastructure.agents if item.available
-        }
+        available_agents = {item.agent_id for item in infrastructure.agents if item.available}
         available_deployments = {
             item.deployment_id for item in infrastructure.deployments if item.available
         }
@@ -166,8 +167,7 @@ class PhysicalFeasibilityValidator:
                 continue
             if (
                 deployment.context_window < action.requirements.min_context_tokens
-                or deployment.reserved_output_tokens
-                < action.requirements.reserved_output_tokens
+                or deployment.reserved_output_tokens < action.requirements.reserved_output_tokens
             ):
                 saw_context_mismatch = True
                 continue
@@ -333,17 +333,14 @@ class PhysicalProfiler:
             except BindingResolutionError as exc:
                 deployments = ()
                 preflight_unknown.append(f"{exc.code.value}: {exc}")
-            candidate_agents = [
-                (item.agent_id, item.deployment_id) for item in deployments
-            ]
+            candidate_agents = [(item.agent_id, item.deployment_id) for item in deployments]
         else:
             operator = self._registry.binding(action.operator).spec
             live = {item.agent_id for item in infrastructure.agents if item.available}
             candidate_agents = [
                 (item.agent_id, None)
                 for item in self._environment.agents
-                if item.agent_id in live
-                and operator.capability_requirements <= item.capabilities
+                if item.agent_id in live and operator.capability_requirements <= item.capabilities
             ]
 
         remote_counts: list[int] = []
@@ -388,9 +385,7 @@ class PhysicalProfiler:
             runtime = runtime_agents.get(agent_id)
             if runtime is not None:
                 queue_units.append(
-                    runtime.queue_depth
-                    if runtime.queue_depth is not None
-                    else runtime.in_flight
+                    runtime.queue_depth if runtime.queue_depth is not None else runtime.in_flight
                 )
         if not candidate_agents:
             unknown.append("no feasible candidates")
@@ -465,8 +460,7 @@ class PhysicalProfiler:
         infrastructure: InfrastructureState,
     ) -> float | None:
         estimates = [
-            link.rtt_ms
-            + size_bytes * 8 / (link.bandwidth_mbps * 1_000_000) * 1000
+            link.rtt_ms + size_bytes * 8 / (link.bandwidth_mbps * 1_000_000) * 1000
             for link in infrastructure.links
             if link.available
             and link.source_agent_id in sources
@@ -499,7 +493,7 @@ class PhysicalExecutionService:
         registry: OperatorRegistry,
         environment: EnvironmentSpec,
         observer: InfrastructureObserver,
-        executor: RuntimeExecutor,
+        executor: ActionExecutor,
         *,
         scheduler: PhysicalActionScheduler | None = None,
         profiler: PhysicalProfiler | None = None,
@@ -606,19 +600,24 @@ class PhysicalExecutionService:
 
         started = perf_counter()
         try:
-            execution = await self._executor.execute(
-                JointAction(
-                    semantic=prepared.semantic_action,
-                    physical=_frozen_decision(selection),
-                ),
-                shared_pre_frontier_state,
+            joint = JointAction(
+                semantic=prepared.semantic_action,
+                physical=_frozen_decision(selection),
             )
+            if isinstance(self._executor, RuntimeExecutor):
+                execution = await self._executor.execute(
+                    joint,
+                    shared_pre_frontier_state,
+                    action_id=f"{prepared.batch_id}:{action.action_id}",
+                )
+            else:
+                execution = await self._executor.execute(joint, shared_pre_frontier_state)
             observation = LogicalObservation(
                 action_id=action.action_id,
                 owner_agent_id=action.owner_agent_id,
                 succeeded=True,
                 output=execution.output,
-                produced_information=self._produced_information(action, execution),
+                produced_information=self._produced_information(action, execution.output),
                 physical_profile=prepared.physical_profile,
             )
             return PhysicalExecutionOutcome(
@@ -692,6 +691,62 @@ class PhysicalExecutionService:
             exc.__dict__["_infra_joint_physical_outcome"] = outcome
             raise
 
+    async def reconcile_prepared(
+        self,
+        prepared: PreparedPhysicalAction,
+        shared_pre_frontier_state: InfrastructureState,
+    ) -> PhysicalExecutionOutcome | None:
+        """Trust only a matching durable Worker receipt; never replay an uncertain call."""
+        selection = prepared.selection
+        if selection is None or not isinstance(self._executor, RuntimeExecutor):
+            return None
+        receipt = await self._executor.get_action_receipt(
+            selection.selected_agent_id,
+            f"{prepared.batch_id}:{prepared.logical_action.action_id}",
+        )
+        if receipt is None or receipt.effective_status not in {"succeeded", "failed"}:
+            return None
+        expected = request_sha256(
+            {
+                "action": prepared.semantic_action.model_dump(mode="json"),
+                "deployment_id": selection.selected_deployment_id,
+            }
+        )
+        if receipt.request_sha256 != expected:
+            raise ValueError("Worker receipt does not match the frozen action request")
+        action = prepared.logical_action
+        if receipt.effective_status == "succeeded":
+            response = ExecuteOperatorResponse.model_validate(receipt.response)
+            if response.operator != prepared.semantic_action.operator:
+                raise ValueError("Worker receipt operator mismatch")
+            observation = LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=True,
+                output=response.output,
+                produced_information=self._produced_information(action, response.output),
+                physical_profile=prepared.physical_profile,
+            )
+        else:
+            observation = LogicalObservation(
+                action_id=action.action_id,
+                owner_agent_id=action.owner_agent_id,
+                succeeded=False,
+                failure_code=receipt.failure_code or "worker_execution_failed",
+                failure_message=receipt.failure_message or "Worker reported a failed action",
+                physical_profile=prepared.physical_profile,
+            )
+        return PhysicalExecutionOutcome(
+            observation=observation,
+            infrastructure_before=shared_pre_frontier_state,
+            infrastructure_after=shared_pre_frontier_state,
+            selection=selection,
+            batch_id=prepared.batch_id,
+            shared_snapshot_observed_at=prepared.shared_snapshot_observed_at,
+            shared_snapshot_sha256=prepared.shared_snapshot_sha256,
+            reconciled_from_worker_receipt=True,
+        )
+
     async def execute(
         self,
         action: LogicalAction,
@@ -714,21 +769,18 @@ class PhysicalExecutionService:
     @staticmethod
     def _produced_information(
         action: LogicalAction,
-        execution: ExecutionResult,
+        output: dict[str, object],
     ) -> tuple[ProducedInformation, ...]:
         if not action.outputs:
             return ()
         metadata: list[ProducedArtifact]
-        if "artifacts" in execution.output:
-            raw = execution.output["artifacts"]
+        if "artifacts" in output:
+            raw = output["artifacts"]
             if not isinstance(raw, list):
                 raise ValueError("worker artifacts output must be a list")
-            metadata = [
-                ProducedArtifact.model_validate(item)
-                for item in cast(list[object], raw)
-            ]
-        elif "artifact_id" in execution.output:
-            metadata = [ProducedArtifact.model_validate(execution.output)]
+            metadata = [ProducedArtifact.model_validate(item) for item in cast(list[object], raw)]
+        elif "artifact_id" in output:
+            metadata = [ProducedArtifact.model_validate(output)]
         else:
             raise ValueError("declared logical outputs were not materialized by the worker")
         declared = {item.artifact_id: item for item in action.outputs}

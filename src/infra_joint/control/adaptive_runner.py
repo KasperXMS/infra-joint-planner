@@ -42,6 +42,7 @@ from infra_joint.evaluation.trace import JsonlTraceWriter
 from infra_joint.infrastructure.observer import LiveWorkerObserver
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
+from infra_joint.runtime.action_receipts import FileActionReceiptStore
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.runtime.executor import ArtifactTransferTelemetry, RuntimeExecutor
 from infra_joint.workflow.costing import ExecutionCostProfile
@@ -156,6 +157,9 @@ class AdaptiveWorkflowBenchmarkRunner:
                         observer,
                         RuntimeExecutor(registry, self._config.environment, clients),
                         profiler=profiler,
+                    ),
+                    receipt_store=FileActionReceiptStore(
+                        run_directory / "private" / "action-receipts-v2"
                     ),
                 )
                 execution = await AdaptiveWorkflowExecutor(

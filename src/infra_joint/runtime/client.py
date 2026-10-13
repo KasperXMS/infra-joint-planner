@@ -5,6 +5,7 @@ import httpx
 
 from infra_joint.core.action import SemanticAction
 from infra_joint.core.errors import FailureDetail, TypedExecutionError
+from infra_joint.runtime.action_receipts import ActionReceipt
 from infra_joint.worker.server import (
     ExecuteOperatorRequest,
     ExecuteOperatorResponse,
@@ -119,7 +120,18 @@ class HttpWorkerClient:
     async def execute_operator(
         self, action: SemanticAction, deployment_id: str | None
     ) -> ExecuteOperatorResponse:
-        request = ExecuteOperatorRequest(action=action, deployment_id=deployment_id)
+        return await self.execute_operator_with_receipt(action, deployment_id, action_id=None)
+
+    async def execute_operator_with_receipt(
+        self,
+        action: SemanticAction,
+        deployment_id: str | None,
+        *,
+        action_id: str | None,
+    ) -> ExecuteOperatorResponse:
+        request = ExecuteOperatorRequest(
+            action=action, deployment_id=deployment_id, action_id=action_id
+        )
         response = await self._client.post(
             "/execute/operator",
             content=request.model_dump_json(),
@@ -129,6 +141,13 @@ class HttpWorkerClient:
             self._raise_typed_error(response)
         response.raise_for_status()
         return ExecuteOperatorResponse.model_validate(response.json())
+
+    async def get_action_receipt(self, action_id: str) -> ActionReceipt | None:
+        response = await self._client.get(f"/execute/receipt/{quote(action_id, safe='')}")
+        if response.status_code == 404:
+            return None
+        response.raise_for_status()
+        return ActionReceipt.model_validate(response.json())
 
     @staticmethod
     def _raise_typed_error(response: httpx.Response) -> None:

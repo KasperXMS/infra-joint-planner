@@ -1,11 +1,13 @@
 import asyncio
 from time import perf_counter
+from typing import Any
 from urllib.parse import urlsplit
 
 from pydantic import Field
 
 from infra_joint.core.action import SemanticAction
 from infra_joint.core.base import ContractModel
+from infra_joint.runtime.action_receipts import ActionReceipt
 from infra_joint.runtime.client import WorkerClient
 from infra_joint.worker.server import (
     ExecuteOperatorResponse,
@@ -53,6 +55,18 @@ class RegimeWorkerClient:
         deployment_id: str | None,
     ) -> ExecuteOperatorResponse:
         return await self._wrapped.execute_operator(action, deployment_id)
+
+    async def execute_operator_with_receipt(
+        self, action: SemanticAction, deployment_id: str | None, *, action_id: str | None
+    ) -> ExecuteOperatorResponse:
+        method = getattr(self._wrapped, "execute_operator_with_receipt", None)
+        if method is None:
+            return await self.execute_operator(action, deployment_id)
+        return await method(action, deployment_id, action_id=action_id)
+
+    async def get_action_receipt(self, action_id: str) -> ActionReceipt | None:
+        method: Any = getattr(self._wrapped, "get_action_receipt", None)
+        return None if method is None else await method(action_id)
 
     async def get_state(self) -> WorkerStateResponse:
         return await self._wrapped.get_state()

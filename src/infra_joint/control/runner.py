@@ -38,6 +38,7 @@ from infra_joint.infrastructure.diagnostics import JsonlObserverDiagnostics
 from infra_joint.infrastructure.observer import LiveWorkerObserver
 from infra_joint.infrastructure.validation import validate_worker_surfaces
 from infra_joint.operators.catalog import build_operator_catalog
+from infra_joint.runtime.action_receipts import FileActionReceiptStore
 from infra_joint.runtime.client import HttpWorkerClient, WorkerClient
 from infra_joint.runtime.executor import (
     ArtifactTransferTelemetry,
@@ -164,9 +165,7 @@ class ControlPlaneBenchmarkRunner:
                 )
                 initial_transfers = await self._materialize(bundle, clients)
                 for transfer in initial_transfers:
-                    trace.emit(
-                        "artifact.materialize.end", transfer.model_dump(mode="json")
-                    )
+                    trace.emit("artifact.materialize.end", transfer.model_dump(mode="json"))
                 observer = LiveWorkerObserver(
                     self._config.environment,
                     clients,
@@ -195,6 +194,9 @@ class ControlPlaneBenchmarkRunner:
                         self._available_operations,
                     ),
                     physical,
+                    receipt_store=FileActionReceiptStore(
+                        run_directory / "private" / "action-receipts-v2"
+                    ),
                 )
                 if self._logical_runtime is not None:
                     static_capabilities = build_static_capability_contract(
@@ -292,9 +294,7 @@ class ControlPlaneBenchmarkRunner:
         for artifact in task.artifacts:
             content, checksum = self._artifact_content(artifact.artifact_id, prepared)
             if len(content) != artifact.size_bytes:
-                raise ValueError(
-                    f"artifact size differs from TaskContract: {artifact.artifact_id}"
-                )
+                raise ValueError(f"artifact size differs from TaskContract: {artifact.artifact_id}")
             for agent_id in sorted(placements[artifact.artifact_id]):
                 transfer_started = perf_counter()
                 response = await clients[agent_id].put_artifact(

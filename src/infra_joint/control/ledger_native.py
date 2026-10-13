@@ -41,7 +41,18 @@ class LedgerActionGateway:
         *,
         expose_profile: bool,
     ) -> tuple[PhysicalExecutionOutcome, ...]:
-        outcomes = await self.delegate.execute_batch(actions, expose_profile=expose_profile)
+        try:
+            outcomes = await self.delegate.execute_batch(actions, expose_profile=expose_profile)
+        except Exception as exc:
+            settled = getattr(exc, "_infra_joint_settled_outcomes", ())
+            if isinstance(settled, tuple):
+                by_action = {action.action_id: action for action in actions}
+                for outcome in settled:
+                    if isinstance(outcome, PhysicalExecutionOutcome):
+                        action = by_action.get(outcome.observation.action_id)
+                        if action is not None:
+                            self.ledger.record(action, outcome)
+            raise
         by_id = {item.observation.action_id: item for item in outcomes}
         if len(by_id) != len(outcomes) or set(by_id) != {item.action_id for item in actions}:
             raise ValueError("ledger gateway action/outcome set mismatch")

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import importlib
 import re
 from collections.abc import Mapping, Sequence
@@ -22,23 +23,35 @@ class VerificationResult(ContractModel):
     """A Blind evidence-sufficiency verdict; never a benchmark answer."""
 
     status: Literal["continue", "ready_for_synthesis", "complete"]
-    failure_stage: Literal[
-        "evidence_collection", "execution", "synthesis", "none"
-    ]
+    failure_stage: Literal["evidence_collection", "execution", "synthesis", "none"]
     reason: str = Field(min_length=1)
     missing_requirements: tuple[str, ...] = ()
+    candidate_action_id: str | None = None
+    candidate_output_sha256: str | None = None
+    evidence_state_version: int | None = Field(default=None, ge=0)
 
     @model_validator(mode="after")
     def status_matches_stage(self) -> Self:
-        if self.status in {"ready_for_synthesis", "complete"} and (
-            self.failure_stage != "none"
-        ):
+        if self.status in {"ready_for_synthesis", "complete"} and (self.failure_stage != "none"):
             raise ValueError("ready_for_synthesis and complete require failure_stage=none")
         if self.status == "continue" and self.failure_stage == "none":
             raise ValueError("continue requires a concrete failure_stage")
         if len(self.missing_requirements) != len(set(self.missing_requirements)):
             raise ValueError("missing requirements must be unique")
+        if self.status != "complete" and any(
+            value is not None
+            for value in (
+                self.candidate_action_id,
+                self.candidate_output_sha256,
+                self.evidence_state_version,
+            )
+        ):
+            raise ValueError("only complete may bind a terminal candidate")
         return self
+
+
+def candidate_output_sha256(text: str) -> str:
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 class VerifierBudgetView(ContractModel):
@@ -154,7 +167,9 @@ class OpenAIAgentsBlindVerifier:
         "(3) return continue only for a concrete evidence gap, conflict, failed synthesis, or "
         "recoverable execution blocker. ready_for_synthesis must use "
         "failure_stage=none; complete also requires failure_stage=none; continue must identify "
-        "the current stage."
+        "the current stage. For complete, bind candidate_action_id to the exact successful "
+        "manager model action, candidate_output_sha256 to SHA256 of its raw text output, "
+        "and evidence_state_version to workflow.version."
     )
 
     def __init__(

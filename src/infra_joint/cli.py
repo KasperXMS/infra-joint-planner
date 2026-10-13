@@ -12,6 +12,7 @@ from infra_joint.core.task import OutputContract, OutputFormat, TaskContract
 from infra_joint.operators.catalog import build_operator_catalog
 from infra_joint.operators.media import FfmpegMediaBackend, probe_ffmpeg
 from infra_joint.planning.planner import BlindPlannerContext, LLMBlindPlanner
+from infra_joint.runtime.action_receipts import FileActionReceiptStore
 from infra_joint.worker.artifact_fetcher import HttpArtifactFetcher
 from infra_joint.worker.artifact_store import FileArtifactStore
 from infra_joint.worker.model_backend import ModelDeployment
@@ -66,6 +67,7 @@ def worker(
         settings.agent_id,
         deployments,
         artifact_store=FileArtifactStore(settings.artifact_root),
+        receipt_store=FileActionReceiptStore(settings.artifact_root / ".action-receipts-v2"),
         artifact_fetcher=fetcher,
         media_backend=media_backend,
         max_read_artifact_bytes=settings.max_read_artifact_bytes,

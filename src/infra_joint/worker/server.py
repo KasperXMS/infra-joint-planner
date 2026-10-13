@@ -1,3 +1,4 @@
+import asyncio
 import inspect
 import json
 from typing import Any, cast
@@ -15,6 +16,12 @@ from infra_joint.operators.media import MediaBackend, MediaExecutionError, regis
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.operators.retrieval import register_retrieval_operators
 from infra_joint.operators.structured import register_structured_operators
+from infra_joint.runtime.action_receipts import (
+    ActionReceipt,
+    ActionReceiptStore,
+    MemoryActionReceiptStore,
+    request_sha256,
+)
 from infra_joint.worker.artifact_fetcher import ArtifactFetcher
 from infra_joint.worker.artifact_store import (
     ArtifactMetadata,
@@ -37,6 +44,7 @@ from infra_joint.worker.model_backend import (
 class ExecuteOperatorRequest(ContractModel):
     action: SemanticAction
     deployment_id: str | None = None
+    action_id: str | None = Field(default=None, min_length=1)
 
 
 class ExecuteOperatorResponse(ContractModel):
@@ -97,6 +105,7 @@ def create_worker_app(
     artifact_store: ArtifactStore | None = None,
     artifact_fetcher: ArtifactFetcher | None = None,
     media_backend: MediaBackend | None = None,
+    receipt_store: ActionReceiptStore | None = None,
     max_read_artifact_bytes: int = 65_536,
 ) -> FastAPI:
     if max_read_artifact_bytes < 1:
@@ -105,6 +114,8 @@ def create_worker_app(
         raise ValueError("deployment mapping keys must match deployment IDs")
     registry = OperatorRegistry()
     store = artifact_store or InMemoryArtifactStore()
+    receipts = receipt_store or MemoryActionReceiptStore()
+    receipt_locks: dict[str, asyncio.Lock] = {}
     in_flight = 0
 
     def read_artifact(action: SemanticAction) -> dict[str, str]:
@@ -314,8 +325,7 @@ def create_worker_app(
             ]
         return output, completion.telemetry
 
-    @app.post("/execute/operator", response_model=ExecuteOperatorResponse)
-    async def execute(request: ExecuteOperatorRequest) -> ExecuteOperatorResponse:
+    async def execute_once(request: ExecuteOperatorRequest) -> ExecuteOperatorResponse:
         nonlocal in_flight
         try:
             binding = registry.binding(request.action.operator)
@@ -360,5 +370,77 @@ def create_worker_app(
             raise _failure(ExecutionErrorCode.VALIDATION_FAILED, str(exc)) from exc
         finally:
             in_flight -= 1
+
+    @app.get("/execute/receipt/{action_id:path}", response_model=ActionReceipt)
+    async def get_execution_receipt(action_id: str) -> ActionReceipt:
+        receipt = receipts.get(action_id)
+        if receipt is None:
+            raise HTTPException(status_code=404, detail="action receipt not found")
+        return receipt
+
+    @app.post("/execute/operator", response_model=ExecuteOperatorResponse)
+    async def execute(request: ExecuteOperatorRequest) -> ExecuteOperatorResponse:
+        action_id = request.action_id
+        if action_id is None:
+            return await execute_once(request)
+        digest = request_sha256(
+            {
+                "action": request.action.model_dump(mode="json"),
+                "deployment_id": request.deployment_id,
+            }
+        )
+        lock = receipt_locks.setdefault(action_id, asyncio.Lock())
+        async with lock:
+            previous = receipts.get(action_id)
+            if previous is not None and previous.request_sha256 != digest:
+                raise HTTPException(status_code=409, detail="action ID has conflicting request")
+            if previous is not None and previous.effective_status == "succeeded":
+                return ExecuteOperatorResponse.model_validate(previous.response)
+            if previous is not None and previous.effective_status == "failed":
+                raise HTTPException(
+                    status_code=previous.http_status or 422,
+                    detail=previous.failure_message or "previous execution failed",
+                )
+            if previous is not None and previous.status in {"started", "indeterminate"}:
+                raise HTTPException(
+                    status_code=409, detail="action execution outcome is indeterminate"
+                )
+            if previous is None:
+                receipts.put(
+                    ActionReceipt(action_id=action_id, request_sha256=digest, status="reserved")
+                )
+            receipts.put(
+                ActionReceipt(action_id=action_id, request_sha256=digest, status="started")
+            )
+            try:
+                response = await execute_once(request)
+            except HTTPException as exc:
+                receipts.put(
+                    ActionReceipt(
+                        action_id=action_id,
+                        request_sha256=digest,
+                        status="failed",
+                        failure_code="worker_http_failure",
+                        failure_message=str(exc.detail),
+                        http_status=exc.status_code,
+                    )
+                )
+                raise
+            except BaseException:
+                receipts.put(
+                    ActionReceipt(
+                        action_id=action_id, request_sha256=digest, status="indeterminate"
+                    )
+                )
+                raise
+            receipts.put(
+                ActionReceipt(
+                    action_id=action_id,
+                    request_sha256=digest,
+                    status="succeeded",
+                    response=response.model_dump(mode="json"),
+                )
+            )
+            return response
 
     return app

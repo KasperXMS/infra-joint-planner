@@ -338,8 +338,13 @@ class WorkflowGraphSnapshot(ContractModel):
 class SubagentResult(ContractModel):
     call_id: str = Field(min_length=1)
     logical_agent_id: str = Field(min_length=1)
-    terminal_action_id: str = Field(min_length=1)
-    answer: str
+    terminal_action_id: str | None = None
+    answer: str = ""
+    status: Literal["succeeded", "failed", "cancelled", "indeterminate"] = "succeeded"
+    source_action_ids: tuple[str, ...] = ()
+    produced_artifact_ids: tuple[str, ...] = ()
+    failure_code: str | None = None
+    failure_message: str | None = None
 
 
 class ManagerContext(ContractModel):

@@ -262,7 +262,17 @@ class QuoteLedgerGateway(LedgerActionGateway):
             action.action_id: self.quotes.consume_authorization(action) for action in actions
             if action.owner_agent_id == self.quotes.owner_agent_id
         }
-        outcomes = await super().execute_batch(actions, expose_profile=False)
+        try:
+            outcomes = await super().execute_batch(actions, expose_profile=False)
+        except Exception as exc:
+            settled = getattr(exc, "_infra_joint_settled_outcomes", ())
+            if isinstance(settled, tuple):
+                for outcome in settled:
+                    if isinstance(outcome, PhysicalExecutionOutcome):
+                        pending = authorized.get(outcome.observation.action_id)
+                        if pending is not None:
+                            self.quotes.observe(pending, outcome)
+            raise
         for outcome in outcomes:
             pending = authorized.get(outcome.observation.action_id)
             if pending is not None:

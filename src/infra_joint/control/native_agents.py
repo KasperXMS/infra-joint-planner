@@ -56,6 +56,7 @@ from infra_joint.control.verification import (
     VerifierActionView,
     VerifierBudgetView,
     VerifierObservation,
+    candidate_output_sha256,
     invoke_verifier,
 )
 from infra_joint.core.base import ContractModel
@@ -122,6 +123,7 @@ class _NativeState:
         default_factory=lambda: list[LogicalObservation]()
     )
     subagent_results: list[SubagentResult] = field(default_factory=lambda: list[SubagentResult]())
+    approved_terminal_action_id: str | None = None
     planner_steps: list[PlannerStepTelemetry] = field(
         default_factory=lambda: list[PlannerStepTelemetry]()
     )
@@ -569,12 +571,26 @@ class OpenAIAgentsNativeRuntime:
             hooks=hooks,
             parameters=SpecialistRequest,
             input_builder=input_builder,
+            failure_error_function=None,
         )
         original = tool.on_invoke_tool
 
         async def invoke(context: object, input_json: str) -> str:
             parent = state.root_agent.logical_agent_id
             call_id = str(getattr(context, "tool_call_id", "specialist"))
+
+            def reject(code: str, message: str) -> str:
+                failure = SubagentResult(
+                    call_id=call_id,
+                    logical_agent_id=request.logical_agent_id,
+                    status="failed",
+                    failure_code=code,
+                    failure_message=message,
+                )
+                state.subagent_results.append(failure)
+                state.emit("logical.subagent.end", failure.model_dump(mode="json"))
+                return failure.model_dump_json(exclude_none=True)
+
             if self._validate_raw_tool_calls:
                 failure = self._validate_raw_call(
                     state, context, "consult_specialist", tool.params_json_schema, input_json
@@ -593,34 +609,19 @@ class OpenAIAgentsNativeRuntime:
             async with state.state_lock:
                 missing = sorted(set(request.input_artifacts) - state.accessible[parent])
                 if missing:
-                    return _failure_result(
-                        f"subagent:{request.logical_agent_id}",
-                        parent,
+                    return reject(
                         "artifact_not_accessible",
                         f"specialist input artifacts are unavailable: {missing}",
                     )
                 if state.created_subagents >= budget.max_created_subagents:
                     state.fatal_error = AgentLoopError("created subagent budget exceeded")
-                    return _failure_result(
-                        f"subagent:{request.logical_agent_id}",
-                        parent,
-                        "budget_exhausted",
-                        "created subagent budget exceeded",
-                    )
+                    return reject("budget_exhausted", "created subagent budget exceeded")
                 if state.active_subagents >= budget.max_active_subagents:
-                    return _failure_result(
-                        f"subagent:{request.logical_agent_id}",
-                        parent,
-                        "active_subagent_budget_exceeded",
-                        "active subagent budget exceeded",
+                    return reject(
+                        "active_subagent_budget_exceeded", "active subagent budget exceeded"
                     )
                 if request.logical_agent_id in state.accessible:
-                    return _failure_result(
-                        f"subagent:{request.logical_agent_id}",
-                        parent,
-                        "duplicate_logical_agent",
-                        "logical agent ID already exists",
-                    )
+                    return reject("duplicate_logical_agent", "logical agent ID already exists")
                 state.created_subagents += 1
                 state.active_subagents += 1
                 state.peak_active_subagents = max(
@@ -633,24 +634,53 @@ class OpenAIAgentsNativeRuntime:
                 request.model_dump(mode="json"),
             )
             try:
-                result = await original(context, input_json)
+                try:
+                    result = await original(context, input_json)
+                except BaseException as exc:
+                    status = "cancelled" if isinstance(exc, asyncio.CancelledError) else "failed"
+                    owned_actions = tuple(
+                        action_id
+                        for action_id, action in state.actions.items()
+                        if action.owner_agent_id == request.logical_agent_id
+                    )
+                    failed = SubagentResult(
+                        call_id=call_id,
+                        logical_agent_id=request.logical_agent_id,
+                        status=status,
+                        source_action_ids=owned_actions,
+                        failure_code=type(exc).__name__,
+                        failure_message=f"Specialist execution {status}",
+                    )
+                    state.subagent_results.append(failed)
+                    state.emit("logical.subagent.end", failed.model_dump(mode="json"))
+                    if isinstance(exc, asyncio.CancelledError):
+                        raise
+                    return failed.model_dump_json(exclude_none=True)
                 answer = result if isinstance(result, str) else json.dumps(result)
-                owned_actions = [
+                owned_actions = tuple(
                     action_id
                     for action_id, action in state.actions.items()
                     if action.owner_agent_id == request.logical_agent_id
-                ]
-                terminal = (
-                    owned_actions[-1] if owned_actions else f"subagent:{request.logical_agent_id}"
                 )
+                successful = {
+                    item.action_id
+                    for item in state.observations
+                    if item.owner_agent_id == request.logical_agent_id and item.succeeded
+                }
+                terminal = next(
+                    (action_id for action_id in reversed(owned_actions) if action_id in successful),
+                    None,
+                )
+                handoff = sorted(state.produced[request.logical_agent_id])
                 subagent_result = SubagentResult(
-                    call_id=str(getattr(context, "tool_call_id", request.logical_agent_id)),
+                    call_id=call_id,
                     logical_agent_id=request.logical_agent_id,
                     terminal_action_id=terminal,
                     answer=answer,
+                    source_action_ids=owned_actions,
+                    produced_artifact_ids=tuple(handoff),
                 )
                 state.subagent_results.append(subagent_result)
-                handoff = sorted(state.produced[request.logical_agent_id])
                 state.accessible[parent].update(handoff)
                 if handoff:
                     state.emit(
@@ -664,7 +694,10 @@ class OpenAIAgentsNativeRuntime:
                 state.emit("logical.subagent.end", subagent_result.model_dump(mode="json"))
                 return json.dumps(
                     {
+                        "status": "succeeded",
                         "specialist_answer": answer,
+                        "source_action_ids": owned_actions,
+                        "terminal_action_id": terminal,
                         "produced_artifact_ids": handoff,
                     },
                     ensure_ascii=False,
@@ -692,7 +725,10 @@ class OpenAIAgentsNativeRuntime:
                 return result_constructor(is_final_output=False, final_output=None)
             telemetry = await self._verify_manager_batch(state)
             if telemetry.result.status == "complete":
-                raw_candidate, action_id = _latest_terminal_candidate(state)
+                action_id = telemetry.result.candidate_action_id
+                if action_id is None:
+                    raise AgentLoopError("complete verdict has no bound candidate")
+                raw_candidate = _bound_terminal_candidate(state, action_id)
                 candidate = _deterministic_terminal_answer(
                     state.task_view.output_contract,
                     raw_candidate,
@@ -816,29 +852,36 @@ class OpenAIAgentsNativeRuntime:
                 )
             raise AgentLoopError(f"Blind verifier failed: {type(exc).__name__}: {exc}") from exc
         raw_verdict = telemetry.result
-        if raw_verdict.status == "complete" and (
-            state.task_view.output_contract.format == OutputFormat.CHOICE
-            or state.task_view.output_contract.canonical_labels is not None
-        ):
-            raw_candidate, _ = _latest_terminal_candidate(state)
+        if raw_verdict.status == "complete":
             try:
+                action_id = raw_verdict.candidate_action_id
+                if (
+                    action_id is None
+                    or raw_verdict.evidence_state_version != context.workflow.version
+                ):
+                    raise AgentLoopError("complete verdict lacks a current candidate binding")
+                if state.graph.snapshot().version != context.workflow.version:
+                    raise AgentLoopError(
+                        "complete verdict is stale after concurrent action updates"
+                    )
+                raw_candidate = _bound_terminal_candidate(state, action_id)
+                if raw_verdict.candidate_output_sha256 != candidate_output_sha256(raw_candidate):
+                    raise AgentLoopError("complete verdict candidate output hash mismatch")
                 if state.task_view.output_contract.canonical_labels is not None:
                     _validate_answer_contract(
                         state.task_view.output_contract, raw_candidate.strip()
                     )
-                else:
+                elif state.task_view.output_contract.format == OutputFormat.CHOICE:
                     _leading_declared_choice(state.task_view.output_contract, raw_candidate)
-            except AgentLoopError:
+                else:
+                    _deterministic_terminal_answer(state.task_view.output_contract, raw_candidate)
+            except AgentLoopError as exc:
                 telemetry = telemetry.model_copy(
                     update={
                         "result": VerificationResult(
                             status="ready_for_synthesis",
                             failure_stage="none",
-                            reason=(
-                                "The semantic answer candidate does not satisfy the declared "
-                                "terminal label contract. Perform terminal synthesis again "
-                                "under the task's output contract."
-                            ),
+                            reason=f"Terminal candidate binding rejected: {exc}",
                             missing_requirements=(),
                         )
                     }
@@ -874,6 +917,7 @@ class OpenAIAgentsNativeRuntime:
             previous = state.phase
             if telemetry.result.status == "complete":
                 state.phase = "complete"
+                state.approved_terminal_action_id = telemetry.result.candidate_action_id
             elif telemetry.result.status == "ready_for_synthesis":
                 state.phase = "synthesis"
             else:
@@ -1342,6 +1386,14 @@ class OpenAIAgentsNativeRuntime:
         answer: str,
         contract: OutputContract,
     ) -> str:
+        if state.blind_verifier is not None and state.phase == "complete":
+            bound = state.approved_terminal_action_id
+            if bound is None:
+                raise AgentLoopError("terminal answer has no verifier-bound candidate")
+            candidate = _bound_terminal_candidate(state, bound)
+            if _deterministic_terminal_answer(contract, candidate) != answer:
+                raise AgentLoopError("terminal answer differs from verifier-bound candidate")
+            return bound
         matches: list[str] = []
         for item in state.observations:
             candidate = item.output.get("text")
@@ -1624,16 +1676,6 @@ def _known_video_duration(state: _NativeState, artifact_id: str) -> float | None
     return None
 
 
-def _failure_result(action_id: str, owner: str, code: str, message: str) -> str:
-    return LogicalObservation(
-        action_id=action_id,
-        owner_agent_id=owner,
-        succeeded=False,
-        failure_code=code,
-        failure_message=message,
-    ).model_dump_json(exclude_none=True)
-
-
 def _attach_verification_feedback(
     tool_result: object,
     telemetry: VerificationTelemetry,
@@ -1687,21 +1729,20 @@ def _attach_verification_feedback(
     raise AgentLoopError("SDK tool result cannot carry verifier feedback")
 
 
-def _latest_terminal_candidate(state: _NativeState) -> tuple[str, str]:
-    for observation in reversed(state.observations):
-        action = state.actions.get(observation.action_id)
-        candidate = observation.output.get("text")
-        if (
-            observation.owner_agent_id == state.root_agent.logical_agent_id
-            and observation.succeeded
-            and isinstance(action, LogicalModelAction)
-            and isinstance(candidate, str)
-            and candidate.strip()
-        ):
-            return candidate.strip(), observation.action_id
-    raise AgentLoopError(
-        "Blind verifier returned complete without a successful manager model candidate"
-    )
+def _bound_terminal_candidate(state: _NativeState, action_id: str) -> str:
+    action = state.actions.get(action_id)
+    if (
+        not isinstance(action, LogicalModelAction)
+        or action.owner_agent_id != state.root_agent.logical_agent_id
+    ):
+        raise AgentLoopError("complete verdict candidate is not a manager model action")
+    matches = [item for item in state.observations if item.action_id == action_id]
+    if len(matches) != 1 or not matches[0].succeeded:
+        raise AgentLoopError("complete verdict candidate has no successful observation")
+    candidate = matches[0].output.get("text")
+    if not isinstance(candidate, str) or not candidate.strip():
+        raise AgentLoopError("complete verdict candidate has no textual answer")
+    return candidate
 
 
 def _verifier_action_view(

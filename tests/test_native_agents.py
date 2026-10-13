@@ -37,6 +37,7 @@ from infra_joint.control.verification import (
     VerificationResult,
     VerifierActionView,
     VerifierBudgetView,
+    candidate_output_sha256,
 )
 from infra_joint.core.state import InfrastructureState
 from infra_joint.core.task import (
@@ -162,8 +163,28 @@ class FakeVerifier:
         self.contexts.append(context)
         if not self._results:
             raise AssertionError("fake verifier has no remaining result")
+        result = self._results.pop(0)
+        if result.status == "complete" and result.candidate_action_id is None:
+            candidates = [
+                item
+                for item in context.observations
+                if item.succeeded
+                and item.owner_agent_id == "manager"
+                and isinstance(item.output.get("text"), str)
+            ]
+            if candidates:
+                candidate = candidates[-1]
+                result = result.model_copy(
+                    update={
+                        "candidate_action_id": candidate.action_id,
+                        "candidate_output_sha256": candidate_output_sha256(
+                            candidate.output["text"]
+                        ),
+                        "evidence_state_version": context.workflow.version,
+                    }
+                )
         return VerificationResponse(
-            result=self._results.pop(0),
+            result=result,
             input_tokens=11,
             output_tokens=7,
         )
@@ -936,6 +957,42 @@ async def test_manager_specialist_tool_handoff_then_manager_continues() -> None:
 
 
 @pytest.mark.asyncio
+async def test_specialist_exception_is_typed_failure_without_fabricated_action() -> None:
+    task = benchmark_task()
+    runtime, gateway = runtime_and_gateway(task, FakePhysicalService(), ("invoke_model",))
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        if agent.name == "bounded_specialist":
+            raise RuntimeError("nested agent failed")
+        payload = await tool(agent, "consult_specialist").on_invoke_tool(
+            tool_context(agent, context, "failed-specialist"),
+            json.dumps(
+                {
+                    "logical_agent_id": "evidence-specialist",
+                    "role": "researcher",
+                    "objective": "find evidence",
+                    "instruction": "Read evidence.",
+                    "input_artifacts": ["source-0"],
+                }
+            ),
+        )
+        assert json.loads(payload)["status"] == "failed"
+        await reasoning_start(hooks, context, agent)
+        await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "manager-answer"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return only A."}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+    assert result.subagent_results[0].status == "failed"
+    assert result.subagent_results[0].terminal_action_id is None
+    assert result.subagent_results[0].source_action_ids == ()
+
+
+@pytest.mark.asyncio
 async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -> None:
     task = benchmark_task()
     physical = FakePhysicalService()
@@ -1535,6 +1592,51 @@ async def test_complete_verdict_returns_exact_successful_model_candidate() -> No
 
 
 @pytest.mark.asyncio
+async def test_complete_verdict_selects_bound_candidate_not_latest_observation() -> None:
+    task = benchmark_task()
+    physical = FakePhysicalService(model_text="A")
+
+    class BoundVerifier:
+        async def verify(self, context: VerificationContext) -> VerificationResponse:
+            return VerificationResponse(
+                result=VerificationResult(
+                    status="complete",
+                    failure_stage="none",
+                    reason="first candidate is supported",
+                    candidate_action_id="manager:first",
+                    candidate_output_sha256=candidate_output_sha256("A"),
+                    evidence_state_version=context.workflow.version,
+                )
+            )
+
+    runtime, gateway = runtime_and_gateway(
+        task, physical, ("invoke_model",), verifier=BoundVerifier()
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        model_tool = tool(agent, "invoke_model")
+        await reasoning_start(hooks, context, agent)
+        first = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "first"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "First answer."}}),
+        )
+        physical.model_text = "B"
+        second = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "second"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Second answer."}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        decision, _ = await resolve_tool_batch(agent, ((model_tool, first), (model_tool, second)))
+        assert decision.is_final_output
+        return str(decision.final_output)
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+    assert result.final_answer == "A"
+    assert result.terminal_action_id == "manager:first"
+
+
+@pytest.mark.asyncio
 async def test_complete_verdict_deterministically_extracts_leading_choice() -> None:
     task = benchmark_task()
     physical = FakePhysicalService(model_text="A. The evidence supports this choice.")
@@ -1743,14 +1845,15 @@ async def test_complete_verdict_without_model_candidate_fails_closed() -> None:
         )
         await reasoning_end(hooks, context, agent)
         await resolve_tool_batch(agent, ((read_tool, read),))
-        return "unreachable"
+        return "A"
 
     FakeRunner.behavior = behavior
     with pytest.raises(
         AgentLoopError,
-        match="complete without a successful manager model candidate",
+        match="terminal answer must deterministically derive",
     ):
         await runtime.run(task, gateway)
+    assert verifier.contexts
 
 
 @pytest.mark.asyncio

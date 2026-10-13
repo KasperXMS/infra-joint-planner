@@ -7,6 +7,7 @@ from infra_joint.core.action import JointAction
 from infra_joint.core.base import ContractModel
 from infra_joint.core.state import EnvironmentSpec, InfrastructureState
 from infra_joint.operators.registry import OperatorRegistry
+from infra_joint.runtime.action_receipts import ActionReceipt
 from infra_joint.runtime.client import WorkerClient
 from infra_joint.runtime.resolver import DeterministicResolver
 from infra_joint.worker.model_backend import ModelCallTelemetry
@@ -32,7 +33,11 @@ class ExecutionResult(ContractModel):
 
 class ActionExecutor(Protocol):
     async def execute(
-        self, action: JointAction, infrastructure: InfrastructureState
+        self,
+        action: JointAction,
+        infrastructure: InfrastructureState,
+        *,
+        action_id: str | None = None,
     ) -> ExecutionResult: ...
 
 
@@ -50,7 +55,11 @@ class RuntimeExecutor:
         self._resolver = resolver or DeterministicResolver()
 
     async def execute(
-        self, action: JointAction, infrastructure: InfrastructureState
+        self,
+        action: JointAction,
+        infrastructure: InfrastructureState,
+        *,
+        action_id: str | None = None,
     ) -> ExecutionResult:
         self._registry.validate_action(action.semantic)
         operator = self._registry.binding(action.semantic.operator).spec
@@ -70,7 +79,13 @@ class RuntimeExecutor:
             raise RuntimeError(f"no worker client configured for agent: {agent_id}") from exc
         transfers = await self._localize_inputs(action, infrastructure, worker)
         started = perf_counter()
-        response = await worker.execute_operator(action.semantic, resolved.deployment_id)
+        receipt_call = getattr(worker, "execute_operator_with_receipt", None)
+        if action_id is not None and receipt_call is not None:
+            response = await receipt_call(
+                action.semantic, resolved.deployment_id, action_id=action_id
+            )
+        else:
+            response = await worker.execute_operator(action.semantic, resolved.deployment_id)
         operator_latency_ms = (perf_counter() - started) * 1000
         return ExecutionResult(
             operator=response.operator,
@@ -81,6 +96,11 @@ class RuntimeExecutor:
             model_telemetry=response.model_telemetry,
             transfers=transfers,
         )
+
+    async def get_action_receipt(self, agent_id: str, action_id: str) -> ActionReceipt | None:
+        worker = self._worker_clients[agent_id]
+        query = getattr(worker, "get_action_receipt", None)
+        return None if query is None else await query(action_id)
 
     async def _localize_inputs(
         self,
