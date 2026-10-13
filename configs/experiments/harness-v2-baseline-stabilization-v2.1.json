@@ -1,0 +1,37 @@
+{
+  "analysis_source_commit": "b7c1984",
+  "analysis_branch": "harness-v2-baseline-stabilization",
+  "historical_stage2_condition": "harness-v2-h1-frozen-36",
+  "historical_results_modified": false,
+  "offline_only": true,
+  "conditions": [
+    {
+      "condition_id": "harness-v2.1-terminal-contract-feedback",
+      "result_namespace": "results/harness-v2.1-terminal-contract-feedback",
+      "change": "Use the existing deterministic terminal contract before accepting an independent Verifier complete verdict",
+      "additional_provider_requests": 0,
+      "live_run_status": "not_run"
+    },
+    {
+      "condition_id": "harness-v2.1-bounded-verifier-protocol",
+      "result_namespace": "results/harness-v2.1-bounded-verifier-protocol",
+      "change": "Strict raw-schema and semantic validation with one typed corrective Verifier turn",
+      "max_verifier_provider_attempts_per_decision": 2,
+      "live_run_status": "not_run"
+    },
+    {
+      "condition_id": "harness-v2.1-bounded-lookahead-scripted",
+      "result_namespace": "results/harness-v2.1-bounded-lookahead-scripted",
+      "change": "Offline one-to-three-action pending-fragment interface",
+      "live_run_status": "scripted_only"
+    }
+  ],
+  "unchanged": [
+    "frozen Stage 2 scores and traces",
+    "Verifier semantic instructions and resource blindness",
+    "benchmark evaluator",
+    "Physical Scheduler and Executor model pool",
+    "Raw Aware and Ledger method definitions"
+  ],
+  "local_gpu_monetary_cost": "unknown"
+}

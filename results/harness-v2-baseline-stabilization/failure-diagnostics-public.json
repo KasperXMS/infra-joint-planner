@@ -1,0 +1,4399 @@
+{
+  "failed_cell_count": 14,
+  "raw_content_exported": false,
+  "rows": [
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/4e057c84a8df4f458d182f27a0e277a9-1-response.json",
+          "response_saved": true,
+          "response_sha256": "8f0158dfb8ccd598da5148ff1e8f51159fead0ca893389f8e001095f994713c3",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "377e9b4490a1a4e5dbd7ffc27f752271722e89f89d214d3436b14ae5433cce1c",
+              "failure_stage": "evidence_collection",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/b75dc1d2a8d64fee815b862dc408285f-1-response.json",
+          "response_saved": true,
+          "response_sha256": "fe4e5045f1eb9f86cc6243a35b4fefd659bab5a2595feb861bcac3a37cd86c5d",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "NoneType",
+                "candidate_output_sha256": "NoneType",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "0349134fa0422f0ce998b4fe8515ccd07c7f7491a1c6047cc8a40d6380ae843e",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [
+                {
+                  "path": "",
+                  "type": "value_error"
+                }
+              ],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/be7a989196824da7b07538cbad0e68cf-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6da151ce58c0147419fc05319d9d41e97bc2ab4e8b1cc3ed8218598bfa70816f",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "0f92aac7495e3e84521c7d03a31aa9cd5a0ebc67d9b2b914827eb8bcfc8231f8",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/fd1dc3c8a6b14708882326440c79ddb3-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e85ef4a4a1e43c4851e135904a9aeaf002531f979cc42137f2c120ad440be4cf",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "3cac5cb66f83ce6f543a257a30824fa065825ca08bd8aec1b14d45ff25298b9d",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-fast-1-1-AWARE",
+      "cloud_api_usd": "0.033557319390371915651284231786231547057500",
+      "e2e_ms": 39640.654750633985,
+      "failed_semantic_actions": 3,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "multihop_rag",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "NoneType",
+            "candidate_output_sha256": "NoneType",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "missing_requirements": "list",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "0349134fa0422f0ce998b4fe8515ccd07c7f7491a1c6047cc8a40d6380ae843e",
+          "failure_stage": "synthesis",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/b75dc1d2a8d64fee815b862dc408285f-1-response.json",
+          "response_sha256": "fe4e5045f1eb9f86cc6243a35b4fefd659bab5a2595feb861bcac3a37cd86c5d",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [
+            {
+              "path": "",
+              "type": "value_error"
+            }
+          ],
+          "status": "continue",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 7,
+      "manager_turns": 4,
+      "method": "AWARE",
+      "network": "fast",
+      "nonempty_manager_model_outputs": 0,
+      "operator_counts": {
+        "bm25_retrieve": 6,
+        "invoke_model": 1
+      },
+      "phase_at_failure": "synthesis",
+      "physical_context_rejections": 1,
+      "physical_inference_calls": 0,
+      "physical_service_work_ms": 0,
+      "raw_trace_relative_path": "stage2/cells/S2-fast-1-1-AWARE/runs/harness-v2-stage2-001-S2-fast-1-1-AWARE/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 16,
+        "remaining_tool_model_calls": 57,
+        "remaining_verifier_calls": 16
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 4,
+          "completion_tokens": 1455,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 34818,
+          "provider_latency_ms": 14916.621396318078
+        },
+        "verifier": {
+          "calls": 4,
+          "completion_tokens": 689,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 24186,
+          "provider_latency_ms": 10844.039750751108
+        }
+      },
+      "settled_semantic_actions": 9,
+      "successful_semantic_actions": 6,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 7696522,
+      "trial": 1,
+      "verification_attempts": 4,
+      "verification_failure_events": 1,
+      "verifier_response_count": 4,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/32067ac8bedb444f9aa7b48358300f45-1-response.json",
+          "response_saved": true,
+          "response_sha256": "7206cb8e4cd0894aca6701061bd7e8b8bf9c1377afb6aae0e4ec1c906ed8fa1c",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "1446584dec04dff4d5c8559d331f659d300b595272b07b94b84ced2b134d42f3",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/4dfd8e98b7ea4ada921c65b8afda33a9-1-response.json",
+          "response_saved": true,
+          "response_sha256": "33be48f6a1fa059034c69452dc7b6cb6ce491f2c1c44645b3fbe4a4b68531bf4",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "5ef33869d379b684fa1841043e8b280adea3565744b86023636dd0d47dc72ad9",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/520e5c9676c44fc29b45119585998798-1-response.json",
+          "response_saved": true,
+          "response_sha256": "88c53bfcfbc751f4bb1f332828ebbeacb09771cd0eb54c69b515c26b85ad12d5",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "c1056dd40f3e2c23ee0e2acef3925dc0deb3fdccf89058438b104d8e36de3724",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/b6b21d6ff6214b59a0f8e3a12fb66098-1-response.json",
+          "response_saved": true,
+          "response_sha256": "10b519be033d82532c685307b6053095b5b8e350faccdad3b3571585160be018",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "b24ffc726aef42d5d4d99a76988c7c6e25c27156f837987454a57db4f1a4a50e",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/c34edcff91d74437944f9cdb067454b4-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e0a30a4b970127d0cb4cf171d6d5148eee1dd9d4fde24fcb5b31bcb79a0006fc",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "fb5fb7221ff1582edcc33ecea5ac035f810df9d8429036329745e86b8e058267",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d56a28bdd7134cf3baf7a4c68f568b15-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ebfa776f549bf49e4a0befaab93dfe2fe2918000519f604f513063a0943fb578",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "210a028fc66919631ab550e3159d77587b00472701d983ae1309d2d7bc0dce4c",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/e4a6e24de0e34b4db5cfcdc177c8a67f-1-response.json",
+          "response_saved": true,
+          "response_sha256": "76d975fb05e0da55eb701ff76a6b0d98ecfdd83cfa0a69cc1832d84105171a66",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "b21447f158fa6cd884cd234baf02064508e9555b035c7032eefb0a8fd67e61f9",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-fast-2-1-AWARE",
+      "cloud_api_usd": "0.117281479955885674803013593058637505148882",
+      "e2e_ms": 116932.57063673809,
+      "failed_semantic_actions": 3,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "5ef33869d379b684fa1841043e8b280adea3565744b86023636dd0d47dc72ad9",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/4dfd8e98b7ea4ada921c65b8afda33a9-1-response.json",
+          "response_sha256": "33be48f6a1fa059034c69452dc7b6cb6ce491f2c1c44645b3fbe4a4b68531bf4",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 15,
+      "manager_turns": 7,
+      "method": "AWARE",
+      "network": "fast",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 12,
+        "invoke_model": 3
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 2,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 31211.74683282152,
+      "raw_trace_relative_path": "stage2/cells/S2-fast-2-1-AWARE/runs/harness-v2-stage2-001-S2-fast-2-1-AWARE/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 13,
+        "remaining_tool_model_calls": 49,
+        "remaining_verifier_calls": 13
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 7,
+          "completion_tokens": 5641,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 84232,
+          "provider_latency_ms": 48188.35705984384
+        },
+        "verifier": {
+          "calls": 7,
+          "completion_tokens": 1300,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 73723,
+          "provider_latency_ms": 22222.16633381322
+        }
+      },
+      "settled_semantic_actions": 16,
+      "successful_semantic_actions": 13,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1093907,
+      "trial": 1,
+      "verification_attempts": 7,
+      "verification_failure_events": 1,
+      "verifier_response_count": 7,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/0b68c1805cb541cb9dacc99033788afa-1-response.json",
+          "response_saved": true,
+          "response_sha256": "cca056da8ea80714874026e08b8d69bb0bd4e721a9e3cf81402ed2c022eed8bf",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d1ad59d49e1bcbb4b92f442604c68ed8218192ffd8da09ed19f8a11ea0ed7645",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/0f5b5c5965a04fa99f0eee5858ef18ff-1-response.json",
+          "response_saved": true,
+          "response_sha256": "d36d40dbdf73522d658b609d1406bfb5951d32c0ad01c68222cb8af07b323fdc",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "01121755878c556555b9414eb7874f233075cd168df36e0a081cb2b8a416a4a4",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1a6aa7ef76ed4ccbac3d5869d72d954e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "2de56ed61f63099114ef330905d23342324c2f8292c73be3c39dd9c56f90663b",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "3201f4eabb914acd33e6e703bfa7018edee16b6f9d379b912f9e39be8bcc24c6",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/217038cee2014ea8af4177a162fb2630-1-response.json",
+          "response_saved": true,
+          "response_sha256": "a6dbd798945cb2a8e71b2196a3b5bf55f8f7012499d95c0dda4e9835098c0910",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "80c11389865f489b236cd68e0b02a3b6d608f8a698fba66756921af95161c387",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/2b0aad5fd16645f080a5d81a3e71585a-1-response.json",
+          "response_saved": true,
+          "response_sha256": "36e77c25082d4239eea3b3d6c29be999bb27ad9d2551df6d23b8a2570f1f9366",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "e7c28f9c81e312871c3540422bb4bbbfe4955ef578972df95f2375aea2ed4c77",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/5323b77b33864b52a76cc47799e5897c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "4115cee1e3efd5079bef159d50290497f018b5317665b3a1a698832e42592b71",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "0e7f489a4ec0b39c9c53c3d3b6113aa7061d25f6762fb1f5d90b887fb8070363",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/570b2b47e8de4f97805ba15b8961a239-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1462783ad3d7d2501a465b4d84ee3b0d0ee148af57b70b7db4b1a20f6c7420ce",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "3a557fd1f29133b44a0dd87ace83a83681cc706d3324b7048781278b2794896e",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/5fa77ac882624d68b1f9ed58a4e0f8de-1-response.json",
+          "response_saved": true,
+          "response_sha256": "cbeb22d8f01dc377650a5b913b100364976b39191ce7c3e8c2670f0f1eb4efa5",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2a629ec5e3d7a6e6b3472ae99ece09ffdb2e9cce6ce41cfb5d0f77c3102afd08",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7a4da5b7723d496a9c6d0dabbf567c56-1-response.json",
+          "response_saved": true,
+          "response_sha256": "34ed2770c09a502f3ec6ac5437c58753c7c982d05b27fead22ceb74ebdbb2bf3",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "7602166ed422a5f53c831b5afcec627ed0e21b427030d7e5c57dfff18d91ebdc",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7b45171859474f0bbaa81f885b1ebb90-1-response.json",
+          "response_saved": true,
+          "response_sha256": "df183ddad8008b91eafd4c97f5ef0de7b8247f76d1fe6e6a5dd080c2eb35c963",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "cf25ca06ed907be0174539a209371796275089253ee28c9ac6ec589bcbc8bed9",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/87f070c85d844d4eba8191c7b00250ae-1-response.json",
+          "response_saved": true,
+          "response_sha256": "5c22bef0e7edf7208b6513bc3945e78a0809adc0feb4f882c896ef34e70b9e3f",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "226be25856ad82522457585a64bae643c19696a45967ab7f64e9fd27f037a31c",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/b0ca85d23a2a4ee086de6d397327a921-1-response.json",
+          "response_saved": true,
+          "response_sha256": "5dff9e9278c525db31d0ba42418482d5e2dbd891d0ba55595a3a0579fdb20214",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "dd0dc6a54d5855998be87da0b37ec223e8739363423927bf5a581c1f273d4b5e",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/c4ac8d9eac084961bd6a9b149bfea307-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1dcfc102c56c8e60f9695bd4b5a147a192f662aa4c50ffa86ec06c6cf2ba64d3",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d58e47c6b604e49217f9cb698f5b340e25bee5287056acc2fe2085dfe739da44",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d95ad9e797f4429b87cb472436626858-1-response.json",
+          "response_saved": true,
+          "response_sha256": "2941cda3e0f49e5bab0099e15f1c1380627913e584f758a541a2fd84109a8d5d",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "6b9823aa765a1d337524d7a3596af9631fbe33e921d2987887d2cde268a1d7ed",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/de6b2d6bd0dc4bd7b65f5a078c5b8df5-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ebb6377d7ca86d67925f1047e8864711897be5b2ed3164638598ef17a5ca6cc0",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a28d5b85a1a5e5f2b9f8e0680f5b7eaa09cee14a46fd720c3da81df1413fb263",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/f8c30340a9ec4fc7ab75304323d90f34-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e08867a2dcb3d449f11bdf8a1b15798423ca11c1d39dbeb554a88c39e4929cf0",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "cd438eea564d46f15133c800e714c2b8f4640185aab23ba669562981b70c6204",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-fast-2-1-BLIND",
+      "cloud_api_usd": "0.280640064311245166691026986805564782949558",
+      "e2e_ms": 163028.55990314856,
+      "failed_semantic_actions": 14,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "3a557fd1f29133b44a0dd87ace83a83681cc706d3324b7048781278b2794896e",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/570b2b47e8de4f97805ba15b8961a239-1-response.json",
+          "response_sha256": "1462783ad3d7d2501a465b4d84ee3b0d0ee148af57b70b7db4b1a20f6c7420ce",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 20,
+      "manager_turns": 16,
+      "method": "BLIND",
+      "network": "fast",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "aggregate_artifacts": 4,
+        "bm25_retrieve": 12,
+        "invoke_model": 4
+      },
+      "phase_at_failure": "synthesis",
+      "physical_context_rejections": 3,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 17443.720947019756,
+      "raw_trace_relative_path": "stage2/cells/S2-fast-2-1-BLIND/runs/harness-v2-stage2-001-S2-fast-2-1-BLIND/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 4,
+        "remaining_tool_model_calls": 44,
+        "remaining_verifier_calls": 4
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 16,
+          "completion_tokens": 8667,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 244490,
+          "provider_latency_ms": 74534.9896773696
+        },
+        "verifier": {
+          "calls": 16,
+          "completion_tokens": 2976,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 203870,
+          "provider_latency_ms": 52451.961568556726
+        }
+      },
+      "settled_semantic_actions": 31,
+      "successful_semantic_actions": 17,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1551644,
+      "trial": 1,
+      "verification_attempts": 16,
+      "verification_failure_events": 1,
+      "verifier_response_count": 16,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1d5d25662502418fa1fdc9bfa9300a74-1-response.json",
+          "response_saved": true,
+          "response_sha256": "797006e3c2fdb1b9404b3634f6c904b78e64f7a03674359b9bf8a6676f90430b",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "9aeb026a894d221151f30b0c2422caba57f1db80bb70508184669da17fdbaf54",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/215398f9636544f59fcf2d98e691db05-1-response.json",
+          "response_saved": true,
+          "response_sha256": "79b52b145552f6bf1a096ee131dab4f1bdba0a4a8b20ce0260a86498e57ccc54",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "c66c5e895921541e366cdbd22ef9d361700679e6ded4fd69fa090e3f0d401355",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/21e4303621354e07afe98582c310612a-1-response.json",
+          "response_saved": true,
+          "response_sha256": "190b6618b4157f00da41b113aa114fb94c56c47a0a223fe26c61b26f8237c3c6",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2ca9e82ccefb2ca982700acd754978eb5a506307822bde36daaa5df727beff57",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/713399a4bd1c44ceb24d17c58467af88-1-response.json",
+          "response_saved": true,
+          "response_sha256": "90564ec527decc6444206ab3ce5196cb455369dcdee8c3fb264edd8d1f04408a",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "7707c4daa3e53b313c24bbcf766ea02e967b24cc94f7915f7cbe5ed83269623e",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/9fc18f8f7875478386ce7937dd462311-1-response.json",
+          "response_saved": true,
+          "response_sha256": "4b8630f4592350cda01b0be820d0e7ed29f19f25ca06924298843ded56e2c7fb",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "62df5fe4b6b6f353577950bc0a490332760cc34b2788a8dae1828847ea5cc619",
+              "failure_stage": "evidence_collection",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/c6e87f9ffcc54785be377f849fafbe54-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e45198eeaf08dbb70f7d962dff5a23d67523fddaaa2f246d6270a54840bc59eb",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "f9de3b8e482d0ba110d28d39be7dda8fa23c4066e61e46ad6f3a5a8758b63a46",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/e9bbf7ad6dcf45a68487c6a1ae79cee4-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6cfeb1a33a36cb31c0e48d0ad5a12b81326a7b6ea328d17eeebca22687f3cf24",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "4dabf3aacfaafd5f0988a8e2761532ba97f333ad6055010c4cf36cd0e0034df5",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-fast-2-1-LEDGER",
+      "cloud_api_usd": "0.071723423112185917963300070423470946996363",
+      "e2e_ms": 86534.24871107563,
+      "failed_semantic_actions": 6,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "9aeb026a894d221151f30b0c2422caba57f1db80bb70508184669da17fdbaf54",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/1d5d25662502418fa1fdc9bfa9300a74-1-response.json",
+          "response_sha256": "797006e3c2fdb1b9404b3634f6c904b78e64f7a03674359b9bf8a6676f90430b",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 10,
+      "manager_turns": 7,
+      "method": "LEDGER",
+      "network": "fast",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 8,
+        "invoke_model": 2
+      },
+      "phase_at_failure": "synthesis",
+      "physical_context_rejections": 1,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 19296.94668063894,
+      "raw_trace_relative_path": "stage2/cells/S2-fast-2-1-LEDGER/runs/harness-v2-stage2-001-S2-fast-2-1-LEDGER/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 13,
+        "remaining_tool_model_calls": 54,
+        "remaining_verifier_calls": 13
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 7,
+          "completion_tokens": 3216,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 71914,
+          "provider_latency_ms": 30508.40361043811
+        },
+        "verifier": {
+          "calls": 7,
+          "completion_tokens": 1411,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 52080,
+          "provider_latency_ms": 23059.114443603903
+        }
+      },
+      "settled_semantic_actions": 15,
+      "successful_semantic_actions": 9,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1081150,
+      "trial": 1,
+      "verification_attempts": 7,
+      "verification_failure_events": 1,
+      "verifier_response_count": 7,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1bb4568e89e3439aba6dc58bddbd70f6-1-response.json",
+          "response_saved": true,
+          "response_sha256": "89b44aff580da2515598d4ab15d81491425f17128d256f415cfd82db0ffa1a07",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d79c36e1c66a69fc1a293a0153a4ada20bec3eac77cefdb859073d495388e26f",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/3294cf278c7f4988986a4e9520a86229-1-response.json",
+          "response_saved": true,
+          "response_sha256": "b3ac84c9368262dd384fff77bbc9b047c4b0fa63799d1385270408b34a42be47",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "130d3cbe85db10d364cbf6b63f0d679bfff1022027fced77e2876e86a39a9c24",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/373979f1df2546959add52a905cecfba-1-response.json",
+          "response_saved": true,
+          "response_sha256": "7b320c138f379063b232ce1d8c976ce41a7d9dde825420d5ebc74f9c0b54c3f4",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "f461dea3cae91e2ff2f57749f73f85c4dc325e5b9be76ad6361fa6e6a8bc31aa",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/3b6e7a1266064c479a59de7eb9ad2025-1-response.json",
+          "response_saved": true,
+          "response_sha256": "873f1770e1ac0a9fbf97f744ee0280670f9d41252dd59ab8587186e01e22afae",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "6acb94f2af82d1402dc29c8d2db6fee1a9f1871c70f5599a497670326d03501e",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/440c0476deeb414b8f814965c0cb85b1-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e1bb48af39b0c8d9bca41564cff850eb3007fd0b7553811e443cba0490f29162",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a01c12aead95db2d6e745a934386b9afb03f3df89bf3018192d2f82bb020606a",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/4f540fdd6c954290ba1de9c2d5ba5b5e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ee7be3f06fbeee46521a7133798b83fc53a959d7fc0b05bfbded9341501f11fd",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "29b650d1319785edb0e3636f6e01f472c26c367a0e704fbcacdd6dbd929461b9",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/5a2a92a092674757b788fe446b8a8fc1-1-response.json",
+          "response_saved": true,
+          "response_sha256": "77ecc3d0f78f15eb5b58fd98e224e0816778880566d3e2dee6edab244659ff3e",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "3dd59ee81983bae9e41c5febb4ca0089d4dff00087c8f618cd0ad0bf2c5d0dcc",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/6e5cf165e9534b1eae6692bcd3ce5d7e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e41ac17bf83ab0f5af42b78b3c27938f30e653c45d5bad4ecef02d6332116720",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "c85f3143b7e8c68454d98165056c5736e091673c82db69e3da1860bb98095799",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7de4cffbab684837b725199719e1091e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "502b2866643a09141f0f4de351d7e398f1782262ca46bad81b6cfda4c0aea72c",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "237229e3f7b4fd2a6e7e839ef26b21865bbb13d8e1d8d2b048e3c3492a1a4826",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/849511eb82954bfaac99944450c15424-1-response.json",
+          "response_saved": true,
+          "response_sha256": "da3ba104d20285db4d41d19eca1e572964ad84a51489b0dde69e4ab787231d3b",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "97c09934f1bf0307676c78870c749a49a89f066a184ce7b6a2d52f126758da50",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/9091928fe8684c18a7708de7f546f480-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6c15bdd34e3f8c35664a5ab9c07f94120ac53b4d85f372c96b14fa80ff7c56d2",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "9c589c1ef54ef66388541791bd334adead0393c1326165ce25d4c36f8e6027a5",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/91171527f47145b8bffbd62db9adfe69-1-response.json",
+          "response_saved": true,
+          "response_sha256": "b0959543879fc20e474be648dcc7cc6e306ac66ac953b183f9f65dc853a2be48",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d1ca3a19b1fb5c2a75118a5e8309b0a77d351dbe460fc3cdb5d090fc98f823d1",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/921d168111cc4e129fb4a6759507de1f-1-response.json",
+          "response_saved": true,
+          "response_sha256": "9900c7c3dcb9729365d5dc0620ee9d6c01900c0834d641c6d05c451200b33b5a",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "95c91d6832d92a287c78360b6322cf9a281004bd35bf78709d1c85d78010acc4",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/9f998c997af84cec97ab301d307db175-1-response.json",
+          "response_saved": true,
+          "response_sha256": "191421b1269a02a41cbfbec5b039687e1e850fc8d02724229b5eb2bd05d00151",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "83069e82a2a18cb76f8c4a5b6e907eebe04aeb872de0bab1e4a7fa81710b55c0",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/a787e4e18ad04d5a889567c47a04602f-1-response.json",
+          "response_saved": true,
+          "response_sha256": "be39a7a9e9c0a17cb92dbbc9800d125211516fd17edd8fe8c1bfb7162d5b20c7",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "464ce452114d45434d14bd1f53c33c26017dea6940006393e592ff55be2a6c15",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/b76fe3207b3245c2a856236c531653b5-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1d0893c83973d91de26d0b62d96003583f8a4e7cf6c26c34ee82acf16a7b89c0",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "7db0ea6b6758aa421fbe7b16b698d1fb92da2302eb5a683e0f9d250543336d7e",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/bf3c499e37d84b1c8ec60e89f956472e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ed62aeb647e44990d12b1fe0df4e88a22feffd32807ff7ff337d7937fde81147",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "069447da8ee0ccc164d27420e5036f1a05e697aadd5efe1e5be1a46aa5172144",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d0abb4e63663423aa786cc163eccddf7-1-response.json",
+          "response_saved": true,
+          "response_sha256": "70f1e8a144a684c9ba3cf4ff5c2d1fb8f5abda48451148d6fd951d54e73d0f95",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "464ce452114d45434d14bd1f53c33c26017dea6940006393e592ff55be2a6c15",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d5c392e33a89425895893859b59a9faa-1-response.json",
+          "response_saved": true,
+          "response_sha256": "349f2e4e5baec260045082128095d669e8b93995a52f8fd01b84256424325ffc",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "8ac838abe1b42247f9be6e92ce7ab3b360ba7f9b028e3f9407601515d2ceeab5",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/fb488efa19aa455eb7104e59970e2f84-1-response.json",
+          "response_saved": true,
+          "response_sha256": "b246048ec73b1b17d30cc7f8ea043813188cb8a6e588f3023a3d5363866fdaf9",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "109243d280ef8110904a6c8d9cf876ab029d4c5ad5e2740e642b101787577f27",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-fast-2-2-BLIND",
+      "cloud_api_usd": "0.145322576701789819157841587052711303631464",
+      "e2e_ms": 158825.7792070508,
+      "failed_semantic_actions": 59,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "manager turn budget exhausted",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [],
+      "logical_actions": 8,
+      "manager_turns": 20,
+      "method": "BLIND",
+      "network": "fast",
+      "nonempty_manager_model_outputs": 0,
+      "operator_counts": {
+        "aggregate_artifacts": 2,
+        "bm25_retrieve": 4,
+        "invoke_model": 2
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 2,
+      "physical_inference_calls": 0,
+      "physical_service_work_ms": 0,
+      "raw_trace_relative_path": "stage2/cells/S2-fast-2-2-BLIND/runs/harness-v2-stage2-001-S2-fast-2-2-BLIND/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 0,
+        "remaining_tool_model_calls": 56,
+        "remaining_verifier_calls": 0
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 20,
+          "completion_tokens": 9525,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 337477,
+          "provider_latency_ms": 82000.92882243916
+        },
+        "verifier": {
+          "calls": 20,
+          "completion_tokens": 3653,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 206875,
+          "provider_latency_ms": 60349.24935316667
+        }
+      },
+      "settled_semantic_actions": 65,
+      "successful_semantic_actions": 6,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1551644,
+      "trial": 2,
+      "verification_attempts": 20,
+      "verification_failure_events": 0,
+      "verifier_response_count": 20,
+      "verifier_schema_invalid_count": 0
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1d1212afdc534c10bffacbbabad70592-1-response.json",
+          "response_saved": true,
+          "response_sha256": "b7b1719eb8760a77afde71c68750e9f6bcf29219842413f25aa804da5efb1067",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "df02771e46b809cbcb578f254ecaf9b9fb06b4b2fb7b43211945b59cca877d8b",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/476500a2f5ae4eb593ef2f88de828332-1-response.json",
+          "response_saved": true,
+          "response_sha256": "c61b5c0470a6245d2ee02466310e735cc0876c7542845f07625e7a920e55aa35",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "13260693d29f11ebbb89146a1f992a329c05e097bef0f1714bd82b9e3eb500b3",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/55679347c47a4b859022e54c68146d90-1-response.json",
+          "response_saved": true,
+          "response_sha256": "7a085b199c4594757b81cb486b1f89b35d53513f9e71e37d81856683688da39e",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "NoneType",
+                "candidate_output_sha256": "NoneType",
+                "evidence_state_version": "NoneType",
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "822fb2d6c266b634e79b2576c4c1531e733fddf6df0d54b8f9c76d4e076a48b6",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/633ee14ebc43419d9048c0c6169e4304-1-response.json",
+          "response_saved": true,
+          "response_sha256": "23a529462243ba4511738142be10b308460adf312c77d1335b2914481764937e",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a0f4685cf6714f7b73c58ff8a6989854e9fe85380e3eb5273e895c1cb8eb9e22",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7615f0ff103243e28a02c15f4c53b0ec-1-response.json",
+          "response_saved": true,
+          "response_sha256": "943a604be95498524eca8bb66d3640aa602dedd3e37b2c4972b19438740434d1",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "296c15844b9fcef512940edd38b2ae672910f926b87f9c39bca2155cf232f6df",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7c66e254e5c64d2b83ba0d9976db7bdb-1-response.json",
+          "response_saved": true,
+          "response_sha256": "61343310cd0ac464e0828de47ff573248c0024d681430228d9a93c7664b06270",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "ceb32c93455c06f3bfd2b99900ac4100843c9cee04a59b2e5a7f28a5000ebfbc",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/94a12851f4dd47c7893fcda94e90885d-1-response.json",
+          "response_saved": true,
+          "response_sha256": "aa585da93447fcfbc3ca7508da2e5531ce84cba14199bf33ec2eb568ca699040",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "bef1fcf962bf91d940e9158734343dd6d504f145d51dcf6c7c251c793b912725",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/f81ccfdddc774d68b83b5dae9e443c0e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6920c795106f719f6be0e59c11447b0003934e23d7183f588fa7aa697dcfd27c",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "cefa8016fab1abe63e7a43eccbd9fcd2971344ef023133284116a159f2abaeb2",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-fast-2-2-LEDGER",
+      "cloud_api_usd": "0.120742990207151304162957254281879908050871",
+      "e2e_ms": 119787.75943303481,
+      "failed_semantic_actions": 4,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "296c15844b9fcef512940edd38b2ae672910f926b87f9c39bca2155cf232f6df",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/7615f0ff103243e28a02c15f4c53b0ec-1-response.json",
+          "response_sha256": "943a604be95498524eca8bb66d3640aa602dedd3e37b2c4972b19438740434d1",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 15,
+      "manager_turns": 8,
+      "method": "LEDGER",
+      "network": "fast",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 12,
+        "invoke_model": 3
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 2,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 29618.63409075886,
+      "raw_trace_relative_path": "stage2/cells/S2-fast-2-2-LEDGER/runs/harness-v2-stage2-001-S2-fast-2-2-LEDGER/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 12,
+        "remaining_tool_model_calls": 49,
+        "remaining_verifier_calls": 12
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 8,
+          "completion_tokens": 5500,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 95972,
+          "provider_latency_ms": 48432.112669572234
+        },
+        "verifier": {
+          "calls": 8,
+          "completion_tokens": 1579,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 79524,
+          "provider_latency_ms": 26888.370661064982
+        }
+      },
+      "settled_semantic_actions": 17,
+      "successful_semantic_actions": 13,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1093846,
+      "trial": 2,
+      "verification_attempts": 8,
+      "verification_failure_events": 1,
+      "verifier_response_count": 8,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/5f324e844e5e43c5baf68867eadc300c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "f3a73f48716cfade12e685f735546420efaa62a49b48dbfb52d5f94707582b03",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "NoneType",
+                "candidate_output_sha256": "NoneType",
+                "evidence_state_version": "NoneType",
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "de99c236b7f0d8a48daa7a611d755e24ede5a91a0aa835564af3df37a9ba3013",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/5f943598f5ae4b19b8b53f37d460d055-1-response.json",
+          "response_saved": true,
+          "response_sha256": "d4e3738837a4e98aa4933921828823bf779cd462790911bd48ff4d72b0c3d520",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a6590f0963dbcf63b4803b29f75b19e40bc741b8cea852eebc623ff54a54e011",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/943bbf8881fa44d0852b8e215ccdbdbd-1-response.json",
+          "response_saved": true,
+          "response_sha256": "acfe4b291dbf3bc595207fa47445fac80e7f0ef82894d0497ec2438c40bcb07c",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "693776cee21c1ea90407d01e0300badc0c3c3e5270e18213bdf506c06a1766eb",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/9e18b3c46ead4dffadeea176dc9a3f1c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "fcd013ec1e8733ed1148982b4edbfffdbbf46b724510117a97c2d954d651a017",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "6837981d36f6efd0df14dd4668a4088e4c9a31340a417bc032f32c55f615114f",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/cec9ce2213de4b95a23b30fd87b3cf0c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6cd98c1d99b6e9751691c1e8a02ee4474685933978d275e1981b610e525d5d49",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "4fb897d6f65e0c749f8412ea499bc127e2a84f9de60e14f46efde2e62870d71d",
+              "failure_stage": "evidence_collection",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d0a50ac96b494b3497cb82f36c9dd0e7-1-response.json",
+          "response_saved": true,
+          "response_sha256": "a8aefb3ac2395b0f8875e0a9ac812df57e00409764566dfde2daa296dcfae786",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "cb34864e53ac3a9ac579391d29a3d32b694b9e89775c85bfa137476ab4f9cdb4",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/f0aa6678385a4427a887d6e50ba6d703-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1f39c5d7e9a29dda52f89cedf88717fdd299ace60155fd3d46137ab01cf36694",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "6e42ac1dd67a971643967575caf7e24fdfc10d030b3a023253c851515be7e5a0",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-1-1-BLIND",
+      "cloud_api_usd": "0.086693470548372952072177413996997036899243",
+      "e2e_ms": 179857.01120691374,
+      "failed_semantic_actions": 3,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "multihop_rag",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "cb34864e53ac3a9ac579391d29a3d32b694b9e89775c85bfa137476ab4f9cdb4",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/d0a50ac96b494b3497cb82f36c9dd0e7-1-response.json",
+          "response_sha256": "a8aefb3ac2395b0f8875e0a9ac812df57e00409764566dfde2daa296dcfae786",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 14,
+      "manager_turns": 7,
+      "method": "BLIND",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 12,
+        "invoke_model": 2
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 1,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 92091.74308506772,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-1-1-BLIND/runs/harness-v2-stage2-001-S2-slow-1-1-BLIND/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 13,
+        "remaining_tool_model_calls": 50,
+        "remaining_verifier_calls": 13
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 7,
+          "completion_tokens": 2751,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 70478,
+          "provider_latency_ms": 26107.3910840787
+        },
+        "verifier": {
+          "calls": 7,
+          "completion_tokens": 1306,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 61879,
+          "provider_latency_ms": 21422.37619124353
+        }
+      },
+      "settled_semantic_actions": 16,
+      "successful_semantic_actions": 13,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 7706135,
+      "trial": 1,
+      "verification_attempts": 7,
+      "verification_failure_events": 1,
+      "verifier_response_count": 7,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/551c22430cb841febe2f0aa54c79394b-1-response.json",
+          "response_saved": true,
+          "response_sha256": "76a429bcbfa28f27c7c315244734a6281f701680732908ed81ed497d818f57f9",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "ac3fbb921501b067ca4f359da8d133e62d81d1f0313971e23e78baf3c6aa79c9",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/a9c2b4cfa7644c9aae28f625c5c8bb65-1-response.json",
+          "response_saved": true,
+          "response_sha256": "bfe305cabb58b713ab856b837cf07f01e99710ea2d11db2c2d2c0c5178b2f38d",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2e21df704791fbe768e4a951cdfa902f303ae5293615214486911f7b13da9673",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [
+                {
+                  "path": "",
+                  "type": "value_error"
+                }
+              ],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/f88a4108fe594f2986f83e185a4f5fd5-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1c44ef114b4306cbae225c60463d7007f8d2cc43875f6e00077d2945acaceadf",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d08bc48000f10b06e28f96bc59288ff4dd9dccc5e85823227d63d729baa48bfb",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-1-1-LEDGER",
+      "cloud_api_usd": "0.027355596008450816513639564703224863471476",
+      "e2e_ms": 55905.877518001944,
+      "failed_semantic_actions": 2,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_semantic_validation_failed",
+      "family": "multihop_rag",
+      "invalid_raw_calls": [],
+      "logical_actions": 7,
+      "manager_turns": 3,
+      "method": "LEDGER",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 0,
+      "operator_counts": {
+        "bm25_retrieve": 6,
+        "invoke_model": 1
+      },
+      "phase_at_failure": "synthesis",
+      "physical_context_rejections": 1,
+      "physical_inference_calls": 0,
+      "physical_service_work_ms": 0,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-1-1-LEDGER/runs/harness-v2-stage2-001-S2-slow-1-1-LEDGER/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 17,
+        "remaining_tool_model_calls": 57,
+        "remaining_verifier_calls": 17
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 3,
+          "completion_tokens": 1242,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 25706,
+          "provider_latency_ms": 12098.592766094953
+        },
+        "verifier": {
+          "calls": 3,
+          "completion_tokens": 449,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 20433,
+          "provider_latency_ms": 8102.729954756796
+        }
+      },
+      "settled_semantic_actions": 8,
+      "successful_semantic_actions": 6,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 7696522,
+      "trial": 1,
+      "verification_attempts": 3,
+      "verification_failure_events": 1,
+      "verifier_response_count": 3,
+      "verifier_schema_invalid_count": 0
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/504dad399cfb4f46b7583c193797fd08-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6887249e243c7a0ef58b7d6e4c3227af0d9dfe2821b299c171618c542d4e2bcd",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2313c91834018de3d901fa3bfb850b4ebbe474d005273a9b8d5839a3b4754cfc",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/71a1ad7fc0f24812adfb35bf7108bf3e-1-response.json",
+          "response_saved": true,
+          "response_sha256": "70729aaa467dd0450bce7c69e1a70fc9e97615cdbfa60ef7289dbdc46a219c34",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "NoneType",
+                "candidate_output_sha256": "NoneType",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "083209f34e2e8a907c64f942027e4bb4c6dcfc58d1c39e0ed6e64af791179c1b",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [
+                {
+                  "path": "",
+                  "type": "value_error"
+                }
+              ],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d8a17ae0b9604ff4ad6aa076be37bb06-1-response.json",
+          "response_saved": true,
+          "response_sha256": "3df3efd7c2fe996382bc49113fc97c2c1c8908f5011be1836fc9304541139cca",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "025c0dbe9eb3765fc9f71c725386acb84be1776c901998df73c1407258882f87",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-1-2-LEDGER",
+      "cloud_api_usd": "0.028765973504829987111176071964814839421196",
+      "e2e_ms": 59243.232280015945,
+      "failed_semantic_actions": 2,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "multihop_rag",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "NoneType",
+            "candidate_output_sha256": "NoneType",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "missing_requirements": "list",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "083209f34e2e8a907c64f942027e4bb4c6dcfc58d1c39e0ed6e64af791179c1b",
+          "failure_stage": "execution",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/71a1ad7fc0f24812adfb35bf7108bf3e-1-response.json",
+          "response_sha256": "70729aaa467dd0450bce7c69e1a70fc9e97615cdbfa60ef7289dbdc46a219c34",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [
+            {
+              "path": "",
+              "type": "value_error"
+            }
+          ],
+          "status": "continue",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 7,
+      "manager_turns": 3,
+      "method": "LEDGER",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 0,
+      "operator_counts": {
+        "bm25_retrieve": 6,
+        "invoke_model": 1
+      },
+      "phase_at_failure": "synthesis",
+      "physical_context_rejections": 1,
+      "physical_inference_calls": 0,
+      "physical_service_work_ms": 0,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-1-2-LEDGER/runs/harness-v2-stage2-001-S2-slow-1-2-LEDGER/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 17,
+        "remaining_tool_model_calls": 57,
+        "remaining_verifier_calls": 17
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 3,
+          "completion_tokens": 1616,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 25795,
+          "provider_latency_ms": 14784.195587038994
+        },
+        "verifier": {
+          "calls": 3,
+          "completion_tokens": 455,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 21203,
+          "provider_latency_ms": 8022.957548033446
+        }
+      },
+      "settled_semantic_actions": 8,
+      "successful_semantic_actions": 6,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 7696522,
+      "trial": 2,
+      "verification_attempts": 3,
+      "verification_failure_events": 1,
+      "verifier_response_count": 3,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/04d5f6f769c648619b717104c6994b3d-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1e6e29302b511c2f0d580baac0f9a969883a0ab43d449e2d87541d464d8e6b27",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "e7ab462e257e61247aebaa58d9a1c62a6b7267025106c15c79e33fd9e6d414d7",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/3458b7286d66431dafef1ac4e2916df6-1-response.json",
+          "response_saved": true,
+          "response_sha256": "0ce540331b95c5ad58f712dcb0c27935d088363e6a89c34bdcce20b1621345bb",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "94540365b01443c6b2fa2ceae5adcb4d5c58b1687298e8d63f32913dd6ba8a8a",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/64fe37071b68466196f305828cf6152b-1-response.json",
+          "response_saved": true,
+          "response_sha256": "48f1b73119ea9460ed683f6f44ad48c768c73ee46cbf29bf839278309d4207ae",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "e4dd11870f1ce5a6c0e952b2daeccfa92eac100572ba3accce33f7f4b42fcb3d",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7a6359db377543f59176dcaf26f75c90-1-response.json",
+          "response_saved": true,
+          "response_sha256": "21ebffc41557d77572fe8257a7804ba42e8491f983caf28a48bd880980163eaf",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d820e9538f625f6e28c86bc96527d00f61bb82f39a2d00c7ef8d10a30cacef38",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/7aa37ad1c4684653a51443070e9d437c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "5c286a6faa77cf511168be1ed70b16214f42578bc7edbc20c83dee8f63d37168",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "f95792dc5fb29ab54b417a35a2ea7eb4c2b6da7baa20cedc5d8312e94d983179",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/9e7a0af6027b4c028885fdff3d172076-1-response.json",
+          "response_saved": true,
+          "response_sha256": "21b2067c2fb1e6b46a6310831c686b0c0e18f591eaba49be3d71b3a33777d1e9",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "397c73ca6c30743fe1474735c5ebe44655d0e1c682e7073bda0e6043b0335f17",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/bae001f7b3d94b159501f7cac9320598-1-response.json",
+          "response_saved": true,
+          "response_sha256": "3aab00fece33b664479a60de0a4805783ea23f81f414802e347c44fa6a3bc57c",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "e8473a7b4db842c6aca792eca08e1b57766f038402d1be9449f7db8deac41685",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d5e1469043da470caa91690ea9860128-1-response.json",
+          "response_saved": true,
+          "response_sha256": "73e21dbe1d045789644fcf8c882623b75ad8480375bc7631934ad36bb37b855d",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a0e2315ed8b1f2f725709c686484b2b19477a66cf8e5b6f2824be3fe8c59e452",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-2-1-AWARE",
+      "cloud_api_usd": "0.127714335826944285733267781926414116584071",
+      "e2e_ms": 129126.42761133611,
+      "failed_semantic_actions": 4,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "d820e9538f625f6e28c86bc96527d00f61bb82f39a2d00c7ef8d10a30cacef38",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/7a6359db377543f59176dcaf26f75c90-1-response.json",
+          "response_sha256": "21ebffc41557d77572fe8257a7804ba42e8491f983caf28a48bd880980163eaf",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 15,
+      "manager_turns": 8,
+      "method": "AWARE",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 12,
+        "invoke_model": 3
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 2,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 29984.437309671193,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-2-1-AWARE/runs/harness-v2-stage2-001-S2-slow-2-1-AWARE/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 12,
+        "remaining_tool_model_calls": 49,
+        "remaining_verifier_calls": 12
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 8,
+          "completion_tokens": 5467,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 102098,
+          "provider_latency_ms": 50429.441603366286
+        },
+        "verifier": {
+          "calls": 8,
+          "completion_tokens": 1508,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 89680,
+          "provider_latency_ms": 25932.51723330468
+        }
+      },
+      "settled_semantic_actions": 17,
+      "successful_semantic_actions": 13,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1093826,
+      "trial": 1,
+      "verification_attempts": 8,
+      "verification_failure_events": 1,
+      "verifier_response_count": 8,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/0d4236621b184092b9fd02f3df3042dd-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ae39300e54988b264685fa638b2cbb3d9a5e4ff7f1507c581991b66cef381fc4",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "e37776af6099bbeb8468592a5cd41c554e21dfad537e951376d4dcef67edc0fd",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1d543f6bb44a4eb58ed6357d4bb45cab-1-response.json",
+          "response_saved": true,
+          "response_sha256": "10db86dae9309f93ae4df765a5a253df1caef77f8e247adfd265e966780ec58b",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "dff2b9f3818993dfa4b328f34d59bb82bcd6c1a4dfd6bc2e1d895f6ba0feef9d",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/677d4a2bd89a49c9a31116b90ef9f3dd-1-response.json",
+          "response_saved": true,
+          "response_sha256": "3bdcce0575c583f9dd6ab9c40e6016a79a2455954ad4e8fa7d75b624ccbf6ca6",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "1c871976a192f87bf6a368e05189ee7f2ee91ae0f7f81c50f27ed7c3980272ad",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/81bbee8c9eaf453893f672e4c1a5a051-1-response.json",
+          "response_saved": true,
+          "response_sha256": "9c92a25a4b9b6183e132afa87f371a3fdff2a8bbbc520a71fa1fc2203a224b6b",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "7ed56d0ac0b78289b2259ac5ff272b2309f31514f4eca53d4cccb3f8d2e4874b",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/9a790312fc594d79b9dd890a8cde1d63-1-response.json",
+          "response_saved": true,
+          "response_sha256": "cca1ab2ba71a305cf3d4b7972923c0491630968e37f40f1f2eea8b57f794d733",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "5127752025780809e55cd3307310e42fcfef3dabd47c3dffcbcc89f9e1e794ac",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/c3ed7c5ee6dd4f958206e24eef49acd0-1-response.json",
+          "response_saved": true,
+          "response_sha256": "6f457648fb88b8b77e6881b9c9aba01f66f283f7e2b61e0232466f6436abd637",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "bf352a7262a8d50df99e21ec94b3687cf298a792632e57355930cff1939b561d",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/c8241c63713849f087696a43a60dec38-1-response.json",
+          "response_saved": true,
+          "response_sha256": "f4b8409b8a51733a8680b533b634b702d1e04954daa9e221f709048715ae2e78",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "6eb1c23da018096d9f0106aec641e9709e4c26b477db77d0baf3c625c49095b9",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/cab0b7ebb09f4bc8ad72142f1871428f-1-response.json",
+          "response_saved": true,
+          "response_sha256": "63ac16aba8ef70f5437413a7dac4fa2cdf649d607b1ab46f14fb9e00272547ba",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a7d059bb3d6b94e56ac3ffa2124aee8dfbfe64f7445245140bf3bee483557d17",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/ce31f7aa03ca4b84b0a3ffe27350d9e0-1-response.json",
+          "response_saved": true,
+          "response_sha256": "d7a5e2de974f7d78259643873ba6fe046debeb196ef4e4d4db6a830520efc305",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "922c496e97c52cccb26069c676345f513c7cb74f4c45e17bb7d7ce090c1c0b8b",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d98e2f8991394f61b53314a88e69bf92-1-response.json",
+          "response_saved": true,
+          "response_sha256": "b695f666cfa1af41804acd6c9cdc38327687108e9178bb2d32d11e50ef9f4b0a",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "3e26d793655cade7391e76b247982fc3602bb6589616ce875d22a2d5bc4b20f3",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/fff2ad0f0a384e11be39a57b936b381b-1-response.json",
+          "response_saved": true,
+          "response_sha256": "a564b991679e110a4352057172e4ed64733283469e4297aa7414659a09b02ebd",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "4175b0a8e90851a7d619ae85b17850c361318cd1ff5f556e395fae3cd91d16e6",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-2-1-BLIND",
+      "cloud_api_usd": "0.158814233513599702361179393826651961891606",
+      "e2e_ms": 165998.5989597626,
+      "failed_semantic_actions": 9,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "terminal answer violates the choice output contract",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [],
+      "logical_actions": 17,
+      "manager_turns": 11,
+      "method": "BLIND",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "aggregate_artifacts": 1,
+        "bm25_retrieve": 12,
+        "invoke_model": 4
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 3,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 53605.184905231,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-2-1-BLIND/runs/harness-v2-stage2-001-S2-slow-2-1-BLIND/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 9,
+        "remaining_tool_model_calls": 47,
+        "remaining_verifier_calls": 9
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 11,
+          "completion_tokens": 6474,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 134031,
+          "provider_latency_ms": 54331.53535658494
+        },
+        "verifier": {
+          "calls": 11,
+          "completion_tokens": 1786,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 104206,
+          "provider_latency_ms": 31489.453380927444
+        }
+      },
+      "settled_semantic_actions": 23,
+      "successful_semantic_actions": 14,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1551644,
+      "trial": 1,
+      "verification_attempts": 11,
+      "verification_failure_events": 0,
+      "verifier_response_count": 11,
+      "verifier_schema_invalid_count": 0
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/0587d0dc0a544d9e9d61051509f1870c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "28ddd2792fa67d7ea35be6096a8ec991f3ef36275175fe38356e8c0a2a89b778",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d949c072aaf1a7831d590c70eee2a066973b184a96c1ec365a5014dbe8a4afbb",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/531018db083c47a2b980f88aef278d11-1-response.json",
+          "response_saved": true,
+          "response_sha256": "36bd038e21814fb0517afd99cd3c8127a67343ca40b7c85dc8570e1f3b7e3d36",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "0b79433f2a0a43f375676d85b0332fc0903f9bcc0b9e3adb990f180715978319",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/a0feb9381da044c2bbb450de3e3b6de3-1-response.json",
+          "response_saved": true,
+          "response_sha256": "5acdd42b9c8251b8f7d1addc2f5067e66513cb306f7a7aa916f53398693bbf11",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "8730ee5f2b33ea76d598e9e3199553e76e9410145780e0fe333c17e4f787ec32",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/a82ba6f18412420fbbc6d0e62ab98931-1-response.json",
+          "response_saved": true,
+          "response_sha256": "530356d5d3a5aa5230e45dd6c88283a1fb1b1acd70b2aed6f1dd3dbbd472672a",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2560b94fe450aa546df59360c3e200a09875636c9e4dff8a4c44bbf2d18bc7e4",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d0b1df5b971342eca8b28a90205b90e3-1-response.json",
+          "response_saved": true,
+          "response_sha256": "520eeb63d6b9762a4f72774352d6d66df6d443f6f3c2907f7e8bde9b938f150b",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "21aef222977bf06eedcfef095efd332b45c6bc2b55d1ff273066623f1d464963",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/ecb9a90c7bc04e309bc4f003345cd5b5-1-response.json",
+          "response_saved": true,
+          "response_sha256": "98f603e1872b61c9a23c1cd01b08f670560cf2ab576371657f5d029937b51f79",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "bdc08c6a5df4a5528db813b6763d96804db51017263e95901132c8fd16bf1a4a",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/fbc67693a52443c690ba3047f6d220e7-1-response.json",
+          "response_saved": true,
+          "response_sha256": "7a9204f2ac52c8af2912261f50bd7635afbd367700b6027c97eaad5eca5b48e9",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "b77414e692b441153e0cba2f4af60d534725bc79300b8bfda13918e6bcb6cbd1",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-2-2-AWARE",
+      "cloud_api_usd": "0.114668343985436957706055089756706839049153",
+      "e2e_ms": 111869.5972058922,
+      "failed_semantic_actions": 3,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "2560b94fe450aa546df59360c3e200a09875636c9e4dff8a4c44bbf2d18bc7e4",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/a82ba6f18412420fbbc6d0e62ab98931-1-response.json",
+          "response_sha256": "530356d5d3a5aa5230e45dd6c88283a1fb1b1acd70b2aed6f1dd3dbbd472672a",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 15,
+      "manager_turns": 7,
+      "method": "AWARE",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 12,
+        "invoke_model": 3
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 2,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 28643.549343105406,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-2-2-AWARE/runs/harness-v2-stage2-001-S2-slow-2-2-AWARE/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 13,
+        "remaining_tool_model_calls": 49,
+        "remaining_verifier_calls": 13
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 7,
+          "completion_tokens": 4346,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 83450,
+          "provider_latency_ms": 38818.60963674262
+        },
+        "verifier": {
+          "calls": 7,
+          "completion_tokens": 1322,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 73317,
+          "provider_latency_ms": 22283.614543732256
+        }
+      },
+      "settled_semantic_actions": 16,
+      "successful_semantic_actions": 13,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1093826,
+      "trial": 2,
+      "verification_attempts": 7,
+      "verification_failure_events": 1,
+      "verifier_response_count": 7,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/0092591ee4334b87ac934b1a43e0ba8d-1-response.json",
+          "response_saved": true,
+          "response_sha256": "814c9188d9fc44f4e565c07de92bd81e237e79322f55e88362d5a8969940a114",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2617f188f962697fd66dce8103b082fdef0f325f340077c26f43ba96e3ad3b0d",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1007550776114c269d34969023958098-1-response.json",
+          "response_saved": true,
+          "response_sha256": "486215db174eb7aa3ef2e0dd6ba7bb1636e9432c8a76d3628614811c9d1998ef",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "1c29dbaefaf1a45df4e6d50ab9d42f80ea72c7ceaee6a724b1398c35aefbca38",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/49430e67e4f4448abccf580320597ae6-1-response.json",
+          "response_saved": true,
+          "response_sha256": "7e6e39a4e3788eda62dadcffea432fb8443f6c09a156ae9df3d0434d61b70469",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "cd438eea564d46f15133c800e714c2b8f4640185aab23ba669562981b70c6204",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/4983c14e2d35491395a022c8338c1107-1-response.json",
+          "response_saved": true,
+          "response_sha256": "119b7711d1af94d5c2d58f135a3117eb1b23170819da45bf0171be2a4717643e",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "9ca537ff149110597c3b12575fd4255b29aa5672ff93198f0558e573e5dc1350",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/6d06e42737414abf80afbd72b4738880-1-response.json",
+          "response_saved": true,
+          "response_sha256": "a3d8c938d10ee6255b3fd30cf5845b6f06144a72f65df53c54fd564344b9b018",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a13726c56636723d088ebbfc6040a40526c171a20eeb2bc829eeaab687d92105",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/727bd1d75e9f43a88f73d63439feb23d-1-response.json",
+          "response_saved": true,
+          "response_sha256": "a551c0c519907b48d10679fa9699f205bb7617b840f1ed869ab690dc6d37c629",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "2444852aba60cfdd519f43ba32f3328dcef2ef300af7e12923d2a8c345373c49",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/89ceddbf188c4ef38518eebcec198f9f-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ed687c71f8a4e3806613b20ad0fd41bd89b6fa039bed18b6c2d5dc7680185b94",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "69bdbb712f2b62dbdf543700268c3dd8ad7a9093c8f2a1b8e8f5d0cab4588611",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/8a9d8ccde87a446f9a78c776b6916ae5-1-response.json",
+          "response_saved": true,
+          "response_sha256": "a9f528dc03568b1aec112ff12d9da1233f9b9275061451ea662c17a7cebecd53",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "c2d3d1cbda4c1b65e9b33e3e04b0b12a82ab0b8bbe91ca8de5c814f913f3f695",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/904ad3ded91f46fab041eed8b4131bdd-1-response.json",
+          "response_saved": true,
+          "response_sha256": "335fbf36cdb210f2dde1d5a0c7cf02b35c82a2024d486eb2f4f43c205f857f86",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "e440ec94b7e0c5d6fb5c9f1a1695d90ebbfca0c9e7a23b341908089367b87f9f",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/af1e1a5287914b649319e99638e549b7-1-response.json",
+          "response_saved": true,
+          "response_sha256": "b9c0ab5222105ee8899c38c239fb5229c189091a540745e24ccdcf9a0146ac56",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "958d5f4b36ebc49da2e8d98c92c8279d684577c271e776994067a87f5b08612b",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/b2b061ce71bf4133b232a4eb334b8cbf-1-response.json",
+          "response_saved": true,
+          "response_sha256": "1db187955cdbaf2f4c516396eeab4b491cab4c028e68dd9960734f49a0d441e7",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "991de9d108af7eed3a2b5d85c16c5d41135f4902b3c58c66da273b601259b19c",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d09f0e1777534d25beea18e7127aafb0-1-response.json",
+          "response_saved": true,
+          "response_sha256": "cd631e0292fa12fc0b049e683613bb161e069fbba4897dd3fa8082b7409c971c",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "7400e540057435f571582d2ced3466b536d85c1f2ea7b4d3f2c375c9001c1ab0",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/d636816b6c1244868339411a3fbfb1c8-1-response.json",
+          "response_saved": true,
+          "response_sha256": "c4f22fb102c3057e3b9e375fc7f4d32039c4e416a96814b04c6fb42fd8a48d21",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "f8f1343b8223e0e7a7c1a1c6536de743027bfba96a65095419fa54c98590b85c",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-2-2-BLIND",
+      "cloud_api_usd": "0.176313295419816898975537809431430127958131",
+      "e2e_ms": 153533.00026617944,
+      "failed_semantic_actions": 11,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "e440ec94b7e0c5d6fb5c9f1a1695d90ebbfca0c9e7a23b341908089367b87f9f",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/904ad3ded91f46fab041eed8b4131bdd-1-response.json",
+          "response_sha256": "335fbf36cdb210f2dde1d5a0c7cf02b35c82a2024d486eb2f4f43c205f857f86",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 17,
+      "manager_turns": 13,
+      "method": "BLIND",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "aggregate_artifacts": 1,
+        "bm25_retrieve": 12,
+        "invoke_model": 4
+      },
+      "phase_at_failure": "synthesis",
+      "physical_context_rejections": 3,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 30428.52302500978,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-2-2-BLIND/runs/harness-v2-stage2-001-S2-slow-2-2-BLIND/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 7,
+        "remaining_tool_model_calls": 47,
+        "remaining_verifier_calls": 7
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 13,
+          "completion_tokens": 6695,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 169648,
+          "provider_latency_ms": 57809.25751617178
+        },
+        "verifier": {
+          "calls": 13,
+          "completion_tokens": 2496,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 134253,
+          "provider_latency_ms": 41730.4772445932
+        }
+      },
+      "settled_semantic_actions": 25,
+      "successful_semantic_actions": 14,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1551644,
+      "trial": 2,
+      "verification_attempts": 13,
+      "verification_failure_events": 1,
+      "verifier_response_count": 13,
+      "verifier_schema_invalid_count": 1
+    },
+    {
+      "all_verifier_responses": [
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/1b3163a1fd084d83b4a50dfaf6dcfa5c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "159ff803b58a5555f370018ed1e3350e94a1367627520f11f3c80deb42891343",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "508013453cc5b834179cca35c3fe2b8a859688fb1c8caad385a53ded0f49ae64",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/2ff9367d594f4c398fbabce5d1aeb2b1-1-response.json",
+          "response_saved": true,
+          "response_sha256": "4242577fe05414da9ac0f0bee04d50ecea2abb74a4711240c373e5136d8a82a5",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "4bd9d3a483bc94920360ede6ea144a093447432f0e4fb8cc2c4ce680886e018a",
+              "failure_stage": "execution",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/3727582c44e64260968d84a867e47e70-1-response.json",
+          "response_saved": true,
+          "response_sha256": "ca76719e2169613377c0494586c5057ada623255fbd5488c2a347da1d3868942",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "candidate_action_id": "str",
+                "candidate_output_sha256": "str",
+                "evidence_state_version": "str",
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "f218a22ea6d8e92c9c6ddfeeb58b77c402e4535966097c30ab4adcfb8ea0cb00",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [
+                {
+                  "observed_type": "str",
+                  "path": "evidence_state_version",
+                  "validator": "anyOf"
+                }
+              ],
+              "semantic_errors": [],
+              "status": "complete",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/56b31920964c44b2bf3c52073cb2bf8c-1-response.json",
+          "response_saved": true,
+          "response_sha256": "e998ce11f932a8b6ae4f134b912c54514a8d725b716c52e939957ea8b0d17602",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "1126f8def4424990c374ff76fe8fec517b2dc544fc7d8b8b5a64719ac0a8b885",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/5bdf18ae6b694b66b8878776297a2506-1-response.json",
+          "response_saved": true,
+          "response_sha256": "130b5931032a91f8893ebff76ddbee572d142b48221ec55bcb667b6be97ba9fe",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "ba62bbb751fe72965882b3421afea1dfe0fddfa5eec3f0b3da1ced48e432fe4f",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/6b67b87902a74f85a4ef74d38f580580-1-response.json",
+          "response_saved": true,
+          "response_sha256": "c894e068784385bc2b0d914c3fb9105bdc174f6a3776703e8ca9007059134838",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "d418119433064114629fa86982f87ff600e0a9919be594cd2c3c1cb8896a1889",
+              "failure_stage": "none",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "ready_for_synthesis",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/b30b3e1f1a02433fac720cf722335c63-1-response.json",
+          "response_saved": true,
+          "response_sha256": "558bf0cdc793ed8c324b0e7b8d6f293bd5f527ae81174d7cc52ca92574d036c3",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "a7a6ebd28e9e060ee9d49c18c7fef79d501bb450d0945ad2349a0a9b2681e1c5",
+              "failure_stage": "synthesis",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        },
+        {
+          "finish_reason": "tool_calls",
+          "message_content_length": 0,
+          "response_file": "private/api/cloud/cfbef064dde644e4b38d24c2e9f4064d-1-response.json",
+          "response_saved": true,
+          "response_sha256": "79118a8379b558eaccbd80ecf39c0a048d106c31bccecf3d44cc8143a5665407",
+          "tool_calls": [
+            {
+              "argument_json_type": "dict",
+              "argument_key_types": {
+                "failure_stage": "str",
+                "missing_requirements": "list",
+                "reason": "str",
+                "status": "str"
+              },
+              "argument_parse_error": null,
+              "arguments_sha256": "f51b9e9e909aadb3f3e9acbab77be99134fa77e4e63b78aebb4b5a1c35a4351e",
+              "failure_stage": "evidence_collection",
+              "name": "submit_verification",
+              "schema_errors": [],
+              "semantic_errors": [],
+              "status": "continue",
+              "unknown_argument_key_count": 0
+            }
+          ]
+        }
+      ],
+      "cell_id": "S2-slow-2-2-LEDGER",
+      "cloud_api_usd": "0.117745043117766645849665820699185479477533",
+      "e2e_ms": 114998.69264289737,
+      "failed_semantic_actions": 3,
+      "failure_code": "logical_loop_failed",
+      "failure_reason": "verifier_schema_validation_failed",
+      "family": "longbench_v2",
+      "invalid_raw_calls": [
+        {
+          "argument_json_type": "dict",
+          "argument_key_types": {
+            "candidate_action_id": "str",
+            "candidate_output_sha256": "str",
+            "evidence_state_version": "str",
+            "failure_stage": "str",
+            "reason": "str",
+            "status": "str"
+          },
+          "argument_parse_error": null,
+          "arguments_sha256": "f218a22ea6d8e92c9c6ddfeeb58b77c402e4535966097c30ab4adcfb8ea0cb00",
+          "failure_stage": "none",
+          "name": "submit_verification",
+          "response_file": "private/api/cloud/3727582c44e64260968d84a867e47e70-1-response.json",
+          "response_sha256": "ca76719e2169613377c0494586c5057ada623255fbd5488c2a347da1d3868942",
+          "schema_errors": [
+            {
+              "observed_type": "str",
+              "path": "evidence_state_version",
+              "validator": "anyOf"
+            }
+          ],
+          "semantic_errors": [],
+          "status": "complete",
+          "unknown_argument_key_count": 0
+        }
+      ],
+      "logical_actions": 15,
+      "manager_turns": 8,
+      "method": "LEDGER",
+      "network": "slow",
+      "nonempty_manager_model_outputs": 1,
+      "operator_counts": {
+        "bm25_retrieve": 12,
+        "invoke_model": 3
+      },
+      "phase_at_failure": "evidence_collection",
+      "physical_context_rejections": 2,
+      "physical_inference_calls": 1,
+      "physical_service_work_ms": 31839.562145993114,
+      "raw_trace_relative_path": "stage2/cells/S2-slow-2-2-LEDGER/runs/harness-v2-stage2-001-S2-slow-2-2-LEDGER/trace.jsonl",
+      "remaining_budget_at_failure": {
+        "remaining_created_subagents": 4,
+        "remaining_manager_turns": 12,
+        "remaining_tool_model_calls": 49,
+        "remaining_verifier_calls": 12
+      },
+      "role_usage": {
+        "manager": {
+          "calls": 8,
+          "completion_tokens": 3796,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 88915,
+          "provider_latency_ms": 35551.90702620894
+        },
+        "verifier": {
+          "calls": 8,
+          "completion_tokens": 1579,
+          "missing_completion_usage": 0,
+          "missing_prompt_usage": 0,
+          "prompt_tokens": 75273,
+          "provider_latency_ms": 26865.12055248022
+        }
+      },
+      "settled_semantic_actions": 16,
+      "successful_semantic_actions": 13,
+      "terminal_candidates_selected": 0,
+      "transfer_bytes": 1094086,
+      "trial": 2,
+      "verification_attempts": 8,
+      "verification_failure_events": 1,
+      "verifier_response_count": 8,
+      "verifier_schema_invalid_count": 1
+    }
+  ],
+  "version": "harness-v2-stage2-failure-diagnostics-001"
+}
