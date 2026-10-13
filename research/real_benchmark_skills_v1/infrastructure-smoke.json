@@ -1,0 +1,50 @@
+{
+  "classification": "infrastructure_smoke_only",
+  "official_agent_runs": 0,
+  "autodl_local_docker": {
+    "available": false,
+    "namespace_checks": "EPERM",
+    "sys_admin_capability": false
+  },
+  "sandbox_location": "local Ubuntu-22.04 WSL2",
+  "inference_location": "existing AutoDL instance",
+  "docker": {
+    "status": "pass",
+    "server_version": "29.9.0",
+    "engine_archive": {
+      "url": "https://download.docker.com/linux/static/stable/x86_64/docker-29.9.0.tgz",
+      "sha256": "33e1ab8b63d14bca449f7a3d30d7f6aa669daa544e60a86b17fec87f61afe2b4",
+      "bytes": 86345617
+    },
+    "compose_binary": {
+      "url": "https://github.com/docker/compose/releases/download/v5.6.0/docker-compose-linux-x86_64",
+      "sha256": "40343e21ca777173e69cff5dbafeb37c6f81f3b0d57d9e597f036e95eb63e76a",
+      "bytes": 32663526
+    },
+    "cgroup_version": "2",
+    "security_options": [
+      "name=seccomp,profile=builtin",
+      "name=cgroupns"
+    ],
+    "hello_world_returncode": 0
+  },
+  "tooling": {
+    "started_epoch": 1791864214.0085647,
+    "uv_archive_sha256": "788f18abea7c5f55d6216e4f5613fd89d4d59b631efeec117b2b07fe72f1da21",
+    "status": "pass",
+    "finished_epoch": 1791864231.6726918,
+    "requirements_sha256": "a6ccba436dca1855b74f2025321afccaba8ab82a2d79755fc6f8c891c3e9bedd"
+  },
+  "oracle": {
+    "task": "dialogue-parser",
+    "agent": "oracle",
+    "passed": 1,
+    "total": 1,
+    "errored": 0,
+    "elapsed_sec": 59.743277072906494,
+    "reward": 1.0,
+    "original_summary_sha256": "e5c330198ff9bb925880c94944a9447f5ce347fd8d315d7404de9c04bafd7f52"
+  },
+  "rental_cny_per_hour": 7.35,
+  "warning": "Oracle pass is not a model outcome. Runtime feasibility of the other selected tasks remains pending."
+}

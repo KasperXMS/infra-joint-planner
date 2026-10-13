@@ -1,0 +1,1586 @@
+{
+  "benchmark": "skillsbench",
+  "release": "v1.1",
+  "commit": "b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af",
+  "created_utc": "2026-10-13T04:01:06.599503+00:00",
+  "release_manifest_sha256": "0aa87c4d4f64c33db74b20e770f4b4a77dc21911e81a8ffd50cbb84ac7a4cc6f",
+  "selection_status": "content_frozen_before_outcomes; sandbox_feasibility_pending",
+  "oracle_runs": 0,
+  "agent_runs": 0,
+  "tasks": [
+    {
+      "id": "dialogue-parser",
+      "split": "development",
+      "family": "dialogue-graph-parsing",
+      "category": "software-engineering",
+      "difficulty": "easy",
+      "tags": [
+        "game development",
+        "parsing"
+      ],
+      "official_task_digest": "sha256:4d48e3b0e7146cb3596bf3f56f9d37cecab57fcbb32058f229e5401182cd191d",
+      "skill_directories": [
+        "dialogue-graph"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "e0fdab0e028c11d5437caf3b827f10aa65fcf224c8a9689fecc7fa49f3ec92e7",
+        "environment/script.txt": "f63dcc28386cb2f963362eb78d40af75eb362945646c3c86e2a699bb2f14b409",
+        "environment/skills/dialogue-graph/SKILL.md": "03d711b93219cec1cd70d823d595e7c5adffc058c5910b94886fe6cc374f08d8",
+        "environment/skills/dialogue-graph/scripts/dialogue_graph.py": "f169725b80f5d63bddab1f2b5bbe1114643952defff760ef9e2e1096a93f53de",
+        "oracle/dialogue.json": "7c26e8db8b9624f73d3f0ee6406a5eda0a2044ed401efbb98d9eff8092a57f15",
+        "oracle/script.txt": "f63dcc28386cb2f963362eb78d40af75eb362945646c3c86e2a699bb2f14b409",
+        "oracle/solution.py": "583e6513768600d8daa0e25c882cf3efd78d063c27eb66662591e0cb8a1799e2",
+        "oracle/solve.sh": "5973e2fe36b0e6c7219ef1ced877580eea3519b7433ef8254113d8cadfaf442e",
+        "task.md": "d14e9102a433abcdb7cbab8a02e082b698fb87eb50fd9e8bc95c2ebb8d9cc1ab",
+        "verifier/test.sh": "57d2cb2cbd76d173357da476eb525e07678aabbb4b22392563718fe867e12f67",
+        "verifier/test_outputs.py": "d0effcfa8ba898260bce69ba8a0c4852f4959a83e9130cc69c13847f0f05b01c"
+      },
+      "skill_digest": "sha256:7761596fc1e1f9654767c55ce0263145e8bff9a49aa4ea22cf592d340f795b82",
+      "evaluator_digest": "sha256:77ec4eb3069a310550e8907a359c22e670dccd27a10c1535303d0eb861e8f7f6",
+      "environment_digest": "sha256:df7c91846efe18e077b134e16fdb7b5a0b3caaccba6f49dd95191d0a49a914b9",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 900.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "workdir": "/app",
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "azure-bgp-oscillation-route-leak",
+      "split": "development",
+      "family": "bgp-route-analysis",
+      "category": "software-engineering",
+      "difficulty": "medium",
+      "tags": [
+        "bgp",
+        "oscillation",
+        "azure",
+        "network"
+      ],
+      "official_task_digest": "sha256:58a862b7c0704fbe5ca545f18eeabac39599be94c857e0a7d80781dbbc0a52ef",
+      "skill_directories": [
+        "azure-bgp"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "a5f0ef554f645eae907d655d4b332478b9aa6131114791632b55bf3bf9c8d929",
+        "environment/data/azuredeploy.json": "9ba29fed1be48400ba7aed8dd2a80e8e50664e671e3c70654a03cf56eaf1447c",
+        "environment/data/azuredeploy.parameters.json": "0ba6f52b33e74b986154b41ace6b6834b9979b843e5f3a4d7525cbd180d73201",
+        "environment/data/azurevirtualwanarchitecturefigure1.jpg": "471438bf8aa21dc28e6813ecc09b9f0fe220de1a0b74fd71f51d970a4fbb63c0",
+        "environment/data/metadata.json": "d6c61f4fee43fec90bc7f43a67bd73fa649b8200d7ed4d06a3cdde603a695795",
+        "environment/generate_data.py": "50df2355c51a4453fd99dc3c92053be2cc1098c49bc5ee79be5cdd802fdfd481",
+        "environment/skills/azure-bgp/SKILL.md": "f66f553092bf7831bf944f4d26690c8e2825b1640c5ce0993bad6f9251d3d669",
+        "oracle/solve.sh": "1164dd73dea1d98b0eeafb5ab23e9ad11bd35310fda7639c832d6aba3ae95a4f",
+        "task.md": "22793032bd68e31ff5eff1bd745e33550cc9e225ca2afe4f71482295ef022def",
+        "verifier/test.sh": "fe7195562321b71ace6e1f6858994939238cc7ce0ec2d0ae3b610278489a42b7",
+        "verifier/test_outputs.py": "a4b39c30b6b0efcec27b7217f8001c1efe0e90b4f67f78d79951f4466f5dff6c"
+      },
+      "skill_digest": "sha256:f38c45da39969635f41f06150e3ea5289d342e9176fbfcfe482572d91dbce580",
+      "evaluator_digest": "sha256:8e65f9bc2565f5a9256f247089a68a4da9f299e89ff0c2f2eec24d0703099a8a",
+      "environment_digest": "sha256:9b412c0f40da387626755593ac2858b04df7472b7b72e7338e1d813718495b82",
+      "agent": {
+        "timeout_sec": 3600.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 240.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "econ-detrending-correlation",
+      "split": "development",
+      "family": "economic-time-series-detrending",
+      "category": "finance-economics",
+      "difficulty": "medium",
+      "tags": [
+        "economics",
+        "statistics",
+        "data-analysis",
+        "python",
+        "pandas",
+        "hp-filter",
+        "timeseries"
+      ],
+      "official_task_digest": "sha256:9b238639d4d2c03792ec2bb0ccce3f43b63a91a030a614dadfc755be8ca747b9",
+      "skill_directories": [
+        "timeseries-detrending"
+      ],
+      "files_sha256": {
+        "environment/CPI.xlsx": "b85b623165f078588d5412f99b624c2b7eca9d0fb93ea55039e28b4e2a0f1911",
+        "environment/Dockerfile": "8d68f3346fb1d061a25cb6b86da188a79a30a2b0a894cb96424fec07fcd5ddba",
+        "environment/ERP-2025-table10.xls": "7ca56ea3978f1ee38b51f35bfa5694f589f728a20d39a97d4e14b78525cb34f6",
+        "environment/ERP-2025-table12.xls": "606b5bb00467eed87359dcb1233e28e97979978d2b70c6a228e004640604f814",
+        "environment/skills/timeseries-detrending/SKILL.md": "1169a82443b6b4571dbc37017c41e1b2b1e05e86e9d0b304af726c711111d4cd",
+        "oracle/solution.py": "af3e454f221c02c79eb5c949944d8b33549887b0ea04cb1dfc2dbebf58991870",
+        "oracle/solve.sh": "4f2ea26cf33e374761369ff5948c70a1f5e48345ecce75c9420e09272c3599eb",
+        "task.md": "4127ba9bd34463e848fa5d001c75dd7bd5d0f0e3559f6b918174c55badc3d16f",
+        "verifier/test.sh": "c51f1d7aec614fda9fedf6db675921bad464e31cc66151bb40684b874f463223",
+        "verifier/test_outputs.py": "7a1dcf2db177d6297e36c7b4ea563518af5c8102031e1d3c9afa04fe8b25b366"
+      },
+      "skill_digest": "sha256:55aeca567598bc133fb2fbff0b08d1ef993abc69b51588e28118246645d0d86e",
+      "evaluator_digest": "sha256:8ba808d94667666d635f38d404f0fe6e673d02e8bdc48ac69f440c5912ca615b",
+      "environment_digest": "sha256:955a616d00664fb7a50211a5094640fc1c231d9c2cf11e511491f763f02583e3",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 240.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "crystallographic-wyckoff-position-analysis",
+      "split": "development",
+      "family": "crystal-symmetry",
+      "category": "natural-science",
+      "difficulty": "medium",
+      "tags": [
+        "crystallography",
+        "pymatgen",
+        "sympy",
+        "wyckoff_positions",
+        "symmetry_analysis"
+      ],
+      "official_task_digest": "sha256:43cbf65a117d248693a81830500e8e9f5271da8c8c5e3374ade82f2c11e74dc9",
+      "skill_directories": [
+        "pymatgen",
+        "sympy"
+      ],
+      "files_sha256": {
+        "environment/Al2O3_mp-7048.cif": "acf75f0c9376e541ccc186ddda6489a2454a9f5c4e38b2e55e0434dbd7ceac21",
+        "environment/CF4_mp-1167.cif": "29825a94dad344f290cb716f41901036a3259348285dd117eee1e18688876c4e",
+        "environment/C_mp-169.cif": "a6090b870559560ba8019d2be1fa31ed32aeae1b7a588fbfb0983e84d750c36a",
+        "environment/C_mp-683919.cif": "3dd1f454bdf9ad54b31975321346b5112c7c2488110d3d1fb1e9a769cf5c3630",
+        "environment/Dockerfile": "fed8e53c0c335074c1f538d1f4deac5a4fc6dcd447cb44879a92266dde9bf3b8",
+        "environment/FeS2_mp-1522.cif": "3ae9acae5b5234d7d7f67392768c892300a49b82e3fddeffda4ded41a54faa1e",
+        "environment/FeS2_mp-226.cif": "d0cb19046818017de2b8bdd9a8954d6b94a9fab3e13850386c0ce491caa76f1e",
+        "environment/HgSe_mp-1018722.cif": "09ebff1e3268eca09faecf8b53883486df3f8f0fd0f6b965687d48c45e148017",
+        "environment/SiO2_mp-12787.cif": "b0caab25d10a0ec46b0c54c2c2929de9987ea89b3cad430f74fef4723f4a5fee",
+        "environment/SiO2_mp-542814.cif": "98811e46544e2f8104793366eef5d87960dc21e469a1416a0d40720b4856c6da",
+        "environment/SiO2_mp-6945.cif": "f48912f1c741a8ac6d9e1c4655969f0a9d8c41947459461dec45e87b82c9cc48",
+        "environment/SiO2_mp-7000.cif": "1db3c82404d27bdd0dbe79f49c3136b2460dd4f8890ca9833943e7e4f55e7e63",
+        "environment/skills/pymatgen/SKILL.md": "eeb3616b03e293072332847795e055413becfa42d74dfaeb48ac6aa90e21654f",
+        "environment/skills/pymatgen/references/analysis_modules.md": "5029f48a4744ed15043cfa0e46340933187a2c65e56b3d0883cae8ef5868a3e4",
+        "environment/skills/pymatgen/references/core_classes.md": "230c4a8be4467a7c712d95a0b4109af2b1427b9ea7cb191bc2ea78062d7143de",
+        "environment/skills/pymatgen/references/io_formats.md": "d31fab0646a5be2ceefadca786f079a6b0b62f93c502a668654548d8bae9c1d1",
+        "environment/skills/pymatgen/references/materials_project_api.md": "9af1daa4bc88a0774b93d238fdf203d8cf86b817ac642166e55abd5248eb5fbc",
+        "environment/skills/pymatgen/references/transformations_workflows.md": "7c7e4cc305c4c67cbcf8d56ba7bee08170ce5264e6bba964aa0b98de44001fb9",
+        "environment/skills/pymatgen/references/wyckoff-positions-from-cif.md": "141fdaeba57f807dc8b46f859028104e0d480a1a9091e66518e5a414021b111c",
+        "environment/skills/pymatgen/scripts/phase_diagram_generator.py": "be132bf108bb799d81f53e17280de05db286d85c80e1ff34efe1bb75640e947e",
+        "environment/skills/pymatgen/scripts/structure_analyzer.py": "efd488516026e53108af8f96872c1c30928de92efca9e083c15d620575cec76f",
+        "environment/skills/pymatgen/scripts/structure_converter.py": "a1ee392512f3e97fa014cbe2e3f290f5d049d0431e59f4dbbd80c2dce4293935",
+        "environment/skills/sympy/SKILL.md": "1464cb81c992472072bdd66249623f55fa1709a74ca4148f7f5f40fa6cbb6616",
+        "environment/skills/sympy/references/advanced-topics.md": "212b3d0c3b67a45160135a4ff8d9ae89e0064cf1c68adf408a6c2af5c0d82bb9",
+        "environment/skills/sympy/references/code-generation-printing.md": "b6f5e8b820823f70878e0b4238b582215e6b6ae6f63830766e28977d58c86f94",
+        "environment/skills/sympy/references/core-capabilities.md": "faa6c94d699a241d0ccaeaf79319abc5095fc90b7746fd7a94568161336ae7ce",
+        "environment/skills/sympy/references/matrices-linear-algebra.md": "f22d091d2a38957e0e820e859e172b2d535cc1eef4f98d32d4af02962bd9a73c",
+        "environment/skills/sympy/references/physics-mechanics.md": "e5853aa09e9bddc37134afd7469bc86b952edcbd9dd6d8a6ef9c2c24a2e0fbf3",
+        "oracle/solve.sh": "b26850f82d29269311d8ab19c7ddc7cc4de13ec86ea6a508b4a019bef7e4fb28",
+        "task.md": "e982f8c8faba37232a518cde7dc4bcc84e8299e984fb0a0a950f5b5e7f38bf12",
+        "verifier/test.sh": "5939ecd309126463f4ada4e8d0b9d13b98ecde05eb6c201c5ab45d6bd36ac0d6",
+        "verifier/test_outputs.py": "ae4650215ef954bd25cbfc348b5c95fab18a9731c85b29745ab2bfe1a9f0adb9"
+      },
+      "skill_digest": "sha256:2e41b32846f8b002ecd2dc260519f45914f08eb41487df40afafc7c36be5de2f",
+      "evaluator_digest": "sha256:2e58e82a87e6aae9b7aad548a980d20691ec919fb26d2d1a2d2decedf6a559a4",
+      "environment_digest": "sha256:cb41529ba23bc7de31f439562cdb6152b96521371d0097450a8d432f1f0aef67",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 240.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "adaptive-cruise-control",
+      "split": "development",
+      "family": "vehicle-pid-control",
+      "category": "industrial-physical-systems",
+      "difficulty": "medium",
+      "tags": [
+        "python",
+        "pid-control",
+        "simulation",
+        "vehicle-dynamics",
+        "automotive",
+        "control-theory"
+      ],
+      "official_task_digest": "sha256:827d48c1c91dbcac670558b710f0ea6f76f9b5e6c531e4480a48cfe1c77c675c",
+      "skill_directories": [
+        "csv-processing",
+        "pid-controller",
+        "simulation-metrics",
+        "vehicle-dynamics",
+        "yaml-config"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "d6923be0efdd37616038de2d3667e4aabaab93f464a17631ec5927da93408c42",
+        "environment/sensor_data.csv": "358f88028394dfa89cd96cadeb6450a3f73be01e274e5e9c53e51e9afec2f11d",
+        "environment/skills/csv-processing/SKILL.md": "bba82e4a401fefe9cd040ff6ba9ccaaed6062876264e358c306089fdb7a13cee",
+        "environment/skills/pid-controller/SKILL.md": "d274422849bf5f73b7f643db36f9ebd23e488271ad69f0f62a457b3ee0b2b828",
+        "environment/skills/simulation-metrics/SKILL.md": "9e145fd19a2c4e7c20cda3343a7156caecb7b7660592c8f655de83d8e814b351",
+        "environment/skills/vehicle-dynamics/SKILL.md": "bc320079e421dfea427609d9e369283a8a74c5aa520204300bd70dad1c40f1cb",
+        "environment/skills/yaml-config/SKILL.md": "6a53aad718ab75c93dfc00ed0644b06a85a55e516fc7a1ed716ee4889396eff8",
+        "environment/vehicle_params.yaml": "6ea2e7d1ac95a41bcf1c5255cc76b62253d2d51c1afa650660f3948283634b1e",
+        "oracle/solve.sh": "8df958c4540b7fac1fe1d7eaaa8269836502c49a8fe5598b4bf22bb1efa7405d",
+        "task.md": "e9701217c73b3e17101a39c087e66e9ad8bbe9cc0456f9e619e59f99b628324f",
+        "verifier/test.sh": "943022dfd2d8270b2745d7067cf040717a7fba5f5208b4dfc14f9cc8668c0d01",
+        "verifier/test_outputs.py": "beb7b4d72f718494b4cb8f073af985dc113d57d1d22c015de1e884a62c8b7e58"
+      },
+      "skill_digest": "sha256:6995439ce00ca385328d6e4f9ef2702d045ded8ee9e8420ad7fdf8fd854db638",
+      "evaluator_digest": "sha256:24d48235efbc90b946611bc91631db58049613f89bb2fdc125f0838e03de3aec",
+      "environment_digest": "sha256:058391267447250929742d40da933d29ba14dff4ce529b0f1f42de5b1d49b0bb",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 1800.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 5120,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "court-form-filling",
+      "split": "development",
+      "family": "pdf-form-filling",
+      "category": "office-white-collar",
+      "difficulty": "easy",
+      "tags": [
+        "pdf",
+        "form-filling",
+        "legal",
+        "document-automation"
+      ],
+      "official_task_digest": "sha256:2d4d4bd0a5fc64d0103592f3b571e0ec2ee6e9a2489d125b008cc69aef959f8f",
+      "skill_directories": [
+        "pdf"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "1625668c06b2138a3af5348c4dfda82355dde6c90cb440ed0e7d8fdbb8bb71cc",
+        "environment/sc100-blank.pdf": "ef3421b14ebf64dbf884566ff659b39776035ec5b6e6500be0af91e3cc15533c",
+        "environment/skills/pdf/LICENSE.txt": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa",
+        "environment/skills/pdf/SKILL.md": "38d8559d4899602f82f3560052132aa0c40cfca80203037729756bdb4fb8e0cb",
+        "environment/skills/pdf/forms.md": "0ab10e9095deb1c1f9f79eb04254589f55c1d16e095cb53191e03f9fc3184449",
+        "environment/skills/pdf/reference.md": "3c6e7c055461d28c2047556dcc65185f542805b0a3198d2fe24236ac07699696",
+        "environment/skills/pdf/scripts/check_bounding_boxes.py": "c5a6c5c418252965eb3b2ed26bb4206f102118805a9d314ab8e7992faf487016",
+        "environment/skills/pdf/scripts/check_bounding_boxes_test.py": "c9614e2dee1f614318985c9bcabb24e4bea6326b866d7dae7494940047f38461",
+        "environment/skills/pdf/scripts/check_fillable_fields.py": "9842bf09975f2cc2bd2e1f7a413ecd0d4a7823b09653278bfc59d84af3b0aeb9",
+        "environment/skills/pdf/scripts/convert_pdf_to_images.py": "4fdb00d3042f6c995ad5994a43e306a2b13c3e5b94eef2088dd6db6200476e58",
+        "environment/skills/pdf/scripts/create_validation_image.py": "7a58f04c3607897f9491513e4f5f624cfdf7dd8521ce5eaf7b5707c2581e4594",
+        "environment/skills/pdf/scripts/extract_form_field_info.py": "683228c1b909e821739f138e753d00c8f514e7bb54d3686045e38426fc813d46",
+        "environment/skills/pdf/scripts/fill_fillable_fields.py": "c5f7602e1b14d12457bb42812da80cfb22b0bbdbe8b70da4035a69b73e5160fe",
+        "environment/skills/pdf/scripts/fill_pdf_form_with_annotations.py": "503fc5a22080b2343cbcf9795fe37c7b2afd49a5a5840115d01c9f83afa45f97",
+        "oracle/solve.sh": "4521e0269535ea29438c4d13d0143bc15ec230dcc0d2e25f5014cc04e599aea2",
+        "task.md": "02be976a28afff3365cdfe20506ede1b23e9904a706a5fbfccb9dfb316ac1b75",
+        "verifier/test.sh": "594a4b8bd62ed47ae798e79f21f94f1ff9f83b0d64140c808a58c36de2cd0034",
+        "verifier/test_outputs.py": "cccc72ef7d553f645a885ad6b921d8401807a7ccf465eaa7ee50ed6e34a0ca6e"
+      },
+      "skill_digest": "sha256:d01a9942cd079f5e89be8bcba4f732334904e1b835080501ddbac579906ffd98",
+      "evaluator_digest": "sha256:e544424b71a51266e4dd0832ec162d7c48615858a4fd6e59d6a8d79f328cf1e8",
+      "environment_digest": "sha256:6bbc677be93bbae82b1d59b212b57e591c068fd9c33ef16a514d5924c692d15d",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "dapt-intrusion-detection",
+      "split": "development",
+      "family": "packet-intrusion-detection",
+      "category": "cybersecurity",
+      "difficulty": "hard",
+      "tags": [
+        "security",
+        "network",
+        "pcap",
+        "intrusion-detection"
+      ],
+      "official_task_digest": "sha256:1d94af9e3b2e1c6703be4fa53b9f982a86ee45e39a7619bd07d04d6690870d24",
+      "skill_directories": [
+        "pcap-analysis",
+        "threat-detection"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "f19ba2be44c18a94c6388a9ad94c64245c2c70b6c0c6d3e106660953ce419da6",
+        "environment/network_stats_template.csv": "ad1ebae70e686fc2b1533a579d9adfc08ac700d4fa816ce99101b020e48a71e8",
+        "environment/packets.pcap": "6ef0b1a736796e4be23ee634e0d424dac15c6d35ba243f250ff2a7d1cd98795d",
+        "environment/scripts/extract_advanced_groundtruth.py": "4643f0475b3f3866d8942267f71a681845a3ab2123f199868e57dc823d29f70f",
+        "environment/scripts/extract_groundtruth.py": "250fb491ea91f8ed1bcfc60e7ea3492b8670a4fb49752da3df09e8c775bf631a",
+        "environment/scripts/extract_simple_groundtruth.py": "caf4b8e055640b25ac001f7994beea5e301667be8bd61779fec8934c77fc125b",
+        "environment/skills/pcap-analysis/SKILL.md": "26c80622440b880cd8ac10c0f9990b9ee3686ca9dc48f317d0f66c22f4969fb9",
+        "environment/skills/pcap-analysis/pcap_utils.py": "6a9b8a52ff92ef0748b6f12a5553ef4866f7e179d9ff35c609378960c2990820",
+        "environment/skills/threat-detection/SKILL.md": "456e491ca6f033a77e871005f913d04a119992ad8ea834669b145ddc66d0de86",
+        "oracle/solve.sh": "d499561cccb9263163b332372e62c89ac840c173796b8b72371e2aef297cbc0a",
+        "task.md": "7acf9ad888fe75cc6262bca3a3625c7978b7e9a5c14526cb0e23c76beca71bc1",
+        "verifier/test.sh": "1f539ad9a5a8845c570a92413db2c48046c23764bf3ae9000ae7ad2687813529",
+        "verifier/test_outputs.py": "cb318c3f217135a79decd55894671e00fb9d2b843d5ef3f5ee9e639e09c696b6"
+      },
+      "skill_digest": "sha256:5306d27851d792d91443f2b6be2209842502c57181831b1e2c5b79b4971c4017",
+      "evaluator_digest": "sha256:e899586649fccc503c5bd952b5f633159b677f714a870e1b49e355bd57973cda",
+      "environment_digest": "sha256:d074fe4152b29b57c90536dbf22f14611a470d3d1c96379b20636391293b45d0",
+      "agent": {
+        "timeout_sec": 600.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "civ6-adjacency-optimizer",
+      "split": "development",
+      "family": "hex-grid-game-optimization",
+      "category": "mathematics-or-formal-reasoning",
+      "difficulty": "hard",
+      "tags": [
+        "optimization",
+        "constraint-satisfaction",
+        "game-mechanics",
+        "spatial understanding",
+        "civ6"
+      ],
+      "official_task_digest": "sha256:5e3b398dd390add962fc8e0188734a725477fde38b9ad575f2fed60d91c2bef3",
+      "skill_directories": [
+        "civ6lib",
+        "hex-grid-spatial",
+        "map-optimization-strategy",
+        "sqlite-map-parser"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "49399042dc1a9bd3ab37e4470ccd602e5d9f11c7ca0c96fcc8b718a507b02a64",
+        "environment/data/maps/e2e_test_case_0.Civ6Map": "27bb91ad4cc48d93db846a1079ce579cead2ce2fdceede2cd59c043698aa2e2f",
+        "environment/data/scenario_1/scenario.json": "18bfcf9d44a5303f1916b7230ab74b0a9da37fc90bc2b293d7e808e144e6598a",
+        "environment/data/scenario_2/scenario.json": "190263b158cf92f39aebea53f265ef4ca78435f851471884c6fe66e567e4067d",
+        "environment/data/scenario_3/scenario.json": "68656dcab1dd8584b865b47844db804988fb2436b75ed8f263188a3a297447d5",
+        "environment/skills/civ6lib/SKILL.md": "488097528b9dfca403fd079eb673c8303b1826514ea7b73e825df759d1ff12ee",
+        "environment/skills/civ6lib/scripts/adjacency_rules.py": "c83be856b6368bd1521914099cd84eb22d1f6cab367fbdb43fb76c7e63831154",
+        "environment/skills/civ6lib/scripts/hex_utils.py": "adb32304c24556c9a591ac5a2f78de120a92bca325624069c48dda8e51bbc8a6",
+        "environment/skills/civ6lib/scripts/placement_rules.py": "7621d0388cde321c965147ae9fe4c55e5f60d49ea10363663f774b216204ea8c",
+        "environment/skills/hex-grid-spatial/SKILL.md": "3370ef7f3f47f86c9ea84a336c90706da4bc8c1a95daf5801e2c4fc133e0aefc",
+        "environment/skills/hex-grid-spatial/scripts/hex_utils.py": "adb32304c24556c9a591ac5a2f78de120a92bca325624069c48dda8e51bbc8a6",
+        "environment/skills/map-optimization-strategy/SKILL.md": "7d712d7dd4e6ddcf0d871ce5e93081342d2477e8f83229205a739fae8b7e46ef",
+        "environment/skills/sqlite-map-parser/SKILL.md": "a6694d231676963073b1891422262cad009303569adbee2be7fa20a3d85dd870",
+        "oracle/ground_truths/scenario_1/ground_truth.json": "7f63d65498380f7af8667d15c953e078d9d4d48ed56a12fae2815a689f1a2604",
+        "oracle/ground_truths/scenario_2/ground_truth.json": "fd35a54813e34c1286d81908d4bfc2048d0c5e93ca7d735d7d1e51ccfed2b248",
+        "oracle/ground_truths/scenario_3/ground_truth.json": "b583bcc1b377f73506bf0fc71b0670a90116adb6234f82f3f342d1aeaa7d4d03",
+        "oracle/solve.sh": "4466777205894c326c09eceaeccb1cac607a93c93ed3103b57ff48bc2d07ca51",
+        "task.md": "b82fe53b7432d5b95e535e682e7c84dabcce206975ae2ccf83be3bb425b30c74",
+        "verifier/evaluate.py": "ea95e3d6936a735f0d94b5ae1f22d6f1eca2ed7d8baec61196a94d512d939479",
+        "verifier/ground_truths/scenario_1/ground_truth.json": "7f63d65498380f7af8667d15c953e078d9d4d48ed56a12fae2815a689f1a2604",
+        "verifier/ground_truths/scenario_2/ground_truth.json": "fd35a54813e34c1286d81908d4bfc2048d0c5e93ca7d735d7d1e51ccfed2b248",
+        "verifier/ground_truths/scenario_3/ground_truth.json": "b583bcc1b377f73506bf0fc71b0670a90116adb6234f82f3f342d1aeaa7d4d03",
+        "verifier/src/__init__.py": "0e66d16159ae60aeff170bde0e77f02949f0ef9056acbf00cbf550d59537824e",
+        "verifier/src/adjacency_rules.py": "c83be856b6368bd1521914099cd84eb22d1f6cab367fbdb43fb76c7e63831154",
+        "verifier/src/hex_utils.py": "adb32304c24556c9a591ac5a2f78de120a92bca325624069c48dda8e51bbc8a6",
+        "verifier/src/placement_rules.py": "7621d0388cde321c965147ae9fe4c55e5f60d49ea10363663f774b216204ea8c",
+        "verifier/test.sh": "60169bb9436c7a70eda29bf6d9cfdf452207729d271784585ae4ac3581072bd2",
+        "verifier/test_outputs.py": "7ab49580725ed4379c26bf978289f66e890bad588e7772d2400f48a532fde755",
+        "verifier/test_unit.py": "dd4362e49bc9eda753230a2b8a2bf23eadf0a1e96bb0405bc02569c50b502154",
+        "verifier/tools/civ6map_to_scenario.py": "bac23152c3510990eb3afd26efd20665edb2ed25649966014843d2d1871c681a"
+      },
+      "skill_digest": "sha256:7b50495e5be86e984c1bbed3b2f14c77d580f9eed54cc423757b4c20b8859b08",
+      "evaluator_digest": "sha256:19720245d340313421d490b4b67dac83139e32a486a892595cda542a42d0241d",
+      "environment_digest": "sha256:4a7080ef29b9dc85b94755c7394d5186e405e247bd064e97e0a163223bcf234d",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 900.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "spring-boot-jakarta-migration",
+      "split": "evaluation",
+      "family": "java-framework-migration",
+      "category": "software-engineering",
+      "difficulty": "hard",
+      "tags": [
+        "migration",
+        "compilation"
+      ],
+      "official_task_digest": "sha256:2f5a32911b6e7bba86a6eb94e012e088f536d13ea823e7d0760b6ea93de51fba",
+      "skill_directories": [
+        "hibernate-upgrade",
+        "jakarta-namespace",
+        "restclient-migration",
+        "spring-boot-migration",
+        "spring-security-6"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "0e7be464178abddb2ffb480b88a9c60e3e12a3b7ce9c7d04fac4f126e864d4ec",
+        "environment/skills/hibernate-upgrade/SKILL.md": "b54208d472482e218ff9cd16e8e4bed12fa8df7f801af8aea22184df954f8bcd",
+        "environment/skills/jakarta-namespace/SKILL.md": "6af9ccbf16fff0f7cb65ed15a2433256cb48ca2328ebd86f5e556570f86f93a1",
+        "environment/skills/restclient-migration/SKILL.md": "eb2568b08d96c567b2aaa15f7adfea49a1f71db5ef769a7245be92d2b8e9088e",
+        "environment/skills/spring-boot-migration/SKILL.md": "0cc93cde9cc7cfd0d5af62edce6cedab6395f24b60de883cf5eb36a994e94b78",
+        "environment/skills/spring-security-6/SKILL.md": "d4522347dbc38ba3280929376b054066fa5b202ca845b6fead78c085debb622d",
+        "environment/workspace/pom.xml": "a90c18f3e1b5ec3869e4f21f6f4c68bd4b58df79a4baef67873c7c4703884aaa",
+        "environment/workspace/src/main/java/com/example/userservice/UserServiceApplication.java": "3e6bbaaf868ef27b1c6e4ea34e1a738f7b222bbb906881906878595ad6bbf823",
+        "environment/workspace/src/main/java/com/example/userservice/config/CustomUserDetailsService.java": "6844a6dcea49b37ccb7584529c816eef22ccd942dae15cef99851655d68acd92",
+        "environment/workspace/src/main/java/com/example/userservice/config/SecurityConfig.java": "eac2e0d1d1d36bb61ecb987b6e2a626bb0985aa5cf79a664a67f932dec7b5951",
+        "environment/workspace/src/main/java/com/example/userservice/config/UserSecurity.java": "0e233d211bf69df7f6972cf6e72eb2755fc6a779298151db4f3d99dc1940385b",
+        "environment/workspace/src/main/java/com/example/userservice/controller/UserController.java": "f040f3153551896a14dc7ae61b8241b5595bb311b27f879846eb82b995fbff21",
+        "environment/workspace/src/main/java/com/example/userservice/dto/CreateUserRequest.java": "709806654caa2fa615a636c259a49f693aeddd624117df330543462725d29c75",
+        "environment/workspace/src/main/java/com/example/userservice/dto/UserDTO.java": "01e9b9e5c0ace9a6cedab3c5fcc10754a2df6e08edaf1aeb62078eeafe193008",
+        "environment/workspace/src/main/java/com/example/userservice/exception/GlobalExceptionHandler.java": "70ed566ce6911b23a17c686913439123a2f07b31e4ce5545f54723178d19cb0e",
+        "environment/workspace/src/main/java/com/example/userservice/model/Role.java": "ae761ed49f5d61839c9929d48a42d11a173f98028946bc501163daf9a6b6d649",
+        "environment/workspace/src/main/java/com/example/userservice/model/User.java": "6e0196ab407456c316d5c340772350c71b88f77680fa1059d507dc338c7676f3",
+        "environment/workspace/src/main/java/com/example/userservice/repository/UserRepository.java": "ab64e0e551a8ddc9b12f892288971b0ba161501ef60b2139e146c210f1514314",
+        "environment/workspace/src/main/java/com/example/userservice/service/ExternalApiService.java": "9587ed395ca74b612e5e17c655333727e290592029d789e73d42b91541dc93be",
+        "environment/workspace/src/main/java/com/example/userservice/service/UserService.java": "be97ae4b1c3e23c4d00c3d387e1306834c111564da531a83f93c1008a6c1e144",
+        "environment/workspace/src/main/resources/application.properties": "cfd1cc1fee04c9f21d131c78eb9b2046aa13ef0504667fba25a7a1ec3edcd1e6",
+        "environment/workspace/src/test/java/com/example/userservice/UserServiceApplicationTests.java": "1e98866eba246189db7d7f0d9b89544d9eb816d506b4ed1084822dcf2c61cd6e",
+        "environment/workspace/src/test/resources/application-test.properties": "6be830336ea7627b18ef4a76a2c8d7913c6e33c3143921803638a9d4c703437a",
+        "oracle/solve.sh": "212d4bf7328ad1fa223e518f8a90d9160cc7b4a134832bd72e3735b7a9c11da9",
+        "task.md": "655b4553e0c7addfb3ae3dad09a364eb2f17f10aa14f4f29959df3244b57e719",
+        "verifier/test.sh": "b588a9d9a690da244472fd5259f72ada9d766564973689354dea69767e8a6c0c",
+        "verifier/test_outputs.py": "bfc7a5e8c8fd1bfa3c1ddf58c9c819a237ae07022f52671c845538c50af3aac8"
+      },
+      "skill_digest": "sha256:c24b2573d724360aaa5645942962f197b45a299d8cd3255241835b1752729435",
+      "evaluator_digest": "sha256:14354777395158a6e825ecc892b49eabcc91beb26350a63e6abbaf2547be9a88",
+      "environment_digest": "sha256:4d3f38270b7a87ede85150332bb5b570debe945d4b209ae57aac76d62af2492b",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 900.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "tictoc-unnecessary-abort-detection",
+      "split": "evaluation",
+      "family": "transaction-concurrency-analysis",
+      "category": "software-engineering",
+      "difficulty": "hard",
+      "tags": [
+        "concurrency-control",
+        "transactions",
+        "tictoc",
+        "trace-analysis"
+      ],
+      "official_task_digest": "sha256:2142ae37cde1142f7ffbe4be59107d94171221d28ed6d390c4ec736bf26d2906",
+      "skill_directories": [
+        "transaction-concurrency-control-foundations",
+        "transaction-protocol-reasoning",
+        "transaction-trace-analysis"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "c30fc53b3fda01e55937da1027feaff4714f5e11360b655c62cfff159f614980",
+        "environment/skills/transaction-concurrency-control-foundations/SKILL.md": "e547c7f2b5ae65f6543d34c58d5b5db71145ee9f8dc8683a845671258937282e",
+        "environment/skills/transaction-concurrency-control-foundations/references/anomaly-and-isolation-taxonomy.md": "42df4254860852f799481547fa592a2750de5a23b8f1f502c6cd115d495284fd",
+        "environment/skills/transaction-concurrency-control-foundations/references/concurrency-control-problems.md": "abd17ee276a0ad7bb20e2ebb54d3276ce3b4ed576914bf753e04967ef60048ec",
+        "environment/skills/transaction-concurrency-control-foundations/references/conflict-taxonomy.md": "73fe7f517487fecb9f6b23df1f0412302303d9c613d5251e1af9fdcf904429b3",
+        "environment/skills/transaction-concurrency-control-foundations/references/protocol-family-overview.md": "f9eb81f1c9bfd05a6a44dd7e3660cefad589454b358fa7b27643353e324abc57",
+        "environment/skills/transaction-concurrency-control-foundations/references/representative-protocols.md": "ed78cd0863d5eada6669e281156c4078887856ad0fda86c79050f418026a8d70",
+        "environment/skills/transaction-concurrency-control-foundations/references/transaction-concepts.md": "2094aa70d95bd3631023d5722a35c5e0d1c88fad4585623e7a337e6cd28062e5",
+        "environment/skills/transaction-protocol-reasoning/SKILL.md": "8ce9b3a2c3b86940063505013d15bb477c2bb164fcc0fe6f0736383476da103b",
+        "environment/skills/transaction-protocol-reasoning/references/counterexample-construction.md": "ac86623f92833e45a73017d571e7893353e333a8473af0092d730e35f26d7ee2",
+        "environment/skills/transaction-protocol-reasoning/references/example-construction.md": "b33201999fdf3058d7cc1a1dffe7b9d882af739e0a37824ef703b23dd32ec4aa",
+        "environment/skills/transaction-protocol-reasoning/references/invariant-extraction.md": "a533135ebe436822b93929521dbcc56069bf8f81d7d96f2e0b9f0779cff8c99e",
+        "environment/skills/transaction-protocol-reasoning/references/operation-rule-analysis.md": "e2a414350d28dc6131f53108739937e01357b4739b2772ab707d8ae5a93a4ac7",
+        "environment/skills/transaction-protocol-reasoning/references/protocol-analysis-workflow.md": "3187b20311b299df2a0cce107e5d8b93ddcc162b7dd87d4c628be7c604db2534",
+        "environment/skills/transaction-protocol-reasoning/references/protocol-comparison.md": "8f4a930ea38b552d4b49d71b806d7f7e82ee0d874863c8f400f06efb994afdd0",
+        "environment/skills/transaction-protocol-reasoning/references/state-and-metadata-modeling.md": "f19acbe2ba868012145870aec39ffa51fc62c16c226f884645a807fa2bc31a72",
+        "environment/skills/transaction-trace-analysis/SKILL.md": "c44409caad70c655144b26ec53e50d727dc2c9d0e0c244d648a0f99e5d51b929",
+        "environment/skills/transaction-trace-analysis/references/evidence-quality-and-uncertainty.md": "9eb29255541d5fee664f7075c7edd0046ef64798cec11e5d57ef448b1171359d",
+        "environment/skills/transaction-trace-analysis/references/object-version-history.md": "9c824500ac5d8eb9fcfb384d2c53489b3e01414c16f0465e85bfa5bb6a62063f",
+        "environment/skills/transaction-trace-analysis/references/output-classification-patterns.md": "e2c4b2a42ddd73af3bd8d4d9515c75c22aa7decbca76c5daa7e9b10197a34e8e",
+        "environment/skills/transaction-trace-analysis/references/timestamp-and-ordering-fields.md": "eff1f012aee3a432a946aced7006641b0881335a03a7ebab2515fa19cdfb9287",
+        "environment/skills/transaction-trace-analysis/references/trace-schema-normalization.md": "8ef68880b258995c1e7d41c8fc6d425b2f8172190392a7f7accce798173586b0",
+        "environment/skills/transaction-trace-analysis/references/transaction-history-reconstruction.md": "3acaa1eb95f77fc058916af4f9aa8cc4e995b0629af8d200ace50eb445d85c81",
+        "environment/skills/transaction-trace-analysis/references/validation-and-abort-records.md": "31f7dbe0a3a43e812c999a4eb743476728730a3c6b3f4a37403b66a037f929b6",
+        "environment/tictoc-unnecessary-abort-detection-traces.tar.gz": "3a04bac43113c2410734f94aaa14002fa48fba00bbfb0869d7cfa5e5a078005f",
+        "oracle/solve.sh": "655fa430a4a777c8c8f1ac730dada1db2c990cb8830589ebcbcbefaeaedb273f",
+        "task.md": "f40b56ddcfa474cc396fd1f9d21289f2a2384dcc6b144f15774602cf5f628c23",
+        "verifier/expected_unnecessary_abort_txn_ids.json": "b4bd63d736a719610fb0554c4e7032790d2f5111da3d74617f0e27d9e6a54aaa",
+        "verifier/score_outputs.py": "4fa911fb8fec66a73d7d1f05f57cde126ee9958403d05c7d8e0d423c7d98ff4e",
+        "verifier/test.sh": "d8e804b647681f1ce4c1a691b7e9fac1b2a3b56d885474a0a95330bb3b260aeb",
+        "verifier/test_outputs.py": "5a33d964dd65c7235c19528dc6fd7beaf15d7aac8539478639d5ad4803cf7030"
+      },
+      "skill_digest": "sha256:ad7494dcfa3c322129cc7cc1d5b01f0f0418dc618b30ff887b3bec08d6cf50e8",
+      "evaluator_digest": "sha256:dffb27aa4fab6720cb785e64478b1c6cd958f960339c694af1aee96c1a439536",
+      "environment_digest": "sha256:cc09e5ca1c00640495910998cfd41dba91a919289d67f67e031105f0b0934faa",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "pytest_plugins": [
+          "ctrf"
+        ],
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 8192,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "data-to-d3",
+      "split": "evaluation",
+      "family": "web-data-visualization",
+      "category": "software-engineering",
+      "difficulty": "medium",
+      "tags": [
+        "d3.js",
+        "data-visualization",
+        "interactive-charts"
+      ],
+      "official_task_digest": "sha256:6bd955ce55b21352a441a5706b0e3faaad42b37891145e614b27387f44d38808",
+      "skill_directories": [
+        "d3-visualization"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "50a1b813304239b937752bdcc1a4a5b5acb5752ca50c62e3797b9ebf4765d21f",
+        "environment/data/indiv-stock/AAPL.csv": "ec829d10b712150695e9e4ac3b268f5416a46ef332b63ab871704f3f9f4998ac",
+        "environment/data/indiv-stock/AMD.csv": "6e89a958c92c33d0ab709ddad286e55016fe72097f51dec95547448dc41c8c86",
+        "environment/data/indiv-stock/AMZN.csv": "7b4d977cf8c07caa1d347fe48eb242a74c797177a5576ef3e8c51dfd64a9f5c2",
+        "environment/data/indiv-stock/BA.csv": "a40a5951a288e61c70ee54e276b9fe1f0eb8775a99d24eb18113d134d5e49198",
+        "environment/data/indiv-stock/BAC.csv": "f1a524832a9fb2e737a1f6e4e2590b978856380ded1173f791e707730321a58c",
+        "environment/data/indiv-stock/BLK.csv": "b3cde8ea79ae494d278ffdef42b274327dc39cede0caf6faa63e07ed82b9ed70",
+        "environment/data/indiv-stock/C.csv": "9386a7887efdb0726bb818fdf4d144538169e3085469c646fe232cf8bb5456be",
+        "environment/data/indiv-stock/CLR.csv": "3e03f0c6b0782800882145c8f7521c7d5710dbb7af23fe36aeeb4f10f0d7fe55",
+        "environment/data/indiv-stock/CSCO.csv": "84d29344c6ac6340f5e4faa8ccff6adaa18aa2e73b7e20c1f7f12d53a108fdae",
+        "environment/data/indiv-stock/CSL.csv": "f1a11148a49929dc46e3eb6cd902f399aacf9d8ec39f3a0a57a4fd71f2159478",
+        "environment/data/indiv-stock/DVN.csv": "b89b508023870497eeddc894782d69a4988efac66f2852aab5c13464815eabcb",
+        "environment/data/indiv-stock/EOG.csv": "193a67cd52a7f4812c7a3d7f14670ed0c87c148fb075a4f4063d869339ce850f",
+        "environment/data/indiv-stock/FB.csv": "39123ebd0f08c4ca36982f7d166f7367cc3ce9dfed66bd601f1c2571ef73bb2c",
+        "environment/data/indiv-stock/FDX.csv": "10d7c705703779b4df09f70cffea9ec004791888275fc1fab0d842f2e830f7da",
+        "environment/data/indiv-stock/GE.csv": "babdbf8c535dbf838975c243020da0456b382e297b890a74a69b5f979336ef41",
+        "environment/data/indiv-stock/HFC.csv": "27919d275188733176e21ff0150e80f24700ec7cd0c3848e7ff18ae420069e60",
+        "environment/data/indiv-stock/HON.csv": "9e534f4ade2247ffa312b9c57eec2b0561faacf7133750a1bdae1a03d79eca27",
+        "environment/data/indiv-stock/INTC.csv": "95012e09aa75e3e8c5bf069a5a61dd68b964a07571c111dc50821d7243f8f1af",
+        "environment/data/indiv-stock/JPM.csv": "9f9e6d969e45059d60cb2ed97d14fe38fa65dbee801764c442281132739db3cc",
+        "environment/data/indiv-stock/MA.csv": "8e83be3c77ccddc8e2844f7fd507f60d26522949fec0e4f04f8662d4a0e7deee",
+        "environment/data/indiv-stock/MET.csv": "9772953d9e4a88639a19b0a6177767c24ac778b0b2fa482504a1c5076fc87f0c",
+        "environment/data/indiv-stock/MMM.csv": "599f16916c5f20deedcebf9fca620063b25cce2390a5b36ae2eb7a1cbef8cf5a",
+        "environment/data/indiv-stock/MPC.csv": "fc6b8ae1a815b8fd2884a372f1140048b3e96894d9e6f4f5fdd962d3645bc0dd",
+        "environment/data/indiv-stock/MRO.csv": "ad17f73985b2b63c0b58f6f26dfb00d35b2a691fb4814954dd6041f6c6117778",
+        "environment/data/indiv-stock/MSFT.csv": "2a0716b2b55af0fc7515b9590c80819264e929754a6261ef042aa027cbcdc2f8",
+        "environment/data/indiv-stock/NEE.csv": "90e4c436a71ba5acb604bc0c070a9ef7271aa2a4b422176135fdbf312593559a",
+        "environment/data/indiv-stock/NFLX.csv": "d1d410cabefb46a28ff0b5445f6b8ad63a18439d0d65261d28a72dec53c8ce36",
+        "environment/data/indiv-stock/NLSN.csv": "de9ebf67a7248a4041bb23b4c99090b3c1aa0c43678d7d51b92ac3c38be6cf08",
+        "environment/data/indiv-stock/NVDA.csv": "d49de1fa9cb2ee4e99877e8bad4c3ecb020e91ee28fe226ee9f128c8e8e9f9b3",
+        "environment/data/indiv-stock/PXD.csv": "ffa6c676c3b83d1749164711fd277b048e94b96fe242216eb8a19813d8f9b346",
+        "environment/data/indiv-stock/RHI.csv": "04cbf84c95c60646076d7386bbf17991155b718f70972db0fba3035020ecf171",
+        "environment/data/indiv-stock/RY.csv": "7a12f96d838564eb09369555e776a084edf198546baca8af3da0dc22058f4a65",
+        "environment/data/indiv-stock/SCHW.csv": "e7ae8bdc56510446344092bd1a9a040f072f313d14f30422856ffd893db477e4",
+        "environment/data/indiv-stock/TRGP.csv": "7b89c996aece2caa1c1d0dd32eb511264b2d7662656ea9521e0c957871adf02a",
+        "environment/data/indiv-stock/TSLA.csv": "bca0c0d6068d9a684c7fa6a7fc600d588634d54c6dab556140063fa96a9a85e8",
+        "environment/data/indiv-stock/TSM.csv": "24c9dc020c2f2ebcd2f1eb25faff0eec3ca5db0937f72684e8681905ecba7eeb",
+        "environment/data/indiv-stock/UPS.csv": "d4d84a75b4c45f189d11f94308a7483ba980f16cc6d9da2d3fde0987d11fd6da",
+        "environment/data/indiv-stock/V.csv": "0796c62292ffed36f9b3fc8134ab86627b6e8ba20e27f1f56d2dfb1c7cf3685e",
+        "environment/data/indiv-stock/WFC.csv": "67d0a96975a58b684458b8136a328749bcf8ea3ba3d93f7be6269627726f8aa5",
+        "environment/data/indiv-stock/XOM.csv": "689aa398758464a10d27112f12e071c934556094ee9205aaa2319984702b1fc9",
+        "environment/data/indiv-stock/gld.csv": "8a51e6830e043caadc9acbb407677d5fbfa7bacc8440005cfd6026bac00ffc89",
+        "environment/data/indiv-stock/qqq.csv": "2db5490170c9c9c37faec0b2cf518fca09d2a8dcf83f39b421f4b2d5291292b9",
+        "environment/data/indiv-stock/spy.csv": "d4d85379b3077290848ca0954d6a5675942f950cc9e9e1edafaad477b57f7dc5",
+        "environment/data/indiv-stock/vea.csv": "29e7d0a4df245d53f70fe00856e3f0969118204ebf1410a2f117dff78582c720",
+        "environment/data/indiv-stock/voo.csv": "158689b45e7beb803f6d8b83f1d3e7f036f41e56ccac4d3b416d4ca29a499351",
+        "environment/data/indiv-stock/vtv.csv": "cf0f879807f62345ff18e1c7c98f1a6964b4780cfdcbd2a526fb2d76ae2446c2",
+        "environment/data/indiv-stock/vwo.csv": "3ca9f3b21d6af2a3e9823e8441ca7888fd8afe7d08b164d567b53b9ae50e6764",
+        "environment/data/indiv-stock/xlf.csv": "ab2c82e0fa500b4221697fd6e1138767a81e7413b22bb21de50f00dfdb20619e",
+        "environment/data/indiv-stock/xlu.csv": "d108d60e474c177778d06247bc25677d793df48c42a93b6039e61088c9487a84",
+        "environment/data/indiv-stock/xlv.csv": "106638dabef960c5aee426fc2e6d9b32bdaec212f03b161f1ffe0fb1dbf60b51",
+        "environment/data/stock-descriptions.csv": "6571467a8f0dbad8e396d78228cbe641b0068e14fe73b21e64ae3ea531237d24",
+        "environment/skills/d3-visualization/SKILL.md": "6f056e2ab0cfc36461f27747ceabf72cff51e8776ba2d2deb1cdacd894e39f19",
+        "environment/skills/d3-visualization/scripts/bubble_chart_example.js": "a405842e135f51f131771848ae8a71656264731a117104bfd0eb3295f5f211d9",
+        "environment/skills/d3-visualization/scripts/check_tooltip.js": "98da4bcff613b070d81072775e37dbb8da7e6c1f1d0180b95d659bf29a1ab82a",
+        "environment/skills/d3-visualization/scripts/interactive_table_example.js": "a5accbbef699c61b449216d836e87c8ac060841d1607e5ba3e1a9830e4954303",
+        "environment/skills/d3-visualization/scripts/tooltip_handler.js": "1c8f88848ac74134c9f04dbc4b5b51c60f23aaba5259b28a23c3804cc33aae05",
+        "oracle/solve.sh": "0758c5745569a3ea695f1beca299aef43031a429d3bd26b9ac1091da7f33a349",
+        "task.md": "a891f4de8592a7d6e068dd83e74337049287f5345505d43d539f4b1a7b3478f0",
+        "verifier/test.sh": "143ed98b7302e59e371fef1225ed1b41c0746c60058a7b7acbe19d54977462ea",
+        "verifier/test_outputs.py": "68cfc23982970a658d9b8d0bc10c970f5483f6d5013d1fa509717950f1a2265b"
+      },
+      "skill_digest": "sha256:87618223452f3c0c5c166e22e61e201483c3080c1a433ea6b1ee65c872dd4232",
+      "evaluator_digest": "sha256:245d1cb773ec5dda03be2d28cccc0f926b179b4d076568d63d9c3006bbf079e8",
+      "environment_digest": "sha256:2c5ac50a9a78dbd2b5faea97426d648c7e2be03600c8f9b64e30d09290e79fc1",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 240.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 2,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "sec-financial-report",
+      "split": "evaluation",
+      "family": "sec-institutional-holdings-analysis",
+      "category": "finance-economics",
+      "difficulty": "hard",
+      "tags": [
+        "data processing",
+        "financial analysis"
+      ],
+      "official_task_digest": "sha256:2274c6f554782e3061a3ff7d076362501617dd744d1286c7889188a003d62b2d",
+      "skill_directories": [
+        "13f-analyzer",
+        "fuzzy-name-search"
+      ],
+      "files_sha256": {
+        "environment/13f-2025-q2.zip": "9468ae5e90278e847d5035f5efe4294b104a2a25f35169f532b83cea6de19365",
+        "environment/13f-2025-q3.zip": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682",
+        "environment/Dockerfile": "750b55564e9894b7485d949f537849e1575090acc8e730c24d6bbd6134985657",
+        "environment/skills/13f-analyzer/SKILL.md": "fac0b5f05405e1e8631f0dcc8f34649e1eaf3252ae3dd8ef7eb9aadaf3c5290d",
+        "environment/skills/13f-analyzer/scripts/holding_analysis.py": "b2043afd020a32475e9a45ddb5a810082dbb4b1b967fae2153c3bb7e31b6d860",
+        "environment/skills/13f-analyzer/scripts/one_fund_analysis.py": "cf599cfc21d7419573641397252d0bb8f6da43deefd2aefdbb59fcae28034f15",
+        "environment/skills/fuzzy-name-search/SKILL.md": "d3a1180be787f8d19bc5bcb4a234b4db145ab88ba5ee1bdb1acde99bc97fef98",
+        "environment/skills/fuzzy-name-search/scripts/search_fund.py": "e283c1f4e8428930941c79011615a7211f4d7e17a392f820af1d2a9f204964a3",
+        "environment/skills/fuzzy-name-search/scripts/search_stock_cusip.py": "83e4ba631d57b0d8b44e609efdc2552483687c6e90cb766eb227ea0c8a708b66",
+        "oracle/solve.sh": "79a675b10fc1dee5b32dbf06eebadc47f286573a18267f75beaddacfa795430c",
+        "task.md": "c0ac7dbb523ea251384f5b1a77d70ef19535d95e14529730fcb15f68984e30d6",
+        "verifier/expected_output.json": "2a8145033cc6d4376d5ef07b5e49e91f10ec8e1a001fbff50df72d7adf2b5d59",
+        "verifier/test.sh": "d79a4d5deb7b8256c72197649a9a62541bf12c2f0ad4d4a3955a56d1fba9fdc1",
+        "verifier/test_outputs.py": "193c9607dcd3e03a2c281aefbdf728fad90917869e1157d3ff233708b5b9aa4a"
+      },
+      "skill_digest": "sha256:3a8a80fe53d95d73e7a312652802b0761de28d34606b3a6f9e589dbb84bbe8e9",
+      "evaluator_digest": "sha256:5a1c840804a077b8798b1e3dec3c5f29d30e1d3ce8357dd359fdaa17ec7af610",
+      "environment_digest": "sha256:a7adbd22c7cf11688c006800ff39442ab2839f493e524e6a20cdf4be81395363",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 900.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "xlsx-recover-data",
+      "split": "evaluation",
+      "family": "spreadsheet-data-reconciliation",
+      "category": "finance-economics",
+      "difficulty": "medium",
+      "tags": [
+        "excel",
+        "data-recovery",
+        "financial-analysis",
+        "cross-sheet-dependencies"
+      ],
+      "official_task_digest": "sha256:5461eb5dec0c941670dd59e103a1cdbe826da6824c66de0334f65c031690299d",
+      "skill_directories": [
+        "data-reconciliation",
+        "xlsx"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "67526a29388bceee7b09a9a05aaae19356f52de42c0f77a7b85a1391b679c712",
+        "environment/groundtruth/DATA_SOURCES.md": "e78deacfaf963f3ffe35d7ef046584e6c8e420f0895daca6e80d1542d4f6015c",
+        "environment/groundtruth/answers.txt": "9b3ba3bea3fd26bc4eb1aa752591cf38fd9099df6c8be462c0d0043fd4507f4a",
+        "environment/groundtruth/create_incomplete_xlsx.py": "58e74028f2099692a18e24b943e6a40b2cfcef21feafab58d070a7729414496b",
+        "environment/groundtruth/read_xlsx.py": "41dc90aa148ee89ca402982be00ebafe9b96e3373c738e146cf3bf24fd1f7c55",
+        "environment/nasa_budget_incomplete.xlsx": "d15aeb8720d52525d99e7196f8c00dd5daddf90e4262255a98177da0ffb573bf",
+        "environment/skills/data-reconciliation/SKILL.md": "341dd818dfc713e5413bb74923c905f9990996c0876037a3918bce826b6a0c8d",
+        "environment/skills/xlsx/LICENSE.txt": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa",
+        "environment/skills/xlsx/SKILL.md": "9bdc1fee81f3be9cb34ac49f8890c094a3855d3d0236783d10e0ea6df1515e01",
+        "environment/skills/xlsx/recalc.py": "f0833720e26fa894c9c1ccf0bd71dfc4609f8a310360fb2de2071efb64fbd409",
+        "oracle/solve.sh": "0f98a8f8310cc5cfce4db6fb9fc361ea163dc795d960eb66e3881448f9b68f2b",
+        "task.md": "930dfbb058de41e07b0ae99058a5cbd259eb359be113fac6f10168d25370b87d",
+        "verifier/test.sh": "98c0db99d835fa80e2c748233e71aa9b7bd6d1969fed615707181013b5a5b244",
+        "verifier/test_outputs.py": "8bb25e42832dc540674dd8f1fe5603288f1f72a801e58c424a8aee07c5a64ee9"
+      },
+      "skill_digest": "sha256:f1140f22ef49216675b0d65af9b69cde7069b609d3798ab330a6a47941f252ff",
+      "evaluator_digest": "sha256:933233a3cbbb0af3589d4097e2e19da41b5185be4dc573c5bcde2a5495ff553c",
+      "environment_digest": "sha256:6ae488eb6f0f8621341be2f4c9cd7438ab1bb0e2982f1c8118c9b70b9f1307f8",
+      "agent": {
+        "timeout_sec": 600.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "lab-unit-harmonization",
+      "split": "evaluation",
+      "family": "lab-unit-harmonization",
+      "category": "natural-science",
+      "difficulty": "medium",
+      "tags": [
+        "bioinformatics",
+        "clinical",
+        "unit-conversion",
+        "data-harmonization",
+        "chronic-kidney-disease"
+      ],
+      "official_task_digest": "sha256:c30aa90c0483f090aa0cba86dd68fdc92f3eb5a2dd0b35eaed2ef94a9134a236",
+      "skill_directories": [
+        "lab-unit-harmonization"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "a82804e0d782e8ab350bbba231d1433533cbe01a09043b6a7be7befdd74e3e6a",
+        "environment/data/ckd_feature_descriptions.csv": "e88f0949b3c98daca0b6e113055fd312288157111aa30a28fc9e5d4e702e4158",
+        "environment/data/ckd_lab_data.csv": "e6aca34ed881a299e3b23f775be021102653829b3f83c91d579e8da73453d8ce",
+        "environment/skills/lab-unit-harmonization/SKILL.md": "60eea92e906b140bafcfb50d7c26ecac645f2a434418080fe07ee5b8af115afe",
+        "environment/skills/lab-unit-harmonization/reference/ckd_lab_features.md": "07867182a882242324960bc1721fcc3f197209298c85c38d0e9e0cdec4f7e62c",
+        "oracle/solve.sh": "a2dc104f5b089c0393891eda0660d96c90585162edb9fdcf6ab2cdc8b100792b",
+        "task.md": "349b3c7fe92fcb412b23b52d9f12de1c7a4531fdb4f0a181d19f5c0a91dd1d80",
+        "verifier/test.sh": "f8f9bbbfcdf3b3a4d4d922453d4d6d196012fceddb2b4ba823575978e1a50959",
+        "verifier/test_outputs.py": "c9d2151104c18519b554a592a8561bd74b333d4f65601276141c8b8bd31138f0"
+      },
+      "skill_digest": "sha256:956e5dd423a637616ce5d8dd835ab96bab284d9e68e96a708c55eef2c9ce522f",
+      "evaluator_digest": "sha256:09d0e1e2eedeb518ca59ec03a69ed4a627358a07ca8d6cbecefb3ca7e4ee0680",
+      "environment_digest": "sha256:b99ad934abdf501ca7e00e98ef2d64119a23019a2fd540c4b258eec28ca429a2",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 1800.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 2,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "gravitational-wave-detection",
+      "split": "evaluation",
+      "family": "gravitational-wave-matched-filtering",
+      "category": "natural-science",
+      "difficulty": "medium",
+      "tags": [
+        "science",
+        "astronomy",
+        "physics",
+        "gravitational-waves",
+        "signal-processing",
+        "python",
+        "pycbc"
+      ],
+      "official_task_digest": "sha256:473c6c69fe42578e2fa476f8a0c2250ce87a6318def1f77b59f4f516972bd56f",
+      "skill_directories": [
+        "conditioning",
+        "matched-filtering"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "3e453b05aca257f330c089b8c7c981c1aecba90610d1ea0a6fd136df9a34f4b9",
+        "environment/data/PyCBC_T2_2.gwf": "a4ec69c9ff73a30c641f113bdbe4a481308216222aff1026f372d0f4dd1392b6",
+        "environment/skills/conditioning/SKILL.md": "bf7580c93e48e3215442820bfb8e77f372450bf56182b5efe1b8b73d875b03d2",
+        "environment/skills/matched-filtering/SKILL.md": "9daa057b05d878189bd5556dca8a6a18a65839ff0a5b8313fbdaa2ba10a6f4b4",
+        "oracle/solve.py": "4d4f9809a70297110ce507db3734d335077874185897e52c388e948545a36835",
+        "oracle/solve.sh": "903daba4c9da0da18042ee6f7c45b95f7812c4c0e73f6710c5462c564ab8fd97",
+        "task.md": "f4f3383775566a08a54a0e76dc5803c80c696486f26cb4757b518055ac9ff855",
+        "verifier/expected_results.csv": "7842280236bd44d404c085056bbd0a3913aebddb661ccb60fbe6ff672d6ee4eb",
+        "verifier/test.sh": "4b4ecdb3470c8000bb4fa49a7e9df3d181d242ac82f23f5abaaf8096d3336a4f",
+        "verifier/test_outputs.py": "bf06c20e137ffbf159fbf8cd49f7f0028c4edcb79b7bbb94340e01808ca64f6d"
+      },
+      "skill_digest": "sha256:0108ae54d5d1847acb7e0bc9f82381ef77419dad0781fb10c7f85f02d4cef5ab",
+      "evaluator_digest": "sha256:a714aaac2af2269441a335bc0028ea487b42d92949388683bc4d3e078ac4e57b",
+      "environment_digest": "sha256:e9de3a922a54b1fa8678d03c17fd057ef25ca981d6534b17cae7489f33e426eb",
+      "agent": {
+        "timeout_sec": 3600.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 240.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 1800.0,
+        "os": "linux",
+        "cpus": 8,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "glm-lake-mendota",
+      "split": "evaluation",
+      "family": "lake-model-calibration",
+      "category": "natural-science",
+      "difficulty": "hard",
+      "tags": [
+        "hydrology",
+        "lake-modeling",
+        "parameter-calibration"
+      ],
+      "official_task_digest": "sha256:2cffc4a969b971f64b6558de140baaffe663a19dc2e58fc4c6d9c43cafd995ae",
+      "skill_directories": [
+        "glm-basics",
+        "glm-calibration",
+        "glm-output"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "ce9fab23d6512bd575081299c3d5e17a4760d758431b33f1a74fd64b9a313ea2",
+        "environment/bcs/meteo.csv": "8de1f35d95ed10fcbee74fba997454114aa21dbb1c8ba97082e70b9e66cad7c5",
+        "environment/bcs/outflow.csv": "a1f3aa983837adf1e78d5a88b3b5a1cdcc19642beeb1cac2ec4c60b29f61af1b",
+        "environment/bcs/pheasant.csv": "d75fee829ecef32fe77660912a743e6f128c4267eb369d8e6252e05fd0e0c672",
+        "environment/bcs/yahara.csv": "2f927862567f113ba0d569d5f204a63bce6ccbe06799c7d78acdd2d509531748",
+        "environment/field_temp_oxy.csv": "5155c769e4c1aea1f05333627bf87864094a5befa06ce8d09cc98e6f26fc4bad",
+        "environment/glm": "10c06f09840c3ddcfac7525672bdff90d3be4f0dbc3b51e25dd7521651f50e69",
+        "environment/glm3.nml": "09cf496bf2a53cb852d1e3412de0a802fe4d9580b74fbdba7901ed00d2fe9025",
+        "environment/skills/glm-basics/SKILL.md": "77fc4c820ce8689c90bdbaa364e9e9b50f26fd0c285b869588f9b0a16dc8d054",
+        "environment/skills/glm-calibration/SKILL.md": "a1342ccb629765767821481333fcbf2b5fd25d93fa8f4a41ed78c62d022a4ed1",
+        "environment/skills/glm-output/SKILL.md": "26530fb95a70059f6071734cca709db018dcc00ade4fe34011a7229d82bf1187",
+        "oracle/solve.sh": "72a4bcb5d4adbaf609789bda28a5fb3e83ff4fa92ba07adc40d5b7af09acd3bc",
+        "task.md": "b80cb40ff0a51f6e87d37942808001a89ef50125fc0f06c415c5a67a650e1e7b",
+        "verifier/test.sh": "3103c4a7a472806a6f54e4a9eb2d02a37ed5272d3c8d9ea998ebd9a009bead3a",
+        "verifier/test_outputs.py": "f2a96c032d88ea05953fc83436569a816ed868301f191201be4ba491721ba395"
+      },
+      "skill_digest": "sha256:68810cbf5feb84cec226c29e05cff641a160d340377e9ad40c6ae790e68d5ab3",
+      "evaluator_digest": "sha256:29065c5981d8a8c265c3ea37ae37ef222720eb00fdf10433a7bf330d14b8cf31",
+      "environment_digest": "sha256:ee1bda9c6d04354cda9b0b3ee78ddfcfe6d124736808ced6ee5dac1133a7b379",
+      "agent": {
+        "timeout_sec": 3600.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 2,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "radar-vital-signs",
+      "split": "evaluation",
+      "family": "radar-vital-sign-extraction",
+      "category": "natural-science",
+      "difficulty": "medium",
+      "tags": [
+        "radar",
+        "signal-processing",
+        "biomedical",
+        "vital-signs",
+        "python"
+      ],
+      "official_task_digest": "sha256:a0cd2e92dfb6933cff15749879de04566c496051f7560bf05a998b6b93ed1b18",
+      "skill_directories": [
+        "radar-signal-processing",
+        "radar-vital-signs",
+        "vital-sign-extraction"
+      ],
+      "files_sha256": {
+        ".gitignore": "2a8bdf29249ff7770c4194d7ab6a8c7b20f837cc9d22abe42eed40a3280036c8",
+        "DATASET.md": "34363f6bb9e382858a0636e26f67f5875875eedac827ef6cf05c3e4aa5732f15",
+        "_generate_data.py": "d68e87af4541eceee13244ca352bdc6b14600a62c903f361754616ba05613146",
+        "environment/Dockerfile": "8eefe5841d6a693e1b9db6f26bf2dc98ed606993537240de8047bdbf88cdc9f6",
+        "environment/recordings/rec_001.bin": "226862402a66787cf27266c48b64a214a81e1c0538da5fc82138de619830a1c6",
+        "environment/recordings/rec_001.json": "77219544aea0c693067f8707838c7a5be96bc6f6a51dd44238615b9edd466b52",
+        "environment/recordings/rec_002.bin": "ead83a39d27db9199f45674069e369fe976931bb14592db13c32eb1518e3e027",
+        "environment/recordings/rec_002.json": "2559034498cad4e9fb1a12915043a05587579524df4e6395de0c3a800f4c7cd4",
+        "environment/recordings/rec_003.bin": "daa047f7da6169ab11d17833e343be1184dd6e2d8782291b47a86ae9860bb0c1",
+        "environment/recordings/rec_003.json": "244f4a71cdb1f3d1baabbe6d6d4e7bf541f4eb4082628b14a05a62020e763f1c",
+        "environment/recordings/rec_004.bin": "1f1167b2f62302b9255b276599c0a717ef9b6f3ac6aa1589169a6f4a5275a3ce",
+        "environment/recordings/rec_004.json": "fc11f991dfe786d47ad99b66868ac4bc35f56226d6e8a60e881f91c24558dcd1",
+        "environment/recordings/rec_005.bin": "54f46fd09b1cabbeda2c3daa4ce47f7a9d99256fec608c6ca1f6e5a6dbae45dd",
+        "environment/recordings/rec_005.json": "0276838f1d6ca03ced3919f2d678be576bb5f15bf12d11693ba04862aff144bf",
+        "environment/recordings/rec_006.bin": "8749982f579308b98c56692aa4a944e14a96ccf431590560c2829f364eab16ba",
+        "environment/recordings/rec_006.json": "c10c0431990183a66b779811af86c09acfd29c964445a156acfd5b992b0a91ad",
+        "environment/recordings/rec_007.bin": "faf75c06924608a7b777deac62472939e51933db7a51939697476d58558b3ddb",
+        "environment/recordings/rec_007.json": "a627c96a3fc344ecd550b11565f3327e037f003dfd8ec958f42ca8f2a482810f",
+        "environment/recordings/rec_008.bin": "15a62679a3547458f1e80ceac6916fc59d673b7da3a001e26e94c10cecce8f83",
+        "environment/recordings/rec_008.json": "b586b830575947bc410767a3c8ee50bb0fa0ed2f863198f924089138e0e25c67",
+        "environment/recordings/rec_009.bin": "f6cefdcb49eabeea5a55071e07ee70ab605de0662faf08ac1f4da5dcd4de7c2d",
+        "environment/recordings/rec_009.json": "f6a287cba770ebacbbd7a6494cbb184b054c66ae264abbc31503bcf172a4ea70",
+        "environment/recordings/rec_010.bin": "689ba6b2418c8b5ab903f52abe983b8be284b9b6b82f408282a437ff64f8c9f3",
+        "environment/recordings/rec_010.json": "8e70b35b1b79875c240de615208d8d189f45a6db9fe06ebc2e2d0e09937c1e8f",
+        "environment/recordings/rec_011.bin": "23f6f1c09f50b338d285c8426b8282e42a310f807b5c88c6c5c4ecca97096065",
+        "environment/recordings/rec_011.json": "d0cfd740833e8501f98960e17e70149db06d27c70fecfe08b273935636d66406",
+        "environment/recordings/rec_012.bin": "1e80911f43abc8906cc0bb311108cf3ac2e973c2c0a613f565e409e342f10150",
+        "environment/recordings/rec_012.json": "8d37d603e99ed4a4b91a6efea4d153df82b71a3d523e9215b80b45dd2b1fcb08",
+        "environment/recordings/rec_013.bin": "42638b1ac2b282e75adfca185bb161daa7af0f3608ff91acbe88721bfd93c61b",
+        "environment/recordings/rec_013.json": "d833e5d948fca1e691b7e350bb1ab210d29129cb82ee74ec8be2e550cd5e0e73",
+        "environment/recordings/rec_014.bin": "bf7508ae2902b51ab1733ad4e1cb124573e5db20ae2146ad13b1b49e16ee7123",
+        "environment/recordings/rec_014.json": "c54eb1ef48e63862d6660f57550506c900c034909a3fe8c1304ab8a7fe112ad5",
+        "environment/recordings/rec_015.bin": "4800d756a4b4d09070fa63094e5d2edf24ae09b9377ba416a1c110b33f41050b",
+        "environment/recordings/rec_015.json": "4e5f2a8f9fef845595673c6854cedfd731022bb4f2933719a51538d7d0723e78",
+        "environment/skills/radar-signal-processing/SKILL.md": "0f1194ad676bf02d4477fc14ffd799fe913dde632572cd5378788314c18f9e0f",
+        "environment/skills/radar-signal-processing/references/debugging.md": "12cb27e3c57cf68216bcdd674118190778229b8c3312222d939d1814a91b531f",
+        "environment/skills/radar-signal-processing/references/iq-formats.md": "188864d1704ac2232620bd648b00acaefd9e7ba8acc43ee2ba423c67bac36ab9",
+        "environment/skills/radar-signal-processing/references/range-bin.md": "24e183ff269a7896154792a757b7958397efb311290cfc9adc1cf7586f097f83",
+        "environment/skills/radar-vital-signs/SKILL.md": "b003f824a41198da0d5d3a373646edfa231d3d6a43ef4d94cb95578f5c97551a",
+        "environment/skills/radar-vital-signs/references/band-rationale.md": "c4340dd078d32d7b1ce353e1d2608042b7aca4a622e1282bb32d0d4a730853ff",
+        "environment/skills/radar-vital-signs/references/debugging.md": "12cb27e3c57cf68216bcdd674118190778229b8c3312222d939d1814a91b531f",
+        "environment/skills/radar-vital-signs/references/harmonic-pitfalls.md": "c596d26aa87e9e040bfa594fc433161f0e443eb3d1addff2aee814c8d63f5f9b",
+        "environment/skills/radar-vital-signs/references/iq-formats.md": "188864d1704ac2232620bd648b00acaefd9e7ba8acc43ee2ba423c67bac36ab9",
+        "environment/skills/radar-vital-signs/references/range-bin.md": "24e183ff269a7896154792a757b7958397efb311290cfc9adc1cf7586f097f83",
+        "environment/skills/vital-sign-extraction/SKILL.md": "aff09b876c5c3069161e3b8637cb63db5b4e32904dc3671ed91e66251942c673",
+        "environment/skills/vital-sign-extraction/references/band-rationale.md": "c4340dd078d32d7b1ce353e1d2608042b7aca4a622e1282bb32d0d4a730853ff",
+        "environment/skills/vital-sign-extraction/references/harmonic-pitfalls.md": "c596d26aa87e9e040bfa594fc433161f0e443eb3d1addff2aee814c8d63f5f9b",
+        "oracle/solve.sh": "c08a5902b8b19535604b98bbe51926e41c41bf7c07c8bc57aebc6b5e58515e86",
+        "task.md": "aedc3db7be389d0f21b55285d1c40ee61033489801a6326e9d77663ff2742181",
+        "verifier/expected_values.json": "cecb584552228e226a2b2172f796acd766560c06275c64e24f893b3487d9e084",
+        "verifier/test.sh": "88a81047a9612c44cb8ef6c72fd325924b76516e77b0bae4304a4a477026cdf0",
+        "verifier/test_outputs.py": "0874200937776965a2402b0ba0d6e662ebdff8edc8575934a442c58f0893abc0"
+      },
+      "skill_digest": "sha256:6731a6b10cdae7bdbe5e927046901ea00de6f4da99e192b78622486c5ce3da1c",
+      "evaluator_digest": "sha256:5e8365b330204d93cddfcd36f293b6310025f90480a404182159a84dc15f987b",
+      "environment_digest": "sha256:7408bc1f8ce92c55e14b6630f8373132b5a9e101fbf8ad4ed9e9f828508540f0",
+      "agent": {
+        "timeout_sec": 1200.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 5120,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "manufacturing-fjsp-optimization",
+      "split": "evaluation",
+      "family": "manufacturing-job-shop-scheduling",
+      "category": "industrial-physical-systems",
+      "difficulty": "medium",
+      "tags": [
+        "optimization",
+        "manufacturing",
+        "flexible job shop planning"
+      ],
+      "official_task_digest": "sha256:7b1e01c2d74c6333e629c63c09d963eff9f846b5ac96318d13cc0cde95a3d444",
+      "skill_directories": [
+        "fjsp-baseline-repair-with-downtime-and-policy"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "de08dbad0830afbc282ba0783e11d4e3c88a4fa6ce46d2e5729839c4a8313623",
+        "environment/data/baseline_metrics.json": "15d72d21997e311ae88a7e9b0273a8a53c6e6e024e55abcac55bc32735a2da1e",
+        "environment/data/baseline_solution.json": "67cca2e9c6d3cdf8e4f397d7e52a4d7921ed579b132b04943a7c1ae0c54b3ac3",
+        "environment/data/downtime.csv": "2ac2a082150827e7513d1e57ee7f45d51a03326d646cfb8cf13a65015f4886ee",
+        "environment/data/instance.txt": "a493ec68c115d4c2693b023162df03e8fbcca3b306cb88639adcece4d53c7131",
+        "environment/data/policy.json": "fef42a889ed6b5293f232fc472e054a28ab7b5689e7c2a929a7a4722b7b01eb7",
+        "environment/skills/fjsp-baseline-repair-with-downtime-and-policy/SKILL.md": "2668bd6b9c6977ccedcf1f1d4af4401afdfe215666d68f82df41b662852b2125",
+        "environment/skills/reference.md": "46f76e2898e1f1a3d7f0d8c7ee4e5390f7e9f8e57c1695dd5eb3ddf739f71743",
+        "oracle/solve.sh": "e51a9286a5eec6916dc6910af69e55a0a3fe94e2c3e8d0a2a74e4fcdaa045109",
+        "task.md": "635b1fb019d00f2c4b087c17ad89b37dc460b67155b71649470deeaedc9e4df7",
+        "verifier/test.sh": "42027720cc961a84910926116d7b6032c76465eb886bdcbd6ab650aa4069fdaf",
+        "verifier/test_outputs.py": "a5f2536f384b52bb36ca2fc0348b480187d49fc19eb39368e01d6a720a7a1990"
+      },
+      "skill_digest": "sha256:56729ab2ecea8c905a37f19ca778c440bc8dbbb6087f17ae3764bc9e21181c57",
+      "evaluator_digest": "sha256:6191cefeadfb246a4fbbc1872f075fa1e67cb16d83a2a83463de7a69aed27367",
+      "environment_digest": "sha256:70611a6cf4dbab2292d1f8ff86808b0304144897b5870b56d554cae4a988e69a",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 450.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 2,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "manufacturing-codebook-normalization",
+      "split": "evaluation",
+      "family": "manufacturing-code-normalization",
+      "category": "industrial-physical-systems",
+      "difficulty": "medium",
+      "tags": [
+        "test failure reason codebook",
+        "defect reason standardization",
+        "testing remarks analysis"
+      ],
+      "official_task_digest": "sha256:07f8f87ed53b8224fefc65dc220537572980e0794970db30e3873aebd063c9d3",
+      "skill_directories": [
+        "manufacturing-failure-reason-codebook-normalization"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "af1d7c7bf19a27a63f3e0a2731b6318f2b7eb1fa0648b4bc162b6b9698b6eba4",
+        "environment/data/codebook_P1_POWER.csv": "8015e665af920161219554f3b65e880e1011a1236ae4bba48d494738798ba9e1",
+        "environment/data/codebook_P2_CTRL.csv": "013a91449215fd785ecbbe5524885ec764c9e6654770299c33e14379ec8f47d1",
+        "environment/data/codebook_P3_RF.csv": "273905dafe4a9dd42a631b016e369636dfcf3e376b3a41f28874f701092a05e1",
+        "environment/data/test_center_logs.csv": "8d10d9160caa5f8667cb0941d6bdc775be1fe9f2c4d54a40ca135db7be0fd6a4",
+        "environment/skills/manufacturing-failure-reason-codebook-normalization/SKILL.md": "3aba5be4d0f33208d296198fef4bad8816d191bbdd3ec8594cda1de7aab055f0",
+        "environment/skills/reference.md": "627c441c19f6e9fdc1077dd7487961b7e9f761213cdab6610e8024a9d6cf98a3",
+        "oracle/solve.sh": "92e8cd0346df1bda809fcdd8ace165da4a004c3713611c7a66b4261681740c20",
+        "task.md": "e3cdb4e6c27cf1d96ef51332feb98699f52ce6146b80680234b98116d36e330a",
+        "verifier/test.sh": "42027720cc961a84910926116d7b6032c76465eb886bdcbd6ab650aa4069fdaf",
+        "verifier/test_outputs.py": "faab891e7ca82e0efe0d7f578fa3f43c25b0fdde24bc269bb1d785f193f3e979"
+      },
+      "skill_digest": "sha256:9ef0cdd4ca16d41e72a7cff01a0cf6d05fc65d381ea7fa9951767ba600f6667a",
+      "evaluator_digest": "sha256:1a08527ef3d94f17dab65dd614869d73ac14f0a713abefe75893396f8cdc3f72",
+      "environment_digest": "sha256:d991324519b1015869357fabb44f39c7e681d70b3f257fba72d4a51f184b0e36",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 300.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 2,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "pddl-airport-planning",
+      "split": "evaluation",
+      "family": "pddl-airport-planning",
+      "category": "mathematics-or-formal-reasoning",
+      "difficulty": "medium",
+      "tags": [
+        "dsl",
+        "planning"
+      ],
+      "official_task_digest": "sha256:d4994f5b27d70de16342f7f3d2a9a2d2ad8d3701edefd2fc23ce36ff82f37d3e",
+      "skill_directories": [
+        "pddl-skills"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "579712e8dd388cd9933acb011a181fe6b9244edfc6b81b474af179682ea54b68",
+        "environment/airport/domain01.pddl": "3e66cde964af340d639bd2c0cccefc6b5eedb5c3bd95acedb5b9b4fcdf119cb0",
+        "environment/airport/domain02.pddl": "53b70892c967dc77f02b0e32f75da70079b543e89949d9a066b99ee55bf4a76c",
+        "environment/airport/domain03.pddl": "924894b423d2d34608ab71419ebe670364b298d17c1af142f2fe3d4db0beb041",
+        "environment/airport/domain04.pddl": "07029bbd97932b78cd67cd052954f78a3dc31851b1d316aa70e994136fdbd078",
+        "environment/airport/domain05.pddl": "65ad5bd8e83ae818e49929ebd39f0c193ce34fc069316b31c38e003f696a4d95",
+        "environment/airport/domain06.pddl": "d7657cf01e094f73ff2aafd6f35d142864852f47e2aa88ad00a1f574c24878c3",
+        "environment/airport/domain07.pddl": "dae7cbe94a1e6f25f9cd894afbda9d5506743cce0f5f3cabb2263b833288cd30",
+        "environment/airport/domain08.pddl": "4dde95f1b0fd14a6e5bba031e339853332a9b909a526a9b524a7d268849a7502",
+        "environment/airport/domain09.pddl": "4e84ebd6732399ba37b3348f1ea35c8400e9c2ab6cbd98c651253ab89e201391",
+        "environment/airport/domain10.pddl": "68f47907b9ef8ba63de4ce2581f15f47ed5066f918546362871069cd0cc9c3c9",
+        "environment/airport/domain11.pddl": "03a26e113835ae97a6428fc59c459b2f4d08340119398bd38f5a7a7e3d24d470",
+        "environment/airport/domain12.pddl": "fb058af3b3584a33b884c32ca1111074743909639e4dccd0db1350a341be6bb9",
+        "environment/airport/domain13.pddl": "92841e2c3ddfef2d53ca9044d4d4bf4cb1145ae5ada55954f4efe6f182daf60a",
+        "environment/airport/domain14.pddl": "586a58b7de39fd34d3b83ec3133636df047b1c3c346783d866fd05457f4d87c9",
+        "environment/airport/domain15.pddl": "3bbb148fd02b2eb015e9161422639d4a675a97d9583c38828b5b1b49e5358584",
+        "environment/airport/domain16.pddl": "d842b8bf0151a577f644dbb6a78342742b7aef83596036e1298722b302a4c9e4",
+        "environment/airport/domain17.pddl": "df7b7f2e14926ef1b3dedb41c9fdae0d67cde2775766a7298d4ab2a2287b0c48",
+        "environment/airport/domain18.pddl": "4fa40f41034cde117546a33598858cc2a8fbe2a0bb37534d4cbbb1aabb8d185c",
+        "environment/airport/domain19.pddl": "51959e1f5cdac63629b98e7bf66894e6debd1d047d3284e278507f6bb89f7312",
+        "environment/airport/domain20.pddl": "64eea2205691636c2ca9d7138ff5457220bbd8b042f6c6db68e7a77243cfc312",
+        "environment/airport/domain21.pddl": "390f267474deccb933232460b24ab256bd05ba437521a48eadeca604a4d5945b",
+        "environment/airport/domain22.pddl": "7f98273e048210fe864c9846c0cf50122ecbb6fe76635f2e64cb612cb946094b",
+        "environment/airport/domain23.pddl": "ee52b4fc59bb8f25eafc1238cd0c57aa42d96a4afbfe4981d8a09e1c902606a5",
+        "environment/airport/domain24.pddl": "6ccfef1a674d4731cd9e6180ca9c749b706868f726387c72fd1dc6a365556aa8",
+        "environment/airport/domain25.pddl": "23c7278bfdbcc1ff73f76e65bb4e4d24f89186a337eee513ab7461e3400b94cc",
+        "environment/airport/domain26.pddl": "2c2c037f900d6d00cef91b217b5033140f9136b994ea223c401adf4be3d69286",
+        "environment/airport/domain27.pddl": "bdef02a65b7d44fcb8958af4f9c237369e97e2e5c83e6df7056b63651f8a2a6f",
+        "environment/airport/domain28.pddl": "15f08a82577af573d1aeebd0d32d36693f1fb34597ac84f4e08958b985abb9b3",
+        "environment/airport/domain29.pddl": "8978a5281368a90cb8155d6508628184289edbeeed88c7825ccab094e1f9dd9b",
+        "environment/airport/domain30.pddl": "54a1c8156bce83e7bbee33670431e8b77bd54b4b6e032a99a5e0f21e3ec88126",
+        "environment/airport/task01.pddl": "51671c8313ae3a8aa6bf325fc7730143ca7416f3fb38aa06a7d9adce8c25eced",
+        "environment/airport/task02.pddl": "8da32f80180453b4a26f85cbc7e141db7d1e2571e0ab589b1443e95975d4defc",
+        "environment/airport/task03.pddl": "64c2aabf60b821397faf569782c284d4796ec3d57ffea03d4eb5181642e486fb",
+        "environment/airport/task04.pddl": "86a169360cbed08dc33e681f981923b5a615c6c356072addd2acfce36a75d335",
+        "environment/airport/task05.pddl": "bd09dbcbd5d2243e11b2f95dd1fff1bbef43a174e6f5639b2f9f7c249599eff1",
+        "environment/airport/task06.pddl": "7050245d05bbddacf03972d3f64531b61aee8652ed94220726278ffab4bc9734",
+        "environment/airport/task07.pddl": "22940e3dd0dc4a03679a718bf4ddc0882016e27180258a58b3e222531514e3a0",
+        "environment/airport/task08.pddl": "82e569b5ab48d9acd32f12956e67ea71d355eb64b3ef77ffe4504b2f7d5a0732",
+        "environment/airport/task09.pddl": "28f637d7f9379eb35dcbc28f53a2ae53509d80c1f33717fbeca207a77d779210",
+        "environment/airport/task10.pddl": "0f707065ab6aceda91827c50d32c1df83ccea05a6b30470f5db9b99ba423d6a3",
+        "environment/airport/task11.pddl": "bb6392267650c33a2008a85f2edcc652065083aa5c0d4ba23d7b367b2e33ea77",
+        "environment/airport/task12.pddl": "768701d88e8282a0adab834979575f7ac0be6b042eaef920c123035f92f00a69",
+        "environment/airport/task13.pddl": "cb3a10b67455e9a26b1b420429d39b5660853a9d6c41c0641eee0fb84808336c",
+        "environment/airport/task14.pddl": "3c66b1a43e733f4885b5b4d0225fde1291b788fab8ddd0151babb4e87e7b8592",
+        "environment/airport/task15.pddl": "beed88839c1198deb44ad4ee086d23ad2fb8dc53b08107adfd2e8ad222e57e8c",
+        "environment/airport/task16.pddl": "0176366aa76803ace6ca36770cecef17f278395411715e04951db60bfae78693",
+        "environment/airport/task17.pddl": "3b5ca10d5f8a7256195b02ea99062067b88f7aac9111a2347603b78371b6c845",
+        "environment/airport/task18.pddl": "9ff84a64ee75c0c4c1b8c5f08225a7e54b3715f21587f97786f340762526134b",
+        "environment/airport/task19.pddl": "4835e5c42558d01e423611a40561fff1c87f50d9d93347cafadb6e86a2a63c57",
+        "environment/airport/task20.pddl": "53c7e0135b2da477bc43e4b14335140e15af961e65ccd228fb245b9d8f86afcf",
+        "environment/airport/task21.pddl": "367baedccbd58b8846d6da4b0cb3a87051927fb92929ce02801458e5ac8e89f8",
+        "environment/airport/task22.pddl": "b0b0453872fd250aee990476a6dfc925c31b4523868d0d7cf659ab73734a96ca",
+        "environment/airport/task23.pddl": "87315f358c4f11de5f05dbe6ffdcc6ada143365e6f2fa7ec3f5168b05480bbe0",
+        "environment/airport/task24.pddl": "37ac160c16b5e711869c7d196f752088a821c49ea8084add591be87868c6edf0",
+        "environment/airport/task25.pddl": "a2ce53cf06a77ca6f594cf3483b516703210efe487f375965ac082e1cd3e65f5",
+        "environment/airport/task26.pddl": "5a305582759f5b9bc96d94d76d1dbc724e42eabe62b551e389125e3c5070c31d",
+        "environment/airport/task27.pddl": "b2324c03733b7a704dfe75986412f78009a194714e3cbbbcd1f17e4b1fd76f5a",
+        "environment/airport/task28.pddl": "7df0a04fe5c6a38d867f259cc252dcc2498a34d0df4f57d6008f2f0df1a1c720",
+        "environment/airport/task29.pddl": "dd322969dcfe75b290bec82f1f2b098b3e7c92671501d9a5cfbfaa93e05bd874",
+        "environment/airport/task30.pddl": "cd984fa3aaed13c5752883369e66595625ce26ef8feba350401943a0b93a133b",
+        "environment/problem.json": "59222fb0a23ca647faf2a194de7fbc5b31bc7979b13dc0e5212134af7767be5d",
+        "environment/skills/pddl-skills/SKILL.md": "adc4db64d2554074650a49a11f008698c7e95f69967e300ba219c5777f9ced4b",
+        "environment/skills/pddl-skills/generate_plan.skill": "0e87f8ae98a524ce99779bdb79fe569e0dbcc8a77dc1795f0503501c7ae3d629",
+        "environment/skills/pddl-skills/load_problem.skill": "66fe85a19bfd8f6523b22ce5ec558fe3a68b19daf406546d4cbf1ae15e4399dc",
+        "environment/skills/pddl-skills/save_plan.skill": "13741f91a5d99190da2f150dd1643a5cfd94dd021af776771c194e69d6a2ff77",
+        "environment/skills/pddl-skills/validate.skill": "a07da1277fdd81db82cb0edba271be6f46c5233234fd153debc5a93c9b7ba4c0",
+        "environment/solve.py": "440981ccc103b92a4dbecae8ed915e0a5bc684c471dd3b9fed2785fb5b4550f2",
+        "environment/validate.py": "122aeadcc3415f87f0059b1b32b534cfe98eb95d1542fbf2d26f1c2c07e74b26",
+        "oracle/solve.sh": "3411210478d114d2823a05121cae6da9a216ab636106f938a7039b25e6093731",
+        "task.md": "24908bed217b7e9869573a70e20d16421103ce2f8802af41163fb798e4b704c9",
+        "verifier/test.sh": "3ddb0d982a52a04feb799fa903c57714733008cc8a2db3087a16f9775d622f59",
+        "verifier/test_outputs.py": "1f8c6cd4be1ed7fdf0925494643dd2d78848c9ec4c855a7a7837612675ac87e4"
+      },
+      "skill_digest": "sha256:97b89ea415a3d2ac554e2257de5a22dc7451664f79e49e3372f80612a8492215",
+      "evaluator_digest": "sha256:422cd660fc546a05cbb923c9e055feccb7fc6f39aea75b7d23259391d8e0bfa4",
+      "environment_digest": "sha256:0ad353306c2105239da4b3d470044dc24fbd1411a4143fe4e0c1ea31b6dc2279",
+      "agent": {
+        "timeout_sec": 600.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 2048,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "bike-rebalance",
+      "split": "evaluation",
+      "family": "bike-inventory-routing",
+      "category": "mathematics-or-formal-reasoning",
+      "difficulty": "medium",
+      "tags": [
+        "bike-sharing",
+        "vehicle-routing",
+        "inventory-rebalancing",
+        "mixed-integer-program"
+      ],
+      "official_task_digest": "sha256:9366569f77d18bf7630a4ccdbad710c321374350c87e9d69746939432d2e0a7a",
+      "skill_directories": [
+        "geospatial-routing-data",
+        "logistics-rules-to-optimization",
+        "routing-subtour-elimination",
+        "scip-opt"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "afd7df77ab59e64036f344583590172f7a24e079093dc83074537cca244e819b",
+        "environment/data.json": "c978582b2fa369b589b3b829e8d80e912d6994eb4072289c91f02669989c017c",
+        "environment/skills/geospatial-routing-data/SKILL.md": "0e278fce8dbfa2f6092826592b7eb0d740472ce5ae97bd2e05bd310933b3bda2",
+        "environment/skills/logistics-rules-to-optimization/SKILL.md": "d7702a4eb61d1135a89824cd59e33901eb838db4412aaa0972142bcfd0174510",
+        "environment/skills/routing-subtour-elimination/SKILL.md": "211306948184411fc1f63aee8c7a59b02673a44f942a7e86cc60ebaa6ab0d12a",
+        "environment/skills/scip-opt/SKILL.md": "17f98241df7040646ec6a5ba7285aa3337b99cb5a03efa0c38f65e6ebadb3ff2",
+        "oracle/solve.sh": "64e36423674b14041df548715922d695ac33a99a7fe476b9e007f57efbf2f30f",
+        "task.md": "99d346115445ea809271b730d7738baf65688678dec3dd0d317a309af290360f",
+        "verifier/test.sh": "ee72f22b7cb8fcdfe222d36715980f08bb5c6d0273d9c7dbecfc60407331ac0f",
+        "verifier/test_outputs.py": "930c406ed2c38235cadd42dbf08d8a205a81c548cfdea4c19094104597336479"
+      },
+      "skill_digest": "sha256:66d850fe8069fa233f88b79e0443a69fe95702de2eab8b85485c9728ce0c2c95",
+      "evaluator_digest": "sha256:7a0b0e63de9f58e48d6e770f1b5c741425a823aa650ddda9babc4ba984cf6105",
+      "environment_digest": "sha256:481f563b2e29b28c7b756dd485874cc3e04116452bae1065f7265eb4854de0bd",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 900.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "no-network",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 2,
+        "memory_mb": 8192,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "software-dependency-audit",
+      "split": "evaluation",
+      "family": "software-vulnerability-audit",
+      "category": "cybersecurity",
+      "difficulty": "medium",
+      "tags": [
+        "security",
+        "vulnerability-scanning",
+        "dependencies"
+      ],
+      "official_task_digest": "sha256:806b47bea8b86a370c18dee279f6322da3a9b23026287876c2e9ffbfac855ec3",
+      "skill_directories": [
+        "cvss-score-extraction",
+        "trivy-offline-vulnerability-scanning",
+        "vulnerability-csv-reporting"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "4f3a36f3b333769533db9b568ff435081024f32db6cc524d56988b0cad3df0f6",
+        "environment/README.md": "f36710d3aba715f30455632833103155fd9831586415a15d6ad6d152cf13e2de",
+        "environment/package-lock.json": "a2a42a3255e814e75bed9958c40cd9b35de7331b310bfeb8f93306d806643d44",
+        "environment/skills/cvss-score-extraction/SKILL.md": "5f9e2a22ec2a8230c9d6ed234fb7c48742e257631d397eb9bcabd5d12b7798d2",
+        "environment/skills/trivy-offline-vulnerability-scanning/SKILL.md": "594389f6d5d0d58c1c7714592bfce7f871154827a4b65f948d9829f2af3108a3",
+        "environment/skills/vulnerability-csv-reporting/SKILL.md": "80c79f8543d118a2c4625cdcdb4b7576b3e834f9cb7f9adbe3ace6c7040a3439",
+        "oracle/solution.py": "0a699d8f8e27d6537b7def8fcc2fe8669bab3c712e4c3602f07ace0b5d935973",
+        "oracle/solve.sh": "20075563ec51e02100d09f45ec48669dc1ae0e5a0f1ac04eb36763e854b556fc",
+        "task.md": "0787a9af2bacd2b66d371591dcbb27863ea96a449456bf6cf5b603c2792d0faf",
+        "verifier/test.sh": "9265ee934d6511a57128913ae81037dc67717c4af9f893cb725fe1654f7b6c4e",
+        "verifier/test_outputs.py": "bc447eecd3f5b5e2622a0e719def8efb12c20b691b7a9710e36d7bde562b0940"
+      },
+      "skill_digest": "sha256:2f87cbf062b497ceb3c79cdee97706dd941d17ec976a8a51e6c332aa50e1cc9f",
+      "evaluator_digest": "sha256:21646e15f05c03af145a2b377874f9eea14d4704528d668fa3283587291c7fc8",
+      "environment_digest": "sha256:1c58e8bf176660eaaebc8a1980e4e3a5a484c6f7608e95eb71dc9dc051b6d7b9",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 240.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "setup-fuzzing-py",
+      "split": "evaluation",
+      "family": "python-fuzzer-setup",
+      "category": "cybersecurity",
+      "difficulty": "medium",
+      "tags": [
+        "security",
+        "build",
+        "vulnerability",
+        "continuous-integration",
+        "python"
+      ],
+      "official_task_digest": "sha256:ac70897b525ee19474225247a9132f4beaa9365ad8a4af064305321997147c0d",
+      "skill_directories": [
+        "discover-important-function",
+        "fuzzing-python",
+        "setup-env"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "60870b625903eb2fac8375d54d67b517f16df916db92926b48afb4f9f40ca0b2",
+        "environment/build_dataset.sh": "e5a1688868d3f1a4c214320dafde67a445a8c79f1fe05b4f0d69158586d3431b",
+        "environment/skills/discover-important-function/SKILL.md": "d935cc481fe8700ecfec482810dbf7fb56d0ee7e5fec7221ca5a77519d29ce29",
+        "environment/skills/fuzzing-python/SKILL.md": "718882130de22873f00e422d1c8d4d67febd002d5ee0163f314fea8890c0b835",
+        "environment/skills/setup-env/SKILL.md": "7b95dc92985ab21b131c5f1d14ec05cf27d145c5384e28bbf3022c7ea89f4202",
+        "oracle/solve.sh": "a131658f318b84833683137a81bc42f257c175e4572227cbbe6794d9b5b95d6c",
+        "task.md": "472891369b64fd18d2f435193e7f47c671043dbd92c07af5b6eb567905dd9b4a",
+        "verifier/test.sh": "814c426cb146118933647dfa8b852eb584ec08c125b1d2e6455308e94b6f5e43",
+        "verifier/test_lib.py": "2e10aa376b4748889e887afdd21f5be5d5bd4ff8192d557ec21e789db5f58e5a",
+        "verifier/test_setup.py": "8d205e93250400f94b006e507e143c8ad85589c0169c75abafd88addb012550a",
+        "verifier/testing_utils.py": "f74bbb3ae6a427368938f69682d6545ad426f3fa78ac1804b24cc685df81ca19"
+      },
+      "skill_digest": "sha256:5e5fbcb06906e27a363ec2f7caa14245857047c283eeb2055edfc5bf14df293f",
+      "evaluator_digest": "sha256:0861c70b0ac720ab8578be2bf5c88af207f5f249f241ce1d96444c5f9d309dff",
+      "environment_digest": "sha256:a405099ad1eda969a255381f56b02f981b0de58056214c19e6d4b122f1cea9e4",
+      "agent": {
+        "timeout_sec": 1800.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 600.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 5,
+        "memory_mb": 2048,
+        "storage_mb": 5120,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    },
+    {
+      "id": "offer-letter-generator",
+      "split": "evaluation",
+      "family": "docx-offer-letter-generation",
+      "category": "office-white-collar",
+      "difficulty": "easy",
+      "tags": [
+        "docx",
+        "word",
+        "template",
+        "office",
+        "mail-merge"
+      ],
+      "official_task_digest": "sha256:c9b406ec4509a0742d54add417d145913d1f0273e01b1735c4607f777b7cffbc",
+      "skill_directories": [
+        "docx"
+      ],
+      "files_sha256": {
+        "environment/Dockerfile": "5ffb0d7fecb51602aad769604cf637b0de3411b8e983eb4bf202ff04838f539a",
+        "environment/employee_data.json": "64dcb6aad2423051a638efefc85d1b47d306718e462342281553bf00082870c0",
+        "environment/offer_letter_template.docx": "34a2fe42f5799f35b9543af63d712b9e28cc93f97847528c3fbfe76071f60d15",
+        "environment/skills/docx/SKILL.md": "65c3442f51953a6b987e8aefa9abcb458f110344e80cc16c7c7efb931a13efea",
+        "oracle/solve.sh": "ae9af522427866e0822ebfd820657be7741ac2b79b0132bcd698e13f0b639cd5",
+        "task.md": "ae84a359ca7f7159814eca43624772b758c98f086bf4785bac38ae924f4592e2",
+        "verifier/test.sh": "cd7165610dcfe25434330d06c9e9de7b2ee2ea0f80d41865c5ad91e8d83a3cbb",
+        "verifier/test_outputs.py": "913b9a3ebe579aed9c8f876dededea4d6a957eca9fbd0d9e8f043719cfb8cf05"
+      },
+      "skill_digest": "sha256:639d9026f8b7a12c03acfee64836ea1d46d6c321b118dd84852c40de16fa08a4",
+      "evaluator_digest": "sha256:4c4ef6aef08b0115a2376b3b1296d3fce4d304e65dc9e5cba8f15eee5b8d3e56",
+      "environment_digest": "sha256:667981e6ad22f6505e5f808abc4568f46a61ea0981773a5bad2b879cba365b7a",
+      "agent": {
+        "timeout_sec": 900.0
+      },
+      "verifier": {
+        "type": "test-script",
+        "timeout_sec": 900.0,
+        "service": "main",
+        "hardening": {
+          "cleanup_conftests": true
+        }
+      },
+      "environment": {
+        "network_mode": "public",
+        "build_timeout_sec": 600.0,
+        "os": "linux",
+        "cpus": 1,
+        "memory_mb": 4096,
+        "storage_mb": 10240,
+        "gpus": 0
+      },
+      "sandbox_feasibility": "not_tested"
+    }
+  ],
+  "skill_directory_overlap": [],
+  "family_review": "Manual task-family labels plus zero shared skill directory names; semantic/content duplication audit pending before S2 design."
+}
