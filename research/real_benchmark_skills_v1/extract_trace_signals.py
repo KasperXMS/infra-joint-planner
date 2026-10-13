@@ -27,6 +27,23 @@ def selected_skill_path(text):
     return bool(re.search(pattern, text, re.I))
 
 
+def direct_skill_script_execution(title):
+    """Screen for actually launching a bundled script, rather than inspecting it.
+
+    A `grep`, `cat`, `find`, or file listing over a .py path is a read/probe,
+    not execution. This intentionally misses indirect imports or `python -c`.
+    """
+    if not selected_skill_path(title):
+        return False
+    command = title.split('$', 1)[-1].strip()
+    boundary = r'(?:^|[;&|]\s*)'
+    assignments = r'(?:[A-Za-z_]\w*=\S+\s+)*'
+    interpreter = r'(?:python(?:3(?:\.\d+)?)?|bash|sh|node|tsx|deno)\s+(?:-[A-Za-z0-9]+\s+)*'
+    script = r'["\x27]?(?:/|\./|skills/)[^\s"\x27;&|]*\.(?:py|sh|js|ts)(?=\s|["\x27;&|]|$)'
+    return bool(re.search(boundary + assignments + interpreter + script, command, re.I)
+                or re.search(boundary + assignments + script, command, re.I))
+
+
 def signal_row(path):
     cell = json.loads(path.read_bytes())
     if cell.get('status') != 'completed':
@@ -81,7 +98,7 @@ def signal_row(path):
         if kind == 'read':
             key = 'skill_file_read' if re.search(r'SKILL\.md', title, re.I) else 'skill_reference_read'
             actions[key].append(step)
-        if kind == 'execute' and re.search(r'\.(?:py|sh|js|ts)(?:\s|["\x27]|$)', title, re.I):
+        if kind == 'execute' and direct_skill_script_execution(title):
             actions['skill_script_execution'].append(step)
     verifier = result_path.parent / 'verifier/ctrf.json'
     verifier_stdout = result_path.parent / 'verifier/test-stdout.txt'
@@ -107,7 +124,7 @@ def signal_row(path):
             'pending_tool_call_count': len(timeout.get('pending_tool_call_ids') or []),
             'trace_terminal_complete': (timeout.get('terminal_trajectory_complete')
                                         if timeout else not result.get('partial_trajectory', False)),
-            'method_limit': 'Native Skill path screen and ACP tool kinds; human trace review required for actual use or causality.'}
+            'method_limit': 'Native Skill path and direct interpreter/script-launch screens; indirect imports may be missed. Human trace review required for actual use or causality.'}
 
 
 def main(stage, require_complete):
@@ -125,6 +142,8 @@ def main(stage, require_complete):
     else:
         print(json.dumps({'completed_cells': len(rows), 'expected': expected,
                           'skill_read_cells': [r['run_id'] for r in rows if r['step_indices']['skill_file_read']],
+                          'direct_skill_script_execution_candidates': [
+                              r['run_id'] for r in rows if r['step_indices']['skill_script_execution']],
                           'verifier_failure_names': {r['run_id']: r['verifier_tests']['failed_test_names']
                                                      for r in rows if r['verifier_tests']}}))
 
