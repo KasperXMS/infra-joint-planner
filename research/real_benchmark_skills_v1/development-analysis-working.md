@@ -1,6 +1,6 @@
 # Development analysis working notes (26/32 cells)
 
-This is an **incomplete development-stage draft**, not the frozen analysis or a held-out estimate. It covers 13 matched tasks across model sizes as of the 26th completed original SkillsBench v1.1 cell. The other six development cells and every held-out cell are excluded. Original verifier resolution is the primary outcome; fractional reward, subtests, trajectories, and timing are explanations only. The authoritative cell-by-cell record is under the private WSL jobs directory, with separately hashed local archives. Public case evidence is indexed in `development-case-notes.md` and `development-9b-case-notes.md`.
+This is an **incomplete development-stage draft**, not the frozen analysis or a held-out estimate. It covers 13 matched model–task pairs (eight 4B pairs and five 9B pairs) as of the 26th completed original SkillsBench v1.1 cell. The other six development cells and every held-out cell are excluded. Original verifier resolution is the primary outcome; fractional reward, subtests, trajectories, and timing are explanations only. The authoritative cell-by-cell record is under the private WSL jobs directory, with separately hashed local archives. Public case evidence is indexed in `development-case-notes.md` and `development-9b-case-notes.md`.
 
 ## Observed outcome and delivery
 
