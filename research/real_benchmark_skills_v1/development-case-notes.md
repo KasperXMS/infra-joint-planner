@@ -1,4 +1,4 @@
-# Preliminary development cases: first six 4B task pairs
+# Preliminary development cases: first seven 4B task pairs
 
 These are official SkillsBench v1.1 **development** cells under the frozen configuration. They are not a held-out estimate or a claim that Skills cannot help. The original verifiers ran without framework or verifier errors. The primary outcome is binary task resolution; fractional reward and verifier subtests are explanatory only. Full trajectories, artifacts and requests remain in the private workspace and its separate local backup. The public result and trajectory digests below identify exact records without publishing their contents.
 
@@ -10,6 +10,7 @@ These are official SkillsBench v1.1 **development** cells under the frozen confi
 | `crystallographic-wyckoff-position-analysis` | Fail / 0 | Fail / 0.36 | 29 → 26 tools; 760,618 → 663,251 tokens; 488.5 → 695.1 s | S1 had native Skills available, but zero harness invocations and no Skill path/name in ACP tool actions. |
 | `adaptive-cruise-control` | Fail / 0 | Fail / 0 | 107 → 107 tools; 2,715,289 → 2,826,639 tokens; 1,982.2 → 1,858.7 s | S1 had native Skills available and zero harness invocations; no read was observed before timeout, but the terminal trajectory is incomplete. |
 | `court-form-filling` | Fail / 0 | Fail / 0 | 84 → 43 tools; 2,245,610 → 930,886 tokens; 1,866.9 → 855.4 s | S1 had native Skills available, but zero harness invocations and no native Skill path read in the complete trajectory. |
+| `dapt-intrusion-detection` | Fail / 0 | Fail / 0 | 24 → 21 tools; 640,031 → 477,948 provider tokens; 795.6 → 673.2 s | S1 had native Skills available, but zero harness invocations and no native Skill path read in its complete trajectory. |
 
 For `dialogue-parser`, both cells passed five of six verifier checks and failed `test_visualization_validity` at the diamond-shape check. The untouched [official verifier](https://github.com/benchflow-ai/skillsbench/blob/b63b7b2850226b6aa4fb5929a8c1ac7bc4d9a6af/tasks/dialogue-parser/verifier/test_outputs.py#L187-L190) requires choice nodes to use diamond shapes. This is an artifact completeness failure, not evidence of a tool API or sandbox failure. The extra S1 cost without a read action is evidence of Skill availability not turning into observed consumption in this cell; one pair cannot establish why the model did not read it.
 
@@ -25,9 +26,11 @@ For `court-form-filling`, both cells failed to create the required `/root/sc100-
 
 One S0 model response was generated near timeout, then the relay logged `BrokenPipeError` while writing it to a disconnected client. Its 25,071 prompt and 1,040 completion tokens appear in the private API response and AutoDL backend counters but not in the Agent's received-usage total; they remain included in actual inference workload. The timing is consistent with Agent cancellation at timeout, though the disconnect cause is not proven. No answer-based retry or re-scoring followed.
 
+For `dapt-intrusion-detection`, both cells reached the original 600-second Agent budget without filling the required `network_stats.csv` values. The untouched verifier reported 37 missing or incorrect metric/flag checks in each cell and assigned reward zero. S0 ended with one pending ACP action and an incomplete terminal trajectory; S1 had a complete timeout trajectory with no pending action. The S1 trace shows no native Skill path read or harness invocation. The apparent reduction in end-to-end time includes 138.5 seconds of S0 environment setup versus 24.1 seconds for S1; it cannot establish a Skill speed effect. BenchFlow's aggregate summary displays zero tokens for these timeout cells, while each task's `result.json` contains the provider-reported usage stated in the table. The original verifier ran without framework error in both cells.
+
 The private evidence identifiers are:
 
-| Run ID | `result.json` SHA256 | ACP trajectory SHA256 | Original CTRF report SHA256 |
+| Run ID | `result.json` SHA256 | ACP trajectory SHA256 | Original verifier report SHA256 (CTRF or stdout) |
 | --- | --- | --- | --- |
 | `development-4b-dialogue-parser-s0-t1` | `1cae72085a8f27283976fc4ad312b81127f2b96e92642ab46ec9de8622cc973e` | `3e66ff687dcf7d03f2d2ed1e392466028979ee48c2bc2920a82190ebcf6a9162` | `59d19497120bf66d7a59abcff4e285d513489649683026533163b26f0277124d` |
 | `development-4b-dialogue-parser-s1-t1` | `c5cb26512d9d68f5fe018c0927b3c9dca463c81cb88c1536163a187cefe93c5d` | `b1734cf192c7b5e8a2a1d495822d6f0ffc12a1bfadaa9d689cbf894f5ef485e7` | `87540088bdbafd75f4a98437dcf3df35449b06a2a12dcaf23c3b93a3aebd0f9c` |
@@ -39,12 +42,16 @@ The private evidence identifiers are:
 | `development-4b-adaptive-cruise-control-s1-t1` | `58af1027f1015baff92146d4eb5ab2c0952642927efc42f33c2164037aca3e48` | `26ea20e29e3932a57cbada5af37ccc81b1685ea67d9d6bb52f7390ee6e238a75` | `baf78f764fbf189d69e353fe8abcc7cbf40ea6c9029a545b853789d3f5cfefbd` |
 | `development-4b-court-form-filling-s0-t1` | `cdaabfdf99f515f04ec1f1149428b0aaca7b1d28c2fcf1fdbadcac00f98352fa` | `8d1cfd8ef06cf51c168e338c4dfe48d02c06473bd1bf69789c154cf4161d0cad` | `954f5cf836a9824302732aa6f1bd5d53db95fbe1f66309ae6c76a848cfd16efd` |
 | `development-4b-court-form-filling-s1-t1` | `79d01762dea7dcec7ea1a37ac83cb017a9d11c8cd1322203eba17c05283e22c8` | `5bd9f89363502664ac30d3309da94822af8a36aa144ef9d2b53a5003e278ceae` | `26f34f6946737310b49ab1106c338d4869bc4e62939b838ef5577b9f490d69ff` |
+| `development-4b-dapt-intrusion-detection-s0-t1` | `cf687c62e9c9010e527f8816002f86a2bf9cfe3cfd16395497d6b2fa521c3528` | `ba8d501d1480ff7a558c12e0a203b4980516430b188e91fb98aab63c24d33543` | `b2a1e3a30108f4fab006280d2035a663828bbf8d14f8cf3ec708a15421b40139` |
+| `development-4b-dapt-intrusion-detection-s1-t1` | `61e798e926de75e64c7dfd904be0a42723b40ae788bd08a2e8f93add270392e1` | `a8c984791cb24b4fb52d6377004090f96e9b3433ed177df3806d3d8a4287eec2` | `6de77fb50ea8300ef9fc089f9baea6ab72c4eb2a90a64a2765e96c04470e993e` |
 
 The 69 model generations in the first four cells (dialogue and Azure) have exact prompt and completion token agreement between the API responses and the AutoDL backend generation counters. The remote counter snapshot SHA256 is `47241c82741e03947baef85c3d8333a9335fac7e76350f8b77724efe8e63fd18`; it also contains excluded infrastructure smoke requests, so counts were matched only within each completed cell's start-to-idle window. No additional generation was found in those four windows.
 
 An updated private backend snapshot covers the first eight completed 4B cells (first four task pairs): 276 generations in their separate start-to-quiescence windows, with zero prompt-token or completion-token difference from the API usage records and zero API transport errors. Its SHA256 is `0ba04422114738e08f8af172a7197189c96bf7cd392af19103bb83efcbc66c02`. A later private snapshot covers all ten completed cells: 562 generations, again with exact prompt/completion token agreement and zero API transport errors. Its SHA256 is `ef9f4b0302b15e764b829fee3b75798fbc2058a6c435f10e1c7fbd35deff1a43`. Both snapshots also contain excluded probes and unfinished later cells; only completed task windows were reconciled.
 
 The 12-cell private snapshot SHA256 is `d0ce0f81a03e4b533cd17b55568454f715cfa860e846f7678d250ce950547910`. It reconciles 738 generations with zero backend-minus-API token differences. Its only recorded transport error is the court S0 response-write disconnect described above. As with earlier snapshots, unrelated probes and active later tasks are excluded by completed-cell windows.
+
+The 14-cell private snapshot SHA256 is `226c1c65407ef8a5de22221453204d9697244c7fe907cc1b52e01e0919aac66f`. It reconciles 797 generations, including 31 DAPT S0 and 28 DAPT S1 generations, with exact backend/API prompt and completion token agreement and the same one earlier transport disconnect. The snapshot also contains unrelated probes or active later cells, which are excluded by each completed-cell window.
 
 The crystal task uses a plain-text original verifier rather than a CTRF report. Its separate evidence identifiers are:
 
