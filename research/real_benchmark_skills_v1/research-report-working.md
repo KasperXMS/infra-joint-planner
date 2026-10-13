@@ -1,6 +1,6 @@
 # Small language models and native procedural Skills on real Agent tasks
 
-**Status:** working integrated report. Development is complete and frozen. Held-out evaluation and its aggregate analyses are pending; no held-out treatment estimate or final RQ1–RQ9 answer is reported here. Official verifier outcomes remain the primary endpoint. Raw prompts, traces, artifacts and credentials are stored privately, outside Git.
+**Status:** user-terminated before completion of the held-out study. Development completed and was frozen; only 7/64 held-out cells have original verifier scores. See the [termination report](user-abort-report-2026-10-14.md) and [partial official-score export](evaluation-user-abort-results.json). No held-out treatment estimate or final RQ1–RQ9 answer is reported. Official verifier outcomes remain the primary endpoint. Raw prompts, traces, artifacts and credentials are stored privately, outside Git.
 
 ## Research question and design
 
