@@ -1,6 +1,6 @@
 # Preliminary 9B development cases
 
-These are official SkillsBench v1.1 **development** observations under the frozen configuration. Three of eight 9B task pairs are complete; no held-out result or overall 9B treatment estimate is available yet. Original task verifiers determine binary resolution. Fractional reward and subtests explain failures but do not override the official outcome. Full trajectories, artifacts and requests remain private, with separate local backup.
+These are official SkillsBench v1.1 **development** observations under the frozen configuration. Three of eight 9B task pairs are complete, with one additional S1 cell awaiting its S0 pair; no held-out result or overall 9B treatment estimate is available yet. Original task verifiers determine binary resolution. Fractional reward and subtests explain failures but do not override the official outcome. Full trajectories, artifacts and requests remain private, with separate local backup.
 
 ## `dialogue-parser`, S0 No Skill
 
@@ -42,3 +42,11 @@ The paired S1 Native Skill cell also timed out at the original 900-second Agent 
 The exact official `timeseries-detrending` name appeared in S1's first model system message and not in S0's; S1's complete ACP path/action screen found no native Skill file or reference read, no bundled script execution, and BenchFlow reported zero Skill invocations. This pair shows availability without observed consumption, with no basis to attribute the extra work to the Skill content. The 22-cell private backend snapshot SHA256 `eb0efdb5653f84ab12eea18ad94ca749fa9a0f41a04f784b60a8481bfeedadd7` reconciles 1,215 completed-cell generations with exact backend/API prompt and completion token agreement. Both 9B economics cells have separate private backup receipts.
 
 S1 evidence identifiers: official `result.json` SHA256 `dc632c2b73a88b9a3d7c354b90d0dc264a1f25ae697f30556ebac35c82f6f620`; native ACP trajectory SHA256 `b881715ee172da52c80b4ed2c890e7820b020fd9333002c7acb3d9c672a56f12`; untouched verifier CTRF SHA256 `1036a19a84f3d8b3dddb70d5546fe21589a64f8f209876e63b3fdf600b8b1e8d`.
+
+## `crystallographic-wyckoff-position-analysis`, S1 Native Skill (S0 pending)
+
+The original verifier assigned fractional reward 0.73 (8 of 11 CIF examples passed), but binary resolution was **fail**. There was no framework/verifier error or Agent timeout. The Agent delivered an importable `solution.py` and ended normally after 32 tool calls, 784,955 provider tokens and 715.2 seconds end-to-end. The three failed examples involved representative fractional coordinates: the implementation selected `symmetry_dataset.std_positions`, while the official `pymatgen` Skill reference directs selection from the first original `structure` site's `frac_coords` for each Wyckoff letter. This is an observed implementation discrepancy, not evidence that the Agent read and rejected the reference.
+
+The first request presented both official native Skill names, but the complete ACP path/action screen found no Skill file/reference read or bundled script execution; BenchFlow counted zero Skill invocations. One intermediate ACP tool event was marked `pending` in an otherwise complete normal-ending trajectory. The private completed-cell archive and SHA256 receipt were saved. S0 is still running; no paired Skill effect is inferred from this S1 result alone.
+
+S1 evidence identifiers: official `result.json` SHA256 `2197d5e681f4e7e2c170fe2d1e7042a64fa17b159fde61624bf39b8a74f0cafa`; native ACP trajectory SHA256 `3cc4ca1fc8e8f05b98168e6d415d23db94068379b09eb051832f2a606fe5ff7c`; original verifier stdout SHA256 `be1c5ccd84be008d77af2cfb9a383115d4dafa0202b3dbbac86f181dfa45a598`.
