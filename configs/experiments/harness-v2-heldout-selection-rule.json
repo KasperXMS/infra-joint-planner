@@ -1,0 +1,11 @@
+{
+  "version": "harness-v2-heldout-selection-rule-001",
+  "frozen_before_stage2_results": true,
+  "condition": "Run Stage 3 only after Stage 2 shows a repeatable L2 workflow change with paired cost improvement, preserved evidence and acceptable task quality; otherwise report No-Go.",
+  "families": ["multihop_rag", "longbench_v2", "video_mme"],
+  "tasks_per_family": 2,
+  "selection": "For each family, read the same source dataset and evaluator used in Stage 1. Traverse rows in their original source order. Exclude every source_task_id in all frozen historical experiment manifests, Stage 1, Stage 2, and any Skill development selections. Keep the first two rows whose source assets exist and whose task and evaluator can be materialized without changing their semantics. Record all skipped row ordinals and reasons before any Stage 3 model call. Never inspect labels or model outcomes to choose rows.",
+  "trial_order": "For each frozen task in family/source order: slow then fast; within each network: trial 1 then 2; within each trial: Blind then the one Stage-2-selected method.",
+  "cells_if_triggered": 48,
+  "no_selective_reruns": true
+}
