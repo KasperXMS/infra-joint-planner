@@ -19,5 +19,14 @@
   "new_config_sha256": "db1dd13ad3e39e8de723e68a92341c0ba0518193c649435a9684addbcc147953",
   "old_launch_receipt_sha256": "c7d133b7e2709dc37af24934091623af299f6316915027a5e86d551e4475a9cb",
   "new_launch_receipt_sha256": "9ea054004bf69123fd22a72557e7782adc911a284ab8e294915e373d437b52b4",
-  "development_freeze_receipt_sha256": "500c0be1bf2963bcbe14ed219e59f3a9f4cebc257f8f2002e114969ec441f248"
+  "development_freeze_receipt_sha256": "500c0be1bf2963bcbe14ed219e59f3a9f4cebc257f8f2002e114969ec441f248",
+  "remote_service_source_sha256_after_repair": "e92202972a57695836e4c69d603eb55b6919af05fadeb5a2a953ca3e7e247af2",
+  "excluded_synthetic_compatibility_smoke": {
+    "http_status": 200,
+    "prompt_tokens": 28818,
+    "requested_max_new_tokens": 4096,
+    "effective_max_new_tokens": 3950,
+    "context_clamped": true,
+    "actual_completion_tokens": 2
+  }
 }
