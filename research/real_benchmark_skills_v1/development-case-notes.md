@@ -30,6 +30,8 @@ The private evidence identifiers are:
 
 The 69 model generations in these four cells have exact prompt and completion token agreement between the API responses and the AutoDL backend generation counters. The remote counter snapshot SHA256 is `47241c82741e03947baef85c3d8333a9335fac7e76350f8b77724efe8e63fd18`; it also contains excluded infrastructure smoke requests, so counts were matched only within each completed cell's start-to-idle window. No additional generation was found in those four windows.
 
+An updated private backend snapshot covers all eight completed 4B cells above: 276 generations in their separate start-to-quiescence windows, with zero prompt-token or completion-token difference from the API usage records and zero API transport errors. Its SHA256 is `0ba04422114738e08f8af172a7197189c96bf7cd392af19103bb83efcbc66c02`. The snapshot also includes excluded probes and an unfinished later cell; only the eight completed windows were reconciled.
+
 The crystal task uses a plain-text original verifier rather than a CTRF report. Its separate evidence identifiers are:
 
 | Run ID | `result.json` SHA256 | ACP trajectory SHA256 | Original verifier stdout SHA256 |
