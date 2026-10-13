@@ -61,6 +61,7 @@ def signal_row(path):
         if kind == 'execute' and re.search(r'\.(?:py|sh|js|ts)(?:\s|["\x27]|$)', title, re.I):
             actions['skill_script_execution'].append(step)
     verifier = result_path.parent / 'verifier/ctrf.json'
+    verifier_stdout = result_path.parent / 'verifier/test-stdout.txt'
     tests = None
     if verifier.exists():
         report = json.loads(verifier.read_bytes())['results']
@@ -72,6 +73,7 @@ def signal_row(path):
             'official_reward': result['rewards'], 'harness_skill_invocations': result['n_skill_invocations'],
             'trajectory_sha256': sha(trajectory), 'trajectory_steps': len(events),
             'step_indices': actions, 'verifier_tests': tests,
+            'verifier_stdout_sha256': sha(verifier_stdout) if verifier_stdout.exists() else None,
             'method_limit': 'Path/name screen and ACP tool kinds; human trace review required for actual use or causality.'}
 
 

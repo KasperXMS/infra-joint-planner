@@ -77,6 +77,8 @@ def cell_row(path):
     if passed != (reward == 1):
         raise RuntimeError('Reward/resolution mismatch: ' + cell['run_id'])
     trajectory = result_path.parent / 'agent/acp_trajectory.jsonl'
+    verifier_stdout = result_path.parent / 'verifier/test-stdout.txt'
+    verifier_ctrf = result_path.parent / 'verifier/ctrf.json'
     request = summarize_requests(cell['run_id'])
     row = {k: cell[k] for k in ('run_id', 'stage', 'model', 'condition', 'task_id')}
     row.update(status='completed', official_resolution=passed, official_fractional_reward=reward,
@@ -96,6 +98,8 @@ def cell_row(path):
                quiescent_epoch=cell['quiescent_epoch'], generation_drain=cell['generation_drain'],
                official_task_digest=result['task_digest'], official_summary_sha256=digest(summary_path),
                original_result_sha256=digest(result_path),
+               original_verifier_stdout_sha256=digest(verifier_stdout) if verifier_stdout.exists() else None,
+               original_ctrf_sha256=digest(verifier_ctrf) if verifier_ctrf.exists() else None,
                private_trajectory_sha256=digest(trajectory) if trajectory.exists() else None,
                request_metrics=request)
     if row['condition'] == 's0' and row['native_skill_available']:

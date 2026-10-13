@@ -57,6 +57,12 @@ def main(stage):
                                  if grouped_model == model}
                          for model in ('Qwen3.5-4B', 'Qwen3.5-9B')},
               'inference_limit': 'Descriptive single-trial task outcomes; no statistical significance, repeatability or general scaling claim.'}
+    report['model_size_comparison'] = {
+        'same_tasks_in_both_models': True,
+        'native_skill_lift_9b_minus_4b': (
+            report['paired']['Qwen3.5-9B']['all']['paired_lift']
+            - report['paired']['Qwen3.5-4B']['all']['paired_lift']),
+        'interpretation_limit': 'Descriptive difference of paired lifts on this frozen task sample only.'}
     output = source / (stage + '-paired-analysis.json')
     output.write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps({'saved': str(output),
