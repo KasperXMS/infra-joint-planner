@@ -40,7 +40,13 @@ def main(snapshot, stage, require_complete):
         output.write_text(json.dumps(report, indent=2) + '\n')
         print(json.dumps({'saved': str(output), 'completed_cells': len(rows)}))
     else:
-        print(json.dumps({'completed_cells': len(rows), 'rows': report['rows']}))
+        print(json.dumps({'completed_cells': len(rows),
+                          'snapshot_sha256': report['snapshot_sha256'],
+                          'backend_generation_count': sum(row['backend_generation_count'] for row in rows),
+                          'api_transport_errors': sum(row['api_transport_errors'] for row in rows),
+                          'cells_with_token_mismatch': [row['run_id'] for row in rows
+                                                        if row['prompt_token_difference_backend_minus_api']
+                                                        or row['completion_token_difference_backend_minus_api']]}))
 
 
 if __name__ == '__main__':

@@ -131,7 +131,14 @@ def main(stage, require_complete):
         destination.write_text(json.dumps(report, indent=2) + '\n')
         print(json.dumps({'saved': str(destination), 'completed': len(complete)}))
     else:
+        grouped = {model: {condition: {
+            'completed': sum(r['model'] == model and r['condition'] == condition for r in complete),
+            'official_passes': sum(r['official_resolution'] for r in complete
+                                   if r['model'] == model and r['condition'] == condition)}
+            for condition in ('s0', 's1')}
+            for model in ('Qwen3.5-4B', 'Qwen3.5-9B')}
         print(json.dumps({'completed': len(complete), 'expected': len(expected_ids),
+                          'by_model_condition': grouped,
                           'incomplete': report['incomplete_cells'], 'missing_count': len(report['missing_cells'])}))
 
 
