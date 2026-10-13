@@ -38,6 +38,7 @@ from infra_joint.control.loop import (
     AgentLoopUsage,
     PlannerStepTelemetry,
 )
+from infra_joint.control.native_workflow_bridge import NativeFormalWorkflowBridge
 from infra_joint.control.physical import PhysicalExecutionOutcome, interrupted_physical_outcome
 from infra_joint.control.provenance import (
     PROFILE_MESSAGE_PREFIX,
@@ -59,6 +60,7 @@ from infra_joint.control.verification import (
     candidate_output_sha256,
     invoke_verifier,
 )
+from infra_joint.control.workflow_validation import WorkflowValidationError
 from infra_joint.core.base import ContractModel
 from infra_joint.core.task import OutputContract, OutputFormat, TaskContract
 from infra_joint.operators.registry import OperatorRegistry, OperatorSpec
@@ -118,6 +120,7 @@ class _NativeState:
     artifact_namespace: str
     static_capabilities: StaticCapabilityContract
     blind_verifier: BlindVerifier | None = None
+    formal_bridge: NativeFormalWorkflowBridge | None = None
     record_input_provenance: bool = False
     observations: list[LogicalObservation] = field(
         default_factory=lambda: list[LogicalObservation]()
@@ -319,6 +322,7 @@ class OpenAIAgentsNativeRuntime:
         budget: AgentLoopBudget | None = None,
         trace: WorkflowTraceRecorder | None = None,
         static_capabilities: StaticCapabilityContract | None = None,
+        formal_bridge: NativeFormalWorkflowBridge | None = None,
     ) -> AgentLoopResult:
         root = root_agent or LogicalAgentSpec(
             logical_agent_id="manager",
@@ -347,6 +351,12 @@ class OpenAIAgentsNativeRuntime:
             ),
             model_classes=(),
         )
+        if formal_bridge is not None and (
+            formal_bridge.gateway is not gateway
+            or formal_bridge.workflow.task != task
+            or formal_bridge.workflow.capabilities != resolved_capabilities
+        ):
+            raise ValueError("formal bridge task, gateway, or capabilities do not match this run")
         state = _NativeState(
             task=task,
             task_view=task_view,
@@ -359,6 +369,7 @@ class OpenAIAgentsNativeRuntime:
             artifact_namespace=f"derived/{uuid4().hex}",
             static_capabilities=resolved_capabilities,
             blind_verifier=verifier,
+            formal_bridge=formal_bridge,
             record_input_provenance=self._record_input_provenance,
             accessible={root.logical_agent_id: {item.artifact_id for item in task_view.artifacts}},
             produced={root.logical_agent_id: set()},
@@ -1027,8 +1038,11 @@ class OpenAIAgentsNativeRuntime:
                 "same_batch_dependencies": [],
             }
             try:
-                state.gateway.validate_batch((action,))
-            except SemanticValidationError as exc:
+                if state.formal_bridge is None:
+                    state.gateway.validate_batch((action,))
+                else:
+                    state.formal_bridge.prepare(action)
+            except (SemanticValidationError, WorkflowValidationError) as exc:
                 state.emit(
                     "logical.batch.validation",
                     {**validation, "status": "rejected", "reason": str(exc)},
@@ -1095,10 +1109,12 @@ class OpenAIAgentsNativeRuntime:
             and owner == state.root_agent.logical_agent_id
         )
         try:
-            outcomes = await state.gateway.execute_batch(
-                (action,),
-                expose_profile=expose_profile,
-            )
+            if state.formal_bridge is None:
+                outcomes = await state.gateway.execute_batch(
+                    (action,), expose_profile=expose_profile
+                )
+            else:
+                outcomes = await state.formal_bridge.execute(action, expose_profile=expose_profile)
         except asyncio.CancelledError:
             await self._close_interrupted_action(
                 state,

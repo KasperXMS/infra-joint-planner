@@ -993,6 +993,109 @@ async def test_specialist_exception_is_typed_failure_without_fabricated_action()
 
 
 @pytest.mark.asyncio
+async def test_sdk_native_formal_bridge_accepts_fragment_patch_and_executes_pending() -> None:
+    from infra_joint.control.adaptation import PatchWorkflow
+    from infra_joint.control.capabilities import build_static_capability_contract
+    from infra_joint.control.native_workflow_bridge import NativeFormalWorkflowBridge
+    from infra_joint.control.workflow import (
+        ReplacePendingAction,
+        WorkflowDependency,
+        WorkflowPatch,
+    )
+    from infra_joint.control.workflow_state import VersionedPendingWorkflow
+    from infra_joint.core.state import AgentSpec, DeploymentSpec, EnvironmentSpec
+
+    task = benchmark_task().model_copy(
+        update={"output_contract": OutputContract(format=OutputFormat.SHORT_TEXT)}
+    )
+    registry = build_operator_catalog()
+    environment = EnvironmentSpec(
+        agents=(AgentSpec(agent_id="worker", device="gpu", capabilities=frozenset({"model"})),),
+        deployments=(
+            DeploymentSpec(
+                deployment_id="model",
+                agent_id="worker",
+                model_id="test",
+                context_window=32768,
+                reserved_output_tokens=64,
+            ),
+        ),
+    )
+    capabilities = build_static_capability_contract(
+        environment, registry, ("read_artifact", "invoke_model")
+    )
+    physical = FakePhysicalService()
+    runtime, gateway = runtime_and_gateway(task, physical, ("read_artifact", "invoke_model"))
+    workflow = VersionedPendingWorkflow("native-formal", task, capabilities, registry)
+    bridge = NativeFormalWorkflowBridge(workflow, gateway)
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        read = await tool(agent, "read_artifact").on_invoke_tool(
+            tool_context(agent, context, "read"),
+            json.dumps({"inputs": ["source-0"], "arguments": {}}),
+        )
+        assert json.loads(read)["succeeded"]
+        await reasoning_end(hooks, context, agent)
+        initial = LogicalModelAction(
+            action_id="manager:answer",
+            owner_agent_id="manager",
+            inputs=("source-0",),
+            prompt="Initial answer.",
+        )
+        workflow.append_fragment(
+            (initial,),
+            (
+                WorkflowDependency(
+                    dependency_type="control",
+                    producer_action_id="manager:read",
+                    consumer_action_id="manager:answer",
+                ),
+            ),
+            expected_version=1,
+            terminal_action_id="manager:answer",
+        )
+        revised = initial.model_copy(update={"prompt": "Final answer."})
+        bridge.keep_or_patch(
+            PatchWorkflow(
+                reason="clarify wording",
+                patch=WorkflowPatch(
+                    patch_id="clarify",
+                    reason="clarify wording",
+                    edits=(
+                        ReplacePendingAction(
+                            action_id="manager:answer",
+                            replacement=revised,
+                        ),
+                    ),
+                ),
+            ),
+            expected_version=2,
+        )
+        await reasoning_start(hooks, context, agent)
+        answer = await tool(agent, "invoke_model").on_invoke_tool(
+            tool_context(agent, context, "answer"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Final answer."}}),
+        )
+        assert json.loads(answer)["succeeded"]
+        await reasoning_end(hooks, context, agent)
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(
+        task, gateway, formal_bridge=bridge, static_capabilities=capabilities
+    )
+    assert result.final_answer == "A"
+    assert workflow.plan.version == 3
+    assert workflow.execution.statuses == {
+        "manager:read": "completed",
+        "manager:answer": "completed",
+    }
+    assert [item.kind for item in workflow.transitions] == ["fragment", "seal", "patch"]
+    assert any(item.source_kind == "prompt_input" for item in workflow.provenance.entries)
+
+
+@pytest.mark.asyncio
 async def test_native_blind_logical_trace_has_no_physical_or_private_leakage() -> None:
     task = benchmark_task()
     physical = FakePhysicalService()

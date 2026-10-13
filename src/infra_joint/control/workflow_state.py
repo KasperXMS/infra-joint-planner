@@ -157,6 +157,14 @@ class VersionedPendingWorkflow:
         self._capabilities = capabilities
         self._registry = registry
 
+    @property
+    def task(self) -> TaskContract:
+        return self._task
+
+    @property
+    def capabilities(self) -> StaticCapabilityContract:
+        return self._capabilities
+
     def append_fragment(
         self,
         actions: tuple[LogicalAction, ...],
