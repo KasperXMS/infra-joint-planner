@@ -41,6 +41,8 @@ def signal_row(path):
                'skill_script_execution': [], 'skill_mentioned_in_thought': [],
                'failed_tool_calls': [], 'failed_executable_actions': [],
                'failed_think_calls': [], 'failed_other_kind_calls': [],
+               'terminal_zero_exit_steps': [], 'terminal_nonzero_exit_steps': [],
+               'terminal_exit_unreported_steps': [],
                'completed_tool_calls': []}
     for step, event in enumerate(events):
         kind = event.get('kind')
@@ -59,6 +61,17 @@ def signal_row(path):
                 actions['failed_other_kind_calls'].append(step)
         elif event.get('status') == 'completed':
             actions['completed_tool_calls'].append(step)
+        if kind == 'execute':
+            output = '\n'.join(str(item['content'].get('text', ''))
+                               for item in event.get('content', [])
+                               if isinstance(item, dict) and isinstance(item.get('content'), dict))
+            exit_codes = re.findall(r'Exit code:\s*(-?\d+)', output)
+            if not exit_codes:
+                actions['terminal_exit_unreported_steps'].append(step)
+            elif int(exit_codes[-1]) == 0:
+                actions['terminal_zero_exit_steps'].append(step)
+            else:
+                actions['terminal_nonzero_exit_steps'].append(step)
         if not selected_text(title, task):
             continue
         if kind in ('read', 'execute'):
@@ -82,6 +95,11 @@ def signal_row(path):
             'official_reward': result['rewards'], 'harness_skill_invocations': result['n_skill_invocations'],
             'trajectory_sha256': sha(trajectory), 'trajectory_steps': len(events),
             'step_indices': actions, 'verifier_tests': tests,
+            'terminal_exit_observation': {
+                'reported_count': len(actions['terminal_zero_exit_steps']) + len(actions['terminal_nonzero_exit_steps']),
+                'nonzero_count': len(actions['terminal_nonzero_exit_steps']),
+                'unreported_count': len(actions['terminal_exit_unreported_steps']),
+                'limit': 'Last terminal Exit code in ACP output; compound shell commands may hide an earlier failure.'},
             'verifier_stdout_sha256': sha(verifier_stdout) if verifier_stdout.exists() else None,
             'agent_timeout_reason': timeout.get('reason'),
             'pending_tool_call_count': len(timeout.get('pending_tool_call_ids') or []),
