@@ -1,0 +1,23 @@
+{
+  "container": "dialogue-parser__bd251bdc-main-1",
+  "uid": 1000,
+  "paths": {
+    "/home/agent/.agents/skills": {
+      "exists": false,
+      "entries": []
+    },
+    "/workspace/.agents/skills": {
+      "exists": false,
+      "entries": []
+    },
+    "/skills": {
+      "exists": false,
+      "entries": []
+    },
+    "/app/skills": {
+      "exists": false,
+      "entries": []
+    }
+  },
+  "classification": "first formal S0 sandbox access observation; no solver task output inspected"
+}
