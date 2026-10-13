@@ -1,0 +1,113 @@
+{
+  "checks": {
+    "all_workers_drained_and_exited": true,
+    "both_networks_restored": true,
+    "no_context_integrity_failures": true,
+    "no_incomplete_claims": true,
+    "no_system_problems": true,
+    "six_cells_per_condition": true,
+    "stage_counts_exact": true,
+    "unique_stage2_cells": true
+  },
+  "local_gpu_usd": null,
+  "network": {
+    "fast": {
+      "calibration_accepted": true,
+      "calibration_issues": [],
+      "cleanup_error": null,
+      "measurements": {
+        "A28": {
+          "controller_to_edge": {
+            "measured_mbps": 95.06138452821385,
+            "tcp_mean_rtt_ms": 0.0
+          },
+          "edge_to_controller": {
+            "measured_mbps": 91.76057862714771,
+            "tcp_mean_rtt_ms": 22.285
+          }
+        },
+        "A4": {
+          "controller_to_edge": {
+            "measured_mbps": 95.38772980458697,
+            "tcp_mean_rtt_ms": 0.0
+          },
+          "edge_to_controller": {
+            "measured_mbps": 93.68462722674289,
+            "tcp_mean_rtt_ms": 23.065
+          }
+        },
+        "A5": {
+          "controller_to_edge": {
+            "measured_mbps": 95.3876980195793,
+            "tcp_mean_rtt_ms": 0.0
+          },
+          "edge_to_controller": {
+            "measured_mbps": 92.2626506394541,
+            "tcp_mean_rtt_ms": 19.052
+          }
+        }
+      },
+      "original_qdisc_restored": true
+    },
+    "slow": {
+      "calibration_accepted": true,
+      "calibration_issues": [],
+      "cleanup_error": null,
+      "measurements": {
+        "A28": {
+          "controller_to_edge": {
+            "measured_mbps": 2.795244829438446,
+            "tcp_mean_rtt_ms": 0.0
+          },
+          "edge_to_controller": {
+            "measured_mbps": 2.776824953686158,
+            "tcp_mean_rtt_ms": 71.009
+          }
+        },
+        "A4": {
+          "controller_to_edge": {
+            "measured_mbps": 2.796121579140871,
+            "tcp_mean_rtt_ms": 0.0
+          },
+          "edge_to_controller": {
+            "measured_mbps": 2.776726092801514,
+            "tcp_mean_rtt_ms": 69.837
+          }
+        },
+        "A5": {
+          "controller_to_edge": {
+            "measured_mbps": 2.7961653844615406,
+            "tcp_mean_rtt_ms": 0.0
+          },
+          "edge_to_controller": {
+            "measured_mbps": 2.759985926890606,
+            "tcp_mean_rtt_ms": 69.267
+          }
+        }
+      },
+      "original_qdisc_restored": true
+    }
+  },
+  "raw_trace_exported": false,
+  "repeatable_structural_l2_count": 9,
+  "stage2_condition_counts": {
+    "fast/AWARE": 6,
+    "fast/BLIND": 6,
+    "fast/LEDGER": 6,
+    "slow/AWARE": 6,
+    "slow/BLIND": 6,
+    "slow/LEDGER": 6
+  },
+  "stage2_manager_raw_schema_invalid": 1,
+  "stage2_physical_context_rejections": 63,
+  "stage2_unknown_cloud_cost_calls": 0,
+  "stage2_verifier_raw_schema_invalid": 11,
+  "stage3_decision": "NO_GO",
+  "stage3_eligible_mechanism_count": 0,
+  "stage_counts": {
+    "stage1": 18,
+    "stage1_5": 2,
+    "stage2": 36
+  },
+  "version": "harness-v2-final-audit-001"
+}

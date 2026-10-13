@@ -1,0 +1,563 @@
+{
+  "full_local_gpu_monetary_cost": null,
+  "groups": {
+    "stage1/B0": {
+      "cells": 6,
+      "cloud_api_usd": "1.230744086421557554578189984",
+      "completed": 3,
+      "context_integrity_failures": 0,
+      "e2e_ms": 1158052.689766977,
+      "failure_types": {
+        "none": 3,
+        "verifier_schema_validation_failed": 2,
+        "verifier_semantic_validation_failed": 1
+      },
+      "known_score_sum": 3.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 40,
+      "physical_inference_calls": 6,
+      "physical_service_work_ms": 720146.400002297,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 40,
+          "completion_tokens": 14580,
+          "prompt_tokens": 505847,
+          "provider_latency_ms": 182698.58764950186
+        },
+        "specialist": {
+          "calls": 8,
+          "completion_tokens": 980,
+          "prompt_tokens": 104712,
+          "provider_latency_ms": 16643.00883701071
+        },
+        "verifier": {
+          "calls": 40,
+          "completion_tokens": 7109,
+          "prompt_tokens": 530318,
+          "provider_latency_ms": 126153.21438154206
+        }
+      },
+      "specialist_turns_observed": 8,
+      "transfer_bytes": 249223229,
+      "tsr_successes": 3,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 37,
+      "verifier_schema_invalid": 2
+    },
+    "stage1/L1": {
+      "cells": 6,
+      "cloud_api_usd": "0.4452765795453035517346762515",
+      "completed": 3,
+      "context_integrity_failures": 0,
+      "e2e_ms": 575534.7621953115,
+      "failure_types": {
+        "none": 3,
+        "verifier_schema_validation_failed": 3
+      },
+      "known_score_sum": 3.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 2,
+      "manager_turns_observed": 36,
+      "physical_inference_calls": 5,
+      "physical_service_work_ms": 224045.83924124017,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 36,
+          "completion_tokens": 14318,
+          "prompt_tokens": 358923,
+          "provider_latency_ms": 132525.35353321582
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 36,
+          "completion_tokens": 5554,
+          "prompt_tokens": 313433,
+          "provider_latency_ms": 100033.67714071646
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 238838239,
+      "tsr_successes": 3,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 33,
+      "verifier_schema_invalid": 3
+    },
+    "stage1/L2": {
+      "cells": 6,
+      "cloud_api_usd": "0.4051380951115481204905725563",
+      "completed": 4,
+      "context_integrity_failures": 0,
+      "e2e_ms": 548372.6314529777,
+      "failure_types": {
+        "none": 4,
+        "verifier_schema_validation_failed": 2
+      },
+      "known_score_sum": 3.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 2,
+      "manager_turns_observed": 34,
+      "physical_inference_calls": 5,
+      "physical_service_work_ms": 227645.1168251224,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 34,
+          "completion_tokens": 13735,
+          "prompt_tokens": 337523,
+          "provider_latency_ms": 120415.04671098664
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 34,
+          "completion_tokens": 5304,
+          "prompt_tokens": 297469,
+          "provider_latency_ms": 94214.3259998411
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 238828840,
+      "tsr_successes": 3,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 32,
+      "verifier_schema_invalid": 2
+    },
+    "stage1_5/H2": {
+      "cells": 2,
+      "cloud_api_usd": "0.09306164711197331880572423232",
+      "completed": 0,
+      "context_integrity_failures": 0,
+      "e2e_ms": 145388.61105125397,
+      "failure_types": {
+        "manager turn budget exhausted": 1,
+        "verifier_schema_validation_failed": 1
+      },
+      "known_score_sum": 0.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 21,
+      "physical_inference_calls": 0,
+      "physical_service_work_ms": 0,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 21,
+          "completion_tokens": 7519,
+          "prompt_tokens": 294707,
+          "provider_latency_ms": 68198.016168084
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 21,
+          "completion_tokens": 2665,
+          "prompt_tokens": 143904,
+          "provider_latency_ms": 47972.26481558755
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 8428869,
+      "tsr_successes": 0,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 20,
+      "verifier_schema_invalid": 1
+    },
+    "stage2/fast/AWARE": {
+      "cells": 6,
+      "cloud_api_usd": "0.6794690468914016928207921977",
+      "completed": 4,
+      "context_integrity_failures": 0,
+      "e2e_ms": 856770.4775165766,
+      "failure_types": {
+        "none": 4,
+        "verifier_schema_validation_failed": 2
+      },
+      "known_score_sum": 1.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 41,
+      "physical_inference_calls": 5,
+      "physical_service_work_ms": 240024.65697936714,
+      "raw_profile_guidance_calls": 41,
+      "role_usage": {
+        "manager": {
+          "calls": 41,
+          "completion_tokens": 22447,
+          "prompt_tokens": 480098,
+          "provider_latency_ms": 207652.326148469
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 41,
+          "completion_tokens": 6588,
+          "prompt_tokens": 449130,
+          "provider_latency_ms": 119025.12851450592
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 582475727,
+      "tsr_successes": 1,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 39,
+      "verifier_schema_invalid": 2
+    },
+    "stage2/fast/BLIND": {
+      "cells": 6,
+      "cloud_api_usd": "0.9329539749398743007480832859",
+      "completed": 4,
+      "context_integrity_failures": 0,
+      "e2e_ms": 1059823.460329324,
+      "failure_types": {
+        "manager turn budget exhausted": 1,
+        "none": 4,
+        "verifier_schema_validation_failed": 1
+      },
+      "known_score_sum": 1.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 1,
+      "manager_turns_observed": 69,
+      "physical_inference_calls": 5,
+      "physical_service_work_ms": 281237.43562819436,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 69,
+          "completion_tokens": 32611,
+          "prompt_tokens": 958300,
+          "provider_latency_ms": 283091.0334158689
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 69,
+          "completion_tokens": 11683,
+          "prompt_tokens": 771583,
+          "provider_latency_ms": 203364.6520464681
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 583399654,
+      "tsr_successes": 1,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 68,
+      "verifier_schema_invalid": 1
+    },
+    "stage2/fast/LEDGER": {
+      "cells": 6,
+      "cloud_api_usd": "0.6331019917883575386332531658",
+      "completed": 4,
+      "context_integrity_failures": 0,
+      "e2e_ms": 725902.9415561818,
+      "failure_types": {
+        "none": 4,
+        "verifier_schema_validation_failed": 2
+      },
+      "known_score_sum": 1.0,
+      "ledger_guidance_calls": 39,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 39,
+      "physical_inference_calls": 6,
+      "physical_service_work_ms": 295163.76046231017,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 39,
+          "completion_tokens": 20776,
+          "prompt_tokens": 444766,
+          "provider_latency_ms": 192041.30341950804
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 39,
+          "completion_tokens": 6768,
+          "prompt_tokens": 424252,
+          "provider_latency_ms": 121311.52973370627
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 582473734,
+      "tsr_successes": 1,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 37,
+      "verifier_schema_invalid": 2
+    },
+    "stage2/slow/AWARE": {
+      "cells": 6,
+      "cloud_api_usd": "0.7681062610451906084322140873",
+      "completed": 4,
+      "context_integrity_failures": 0,
+      "e2e_ms": 2392015.0135331787,
+      "failure_types": {
+        "none": 4,
+        "verifier_schema_validation_failed": 2
+      },
+      "known_score_sum": 1.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 47,
+      "physical_inference_calls": 6,
+      "physical_service_work_ms": 315097.3644317128,
+      "raw_profile_guidance_calls": 47,
+      "role_usage": {
+        "manager": {
+          "calls": 47,
+          "completion_tokens": 23186,
+          "prompt_tokens": 562010,
+          "provider_latency_ms": 220338.2975133136
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 47,
+          "completion_tokens": 8096,
+          "prompt_tokens": 525713,
+          "provider_latency_ms": 142198.38160881773
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 582484036,
+      "tsr_successes": 1,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 45,
+      "verifier_schema_invalid": 2
+    },
+    "stage2/slow/BLIND": {
+      "cells": 6,
+      "cloud_api_usd": "0.7797293466562138747525212931",
+      "completed": 3,
+      "context_integrity_failures": 0,
+      "e2e_ms": 2630276.542094536,
+      "failure_types": {
+        "none": 3,
+        "terminal answer violates the choice output contract": 1,
+        "verifier_schema_validation_failed": 2
+      },
+      "known_score_sum": 2.0,
+      "ledger_guidance_calls": 0,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 54,
+      "physical_inference_calls": 6,
+      "physical_service_work_ms": 341244.3339386955,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 54,
+          "completion_tokens": 26786,
+          "prompt_tokens": 634516,
+          "provider_latency_ms": 232708.8998714462
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 54,
+          "completion_tokens": 9013,
+          "prompt_tokens": 558912,
+          "provider_latency_ms": 158814.10428788513
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 583399654,
+      "tsr_successes": 2,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 52,
+      "verifier_schema_invalid": 2
+    },
+    "stage2/slow/LEDGER": {
+      "cells": 6,
+      "cloud_api_usd": "0.5032810388126337049389441794",
+      "completed": 3,
+      "context_integrity_failures": 0,
+      "e2e_ms": 2077128.414649982,
+      "failure_types": {
+        "none": 3,
+        "verifier_schema_validation_failed": 2,
+        "verifier_semantic_validation_failed": 1
+      },
+      "known_score_sum": 0.0,
+      "ledger_guidance_calls": 35,
+      "local_gpu_usd": null,
+      "manager_schema_invalid": 0,
+      "manager_turns_observed": 35,
+      "physical_inference_calls": 4,
+      "physical_service_work_ms": 106250.40141912177,
+      "raw_profile_guidance_calls": 0,
+      "role_usage": {
+        "manager": {
+          "calls": 35,
+          "completion_tokens": 16872,
+          "prompt_tokens": 382529,
+          "provider_latency_ms": 159686.06451852247
+        },
+        "specialist": {
+          "calls": 0,
+          "completion_tokens": 0,
+          "prompt_tokens": 0,
+          "provider_latency_ms": 0
+        },
+        "verifier": {
+          "calls": 35,
+          "completion_tokens": 5841,
+          "prompt_tokens": 341844,
+          "provider_latency_ms": 102836.79107902572
+        }
+      },
+      "specialist_turns_observed": 0,
+      "transfer_bytes": 582452376,
+      "tsr_successes": 0,
+      "unknown_cloud_cost_calls": 0,
+      "verifier_calls": 32,
+      "verifier_schema_invalid": 2
+    }
+  },
+  "incomplete_claims": [],
+  "paired_change_levels": {
+    "L0": 3,
+    "L2": 21
+  },
+  "repeatable_structural_l2": [
+    {
+      "cloud_api_lower_both_trials": true,
+      "e2e_lower_both_trials": true,
+      "method": "AWARE",
+      "network": "fast",
+      "physical_service_work_lower_both_trials": false,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "66f7c780bb02136c067c35e8",
+      "transfer_lower_both_trials": true
+    },
+    {
+      "cloud_api_lower_both_trials": true,
+      "e2e_lower_both_trials": true,
+      "method": "LEDGER",
+      "network": "fast",
+      "physical_service_work_lower_both_trials": false,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "66f7c780bb02136c067c35e8",
+      "transfer_lower_both_trials": true
+    },
+    {
+      "cloud_api_lower_both_trials": true,
+      "e2e_lower_both_trials": true,
+      "method": "AWARE",
+      "network": "slow",
+      "physical_service_work_lower_both_trials": true,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "66f7c780bb02136c067c35e8",
+      "transfer_lower_both_trials": true
+    },
+    {
+      "cloud_api_lower_both_trials": true,
+      "e2e_lower_both_trials": true,
+      "method": "LEDGER",
+      "network": "slow",
+      "physical_service_work_lower_both_trials": false,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "66f7c780bb02136c067c35e8",
+      "transfer_lower_both_trials": true
+    },
+    {
+      "cloud_api_lower_both_trials": false,
+      "e2e_lower_both_trials": false,
+      "method": "AWARE",
+      "network": "fast",
+      "physical_service_work_lower_both_trials": false,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "multihop-rag-train-9bae0079038050a37a1ae583",
+      "transfer_lower_both_trials": false
+    },
+    {
+      "cloud_api_lower_both_trials": true,
+      "e2e_lower_both_trials": false,
+      "method": "LEDGER",
+      "network": "fast",
+      "physical_service_work_lower_both_trials": false,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "multihop-rag-train-9bae0079038050a37a1ae583",
+      "transfer_lower_both_trials": false
+    },
+    {
+      "cloud_api_lower_both_trials": true,
+      "e2e_lower_both_trials": true,
+      "method": "LEDGER",
+      "network": "slow",
+      "physical_service_work_lower_both_trials": true,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "multihop-rag-train-9bae0079038050a37a1ae583",
+      "transfer_lower_both_trials": true
+    },
+    {
+      "cloud_api_lower_both_trials": false,
+      "e2e_lower_both_trials": true,
+      "method": "AWARE",
+      "network": "slow",
+      "physical_service_work_lower_both_trials": false,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "video_mme:795",
+      "transfer_lower_both_trials": false
+    },
+    {
+      "cloud_api_lower_both_trials": false,
+      "e2e_lower_both_trials": true,
+      "method": "LEDGER",
+      "network": "slow",
+      "physical_service_work_lower_both_trials": true,
+      "quality_preserved_both_trials": false,
+      "source_task_id": "video_mme:795",
+      "transfer_lower_both_trials": false
+    }
+  ],
+  "stage_counts": {
+    "stage1": 18,
+    "stage1_5": 2,
+    "stage2": 36
+  },
+  "statistical_significance_claimed": false,
+  "version": "harness-v2-aggregate-001"
+}

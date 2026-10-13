@@ -62,3 +62,14 @@ H1. Verifier validity is the dominant observed completion limit in this
 small sample, so the Stage 2 paired comparison must retain and report
 Verifier-invalid outcomes; they cannot be interpreted as evidence that one
 Planner method improved logical planning.
+
+For descriptive historical context, the earlier frozen Blind Harness v1.3
+cross-family validation completed 3/3 different tasks and scored 2/3 under
+native, unshaped networking and one run per task
+(`docs/blind-harness-v1.3-validation.md`). Those were not the six H1 tasks,
+not paired randomizations, and not the same harness or network treatment.
+The count difference cannot be assigned to Harness v2, model capability or
+infrastructure awareness. What this run can establish is that H1's state and
+terminal machinery allowed valid results to reach the unchanged evaluator,
+while the frozen Verifier function-call contract remained an observed failure
+source.
