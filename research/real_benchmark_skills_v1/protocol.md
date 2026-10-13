@@ -63,7 +63,7 @@ RQ1–RQ8 require actual matched model runs and are presently unanswered. RQ2 re
 
 ## Literature gate
 
-Primary method reading notes and references are recorded in `related-work-boundaries.md` for all eight requested works; AWM currently has publisher-abstract evidence only. Compiler/runtime interfaces, adaptive granularity/delivery, reduction, and workflow memory are existing directions; renaming them is insufficient. Full nearest-method comparison remains necessary if development supports S2.
+Primary method reading notes and references are recorded in `related-work-boundaries.md` for all eight requested works. AWM was checked against both its PMLR entry and detailed arXiv full text. Compiler/runtime interfaces, adaptive granularity/delivery, reduction, and workflow memory are existing directions; renaming them is insufficient. Full nearest-method comparison remains necessary if development supports S2.
 
 ## Preservation and delivery
 
