@@ -62,6 +62,7 @@ def signal_row(path):
             actions['skill_script_execution'].append(step)
     verifier = result_path.parent / 'verifier/ctrf.json'
     verifier_stdout = result_path.parent / 'verifier/test-stdout.txt'
+    timeout = result.get('agent_timeout_info') or {}
     tests = None
     if verifier.exists():
         report = json.loads(verifier.read_bytes())['results']
@@ -74,6 +75,10 @@ def signal_row(path):
             'trajectory_sha256': sha(trajectory), 'trajectory_steps': len(events),
             'step_indices': actions, 'verifier_tests': tests,
             'verifier_stdout_sha256': sha(verifier_stdout) if verifier_stdout.exists() else None,
+            'agent_timeout_reason': timeout.get('reason'),
+            'pending_tool_call_count': len(timeout.get('pending_tool_call_ids') or []),
+            'trace_terminal_complete': (timeout.get('terminal_trajectory_complete')
+                                        if timeout else not result.get('partial_trajectory', False)),
             'method_limit': 'Path/name screen and ACP tool kinds; human trace review required for actual use or causality.'}
 
 

@@ -20,11 +20,12 @@ def summarize(rows):
         'skill_file_read_candidates': sum(row['skill_file_read'] for row in rows),
         'skill_reference_read_candidates': sum(row['skill_reference_read'] for row in rows),
         'skill_script_execution_candidates': sum(row['skill_script_execution'] for row in rows),
+        'incomplete_terminal_trajectory_cells': sum(not row['trace_terminal_complete'] for row in rows),
         'no_observed_read_or_invocation': sum(
-            not row['skill_file_read'] and not row['skill_reference_read']
+            row['trace_terminal_complete'] and not row['skill_file_read'] and not row['skill_reference_read']
             and not row['harness_invocation'] for row in rows),
         'resolved_with_no_observed_read_or_invocation': sum(
-            row['resolved'] and not row['skill_file_read']
+            row['resolved'] and row['trace_terminal_complete'] and not row['skill_file_read']
             and not row['skill_reference_read'] and not row['harness_invocation']
             for row in rows),
     }
@@ -59,6 +60,8 @@ def main(stage):
             'skill_file_read': bool(steps['skill_file_read']),
             'skill_reference_read': bool(steps['skill_reference_read']),
             'skill_script_execution': bool(steps['skill_script_execution']),
+            'trace_terminal_complete': signal['trace_terminal_complete'],
+            'pending_tool_call_count': signal['pending_tool_call_count'],
             'trajectory_sha256': signal['trajectory_sha256'],
         })
     expected_s1 = results['expected_cells'] // 2
