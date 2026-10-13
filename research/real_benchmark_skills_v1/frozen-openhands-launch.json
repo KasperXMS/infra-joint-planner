@@ -4,7 +4,7 @@
     "temperature": 0.0,
     "top_p": 1.0,
     "stream": false,
-    "max_input_tokens": 32768,
+    "max_input_tokens": 28000,
     "max_output_tokens": 4096,
     "num_retries": 0
   },
@@ -17,6 +17,6 @@
   },
   "condenser_config_interpreter": "Python from pinned OpenHands entrypoint shebang",
   "official_launch_sha256": "dff787adb27287f9c81dac0b5b0b0d4e80f0aff775fdaddba940389faaaece68",
-  "configured_launch_sha256": "f989cecdad9420ff05674ea4ab8277aba18d9272a52f3485111ce62ed9d58623",
+  "configured_launch_sha256": "7be1b64b6d6aebd91c3d625be422683884ac2445f0932836962ff04967ac7163",
   "official_install_sha256": "3aa71af6d4c394bee6c5678775ebf4f2e1ba3869fa6784ec50e13c11f3bb2636"
 }

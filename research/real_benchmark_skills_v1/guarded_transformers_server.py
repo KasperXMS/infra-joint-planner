@@ -1,7 +1,8 @@
 """Official Transformers serve with explicit context/output and greedy guards.
 
 Valid requests use the unmodified official generation and Qwen3.5 response
-parser. Guards reject invalid budgets rather than truncating or repairing them.
+parser. The requested output cap is bounded by the physical context still
+available after tokenization, so a long prompt cannot crash the ACP session.
 """
 import argparse
 import hashlib
@@ -46,15 +47,20 @@ class FrozenServe(Serve):
                 original_eos = config.eos_token_id
                 stops = original_eos if isinstance(original_eos, list) else [original_eos]
                 config.eos_token_id = sorted({v for v in stops + [_chat_eos] if v is not None})
-                output_limit = int(config.max_new_tokens)
-                if output_limit > 4096 or output_limit < 1 or length + output_limit > 32768:
+                requested_output_limit = int(config.max_new_tokens)
+                if requested_output_limit > 4096 or requested_output_limit < 1 or length >= 32768:
                     raise ContextLimitError(
                         f"Maximum context length is 32768 tokens and output cap is 4096 tokens; "
-                        f"requested {length} input tokens plus {output_limit} output tokens.")
+                        f"requested {length} input tokens plus {requested_output_limit} output tokens.")
+                output_limit = min(requested_output_limit, 32768 - length)
+                config.max_new_tokens = output_limit
                 if config.do_sample or config.temperature != 0:
                     raise RuntimeError("Frozen greedy decoding settings were not delivered")
                 record = {"id": uuid.uuid4().hex, "started_epoch": time.time(), "prompt_tokens": length,
-                          "max_new_tokens": output_limit, "temperature": config.temperature,
+                          "max_new_tokens": output_limit,
+                          "requested_max_new_tokens": requested_output_limit,
+                          "context_clamped": output_limit != requested_output_limit,
+                          "temperature": config.temperature,
                           "do_sample": config.do_sample, "dtype": str(_model.dtype),
                           "eos_token_id": config.eos_token_id, "chat_eos_token_id": _chat_eos,
                           "input_ids_sha256": hashlib.sha256(input_ids.cpu().numpy().tobytes()).hexdigest()}
@@ -95,7 +101,8 @@ class FrozenServe(Serve):
             with self._study_lock:
                 return {"pending_requests": self._study_pending, "running_generations": self._study_running,
                         "queued_requests": max(0, self._study_pending-self._study_running),
-                        "context_limit": 32768, "output_cap": 4096}
+                        "context_limit": 32768, "output_cap": 4096,
+                        "context_guard_mode": "clamp_output_to_fit"}
         super().start_server()
 
 

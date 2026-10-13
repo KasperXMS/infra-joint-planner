@@ -1,0 +1,23 @@
+{
+  "id": "eval-context-repair-2",
+  "recorded_epoch": 1791916119.6186538,
+  "reason": "ACP failed after two HTTP 400 context_length_exceeded responses; original verifier did not run.",
+  "excluded_attempt": "evaluation-4b-sec-financial-report-s1-t1-context-overflow-acp-fault-1791914280",
+  "excluded_archive_sha256": "1f5e4d00d1c96451044f00b7ae35516999c583ea18b954bc5fdbd519127a8770",
+  "old_config_sha256": "0323f5431e46b9ec518846356426288a431a7deebcae5c1140dd690f71260483",
+  "old_adapter_sha256": "a9c59476bf9e95d0102764e5c28f23f06990f652843ffb73614690f4502d22af",
+  "new_adapter_sha256": "4e3fbe7ae6dd0f6eb9b10898056feafa66c4d67496457725bae39e5c83b8e0f3",
+  "old_server_sha256": "408d6031f10bc38ef89b9906037f69284265f99934de48f5c074a49e4c6f6948",
+  "new_server_sha256": "e92202972a57695836e4c69d603eb55b6919af05fadeb5a2a953ca3e7e247af2",
+  "prospective_scope": "both S0 and S1 for each remaining held-out task, both model sizes",
+  "effective_changes": "OpenHands input budget 28000; exact-token backend clamps output cap to available context",
+  "model_context_tokens": 32768,
+  "requested_output_cap_tokens": 4096,
+  "prior_six_valid_max_api_prompt_tokens_below_28000": true,
+  "task_skill_or_verifier_changed": false,
+  "scored_cells_rerun": false,
+  "new_config_sha256": "db1dd13ad3e39e8de723e68a92341c0ba0518193c649435a9684addbcc147953",
+  "old_launch_receipt_sha256": "c7d133b7e2709dc37af24934091623af299f6316915027a5e86d551e4475a9cb",
+  "new_launch_receipt_sha256": "9ea054004bf69123fd22a72557e7782adc911a284ab8e294915e373d437b52b4",
+  "development_freeze_receipt_sha256": "500c0be1bf2963bcbe14ed219e59f3a9f4cebc257f8f2002e114969ec441f248"
+}

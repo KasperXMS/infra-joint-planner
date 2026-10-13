@@ -15,7 +15,7 @@ original = AGENTS["openhands"]
 marker = "printf '}}'"
 if original.launch_cmd.count(marker) != 1:
     raise RuntimeError("Official adapter changed; review configuration injection")
-settings = {"temperature": 0.0, "top_p": 1.0, "stream": False, "max_input_tokens": 32768,
+settings = {"temperature": 0.0, "top_p": 1.0, "stream": False, "max_input_tokens": 28000,
             "max_output_tokens": 4096, "num_retries": 0}
 suffix = "," + json.dumps(settings, separators=(",", ":"))[1:-1] + "}}"
 launch = original.launch_cmd.replace(marker, "printf '" + suffix + "'")
