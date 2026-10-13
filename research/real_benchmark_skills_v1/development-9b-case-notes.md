@@ -1,6 +1,6 @@
 # Preliminary 9B development cases
 
-These are official SkillsBench v1.1 **development** observations under the frozen configuration. One of eight 9B task pairs is complete; no held-out result or overall 9B treatment estimate is available yet. Original task verifiers determine binary resolution. Fractional reward and subtests explain failures but do not override the official outcome. Full trajectories, artifacts and requests remain private, with separate local backup.
+These are official SkillsBench v1.1 **development** observations under the frozen configuration. Two of eight 9B task pairs are complete; no held-out result or overall 9B treatment estimate is available yet. Original task verifiers determine binary resolution. Fractional reward and subtests explain failures but do not override the official outcome. Full trajectories, artifacts and requests remain private, with separate local backup.
 
 ## `dialogue-parser`, S0 No Skill
 
@@ -19,3 +19,14 @@ The S1 first model request contained the exact official Skill name in the native
 The private backend snapshot SHA256 `3ed203bdae118715079f17a8af8c4ba37fbae7b30175050fa386f7a5f9598ad0` reconciles all 1,062 generations in the first 18 completed development cells, including 56 S0 and 49 S1 generations for this 9B pair, with zero backend/API prompt or completion token differences. It contains unrelated active-task and excluded probe records, which the cell-window reconciliation omits. Both completed 9B cell archives have separate local SHA256 receipts.
 
 S1 evidence identifiers: official `result.json` SHA256 `8f5dc9856c208b6d304e06f89e9f0ff9be24ac6676557cb61f054e0e7715fdec`; native ACP trajectory SHA256 `2c2ea53c7f7a1990fa0f0b8b1ff55052911a1939068041ff9343a302fd123493`; untouched verifier CTRF SHA256 `d904209b6cf2bc67e4023d9d120e9274e768e556d576de103de3b2a691bb0e9f`.
+
+## `azure-bgp-oscillation-route-leak`, S0/S1 pair
+
+Both cells had official reward zero and binary resolution **fail**, without an Agent timeout, framework error, or verifier error. Both passed the original output-structure, oscillation-detection and route-leak-detection checks, but failed mitigation classification. In the detailed 22-check pytest report, S0 passed 16 and failed 6; S1 passed 15 and failed 7. The shared six failures include incorrect resolution flags for restarting the BGP session, disabling hub peering, a hub export policy, route preference hierarchy, RPKI validation, and a user-defined route override. S1 additionally misclassified the Virtual WAN hub routing-intent proposal, which S0 classified correctly. This single subtest difference does not alter either official outcome.
+
+S0 → S1 used 13 → 37 tool calls, 302,192 → 839,113 provider tokens, and 295.5 → 628.8 seconds end-to-end. The S1 initial request contained the official native Skill name, but its complete ACP trajectory showed no native Skill file/reference read or bundled script execution, and BenchFlow reported zero Skill invocations. The extra work cannot be assigned causally to Skill consumption from one trial. One S1 ACP tool entry was marked `pending` despite a complete final trajectory and normal Agent message; it is not a terminal pending call or framework error. The private 20-cell AutoDL snapshot SHA256 `fb893edb2e74c3dd212bb64da9c50fa7671ddf439b6ecc5d8b0e678205b17e12` reconciles 1,121 completed-cell generations with zero backend/API prompt or completion token differences. Both cell archives have independent local SHA256 receipts.
+
+| Condition | Official `result.json` SHA256 | Native ACP trajectory SHA256 | Original verifier CTRF SHA256 |
+| --- | --- | --- | --- |
+| S0 | `de3e8aab00d2beb3efebb296aa09d9c9c63f87c1cb8e14b5d5fe94c43714086d` | `a261296f2ed7f6b00913ff5626c10d9ceb70a47618611ef042d7862e49abc9bd` | `9a1aa9fd4c18716f95c81bb6e8b535f584aa0b054b6ade2a2e8e3f4e61737189` |
+| S1 | `5796bffb84ea123fb49b46218ab088a3ad33f41ea7a66f6a47d4ceef55ed19fe` | `7f4099d40cb2a1483f39a5b005ffb8343797402e53498540a9a749e31e7be006` | `310ba13d57d34b1580cfe45cabf24197c5800ecc0c1157217b098524baf8b616` |
