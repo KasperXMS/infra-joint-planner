@@ -17,11 +17,24 @@ def rental(seconds):
 
 def main(stages, ending_epoch):
     cells = []
+    backend_by_id = {}
+    snapshot_sha256 = {}
     for stage in stages:
         report = json.loads((source / (stage + '-results.json')).read_bytes())
         if report['completed_cells'] != report['expected_cells']:
             raise RuntimeError('Only complete official stages can enter aggregate costs')
         cells.extend(report['cells'])
+        backend = json.loads((source / (stage + '-backend-reconciliation.json')).read_bytes())
+        stage_ids = {cell['run_id'] for cell in report['cells']}
+        rows = backend['rows']
+        if (backend['stage'] != stage or len(rows) != len(stage_ids)
+                or {row['run_id'] for row in rows} != stage_ids):
+            raise RuntimeError('Backend generation reconciliation does not cover official cells')
+        if any(row['prompt_token_difference_backend_minus_api']
+               or row['completion_token_difference_backend_minus_api'] for row in rows):
+            raise RuntimeError('Backend/API token mismatch requires cost audit')
+        backend_by_id.update((row['run_id'], row) for row in rows)
+        snapshot_sha256[stage] = backend['snapshot_sha256']
     if not cells:
         raise RuntimeError('No official cells')
     first = min(cell['started_epoch'] for cell in cells)
@@ -42,6 +55,10 @@ def main(stages, ending_epoch):
                  'official_passes': pass_count, 'cell_elapsed_seconds': elapsed,
                  'incremental_rental_equivalent_cny': rental(elapsed),
                  'api_prompt_tokens': prompt, 'api_completion_tokens': completion,
+                 'backend_generation_count': sum(backend_by_id[row['run_id']]['backend_generation_count']
+                                                 for row in rows),
+                 'backend_generation_seconds': sum(backend_by_id[row['run_id']]['backend_generation_seconds']
+                                                   for row in rows),
                  'api_roundtrip_seconds': sum(row['request_metrics']['api_roundtrip_seconds'] for row in rows),
                  'api_transport_errors': sum(row['request_metrics']['api_transport_errors'] for row in rows),
                  'tool_calls': sum(row['tool_calls'] for row in rows),
@@ -57,13 +74,16 @@ def main(stages, ending_epoch):
               'sum_cell_elapsed_seconds': sum(row['quiescent_epoch'] - row['started_epoch'] for row in cells),
               'sum_cell_incremental_rental_equivalent_cny': sum(
                   rental(row['quiescent_epoch'] - row['started_epoch']) for row in cells),
+              'backend_counter_snapshot_sha256_by_stage': snapshot_sha256,
+              'backend_generation_count': sum(row['backend_generation_count'] for row in backend_by_id.values()),
+              'backend_generation_seconds': sum(row['backend_generation_seconds'] for row in backend_by_id.values()),
               'formal_period_rental_estimate_cny': rental(last - first),
               'estimated_all_in_rental_since_approx_study_start_cny': rental(end - APPROX_STUDY_START),
               'approx_study_start_hkt': '2026-10-13 11:48 (approximately)',
               'rental_continues_after_observation': True,
               'local_wsl_electricity_hardware_and_transfer_costs': 'unpriced',
               'api_per_token_bill': 0,
-              'usage_limit': 'Bridge response usage omits any failed call without usage; reconcile with private backend generation metadata before final publication.',
+              'usage_limit': 'Bridge response usage can omit a failed call without usage; backend generation counters are reconciled to completed cell windows and must match API totals here. GPU generation seconds exclude idle/load/setup time.',
               'groups': aggregate}
     output = source / ('-'.join(stages) + '-costs.json')
     output.write_text(json.dumps(report, indent=2) + '\n')
