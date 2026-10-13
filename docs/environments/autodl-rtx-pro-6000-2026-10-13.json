@@ -1,0 +1,71 @@
+{
+  "observed_utc": "2026-10-13T03:22:49.317110+00:00",
+  "python": "3.12.3",
+  "python_executable": "/root/miniconda3/bin/python",
+  "platform": "Linux-5.15.0-78-generic-x86_64-with-glibc2.35",
+  "cpu_count": 208,
+  "gpu": {
+    "returncode": 0,
+    "stdout": "0, NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887, 0, 97251, 580.105.08",
+    "stderr": ""
+  },
+  "gpu_compute_apps": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "cgroup": {
+    "memory.max": "118111600640",
+    "memory.current": "401465344",
+    "cpu.max": "2200000 100000"
+  },
+  "packages": {
+    "torch": "2.8.0+cu128",
+    "torchvision": "0.23.0+cu128",
+    "transformers": null,
+    "modelscope": null,
+    "accelerate": null,
+    "safetensors": null,
+    "tokenizers": null,
+    "huggingface_hub": null,
+    "ollama": null,
+    "vllm": null,
+    "jsonschema": "4.25.0"
+  },
+  "torch": {
+    "version": "2.8.0+cu128",
+    "cuda_build": "12.8",
+    "cuda_available": true,
+    "gpu_count": 1,
+    "compute_capability": [
+      12,
+      0
+    ],
+    "compiled_architectures": [
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ]
+  },
+  "disk": {
+    "/root": {
+      "total": 32212254720,
+      "used": 54751232,
+      "free": 32157503488
+    },
+    "/root/autodl-tmp": {
+      "total": 107374182400,
+      "used": 20480,
+      "free": 107374161920
+    }
+  },
+  "old_shared_storage_mounted": false,
+  "persistent_previous_backup_present": false,
+  "inspection_scope": "Read-only base environment inventory; no kernel/model inference or installation",
+  "previous_instance_status": "Released, as reported by user; exact billing stop unknown",
+  "new_lease_price": "unknown"
+}
