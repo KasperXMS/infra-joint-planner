@@ -1,0 +1,11 @@
+# Preliminary 9B development cases
+
+These are official SkillsBench v1.1 **development** observations under the frozen configuration. The eight 9B task pairs are still running; no held-out result or paired 9B treatment estimate is available yet. Original task verifiers determine binary resolution. Fractional reward and subtests explain failures but do not override the official outcome. Full trajectories, artifacts and requests remain private, with separate local backup.
+
+## `dialogue-parser`, S0 No Skill
+
+The original verifier assigned reward 0.167 and binary resolution **fail**. The Agent reached the original 900-second wall-clock budget after 40 tool calls; BenchFlow completed scoring without a framework or verifier error. The Agent created JSON and DOT outputs: the verifier passed basic JSON/schema/file/graph-size checks and 15 of 35 parameterized checks overall. It failed 20 checks, including required narrative node IDs, graph edges and reachability, DOT choice-node shape, and expected content. This is an incomplete parser and graph artifact, rather than missing sandbox or evaluator execution.
+
+The task result reports 1,017,803 prompt and 22,538 completion tokens from provider responses, 40 tool calls, and 957.2 seconds end-to-end. Its terminal timeout trajectory is complete, with no pending tool calls. Five ACP tool events have `failed` status, but three have `kind=other` and two `kind=think`; they are not five failed executable terminal actions. One generated response near timeout logged a `BrokenPipeError` while writing to the client, consistent with the Agent cancellation but not independently proof of its cause. No answer-based retry followed. A private AutoDL snapshot reconciles all 56 generations in this cell with the corresponding API prompt and completion token totals exactly; it also contains the earlier 4B cells and an excluded 9B identity probe. The snapshot SHA256 is `c0a9a4ddbf56aa783c614f9f629d99be97ed7e61945b4dd5fde61dadfe179565`.
+
+Evidence identifiers: official `result.json` SHA256 `3ea8c6d8326360c14241f817946e7fe0720f3c965175e52a231a52ed095133fa`; native ACP trajectory SHA256 `53c65e9f27cce723b8b71e75467f889df9c1d7de5d7c35e14a7fc6c125094fed`; untouched verifier CTRF SHA256 `7a8b85ecdfacfab18e2c11d1c403de24cebd60f1e972c26aa032fe6f6f04cfdf`.
