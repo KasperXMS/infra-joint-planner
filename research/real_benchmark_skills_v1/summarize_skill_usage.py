@@ -21,6 +21,8 @@ def summarize(rows):
         'harness_invocations': sum(row['harness_invocation_count'] for row in rows),
         'skill_file_read_candidates': sum(row['skill_file_read'] for row in rows),
         'skill_reference_read_candidates': sum(row['skill_reference_read'] for row in rows),
+        'cells_with_reference_read_candidate_nonzero_exit': sum(
+            row['skill_reference_read_nonzero_exit'] for row in rows),
         'skill_script_execution_candidates': sum(row['skill_script_execution'] for row in rows),
         'incomplete_terminal_trajectory_cells': sum(not row['trace_terminal_complete'] for row in rows),
         'no_observed_read_or_invocation': sum(
@@ -62,6 +64,7 @@ def main(stage):
         if presented['condition'] != 's1' or presented['task_id'] != result['task_id']:
             raise RuntimeError('Skill visibility metadata mismatch: ' + signal['run_id'])
         steps = signal['step_indices']
+        nonzero_terminal_steps = set(steps['terminal_nonzero_exit_steps'])
         rows.append({
             'run_id': signal['run_id'],
             'model': result['model'],
@@ -72,6 +75,8 @@ def main(stage):
             'harness_invocation_count': result['skill_invocations'],
             'skill_file_read': bool(steps['skill_file_read']),
             'skill_reference_read': bool(steps['skill_reference_read']),
+            'skill_reference_read_nonzero_exit': bool(
+                set(steps['skill_reference_read']) & nonzero_terminal_steps),
             'skill_script_execution': bool(steps['skill_script_execution']),
             'trace_terminal_complete': signal['trace_terminal_complete'],
             'pending_tool_call_count': signal['pending_tool_call_count'],
