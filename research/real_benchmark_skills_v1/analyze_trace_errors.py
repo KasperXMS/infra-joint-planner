@@ -27,12 +27,15 @@ def aggregate(rows):
 
 def main(stage):
     report = json.loads((source / f'{stage}-trace-signals.json').read_bytes())
+    results = json.loads((source / f'{stage}-results.json').read_bytes())
     expected = 32 if stage == 'development' else 64
     rows = report['rows']
-    if report['completed_cells'] != expected or len(rows) != expected:
+    if (report['completed_cells'] != expected or len(rows) != expected
+            or results['completed_cells'] != expected):
         raise RuntimeError('Trace error analysis requires a complete official stage')
-    if len({row['run_id'] for row in rows}) != expected:
-        raise RuntimeError('Duplicate trace row')
+    if (len({row['run_id'] for row in rows}) != expected
+            or {row['run_id'] for row in rows} != {row['run_id'] for row in results['cells']}):
+        raise RuntimeError('Trace/result ID mismatch or duplicate trace row')
     output = {
         'stage': stage,
         'classification': 'observed tool exit and ACP status signals on official cells',
