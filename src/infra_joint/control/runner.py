@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import json
 from contextlib import AsyncExitStack
 from hashlib import sha256
@@ -29,6 +30,7 @@ from infra_joint.control.loop import (
     SubagentPolicyFactory,
 )
 from infra_joint.control.physical import PhysicalExecutionService, PhysicalProfiler
+from infra_joint.control.recovery import RunRecoverySnapshot, interrupted_snapshot
 from infra_joint.control.validation import SemanticActionValidator, SemanticValidationError
 from infra_joint.core.base import ContractModel
 from infra_joint.core.task import TaskContract
@@ -85,6 +87,8 @@ class PersistedControlPlaneResult(ContractModel):
     benchmark_id: str = Field(min_length=1)
     setting_kind: str = Field(min_length=1)
     execution_completed: bool
+    interrupted: bool = False
+    recovery: RunRecoverySnapshot | None = None
     loop: AgentLoopResult | None = None
     final_answer: str | None = None
     evaluation: EvaluationResult | None = None
@@ -136,6 +140,7 @@ class ControlPlaneBenchmarkRunner:
         trace_path = run_directory / "trace.jsonl"
         result_path = run_directory / "result.json"
         trace = WorkflowTraceRecorder(resolved_run_id, JsonlTraceWriter(trace_path))
+        receipts = FileActionReceiptStore(run_directory / "private" / "action-receipts-v2")
         started = perf_counter()
         initial_transfers: tuple[ArtifactTransferTelemetry, ...] = ()
         try:
@@ -194,9 +199,7 @@ class ControlPlaneBenchmarkRunner:
                         self._available_operations,
                     ),
                     physical,
-                    receipt_store=FileActionReceiptStore(
-                        run_directory / "private" / "action-receipts-v2"
-                    ),
+                    receipt_store=receipts,
                 )
                 if self._logical_runtime is not None:
                     static_capabilities = build_static_capability_contract(
@@ -251,29 +254,40 @@ class ControlPlaneBenchmarkRunner:
                     telemetry=telemetry,
                     trace_path=str(trace_path),
                 )
-        except Exception as exc:  # noqa: BLE001 - every run failure is evidence
+        except BaseException as exc:  # noqa: BLE001 - cancellation is durable evidence
+            if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+                raise
+            recovery = interrupted_snapshot(resolved_run_id, receipts)
             failure = ControlPlaneRunFailure(
-                code=self._failure_code(exc),
+                code=(self._failure_code(exc) if isinstance(exc, Exception) else "interrupted"),
                 exception_type=type(exc).__name__,
                 message=str(exc) or type(exc).__name__,
             )
             trace.emit(
-                "run.failed",
+                "run.interrupted",
                 {
                     "failure": failure.model_dump(mode="json"),
+                    "recovery": recovery.model_dump(mode="json"),
                     "e2e_latency_ms": (perf_counter() - started) * 1000,
                 },
             )
+            trace.emit("run.failed", {"failure": failure.model_dump(mode="json")})
             persisted = PersistedControlPlaneResult(
                 run_id=resolved_run_id,
                 task_id=bundle.execution.task.task_id,
                 benchmark_id=bundle.execution.task.benchmark_id,
                 setting_kind=bundle.execution.validity.setting_kind,
                 execution_completed=False,
+                interrupted=True,
+                recovery=recovery,
                 initial_transfers=initial_transfers,
                 failure=failure,
                 trace_path=str(trace_path),
             )
+            self._write_result(result_path, persisted)
+            if isinstance(exc, asyncio.CancelledError):
+                raise
+            return persisted
         self._write_result(result_path, persisted)
         return persisted
 

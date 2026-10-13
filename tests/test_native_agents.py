@@ -1707,8 +1707,6 @@ async def test_complete_verdict_selects_bound_candidate_not_latest_observation()
                     failure_stage="none",
                     reason="first candidate is supported",
                     candidate_action_id="manager:first",
-                    candidate_output_sha256=candidate_output_sha256("A"),
-                    evidence_state_version=context.workflow.version,
                 )
             )
 
@@ -1737,6 +1735,64 @@ async def test_complete_verdict_selects_bound_candidate_not_latest_observation()
     result = await runtime.run(task, gateway)
     assert result.final_answer == "A"
     assert result.terminal_action_id == "manager:first"
+    assert result.verification_steps[0].result.candidate_output_sha256 == candidate_output_sha256(
+        "A"
+    )
+    assert (
+        result.verification_steps[0].result.evidence_state_version
+        == result.verification_steps[0].graph_version
+    )
+
+
+@pytest.mark.asyncio
+async def test_stale_complete_verdict_cannot_authorize_terminal_selection() -> None:
+    task = benchmark_task()
+    verifier = FakeVerifier(
+        (
+            VerificationResult(
+                status="complete",
+                failure_stage="none",
+                reason="stale verdict",
+                candidate_action_id="manager:terminal",
+                evidence_state_version=0,
+            ),
+        )
+    )
+    runtime, gateway = runtime_and_gateway(
+        task, FakePhysicalService(), ("invoke_model",), verifier=verifier
+    )
+
+    async def behavior(agent: FakeAgent, _input: str, context: object, hooks: object) -> str:
+        await reasoning_start(hooks, context, agent)
+        model_tool = tool(agent, "invoke_model")
+        answer = await model_tool.on_invoke_tool(
+            tool_context(agent, context, "terminal"),
+            json.dumps({"inputs": ["source-0"], "arguments": {"prompt": "Return only A."}}),
+        )
+        await reasoning_end(hooks, context, agent)
+        decision, outputs = await resolve_tool_batch(agent, ((model_tool, answer),))
+        assert not decision.is_final_output
+        assert json.loads(outputs[0])["blind_verification"]["status"] == "ready_for_synthesis"
+        return "A"
+
+    FakeRunner.behavior = behavior
+    result = await runtime.run(task, gateway)
+    assert result.verification_steps[0].result.status == "ready_for_synthesis"
+
+
+def test_explicit_specialist_adoption_policy_is_versioned_but_disabled() -> None:
+    from infra_joint.control.terminal_policy import TerminalPolicyConfig
+
+    with pytest.raises(NotImplementedError, match="interface only"):
+        OpenAIAgentsNativeRuntime(
+            name="manager",
+            instructions="Use tools.",
+            model="fake",
+            registry=build_operator_catalog(),
+            available_operations=("invoke_model",),
+            sdk_module=FAKE_SDK,
+            terminal_policy=TerminalPolicyConfig(mode="explicit_specialist_adoption"),
+        )
 
 
 @pytest.mark.asyncio

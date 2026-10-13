@@ -58,8 +58,12 @@ def test_new_manifest_changes_only_cardinality_capability_hash() -> None:
     operations = tuple(current["available_operations"])
     capability = build_static_capability_contract(environment, build_operator_catalog(), operations)
     assert resident.frozen._capability_sha256(capability) == patch.CAPABILITY_SHA256
-    resident.frozen.validate_harness(resident.frozen.load_harness(app / patch.HARNESS),
-                                     environment, capability, operations)
+    with pytest.raises(RuntimeError) as error:
+        resident.frozen.validate_harness(resident.frozen.load_harness(app / patch.HARNESS),
+                                         environment, capability, operations)
+    assert "native runtime source drift" in str(error.value)
+    assert "Verifier source drift" in str(error.value)
+    assert "static capability contract drift" not in str(error.value)
 
 
 @pytest.mark.parametrize("section", ["manager", "verifier", "budget", "available_operations",

@@ -41,7 +41,9 @@ def test_predecision_harness_preserves_shared_models_prompts_tools_and_budgets()
     # Historical manifests remain immutable and reject the changed runtime.
     # The explicit trace-only repair freeze pins both revised source components.
     with pytest.raises(RuntimeError, match="^frozen Blind harness validation failed: "
-                       "native runtime source drift; static capability contract drift$"):
+                       "native runtime source drift; runtime component source drift: "
+                       "src/infra_joint/runtime/client.py; Verifier source drift; "
+                       "static capability contract drift$"):
         validate_harness(new, environment, capabilities, operations)
     repaired = load_harness(REPO / (
         "configs/experiments/infra-aware-predecision-v1-transport-receipts-patch2.yaml"
@@ -54,7 +56,7 @@ def test_predecision_harness_preserves_shared_models_prompts_tools_and_budgets()
     # The historical transport repair does not authorize a later operator-schema
     # change; its old capability hash must still reject today's corrected catalog.
     with pytest.raises(RuntimeError, match="^frozen Blind harness validation failed: "
-                       "static capability contract drift$"):
+                       ".*static capability contract drift$"):
         validate_harness(repaired, environment, capabilities, operations)
     assert new.runtime["profile_timing"] == "fresh_before_every_manager_turn"
     assert new.runtime["terminal_canonical_labels"] == ["Yes", "No"]

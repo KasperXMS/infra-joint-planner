@@ -9,6 +9,12 @@ from pydantic import Field
 from starlette.responses import Response
 
 from infra_joint.core.action import SemanticAction
+from infra_joint.core.action_receipts import (
+    ActionReceipt,
+    ActionReceiptStore,
+    MemoryActionReceiptStore,
+    request_sha256,
+)
 from infra_joint.core.base import ContractModel
 from infra_joint.core.errors import ExecutionErrorCode, FailureDetail
 from infra_joint.operators.builtin import invoke_model_spec, read_artifact_spec
@@ -16,12 +22,6 @@ from infra_joint.operators.media import MediaBackend, MediaExecutionError, regis
 from infra_joint.operators.registry import OperatorRegistry
 from infra_joint.operators.retrieval import register_retrieval_operators
 from infra_joint.operators.structured import register_structured_operators
-from infra_joint.runtime.action_receipts import (
-    ActionReceipt,
-    ActionReceiptStore,
-    MemoryActionReceiptStore,
-    request_sha256,
-)
 from infra_joint.worker.artifact_fetcher import ArtifactFetcher
 from infra_joint.worker.artifact_store import (
     ArtifactMetadata,
@@ -397,9 +397,14 @@ def create_worker_app(
             if previous is not None and previous.effective_status == "succeeded":
                 return ExecuteOperatorResponse.model_validate(previous.response)
             if previous is not None and previous.effective_status == "failed":
+                typed_detail = (
+                    {"code": previous.failure_code, "message": previous.failure_message}
+                    if previous.failure_code in {item.value for item in ExecutionErrorCode}
+                    else previous.failure_message or "previous execution failed"
+                )
                 raise HTTPException(
                     status_code=previous.http_status or 422,
-                    detail=previous.failure_message or "previous execution failed",
+                    detail=typed_detail,
                 )
             if previous is not None and previous.status in {"started", "indeterminate"}:
                 raise HTTPException(
@@ -415,13 +420,18 @@ def create_worker_app(
             try:
                 response = await execute_once(request)
             except HTTPException as exc:
+                typed = cast(dict[str, Any], exc.detail) if isinstance(exc.detail, dict) else None
                 receipts.put(
                     ActionReceipt(
                         action_id=action_id,
                         request_sha256=digest,
                         status="failed",
-                        failure_code="worker_http_failure",
-                        failure_message=str(exc.detail),
+                        failure_code=(
+                            str(typed.get("code")) if typed is not None else "worker_http_failure"
+                        ),
+                        failure_message=(
+                            str(typed.get("message")) if typed is not None else str(exc.detail)
+                        ),
                         http_status=exc.status_code,
                     )
                 )

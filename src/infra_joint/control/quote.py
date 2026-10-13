@@ -7,7 +7,7 @@ from collections import Counter
 from collections.abc import Callable
 from dataclasses import dataclass
 from time import monotonic, perf_counter
-from typing import Any
+from typing import Any, cast
 from uuid import uuid4
 
 from pydantic import Field
@@ -267,7 +267,7 @@ class QuoteLedgerGateway(LedgerActionGateway):
         except Exception as exc:
             settled = getattr(exc, "_infra_joint_settled_outcomes", ())
             if isinstance(settled, tuple):
-                for outcome in settled:
+                for outcome in cast(tuple[object, ...], settled):
                     if isinstance(outcome, PhysicalExecutionOutcome):
                         pending = authorized.get(outcome.observation.action_id)
                         if pending is not None:

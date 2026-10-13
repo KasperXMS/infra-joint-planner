@@ -1429,7 +1429,10 @@ async def test_control_plane_evaluator_is_not_built_before_terminal_answer(
     ).run(bundle, run_id="no-terminal")
 
     assert not result.execution_completed
+    assert result.interrupted
+    assert result.recovery is not None and result.recovery.resume_supported is False
     assert result.evaluation is None
     assert not private.built
     trace = (tmp_path / "runs" / "no-terminal" / "trace.jsonl").read_text("utf-8")
     assert '"event_type":"evaluation.result"' not in trace
+    assert '"event_type":"run.interrupted"' in trace

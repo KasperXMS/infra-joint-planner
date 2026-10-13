@@ -1,0 +1,9 @@
+# Harness v2 compatibility
+
+The v2 formal bridge is opt-in. Existing SDK-native Manager tool calling, bounded Specialist delegation, model/Verifier configuration, operator registry, Physical Scheduler selection, Executor dispatch, and benchmark evaluator remain in place. The Manager's semantic instruction text and frozen Skills were not modified. Resource-blind runs do not receive physical worker identities from the new workflow or feasibility contracts.
+
+The Worker accepts legacy `/execute/operator` requests without `action_id`; new clients send a scoped ID for receipt durability and can query `/execute/receipt/{action_id}`. New controller runs write private receipt files under their run directory. Old trace JSONL fields and result fields remain readable because new result properties have defaults and new trace events are additive. A historical unbound `VerificationResult.complete` can be parsed, but the v2 runtime downgrades it to `ready_for_synthesis` instead of treating it as a terminal authorization.
+
+Historical frozen harness manifests are intentionally not updated. Their source-hash validation rejects this branch's changed native runtime and Verifier as drift. The freeze regression expects that rejection; v2 is a distinct Harness condition and must not be compared as though it were the frozen baseline. Previously saved 18-cell, 42-cell, and Skill Granularity results were not rewritten. No historical Phase II path was restored.
+
+The existing `SemanticWorkflowPlan`, `WorkflowPatch`, and `apply_workflow_patch()` remain authoritative for sealed formal workflows. `OpenSemanticWorkflowPlan` is an additive pre-seal representation for incremental SDK proposals. The legacy execution-grown graph remains a trace view, not the source of mutable pending-plan truth. An interrupted action may remain `indeterminate` in the new execution state even if a legacy graph records a failed close; use receipts for side-effect reconciliation.

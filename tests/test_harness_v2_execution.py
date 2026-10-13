@@ -13,6 +13,8 @@ from infra_joint.control.contracts import (
 from infra_joint.control.gateway import RuntimeActionGateway
 from infra_joint.control.physical import PhysicalExecutionOutcome, PhysicalExecutionService
 from infra_joint.control.validation import SemanticActionValidator, SemanticValidationError
+from infra_joint.core.action import SemanticAction
+from infra_joint.core.errors import ExecutionErrorCode, TypedExecutionError
 from infra_joint.core.state import AgentSpec, EnvironmentSpec, InfrastructureState
 from infra_joint.core.task import ArtifactSpec, OutputContract, OutputFormat, TaskContract
 from infra_joint.infrastructure.observer import LiveWorkerObserver
@@ -134,8 +136,6 @@ async def test_worker_receipt_survives_lost_reply_and_prevents_replay(tmp_path) 
         transport=httpx.ASGITransport(app=app), base_url="http://worker"
     ) as http:
         client = HttpWorkerClient("worker", http)
-        from infra_joint.core.action import SemanticAction
-
         action = SemanticAction(operator="read_artifact", inputs=("a",), arguments={})
         first = await client.execute_operator_with_receipt(action, None, action_id="run-1:read-a")
         receipt = await client.get_action_receipt("run-1:read-a")
@@ -149,6 +149,16 @@ async def test_worker_receipt_survives_lost_reply_and_prevents_replay(tmp_path) 
                 None,
                 action_id="run-1:read-a",
             )
+        missing = SemanticAction(operator="read_artifact", inputs=("missing",), arguments={})
+        with pytest.raises(TypedExecutionError) as failure:
+            await client.execute_operator_with_receipt(missing, None, action_id="run-1:missing")
+        assert failure.value.code == ExecutionErrorCode.MISSING_ARTIFACT
+        failed_receipt = await client.get_action_receipt("run-1:missing")
+        assert failed_receipt is not None
+        assert failed_receipt.failure_code == ExecutionErrorCode.MISSING_ARTIFACT.value
+        with pytest.raises(TypedExecutionError) as repeated:
+            await client.execute_operator_with_receipt(missing, None, action_id="run-1:missing")
+        assert repeated.value.code == ExecutionErrorCode.MISSING_ARTIFACT
 
 
 @pytest.mark.asyncio

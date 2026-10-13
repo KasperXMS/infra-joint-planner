@@ -167,9 +167,9 @@ class OpenAIAgentsBlindVerifier:
         "(3) return continue only for a concrete evidence gap, conflict, failed synthesis, or "
         "recoverable execution blocker. ready_for_synthesis must use "
         "failure_stage=none; complete also requires failure_stage=none; continue must identify "
-        "the current stage. For complete, bind candidate_action_id to the exact successful "
-        "manager model action, candidate_output_sha256 to SHA256 of its raw text output, "
-        "and evidence_state_version to workflow.version."
+        "the current stage. For complete, provide candidate_action_id for the exact "
+        "successful manager model action that you judged. The harness binds its raw "
+        "output hash and evidence-state version; do not compute them yourself."
     )
 
     def __init__(

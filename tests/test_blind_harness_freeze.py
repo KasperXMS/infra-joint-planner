@@ -55,7 +55,7 @@ def validate_historical_harness(
         validate_harness(harness, environment, capabilities, operations)  # type: ignore[arg-type]
     assert str(error.value) == (
         "frozen Blind harness validation failed: native runtime source drift; "
-        "static capability contract drift"
+        "Verifier source drift; static capability contract drift"
     )
     historical_source = subprocess.run(
         ["git", "show", "597ac33:src/infra_joint/control/native_agents.py"],

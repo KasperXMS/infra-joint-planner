@@ -47,6 +47,7 @@ from infra_joint.control.provenance import (
     provenance_sha256,
     semantic_input_items,
 )
+from infra_joint.control.terminal_policy import TerminalPolicyConfig
 from infra_joint.control.validation import SemanticValidationError
 from infra_joint.control.verification import (
     BlindVerifier,
@@ -296,7 +297,15 @@ class OpenAIAgentsNativeRuntime:
         predecision_profiles: bool = False,
         record_input_provenance: bool = False,
         validate_raw_tool_calls: bool = False,
+        terminal_policy: TerminalPolicyConfig | None = None,
     ) -> None:
+        policy = terminal_policy or TerminalPolicyConfig()
+        if policy.mode != "manager_owned":
+            raise NotImplementedError(
+                "explicit_specialist_adoption is a versioned interface only; "
+                "the v2 runtime executes manager_owned terminal policy"
+            )
+        self._terminal_policy = policy
         self._name = name
         self._instructions = instructions
         self._model = model
@@ -866,18 +875,34 @@ class OpenAIAgentsNativeRuntime:
         if raw_verdict.status == "complete":
             try:
                 action_id = raw_verdict.candidate_action_id
-                if (
-                    action_id is None
-                    or raw_verdict.evidence_state_version != context.workflow.version
-                ):
+                if action_id is None:
                     raise AgentLoopError("complete verdict lacks a current candidate binding")
+                if (
+                    raw_verdict.evidence_state_version is not None
+                    and raw_verdict.evidence_state_version != context.workflow.version
+                ):
+                    raise AgentLoopError("complete verdict evidence-state version mismatch")
                 if state.graph.snapshot().version != context.workflow.version:
                     raise AgentLoopError(
                         "complete verdict is stale after concurrent action updates"
                     )
                 raw_candidate = _bound_terminal_candidate(state, action_id)
-                if raw_verdict.candidate_output_sha256 != candidate_output_sha256(raw_candidate):
+                output_hash = candidate_output_sha256(raw_candidate)
+                if (
+                    raw_verdict.candidate_output_sha256 is not None
+                    and raw_verdict.candidate_output_sha256 != output_hash
+                ):
                     raise AgentLoopError("complete verdict candidate output hash mismatch")
+                telemetry = telemetry.model_copy(
+                    update={
+                        "result": raw_verdict.model_copy(
+                            update={
+                                "candidate_output_sha256": output_hash,
+                                "evidence_state_version": context.workflow.version,
+                            }
+                        )
+                    }
+                )
                 if state.task_view.output_contract.canonical_labels is not None:
                     _validate_answer_contract(
                         state.task_view.output_contract, raw_candidate.strip()
@@ -899,7 +924,7 @@ class OpenAIAgentsNativeRuntime:
                 )
         async with state.state_lock:
             state.verification_steps.append(telemetry)
-            if raw_verdict != telemetry.result:
+            if raw_verdict.status != telemetry.result.status:
                 state.emit(
                     "logical.verification.terminal_contract_enforced",
                     {
@@ -919,6 +944,9 @@ class OpenAIAgentsNativeRuntime:
                     "failure_stage": telemetry.result.failure_stage,
                     "reason": telemetry.result.reason,
                     "missing_requirements": list(telemetry.result.missing_requirements),
+                    "candidate_action_id": telemetry.result.candidate_action_id,
+                    "candidate_output_sha256": telemetry.result.candidate_output_sha256,
+                    "evidence_state_version": telemetry.result.evidence_state_version,
                     "latency_ms": telemetry.latency_ms,
                     "input_tokens": telemetry.input_tokens,
                     "output_tokens": telemetry.output_tokens,

@@ -15,6 +15,7 @@ from infra_joint.control.gateway import ActionGateway
 from infra_joint.control.ledger import LEDGER_MESSAGE_PREFIX, SpentCostLedger, is_ledger_message
 from infra_joint.control.loop import AgentLoopBudget, AgentLoopError, AgentLoopResult
 from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime, _NativeState
+from infra_joint.control.native_workflow_bridge import NativeFormalWorkflowBridge
 from infra_joint.control.physical import PhysicalExecutionOutcome
 from infra_joint.control.provenance import semantic_input_items
 from infra_joint.core.task import TaskContract
@@ -47,7 +48,7 @@ class LedgerActionGateway:
             settled = getattr(exc, "_infra_joint_settled_outcomes", ())
             if isinstance(settled, tuple):
                 by_action = {action.action_id: action for action in actions}
-                for outcome in settled:
+                for outcome in cast(tuple[object, ...], settled):
                     if isinstance(outcome, PhysicalExecutionOutcome):
                         action = by_action.get(outcome.observation.action_id)
                         if action is not None:
@@ -78,7 +79,10 @@ class LedgerNativeRuntime(OpenAIAgentsNativeRuntime):
         budget: AgentLoopBudget | None = None,
         trace: WorkflowTraceRecorder | None = None,
         static_capabilities: StaticCapabilityContract | None = None,
+        formal_bridge: NativeFormalWorkflowBridge | None = None,
     ) -> AgentLoopResult:
+        if formal_bridge is not None:
+            raise ValueError("ledger-only historical condition does not enable the formal bridge")
         if profile_visibility != ProfileVisibility.BLIND:
             raise ValueError("Ledger-only variant does not inject Raw-Aware profiles")
         if trace is not None:

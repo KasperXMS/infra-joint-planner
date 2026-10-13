@@ -59,6 +59,9 @@ def test_resident_harness_changes_only_calibrated_visual_bound_and_static_hash()
     # The old receipt stays immutable and must not silently follow a corrected
     # operator contract. A separately frozen patch is required for new execution.
     with pytest.raises(RuntimeError, match="^frozen Blind harness validation failed: "
+                       "native runtime source drift; runtime component source drift: "
+                       "src/infra_joint/control/physical.py; runtime component source drift: "
+                       "src/infra_joint/runtime/client.py; Verifier source drift; "
                        "static capability contract drift$"):
         resident.frozen.validate_harness(resident.frozen.load_harness(resident.HARNESS),
                                          environment, capabilities, operations)

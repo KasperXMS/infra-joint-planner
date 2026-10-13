@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from contextlib import AsyncExitStack
 from hashlib import sha256
 from time import perf_counter
@@ -27,6 +28,7 @@ from infra_joint.control.prior import (
     PriorWorkflowGenerator,
     PriorWorkflowStore,
 )
+from infra_joint.control.recovery import RunRecoverySnapshot, interrupted_snapshot
 from infra_joint.control.validation import SemanticActionValidator
 from infra_joint.control.workflow import canonical_sha256
 from infra_joint.control.workflow_cost import (
@@ -60,6 +62,8 @@ class PersistedAdaptiveWorkflowResult(ContractModel):
     task_id: str = Field(min_length=1)
     benchmark_id: str = Field(min_length=1)
     execution_completed: bool
+    interrupted: bool = False
+    recovery: RunRecoverySnapshot | None = None
     prior_plan_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
     execution: AdaptiveWorkflowExecution | None = None
     final_answer: str | None = None
@@ -111,6 +115,7 @@ class AdaptiveWorkflowBenchmarkRunner:
         trace_path = run_directory / "trace.jsonl"
         result_path = run_directory / "result.json"
         trace = WorkflowTraceRecorder(resolved_run_id, JsonlTraceWriter(trace_path))
+        receipts = FileActionReceiptStore(run_directory / "private" / "action-receipts-v2")
         started = perf_counter()
         transfers: tuple[ArtifactTransferTelemetry, ...] = ()
         frozen: FrozenPriorWorkflow | None = None
@@ -158,9 +163,7 @@ class AdaptiveWorkflowBenchmarkRunner:
                         RuntimeExecutor(registry, self._config.environment, clients),
                         profiler=profiler,
                     ),
-                    receipt_store=FileActionReceiptStore(
-                        run_directory / "private" / "action-receipts-v2"
-                    ),
+                    receipt_store=receipts,
                 )
                 execution = await AdaptiveWorkflowExecutor(
                     gateway,
@@ -205,9 +208,16 @@ class AdaptiveWorkflowBenchmarkRunner:
                     e2e_latency_ms=(perf_counter() - started) * 1000,
                     trace_path=str(trace_path),
                 )
-        except Exception as exc:  # noqa: BLE001 - failed formal runs are evidence
+        except BaseException as exc:  # noqa: BLE001 - cancellation is durable evidence
+            if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+                raise
+            recovery = interrupted_snapshot(resolved_run_id, receipts)
             failure = AdaptiveRunFailure(
-                code="adaptive_workflow_failed",
+                code=(
+                    "interrupted"
+                    if isinstance(exc, asyncio.CancelledError)
+                    else "adaptive_workflow_failed"
+                ),
                 exception_type=type(exc).__name__,
                 message=str(exc) or type(exc).__name__,
             )
@@ -216,13 +226,26 @@ class AdaptiveWorkflowBenchmarkRunner:
                 task_id=task.task_id,
                 benchmark_id=task.benchmark_id,
                 execution_completed=False,
+                interrupted=True,
+                recovery=recovery,
                 prior_plan_sha256=frozen.plan_sha256 if frozen is not None else None,
                 initial_transfers=transfers,
                 e2e_latency_ms=(perf_counter() - started) * 1000,
                 trace_path=str(trace_path),
                 failure=failure,
             )
+            trace.emit(
+                "run.interrupted",
+                {
+                    "failure": failure.model_dump(mode="json"),
+                    "recovery": recovery.model_dump(mode="json"),
+                },
+            )
             trace.emit("run.failed", failure.model_dump(mode="json"))
+            result_path.write_text(persisted.model_dump_json(indent=2) + "\n", encoding="utf-8")
+            if isinstance(exc, asyncio.CancelledError):
+                raise
+            return persisted
         result_path.write_text(persisted.model_dump_json(indent=2) + "\n", encoding="utf-8")
         return persisted
 

@@ -30,7 +30,10 @@ from infra_joint.control.native_agents import OpenAIAgentsNativeRuntime
 from infra_joint.control.physical import PhysicalExecutionService
 from infra_joint.control.provenance import PROFILE_MESSAGE_PREFIX
 from infra_joint.control.validation import SemanticActionValidator
-from infra_joint.control.verification import OpenAIAgentsBlindVerifier
+from infra_joint.control.verification import (
+    OpenAIAgentsBlindVerifier,
+    candidate_output_sha256,
+)
 from infra_joint.experiments.recipient_audit import audit_effective_inputs
 from infra_joint.experiments.sdk_api_meter import metered_sdk
 from infra_joint.operators.catalog import build_operator_catalog
@@ -61,6 +64,23 @@ class VerifierModel(SyntheticSDKModel):
         context = json.loads(kwargs["input"][0]["content"])
         self.inputs.append(context)
         verdict = complete_verdict() if context["phase"] == "synthesis" else ready_verdict()
+        if verdict.status == "complete":
+            model_ids = {
+                item["action_id"] for item in context["actions"]
+                if item["action_type"] == "model" and item["owner_agent_id"] == "manager"
+            }
+            candidates = [
+                item for item in context["observations"]
+                if item["action_id"] in model_ids and item["succeeded"]
+                and isinstance(item["output"].get("text"), str)
+            ]
+            if candidates:
+                candidate = candidates[-1]
+                verdict = verdict.model_copy(update={
+                    "candidate_action_id": candidate["action_id"],
+                    "candidate_output_sha256": candidate_output_sha256(candidate["output"]["text"]),
+                    "evidence_state_version": context["workflow"]["version"],
+                })
         return tool_response(len(self.inputs), [
             ("submit_verification", verdict.model_dump(mode="json"))])
 
