@@ -17,7 +17,8 @@ def summarize_requests(run_id):
     directory = root / 'private/requests' / run_id
     output = {'chat_requests': 0, 'api_prompt_tokens': 0, 'api_completion_tokens': 0,
               'api_usage_responses': 0, 'non_200_responses': 0, 'native_response_sha256': [],
-              'typed_response_sha256': []}
+              'typed_response_sha256': [], 'api_roundtrip_seconds': 0,
+              'api_transport_errors': 0, 'official_parser_conversions': 0}
     if not directory.exists():
         return output
     for request in directory.glob('*.request.json'):
@@ -44,6 +45,16 @@ def summarize_requests(run_id):
             output['native_response_sha256'].append(digest(native))
     output['native_response_sha256'].sort()
     output['typed_response_sha256'].sort()
+    metadata = root / 'private/requests.jsonl'
+    if metadata.exists():
+        records = [json.loads(line) for line in metadata.read_bytes().splitlines()]
+        matching = [record for record in records if record.get('run_id') == run_id and record.get('model')]
+        output['api_roundtrip_seconds'] = sum(record.get('latency_seconds', 0) for record in matching)
+        output['api_transport_errors'] = sum(record.get('error') is not None or record.get('http_status') != 200
+                                             for record in matching)
+        output['official_parser_conversions'] = sum(len(record.get('official_parser_conversions') or [])
+                                                    for record in matching)
+        output['metadata_chat_records'] = len(matching)
     return output
 
 
