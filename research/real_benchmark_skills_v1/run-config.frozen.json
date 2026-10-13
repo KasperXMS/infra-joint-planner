@@ -1,0 +1,230 @@
+{
+  "frozen_epoch": 1791871682.734015,
+  "classification": "before formal development outcomes",
+  "real_agent_smoke_passed": true,
+  "smoke_gate_definition": "operational tools/skills/artifacts/original verifier, not model task success",
+  "smoke": {
+    "official_summary": {
+      "job_name": "2026-10-13__13-24-05",
+      "agent": "openhands",
+      "model": "vllm/Qwen3.5-4B",
+      "environment": "docker",
+      "concurrency": 1,
+      "agent_idle_timeout_sec": null,
+      "usage_tracking": {
+        "requested": "auto"
+      },
+      "loop": {
+        "strategy": "single-shot"
+      },
+      "total": 1,
+      "passed": 0,
+      "failed": 1,
+      "errored": 0,
+      "pass": 0,
+      "fail": 1,
+      "error": 0,
+      "verifier_errored": 0,
+      "idle_timeout": 0,
+      "error_categories": {
+        "timeout": 1
+      },
+      "verifier_error_categories": null,
+      "score": "0.0%",
+      "score_ratio": 0.0,
+      "score_excl_errors": "0.0%",
+      "score_excl_errors_ratio": 0.0,
+      "elapsed_sec": 947.5504775047302,
+      "memory_score": null,
+      "memory_score_coverage": 0.0,
+      "memory": {
+        "scored": 0,
+        "avg_score": null,
+        "score": null
+      },
+      "memory_scores": {},
+      "total_skill_invocations": 0,
+      "avg_skill_invocations": 0.0,
+      "total_input_tokens": 0,
+      "total_output_tokens": 0,
+      "total_cache_read_tokens": 0,
+      "total_cache_creation_tokens": 0,
+      "total_tokens": 0,
+      "total_cost_usd": 0,
+      "avg_cost_per_trial_usd": null,
+      "telemetry_coverage": 0.0,
+      "total_tool_calls": 36,
+      "avg_tool_calls_per_task": 36.0,
+      "max_tool_calls_per_task": 36,
+      "total_trajectory_steps": 55,
+      "avg_trajectory_steps_per_task": 55.0,
+      "max_trajectory_steps_per_task": 55,
+      "total_trajectory_tool_call_steps": 36,
+      "avg_trajectory_tool_call_steps_per_task": 36.0,
+      "max_trajectory_tool_call_steps_per_task": 36,
+      "trajectory_summary_coverage": 1.0,
+      "timing_coverage": 1.0,
+      "environment_setup_time_sec": 2.6,
+      "avg_environment_setup_time_sec": 2.6,
+      "max_environment_setup_time_sec": 2.6,
+      "agent_setup_time_sec": 12.8,
+      "avg_agent_setup_time_sec": 12.8,
+      "max_agent_setup_time_sec": 12.8,
+      "agent_execution_time_sec": 866.9,
+      "avg_agent_execution_time_sec": 866.9,
+      "max_agent_execution_time_sec": 866.9,
+      "verifier_time_sec": 11.1,
+      "avg_verifier_time_sec": 11.1,
+      "max_verifier_time_sec": 11.1,
+      "total_time_sec": 947.0,
+      "avg_total_time_sec": 947.0,
+      "max_total_time_sec": 947.0
+    },
+    "fractional_reward": "0.167",
+    "excluded_from_all_formal_denominators": true,
+    "argument_typing_added_after_smoke": true
+  },
+  "api_contract": {
+    "status": "pass",
+    "typed_arguments": {
+      "a": 2,
+      "items": [
+        1,
+        10
+      ]
+    },
+    "usage": {
+      "completion_tokens": 44,
+      "prompt_tokens": 313,
+      "total_tokens": 357
+    },
+    "seconds": 3.1480047702789307,
+    "service_status": {
+      "pending_requests": 0,
+      "running_generations": 0,
+      "queued_requests": 0,
+      "context_limit": 32768,
+      "output_cap": 4096
+    },
+    "classification": "API compatibility, excluded from all benchmark denominators"
+  },
+  "native_contract": {
+    "rollout_max_retries": 0,
+    "containers": [
+      {
+        "project": "dialogue-parser__8ef1b66a",
+        "returncode": 0,
+        "observation": {
+          "uid": 1000,
+          "llm": {
+            "temperature": 0.0,
+            "max_input_tokens": 32768,
+            "max_output_tokens": 4096,
+            "num_retries": 0
+          },
+          "condenser": {
+            "kind": "LLMSummarizingCondenser",
+            "max_tokens": 20000,
+            "hard_context_reset_max_retries": 1
+          },
+          "readable_native_skills": {
+            "/home/agent/.agents/skills/dialogue-graph/SKILL.md": "03d711b93219cec1cd70d823d595e7c5adffc058c5910b94886fe6cc374f08d8"
+          },
+          "oracle_exists": true,
+          "oracle_readable": false,
+          "oracle_solve_readable": false,
+          "docker_socket_exists": false
+        },
+        "mount_targets": [
+          "/logs/agent",
+          "/logs/artifacts",
+          "/logs/verifier"
+        ]
+      }
+    ]
+  },
+  "s0_contract": {
+    "native_copy_policy_checked": true,
+    "bundled_skill_directory_absent": true,
+    "actual_container_observation": "required on first formal S0 cell"
+  },
+  "model_backend": "official Transformers serve 5.19.0",
+  "remote_service_audit": {
+    "service": {
+      "pid": 9231,
+      "model": "Qwen3.5-4B",
+      "backend": "transformers-5.19.0",
+      "epoch": 1791870344.9878557,
+      "argv": [
+        "/root/autodl-tmp/infra-joint-planner-rtx6000/setup-20261013/venvs/inference/bin/python",
+        "/root/autodl-tmp/real-benchmark-skills-v1/guarded_transformers_server.py",
+        "--model",
+        "Qwen3.5-4B"
+      ],
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "status": "starting",
+      "log": "/root/autodl-tmp/real-benchmark-skills-v1/logs/Qwen3.5-4B-transformers-1791870344.log",
+      "service_source_sha256": "408d6031f10bc38ef89b9906037f69284265f99934de48f5c074a49e4c6f6948"
+    },
+    "idle_status": {
+      "pending_requests": 0,
+      "running_generations": 0,
+      "queued_requests": 0,
+      "context_limit": 32768,
+      "output_cap": 4096
+    },
+    "versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "5.19.0"
+    },
+    "verified_model_files": 26,
+    "verified_model_bytes": 28672142686,
+    "source_sha256": "408d6031f10bc38ef89b9906037f69284265f99934de48f5c074a49e4c6f6948",
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 9513 MiB\n",
+    "disk": "Filesystem        1B-blocks        Used   Available Use% Mounted on\n/dev/md0       107374182400 31778865152 75595317248  30% /root/autodl-tmp\n"
+  },
+  "precision": "BF16",
+  "context": 32768,
+  "output_budget": 4096,
+  "temperature": 0,
+  "thinking": false,
+  "seed": 42,
+  "attention": "sdpa",
+  "continuous_batching": false,
+  "concurrency": 1,
+  "trials_per_cell": 1,
+  "task_retries": 0,
+  "llm_retries": 0,
+  "native_condenser": {
+    "max_tokens": 20000,
+    "max_size": 240,
+    "keep_first": 2,
+    "hard_context_reset_max_retries": 1,
+    "same_model": true
+  },
+  "parameter_decoder": "unchanged official vLLM v0.20.2 Qwen3Coder scalar conversion; all conversions logged",
+  "guided_decoding": false,
+  "stops": "original model EOS plus tokenizer chat EOS",
+  "provider_namespace_note": "BenchFlow model vllm/ prefix is an OpenAI-compatible provider adapter; actual engine is Transformers",
+  "split_sizes": {
+    "development": 8,
+    "evaluation": 16
+  },
+  "formal_runs": {
+    "development": 32,
+    "evaluation_s0_s1": 64
+  },
+  "proposed_intervention": null,
+  "rental_cny_per_hour": 7.35,
+  "runner_source_sha256": {
+    "run_stage.py": "e6818daee9771f100a49c5b0e5c05df0b33eeba249a4a60dd10fc7dd330009f3",
+    "bench_with_frozen_openhands.py": "9ee0e00ea70b23281f82b145958a348d18d06a7491b9f8dc551ffcd83464c8b9",
+    "model_bridge.py": "36fc0ddfb712b616f39632fcf56e72bf9b9f29f956c246616f429a06220c1685",
+    "qwen3_coder_arguments.py": "9973ea3308cfb4bc492eac38ceb2dfa2f7b6ba7ba8ce82f820095f20334b053d",
+    "qwen3_coder_parameter_decoder.py": "4716afa11822a8ed5f2d226a639a2c6e10573e3f7626b46446f16ee1e12ce64d",
+    "guarded_transformers_server.py": "408d6031f10bc38ef89b9906037f69284265f99934de48f5c074a49e4c6f6948",
+    "switch_guarded_model.py": "e61fb71e520f678416271a13d9cd306ce34001289d59156927ac0540d55d97e7",
+    "task-selection.lock.json": "759aebd6e005fd60071927fcaebca2b5b5805e713e57993c7588a206c513c31e",
+    "models.lock.json": "033210ccd7b5ac7c44d3a3a73177e0dd222788075eb8734f36eae95c145f9ee5"
+  }
+}

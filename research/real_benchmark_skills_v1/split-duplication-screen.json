@@ -1,0 +1,76 @@
+{
+  "method": "normalized SKILL.md word 5-gram Jaccard; screening only, not proof of semantic independence",
+  "top_cross_split_pairs": [
+    {
+      "dev_task": "econ-detrending-correlation",
+      "dev_skill": "timeseries-detrending",
+      "eval_task": "lab-unit-harmonization",
+      "eval_skill": "lab-unit-harmonization",
+      "five_gram_jaccard": 0.0024
+    },
+    {
+      "dev_task": "court-form-filling",
+      "dev_skill": "pdf",
+      "eval_task": "pddl-airport-planning",
+      "eval_skill": "pddl-skills",
+      "five_gram_jaccard": 0.0023
+    },
+    {
+      "dev_task": "azure-bgp-oscillation-route-leak",
+      "dev_skill": "azure-bgp",
+      "eval_task": "lab-unit-harmonization",
+      "eval_skill": "lab-unit-harmonization",
+      "five_gram_jaccard": 0.0018
+    },
+    {
+      "dev_task": "crystallographic-wyckoff-position-analysis",
+      "dev_skill": "sympy",
+      "eval_task": "lab-unit-harmonization",
+      "eval_skill": "lab-unit-harmonization",
+      "five_gram_jaccard": 0.0018
+    },
+    {
+      "dev_task": "dapt-intrusion-detection",
+      "dev_skill": "pcap-analysis",
+      "eval_task": "software-dependency-audit",
+      "eval_skill": "vulnerability-csv-reporting",
+      "five_gram_jaccard": 0.0018
+    },
+    {
+      "dev_task": "court-form-filling",
+      "dev_skill": "pdf",
+      "eval_task": "xlsx-recover-data",
+      "eval_skill": "xlsx",
+      "five_gram_jaccard": 0.0017
+    },
+    {
+      "dev_task": "adaptive-cruise-control",
+      "dev_skill": "csv-processing",
+      "eval_task": "glm-lake-mendota",
+      "eval_skill": "glm-output",
+      "five_gram_jaccard": 0.0013
+    },
+    {
+      "dev_task": "azure-bgp-oscillation-route-leak",
+      "dev_skill": "azure-bgp",
+      "eval_task": "bike-rebalance",
+      "eval_skill": "routing-subtour-elimination",
+      "five_gram_jaccard": 0.0012
+    },
+    {
+      "dev_task": "civ6-adjacency-optimizer",
+      "dev_skill": "map-optimization-strategy",
+      "eval_task": "glm-lake-mendota",
+      "eval_skill": "glm-basics",
+      "five_gram_jaccard": 0.0011
+    },
+    {
+      "dev_task": "adaptive-cruise-control",
+      "dev_skill": "yaml-config",
+      "eval_task": "software-dependency-audit",
+      "eval_skill": "trivy-offline-vulnerability-scanning",
+      "five_gram_jaccard": 0.001
+    }
+  ],
+  "review_status": "No automatic task substitutions; manual family labels remain authoritative"
+}

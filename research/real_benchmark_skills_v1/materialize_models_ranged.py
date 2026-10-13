@@ -16,15 +16,16 @@ def file_sha(path):
         return hashlib.file_digest(source, "sha256").hexdigest()
 
 
-def materialize(model, name, info):
-    target = ROOT / "models" / model / name
+def materialize(model, name, info, destination_root=None, chunk_size=CHUNK, workers=16):
+    target = (destination_root if destination_root is not None else ROOT / "models" / model) / name
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists() and target.stat().st_size == info["bytes"] and file_sha(target) == info["sha256"]:
         return
     if "download_url" not in info:
         raise ValueError("Missing official config: " + str(target))
     temporary = target.with_suffix(target.suffix + ".ranged.partial")
-    parts_path = target.with_suffix(target.suffix + ".parts.json")
+    parts_suffix = ".parts.json" if chunk_size == CHUNK else f".parts-{chunk_size}.json"
+    parts_path = target.with_suffix(target.suffix + parts_suffix)
     completed = set(json.loads(parts_path.read_text())) if parts_path.exists() else set()
     if not temporary.exists():
         with temporary.open("wb") as output:
@@ -34,12 +35,14 @@ def materialize(model, name, info):
     started = time.time()
 
     def fetch(index):
-        start, stop = index * CHUNK, min((index + 1) * CHUNK, info["bytes"]) - 1
+        start, stop = index * chunk_size, min((index + 1) * chunk_size, info["bytes"]) - 1
         for attempt in range(3):
             try:
                 request = urllib.request.Request(info["download_url"], headers={"Range": f"bytes={start}-{stop}"})
                 with urllib.request.urlopen(request, timeout=120) as response:
-                    if response.status != 206 or not response.headers.get("Content-Range", "").startswith(f"bytes {start}-"):
+                    ranged = response.status == 206 and response.headers.get("Content-Range", "").startswith(f"bytes {start}-")
+                    whole_file = response.status == 200 and start == 0 and stop + 1 == info["bytes"]
+                    if not (ranged or whole_file):
                         raise ValueError("Source did not honor HTTP range")
                     offset = start
                     while data := response.read(4 * 1024 * 1024):
@@ -55,9 +58,9 @@ def materialize(model, name, info):
                     raise
                 time.sleep(1 + attempt)
 
-    total = (info["bytes"] + CHUNK - 1) // CHUNK
+    total = (info["bytes"] + chunk_size - 1) // chunk_size
     try:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=16) as pool:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
             futures = [pool.submit(fetch, index) for index in range(total) if index not in completed]
             for future in concurrent.futures.as_completed(futures):
                 completed.add(future.result())

@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "typed_arguments": {
+    "a": 2,
+    "items": [
+      1,
+      10
+    ]
+  },
+  "usage": {
+    "completion_tokens": 44,
+    "prompt_tokens": 313,
+    "total_tokens": 357
+  },
+  "seconds": 3.1480047702789307,
+  "service_status": {
+    "pending_requests": 0,
+    "running_generations": 0,
+    "queued_requests": 0,
+    "context_limit": 32768,
+    "output_cap": 4096
+  },
+  "classification": "API compatibility, excluded from all benchmark denominators"
+}

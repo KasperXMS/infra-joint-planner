@@ -1,0 +1,35 @@
+{
+  "rollout_max_retries": 0,
+  "containers": [
+    {
+      "project": "dialogue-parser__8ef1b66a",
+      "returncode": 0,
+      "observation": {
+        "uid": 1000,
+        "llm": {
+          "temperature": 0.0,
+          "max_input_tokens": 32768,
+          "max_output_tokens": 4096,
+          "num_retries": 0
+        },
+        "condenser": {
+          "kind": "LLMSummarizingCondenser",
+          "max_tokens": 20000,
+          "hard_context_reset_max_retries": 1
+        },
+        "readable_native_skills": {
+          "/home/agent/.agents/skills/dialogue-graph/SKILL.md": "03d711b93219cec1cd70d823d595e7c5adffc058c5910b94886fe6cc374f08d8"
+        },
+        "oracle_exists": true,
+        "oracle_readable": false,
+        "oracle_solve_readable": false,
+        "docker_socket_exists": false
+      },
+      "mount_targets": [
+        "/logs/agent",
+        "/logs/artifacts",
+        "/logs/verifier"
+      ]
+    }
+  ]
+}

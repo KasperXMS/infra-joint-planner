@@ -1,0 +1,10 @@
+{
+  "epoch": 1791866246.0655928,
+  "disk_image": "/mnt/d/Codes/infra-aware-mas-new/.code-staging/skillsbench-docker-data.ext4",
+  "image_capacity_bytes": 103079215104,
+  "docker_root": "/root/skillsbench-local-20261013/docker-volume/data",
+  "original_data_preserved": "/root/skillsbench-local-20261013/docker-data",
+  "daemon_pid": 5583,
+  "hello_world_returncode": 0,
+  "status": "pass"
+}
