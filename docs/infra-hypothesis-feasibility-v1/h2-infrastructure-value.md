@@ -1,0 +1,7 @@
+# H2 infrastructure information value
+
+H2 was conditionally preregistered and **not executed**. P1 passed, but H1 yielded no task with a quality-acceptable G0/G1 pair. The preregistered objective minimizes resident-data E2E latency subject to native task success; with an empty feasible set, neither an Hslow/Hfast preference comparison nor retrospective infrastructure-conditioned oracle value is defined. No Hslow task cell was run. The Hslow/Hfast proxy calibration is infrastructure characterization, not a task result.
+
+The five completed Hfast trials had native score 0. The one incomplete Hfast trial failed with an explicit Worker HTTP 413. Reported latency and transfer differences are therefore descriptive failure-path costs only; choosing the faster failed workflow would violate the quality constraint. Service queue wait and cache state were not independently measurable; GPU utilization samples are endpoints rather than energy or service work integrals. No cloud API calls incurred a known USD charge, and local GPU USD remains unknown. Setup and materialization costs are recorded separately from the per-cell resident E2E values.
+
+**H2 verdict: inconclusive / not identified.** There is no basis here to claim stable dominance, preference reversal, or positive Infrastructure Information Value. A new quality-feasible workload/model study would be required before an H2 comparison, with its own preregistration; this phase does not launch it.

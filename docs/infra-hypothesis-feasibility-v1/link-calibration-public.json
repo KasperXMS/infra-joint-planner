@@ -1,0 +1,46 @@
+{
+  "measurements": [
+    {
+      "achieved_mbps": 0.007,
+      "bytes": 472,
+      "configured_mbps": 3,
+      "elapsed_ms": 569.096,
+      "extra_rtt_ms": 50,
+      "payload_kind": "small",
+      "profile": "Hslow",
+      "sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a"
+    },
+    {
+      "achieved_mbps": 2.916,
+      "bytes": 3955727,
+      "configured_mbps": 3,
+      "elapsed_ms": 10853.235,
+      "extra_rtt_ms": 50,
+      "payload_kind": "large",
+      "profile": "Hslow",
+      "sha256": "c39a7a4a2bd279ee7b9053585ca1fdc749856bdd7e85fda37cc416735ba0eeed"
+    },
+    {
+      "achieved_mbps": 0.056,
+      "bytes": 472,
+      "configured_mbps": 100,
+      "elapsed_ms": 67.996,
+      "extra_rtt_ms": 5,
+      "payload_kind": "small",
+      "profile": "Hfast",
+      "sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a"
+    },
+    {
+      "achieved_mbps": 62.776,
+      "bytes": 3955727,
+      "configured_mbps": 100,
+      "elapsed_ms": 504.106,
+      "extra_rtt_ms": 5,
+      "payload_kind": "large",
+      "profile": "Hfast",
+      "sha256": "c39a7a4a2bd279ee7b9053585ca1fdc749856bdd7e85fda37cc416735ba0eeed"
+    }
+  ],
+  "route": "A4 study proxy -> A5 Worker artifact pull",
+  "schema_version": "infra-hypothesis-feasibility-v1"
+}

@@ -1,0 +1,37 @@
+{
+  "created_unix": 1791989608.327822,
+  "model_probes": [
+    {
+      "cache_state": "unknown",
+      "latency_ms": 334.923,
+      "model": "qwen35-27b-resident-32k-v1:latest",
+      "queue_ms": null,
+      "usage": {
+        "completion_tokens": 3,
+        "prompt_tokens": 15
+      }
+    },
+    {
+      "cache_state": "unknown",
+      "latency_ms": 133.598,
+      "model": "qwen35-27b-resident-32k-v1:latest",
+      "queue_ms": null,
+      "usage": {
+        "completion_tokens": 3,
+        "prompt_tokens": 15
+      }
+    }
+  ],
+  "profile": "Hfast",
+  "reason": "G1 source-selected artifact exceeded the study Worker's 65536-byte read cap",
+  "replaces": "multihop:a647807d9a1d0efd",
+  "rule": "first remaining D2 MultiHop Development row in the parent manifest",
+  "script_sha256": "1e4b3202e37c65807cac42ab234d9599b0e727be6d9022458d5894824a495aad",
+  "task_id": "multihop:667f4ac48afef820",
+  "worker_read_cap_after": 262144,
+  "worker_read_cap_before": 65536,
+  "workflow_order": [
+    "G0",
+    "G1"
+  ]
+}

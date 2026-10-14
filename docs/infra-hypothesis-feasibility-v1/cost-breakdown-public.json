@@ -1,0 +1,16 @@
+{
+  "schema_version": "infra-hypothesis-feasibility-v1-cost",
+  "scope": "six unique Hfast H1 executions, including two technical-invalidity replacement executions",
+  "resident_e2e_ms_sum": 53133.864,
+  "observed_model_api_latency_ms_sum": 28941.344,
+  "model_calls": 5,
+  "prompt_tokens": 68094,
+  "completion_tokens": 10,
+  "source_action_count": 227,
+  "a4_to_a5_application_bytes": 2257131,
+  "cloud_api_usd": null,
+  "local_gpu_usd": null,
+  "queue_wait_ms": null,
+  "cache_state": "unknown",
+  "note": "Summed E2E and component observations are descriptive and must not be added together. Startup, data materialization, MMQA index creation and calibration are separate one-time costs; see receipts. No quality-feasible pair exists for H2."
+}

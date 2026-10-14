@@ -1,0 +1,45 @@
+{
+  "authorized_read_receipts": [
+    "hypothesis-p1-002:source-a:read",
+    "hypothesis-p1-002:source-b:read"
+  ],
+  "controller_uid": 1000,
+  "denied_local_paths": {
+    "/home/super/xiaoming/blind_baseline_6task_v1": true,
+    "/home/super/xiaoming/infra-evaluation-workload-v0.1/artifacts": true,
+    "/home/super/xiaoming/infra-evaluation-workload-v0.1/private/evaluator-private.jsonl": true,
+    "/mnt/ssd/infra-hypothesis-feasibility-v1/source-a/artifacts": true,
+    "/mnt/ssd/infra-hypothesis-feasibility-v1/source-b/artifacts": true,
+    "/proc/1/root/home/super/xiaoming/infra-evaluation-workload-v0.1/private/evaluator-private.jsonl": true,
+    "/study/private/evaluator-private.jsonl": true
+  },
+  "ended_unix": 1791987937.4065208,
+  "failure_receipt": {
+    "action_id": "hypothesis-p1-002:source-b:unknown-version",
+    "http_status": 200,
+    "receipt_status": "failed"
+  },
+  "forbidden_mount_count": 0,
+  "manifest_count": 686,
+  "manifest_sha256": "33ccac887c5fcf52ac4b6f9104a21bc7319bbdb5af33ab60f27bd1063bbf020d",
+  "schema_version": "infra-hypothesis-feasibility-v1",
+  "started_unix": 1791987936.7483444,
+  "transfer": {
+    "artifact_id": "multihop:a4c7b55acc741f076676d30d7e7cb1fe55d60817c746efebc2a2139e7f3efed7",
+    "bytes": 10348,
+    "latency_ms": 68.728,
+    "proxy": "Hfast:63206",
+    "replica_cleaned": true,
+    "sha256": "a4c7b55acc741f076676d30d7e7cb1fe55d60817c746efebc2a2139e7f3efed7"
+  },
+  "unauthorized_status": {
+    "source-a:get": 403,
+    "source-a:unknown": 403,
+    "source-b:get": 403,
+    "source-b:unknown": 403
+  },
+  "worker_counts": {
+    "source-a": 438,
+    "source-b": 248
+  }
+}

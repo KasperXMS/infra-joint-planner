@@ -1,0 +1,141 @@
+{
+  "created_unix": 1791989346.4096084,
+  "h1_order": [
+    [
+      0,
+      "G0",
+      "Hfast"
+    ],
+    [
+      1,
+      "G1",
+      "Hfast"
+    ],
+    [
+      0,
+      "G1",
+      "Hfast"
+    ],
+    [
+      1,
+      "G0",
+      "Hfast"
+    ]
+  ],
+  "h2_conditional_order": [
+    [
+      0,
+      "G1",
+      "Hslow"
+    ],
+    [
+      1,
+      "G0",
+      "Hslow"
+    ],
+    [
+      0,
+      "G0",
+      "Hslow"
+    ],
+    [
+      1,
+      "G1",
+      "Hslow"
+    ],
+    [
+      0,
+      "G1",
+      "Hfast"
+    ],
+    [
+      1,
+      "G0",
+      "Hfast"
+    ],
+    [
+      0,
+      "G0",
+      "Hfast"
+    ],
+    [
+      1,
+      "G1",
+      "Hfast"
+    ],
+    [
+      0,
+      "G0",
+      "Hslow"
+    ],
+    [
+      1,
+      "G1",
+      "Hslow"
+    ],
+    [
+      0,
+      "G1",
+      "Hslow"
+    ],
+    [
+      1,
+      "G0",
+      "Hslow"
+    ]
+  ],
+  "model": {
+    "backend": "ollama 0.34.0 / llama-server",
+    "gguf_blob": "sha256-f5f1dd8920d417aac2718b0bda3403da274301efdd6760b4f0f4b864ff2ad57d",
+    "gpu": "workstation GPU0 RTX 4090",
+    "max_model_len": 32768,
+    "quantization": "Q4_K_M",
+    "served_name": "qwen35-27b-resident-32k-v1:latest"
+  },
+  "network": {
+    "Hfast": {
+      "bandwidth_mbps": 100,
+      "extra_rtt_ms": 5,
+      "proxy_port": 63206
+    },
+    "Hslow": {
+      "bandwidth_mbps": 3,
+      "extra_rtt_ms": 50,
+      "proxy_port": 63205
+    }
+  },
+  "parent_commit": "8c5bcce",
+  "quality_success_rule": "format_valid and native_score == 1.0",
+  "schema_version": "infra-hypothesis-feasibility-v1",
+  "service_probes": [
+    {
+      "cache_state": "unknown",
+      "latency_ms": 176.17,
+      "model": "qwen35-27b-resident-32k-v1:latest",
+      "queue_ms": null,
+      "usage": {
+        "completion_tokens": 3,
+        "prompt_tokens": 15
+      }
+    },
+    {
+      "cache_state": "unknown",
+      "latency_ms": 165.953,
+      "model": "qwen35-27b-resident-32k-v1:latest",
+      "queue_ms": null,
+      "usage": {
+        "completion_tokens": 3,
+        "prompt_tokens": 15
+      }
+    }
+  ],
+  "sha256": {
+    "run_hypothesis_cell_v1.py": "5623879c9ab7f3908d004a16ff052ebcfff5e067f1f387e2c8f85658000bf71a",
+    "source-residency.jsonl": "33ccac887c5fcf52ac4b6f9104a21bc7319bbdb5af33ab60f27bd1063bbf020d",
+    "task-candidates.jsonl": "4f25dfd81217393e7c7f742d2254d01929e8868d9faa466170edfb7c1d73e081"
+  },
+  "task_ids": [
+    "multihop:a647807d9a1d0efd",
+    "mmqa:0ed625390ca7f919b46fd99fe85d80b5"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "infra-hypothesis-feasibility-v1-cleanup",
+  "cell_cleanup": {
+    "cells_with_successful_transient_artifact_cleanup": 6,
+    "cells_recorded": 6,
+    "criterion": "all recorded DELETE responses were HTTP 200 or 204"
+  },
+  "stopped_study_processes": {
+    "a4_source_worker_pid": 2038398,
+    "a4_hslow_proxy_pid": 2038635,
+    "a4_hfast_proxy_pid": 2038794,
+    "a5_source_worker_pid": 2111215,
+    "workstation_exploratory_vllm_pid": 59057
+  },
+  "post_cleanup_listening_ports": {
+    "a4_study_ports_63204_63205_63206": false,
+    "a5_study_port_63217": false,
+    "workstation_study_vllm_port_63250": false,
+    "workstation_resident_ollama_ports_11436_11437": true
+  },
+  "historical_source_packages_deleted": false,
+  "study_raw_traces_retained_on_experiment_machine": true
+}
