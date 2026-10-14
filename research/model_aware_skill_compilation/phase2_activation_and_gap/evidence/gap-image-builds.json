@@ -1,0 +1,22 @@
+[
+  {
+    "task_id": "offer-letter-generator-2",
+    "base_image": "phase2-skilllearn-offer-letter-generator-2:source-726e1f7",
+    "trial_image": "phase2-gap-trial-offer-letter-generator-2:codex-0.162.1",
+    "build_exit": 0,
+    "seconds": 88.04579830169678,
+    "image_id": "sha256:a6c5ef9af05b9eadb5b81b16c05d0155308d23a736887e590e560ea1290057cc",
+    "stdout_tail": "Sending build context to Docker daemon  313.3kB\n\nStep 1/4 : ARG TASK_IMAGE\nStep 2/4 : FROM model-aware-codex-runtime:0.162.1 AS codex_runtime\n ---> 37114cb6ccbb\nStep 3/4 : FROM ${TASK_IMAGE}\n ---> a6a85afd5d05\nStep 4/4 : COPY --from=codex_runtime /usr/local /usr/local\n ---> a6c5ef9af05b\nSuccessfully built a6c5ef9af05b\nSuccessfully tagged phase2-gap-trial-offer-letter-generator-2:codex-0.162.1\n",
+    "stderr_tail": "DEPRECATED: The legacy builder is deprecated and will be removed in a future release.\n            Install the buildx component to build images with BuildKit:\n            https://docs.docker.com/go/buildx/\n\n"
+  },
+  {
+    "task_id": "court-form-filling-2",
+    "base_image": "phase2-skilllearn-court-form-filling-2:source-726e1f7",
+    "trial_image": "phase2-gap-trial-court-form-filling-2:codex-0.162.1",
+    "build_exit": 0,
+    "seconds": 67.50048160552979,
+    "image_id": "sha256:37f9f42e353c99316cc7cc74e5b5cfce128b764e6929249d3dbb1dc93769e636",
+    "stdout_tail": "Sending build context to Docker daemon  318.5kB\n\nStep 1/4 : ARG TASK_IMAGE\nStep 2/4 : FROM model-aware-codex-runtime:0.162.1 AS codex_runtime\n ---> 37114cb6ccbb\nStep 3/4 : FROM ${TASK_IMAGE}\n ---> 4ae12d40d5f4\nStep 4/4 : COPY --from=codex_runtime /usr/local /usr/local\n ---> 37f9f42e353c\nSuccessfully built 37f9f42e353c\nSuccessfully tagged phase2-gap-trial-court-form-filling-2:codex-0.162.1\n",
+    "stderr_tail": "DEPRECATED: The legacy builder is deprecated and will be removed in a future release.\n            Install the buildx component to build images with BuildKit:\n            https://docs.docker.com/go/buildx/\n\n"
+  }
+]

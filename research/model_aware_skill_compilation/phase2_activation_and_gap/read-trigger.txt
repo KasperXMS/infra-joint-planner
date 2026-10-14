@@ -1,0 +1,1 @@
+Before working on a task, inspect the available Skills list. If a Skill's name or description matches the task, use a tool to read its complete SKILL.md file before taking task actions. Read linked scripts or references when needed, and follow the original Skill's constraints. Do not rely on the Skill name alone.

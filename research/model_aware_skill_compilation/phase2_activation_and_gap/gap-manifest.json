@@ -1,0 +1,143 @@
+{
+  "status": "frozen",
+  "frozen_epoch": 1791967249.3636808,
+  "phase": "loaded-original-skill-gap-diagnostics",
+  "benchmark": "SkillLearnBench",
+  "benchmark_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+  "task_split": {
+    "offer-letter-generator-2": "procedural-gap development; never future G2/G3",
+    "court-form-filling-2": "procedural-gap development; never future G2/G3"
+  },
+  "task_ids": [
+    "offer-letter-generator-2",
+    "court-form-filling-2"
+  ],
+  "source_file_hash_receipt": "evidence/gap-source-files.sha256.json",
+  "oracle_summary": "evidence/oracle-preflight-summary.json",
+  "oracle_raw_receipts_private": {
+    "offer-letter-generator-2": "evidence/skilllearn-oracle-offer-letter-generator-2.json",
+    "court-form-filling-2": "evidence/skilllearn-oracle-court-form-filling-2.json"
+  },
+  "trial_image_ids": {
+    "offer-letter-generator-2": "sha256:a6c5ef9af05b9eadb5b81b16c05d0155308d23a736887e590e560ea1290057cc",
+    "court-form-filling-2": "sha256:37f9f42e353c99316cc7cc74e5b5cfce128b764e6929249d3dbb1dc93769e636"
+  },
+  "models": {
+    "small": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "served_model_name": "Qwen3.5-9B",
+      "weights": "BF16",
+      "file_hash_receipt": "evidence/qwen35_9b_files.sha256.json",
+      "backend": "vLLM 0.31.0",
+      "gpu_ids": [
+        0
+      ],
+      "bridge_port": 18081,
+      "max_model_len": 16384,
+      "max_num_seqs": 1,
+      "gpu_memory_utilization": 0.84,
+      "language_model_only": true,
+      "tool_call_parser": "qwen3_coder",
+      "reasoning_parser": "qwen3"
+    },
+    "strong": {
+      "model_id": "Qwen/Qwen3.5-27b-GPTQ-Int4",
+      "served_model_name": "Qwen3.5-27B-GPTQ-Int4",
+      "weights": "GPTQ Int4",
+      "file_hash_receipt": "evidence/qwen35_27b_files.sha256.json",
+      "backend": "vLLM 0.31.0",
+      "gpu_ids": [
+        0,
+        1
+      ],
+      "tensor_parallel_size": 2,
+      "bridge_port": 18082,
+      "max_model_len": 16384,
+      "max_num_seqs": 1,
+      "gpu_memory_utilization": 0.85,
+      "language_model_only": true,
+      "tool_call_parser": "qwen3_coder",
+      "reasoning_parser": "qwen3"
+    }
+  },
+  "decoding": {
+    "reasoning_effort": "none",
+    "generation_config": "vllm",
+    "override_generation_config": {
+      "temperature": 0,
+      "top_p": 1
+    },
+    "explicit_model_seed": null,
+    "seed_note": "temperature zero; no reliable seed control exposed by this Codex/vLLM Responses path"
+  },
+  "agent": {
+    "id": "codex",
+    "version": "0.162.1",
+    "provider_wire_api": "responses",
+    "context_window": 16384,
+    "auto_compact_token_limit": 14000,
+    "command": "codex exec --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check --json --model <served_model_name> -- \"$(cat /tmp/instruction.txt)\"",
+    "tool_scope": "unrestricted shell and file operations inside isolated task container; no Docker socket",
+    "source_registry": "SkillLearnBench agents/__init__.py codex entry"
+  },
+  "conditions": {
+    "S2": "Original Skill tree unchanged; exact concatenated original SKILL.md bodies in developer_instructions"
+  },
+  "s2_skill_tokens": {
+    "offer-letter-generator": 1841,
+    "court-form-filling": 1940
+  },
+  "s2_skill_sha256": {
+    "court-form-filling": "38d8559d4899602f82f3560052132aa0c40cfca80203037729756bdb4fb8e0cb",
+    "offer-letter-generator": "65c3442f51953a6b987e8aefa9abcb458f110344e80cc16c7c7efb931a13efea"
+  },
+  "original_skill_main_file_hashes": {
+    "skills/human_authored/court-form-filling/pdf/SKILL.md": "38d8559d4899602f82f3560052132aa0c40cfca80203037729756bdb4fb8e0cb",
+    "skills/human_authored/offer-letter-generator/docx/SKILL.md": "65c3442f51953a6b987e8aefa9abcb458f110344e80cc16c7c7efb931a13efea"
+  },
+  "artifact_paths": {
+    "offer-letter-generator-2": "/root/offer_letter_filled.docx",
+    "court-form-filling-2": "/root/sc100-filled.pdf"
+  },
+  "agent_budget_seconds": 900,
+  "verifier_budget_seconds": 900,
+  "model_request_budget": "No separate request cap; fixed 900-second Agent wall-time per cell",
+  "evaluator": "source tests/test.sh after Agent exit; binary /logs/verifier/reward.txt",
+  "source_tests_visible_to_agent": false,
+  "trial_count_max": 4,
+  "planned_small_runs": 2,
+  "conditional_strong_policy": "Run a 27B S2 reference only if the corresponding 9B outcome is a plausible loaded-Skill procedural failure and the same source-valid task can isolate model capability from tooling/perception; no selective replacement of 9B scores.",
+  "trial_cells": [
+    {
+      "task_id": "offer-letter-generator-2",
+      "condition": "S2",
+      "model": "small",
+      "stage": "gap",
+      "trial": 1
+    },
+    {
+      "task_id": "court-form-filling-2",
+      "condition": "S2",
+      "model": "small",
+      "stage": "gap",
+      "trial": 1
+    },
+    {
+      "task_id": "offer-letter-generator-2",
+      "condition": "S2",
+      "model": "strong",
+      "stage": "gap",
+      "trial": 1
+    },
+    {
+      "task_id": "court-form-filling-2",
+      "condition": "S2",
+      "model": "strong",
+      "stage": "gap",
+      "trial": 1
+    }
+  ],
+  "runner_sha256": "c4440fe91079bb1f982da36b2fe1859b4ceae34a0618cebd9576cf2c710149c4",
+  "bridge_sha256": "3fda685b788bed54f490d0ec3cdec8deedfaf13b166a76cb6729a3d9bb0a861c",
+  "environment_note": "9B and 27B services use the same GPUs and run serially; no AutoDL instance restart"
+}

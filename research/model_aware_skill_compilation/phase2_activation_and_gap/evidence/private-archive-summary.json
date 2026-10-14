@@ -1,0 +1,9 @@
+{
+  "private_manifest_sha256": "c6fe1c608c6482f30d092b842572a8498d5d2d423bcf0752357166b76f9498ee",
+  "private_file_count": 2537,
+  "private_total_bytes": 151637559,
+  "model_traffic_files": 1646,
+  "trial_trace_files": 890,
+  "planned_activation_cells": 10,
+  "path": "/root/skillsbench-local-20261013/private/model-aware-phase2/archive-hashes.private.json"
+}

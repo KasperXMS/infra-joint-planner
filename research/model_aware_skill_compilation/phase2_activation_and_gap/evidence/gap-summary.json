@@ -1,0 +1,143 @@
+{
+  "manifest_sha256": "eb28e0bb5ba7b47871e26bd8a01f005fd8ffd4f55edd20991bdd402261c1c85a",
+  "planned_maximum": 4,
+  "rows": [
+    {
+      "trial_id": "p2-gap-offer-letter-generator-2-small-S2-r1",
+      "task_id": "offer-letter-generator-2",
+      "model": "small",
+      "status": "scored-timeout",
+      "reward": 1,
+      "agent_exit": 124,
+      "agent_timed_out": true,
+      "agent_seconds": 847.5723459720612,
+      "total_seconds": 861.6757659912109,
+      "model_requests": 163,
+      "main_skill_body_request_count": {
+        "docx": 163
+      },
+      "s2_body_in_all_requests": true,
+      "main_skill_tool_read": {
+        "docx": false
+      },
+      "referenced_forms_resource_tool_access": false,
+      "referenced_forms_read_successfully": null,
+      "referenced_forms_body_request_count": null,
+      "tool_calls": 69,
+      "failed_tool_calls": 0,
+      "repeated_command_occurrences": 48,
+      "tool_router_errors": 1,
+      "compaction_warnings": 48,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "input_tokens": 1900428,
+      "output_tokens": 32078,
+      "cached_input_tokens": 1576608,
+      "first_byte_seconds_sum": 454.161,
+      "response_seconds_sum": 819.085,
+      "artifact_present": true,
+      "artifact_sha256": "0d5b2c1a270bc0f96662355d54a93fcf0ea06b5051918019e9e7d276ef1a5184",
+      "verifier_test_statuses": [
+        "PASSED ../tests/test_outputs.py::test_additional_required_field_present",
+        "PASSED ../tests/test_outputs.py::test_conditional_section",
+        "PASSED ../tests/test_outputs.py::test_header_footer_value",
+        "PASSED ../tests/test_outputs.py::test_nested_table_value",
+        "PASSED ../tests/test_outputs.py::test_no_remaining_placeholders",
+        "PASSED ../tests/test_outputs.py::test_repeated_placeholders_replaced_everywhere",
+        "PASSED ../tests/test_outputs.py::test_split_placeholder_replaced"
+      ]
+    },
+    {
+      "trial_id": "p2-gap-court-form-filling-2-small-S2-r1",
+      "task_id": "court-form-filling-2",
+      "model": "small",
+      "status": "valid-score",
+      "reward": 0,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 337.9473578929901,
+      "total_seconds": 341.27075362205505,
+      "model_requests": 55,
+      "main_skill_body_request_count": {
+        "pdf": 55
+      },
+      "s2_body_in_all_requests": true,
+      "main_skill_tool_read": {
+        "pdf": false
+      },
+      "referenced_forms_resource_tool_access": false,
+      "referenced_forms_read_successfully": false,
+      "referenced_forms_body_request_count": 0,
+      "tool_calls": 49,
+      "failed_tool_calls": 40,
+      "repeated_command_occurrences": 32,
+      "tool_router_errors": 1,
+      "compaction_warnings": 4,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "input_tokens": 686621,
+      "output_tokens": 8005,
+      "cached_input_tokens": 618816,
+      "first_byte_seconds_sum": 227.866,
+      "response_seconds_sum": 320.903,
+      "artifact_present": true,
+      "artifact_sha256": "c1770c29539e4267a02e8d2257ff36d606f3e72701f923c90ef73fb2b6058b9d",
+      "verifier_test_statuses": [
+        "ERROR ../tests/test_outputs.py::TestPDFValid::test_output_file_valid",
+        "ERROR ../tests/test_outputs.py::TestRequiredContent::test_content_present",
+        "PASSED ../tests/test_outputs.py::TestEmptyFields::test_field_empty"
+      ]
+    },
+    {
+      "trial_id": "p2-gap-offer-letter-generator-2-strong-S2-r1",
+      "task_id": "offer-letter-generator-2",
+      "model": "strong",
+      "status": "not-run",
+      "reward": null
+    },
+    {
+      "trial_id": "p2-gap-court-form-filling-2-strong-S2-r1",
+      "task_id": "court-form-filling-2",
+      "model": "strong",
+      "status": "scored-context-rejection",
+      "reward": 0,
+      "agent_exit": 1,
+      "agent_timed_out": false,
+      "agent_seconds": 752.3787155151367,
+      "total_seconds": 759.7824642658234,
+      "model_requests": 98,
+      "main_skill_body_request_count": {
+        "pdf": 98
+      },
+      "s2_body_in_all_requests": true,
+      "main_skill_tool_read": {
+        "pdf": false
+      },
+      "referenced_forms_resource_tool_access": false,
+      "referenced_forms_read_successfully": false,
+      "referenced_forms_body_request_count": 0,
+      "tool_calls": 75,
+      "failed_tool_calls": 24,
+      "repeated_command_occurrences": 0,
+      "tool_router_errors": 1,
+      "compaction_warnings": 21,
+      "api_rejections": 1,
+      "context_rejections": 1,
+      "transport_failures": 0,
+      "input_tokens": 1170360,
+      "output_tokens": 35971,
+      "cached_input_tokens": 960400,
+      "first_byte_seconds_sum": 263.889,
+      "response_seconds_sum": 717.664,
+      "artifact_present": true,
+      "artifact_sha256": "55f0ccae980317a0c5af45f7888918d59d39362a08db6382a1f77ec0810cd4cd",
+      "verifier_test_statuses": [
+        "FAILED ../tests/test_outputs.py::TestRequiredContent::test_content_present",
+        "PASSED ../tests/test_outputs.py::TestEmptyFields::test_field_empty",
+        "PASSED ../tests/test_outputs.py::TestPDFValid::test_output_file_valid"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "reference_oracles": [
+    {
+      "task_id": "court-form-filling-2",
+      "source_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+      "dockerfile_sha256": "fe85eb1210aa5b63dbfd1049e78ef2887a2278d84a4c1c1f38d366257d43f760",
+      "solution_sha256": "4737d533fc02580d1783558fd3fd529ca24f4872e2a912e2154cbd34c99c4556",
+      "verifier_sha256": "ac0b109931f800ae0478989f9fb6d527f4f23bd61632aff02201040bf135955d",
+      "test_sh_sha256": "7a0c6cebbf402bbd606302b5d689bca88a4047e8ee70cf66fa0b02120d491038",
+      "stage_exit_codes": {
+        "build": 0,
+        "create": 0,
+        "copy-solution": 0,
+        "copy-tests": 0,
+        "make-logs": 0,
+        "solve": 0,
+        "verify": 0,
+        "reward": 0
+      },
+      "reference_reward": 1,
+      "private_raw_receipt_sha256": "bd7c8744ffc935747944a11c94281bd1f2ce0ecf477bec0d038ab4e77440af05"
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "source_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+      "dockerfile_sha256": "c7454131294056243a05cd99ded8b16c9e1b15a27e8af6e2b0d215471b496968",
+      "solution_sha256": "6bc3c905403beeb52198f65955be80ca82971aa5a714e904411845941639affe",
+      "verifier_sha256": "37dffd77ecdba6bf983bb05cf8753d9cb6e700e80e6c63e83e3d2306be858d62",
+      "test_sh_sha256": "91b0bb74d4f2794f8202f573b5f1fffcd18f45a06bdec9f18d4b3809328f9e2a",
+      "stage_exit_codes": {
+        "build": 0,
+        "create": 0,
+        "copy-solution": 0,
+        "copy-tests": 0,
+        "make-logs": 0,
+        "solve": 0,
+        "verify": 0,
+        "reward": 0
+      },
+      "reference_reward": 1,
+      "private_raw_receipt_sha256": "b6b6e19ccd850e02d71cf8cd9cd650683a3381b788e3c683381b749f5dc91d48"
+    },
+    {
+      "task_id": "offer-letter-generator-2",
+      "source_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+      "dockerfile_sha256": "aec45ff16988cb6cc64ff1b91c8d1e21e4c61a28c3e1ad77ca1a1e617ffd0652",
+      "solution_sha256": "557fc490f5983f95e0d2a5e32c8c2b63f0bf2d7b68d7f1d9320a494b76084bfa",
+      "verifier_sha256": "fc9265508e375a0b4dbcc7367384a32cc3ff7613f9820048de49184a27734279",
+      "test_sh_sha256": "252ebfafc9f70327ccb788fa2a309dfc1f5843218404a2748ab1184d69d76e10",
+      "stage_exit_codes": {
+        "build": 0,
+        "create": 0,
+        "copy-solution": 0,
+        "copy-tests": 0,
+        "make-logs": 0,
+        "solve": 0,
+        "verify": 0,
+        "reward": 0
+      },
+      "reference_reward": 1,
+      "private_raw_receipt_sha256": "3dc6f46aa6946344f0fcd7abd6b18b9970959aa985a33679389ea6abf4625688"
+    }
+  ],
+  "incomplete_artifact_control": {
+    "private_raw_receipt_sha256": "bdfc3aaa9676ac939af1e629ef276bb400e616b3bfd3d025167c3f1b7a2592b1",
+    "task_id": "financial-analysis-4",
+    "reward": 0,
+    "keys": [
+      "control_artifact_sha256",
+      "expected_control_reward",
+      "reward",
+      "task_id",
+      "tests_sha256",
+      "verifier_exit"
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+# Skill activation and procedural-gap phase 2
+
+This directory records a pinned SkillLearnBench follow-up to the earlier 16-cell pilot. It tests native original Skills (S1), verbatim main-body delivery (S2), and a generic 68-token Agent-read trigger (S3) on one new financial instance, then checks runtime limits and two document-family procedural-gap candidates. All task scores come from unchanged source verifiers. Full model traffic, traces, verifier logs and artifacts remain local/private; public evidence contains hashes and derived metrics.
+
+Read [the freeze and method](activation-method.md), [nine-cell result](activation-results.md), [runtime diagnosis](runtime-reliability.md), [candidate register](procedural-gap-candidates.md), [case studies](procedural-gap-case-studies.md), [method boundaries](related-method-boundaries.md), [compiler decision](compiler-go-no-go.md), [next-stage gate](next-stage-experiment-design.md), and [reproduction details](reproduction.md). The activation [v1](frozen-manifest.json), [v2](frozen-manifest-v2.json), and [gap](gap-manifest.json) manifests are preserved rather than edited after their respective freezes.

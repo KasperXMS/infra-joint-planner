@@ -1,0 +1,9 @@
+{
+  "instance_action": "none",
+  "model": "Qwen3.5-9B BF16",
+  "service_pid": 47796,
+  "service_alive": true,
+  "model_endpoint_status": 200,
+  "gpu_memory_snapshot": "0, 27265, 0\n1, 0, 0",
+  "strong_service_stopped": true
+}

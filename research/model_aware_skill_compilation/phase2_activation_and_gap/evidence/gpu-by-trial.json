@@ -1,0 +1,136 @@
+{
+  "sampler": "nvidia-smi every 5 s on AutoDL host",
+  "monetary_cost": "unknown: provider billing rate not recorded",
+  "rows": [
+    {
+      "trial_id": "p2-development-financial-analysis-2-small-S3-r2",
+      "sample_count": 66,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 35.33
+      },
+      "sampled_energy_wh": 23.23,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S1-r1",
+      "sample_count": 28,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 23.21
+      },
+      "sampled_energy_wh": 7.54,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S2-r1",
+      "sample_count": 69,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 36.14
+      },
+      "sampled_energy_wh": 23.82,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S3-r1",
+      "sample_count": 45,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 42.6
+      },
+      "sampled_energy_wh": 17.99,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S2-r2",
+      "sample_count": 82,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 19.0
+      },
+      "sampled_energy_wh": 17.91,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S3-r2",
+      "sample_count": 35,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 16.66
+      },
+      "sampled_energy_wh": 7.78,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S1-r2",
+      "sample_count": 169,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 45.78
+      },
+      "sampled_energy_wh": 72.52,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S3-r3",
+      "sample_count": 31,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 32.19
+      },
+      "sampled_energy_wh": 9.11,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S1-r3",
+      "sample_count": 29,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 52.07
+      },
+      "sampled_energy_wh": 13.03,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S2-r3",
+      "sample_count": 33,
+      "gpu_ids": [
+        0
+      ],
+      "peak_memory_mib": 27565.0,
+      "mean_utilization_percent": {
+        "0": 42.3
+      },
+      "sampled_energy_wh": 13.93,
+      "energy_method": "5-second nvidia-smi sample integration; last interval omitted"
+    }
+  ]
+}

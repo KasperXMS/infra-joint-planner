@@ -1,0 +1,32 @@
+[
+  {
+    "task_id": "financial-analysis-2",
+    "base_image": "model-aware-skilllearn-financial-analysis-2:source-726e1f7",
+    "trial_image": "phase2-trial-financial-analysis-2:codex-0.162.1",
+    "build_exit": 0,
+    "seconds": 0.543980598449707,
+    "image_id": "sha256:5fa76185e8ee8a68db460bbc6bec6f85ad084f66d61487809e2e03157f63c69a",
+    "stdout_tail": "Sending build context to Docker daemon  77.31kB\n\nStep 1/4 : ARG TASK_IMAGE\nStep 2/4 : FROM model-aware-codex-runtime:0.162.1 AS codex_runtime\n ---> 37114cb6ccbb\nStep 3/4 : FROM ${TASK_IMAGE}\n ---> b2e5545547b3\nStep 4/4 : COPY --from=codex_runtime /usr/local /usr/local\n ---> Using cache\n ---> 5fa76185e8ee\nSuccessfully built 5fa76185e8ee\nSuccessfully tagged phase2-trial-financial-analysis-2:codex-0.162.1\n",
+    "stderr_tail": "DEPRECATED: The legacy builder is deprecated and will be removed in a future release.\n            Install the buildx component to build images with BuildKit:\n            https://docs.docker.com/go/buildx/\n\n"
+  },
+  {
+    "task_id": "financial-analysis-3",
+    "base_image": "model-aware-skilllearn-financial-analysis-3:source-726e1f7",
+    "trial_image": "phase2-trial-financial-analysis-3:codex-0.162.1",
+    "build_exit": 0,
+    "seconds": 0.4790003299713135,
+    "image_id": "sha256:5fa76185e8ee8a68db460bbc6bec6f85ad084f66d61487809e2e03157f63c69a",
+    "stdout_tail": "Sending build context to Docker daemon  77.31kB\n\nStep 1/4 : ARG TASK_IMAGE\nStep 2/4 : FROM model-aware-codex-runtime:0.162.1 AS codex_runtime\n ---> 37114cb6ccbb\nStep 3/4 : FROM ${TASK_IMAGE}\n ---> b2e5545547b3\nStep 4/4 : COPY --from=codex_runtime /usr/local /usr/local\n ---> Using cache\n ---> 5fa76185e8ee\nSuccessfully built 5fa76185e8ee\nSuccessfully tagged phase2-trial-financial-analysis-3:codex-0.162.1\n",
+    "stderr_tail": "DEPRECATED: The legacy builder is deprecated and will be removed in a future release.\n            Install the buildx component to build images with BuildKit:\n            https://docs.docker.com/go/buildx/\n\n"
+  },
+  {
+    "task_id": "financial-analysis-4",
+    "base_image": "phase2-skilllearn-financial-analysis-4:source-726e1f7",
+    "trial_image": "phase2-trial-financial-analysis-4:codex-0.162.1",
+    "build_exit": 0,
+    "seconds": 0.4804351329803467,
+    "image_id": "sha256:5fa76185e8ee8a68db460bbc6bec6f85ad084f66d61487809e2e03157f63c69a",
+    "stdout_tail": "Sending build context to Docker daemon  77.31kB\n\nStep 1/4 : ARG TASK_IMAGE\nStep 2/4 : FROM model-aware-codex-runtime:0.162.1 AS codex_runtime\n ---> 37114cb6ccbb\nStep 3/4 : FROM ${TASK_IMAGE}\n ---> b2e5545547b3\nStep 4/4 : COPY --from=codex_runtime /usr/local /usr/local\n ---> Using cache\n ---> 5fa76185e8ee\nSuccessfully built 5fa76185e8ee\nSuccessfully tagged phase2-trial-financial-analysis-4:codex-0.162.1\n",
+    "stderr_tail": "DEPRECATED: The legacy builder is deprecated and will be removed in a future release.\n            Install the buildx component to build images with BuildKit:\n            https://docs.docker.com/go/buildx/\n\n"
+  }
+]

@@ -1,0 +1,178 @@
+{
+  "source": "SkillLearnBench",
+  "commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+  "task_ids": [
+    "financial-analysis-2",
+    "financial-analysis-3",
+    "financial-analysis-4"
+  ],
+  "files": [
+    {
+      "path": "skills/human_authored/financial-analysis/13f-analyzer/SKILL.md",
+      "bytes": 1340,
+      "sha256": "fac0b5f05405e1e8631f0dcc8f34649e1eaf3252ae3dd8ef7eb9aadaf3c5290d"
+    },
+    {
+      "path": "skills/human_authored/financial-analysis/13f-analyzer/scripts/holding_analysis.py",
+      "bytes": 1451,
+      "sha256": "b2043afd020a32475e9a45ddb5a810082dbb4b1b967fae2153c3bb7e31b6d860"
+    },
+    {
+      "path": "skills/human_authored/financial-analysis/13f-analyzer/scripts/one_fund_analysis.py",
+      "bytes": 4317,
+      "sha256": "cf599cfc21d7419573641397252d0bb8f6da43deefd2aefdbb59fcae28034f15"
+    },
+    {
+      "path": "skills/human_authored/financial-analysis/fuzzy-name-search/SKILL.md",
+      "bytes": 2383,
+      "sha256": "d3a1180be787f8d19bc5bcb4a234b4db145ab88ba5ee1bdb1acde99bc97fef98"
+    },
+    {
+      "path": "skills/human_authored/financial-analysis/fuzzy-name-search/scripts/search_fund.py",
+      "bytes": 3604,
+      "sha256": "e283c1f4e8428930941c79011615a7211f4d7e17a392f820af1d2a9f204964a3"
+    },
+    {
+      "path": "skills/human_authored/financial-analysis/fuzzy-name-search/scripts/search_stock_cusip.py",
+      "bytes": 2359,
+      "sha256": "83e4ba631d57b0d8b44e609efdc2552483687c6e90cb766eb227ea0c8a708b66"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/environment/13f-2025-q2.zip",
+      "bytes": 86295095,
+      "sha256": "9468ae5e90278e847d5035f5efe4294b104a2a25f35169f532b83cea6de19365"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/environment/13f-2025-q3.zip",
+      "bytes": 85618099,
+      "sha256": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/environment/Dockerfile",
+      "bytes": 1056,
+      "sha256": "0240bafd5238f46b3fbcff96bf71798f375aa69ae0f2873d2f27cc3bd232c0af"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/instruction.md",
+      "bytes": 1678,
+      "sha256": "6f531a5796cea3d98e7ecec494cc20b230d664e0b0426564fb403de112a0f2f9"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/solution/solve.sh",
+      "bytes": 3404,
+      "sha256": "c29e5b0dfccdc93da4b41ffeac4f6d447dde342513d78f03853d07ed7ac2816e"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/task.toml",
+      "bytes": 335,
+      "sha256": "7074d592f826492c6ec28c907365d33c8ec8ff69798ec57e160a805d92cd1ce3"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/tests/expected_output.json",
+      "bytes": 222,
+      "sha256": "098a119dd7c10b42febaf2aef677e67cd63e486f822c64112419b0228930af27"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/tests/test.sh",
+      "bytes": 623,
+      "sha256": "de060ab298637151cf7ba35aaedd5be520a9e3ea18e169849efb42d13730f1b8"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-2/tests/test_outputs.py",
+      "bytes": 1235,
+      "sha256": "95c1247a59f84363dda6fb4134a804b97387535caf1c37b9a1f28715442b0305"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/environment/13f-2025-q2.zip",
+      "bytes": 86295095,
+      "sha256": "9468ae5e90278e847d5035f5efe4294b104a2a25f35169f532b83cea6de19365"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/environment/13f-2025-q3.zip",
+      "bytes": 85618099,
+      "sha256": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/environment/Dockerfile",
+      "bytes": 1056,
+      "sha256": "0240bafd5238f46b3fbcff96bf71798f375aa69ae0f2873d2f27cc3bd232c0af"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/instruction.md",
+      "bytes": 1485,
+      "sha256": "58fdb8a057c5db44dfdd4f8ee60793fccd31c3a4831bfe7e53427fbb1e25dc01"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/solution/solve.sh",
+      "bytes": 3286,
+      "sha256": "76de0e8bbe537494eb810d108e150304ca21691b7d5b2f547eb5c1049d70e0f8"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/task.toml",
+      "bytes": 335,
+      "sha256": "7074d592f826492c6ec28c907365d33c8ec8ff69798ec57e160a805d92cd1ce3"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/tests/expected_output.json",
+      "bytes": 217,
+      "sha256": "c26c7002fc803e5a092d8c88b9c36fc37246f83f91fedcdf8d380869d65dab9e"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/tests/test.sh",
+      "bytes": 623,
+      "sha256": "de060ab298637151cf7ba35aaedd5be520a9e3ea18e169849efb42d13730f1b8"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-3/tests/test_outputs.py",
+      "bytes": 1140,
+      "sha256": "64452e3e6fd6753e907d7e2bfd264875f7fc4ce6990cbc5b7ba3e41995dd0591"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/environment/13f-2025-q2.zip",
+      "bytes": 86295095,
+      "sha256": "9468ae5e90278e847d5035f5efe4294b104a2a25f35169f532b83cea6de19365"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/environment/13f-2025-q3.zip",
+      "bytes": 85618099,
+      "sha256": "7753ae28988c076baeb30a94656622ff0b3c5f55c90078d9d69fc14ba3d3b682"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/environment/Dockerfile",
+      "bytes": 1056,
+      "sha256": "0240bafd5238f46b3fbcff96bf71798f375aa69ae0f2873d2f27cc3bd232c0af"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/instruction.md",
+      "bytes": 1608,
+      "sha256": "6d5ca740cf29f04f40270bb4c2f3633c75c7f21c8ca19e26e608ba98d8d788b5"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/solution/solve.sh",
+      "bytes": 3389,
+      "sha256": "f50140ad3f3793dff8da872a202d73cec9211126c091895e993a76444f94e2dd"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/task.toml",
+      "bytes": 335,
+      "sha256": "7074d592f826492c6ec28c907365d33c8ec8ff69798ec57e160a805d92cd1ce3"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/tests/expected_output.json",
+      "bytes": 128,
+      "sha256": "8595b4cf71dad6b062322aa70c15470282ca8706d2e39ff099e1c9be1250e5ca"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/tests/test.sh",
+      "bytes": 623,
+      "sha256": "de060ab298637151cf7ba35aaedd5be520a9e3ea18e169849efb42d13730f1b8"
+    },
+    {
+      "path": "tasks/financial-analysis/financial-analysis-4/tests/test_outputs.py",
+      "bytes": 1235,
+      "sha256": "95c1247a59f84363dda6fb4134a804b97387535caf1c37b9a1f28715442b0305"
+    }
+  ],
+  "material_root": "/root/skillsbench-local-20261013/private/model-aware-phase2/material",
+  "source_git_object_bytes": true
+}

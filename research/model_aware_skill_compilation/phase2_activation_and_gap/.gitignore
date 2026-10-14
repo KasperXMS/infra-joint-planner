@@ -1,0 +1,7 @@
+# Full Agent traces, model bodies, hidden verifier files and artifacts remain local.
+trials/
+evidence/*raw*
+evidence/gpu-samples.jsonl
+evidence/skilllearn-oracle-*.json
+evidence/verifier-negative-control.json
+scripts/__pycache__/

@@ -1,0 +1,1 @@
+Required first step: Before inspecting task data or planning a solution, use the shell tool to read each relevant SKILL.md listed under Available skills. Resolve listed aliases using their root paths, then read the complete file. Treat metadata only as a pointer; do not proceed until the tool returns the full instructions. Read referenced scripts when needed.

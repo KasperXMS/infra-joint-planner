@@ -1,0 +1,37 @@
+{
+  "sampler": "nvidia-smi every 5 seconds on AutoDL host",
+  "monetary_cost": "unknown: provider billing rate not recorded",
+  "rows": [
+    {
+      "trial_id": "p2-gap-offer-letter-generator-2-small-S2-r1",
+      "gpu_ids": [
+        0
+      ],
+      "sample_count": 168,
+      "peak_memory_mib": 27565.0,
+      "sampled_energy_wh": 70.18,
+      "energy_method": "5-second nvidia-smi integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-gap-court-form-filling-2-small-S2-r1",
+      "gpu_ids": [
+        0
+      ],
+      "sample_count": 66,
+      "peak_memory_mib": 27565.0,
+      "sampled_energy_wh": 18.96,
+      "energy_method": "5-second nvidia-smi integration; last interval omitted"
+    },
+    {
+      "trial_id": "p2-gap-court-form-filling-2-strong-S2-r1",
+      "gpu_ids": [
+        0,
+        1
+      ],
+      "sample_count": 148,
+      "peak_memory_mib": 28067.0,
+      "sampled_energy_wh": 126.44,
+      "energy_method": "5-second nvidia-smi integration; last interval omitted"
+    }
+  ]
+}

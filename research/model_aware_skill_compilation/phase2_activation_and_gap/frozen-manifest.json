@@ -1,0 +1,186 @@
+{
+  "status": "frozen",
+  "frozen_epoch": 1791962550.0032086,
+  "phase": "activation-and-gap",
+  "benchmark": "SkillLearnBench",
+  "benchmark_commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+  "task_ids": [
+    "financial-analysis-2",
+    "financial-analysis-3",
+    "financial-analysis-4"
+  ],
+  "task_split": {
+    "financial-analysis-2": "previous-development; S3 activation probe only",
+    "financial-analysis-3": "previous-development; no activation trial planned",
+    "financial-analysis-4": "within-family validation; frozen before any S1/S2/S3 model run"
+  },
+  "source_file_hash_receipt": "evidence/source-files.sha256.json",
+  "trial_image_ids": {
+    "financial-analysis-2": "sha256:5fa76185e8ee8a68db460bbc6bec6f85ad084f66d61487809e2e03157f63c69a",
+    "financial-analysis-3": "sha256:5fa76185e8ee8a68db460bbc6bec6f85ad084f66d61487809e2e03157f63c69a",
+    "financial-analysis-4": "sha256:5fa76185e8ee8a68db460bbc6bec6f85ad084f66d61487809e2e03157f63c69a"
+  },
+  "oracle_receipt": "evidence/skilllearn-oracle-financial-analysis-4.json",
+  "negative_control_receipt": "evidence/verifier-negative-control.json",
+  "models": {
+    "small": {
+      "model_id": "Qwen/Qwen3.5-9B",
+      "served_model_name": "Qwen3.5-9B",
+      "weights": "BF16",
+      "file_hash_receipt": "evidence/qwen35_9b_files.sha256.json",
+      "backend": "vLLM 0.31.0",
+      "gpu_ids": [
+        0
+      ],
+      "bridge_port": 18081,
+      "max_model_len": 16384,
+      "max_num_seqs": 1,
+      "gpu_memory_utilization": 0.84,
+      "language_model_only": true,
+      "tool_call_parser": "qwen3_coder",
+      "reasoning_parser": "qwen3"
+    },
+    "strong": {
+      "model_id": "Qwen/Qwen3.5-27b-GPTQ-Int4",
+      "served_model_name": "Qwen3.5-27B-GPTQ-Int4",
+      "weights": "GPTQ Int4",
+      "file_hash_receipt": "evidence/qwen35_27b_files.sha256.json",
+      "backend": "vLLM 0.31.0",
+      "gpu_ids": [
+        0,
+        1
+      ],
+      "tensor_parallel_size": 2,
+      "bridge_port": 18082,
+      "max_model_len": 16384,
+      "max_num_seqs": 1,
+      "gpu_memory_utilization": 0.85,
+      "language_model_only": true,
+      "tool_call_parser": "qwen3_coder",
+      "reasoning_parser": "qwen3"
+    }
+  },
+  "decoding": {
+    "reasoning_effort": "none",
+    "generation_config": "vllm",
+    "override_generation_config": {
+      "temperature": 0,
+      "top_p": 1
+    },
+    "explicit_model_seed": null,
+    "seed_note": "temperature zero; no reliable seed control exposed by this Codex/vLLM Responses path"
+  },
+  "agent": {
+    "id": "codex",
+    "version": "0.162.1",
+    "provider_wire_api": "responses",
+    "context_window": 16384,
+    "auto_compact_token_limit": 14000,
+    "command": "codex exec --dangerously-bypass-approvals-and-sandbox --skip-git-repo-check --json --model <served_model_name> -- \"$(cat /tmp/instruction.txt)\"",
+    "tool_scope": "unrestricted shell and file operations inside isolated task container; no Docker socket",
+    "source_registry": "SkillLearnBench agents/__init__.py codex entry"
+  },
+  "conditions": {
+    "S1": "Original Skill tree and native metadata; autonomous file read; no developer body or trigger",
+    "S2": "Same tree plus exact concatenated original SKILL.md bodies in developer_instructions",
+    "S3": "Same tree plus generic read-trigger text in developer_instructions; Agent must read files via actual tools"
+  },
+  "s2_skill_tokens": {
+    "financial-analysis": 1202
+  },
+  "s2_skill_sha256": {
+    "financial-analysis": "e86ab640c813235ca13e53256bd4d5357d6051ddf15782fb55dabba728bf11ad"
+  },
+  "s3_trigger_text_file": "read-trigger.txt",
+  "s3_trigger_sha256": "e10bbf2a7cf79bb18de25c7252f54a1ba9fcbaa0a8f2915aa3216621e939e6b5",
+  "s3_trigger_tokens": 64,
+  "s3_trigger_placement": "Codex config developer_instructions",
+  "s3_scope": "generic across Skill families; contains no finance names, domain facts or task answers",
+  "original_skill_main_file_hashes": {
+    "skills/human_authored/financial-analysis/13f-analyzer/SKILL.md": "fac0b5f05405e1e8631f0dcc8f34649e1eaf3252ae3dd8ef7eb9aadaf3c5290d",
+    "skills/human_authored/financial-analysis/fuzzy-name-search/SKILL.md": "d3a1180be787f8d19bc5bcb4a234b4db145ab88ba5ee1bdb1acde99bc97fef98"
+  },
+  "agent_budget_seconds": 900,
+  "verifier_budget_seconds": 900,
+  "model_request_budget": "No separate request cap; fixed 900-second Agent wall-time per cell",
+  "evaluator": "source tests/test.sh after Agent exit; binary /logs/verifier/reward.txt",
+  "source_tests_visible_to_agent": false,
+  "trial_count": 10,
+  "trial_cells": [
+    {
+      "task_id": "financial-analysis-2",
+      "condition": "S3",
+      "model": "small",
+      "stage": "development",
+      "trial": 1
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S1",
+      "model": "small",
+      "stage": "validation",
+      "trial": 1
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S2",
+      "model": "small",
+      "stage": "validation",
+      "trial": 1
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S3",
+      "model": "small",
+      "stage": "validation",
+      "trial": 1
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S2",
+      "model": "small",
+      "stage": "validation",
+      "trial": 2
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S3",
+      "model": "small",
+      "stage": "validation",
+      "trial": 2
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S1",
+      "model": "small",
+      "stage": "validation",
+      "trial": 2
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S3",
+      "model": "small",
+      "stage": "validation",
+      "trial": 3
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S1",
+      "model": "small",
+      "stage": "validation",
+      "trial": 3
+    },
+    {
+      "task_id": "financial-analysis-4",
+      "condition": "S2",
+      "model": "small",
+      "stage": "validation",
+      "trial": 3
+    }
+  ],
+  "runner_sha256": "b369b4a812e2df5c9486db693a77d8940b39f86ed0c636e3f2175c5652ae0751",
+  "bridge_sha256": "3fda685b788bed54f490d0ec3cdec8deedfaf13b166a76cb6729a3d9bb0a861c",
+  "no_replacement_after_outcome": true,
+  "infrastructure_retry_policy": "Retain original trace; any retry gets a new labeled cell, never substitutes its score",
+  "analysis_warning": "One public within-family validation instance and three potentially deterministic repeats; no significance claim"
+}

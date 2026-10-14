@@ -1,0 +1,5 @@
+# Preserve byte-level treatment, runner, bridge and manifest hashes on Windows.
+scripts/*.py text eol=lf
+frozen-manifest*.json text eol=lf
+gap-manifest.json text eol=lf
+read-trigger*.txt text eol=lf

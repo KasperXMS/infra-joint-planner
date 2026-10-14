@@ -1,0 +1,558 @@
+{
+  "manifest_sha256": "5da3f4ab8a4c4a7128ba1adac08952f311cb86c78c90161b59acf2a234b11594",
+  "planned": 10,
+  "officially_scored": 10,
+  "valid_scored": 6,
+  "rows": [
+    {
+      "trial_id": "p2-development-financial-analysis-2-small-S3-r2",
+      "stage": "development",
+      "task_id": "financial-analysis-2",
+      "condition": "S3",
+      "model": "small",
+      "repetition": 2,
+      "status": "valid-score",
+      "reward": 0,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 317.83662033081055,
+      "total_seconds": 340.5327591896057,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 45,
+      "nominal_injected_tokens_per_request": 68,
+      "nominal_repeated_injected_tokens": 3060,
+      "input_tokens": 525130,
+      "output_tokens": 11937,
+      "cached_input_tokens": 458304,
+      "tool_calls": 33,
+      "failed_tool_calls": 4,
+      "repeated_command_occurrences": 1,
+      "tool_router_errors": 1,
+      "compaction_warnings": 4,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 113.616,
+      "response_seconds_sum": 244.691,
+      "artifact_sha256": "968fe3fee1aba4c8d462b82a7d182a9e7e3ea2720ad31cf93b0e13da32fa8084",
+      "artifact_present": true,
+      "trigger_in_first_request": true,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S1-r1",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S1",
+      "model": "small",
+      "repetition": 1,
+      "status": "scored-context-rejection",
+      "reward": 0,
+      "agent_exit": 1,
+      "agent_timed_out": false,
+      "agent_seconds": 128.7693634033203,
+      "total_seconds": 145.96913981437683,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 19,
+      "nominal_injected_tokens_per_request": 0,
+      "nominal_repeated_injected_tokens": 0,
+      "input_tokens": 216082,
+      "output_tokens": 3161,
+      "cached_input_tokens": 193248,
+      "tool_calls": 13,
+      "failed_tool_calls": 0,
+      "repeated_command_occurrences": 0,
+      "tool_router_errors": 0,
+      "compaction_warnings": 1,
+      "api_rejections": 1,
+      "context_rejections": 1,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 46.186,
+      "response_seconds_sum": 82.068,
+      "artifact_sha256": null,
+      "artifact_present": false,
+      "trigger_in_first_request": false,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S2-r1",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S2",
+      "model": "small",
+      "repetition": 1,
+      "status": "valid-score",
+      "reward": 1,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 314.3847677707672,
+      "total_seconds": 356.5312511920929,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 58,
+        "fuzzy-name-search": 58
+      },
+      "model_requests": 58,
+      "nominal_injected_tokens_per_request": 1202,
+      "nominal_repeated_injected_tokens": 69716,
+      "input_tokens": 699768,
+      "output_tokens": 9215,
+      "cached_input_tokens": 627792,
+      "tool_calls": 47,
+      "failed_tool_calls": 12,
+      "repeated_command_occurrences": 5,
+      "tool_router_errors": 2,
+      "compaction_warnings": 6,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 154.404,
+      "response_seconds_sum": 253.737,
+      "artifact_sha256": "24ae81b010eed5ed27ad137fccf4035acd29b304af84c8e249ba26eef7485da7",
+      "artifact_present": true,
+      "trigger_in_first_request": false,
+      "s2_body_in_all_requests": true
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S3-r1",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S3",
+      "model": "small",
+      "repetition": 1,
+      "status": "scored-context-rejection",
+      "reward": 0,
+      "agent_exit": 1,
+      "agent_timed_out": false,
+      "agent_seconds": 213.34989666938782,
+      "total_seconds": 228.10333251953125,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 39,
+      "nominal_injected_tokens_per_request": 68,
+      "nominal_repeated_injected_tokens": 2652,
+      "input_tokens": 450595,
+      "output_tokens": 8028,
+      "cached_input_tokens": 369072,
+      "tool_calls": 33,
+      "failed_tool_calls": 0,
+      "repeated_command_occurrences": 11,
+      "tool_router_errors": 0,
+      "compaction_warnings": 5,
+      "api_rejections": 1,
+      "context_rejections": 1,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 91.659,
+      "response_seconds_sum": 181.351,
+      "artifact_sha256": null,
+      "artifact_present": false,
+      "trigger_in_first_request": true,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S2-r2",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S2",
+      "model": "small",
+      "repetition": 2,
+      "status": "valid-score",
+      "reward": 0,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 275.0382378101349,
+      "total_seconds": 418.2555351257324,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 44,
+        "fuzzy-name-search": 44
+      },
+      "model_requests": 44,
+      "nominal_injected_tokens_per_request": 1202,
+      "nominal_repeated_injected_tokens": 52888,
+      "input_tokens": 531081,
+      "output_tokens": 7873,
+      "cached_input_tokens": 486288,
+      "tool_calls": 36,
+      "failed_tool_calls": 8,
+      "repeated_command_occurrences": 0,
+      "tool_router_errors": 2,
+      "compaction_warnings": 4,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 107.747,
+      "response_seconds_sum": 191.153,
+      "artifact_sha256": "b235510da9b2212c2d9e9e0970e90b361d95e10719c0213b2aa69806c0a982a2",
+      "artifact_present": true,
+      "trigger_in_first_request": false,
+      "s2_body_in_all_requests": true
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S3-r2",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S3",
+      "model": "small",
+      "repetition": 2,
+      "status": "valid-score",
+      "reward": 0,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 157.9468445777893,
+      "total_seconds": 176.07109689712524,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 30,
+      "nominal_injected_tokens_per_request": 68,
+      "nominal_repeated_injected_tokens": 2040,
+      "input_tokens": 348061,
+      "output_tokens": 4598,
+      "cached_input_tokens": 315216,
+      "tool_calls": 27,
+      "failed_tool_calls": 0,
+      "repeated_command_occurrences": 2,
+      "tool_router_errors": 0,
+      "compaction_warnings": 2,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 86.86,
+      "response_seconds_sum": 136.498,
+      "artifact_sha256": "2674190abfb3b3e0e1ee4790255bc9af7af72204f39b598b530c30d16a0a8cc2",
+      "artifact_present": true,
+      "trigger_in_first_request": true,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S1-r2",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S1",
+      "model": "small",
+      "repetition": 2,
+      "status": "scored-timeout",
+      "reward": 0,
+      "agent_exit": 124,
+      "agent_timed_out": true,
+      "agent_seconds": 850.9319787025452,
+      "total_seconds": 869.4345052242279,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 172,
+      "nominal_injected_tokens_per_request": 0,
+      "nominal_repeated_injected_tokens": 0,
+      "input_tokens": 2056202,
+      "output_tokens": 31166,
+      "cached_input_tokens": 1509552,
+      "tool_calls": 139,
+      "failed_tool_calls": 2,
+      "repeated_command_occurrences": 124,
+      "tool_router_errors": 0,
+      "compaction_warnings": 33,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 414.852,
+      "response_seconds_sum": 786.087,
+      "artifact_sha256": null,
+      "artifact_present": false,
+      "trigger_in_first_request": false,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S3-r3",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S3",
+      "model": "small",
+      "repetition": 3,
+      "status": "valid-score",
+      "reward": 0,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 139.3250641822815,
+      "total_seconds": 158.61080384254456,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 23,
+      "nominal_injected_tokens_per_request": 68,
+      "nominal_repeated_injected_tokens": 1564,
+      "input_tokens": 261173,
+      "output_tokens": 4389,
+      "cached_input_tokens": 219648,
+      "tool_calls": 20,
+      "failed_tool_calls": 2,
+      "repeated_command_occurrences": 0,
+      "tool_router_errors": 0,
+      "compaction_warnings": 2,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 57.111,
+      "response_seconds_sum": 105.749,
+      "artifact_sha256": "b235510da9b2212c2d9e9e0970e90b361d95e10719c0213b2aa69806c0a982a2",
+      "artifact_present": true,
+      "trigger_in_first_request": true,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S1-r3",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S1",
+      "model": "small",
+      "repetition": 3,
+      "status": "scored-context-rejection",
+      "reward": 0,
+      "agent_exit": 1,
+      "agent_timed_out": false,
+      "agent_seconds": 136.08499479293823,
+      "total_seconds": 151.57958698272705,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 0,
+        "fuzzy-name-search": 0
+      },
+      "model_requests": 26,
+      "nominal_injected_tokens_per_request": 0,
+      "nominal_repeated_injected_tokens": 0,
+      "input_tokens": 289572,
+      "output_tokens": 5803,
+      "cached_input_tokens": 256080,
+      "tool_calls": 25,
+      "failed_tool_calls": 3,
+      "repeated_command_occurrences": 1,
+      "tool_router_errors": 0,
+      "compaction_warnings": 2,
+      "api_rejections": 1,
+      "context_rejections": 1,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 59.153,
+      "response_seconds_sum": 118.995,
+      "artifact_sha256": null,
+      "artifact_present": false,
+      "trigger_in_first_request": false,
+      "s2_body_in_all_requests": null
+    },
+    {
+      "trial_id": "p2-validation-financial-analysis-4-small-S2-r3",
+      "stage": "validation",
+      "task_id": "financial-analysis-4",
+      "condition": "S2",
+      "model": "small",
+      "repetition": 3,
+      "status": "valid-score",
+      "reward": 0,
+      "agent_exit": 0,
+      "agent_timed_out": false,
+      "agent_seconds": 153.4110426902771,
+      "total_seconds": 171.22749090194702,
+      "skill_available": true,
+      "metadata_visible_first_request": {
+        "13f-analyzer": true,
+        "fuzzy-name-search": true
+      },
+      "skill_discovery_attempt": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "main_skill_read_successfully_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "referenced_script_accessed_via_tool": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "skill_body_model_request_count": {
+        "13f-analyzer": 27,
+        "fuzzy-name-search": 27
+      },
+      "model_requests": 27,
+      "nominal_injected_tokens_per_request": 1202,
+      "nominal_repeated_injected_tokens": 32454,
+      "input_tokens": 330801,
+      "output_tokens": 6118,
+      "cached_input_tokens": 287760,
+      "tool_calls": 23,
+      "failed_tool_calls": 3,
+      "repeated_command_occurrences": 0,
+      "tool_router_errors": 0,
+      "compaction_warnings": 3,
+      "api_rejections": 0,
+      "context_rejections": 0,
+      "transport_failures": 0,
+      "first_byte_seconds_sum": 56.7,
+      "response_seconds_sum": 128.204,
+      "artifact_sha256": "2674190abfb3b3e0e1ee4790255bc9af7af72204f39b598b530c30d16a0a8cc2",
+      "artifact_present": true,
+      "trigger_in_first_request": false,
+      "s2_body_in_all_requests": true
+    }
+  ]
+}

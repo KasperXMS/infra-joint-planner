@@ -1,0 +1,35 @@
+{
+  "task_split": "previous-development; excluded from new-instance validation",
+  "probes": [
+    {
+      "trial_id": "p2-development-financial-analysis-2-small-S3-r1",
+      "trigger_version": "v1",
+      "task_id": "financial-analysis-2",
+      "official_reward": 0,
+      "agent_exit": 0,
+      "agent_seconds": 166.38090801239014,
+      "model_requests": 22,
+      "trigger_seen_in_model_request": true,
+      "original_skill_body_seen_in_model_request": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "private_result_sha256": "f8b09a6284dcf43f0ae6e09a67e24b95990e6cabe08688cce99957a1a6d765cb"
+    },
+    {
+      "trial_id": "p2-development-financial-analysis-2-small-S3-r2",
+      "trigger_version": "v2",
+      "task_id": "financial-analysis-2",
+      "official_reward": 0,
+      "agent_exit": 0,
+      "agent_seconds": 317.83662033081055,
+      "model_requests": 45,
+      "trigger_seen_in_model_request": true,
+      "original_skill_body_seen_in_model_request": {
+        "13f-analyzer": false,
+        "fuzzy-name-search": false
+      },
+      "private_result_sha256": "9a5a232f64242ac4456eb8317d77b15ce86c0f05804fd039ca84c846183dc724"
+    }
+  ]
+}

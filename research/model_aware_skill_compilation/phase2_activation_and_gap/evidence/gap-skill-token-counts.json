@@ -1,0 +1,8 @@
+{
+  "model": "Qwen3.5-9B tokenizer",
+  "add_special_tokens": false,
+  "original_body_tokens": {
+    "offer-letter-generator": 1841,
+    "court-form-filling": 1940
+  }
+}

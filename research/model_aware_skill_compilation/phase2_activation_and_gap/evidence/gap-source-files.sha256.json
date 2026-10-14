@@ -1,0 +1,152 @@
+{
+  "source": "SkillLearnBench",
+  "commit": "726e1f79b96b0cb3d729d0e55a1c847e0b5353ae",
+  "task_ids": [
+    "offer-letter-generator-2",
+    "court-form-filling-2"
+  ],
+  "files": [
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/LICENSE.txt",
+      "bytes": 1467,
+      "sha256": "79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/SKILL.md",
+      "bytes": 7068,
+      "sha256": "38d8559d4899602f82f3560052132aa0c40cfca80203037729756bdb4fb8e0cb"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/forms.md",
+      "bytes": 9438,
+      "sha256": "0ab10e9095deb1c1f9f79eb04254589f55c1d16e095cb53191e03f9fc3184449"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/reference.md",
+      "bytes": 16573,
+      "sha256": "3c6e7c055461d28c2047556dcc65185f542805b0a3198d2fe24236ac07699696"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/check_bounding_boxes.py",
+      "bytes": 3277,
+      "sha256": "c5a6c5c418252965eb3b2ed26bb4206f102118805a9d314ab8e7992faf487016"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/check_bounding_boxes_test.py",
+      "bytes": 8351,
+      "sha256": "c9614e2dee1f614318985c9bcabb24e4bea6326b866d7dae7494940047f38461"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/check_fillable_fields.py",
+      "bytes": 360,
+      "sha256": "9842bf09975f2cc2bd2e1f7a413ecd0d4a7823b09653278bfc59d84af3b0aeb9"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/convert_pdf_to_images.py",
+      "bytes": 1114,
+      "sha256": "4fdb00d3042f6c995ad5994a43e306a2b13c3e5b94eef2088dd6db6200476e58"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/create_validation_image.py",
+      "bytes": 1581,
+      "sha256": "7a58f04c3607897f9491513e4f5f624cfdf7dd8521ce5eaf7b5707c2581e4594"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/extract_form_field_info.py",
+      "bytes": 6264,
+      "sha256": "683228c1b909e821739f138e753d00c8f514e7bb54d3686045e38426fc813d46"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/fill_fillable_fields.py",
+      "bytes": 4850,
+      "sha256": "c5f7602e1b14d12457bb42812da80cfb22b0bbdbe8b70da4035a69b73e5160fe"
+    },
+    {
+      "path": "skills/human_authored/court-form-filling/pdf/scripts/fill_pdf_form_with_annotations.py",
+      "bytes": 3465,
+      "sha256": "503fc5a22080b2343cbcf9795fe37c7b2afd49a5a5840115d01c9f83afa45f97"
+    },
+    {
+      "path": "skills/human_authored/offer-letter-generator/docx/SKILL.md",
+      "bytes": 7869,
+      "sha256": "65c3442f51953a6b987e8aefa9abcb458f110344e80cc16c7c7efb931a13efea"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/environment/Dockerfile",
+      "bytes": 1065,
+      "sha256": "a635fe20f106657c6db1c6607db10bc324c1b8e8c9dd9a8b7a43f35b49ebbdc9"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/environment/sc100-blank.pdf",
+      "bytes": 294816,
+      "sha256": "ef3421b14ebf64dbf884566ff659b39776035ec5b6e6500be0af91e3cc15533c"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/instruction.md",
+      "bytes": 1103,
+      "sha256": "3115924bd45c9bd4b1410f87621a70355f42a04e7789d0f21255c483f68f3fa2"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/solution/solve.sh",
+      "bytes": 5084,
+      "sha256": "875053f44ec0bd53b2e73a5f9be7100ef1acd7081350eb1bf4aa702fbe869f32"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/task.toml",
+      "bytes": 384,
+      "sha256": "923cae9567941f04e3fd4dba386db045af766eb81f301d40d8227c30a19e7a71"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/tests/test.sh",
+      "bytes": 976,
+      "sha256": "3b737fad7a00d6b8f63ffef481beea1e4b8ca518a558cfb6d28772cd49eefa38"
+    },
+    {
+      "path": "tasks/court-form-filling/court-form-filling-2/tests/test_outputs.py",
+      "bytes": 18718,
+      "sha256": "c981f861c463101e6244aeaec99f7238a67a07600480cec8fdd7f0df60c89cda"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/environment/Dockerfile",
+      "bytes": 717,
+      "sha256": "688a715f730741f6867454cc4a49ed7b1f39493220ec450f0ab2eebb169972c4"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/environment/employee_data.json",
+      "bytes": 730,
+      "sha256": "44c0e7e68f5d6da9608c5340287de02a57f1fe37cd7296523f12acf3e98d7461"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/environment/offer_letter_template.docx",
+      "bytes": 38811,
+      "sha256": "51671796c065ce8d7f1791dbb5b0936e65c2f44fc316cdf65a730660229e0a14"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/instruction.md",
+      "bytes": 564,
+      "sha256": "f01257542e80086d579a0d8c427450a68d3147c0e6993039328e1c08852c4abc"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/solution/solve.sh",
+      "bytes": 2519,
+      "sha256": "ae9af522427866e0822ebfd820657be7741ac2b79b0132bcd698e13f0b639cd5"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/task.toml",
+      "bytes": 348,
+      "sha256": "4980fbbc5ce93eaa548f4ad30ecada00782e846a7cad2c0d8bf0b50757c9b6df"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/tests/test.sh",
+      "bytes": 627,
+      "sha256": "7f506a7694af94ec163d237d8765a09b1d6e0766e5ae422df9a44d472a7cc49c"
+    },
+    {
+      "path": "tasks/offer-letter-generator/offer-letter-generator-2/tests/test_outputs.py",
+      "bytes": 6808,
+      "sha256": "86cab2d0e67ecc1a76f41bbc4222cb4669d8b69041b075089d5f29d1fb86cc4b"
+    }
+  ],
+  "material_root": "/root/skillsbench-local-20261013/private/model-aware-phase2-gap/material",
+  "source_git_object_bytes": true
+}
