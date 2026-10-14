@@ -1,0 +1,17 @@
+{
+  "study": "infra-evaluation-workload-v0.1",
+  "source_a": {
+    "worker_pid": 2036630,
+    "proxy_pids": [2036884, 2036962],
+    "ports_closed_after_cleanup": [63104, 63105, 63106],
+    "persistent_artifact_count": 438
+  },
+  "source_b": {
+    "worker_pid": 3774529,
+    "ports_closed_after_cleanup": [63117],
+    "persistent_artifact_count": 248
+  },
+  "experiment_owned_services_stopped": true,
+  "source_data_retained": true,
+  "host_tc_modified": false
+}

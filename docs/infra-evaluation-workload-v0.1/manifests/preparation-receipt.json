@@ -1,0 +1,33 @@
+{
+  "artifact_count": 686,
+  "excluded_count": 3,
+  "resident_artifact_counts": {
+    "source-a": 438,
+    "source-b": 248
+  },
+  "schema_version": "infra-evaluation-workload-v0.1",
+  "selection_policy": "frozen row IDs and QIDs; no model outputs used",
+  "source_files": {
+    "MMQA_dev.jsonl.gz": {
+      "sha256": "2e348ca574b2dc368e84671709689070f943a59f2e08e6b6e374705deb712d31",
+      "size_bytes": 1310976
+    },
+    "MMQA_tables.jsonl.gz": {
+      "sha256": "8d082d254fd0bfa19bca7e2da20369c15ccb25867db3edfe46b33d59e8dbf7b1",
+      "size_bytes": 10344191
+    },
+    "MMQA_texts.jsonl.gz": {
+      "sha256": "cae3808ccc6c258e91131a3ca3dce43e629936e1496c97a288c4abb04a6ef905",
+      "size_bytes": 45851194
+    },
+    "multihop-corpus.json": {
+      "sha256": "20b61b5ab84de84a927420c5d265b7ec8d859ae49980699958a787ade9e4d28f",
+      "size_bytes": 6785567
+    },
+    "multihop-queries.json": {
+      "sha256": "03cfb4926461f868684903aadc8024447bdda5bb3f6804741424cce338515bff",
+      "size_bytes": 5171312
+    }
+  },
+  "task_count": 12
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": "infra-evaluation-workload-v0.1",
+  "task_ref": "docs/infra-evaluation-workload-v0.1/manifests/task-candidates.jsonl#multihop:a647807d9a1d0efd",
+  "residency_manifest_ref": "docs/infra-evaluation-workload-v0.1/manifests/source-residency.jsonl",
+  "infrastructure_profile_ref": "configs/experiments/infra-evaluation-network-v01.json#Hslow",
+  "evaluation_ref": "docs/infra-evaluation-workload-v0.1/manifests/evaluation-definitions.jsonl#multihop:a647807d9a1d0efd",
+  "execution": {
+    "method_id": "deterministic_environment_validation",
+    "runtime_configuration": "configs/experiments/infra-evaluation-source-a-v01.yaml + configs/experiments/infra-evaluation-source-b-v01.yaml",
+    "setup_policy": "resident",
+    "trial_id": "schema-example-only",
+    "result_namespace": "infra-evaluation-workload-v0.1/example"
+  }
+}

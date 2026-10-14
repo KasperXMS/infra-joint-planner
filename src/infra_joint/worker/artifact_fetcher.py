@@ -23,17 +23,24 @@ class HttpArtifactFetcher:
         self,
         client: httpx.AsyncClient,
         allowed_hosts: frozenset[str],
+        access_token: str | None = None,
     ) -> None:
         if not allowed_hosts:
             raise ValueError("allowed_hosts must not be empty")
         self._client = client
         self._allowed_hosts = allowed_hosts
+        self._access_token = access_token
 
     async def fetch(self, source_url: str) -> FetchedArtifact:
         parsed = urlparse(source_url)
         if parsed.scheme not in {"http", "https"} or parsed.hostname not in self._allowed_hosts:
             raise ValueError("artifact source URL is not allowed")
-        response = await self._client.get(source_url)
+        headers = (
+            {"x-source-access-token": self._access_token}
+            if self._access_token is not None
+            else None
+        )
+        response = await self._client.get(source_url, headers=headers)
         response.raise_for_status()
         media_type = response.headers.get("content-type", "application/octet-stream")
         media_type = media_type.split(";", maxsplit=1)[0]

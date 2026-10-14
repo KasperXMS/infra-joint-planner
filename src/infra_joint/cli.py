@@ -1,4 +1,5 @@
 import asyncio
+import os
 from pathlib import Path
 from typing import Annotated
 
@@ -50,9 +51,16 @@ def worker(
         )
     fetch_client: httpx.AsyncClient | None = None
     fetcher = None
+    artifact_read_token = (
+        os.environ[settings.artifact_read_token_env]
+        if settings.artifact_read_token_env is not None
+        else None
+    )
     if settings.allowed_artifact_hosts:
         fetch_client = httpx.AsyncClient(timeout=60.0)
-        fetcher = HttpArtifactFetcher(fetch_client, settings.allowed_artifact_hosts)
+        fetcher = HttpArtifactFetcher(
+            fetch_client, settings.allowed_artifact_hosts, access_token=artifact_read_token
+        )
     ffmpeg = asyncio.run(
         probe_ffmpeg(settings.ffmpeg_executable, probe_input=settings.ffmpeg_probe_input)
     )
@@ -71,6 +79,7 @@ def worker(
         artifact_fetcher=fetcher,
         media_backend=media_backend,
         max_read_artifact_bytes=settings.max_read_artifact_bytes,
+        artifact_read_token=artifact_read_token,
     )
     try:
         uvicorn.run(worker_app, host=settings.host, port=settings.port)

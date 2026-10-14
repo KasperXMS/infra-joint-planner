@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KasperXMS/infra-joint-planner/infra-evaluation-workload-v0.1",
+  "title": "InfraMAS distributed evaluation instance v0.1",
+  "type": "object",
+  "required": ["schema_version", "task_ref", "residency_manifest_ref", "infrastructure_profile_ref", "evaluation_ref", "execution"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "infra-evaluation-workload-v0.1"},
+    "task_ref": {"type": "string", "minLength": 1},
+    "residency_manifest_ref": {"type": "string", "minLength": 1},
+    "infrastructure_profile_ref": {"type": "string", "minLength": 1},
+    "evaluation_ref": {"type": "string", "minLength": 1},
+    "execution": {"$ref": "#/$defs/execution"}
+  },
+  "$defs": {
+    "execution": {
+      "type": "object",
+      "required": ["method_id", "runtime_configuration", "setup_policy", "trial_id", "result_namespace"],
+      "additionalProperties": false,
+      "properties": {
+        "method_id": {"type": "string", "minLength": 1},
+        "runtime_configuration": {"type": "string", "minLength": 1},
+        "setup_policy": {"enum": ["cold", "resident", "incremental"]},
+        "trial_id": {"type": "string", "minLength": 1},
+        "result_namespace": {"type": "string", "minLength": 1}
+      }
+    },
+    "source_residency": {
+      "type": "object",
+      "required": ["artifact_id", "source_group", "resident_agent", "artifact_type", "artifact_size", "content_hash", "index_version"],
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {"type": "string", "minLength": 1},
+        "source_group": {"type": "string", "minLength": 1},
+        "resident_agent": {"type": "string", "minLength": 1},
+        "artifact_type": {"type": "string", "minLength": 1},
+        "artifact_size": {"type": "integer", "minimum": 0},
+        "content_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "index_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "task_candidate": {
+      "type": "object",
+      "required": ["schema_version", "task_id", "benchmark", "benchmark_revision", "question_ref", "question", "source_artifact_refs", "source_collection_refs", "answer_contract", "modality", "reasoning_type", "source_dependency_class", "source_dependency_note", "candidate_source_group_count", "split", "validity"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": "infra-evaluation-workload-v0.1"},
+        "task_id": {"type": "string", "minLength": 1},
+        "benchmark": {"enum": ["MultiHop-RAG", "MultiModalQA", "CrossVid"]},
+        "benchmark_revision": {"type": "string", "minLength": 1},
+        "question_ref": {"type": "string", "minLength": 1},
+        "question": {"type": "string", "minLength": 1},
+        "source_artifact_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "source_collection_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "answer_contract": {"type": "string", "minLength": 1},
+        "modality": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "reasoning_type": {"type": "string", "minLength": 1},
+        "source_dependency_class": {"enum": ["D0", "D1", "D2", "DU"]},
+        "source_dependency_note": {"type": "string", "minLength": 1},
+        "candidate_source_group_count": {"type": "integer", "minimum": 1},
+        "split": {"const": "development"},
+        "validity": {"type": "string", "minLength": 1}
+      }
+    },
+    "infrastructure_profile": {
+      "type": "object",
+      "required": ["profile_id", "nominal_bandwidth_mbps", "added_rtt_ms", "implementation"],
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {"type": "string", "minLength": 1},
+        "nominal_bandwidth_mbps": {"type": "number", "exclusiveMinimum": 0},
+        "added_rtt_ms": {"type": "number", "minimum": 0},
+        "implementation": {"type": "string", "minLength": 1}
+      }
+    },
+    "evaluation_definition": {
+      "type": "object",
+      "required": ["task_id", "original_evaluator_ref", "evaluation_metadata_ref", "scoring_contract", "quality_threshold", "split"],
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "original_evaluator_ref": {"type": "string", "minLength": 1},
+        "evaluation_metadata_ref": {"type": "string", "minLength": 1},
+        "scoring_contract": {"type": "string", "minLength": 1},
+        "quality_threshold": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "split": {"const": "development"}
+      }
+    }
+  }
+}

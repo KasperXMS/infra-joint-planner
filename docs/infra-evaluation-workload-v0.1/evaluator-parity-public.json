@@ -1,0 +1,18 @@
+{
+  "comparison_counts": {
+    "MultiHop-RAG": 18,
+    "MultiModalQA": 18
+  },
+  "limitation": "Single-answer parity only; excluded multi-answer case is not covered",
+  "mismatch_count": 0,
+  "mismatches": [],
+  "native_sources": {
+    "MultiHop-RAG": "..\\.code-staging\\upstream-multihoprag\\qa_evaluate.py",
+    "MultiModalQA": "..\\.code-staging\\upstream-multimodalqa\\baselines\\evaluate.py"
+  },
+  "test_predictions": [
+    "gold",
+    "unrelated",
+    "uppercase_gold"
+  ]
+}

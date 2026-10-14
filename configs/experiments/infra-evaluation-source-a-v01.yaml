@@ -1,0 +1,8 @@
+agent_id: source-a
+host: 0.0.0.0
+port: 63104
+artifact_root: /mnt/ssd/infra-evaluation-workload-v0.1/artifacts
+deployments: {}
+allowed_artifact_hosts: [192.168.0.12]
+artifact_read_token_env: INFRA_EVAL_SOURCE_TOKEN
+max_read_artifact_bytes: 65536

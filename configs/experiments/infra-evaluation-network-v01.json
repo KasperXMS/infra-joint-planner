@@ -1,0 +1,9 @@
+{
+  "schema_version": "infra-evaluation-workload-v0.1",
+  "profiles": [
+    {"profile_id": "Hslow", "nominal_bandwidth_mbps": 3, "added_rtt_ms": 50, "implementation": "study-owned paced HTTP proxy on source-a:63105"},
+    {"profile_id": "Hfast", "nominal_bandwidth_mbps": 100, "added_rtt_ms": 5, "implementation": "study-owned paced HTTP proxy on source-a:63106"}
+  ],
+  "data_path": "source-a Worker -> source-a proxy -> physical LAN -> source-b Worker pull",
+  "host_tc_modified": false
+}

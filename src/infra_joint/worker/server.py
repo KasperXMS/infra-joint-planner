@@ -1,6 +1,7 @@
 import asyncio
 import inspect
 import json
+import secrets
 from typing import Any, cast
 
 import httpx
@@ -107,9 +108,12 @@ def create_worker_app(
     media_backend: MediaBackend | None = None,
     receipt_store: ActionReceiptStore | None = None,
     max_read_artifact_bytes: int = 65_536,
+    artifact_read_token: str | None = None,
 ) -> FastAPI:
     if max_read_artifact_bytes < 1:
         raise ValueError("max_read_artifact_bytes must be positive")
+    if artifact_read_token == "":
+        raise ValueError("artifact_read_token must not be empty")
     if set(deployments) != {item.deployment_id for item in deployments.values()}:
         raise ValueError("deployment mapping keys must match deployment IDs")
     registry = OperatorRegistry()
@@ -177,7 +181,11 @@ def create_worker_app(
         )
 
     @app.get("/artifact/{artifact_id:path}")
-    async def get_artifact(artifact_id: str) -> Response:
+    async def get_artifact(artifact_id: str, request: Request) -> Response:
+        if artifact_read_token is not None and not secrets.compare_digest(
+            request.headers.get("x-source-access-token", ""), artifact_read_token
+        ):
+            raise HTTPException(status_code=403, detail="source artifact access denied")
         try:
             artifact = store.get(artifact_id)
         except ArtifactNotFoundError as exc:
@@ -380,6 +388,11 @@ def create_worker_app(
 
     @app.post("/execute/operator", response_model=ExecuteOperatorResponse)
     async def execute(request: ExecuteOperatorRequest) -> ExecuteOperatorResponse:
+        if artifact_read_token is not None and request.action_id is None:
+            raise _failure(
+                ExecutionErrorCode.VALIDATION_FAILED,
+                "source-owned worker requires an action receipt ID",
+            )
         action_id = request.action_id
         if action_id is None:
             return await execute_once(request)

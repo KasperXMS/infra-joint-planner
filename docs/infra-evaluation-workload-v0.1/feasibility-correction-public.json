@@ -1,0 +1,49 @@
+{
+  "condition": "deterministic_environment_validation; no Planner or model answers",
+  "results": [
+    {
+      "benchmark": "MultiModalQA",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "input_artifact_id": "mmqa:text:01d6690cad44998bf67dc78f28ce311f",
+          "node": "source-a",
+          "operator": "read_artifact",
+          "response_bytes": 474
+        },
+        {
+          "input_artifact_id": "mmqa:table:2c8102998191e92483684b8b560a1e79",
+          "node": "source-b",
+          "operator": "read_artifact",
+          "response_bytes": 6193
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 26.953,
+      "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+      "transfer": {
+        "artifact_id": "mmqa:text:01d6690cad44998bf67dc78f28ce311f",
+        "bytes": 474,
+        "consumer": "source-b",
+        "latency_ms": 8.019,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "original_text",
+        "sha256": "0704694c198bbc3346760a2c541298f019d7c3bac39693415d657f894a3ffa26"
+      }
+    }
+  ],
+  "schema_version": "infra-evaluation-workload-v0.1",
+  "source_direct_get_status": {
+    "source-a": 403,
+    "source-b": 403
+  },
+  "task_probe_count": 1,
+  "worker_nodes": {
+    "source-a": 438,
+    "source-b": 248
+  }
+}

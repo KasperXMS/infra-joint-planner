@@ -1,0 +1,86 @@
+{
+  "link_implementation": "study-owned paced HTTP proxy on source-a; host tc untouched",
+  "measurements": [
+    {
+      "achieved_mbps": 0.019,
+      "configured_added_rtt_ms": 50,
+      "configured_bandwidth_mbps": 3,
+      "elapsed_ms": 201.99,
+      "payload_bytes": 472,
+      "payload_sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a",
+      "profile": "Hslow",
+      "sample_kind": "small"
+    },
+    {
+      "achieved_mbps": 0.037,
+      "configured_added_rtt_ms": 50,
+      "configured_bandwidth_mbps": 3,
+      "elapsed_ms": 101.894,
+      "payload_bytes": 472,
+      "payload_sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a",
+      "profile": "Hslow",
+      "sample_kind": "small"
+    },
+    {
+      "achieved_mbps": 0.037,
+      "configured_added_rtt_ms": 50,
+      "configured_bandwidth_mbps": 3,
+      "elapsed_ms": 103.125,
+      "payload_bytes": 472,
+      "payload_sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a",
+      "profile": "Hslow",
+      "sample_kind": "small"
+    },
+    {
+      "achieved_mbps": 2.943,
+      "configured_added_rtt_ms": 50,
+      "configured_bandwidth_mbps": 3,
+      "elapsed_ms": 10754.608,
+      "payload_bytes": 3955727,
+      "payload_sha256": "c39a7a4a2bd279ee7b9053585ca1fdc749856bdd7e85fda37cc416735ba0eeed",
+      "profile": "Hslow",
+      "sample_kind": "large"
+    },
+    {
+      "achieved_mbps": 0.065,
+      "configured_added_rtt_ms": 5,
+      "configured_bandwidth_mbps": 100,
+      "elapsed_ms": 58.525,
+      "payload_bytes": 472,
+      "payload_sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a",
+      "profile": "Hfast",
+      "sample_kind": "small"
+    },
+    {
+      "achieved_mbps": 0.069,
+      "configured_added_rtt_ms": 5,
+      "configured_bandwidth_mbps": 100,
+      "elapsed_ms": 55.106,
+      "payload_bytes": 472,
+      "payload_sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a",
+      "profile": "Hfast",
+      "sample_kind": "small"
+    },
+    {
+      "achieved_mbps": 0.065,
+      "configured_added_rtt_ms": 5,
+      "configured_bandwidth_mbps": 100,
+      "elapsed_ms": 57.931,
+      "payload_bytes": 472,
+      "payload_sha256": "867fd988fc7c2d0d0babd1617fc4beafab7ddb6c5ef66f2fff22e864c1265d2a",
+      "profile": "Hfast",
+      "sample_kind": "small"
+    },
+    {
+      "achieved_mbps": 64.767,
+      "configured_added_rtt_ms": 5,
+      "configured_bandwidth_mbps": 100,
+      "elapsed_ms": 488.611,
+      "payload_bytes": 3955727,
+      "payload_sha256": "c39a7a4a2bd279ee7b9053585ca1fdc749856bdd7e85fda37cc416735ba0eeed",
+      "profile": "Hfast",
+      "sample_kind": "large"
+    }
+  ],
+  "schema_version": "infra-evaluation-workload-v0.1"
+}

@@ -56,6 +56,7 @@ class WorkerConfig(ContractModel):
     ffmpeg_executable: str | None = None
     ffmpeg_probe_input: Path | None = None
     max_read_artifact_bytes: int = Field(default=65_536, gt=0)
+    artifact_read_token_env: str | None = None
 
 
 class PlannerConfig(ContractModel):

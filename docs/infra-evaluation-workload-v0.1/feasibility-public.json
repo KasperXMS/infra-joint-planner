@@ -1,0 +1,309 @@
+{
+  "audit_note": "Seven retained operator probes used the initial 675-artifact candidate subset (428/247 by node). One replacement single-answer task used the corrected 686-artifact subset (438/248). The initial multi-answer probe is excluded; its receipt remains separate.",
+  "condition": "deterministic_environment_validation; no Planner or model answers",
+  "correction_worker_nodes": {
+    "source-a": 438,
+    "source-b": 248
+  },
+  "excluded_initial_probe": "mmqa:f5326b243eed1f858865df5e3337cb10",
+  "initial_worker_nodes": {
+    "source-a": 428,
+    "source-b": 247
+  },
+  "results": [
+    {
+      "benchmark": "MultiHop-RAG",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "artifact_id": "probe-v01:multihop:5390ae18477c53f9:source-a:top3",
+          "media_type": "application/json",
+          "node": "source-a",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "e2d07fde3d582b941865a66642f9649acce8452d56e59af69d4ac04df0dc2f14",
+          "size_bytes": 29245
+        },
+        {
+          "artifact_id": "probe-v01:multihop:5390ae18477c53f9:source-b:top3",
+          "media_type": "application/json",
+          "node": "source-b",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "08fde52d3c37130b886e8ee1aa98a559362bcfc78628ed2b51a9b9de5de409db",
+          "size_bytes": 21206
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 684.175,
+      "task_id": "multihop:5390ae18477c53f9",
+      "transfer": {
+        "artifact_id": "probe-v01:multihop:5390ae18477c53f9:source-a:top3",
+        "bytes": 29245,
+        "consumer": "source-b",
+        "latency_ms": 17.995,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "retrieved_passage_set",
+        "sha256": "e2d07fde3d582b941865a66642f9649acce8452d56e59af69d4ac04df0dc2f14"
+      }
+    },
+    {
+      "benchmark": "MultiHop-RAG",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "artifact_id": "probe-v01:multihop:a647807d9a1d0efd:source-a:top3",
+          "media_type": "application/json",
+          "node": "source-a",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "8385d7f7de83dc9086131827da12e021c6f76a67baf2d7f94e63f46ccd2fc54b",
+          "size_bytes": 42567
+        },
+        {
+          "artifact_id": "probe-v01:multihop:a647807d9a1d0efd:source-b:top3",
+          "media_type": "application/json",
+          "node": "source-b",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "aab74b0b5564765b5892902f752e17cf279c4774f715903fd0a8564ed0a46144",
+          "size_bytes": 32781
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 625.57,
+      "task_id": "multihop:a647807d9a1d0efd",
+      "transfer": {
+        "artifact_id": "probe-v01:multihop:a647807d9a1d0efd:source-a:top3",
+        "bytes": 42567,
+        "consumer": "source-b",
+        "latency_ms": 12.579,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "retrieved_passage_set",
+        "sha256": "8385d7f7de83dc9086131827da12e021c6f76a67baf2d7f94e63f46ccd2fc54b"
+      }
+    },
+    {
+      "benchmark": "MultiHop-RAG",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "artifact_id": "probe-v01:multihop:a58e945f57294eca:source-a:top3",
+          "media_type": "application/json",
+          "node": "source-a",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "a5878d4753cab9bade3eb681d0914efe91da876412ba9d3826f47dcaff88ff9c",
+          "size_bytes": 24580
+        },
+        {
+          "artifact_id": "probe-v01:multihop:a58e945f57294eca:source-b:top3",
+          "media_type": "application/json",
+          "node": "source-b",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "72ca41b3c58045559b73a399541f58dd945af54f3e134b63fdc43d7adba17a6e",
+          "size_bytes": 56032
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 642.688,
+      "task_id": "multihop:a58e945f57294eca",
+      "transfer": {
+        "artifact_id": "probe-v01:multihop:a58e945f57294eca:source-a:top3",
+        "bytes": 24580,
+        "consumer": "source-b",
+        "latency_ms": 13.55,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "retrieved_passage_set",
+        "sha256": "a5878d4753cab9bade3eb681d0914efe91da876412ba9d3826f47dcaff88ff9c"
+      }
+    },
+    {
+      "benchmark": "MultiHop-RAG",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "artifact_id": "probe-v01:multihop:c1c98d6cf60878e4:source-a:top3",
+          "media_type": "application/json",
+          "node": "source-a",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "a322fd8c8a3d2775e0acc8f3ca86043111c2a9a920d6a04f3e1f1a8d214d1d51",
+          "size_bytes": 30092
+        },
+        {
+          "artifact_id": "probe-v01:multihop:c1c98d6cf60878e4:source-b:top3",
+          "media_type": "application/json",
+          "node": "source-b",
+          "operator": "bm25_retrieve",
+          "sha256_hex": "a14fe0d3e606a45ad8f9a7e3a32761359bc0da864b8ad9119a826bb4d50ad4bb",
+          "size_bytes": 58962
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 604.506,
+      "task_id": "multihop:c1c98d6cf60878e4",
+      "transfer": {
+        "artifact_id": "probe-v01:multihop:c1c98d6cf60878e4:source-a:top3",
+        "bytes": 30092,
+        "consumer": "source-b",
+        "latency_ms": 11.219,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "retrieved_passage_set",
+        "sha256": "a322fd8c8a3d2775e0acc8f3ca86043111c2a9a920d6a04f3e1f1a8d214d1d51"
+      }
+    },
+    {
+      "benchmark": "MultiModalQA",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "input_artifact_id": "mmqa:text:005962f3534ff745374d93f218819e34",
+          "node": "source-a",
+          "operator": "read_artifact",
+          "response_bytes": 339
+        },
+        {
+          "input_artifact_id": "mmqa:table:58a217d68016e334ee624bddaa6c93ec",
+          "node": "source-b",
+          "operator": "read_artifact",
+          "response_bytes": 5981
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 21.251,
+      "task_id": "mmqa:33cf75c43fb268f267002cf8b9c28313",
+      "transfer": {
+        "artifact_id": "mmqa:text:005962f3534ff745374d93f218819e34",
+        "bytes": 339,
+        "consumer": "source-b",
+        "latency_ms": 5.892,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "original_text",
+        "sha256": "9ce1c2b52c84ab13c7210f99f31395e827bd1f1539c41ee91a0946718ac793ca"
+      }
+    },
+    {
+      "benchmark": "MultiModalQA",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "input_artifact_id": "mmqa:text:1f0601b3bb39619f144d58d254de662b",
+          "node": "source-a",
+          "operator": "read_artifact",
+          "response_bytes": 491
+        },
+        {
+          "input_artifact_id": "mmqa:table:8513db80c11ea439ab11eba406ec00d9",
+          "node": "source-b",
+          "operator": "read_artifact",
+          "response_bytes": 4671
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 23.489,
+      "task_id": "mmqa:a33985b1e8b2502fc18cc8147dc27db8",
+      "transfer": {
+        "artifact_id": "mmqa:text:1f0601b3bb39619f144d58d254de662b",
+        "bytes": 491,
+        "consumer": "source-b",
+        "latency_ms": 4.15,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "original_text",
+        "sha256": "78b16c652ecbeafc4d0a226a3cb8193374d8c9f504a5fe08180476feacc42bd6"
+      }
+    },
+    {
+      "benchmark": "MultiModalQA",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "input_artifact_id": "mmqa:text:0043b93833164972c41020d39079b95c",
+          "node": "source-a",
+          "operator": "read_artifact",
+          "response_bytes": 381
+        },
+        {
+          "input_artifact_id": "mmqa:table:8513db80c11ea439ab11eba406ec00d9",
+          "node": "source-b",
+          "operator": "read_artifact",
+          "response_bytes": 4671
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 18.134,
+      "task_id": "mmqa:710a6d2254076ea58756c6c7cc211f1e",
+      "transfer": {
+        "artifact_id": "mmqa:text:0043b93833164972c41020d39079b95c",
+        "bytes": 381,
+        "consumer": "source-b",
+        "latency_ms": 4.202,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "original_text",
+        "sha256": "90b95a7003b4f6eb7da2fc4610b8a162811a3aaac38ec1dbc213f9d93dd5b618"
+      }
+    },
+    {
+      "benchmark": "MultiModalQA",
+      "evaluator_smoke_passed": true,
+      "evidence_operations": [
+        {
+          "input_artifact_id": "mmqa:text:01d6690cad44998bf67dc78f28ce311f",
+          "node": "source-a",
+          "operator": "read_artifact",
+          "response_bytes": 474
+        },
+        {
+          "input_artifact_id": "mmqa:table:2c8102998191e92483684b8b560a1e79",
+          "node": "source-b",
+          "operator": "read_artifact",
+          "response_bytes": 6193
+        }
+      ],
+      "gpu_monetary_cost": null,
+      "model_service_latency": null,
+      "setup_bytes": 0,
+      "status": "operator_and_evaluator_smoke_passed",
+      "task_e2e_probe_ms": 26.953,
+      "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+      "transfer": {
+        "artifact_id": "mmqa:text:01d6690cad44998bf67dc78f28ce311f",
+        "bytes": 474,
+        "consumer": "source-b",
+        "latency_ms": 8.019,
+        "network_profile": "unshaped_baseline",
+        "producer": "source-a",
+        "representation": "original_text",
+        "sha256": "0704694c198bbc3346760a2c541298f019d7c3bac39693415d657f894a3ffa26"
+      }
+    }
+  ],
+  "schema_version": "infra-evaluation-workload-v0.1",
+  "source_direct_get_status": {
+    "source-a": 403,
+    "source-b": 403
+  },
+  "task_probe_count": 8
+}

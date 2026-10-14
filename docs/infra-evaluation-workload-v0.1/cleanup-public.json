@@ -1,0 +1,7 @@
+{
+  "base_residency_restored": true,
+  "removed_study_artifacts": {
+    "source-a": 4,
+    "source-b": 12
+  }
+}
