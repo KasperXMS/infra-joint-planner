@@ -1,0 +1,30 @@
+{
+  "experiment_id": "infra-workflow-opportunity-v1",
+  "source_revision": "ee5c044",
+  "source_protocol": "configs/experiments/predecision-crossbenchmark-v1.yaml",
+  "task_label": "video-mme-795-3",
+  "source_task_id": "video_mme:795",
+  "question_id": "795-3",
+  "video_sha256": "78c7158b4ea8a29a418f84cabe77caf0a35fb0f5416c8c1592fe781b5783a4b9",
+  "workflows": {
+    "frames": {"sample_every_seconds": 5, "sample_max_frames": 8, "input_representation": "eight original JPEG frames"},
+    "sheet": {"sample_every_seconds": 5, "sample_max_frames": 8, "contact_columns": 4, "contact_cell_width": 640, "contact_cell_height": 360, "input_representation": "single 4x2 JPEG contact sheet of same eight frames"}
+  },
+  "conditions": {
+    "fast": {"regime": "fast", "bandwidth_mbps": 100, "added_rtt_ms": 5},
+    "slow": {"regime": "slow", "bandwidth_mbps": 3, "added_rtt_ms": 50}
+  },
+  "execution_order": ["fast-frames", "fast-sheet", "slow-frames", "slow-sheet"],
+  "replications": 1,
+  "verification_policy": "none; fixed-workflow protocol; unchanged private benchmark evaluator after terminal answer",
+  "manager_policy": "frozen deterministic workflow, no cloud manager, specialist or verifier",
+  "output_policy": "single canonical A/B/C/D choice from terminal physical model",
+  "model_requirements": {"modalities": ["text", "image"], "min_context_tokens": 32768, "reserved_output_tokens": 2048},
+  "model_service_timeout_seconds": 1200,
+  "worker_urls": {
+    "A4": "http://192.168.0.104:62004",
+    "A5": "http://192.168.0.105:62005",
+    "A28": "http://192.168.0.128:62028",
+    "strong-4090": "http://192.168.0.12:62112"
+  }
+}
