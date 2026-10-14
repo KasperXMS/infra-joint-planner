@@ -1,0 +1,20 @@
+{
+  "conditions": [
+    [
+      "grounded-no-thinking",
+      false,
+      128
+    ],
+    [
+      "grounded-thinking-512",
+      true,
+      512
+    ]
+  ],
+  "model": "qwen35-27b-resident-32k-v1:latest",
+  "reason": "all six fixed original-task diagnostic calls lacked native success",
+  "system_sha256": "2718627303b487902b298a4dd8c382c1c61b3eab292753d71922758332a9c371",
+  "task_id": "multihop:667f4ac48afef820",
+  "user_sha256": "92d7b0f3663a02cb7dbe4c7ca3c2f32faeb1ffba6bb490872a256d376d860b9c",
+  "workflow": "G0-replay"
+}

@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-10-15T01:01:13+08:00",
+  "study_namespace": "infra-answerability-autonomous-v1",
+  "source_manifest_sha256": "33ccac887c5fcf52ac4b6f9104a21bc7319bbdb5af33ab60f27bd1063bbf020d",
+  "archive_sha256": {
+    "source_a_base": "d7b68f7eeebaeb8367ab605110ca9cc670f70da3be9fbdd161b678f068354f0c",
+    "source_a_delta": "1305b64079427bd760210bb46b52acdde1fde54ad6571f50ebad7f88087b4501",
+    "source_b_base": "7af189141fe18dbcac6866cebfb63fac22720a7e7f923cab44a35b27574b11f1",
+    "source_b_delta": "8023657422c5bb66251ca1ce118b543be845e92650509e59c8de91ab14b8dcdb"
+  },
+  "source_integrity": "Hashes match frozen P1 closure; real archive provenance check passed 4 of 4 producer/task conditions.",
+  "study_worker_or_proxy_ports_closed": [
+    "192.168.0.104:63204",
+    "192.168.0.104:63205",
+    "192.168.0.104:63206",
+    "192.168.0.105:63217"
+  ],
+  "shared_workstation_ollama_listeners_untouched_and_present": [
+    "127.0.0.1:11436",
+    "127.0.0.1:11437"
+  ],
+  "network_changes_this_branch": 0,
+  "worker_starts_this_branch": 0,
+  "worker_stops_this_branch": 0,
+  "task_model_calls": 8,
+  "short_protocol_probes": 3,
+  "new_h1_h2_cells": 0,
+  "tests": "17 passed: new provenance and existing Worker API",
+  "lint": "Ruff check and format pass on new scripts and tests",
+  "type_check": "strict Pyright on provenance utility: 0 errors"
+}

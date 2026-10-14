@@ -1,0 +1,38 @@
+[
+  {
+    "index_bytes": 991530,
+    "index_records": 98,
+    "producer": "source-a",
+    "selected_original_ids_present": true,
+    "selected_records": 4,
+    "source_scope": "question-named publishers; gold blind",
+    "task_id": "multihop:a647807d9a1d0efd"
+  },
+  {
+    "index_bytes": 2,
+    "index_records": 0,
+    "producer": "source-b",
+    "selected_original_ids_present": true,
+    "selected_records": 0,
+    "source_scope": "question-named publishers; gold blind",
+    "task_id": "multihop:a647807d9a1d0efd"
+  },
+  {
+    "index_bytes": 1188988,
+    "index_records": 101,
+    "producer": "source-a",
+    "selected_original_ids_present": true,
+    "selected_records": 4,
+    "source_scope": "question-named publishers; gold blind",
+    "task_id": "multihop:667f4ac48afef820"
+  },
+  {
+    "index_bytes": 124021,
+    "index_records": 9,
+    "producer": "source-b",
+    "selected_original_ids_present": true,
+    "selected_records": 4,
+    "source_scope": "question-named publishers; gold blind",
+    "task_id": "multihop:667f4ac48afef820"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "record_level_provenance_in_original_G1_trace": true,
+    "support_body_characters_in_evidence": 27045,
+    "support_document_count": 2,
+    "support_documents_in_full_body_evidence": 2,
+    "task_id": "multihop:a647807d9a1d0efd",
+    "total_body_characters_in_evidence": 40930,
+    "unmapped_or_ambiguous_records": 0,
+    "workflow": "G0"
+  },
+  {
+    "record_level_provenance_in_original_G1_trace": false,
+    "support_body_characters_in_evidence": 27045,
+    "support_document_count": 2,
+    "support_documents_in_full_body_evidence": 2,
+    "task_id": "multihop:a647807d9a1d0efd",
+    "total_body_characters_in_evidence": 129103,
+    "unmapped_or_ambiguous_records": 0,
+    "workflow": "G1"
+  },
+  {
+    "record_level_provenance_in_original_G1_trace": true,
+    "support_body_characters_in_evidence": 26460,
+    "support_document_count": 2,
+    "support_documents_in_full_body_evidence": 2,
+    "task_id": "multihop:667f4ac48afef820",
+    "total_body_characters_in_evidence": 96427,
+    "unmapped_or_ambiguous_records": 0,
+    "workflow": "G0"
+  },
+  {
+    "record_level_provenance_in_original_G1_trace": false,
+    "support_body_characters_in_evidence": 26460,
+    "support_document_count": 2,
+    "support_documents_in_full_body_evidence": 2,
+    "task_id": "multihop:667f4ac48afef820",
+    "total_body_characters_in_evidence": 102306,
+    "unmapped_or_ambiguous_records": 0,
+    "workflow": "G1"
+  },
+  {
+    "support_context_item_count": 2,
+    "support_document_count": 2,
+    "support_document_ids_in_final_evidence": 1,
+    "table_header_count": 4,
+    "table_present": true,
+    "table_row_count": 24,
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+    "workflow": "G0"
+  },
+  {
+    "support_context_item_count": 2,
+    "support_document_count": 2,
+    "support_document_ids_in_final_evidence": 1,
+    "table_header_count": 4,
+    "table_present": true,
+    "table_row_count": 24,
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+    "workflow": "G1"
+  }
+]

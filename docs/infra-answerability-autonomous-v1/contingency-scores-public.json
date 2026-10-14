@@ -1,0 +1,30 @@
+[
+  {
+    "answer_characters": 7,
+    "condition": "grounded-no-thinking",
+    "done_reason": "stop",
+    "error": null,
+    "evaluation": {
+      "benchmark_score": 0.0,
+      "format_valid": true,
+      "task_success": false
+    },
+    "returned_unknown": true,
+    "run_id": "diag-07",
+    "task_id": "multihop:667f4ac48afef820"
+  },
+  {
+    "answer_characters": 4,
+    "condition": "grounded-thinking-512",
+    "done_reason": "stop",
+    "error": null,
+    "evaluation": {
+      "benchmark_score": 0.0,
+      "format_valid": true,
+      "task_success": false
+    },
+    "returned_unknown": false,
+    "run_id": "diag-08",
+    "task_id": "multihop:667f4ac48afef820"
+  }
+]

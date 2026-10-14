@@ -1,0 +1,38 @@
+[
+  {
+    "answer": "Yes",
+    "completion_tokens": 2,
+    "done_reason": "stop",
+    "model": "qwen35-27b-resident-32k-v1:latest",
+    "name": "original-no-thinking",
+    "prompt_tokens": 125,
+    "request_sha256": "0a2f4bfa4641f00f2e1260c55ab4537d70d8d76e05fb65557f7250e354bd2a58",
+    "system_sha256": "46c8adaa83648bf015c5a4dc42c660e99f895b799d263212fceb6dc42493c152",
+    "thinking_characters": 0,
+    "wall_ms": 793.323
+  },
+  {
+    "answer": "Yes",
+    "completion_tokens": 2,
+    "done_reason": "stop",
+    "model": "qwen35-27b-resident-32k-v1:latest",
+    "name": "grounded-no-thinking",
+    "prompt_tokens": 138,
+    "request_sha256": "f0d0858f4b3fabb71f990ffce9fe3d7d90faab44ae6c4a391ce5188e78bc5c35",
+    "system_sha256": "2718627303b487902b298a4dd8c382c1c61b3eab292753d71922758332a9c371",
+    "thinking_characters": 0,
+    "wall_ms": 250.53
+  },
+  {
+    "answer": "Yes",
+    "completion_tokens": 72,
+    "done_reason": "stop",
+    "model": "qwen35-27b-resident-32k-v1:latest",
+    "name": "original-thinking",
+    "prompt_tokens": 123,
+    "request_sha256": "ed6e965db18eaeb0112599746167df06e08194fdd6a18288d4a34571937da7c0",
+    "system_sha256": "46c8adaa83648bf015c5a4dc42c660e99f895b799d263212fceb6dc42493c152",
+    "thinking_characters": 165,
+    "wall_ms": 754.123
+  }
+]

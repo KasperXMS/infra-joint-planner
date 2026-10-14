@@ -1,0 +1,78 @@
+[
+  {
+    "answer_characters": 7,
+    "condition": "grounded-no-thinking",
+    "done_reason": "stop",
+    "error": null,
+    "evaluation": {
+      "benchmark_score": 0.0,
+      "format_valid": true,
+      "task_success": false
+    },
+    "returned_unknown": true,
+    "run_id": "diag-01",
+    "task_id": "multihop:a647807d9a1d0efd"
+  },
+  {
+    "answer_characters": 7,
+    "condition": "grounded-no-thinking",
+    "done_reason": "stop",
+    "error": null,
+    "evaluation": {
+      "benchmark_score": 0.0,
+      "format_valid": true,
+      "task_success": false
+    },
+    "returned_unknown": true,
+    "run_id": "diag-02",
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5"
+  },
+  {
+    "answer_characters": 0,
+    "condition": "original-thinking-512",
+    "done_reason": "length",
+    "error": null,
+    "evaluation": null,
+    "returned_unknown": false,
+    "run_id": "diag-03",
+    "task_id": "multihop:a647807d9a1d0efd"
+  },
+  {
+    "answer_characters": 7,
+    "condition": "original-thinking-512",
+    "done_reason": "stop",
+    "error": null,
+    "evaluation": {
+      "benchmark_score": 0.0,
+      "format_valid": true,
+      "task_success": false
+    },
+    "returned_unknown": true,
+    "run_id": "diag-04",
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5"
+  },
+  {
+    "answer_characters": 4,
+    "condition": "grounded-thinking-512",
+    "done_reason": "stop",
+    "error": null,
+    "evaluation": {
+      "benchmark_score": 0.0,
+      "format_valid": true,
+      "task_success": false
+    },
+    "returned_unknown": false,
+    "run_id": "diag-05",
+    "task_id": "multihop:a647807d9a1d0efd"
+  },
+  {
+    "answer_characters": 0,
+    "condition": "grounded-thinking-512",
+    "done_reason": "length",
+    "error": null,
+    "evaluation": null,
+    "returned_unknown": false,
+    "run_id": "diag-06",
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5"
+  }
+]

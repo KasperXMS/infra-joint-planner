@@ -1,0 +1,78 @@
+{
+  "backend": "unchanged resident Ollama 0.34.0",
+  "context_length": 32768,
+  "followup_rule": "After independent scoring: if neither original task succeeds in any of these six conditions, run two preregistered replacement-MultiHop G0 conditions (grounded/no-thinking/128, grounded/thinking/512), then stop diagnostics. No correctness-driven prompt edits or reruns.",
+  "historical_baseline": "infra-hypothesis-feasibility-v1 original G0 cells; not rerun here",
+  "loaded_model_digest": "9770c614b936fc722ff9f0fb3ecc0bd6dd0e91a001bf22a402e16ec968096bae",
+  "model": "qwen35-27b-resident-32k-v1:latest",
+  "schedule": [
+    {
+      "condition": "grounded-no-thinking",
+      "num_predict": 128,
+      "system_sha256": "2718627303b487902b298a4dd8c382c1c61b3eab292753d71922758332a9c371",
+      "task_id": "multihop:a647807d9a1d0efd",
+      "temperature": 0,
+      "think": false,
+      "top_p": 1,
+      "user_sha256": "0e94b4a717a23443d7d65724e072c45422b2e498dd286b5e644fc539efe717b6",
+      "workflow": "G0-replay"
+    },
+    {
+      "condition": "grounded-no-thinking",
+      "num_predict": 128,
+      "system_sha256": "2718627303b487902b298a4dd8c382c1c61b3eab292753d71922758332a9c371",
+      "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+      "temperature": 0,
+      "think": false,
+      "top_p": 1,
+      "user_sha256": "f4fb6726e1a2dee7e2525371e7ba774ff5183bf6de4550d4d71ff90243642dab",
+      "workflow": "G0-replay"
+    },
+    {
+      "condition": "original-thinking-512",
+      "num_predict": 512,
+      "system_sha256": "46c8adaa83648bf015c5a4dc42c660e99f895b799d263212fceb6dc42493c152",
+      "task_id": "multihop:a647807d9a1d0efd",
+      "temperature": 0,
+      "think": true,
+      "top_p": 1,
+      "user_sha256": "0e94b4a717a23443d7d65724e072c45422b2e498dd286b5e644fc539efe717b6",
+      "workflow": "G0-replay"
+    },
+    {
+      "condition": "original-thinking-512",
+      "num_predict": 512,
+      "system_sha256": "46c8adaa83648bf015c5a4dc42c660e99f895b799d263212fceb6dc42493c152",
+      "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+      "temperature": 0,
+      "think": true,
+      "top_p": 1,
+      "user_sha256": "f4fb6726e1a2dee7e2525371e7ba774ff5183bf6de4550d4d71ff90243642dab",
+      "workflow": "G0-replay"
+    },
+    {
+      "condition": "grounded-thinking-512",
+      "num_predict": 512,
+      "system_sha256": "2718627303b487902b298a4dd8c382c1c61b3eab292753d71922758332a9c371",
+      "task_id": "multihop:a647807d9a1d0efd",
+      "temperature": 0,
+      "think": true,
+      "top_p": 1,
+      "user_sha256": "0e94b4a717a23443d7d65724e072c45422b2e498dd286b5e644fc539efe717b6",
+      "workflow": "G0-replay"
+    },
+    {
+      "condition": "grounded-thinking-512",
+      "num_predict": 512,
+      "system_sha256": "2718627303b487902b298a4dd8c382c1c61b3eab292753d71922758332a9c371",
+      "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+      "temperature": 0,
+      "think": true,
+      "top_p": 1,
+      "user_sha256": "f4fb6726e1a2dee7e2525371e7ba774ff5183bf6de4550d4d71ff90243642dab",
+      "workflow": "G0-replay"
+    }
+  ],
+  "schema_version": "infra-answerability-task-diagnostics-v1",
+  "selection_priority_if_answerable": "grounded-no-thinking, then grounded-thinking-512, then original-thinking-512; freeze a separately labeled H1 condition"
+}

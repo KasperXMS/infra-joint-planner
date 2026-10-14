@@ -1,0 +1,865 @@
+[
+  {
+    "acquired_original_count": 98,
+    "historical_context_tokens": 9692,
+    "historical_final_evidence_count": 4,
+    "prompt_sha256": "bfc1af73c91ff3731210e661d7f1943be2af4e512dee15bfe66699c4ff3540c3",
+    "reconstructed_context_tokens": 9692,
+    "reconstructed_final_evidence_count": 4,
+    "record_summaries": [
+      {
+        "body_characters": 11875,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:f4dc085c054bef01a649b02c841981dfa957ca5bdb5f0a2295a8c1e7a1f6d693",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 82
+      },
+      {
+        "body_characters": 6754,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:451978a86d3d4716d01d692bb5f9ccb4ec8779b0f5cd593a03e081b68b73ae3a",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 96
+      },
+      {
+        "body_characters": 7131,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:a0832112a7d0ad6a65ed9dfbe11c09e2dafe3b85000a891610e222a53607c02b",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 28
+      },
+      {
+        "body_characters": 15170,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "NoneType",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:9bd6a622eef178c77fb54c8248452ec8d077d756be5fe69d5bb966e113a2f190",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 71
+      }
+    ],
+    "rendered_user_utf8_bytes": 43900,
+    "task_id": "multihop:a647807d9a1d0efd",
+    "workflow": "G0"
+  },
+  {
+    "acquired_original_count": 8,
+    "historical_context_tokens": null,
+    "historical_final_evidence_count": 0,
+    "prompt_sha256": "8e4982d71f06a3f36a38d22b5b9d4f8e28c84a63943a3e0998142f650868aeea",
+    "reconstructed_context_tokens": 29175,
+    "reconstructed_final_evidence_count": 8,
+    "record_summaries": [
+      {
+        "body_characters": 13694,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:fd9f6fd015f578d89ef1306f07b21b290d01962268734ffa7e261e12fc323b4e",
+            "sha256": "fd9f6fd015f578d89ef1306f07b21b290d01962268734ffa7e261e12fc323b4e",
+            "source_group": "publisher:Iot Business News"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 59
+      },
+      {
+        "body_characters": 15170,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "NoneType",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:9bd6a622eef178c77fb54c8248452ec8d077d756be5fe69d5bb966e113a2f190",
+            "sha256": "9bd6a622eef178c77fb54c8248452ec8d077d756be5fe69d5bb966e113a2f190",
+            "source_group": "publisher:Hacker News"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 71
+      },
+      {
+        "body_characters": 11875,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:f4dc085c054bef01a649b02c841981dfa957ca5bdb5f0a2295a8c1e7a1f6d693",
+            "sha256": "f4dc085c054bef01a649b02c841981dfa957ca5bdb5f0a2295a8c1e7a1f6d693",
+            "source_group": "publisher:TechCrunch"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 82
+      },
+      {
+        "body_characters": 46992,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:391a149a7cccdfe898e17be8afd2e01b96a5b83dc7e5a7f79a6470149e0cb169",
+            "sha256": "391a149a7cccdfe898e17be8afd2e01b96a5b83dc7e5a7f79a6470149e0cb169",
+            "source_group": "publisher:TechCrunch"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 65
+      },
+      {
+        "body_characters": 13951,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:b2558d120de5187e10cb40338e88f0f6d2e4ea748882acb144205c30cdb00522",
+            "sha256": "b2558d120de5187e10cb40338e88f0f6d2e4ea748882acb144205c30cdb00522",
+            "source_group": "publisher:Engadget"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 57
+      },
+      {
+        "body_characters": 8367,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:3bec06787f560e5177edf4d1ae294030b7652f754c2eebf1b02a04f29bb95bd7",
+            "sha256": "3bec06787f560e5177edf4d1ae294030b7652f754c2eebf1b02a04f29bb95bd7",
+            "source_group": "publisher:Business World"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 25
+      },
+      {
+        "body_characters": 9095,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:9c12132a5af8f291859dea2299beb33ed8fa3ae0434536d75ca3d2d8d37b6bc8",
+            "sha256": "9c12132a5af8f291859dea2299beb33ed8fa3ae0434536d75ca3d2d8d37b6bc8",
+            "source_group": "publisher:Zee Business"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 69
+      },
+      {
+        "body_characters": 9959,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:37727147b426d45f8267fb6640373c63a6536e940b748f80478e4e5204390b7d",
+            "sha256": "37727147b426d45f8267fb6640373c63a6536e940b748f80478e4e5204390b7d",
+            "source_group": "publisher:Business World"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 40
+      }
+    ],
+    "rendered_user_utf8_bytes": 134960,
+    "task_id": "multihop:a647807d9a1d0efd",
+    "workflow": "G1"
+  },
+  {
+    "acquired_original_count": 110,
+    "historical_context_tokens": 25175,
+    "historical_final_evidence_count": 6,
+    "prompt_sha256": "00eed3dffec2192f0b98b20630b9c3c7dcfae28c416eb9dd99b217fdaf660185",
+    "reconstructed_context_tokens": 25175,
+    "reconstructed_final_evidence_count": 6,
+    "record_summaries": [
+      {
+        "body_characters": 23667,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:91a0afc93f9fe3a43718701c1d8ff812018eb21b9cdfca794ef620f64a1fa506",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 71
+      },
+      {
+        "body_characters": 16351,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:548ca30adaebc26ba50d87174b9299e7ed2eba873532e72d5917d9d83e1016ab",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 63
+      },
+      {
+        "body_characters": 14926,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:6208be5aee1f2322ec173b22d008ce4154d1db770b02cd2581f2a3647369b851",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 63
+      },
+      {
+        "body_characters": 10109,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:5d57718c0e3b8530c76fba4a435ffcc8b8905aa5bd0da2bf9075f76082af7464",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 112
+      },
+      {
+        "body_characters": 25191,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:52bdba582f43b24b0804aec18fc3d72a67c3e205c4e80d2e3e6a502df3491697",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 87
+      },
+      {
+        "body_characters": 6183,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "_source_group": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "multihop:79120a02424d93d690898ae2b5e8d148874ea56c44599f110f6be57ce8148304",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 74
+      }
+    ],
+    "rendered_user_utf8_bytes": 101534,
+    "task_id": "multihop:667f4ac48afef820",
+    "workflow": "G0"
+  },
+  {
+    "acquired_original_count": 8,
+    "historical_context_tokens": 27469,
+    "historical_final_evidence_count": 8,
+    "prompt_sha256": "23c6d8d38ca69f19208ca600e4d5edb9c19e6700ed2ffa8982ecddd06cb24e81",
+    "reconstructed_context_tokens": 27469,
+    "reconstructed_final_evidence_count": 8,
+    "record_summaries": [
+      {
+        "body_characters": 10109,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:5d57718c0e3b8530c76fba4a435ffcc8b8905aa5bd0da2bf9075f76082af7464",
+            "sha256": "5d57718c0e3b8530c76fba4a435ffcc8b8905aa5bd0da2bf9075f76082af7464",
+            "source_group": "publisher:Sporting News"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 112
+      },
+      {
+        "body_characters": 25191,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:52bdba582f43b24b0804aec18fc3d72a67c3e205c4e80d2e3e6a502df3491697",
+            "sha256": "52bdba582f43b24b0804aec18fc3d72a67c3e205c4e80d2e3e6a502df3491697",
+            "source_group": "publisher:Sporting News"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 87
+      },
+      {
+        "body_characters": 6183,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:79120a02424d93d690898ae2b5e8d148874ea56c44599f110f6be57ce8148304",
+            "sha256": "79120a02424d93d690898ae2b5e8d148874ea56c44599f110f6be57ce8148304",
+            "source_group": "publisher:Sporting News"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 74
+      },
+      {
+        "body_characters": 7707,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:c28b17ca63c92fe237cffae89c733edb94fec319444bcf5d71d9243c4b8bc627",
+            "sha256": "c28b17ca63c92fe237cffae89c733edb94fec319444bcf5d71d9243c4b8bc627",
+            "source_group": "publisher:Sporting News"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 80
+      },
+      {
+        "body_characters": 23667,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:91a0afc93f9fe3a43718701c1d8ff812018eb21b9cdfca794ef620f64a1fa506",
+            "sha256": "91a0afc93f9fe3a43718701c1d8ff812018eb21b9cdfca794ef620f64a1fa506",
+            "source_group": "publisher:The New York Times"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 71
+      },
+      {
+        "body_characters": 6930,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:1406732e701c0ccc1fe50d7bd0b7dbb30a0a7cd395958af026a9158f551b83f4",
+            "sha256": "1406732e701c0ccc1fe50d7bd0b7dbb30a0a7cd395958af026a9158f551b83f4",
+            "source_group": "publisher:CBSSports.com"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 110
+      },
+      {
+        "body_characters": 6168,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:b6aa60a6dbe2b1931f06a77882d505b51601c1349558dcb2529494778e1bacdc",
+            "sha256": "b6aa60a6dbe2b1931f06a77882d505b51601c1349558dcb2529494778e1bacdc",
+            "source_group": "publisher:Yardbarker"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 41
+      },
+      {
+        "body_characters": 16351,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_shard": "str",
+          "author": "str",
+          "body": "str",
+          "category": "str",
+          "published_at": "str",
+          "source": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": null,
+        "origin_shard_only": true,
+        "original_article_matches": [
+          {
+            "artifact_id": "multihop:548ca30adaebc26ba50d87174b9299e7ed2eba873532e72d5917d9d83e1016ab",
+            "sha256": "548ca30adaebc26ba50d87174b9299e7ed2eba873532e72d5917d9d83e1016ab",
+            "source_group": "publisher:The New York Times"
+          }
+        ],
+        "record_id_present": false,
+        "source_document_id": null,
+        "text_characters": 0,
+        "title_characters": 63
+      }
+    ],
+    "rendered_user_utf8_bytes": 107925,
+    "task_id": "multihop:667f4ac48afef820",
+    "workflow": "G1"
+  },
+  {
+    "acquired_original_count": 11,
+    "historical_context_tokens": 2802,
+    "historical_final_evidence_count": 4,
+    "prompt_sha256": "77ec231f6b22173827e57a35439ecacd7c9a761bce788a1cd3449692cf343162",
+    "reconstructed_context_tokens": 2802,
+    "reconstructed_final_evidence_count": 4,
+    "record_summaries": [
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "text": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:text:8a01865900f1526bc136583eb6318fbd",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "8a01865900f1526bc136583eb6318fbd",
+        "text_characters": 598,
+        "title_characters": 12
+      },
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "text": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:text:a458865889838a7177d5d700e0e99b15",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "a458865889838a7177d5d700e0e99b15",
+        "text_characters": 907,
+        "title_characters": 29
+      },
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "text": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:text:cb30fd38a3470e8232018478b742fe97",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "cb30fd38a3470e8232018478b742fe97",
+        "text_characters": 463,
+        "title_characters": 19
+      },
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "table": "dict",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:table:2c8102998191e92483684b8b560a1e79",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "2c8102998191e92483684b8b560a1e79",
+        "table_field_shapes": {
+          "header": 4,
+          "table_name": 18,
+          "table_rows": 24
+        },
+        "table_keys": [
+          "header",
+          "table_name",
+          "table_rows"
+        ],
+        "table_type": "dict",
+        "text_characters": 0,
+        "title_characters": 12
+      }
+    ],
+    "rendered_user_utf8_bytes": 9003,
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+    "workflow": "G0"
+  },
+  {
+    "acquired_original_count": 4,
+    "historical_context_tokens": 2876,
+    "historical_final_evidence_count": 4,
+    "prompt_sha256": "95ea73d4288b8e589b47752c126a2cb1665aada121bbe0502beec6729738a25b",
+    "reconstructed_context_tokens": 2876,
+    "reconstructed_final_evidence_count": 4,
+    "record_summaries": [
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "text": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:text:8a01865900f1526bc136583eb6318fbd",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "8a01865900f1526bc136583eb6318fbd",
+        "text_characters": 598,
+        "title_characters": 12
+      },
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "text": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:text:a458865889838a7177d5d700e0e99b15",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "a458865889838a7177d5d700e0e99b15",
+        "text_characters": 907,
+        "title_characters": 29
+      },
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_bm25_score": "float",
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "text": "str",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:text:cb30fd38a3470e8232018478b742fe97",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "cb30fd38a3470e8232018478b742fe97",
+        "text_characters": 463,
+        "title_characters": 19
+      },
+      {
+        "body_characters": 0,
+        "field_types": {
+          "_origin_artifact_id": "str",
+          "id": "str",
+          "table": "dict",
+          "title": "str",
+          "url": "str"
+        },
+        "origin_artifact_id": "mmqa:table:2c8102998191e92483684b8b560a1e79",
+        "origin_shard_only": false,
+        "record_id_present": true,
+        "source_document_id": "2c8102998191e92483684b8b560a1e79",
+        "table_field_shapes": {
+          "header": 4,
+          "table_name": 18,
+          "table_rows": 24
+        },
+        "table_keys": [
+          "header",
+          "table_name",
+          "table_rows"
+        ],
+        "table_type": "dict",
+        "text_characters": 0,
+        "title_characters": 12
+      }
+    ],
+    "rendered_user_utf8_bytes": 9099,
+    "task_id": "mmqa:0ed625390ca7f919b46fd99fe85d80b5",
+    "workflow": "G1"
+  }
+]
