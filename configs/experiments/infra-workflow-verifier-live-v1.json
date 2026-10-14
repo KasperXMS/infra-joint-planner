@@ -1,0 +1,28 @@
+{
+  "condition_id": "infra-workflow-opportunity-v1-verifier-v2.1-live",
+  "source_commit": "ee5c044",
+  "historical_root": "/home/super/xiaoming/harness-v2-baseline-requalification/run-001",
+  "provider": "aliyun-model-studio",
+  "model": "qwen3.8-max",
+  "base_url": "https://llm-6tbxas81ayf65rd1.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
+  "request_extra_body": {"enable_thinking": false},
+  "max_provider_attempts_per_case": 2,
+  "sdk_retries": 0,
+  "timeout_seconds": 180,
+  "cases": [
+    "S2-fast-1-1-AWARE",
+    "S2-fast-2-1-AWARE",
+    "S2-fast-2-1-BLIND",
+    "S2-fast-2-1-LEDGER",
+    "S2-fast-2-2-LEDGER",
+    "S2-slow-1-1-BLIND",
+    "S2-slow-1-2-LEDGER",
+    "S2-slow-2-1-AWARE"
+  ],
+  "case_selection": "first six raw-schema failures in canonical public failure order, plus the second malformed-continue case and one slow LongBench Aware case; frozen before new calls",
+  "historical_comparator": "saved strict raw Function Calling response for each case",
+  "new_requests_are_exact_replays_of_old_random_outputs": false,
+  "private_input_export": false,
+  "pricing_source": "configs/experiments/large-scale-api-pricing-v1.yaml",
+  "results_namespace": "/home/super/xiaoming/infra-workflow-opportunity-v1/verifier-live-v1"
+}

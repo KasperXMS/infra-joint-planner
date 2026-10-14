@@ -1,0 +1,368 @@
+{
+  "completed_cases": 8,
+  "condition_id": "infra-workflow-opportunity-v1-verifier-v2.1-live",
+  "raw_content_exported": false,
+  "rows": [
+    {
+      "attempts": [
+        {
+          "error_paths": [],
+          "latency_s": 4.178233737125993,
+          "list_price_usd": {
+            "lower_usd": 0.002781155243891096,
+            "upper_usd": 0.01514544971365551,
+            "with_reported_cache_usd": 0.01514544971365551
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "continue",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 0,
+            "input_tokens": 7895,
+            "output_tokens": 189
+          }
+        }
+      ],
+      "cell_id": "S2-fast-1-1-AWARE",
+      "context_sha256": "516c5241e1014f4d2d5b17531732b30566b334b7d02f930a46daf493b18126c4",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "not_applicable",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "continue"
+      },
+      "provider_attempts": 1
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [
+            "evidence_state_version"
+          ],
+          "latency_s": 5.5529195591807365,
+          "list_price_usd": {
+            "lower_usd": 0.0051235810667162734,
+            "upper_usd": 0.03072761530182437,
+            "with_reported_cache_usd": 0.03072761530182437
+          },
+          "raw_schema_valid": false,
+          "semantic_valid": false,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 0,
+            "input_tokens": 16349,
+            "output_tokens": 273
+          }
+        },
+        {
+          "error_paths": [],
+          "latency_s": 4.035295092035085,
+          "list_price_usd": {
+            "lower_usd": 0.005129845433768719,
+            "upper_usd": 0.031228764666020013,
+            "with_reported_cache_usd": 0.005970836710559534
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 16128,
+            "input_tokens": 16665,
+            "output_tokens": 261
+          }
+        }
+      ],
+      "cell_id": "S2-fast-2-1-AWARE",
+      "context_sha256": "24e3c11d0564e0363dc3016c820c4f73bca078ddc7fed4cbedac6b6640a4fe55",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "valid",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "complete"
+      },
+      "provider_attempts": 2
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [
+            "evidence_state_version"
+          ],
+          "latency_s": 5.041919368784875,
+          "list_price_usd": {
+            "lower_usd": 0.006600629326725044,
+            "upper_usd": 0.04246882897726518,
+            "with_reported_cache_usd": 0.04086515101183912
+          },
+          "raw_schema_valid": false,
+          "semantic_valid": false,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 1024,
+            "input_tokens": 22903,
+            "output_tokens": 275
+          }
+        },
+        {
+          "error_paths": [],
+          "latency_s": 3.7650286201387644,
+          "list_price_usd": {
+            "lower_usd": 0.006607341148566949,
+            "upper_usd": 0.042973557979776505,
+            "with_reported_cache_usd": 0.007692642740403141
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 22528,
+            "input_tokens": 23221,
+            "output_tokens": 263
+          }
+        }
+      ],
+      "cell_id": "S2-fast-2-1-BLIND",
+      "context_sha256": "d096a6e3ff622e2dd5a4b5b2ebc833ee2a3f60a4be904bc8b49f7acdce6259c1",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "valid",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "complete"
+      },
+      "provider_attempts": 2
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [],
+          "latency_s": 3.537060407921672,
+          "list_price_usd": {
+            "lower_usd": 0.003678749551548652,
+            "upper_usd": 0.022175859365657268,
+            "with_reported_cache_usd": 0.020371721654552945
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 1152,
+            "input_tokens": 11811,
+            "output_tokens": 193
+          }
+        }
+      ],
+      "cell_id": "S2-fast-2-1-LEDGER",
+      "context_sha256": "a71d9c4cd1ea73c36ffc4243f14cc038f8e0888265dfcc83987a5e2ee31cd316",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "valid",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "complete"
+      },
+      "provider_attempts": 1
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [],
+          "latency_s": 3.6802784828469157,
+          "list_price_usd": {
+            "lower_usd": 0.004683733008676703,
+            "upper_usd": 0.030554002843513735,
+            "with_reported_cache_usd": 0.028749865132409416
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 1152,
+            "input_tokens": 16519,
+            "output_tokens": 184
+          }
+        }
+      ],
+      "cell_id": "S2-fast-2-2-LEDGER",
+      "context_sha256": "4f8bb913ba26d52484197d0703c833e6dae125a5ae406f89b4a52afc50ae186f",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "valid",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "complete"
+      },
+      "provider_attempts": 1
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [
+            "evidence_state_version"
+          ],
+          "latency_s": 4.194405697286129,
+          "list_price_usd": {
+            "lower_usd": 0.0044098906775269404,
+            "upper_usd": 0.026371195471637944,
+            "with_reported_cache_usd": 0.024767517506211884
+          },
+          "raw_schema_valid": false,
+          "semantic_valid": false,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 1024,
+            "input_tokens": 14023,
+            "output_tokens": 237
+          }
+        },
+        {
+          "error_paths": [],
+          "latency_s": 3.5756418723613024,
+          "list_price_usd": {
+            "lower_usd": 0.004408100858369099,
+            "upper_usd": 0.026807911346151295,
+            "with_reported_cache_usd": 0.005158258812899454
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 13824,
+            "input_tokens": 14303,
+            "output_tokens": 225
+          }
+        }
+      ],
+      "cell_id": "S2-slow-1-1-BLIND",
+      "context_sha256": "b3d16fd6b46fa11f3b70d121e673827af82650d4e2899c3176a16bcfe875ce50",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "valid",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "complete"
+      },
+      "provider_attempts": 2
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [
+            "evidence_state_version"
+          ],
+          "latency_s": 3.9233882199041545,
+          "list_price_usd": {
+            "lower_usd": 0.002907113767124198,
+            "upper_usd": 0.015702083471744243,
+            "with_reported_cache_usd": 0.013897945760639924
+          },
+          "raw_schema_valid": false,
+          "semantic_valid": false,
+          "status": "continue",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 1152,
+            "input_tokens": 8170,
+            "output_tokens": 201
+          }
+        },
+        {
+          "error_paths": [],
+          "latency_s": 3.0008627171628177,
+          "list_price_usd": {
+            "lower_usd": 0.0028972697617560693,
+            "upper_usd": 0.016074365856575297,
+            "with_reported_cache_usd": 0.003445401878845055
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "continue",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 8064,
+            "input_tokens": 8414,
+            "output_tokens": 189
+          }
+        }
+      ],
+      "cell_id": "S2-slow-1-2-LEDGER",
+      "context_sha256": "9f48de23f964b9ed0fd91133607111c19004dcd242c1aeab1ef8c03cf8498160",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "not_applicable",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "continue"
+      },
+      "provider_attempts": 2
+    },
+    {
+      "attempts": [
+        {
+          "error_paths": [],
+          "latency_s": 3.768632568884641,
+          "list_price_usd": {
+            "lower_usd": 0.0047363089464383,
+            "upper_usd": 0.030937024143291834,
+            "with_reported_cache_usd": 0.029132886432187515
+          },
+          "raw_schema_valid": true,
+          "semantic_valid": true,
+          "status": "complete",
+          "tool_call_count": 1,
+          "usage": {
+            "cached_input_tokens": 1152,
+            "input_tokens": 16730,
+            "output_tokens": 185
+          }
+        }
+      ],
+      "cell_id": "S2-slow-2-1-AWARE",
+      "context_sha256": "8d42f22c60233cb08dcc421df9154ae958655c8b5d6573dca896e04b2e13c392",
+      "historical": {
+        "failure_count": 1,
+        "raw_schema_valid": false
+      },
+      "outcome": {
+        "binding_status": "valid",
+        "schema_valid": true,
+        "semantic_valid": true,
+        "status": "complete"
+      },
+      "provider_attempts": 1
+    }
+  ],
+  "source_commit": "ee5c044"
+}
