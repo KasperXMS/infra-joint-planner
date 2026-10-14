@@ -1,0 +1,48 @@
+{
+  "scope": "same controller/A4 path and traffic-control configuration",
+  "historical_pre_run_reference": {
+    "source": "harness-v2-baseline-requalification/audit-summary.json",
+    "fast_controller_to_A4_mbps": 95.38772980458697,
+    "slow_controller_to_A4_mbps": 2.796121579140871,
+    "note": "historical iperf calibration; no fresh independent pre-run iperf in this package"
+  },
+  "current_effective_original_video_transfer": [
+    {
+      "cell": "fast-frames",
+      "configured_bandwidth_mbps": 100,
+      "configured_added_rtt_ms": 5,
+      "initial_source_bytes": 282442048,
+      "initial_source_seconds": 24.584285662975162,
+      "effective_source_mbps": 91.90978395613686,
+      "tc_restored": true
+    },
+    {
+      "cell": "fast-sheet",
+      "configured_bandwidth_mbps": 100,
+      "configured_added_rtt_ms": 5,
+      "initial_source_bytes": 282442048,
+      "initial_source_seconds": 24.63256983226165,
+      "effective_source_mbps": 91.72962461434498,
+      "tc_restored": true
+    },
+    {
+      "cell": "slow-frames",
+      "configured_bandwidth_mbps": 3,
+      "configured_added_rtt_ms": 50,
+      "initial_source_bytes": 282442048,
+      "initial_source_seconds": 788.9439626741223,
+      "effective_source_mbps": 2.864001108952416,
+      "tc_restored": true
+    },
+    {
+      "cell": "slow-sheet",
+      "configured_bandwidth_mbps": 3,
+      "configured_added_rtt_ms": 50,
+      "initial_source_bytes": 282442048,
+      "initial_source_seconds": 788.5836673895828,
+      "effective_source_mbps": 2.8653096398504596,
+      "tc_restored": true
+    }
+  ],
+  "rtt_limitation": "configured 5/50 ms on controller netem; Jetson HTB has no netem; symmetric RTT not measured in this package"
+}

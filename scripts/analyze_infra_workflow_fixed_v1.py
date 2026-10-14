@@ -15,14 +15,6 @@ def _json(path: Path) -> dict[str, Any] | None:
     return json.loads(path.read_text(encoding="utf-8")) if path.is_file() else None
 
 
-def _qdisc_kind(value: str) -> str | None:
-    for line in value.splitlines():
-        words = line.split()
-        if len(words) > 2 and words[0] == "qdisc" and "root" in words:
-            return words[1]
-    return None
-
-
 def analyze(root: Path, attempt: str, cells: list[str]) -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     for cell in cells:
@@ -42,7 +34,21 @@ def analyze(root: Path, attempt: str, cells: list[str]) -> dict[str, Any]:
         )
         cost = summarize_cost(events) if events else None
         actions = []
+        evidence_digests: dict[str, str] = {}
+        model_prompt_sha256: str | None = None
         for event in events:
+            if event["event_type"] == "logical.observation":
+                observation = event["payload"]
+                artifacts = observation.get("produced_information", [])
+                if artifacts:
+                    hashes = [item.get("sha256_hex") for item in artifacts]
+                    evidence_digests[observation["action_id"]] = hashlib.sha256(
+                        json.dumps(hashes, separators=(",", ":")).encode()
+                    ).hexdigest()
+            if event["event_type"] == "logical.decision":
+                for action in event["payload"].get("decision", {}).get("actions", []):
+                    if action.get("action_type") == "model" and action.get("action_id") == "answer":
+                        model_prompt_sha256 = hashlib.sha256(action["prompt"].encode()).hexdigest()
             if event["event_type"] != "physical.execution":
                 continue
             payload = event["payload"]
@@ -68,9 +74,8 @@ def analyze(root: Path, attempt: str, cells: list[str]) -> dict[str, Any]:
         evaluation = None if summary is None else summary.get("original_evaluation")
         restored = None
         if tc is not None and tc.get("restored_qdisc") is not None:
-            restored = tc.get("cleanup_error") is None and all(
-                _qdisc_kind(tc["original_qdisc"][key]) == _qdisc_kind(value)
-                for key, value in tc["restored_qdisc"].items()
+            restored = (
+                tc.get("cleanup_error") is None and tc["original_qdisc"] == tc["restored_qdisc"]
             )
         rows.append(
             {
@@ -88,6 +93,8 @@ def analyze(root: Path, attempt: str, cells: list[str]) -> dict[str, Any]:
                 "failure_type": None if summary is None else summary["failure_type"],
                 "cost": cost,
                 "actions": actions,
+                "evidence_digests": evidence_digests,
+                "model_prompt_sha256": model_prompt_sha256,
                 "configured_network": None if tc is None else tc["network"],
                 "tc_restored": restored,
                 "own_workers_cleaned": None if cleanup is None else not cleanup["errors"],

@@ -1,0 +1,40 @@
+{
+  "source_revision": "ee5c044",
+  "condition_id": "infra-workflow-opportunity-v1-fixed-transport-fix-1",
+  "executed_cells": 4,
+  "completed_cells": 4,
+  "original_task_successes": 4,
+  "quality_matched_in_both_states": true,
+  "logical_alternative": "eight separate frames versus local contact sheet of the same eight frames",
+  "physical_placement_difference": false,
+  "e2e_frames_minus_sheet_seconds": {
+    "fast": 157.55385722918436,
+    "slow": 3.4642231981270015
+  },
+  "observed_e2e_preference_reversal": false,
+  "infrastructure_causal_reversal_proven": false,
+  "serving_state_confounded": true,
+  "serving_state_evidence": "same within-workflow prompt and evidence hashes, identical reported input tokens, 210.982s vs 3.416s model service for direct-frame calls",
+  "cloud_api_usd_fixed_workflow": 0,
+  "local_gpu_monetary_cost": "unknown",
+  "adapter_decision": "NO_GO",
+  "statistical_significance_claim": false,
+  "historical_284_7_205_4_34_9_160_8_table": "unverified original evaluator/workflow provenance",
+  "verifier_v2_1_live": {
+    "cases": 8,
+    "provider_attempts": 12,
+    "schema_valid_final": 8,
+    "extra_attempts": 4,
+    "estimated_extra_list_usd": 0.022267140142707184
+  },
+  "pre_execution_setup_failure": {
+    "cell": "fast-frames",
+    "condition": "initial-orchestration-attempt",
+    "error_type": "KeyError",
+    "cause": "tc wrapper read master JSON instead of generated cell YAML (missing network)",
+    "worker_processes_started": 0,
+    "physical_model_calls": 0,
+    "preserved_on_controller": true,
+    "effective_condition": "transport-fix-1"
+  }
+}

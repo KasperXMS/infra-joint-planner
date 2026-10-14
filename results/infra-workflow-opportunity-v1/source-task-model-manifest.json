@@ -1,0 +1,64 @@
+{
+  "source_revision": "ee5c044",
+  "task_id": "795-3",
+  "task_contract_sha256": "e7fc499d667e04e168359c5b16b13e1e86ff2d5dd756b8f893e5dcb8f5fec192",
+  "source_manifest": {
+    "video_tasks": {
+      "sha256": "8c288b28865ef42c707e5769a7414207a193360cab90e114829008628acec57d"
+    },
+    "video_answers": {
+      "sha256": "d55d95dddec5083aa745650ef01a24c8740a089a6f9988174475dfd09d11d9ac"
+    },
+    "video_source": {
+      "sha256": "78c7158b4ea8a29a418f84cabe77caf0a35fb0f5416c8c1592fe781b5783a4b9",
+      "size_bytes": 282442048,
+      "filename": "D97vMwfWxvI.mp4"
+    }
+  },
+  "config_sha256": "e54e94ba0795ea70908abe6d77bbdb110046ff10c82bd60ee839659e05e9e717",
+  "script_sha256": "190cc379d74169f222f6cb61df35ee899eeb0515e5912df15c106fe0633f055f",
+  "source_component_sha256": {
+    "src/infra_joint/control/runner.py": "0f64cf4406aaf4fcff6c9754344bb8079727c76c880160d4f170d82ebb6d585e",
+    "src/infra_joint/control/loop.py": "3732c0add6310ea41a8e42ca238188d364d7dbb516c2d4073d1ee965c6e5ae7d",
+    "src/infra_joint/control/physical.py": "193ec7a8dd2cd178d22f1afb3dddaaf792f985984e01b5ebcbf293e11ef35a10",
+    "src/infra_joint/control/validation.py": "36a5c32f20436030fb0c2320b7a04477bf9eff054af27e724882eb5d5f1da448",
+    "src/infra_joint/operators/media.py": "17395751f285966c14673834285e3900799b672ae952981a84a8c8ea54fa6c56",
+    "src/infra_joint/worker/server.py": "365213c9a66378d0e366e9f9f8109262b7024119decfb237d2c0160750c4c4f7",
+    "configs/experiments/blind-baseline-environment-v2.yaml": "bdd64114bde7011c05b4e202cd6082ed7eeca6ada98da21de06681d63fc37d59"
+  },
+  "worker_config_sha256": {
+    "A4": "dd89ecfd4732c089349e95cc1f25445bbfb929a9cb1ab2d70233faab4ecf589a",
+    "A5": "0856efa3598d750dd9843a9d00161410f083402aa82d1213f7e9fa51a231e6e2",
+    "A28": "b9d6e869055dba63c1f6b0c9a15beef349419944165c9f35f7ccb1ff3eb7fb50",
+    "strong-4090": "cbfd98eb3f83f3ba4c0bbc991f983b0649ba2dd688f6e9c1a06f0512d4e46af9"
+  },
+  "cells": [
+    "fast-frames",
+    "fast-sheet",
+    "slow-frames",
+    "slow-sheet"
+  ],
+  "model": {
+    "worker": "A28",
+    "model_id": "qwen3.8-27b-q4km-v1",
+    "backend": "openai_compatible (Ollama)",
+    "model_tag": "qwen3.8-27b-v1",
+    "context_window": 32768,
+    "reserved_output_tokens": 2048,
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "reasoning_effort": "none",
+    "ollama_tag_digest": "0ae0a0db78e8cf0656939e1fa4eabd4f4f155cbad44d4e25b0658ef301057bcd",
+    "quantization": "Q4_K_M",
+    "reported_parameters": "27.3B",
+    "reported_weight_context_length": 262144,
+    "effective_worker_context_window": 32768,
+    "observed_resident_runner_context_length": 32768,
+    "observation_source": "A28 Ollama /api/tags and /api/ps during fixed matrix",
+    "serving_cache_policy": "uncontrolled; same resident service reused across fixed-order cells; cache-hit telemetry unavailable"
+  },
+  "evaluator_policy": "evaluator only after terminal answer",
+  "private_paths_exported": false
+}
