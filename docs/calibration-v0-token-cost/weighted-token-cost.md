@@ -44,3 +44,29 @@ At `k=1`, the threshold is `r<0.122804`: the local model must cost less than abo
 These are token-weighted accounting proxies, not measured dollar costs, FLOPs, energy, task E2E, or complete infrastructure costs. Prefill/decode differences, multimodal encoder work, model/hardware differences, sampling, network transfers and preprocessing are not calibrated by this proxy. Do not infer prices from parameter count. Historical local `api_cost_usd=0` does not establish zero monetary cost; local GPU monetary cost remains unknown. The method comparison is an equal-run average across the original two tasks, two infrastructure conditions and three repeats, not a success-normalized cost or a general task-distribution estimate.
 
 Reconstruction evidence: [recovered-usage.json](recovered-usage.json) contains redacted per-call counters, exact method/model totals and SHA256 hashes of the source run file, trace files and Worker configurations. The [read-only extraction script](../../scripts/recover_calibration_v0_token_cost.py) reads the original files on the workstation and emits only audit metadata. Validation consists of duplicate/completeness checks and exact per-run token reconciliation; Ruff check/format pass. Original benchmark content, model responses and credentials are not exported.
+
+## Task 795 only
+
+Filtering the same recovered completed-run calls to task 795 yields six runs per method (two infrastructure conditions times three repeats). No new inference or failed-attempt substitution is involved.
+
+| Method | Local calls | Local input | Local output | Strong calls | Strong input | Strong output |
+|---|---:|---:|---:|---:|---:|---:|
+| centralized_raw | 0 | 0 | 0 | 6 | 18,930 | 222 |
+| local_reduction | 18 | 69,246 | 6,855 | 6 | 9,500 | 240 |
+
+```text
+C_central_795(r,k) = 18930 + 222*k
+C_local_795(r,k)   = 9500 + 240*k + r*(69246 + 6855*k)
+mean per completed run = C / 6
+```
+
+For `k=1`, the totals are `19152` and `9740+76101*r`:
+
+| Local/strong per-token weight r | Central mean/run | Local mean/run | Local relative change |
+|---:|---:|---:|---:|
+| 0.10 | 3,192.00 | 2,891.68 | -9.41% |
+| 0.125 | 3,192.00 | 3,208.77 | +0.53% |
+| 0.25 | 3,192.00 | 4,794.21 | +50.19% |
+| 1.00 | 3,192.00 | 14,306.83 | +348.21% |
+
+The task-795 break-even condition is `r<(9430-18*k)/(69246+6855*k)`: 12.37% at `k=1` and 10.44% at `k=3`. The same uncalibrated-weight and monetary-cost limitations apply.
